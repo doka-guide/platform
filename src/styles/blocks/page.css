@@ -1,0 +1,15 @@
+/* Page */
+
+.page {
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  background-color: var(--basic-white);
+}
+
+/* Body */
+
+.page__body {
+  margin: 0;
+  height: 100%;
+}

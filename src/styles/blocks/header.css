@@ -1,0 +1,26 @@
+/* Header */
+
+.header {
+  padding: 36px 30px;
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  align-items: start;
+}
+
+/* Logo */
+
+.header__logo {
+
+}
+
+/* Articles */
+
+.header__link {
+  text-underline-offset: 0.1em;
+  color: var(--basic-black);
+}
+
+.header__link:focus-visible {
+  outline: solid 2px var(--color-blue-light);
+  outline-offset: 2px;
+}

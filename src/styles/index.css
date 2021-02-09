@@ -1,0 +1,18 @@
+/* Fonts */
+
+@import 'fonts/inter.css';
+@import 'fonts/roboto.css';
+@import 'fonts/roboto-mono.css';
+
+/* Globals */
+
+@import 'variables.css';
+@import 'box-sizing.css';
+
+/* Blocks */
+
+@import 'blocks/page.css';
+@import 'blocks/index.css';
+@import 'blocks/header.css';
+@import 'blocks/search.css';
+@import 'blocks/footer.css';

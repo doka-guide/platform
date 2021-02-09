@@ -1,0 +1,26 @@
+/* Header */
+
+.footer {
+  padding: 18px 30px;
+  text-underline-offset: 0.1em;
+  font-size: 12px;
+}
+
+/* Articles */
+
+.footer__link {
+  color: var(--basic-black)
+}
+
+.footer__link:focus-visible {
+  outline: solid 2px var(--color-blue-light);
+  outline-offset: 2px;
+}
+
+/* Break */
+
+@media (min-width: 375px) {
+  .footer__break {
+    display: none;
+  }
+}
