@@ -17,6 +17,7 @@
   },
   "scripts": {
     "start": "eleventy --serve --quiet",
+    "postinstall": "sh ./link.sh",
     "editorconfig": "editorconfig-checker",
     "test": "npm run editorconfig",
     "build": "eleventy"
