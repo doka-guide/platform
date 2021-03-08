@@ -1,6 +1,10 @@
-.idea
 node_modules
 dist
+
+.idea
+.vscode
+
+# симлинки в корне проекта
 html
 css
 js
