@@ -17,7 +17,6 @@
   },
   "scripts": {
     "start": "eleventy --serve --quiet",
-    "postinstall": "node make-links.js",
     "editorconfig": "editorconfig-checker",
     "test": "npm run editorconfig",
     "build": "eleventy"
