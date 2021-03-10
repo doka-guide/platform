@@ -17,8 +17,7 @@
   },
   "scripts": {
     "start": "eleventy --serve --quiet",
-    "build": "eleventy",
-    "pack": "gulp",
+    "build": "eleventy && gulp",
     "editorconfig": "editorconfig-checker",
     "test": "npm run editorconfig"
   },
