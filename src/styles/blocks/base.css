@@ -1,6 +1,6 @@
-/* Page */
+/* Base */
 
-.page {
+.base {
   height: 100%;
   font-family: 'Inter', sans-serif;
   font-size: 16px;
@@ -9,7 +9,7 @@
 
 /* Body */
 
-.page__body {
+.base__body {
   margin: 0;
   height: 100%;
 }

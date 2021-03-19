@@ -11,7 +11,7 @@
 
 /* Blocks */
 
-@import 'blocks/page.css';
+@import 'blocks/base.css';
 @import 'blocks/index.css';
 @import 'blocks/header.css';
 @import 'blocks/search.css';
