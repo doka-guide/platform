@@ -1,8 +1,8 @@
 /* Fonts */
 
-@import 'fonts/inter.css';
-@import 'fonts/roboto.css';
-@import 'fonts/roboto-mono.css';
+@import 'fonts/inter/inter.css';
+@import 'fonts/roboto/roboto.css';
+@import 'fonts/roboto/roboto-mono.css';
 
 /* Globals */
 
