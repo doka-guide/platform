@@ -4,8 +4,8 @@
   font-weight: 100;
   font-display: swap;
   src:
-    url("../../fonts/roboto/thin.woff2") format("woff2"),
-    url("../../fonts/roboto/thin.woff") format("woff");
+    url("../../../fonts/roboto/thin.woff2") format("woff2"),
+    url("../../../fonts/roboto/thin.woff") format("woff");
 }
 
 @font-face {
@@ -14,8 +14,8 @@
   font-weight: 100;
   font-display: swap;
   src:
-    url("../../fonts/roboto/thin-italic.woff2") format("woff2"),
-    url("../../fonts/roboto/thin-italic.woff") format("woff");
+    url("../../../fonts/roboto/thin-italic.woff2") format("woff2"),
+    url("../../../fonts/roboto/thin-italic.woff") format("woff");
 }
 
 @font-face {
@@ -24,8 +24,8 @@
   font-weight: 300;
   font-display: swap;
   src:
-    url("../../fonts/roboto/light.woff2") format("woff2"),
-    url("../../fonts/roboto/light.woff") format("woff");
+    url("../../../fonts/roboto/light.woff2") format("woff2"),
+    url("../../../fonts/roboto/light.woff") format("woff");
 }
 
 @font-face {
@@ -34,8 +34,8 @@
   font-weight: 300;
   font-display: swap;
   src:
-    url("../../fonts/roboto/light-italic.woff2") format("woff2"),
-    url("../../fonts/roboto/light-italic.woff") format("woff");
+    url("../../../fonts/roboto/light-italic.woff2") format("woff2"),
+    url("../../../fonts/roboto/light-italic.woff") format("woff");
 }
 
 @font-face {
@@ -44,8 +44,8 @@
   font-weight: 400;
   font-display: swap;
   src:
-    url("../../fonts/roboto/regular.woff2") format("woff2"),
-    url("../../fonts/roboto/regular.woff") format("woff");
+    url("../../../fonts/roboto/regular.woff2") format("woff2"),
+    url("../../../fonts/roboto/regular.woff") format("woff");
 }
 
 @font-face {
@@ -54,8 +54,8 @@
   font-weight: 400;
   font-display: swap;
   src:
-    url("../../fonts/roboto/italic.woff2") format("woff2"),
-    url("../../fonts/roboto/italic.woff") format("woff");
+    url("../../../fonts/roboto/italic.woff2") format("woff2"),
+    url("../../../fonts/roboto/italic.woff") format("woff");
 }
 
 @font-face {
@@ -64,8 +64,8 @@
   font-weight: 500;
   font-display: swap;
   src:
-    url("../../fonts/roboto/medium.woff2") format("woff2"),
-    url("../../fonts/roboto/medium.woff") format("woff");
+    url("../../../fonts/roboto/medium.woff2") format("woff2"),
+    url("../../../fonts/roboto/medium.woff") format("woff");
 }
 
 @font-face {
@@ -74,8 +74,8 @@
   font-weight: 500;
   font-display: swap;
   src:
-    url("../../fonts/roboto/medium-italic.woff2") format("woff2"),
-    url("../../fonts/roboto/medium-italic.woff") format("woff");
+    url("../../../fonts/roboto/medium-italic.woff2") format("woff2"),
+    url("../../../fonts/roboto/medium-italic.woff") format("woff");
 }
 
 @font-face {
@@ -84,8 +84,8 @@
   font-weight: 700;
   font-display: swap;
   src:
-    url("../../fonts/roboto/bold.woff2") format("woff2"),
-    url("../../fonts/roboto/bold.woff") format("woff");
+    url("../../../fonts/roboto/bold.woff2") format("woff2"),
+    url("../../../fonts/roboto/bold.woff") format("woff");
 }
 
 @font-face {
@@ -94,8 +94,8 @@
   font-weight: 700;
   font-display: swap;
   src:
-    url("../../fonts/roboto/bold-italic.woff2") format("woff2"),
-    url("../../fonts/roboto/bold-italic.woff") format("woff");
+    url("../../../fonts/roboto/bold-italic.woff2") format("woff2"),
+    url("../../../fonts/roboto/bold-italic.woff") format("woff");
 }
 
 @font-face {
@@ -104,8 +104,8 @@
   font-weight: 900;
   font-display: swap;
   src:
-    url("../../fonts/roboto/black-italic.woff2") format("woff2"),
-    url("../../fonts/roboto/black-italic.woff") format("woff");
+    url("../../../fonts/roboto/black-italic.woff2") format("woff2"),
+    url("../../../fonts/roboto/black-italic.woff") format("woff");
 }
 
 @font-face {
@@ -114,6 +114,6 @@
   font-weight: 900;
   font-display: swap;
   src:
-    url("../../fonts/roboto/black.woff2") format("woff2"),
-    url("../../fonts/roboto/black.woff") format("woff");
+    url("../../../fonts/roboto/black.woff2") format("woff2"),
+    url("../../../fonts/roboto/black.woff") format("woff");
 }

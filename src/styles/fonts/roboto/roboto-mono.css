@@ -4,8 +4,8 @@
   font-weight: normal;
   font-display: swap;
   src:
-    url("../../fonts/roboto-mono/regular.woff2") format("woff2"),
-    url("../../fonts/roboto-mono/regular.woff") format("woff");
+    url("../../../fonts/roboto-mono/regular.woff2") format("woff2"),
+    url("../../../fonts/roboto-mono/regular.woff") format("woff");
 }
 
 @font-face {
@@ -14,8 +14,8 @@
   font-weight: bold;
   font-display: swap;
   src:
-    url("../../fonts/roboto-mono/bold.woff2") format("woff2"),
-    url("../../fonts/roboto-mono/bold.woff") format("woff");
+    url("../../../fonts/roboto-mono/bold.woff2") format("woff2"),
+    url("../../../fonts/roboto-mono/bold.woff") format("woff");
 }
 
 @font-face {
@@ -24,8 +24,8 @@
   font-weight: normal;
   font-display: swap;
   src:
-    url("../../fonts/roboto-mono/italic.woff2") format("woff2"),
-    url("../../fonts/roboto-mono/italic.woff") format("woff");
+    url("../../../fonts/roboto-mono/italic.woff2") format("woff2"),
+    url("../../../fonts/roboto-mono/italic.woff") format("woff");
 }
 
 @font-face {
@@ -34,6 +34,6 @@
   font-weight: bold;
   font-display: swap;
   src:
-    url("../../fonts/roboto-mono/bold-italic.woff2") format("woff2"),
-    url("../../fonts/roboto-mono/bold-italic.woff") format("woff");
+    url("../../../fonts/roboto-mono/bold-italic.woff2") format("woff2"),
+    url("../../../fonts/roboto-mono/bold-italic.woff") format("woff");
 }
