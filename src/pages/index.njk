@@ -2,36 +2,37 @@
 title: Дока
 layout: base.njk
 permalink: index.html
-templateClass: index
 ---
 
-<header class="index__header header">
-  {% include "ui/logo.njk" %}
-  <a class="header__link" href="">Все статьи</a>
-</header>
+<div class="index">
+  <header class="index__header header">
+    {% include "ui/logo.njk" %}
+    <a class="header__link" href="">Все статьи</a>
+  </header>
 
-<main class="index__content">
-  <div class="search">
-    <div class="search__topics">
-      <button class="search__button" type="button">HTML</button>
-      <button class="search__button" type="button">CSS</button>
-      <button class="search__button" type="button">JS</button>
+  <main class="index__content">
+    <div class="search">
+      <div class="search__topics">
+        <button class="search__button" type="button">HTML</button>
+        <button class="search__button" type="button">CSS</button>
+        <button class="search__button" type="button">JS</button>
+      </div>
+      <input class="search__input"
+        type="text"
+        placeholder="Поиск…"
+        autofocus>
     </div>
-    <input class="search__input"
-      type="text"
-      placeholder="Поиск…"
-      autofocus>
-  </div>
-</main>
+  </main>
 
-<footer class="index__footer footer">
-  <p>
-    <a class="footer__link" href="">О проекте</a>
-  </p>
-  <p>
-    <a class="footer__link" href="">
-      Присоединяйся<br class="footer__break">
-      к нам на GitHub
-    </a>
-  </p>
-</footer>
+  <footer class="index__footer footer">
+    <p>
+      <a class="footer__link" href="">О проекте</a>
+    </p>
+    <p>
+      <a class="footer__link" href="">
+        Присоединяйся<br class="footer__break">
+        к нам на GitHub
+      </a>
+    </p>
+  </footer>
+</div>
