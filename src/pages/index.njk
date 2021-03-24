@@ -1,15 +1,12 @@
 ---
 title: Дока
-layout: page.njk
+layout: base.njk
 permalink: index.html
 ---
 
 <div class="index">
   <header class="index__header header">
-    <img class="header__logo"
-      src="images/logo.svg"
-      width="96" height="30"
-      alt="Дока (beta)">
+    {% include "ui/logo.njk" %}
     <a class="header__link" href="">Все статьи</a>
   </header>
 
