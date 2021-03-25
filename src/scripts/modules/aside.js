@@ -1,5 +1,6 @@
 const body = document.querySelector("body")
 const aside = document.querySelector("aside")
+const asidePage = document.querySelector(".aside-page");
 
 function asideMoving() {
   const arrow = aside.querySelector(".aside__arrow-btn")
@@ -8,6 +9,7 @@ function asideMoving() {
 
 function toggleAside() {
   aside.classList.toggle("aside_hidden")
+  asidePage.classList.toggle("aside-page_hidden-aside")
 }
 
 function asideOpener() {

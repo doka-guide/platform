@@ -1,4 +1,11 @@
 .aside-page {
   display: grid;
   grid-template-columns: min-content auto;
+  grid-column-gap: 20px;
+}
+
+.aside-page_hidden-aside {
+  display: grid;
+  grid-template-columns: 3.75em auto;
+  grid-column-gap: 20px;
 }
