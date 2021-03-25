@@ -1,9 +1,6 @@
 /* Header */
 
 .footer {
-  display: grid;
-  grid-template-columns: 1fr max-content;
-
   padding: 18px 30px;
   text-underline-offset: 0.1em;
   font-size: 12px;
@@ -36,8 +33,3 @@
 }
 
 
-/* Aside Hidder */
-.footer__arrow-place {
-  display: grid;
-  align-items: center;
-}
