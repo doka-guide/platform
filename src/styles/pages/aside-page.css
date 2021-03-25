@@ -1,0 +1,4 @@
+.aside-page {
+  display: grid;
+  grid-template-columns: min-content auto;
+}
