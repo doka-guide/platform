@@ -1,0 +1,12 @@
+.aside {
+  width: 20.625em;
+  height: 100vh;
+
+  display: grid;
+  grid-template-rows:
+    min-content
+    1fr
+    min-content;
+
+  background: #f8f8f8;
+}

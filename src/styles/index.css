@@ -18,5 +18,6 @@
 /* Blocks */
 
 @import 'blocks/header.css';
+@import 'blocks/aside.css';
 @import 'blocks/search.css';
 @import 'blocks/footer.css';
