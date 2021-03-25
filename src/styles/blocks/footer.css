@@ -8,6 +8,13 @@
 
 /* Articles */
 
+.footer__nav-list {
+  display: grid;
+  grid-template-columns: repeat(4, min-content);
+  list-style-type: none;
+  padding-inline-start: 0;
+}
+
 .footer__link {
   color: var(--basic-black)
 }
