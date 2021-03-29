@@ -23,11 +23,3 @@
   outline: solid 2px var(--color-blue-light);
   outline-offset: 2px;
 }
-
-/* Break */
-
-@media (min-width: 375px) {
-  .footer__break {
-    display: none;
-  }
-}
