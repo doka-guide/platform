@@ -1,6 +1,6 @@
 const body = document.querySelector("body")
 const aside = document.querySelector("aside")
-const asidePage = document.querySelector(".aside-page");
+const asidePage = document.querySelector(".aside-page")
 
 function asideMoving() {
   const arrow = aside.querySelector(".aside__arrow-btn")
