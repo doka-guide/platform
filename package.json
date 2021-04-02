@@ -32,6 +32,6 @@
     "postcss": "^8.2.9",
     "postcss-cli": "^8.3.1",
     "postcss-csso": "^5.0.0",
-    "postcss-import": "^14.0.0"
+    "postcss-import": "^14.0.1"
   }
 }
