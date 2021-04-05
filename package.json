@@ -25,7 +25,7 @@
     "@11ty/eleventy": "^0.12.1",
     "autoprefixer": "^10.2.5",
     "gulp": "^4.0.2",
-    "gulp-esbuild": "^0.7.0",
+    "gulp-esbuild": "^0.7.1",
     "gulp-postcss": "^9.0.0",
     "gulp-replace": "^1.0.0",
     "html-minifier": "^4.0.0",
