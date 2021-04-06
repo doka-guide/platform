@@ -1,6 +1,16 @@
 const htmlmin = require('html-minifier')
 
 module.exports = function(config) {
+
+  // Set to merge not only on the first level but deeply
+  config.setDataDeepMerge(true);
+
+  // Add meta from custom JSON
+  config.addNunjucksShortcode('getInfo', (file) => {
+    const json = require('./src/meta/' + file);
+    return `<pre>${JSON.stringify(json)}</pre>`
+  });
+
   config.addFilter('ruDate', (value) => {
     return value.toLocaleString('ru', {
       year: 'numeric',
