@@ -1,1 +1,1 @@
-module.exports = 'aside-page.njk';
+module.exports = 'article.njk';
