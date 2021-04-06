@@ -11,6 +11,26 @@ module.exports = function(config) {
     return `<pre>${JSON.stringify(json)}</pre>`
   });
 
+  // Add all Tags
+  config.addCollection("html", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("src/html/**");
+  });
+  config.addCollection("css", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("src/css/**");
+  });
+  config.addCollection("js", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("src/js/**");
+  });
+  config.addCollection("tools", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("src/tools/**");
+  });
+  config.addCollection("articles", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("src/**/articles");
+  });
+  config.addCollection("doka", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("src/**/doka");
+  });
+
   config.addFilter('ruDate', (value) => {
     return value.toLocaleString('ru', {
       year: 'numeric',
