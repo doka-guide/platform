@@ -1,4 +1,5 @@
 const htmlmin = require('html-minifier')
+const COMANDS = ['html', 'css', 'js', 'tools']
 
 module.exports = function(config) {
 
@@ -12,23 +13,16 @@ module.exports = function(config) {
   });
 
   // Add all Tags
-  config.addCollection("html", function(collectionApi) {
-    return collectionApi.getFilteredByGlob("src/html/**");
+  COMANDS.forEach((el) => {
+    config.addCollection(el, function(collectionApi) {
+      return collectionApi.getFilteredByGlob(`src/${el}/**`);
+    });
   });
-  config.addCollection("css", function(collectionApi) {
-    return collectionApi.getFilteredByGlob("src/css/**");
-  });
-  config.addCollection("js", function(collectionApi) {
-    return collectionApi.getFilteredByGlob("src/js/**");
-  });
-  config.addCollection("tools", function(collectionApi) {
-    return collectionApi.getFilteredByGlob("src/tools/**");
-  });
-  config.addCollection("articles", function(collectionApi) {
-    return collectionApi.getFilteredByGlob("src/**/articles");
-  });
-  config.addCollection("doka", function(collectionApi) {
-    return collectionApi.getFilteredByGlob("src/**/doka");
+
+  ['articles', 'doka',].forEach((el) => {
+    config.addCollection(el, function(collectionApi) {
+      return collectionApi.getFilteredByGlob(`src/**/${el}`);
+    });
   });
 
   config.addFilter('ruDate', (value) => {
