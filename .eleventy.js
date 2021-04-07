@@ -1,5 +1,6 @@
 const htmlmin = require('html-minifier')
-const COMANDS = ['html', 'css', 'js', 'tools']
+const articleSections = ['html', 'css', 'js', 'tools']
+const articleFormats = ['articles', 'doka']
 
 module.exports = function(config) {
 
@@ -13,13 +14,13 @@ module.exports = function(config) {
   });
 
   // Add all Tags
-  COMANDS.forEach((el) => {
+  articleSections.forEach((el) => {
     config.addCollection(el, function(collectionApi) {
       return collectionApi.getFilteredByGlob(`src/${el}/**`);
     });
   });
 
-  ['articles', 'doka',].forEach((el) => {
+  articleFormats.forEach((el) => {
     config.addCollection(el, function(collectionApi) {
       return collectionApi.getFilteredByGlob(`src/**/${el}`);
     });
