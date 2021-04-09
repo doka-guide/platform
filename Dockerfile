@@ -4,9 +4,8 @@ WORKDIR /platform
 COPY . .
 
 RUN npm install \
-&& ln -sf ../content/css src/css \
-&& ln -sf ../content/js src/js \
-&& ln -sf ../content/html src/html
+&& for dir in `ls ./content/ | grep -v "docs" | grep -v "\.."`\
+ ; do `ln -sf "content/$dir" "src/$fir"` ; done
 
 VOLUME /platform/content
 EXPOSE 8080
