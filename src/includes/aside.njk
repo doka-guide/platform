@@ -11,13 +11,7 @@
     <details>
       <summary>HTML</summary>
 
-      <ul>
-      {% for post in collections.html %}
-        {% if post.data.title %}
-        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-        {% endif %}
-      {% endfor %}
-      </ul>
+      {% include "collections/html.njk" %}
 
     </details>
     {% endif %}
@@ -26,13 +20,7 @@
     <details>
       <summary>CSS</summary>
 
-      <ul>
-      {% for post in collections.css %}
-        {% if post.data.title %}
-        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-        {% endif %}
-      {% endfor %}
-      </ul>
+      {% include "collections/css.njk" %}
 
     </details>
     {% endif %}
@@ -41,13 +29,7 @@
     <details>
       <summary>JS</summary>
 
-      <ul>
-      {% for post in collections.js %}
-        {% if post.data.title %}
-        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-        {% endif %}
-      {% endfor %}
-      </ul>
+      {% include "collections/js.njk" %}
 
     </details>
     {% endif %}
@@ -56,13 +38,7 @@
     <details>
       <summary>Инструменты</summary>
 
-      <ul>
-      {% for post in collections.tools %}
-        {% if post.data.title %}
-        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-        {% endif %}
-      {% endfor %}
-      </ul>
+      {% include "collections/tools.njk" %}
 
     </details>
     {% endif %}
