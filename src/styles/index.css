@@ -9,10 +9,15 @@
 @import 'variables.css';
 @import 'box-sizing.css';
 
+/* Pages and Layouts */
+
+@import 'pages/base.css';
+@import 'pages/index.css';
+@import 'pages/aside-page.css';
+
 /* Blocks */
 
-@import 'blocks/base.css';
-@import 'blocks/index.css';
 @import 'blocks/header.css';
+@import 'blocks/aside.css';
 @import 'blocks/search.css';
 @import 'blocks/footer.css';

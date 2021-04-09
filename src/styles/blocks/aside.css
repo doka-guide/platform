@@ -1,0 +1,48 @@
+.aside {
+  width: 20.625em;
+  height: 100vh;
+
+  display: grid;
+  grid-template-rows:
+    min-content
+    1fr
+    min-content;
+
+  background: #f8f8f8;
+}
+
+.aside_hidden {
+  transform: translateX(-16.875em);
+  transition: all 0.2s ease-out;
+}
+
+.aside__footer {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  padding-right: 30px;
+}
+
+.aside_hidden .aside__footer {
+  padding: 0;
+}
+
+/* Aside Hidder */
+
+.aside__arrow-btn {
+  display: block;
+  width: 2.2em;
+  border: none;
+  background-color: transparent;
+  background-image: url(/images/aside-arrow.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  transition: transform 0.1s ease-in;
+  cursor: pointer;
+}
+
+.aside_hidden .aside__arrow-btn {
+  transform-origin: center;
+  transform: scale(-1, 1);
+  transition: transform 0.1s ease-out;
+  margin-right: 15px;
+}

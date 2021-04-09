@@ -3,7 +3,7 @@ const path = require('path')
 const readline = require('readline');
 
 const DEFAULT_PATH_TO_CONTENT = path.join('..', 'content')
-const CONTENT_FOLDERS = ['html', 'css', 'js']
+const CONTENT_FOLDERS = ['html', 'css', 'js', 'tools']
 const SYMLINKS_DEST = CONTENT_FOLDERS.map(folder => path.join('src', folder))
 
 console.log(`Проверяю, установлены ли символические ссылки к ${SYMLINKS_DEST.join(', ')}`)

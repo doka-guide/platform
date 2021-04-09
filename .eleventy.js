@@ -1,6 +1,21 @@
 const htmlmin = require('html-minifier')
+const articleSections = ['html', 'css', 'js', 'tools']
+const articleFormats = ['articles', 'doka']
 
 module.exports = function(config) {
+  // Add all Tags
+  articleSections.forEach((el) => {
+    config.addCollection(el, function(collectionApi) {
+      return collectionApi.getFilteredByGlob(`src/${el}/**`);
+    });
+  });
+
+  articleFormats.forEach((el) => {
+    config.addCollection(el, function(collectionApi) {
+      return collectionApi.getFilteredByGlob(`src/**/${el}`);
+    });
+  });
+
   config.addFilter('ruDate', (value) => {
     return value.toLocaleString('ru', {
       year: 'numeric',

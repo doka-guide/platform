@@ -1,0 +1,75 @@
+<aside class="aside">
+
+  <header class="header">
+    <a href="/">
+      {% include "ui/logo.njk" %}
+    </a>
+  </header>
+
+  <nav>
+    {% if collections.html | length %}
+    <details>
+      <summary>HTML</summary>
+
+      <ul>
+      {% for post in collections.html %}
+        {% if post.data.title %}
+        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+
+    </details>
+    {% endif %}
+
+    {% if collections.css | length %}
+    <details>
+      <summary>CSS</summary>
+
+      <ul>
+      {% for post in collections.css %}
+        {% if post.data.title %}
+        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+
+    </details>
+    {% endif %}
+
+    {% if collections.js | length %}
+    <details>
+      <summary>JS</summary>
+
+      <ul>
+      {% for post in collections.js %}
+        {% if post.data.title %}
+        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+
+    </details>
+    {% endif %}
+
+    {% if collections.tools | length %}
+    <details>
+      <summary>Инструменты</summary>
+
+      <ul>
+      {% for post in collections.tools %}
+        {% if post.data.title %}
+        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+
+    </details>
+    {% endif %}
+  </nav>
+
+  <div class="aside__footer">
+    {% include "footer.njk" %}
+    <button class="aside__arrow-btn" type="button" aria-label="Скрыть навигацию"></button>
+  </div>
+</aside>
