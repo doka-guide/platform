@@ -4,7 +4,7 @@
   "license": "MIT + CC BY-NC-SA 4.0",
   "engines": {
     "node": "14.x",
-    "npm": "6.x"
+    "npm": "7.x"
   },
   "browserslist": [
     "last 2 version",
