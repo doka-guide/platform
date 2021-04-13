@@ -9,15 +9,15 @@ module.exports = function(config) {
     let elementDoka = element + 'Doka'
 
     config.addCollection(element, function(collectionApi) {
-      return collectionApi.getFilteredByGlob(`src/${element}/**`)
+      return collectionApi.getFilteredByGlob(`src/${element}/**/index.md`)
     })
 
     config.addCollection(elementArticles, function(collectionApi) {
-      return collectionApi.getFilteredByGlob(`src/${element}/articles/**`)
+      return collectionApi.getFilteredByGlob(`src/${element}/articles/**/index.md`)
     })
 
     config.addCollection(elementDoka, function(collectionApi) {
-      return collectionApi.getFilteredByGlob(`src/${element}/doka/**`)
+      return collectionApi.getFilteredByGlob(`src/${element}/doka/**/index.md`)
     })
   })
 

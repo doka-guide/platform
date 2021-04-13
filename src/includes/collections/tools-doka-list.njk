@@ -1,9 +1,7 @@
 {% if collections.toolsDoka | length %}
   <ul>
     {% for post in collections.toolsDoka %}
-      {% if post.data.title %}
       <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-      {% endif %}
     {% endfor %}
   </ul>
 {% endif %}
