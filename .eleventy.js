@@ -4,20 +4,20 @@ module.exports = function(config) {
   const articleSections = ['html', 'css', 'js', 'tools']
 
   // Add all Tags
-  articleSections.forEach((el) => {
-    let elArticles = el + 'Articles'
-    let elDoka = el + 'Doka'
+  articleSections.forEach((element) => {
+    let elementArticles = element + 'Articles'
+    let elementDoka = element + 'Doka'
 
-    config.addCollection(el, function(collectionApi) {
-      return collectionApi.getFilteredByGlob(`src/${el}/**`)
+    config.addCollection(element, function(collectionApi) {
+      return collectionApi.getFilteredByGlob(`src/${element}/**`)
     })
 
-    config.addCollection(elArticles, function(collectionApi) {
-      return collectionApi.getFilteredByGlob(`src/${el}/articles/**`)
+    config.addCollection(elementArticles, function(collectionApi) {
+      return collectionApi.getFilteredByGlob(`src/${element}/articles/**`)
     })
 
-    config.addCollection(elDoka, function(collectionApi) {
-      return collectionApi.getFilteredByGlob(`src/${el}/doka/**`)
+    config.addCollection(elementDoka, function(collectionApi) {
+      return collectionApi.getFilteredByGlob(`src/${element}/doka/**`)
     })
   })
 
