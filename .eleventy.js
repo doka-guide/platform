@@ -1,24 +1,24 @@
 const htmlmin = require('html-minifier')
 
 module.exports = function(config) {
-  const articleSections = ['html', 'css', 'js', 'tools']
+  const sections = ['html', 'css', 'js', 'tools']
 
   // Add all Tags
-  articleSections.forEach((element) => {
-    let elementArticles = element + 'Articles'
-    let elementDoka = element + 'Doka'
+  sections.forEach((section) => {
+    let subSectionArticles = section + 'Articles'
+    let subSectionDoka = section + 'Doka'
 
-    config.addCollection(element, function(collectionApi) {
-      return collectionApi.getFilteredByGlob(`src/${element}/**/index.md`)
-    })
+    config.addCollection(section, (collectionApi) =>
+      collectionApi.getFilteredByGlob(`src/${section}/**/index.md`)
+    )
 
-    config.addCollection(elementArticles, function(collectionApi) {
-      return collectionApi.getFilteredByGlob(`src/${element}/articles/**/index.md`)
-    })
+    config.addCollection(subSectionArticles, (collectionApi) =>
+      collectionApi.getFilteredByGlob(`src/${section}/articles/**/index.md`)
+    )
 
-    config.addCollection(elementDoka, function(collectionApi) {
-      return collectionApi.getFilteredByGlob(`src/${element}/doka/**/index.md`)
-    })
+    config.addCollection(subSectionDoka, (collectionApi) =>
+      collectionApi.getFilteredByGlob(`src/${section}/doka/**/index.md`)
+    )
   })
 
   config.addFilter('ruDate', (value) => {
