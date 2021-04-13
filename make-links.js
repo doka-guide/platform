@@ -3,8 +3,8 @@ const path = require('path')
 const readline = require('readline');
 
 const DEFAULT_PATH_TO_CONTENT = path.join('..', 'content')
-const CONTENT_FOLDERS = ['html', 'css', 'js', 'tools']
-const SYMLINKS_DEST = CONTENT_FOLDERS.map(folder => path.join('src', folder))
+const CONTENT_REP_FOLDERS = ['html', 'css', 'js', 'tools', 'people']
+const SYMLINKS_DEST = CONTENT_REP_FOLDERS.map(folder => path.join('src', folder))
 
 console.log(`Проверяю, установлены ли символические ссылки к ${SYMLINKS_DEST.join(', ')}`)
 const existingSymlinks = SYMLINKS_DEST.filter((dest) => {
@@ -39,7 +39,7 @@ rl.question(`Укажите путь к репозиторию с контент
 
   console.log('Создаю симлинки:')
   SYMLINKS_DEST.forEach((dest, i) => {
-    const source = path.join(contentPath, CONTENT_FOLDERS[i])
+    const source = path.join(contentPath, CONTENT_REP_FOLDERS[i])
     console.log(`${dest} → ${source}`)
     fs.symlinkSync(source, dest)
   })
