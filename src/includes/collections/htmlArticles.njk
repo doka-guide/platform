@@ -1,0 +1,8 @@
+{% if collections.htmlArticles | length %}
+  <details>
+    <summary>Статьи</summary>
+
+    {% include "collections/htmlArticlesList.njk" %}
+
+  </details>
+{% endif %}
