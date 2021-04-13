@@ -24,6 +24,7 @@
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
     "autoprefixer": "^10.2.5",
+    "esbuild": "^0.11.10",
     "gulp": "^4.0.2",
     "gulp-esbuild": "^0.7.3",
     "gulp-postcss": "^9.0.0",
