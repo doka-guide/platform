@@ -11,13 +11,9 @@
     <details>
       <summary>HTML</summary>
 
-      <ul>
-      {% for post in collections.html %}
-        {% if post.data.title %}
-        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-        {% endif %}
-      {% endfor %}
-      </ul>
+      {% include "collections/html-articles.njk" %}
+
+      {% include "collections/html-doka-list.njk" %}
 
     </details>
     {% endif %}
@@ -26,28 +22,20 @@
     <details>
       <summary>CSS</summary>
 
-      <ul>
-      {% for post in collections.css %}
-        {% if post.data.title %}
-        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-        {% endif %}
-      {% endfor %}
-      </ul>
+      {% include "collections/css-articles.njk" %}
+
+      {% include "collections/css-doka-list.njk" %}
 
     </details>
     {% endif %}
 
     {% if collections.js | length %}
     <details>
-      <summary>JS</summary>
+      <summary>JavaScript</summary>
 
-      <ul>
-      {% for post in collections.js %}
-        {% if post.data.title %}
-        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-        {% endif %}
-      {% endfor %}
-      </ul>
+      {% include "collections/js-articles.njk" %}
+
+      {% include "collections/js-doka-list.njk" %}
 
     </details>
     {% endif %}
@@ -56,13 +44,9 @@
     <details>
       <summary>Инструменты</summary>
 
-      <ul>
-      {% for post in collections.tools %}
-        {% if post.data.title %}
-        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-        {% endif %}
-      {% endfor %}
-      </ul>
+      {% include "collections/tools-articles.njk" %}
+
+      {% include "collections/tools-doka-list.njk" %}
 
     </details>
     {% endif %}

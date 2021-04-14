@@ -1,20 +1,25 @@
 const htmlmin = require('html-minifier')
-const articleSections = ['html', 'css', 'js', 'tools']
-const articleFormats = ['articles', 'doka']
 
 module.exports = function(config) {
-  // Add all Tags
-  articleSections.forEach((el) => {
-    config.addCollection(el, function(collectionApi) {
-      return collectionApi.getFilteredByGlob(`src/${el}/**`);
-    });
-  });
+  const sections = ['html', 'css', 'js', 'tools']
 
-  articleFormats.forEach((el) => {
-    config.addCollection(el, function(collectionApi) {
-      return collectionApi.getFilteredByGlob(`src/**/${el}`);
-    });
-  });
+  // Add all Tags
+  sections.forEach((section) => {
+    let subSectionArticles = section + 'Articles'
+    let subSectionDoka = section + 'Doka'
+
+    config.addCollection(section, (collectionApi) =>
+      collectionApi.getFilteredByGlob(`src/${section}/**/index.md`)
+    )
+
+    config.addCollection(subSectionArticles, (collectionApi) =>
+      collectionApi.getFilteredByGlob(`src/${section}/articles/**/index.md`)
+    )
+
+    config.addCollection(subSectionDoka, (collectionApi) =>
+      collectionApi.getFilteredByGlob(`src/${section}/doka/**/index.md`)
+    )
+  })
 
   config.addFilter('ruDate', (value) => {
     return value.toLocaleString('ru', {

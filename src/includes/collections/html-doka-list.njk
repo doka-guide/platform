@@ -1,0 +1,7 @@
+{% if collections.htmlDoka | length %}
+  <ul>
+    {% for post in collections.htmlDoka %}
+      <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+    {% endfor %}
+  </ul>
+{% endif %}
