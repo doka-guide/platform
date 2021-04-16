@@ -1,7 +1,9 @@
 const htmlmin = require('html-minifier')
+const sectionsAll = require("./utils/sections.js")
+
+let sections = sectionsAll.sectionsAll;
 
 module.exports = function(config) {
-  const sections = ['html', 'css', 'js', 'tools']
 
   // Add all Tags
   sections.forEach((section) => {
