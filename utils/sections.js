@@ -1,3 +1,5 @@
+require('dotenv').config({ path: '../.env' })
+
 module.exports = {
-  sectionsAll: ['html', 'css', 'js', 'tools']
+  sectionsAll: process.env.SECTIONS_ALL.split(', ')
 }
