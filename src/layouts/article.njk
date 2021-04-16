@@ -4,6 +4,8 @@ layout: aside-page.njk
 <article>
   <h1>{{ title }}</h1>
   {# сюда необходимо прокидывать название контентного репозитория #}
-  <a href="https://github.com/Y-Doka/content/blob/master/{{ page.inputPath.slice(6) }}" target="_blank" title="Редактировать на Github.com">&#9998;</a>
+  <a href="https://github.com/Y-Doka/content/blob/master/{{ page.inputPath.slice(6) }}" target="_blank">
+    Отредактировать на GitHub
+  </a>
   {{ content | safe }}
 </article>
