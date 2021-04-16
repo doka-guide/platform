@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const readline = require('readline');
 
-const DEFAULT_PATH_TO_CONTENT = path.join('..', 'content')
+const DEFAULT_PATH_TO_CONTENT = process.env.PATH_TO_CONTENT
 const CONTENT_REP_FOLDERS = process.env.CONTENT_REP_FOLDERS.split(', ')
 const SYMLINKS_DEST = CONTENT_REP_FOLDERS.map(folder => path.join('src', folder))
 
