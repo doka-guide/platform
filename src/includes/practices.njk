@@ -1,0 +1,26 @@
+{% if collections.practice %}
+<section class="practices">
+  <h2 class="practices__title">В работе</h2>
+
+  {% for practice in collections.practice %}
+
+    {% if practice.filePathStem.indexOf(page.url) %}
+    {% else %}
+
+      {% set practiceAuthor = practice.filePathStem.slice(page.url.length + 9) %}
+      <section class="practices__item">
+        {# временное решение, пока на это место не будут подставляться реальные имена #}
+        <h3 class="practices__author">{{ '@' + practiceAuthor }}</h3>
+        {{ practice.data.content | safe }}
+      </section>
+
+    {% endif %}
+
+  {% endfor %}
+
+  <section class="practice__item practice__item_offer">
+    <p>Вы можете помочь проекту, если напишите, как применяете элемент, свойство или подход, который мы описали в статье, на практике. <a href="https://github.com/Y-Doka/content/tree/master/{{ page.inputPath.slice(6, -8) }}">Начать на Github.</a></p>
+  </section>
+
+<section>
+{% endif %}
