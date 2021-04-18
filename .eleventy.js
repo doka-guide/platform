@@ -1,5 +1,5 @@
 const htmlmin = require('html-minifier')
-const sectionsAll = require("./utils/sections.js")
+const { sectionsAll } = require("./utils/sections.js")
 
 let sections = sectionsAll.sectionsAll;
 
