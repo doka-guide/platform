@@ -1,12 +1,10 @@
-require('dotenv').config({ path: '.env' })
-
 const fs = require('fs')
 const path = require('path')
-const readline = require('readline');
+const readline = require('readline')
 
-const DEFAULT_PATH_TO_CONTENT = process.env.PATH_TO_CONTENT
-const CONTENT_REP_FOLDERS = process.env.CONTENT_REP_FOLDERS.split(', ')
-const SYMLINKS_DEST = CONTENT_REP_FOLDERS.map(folder => path.join('src', folder))
+const { defaultPathToContent, contentRepFolders } = require("./config/constants.js")
+
+const SYMLINKS_DEST = contentRepFolders.map(folder => path.join('src', folder))
 
 const existingSymlinks = SYMLINKS_DEST.filter((dest) => {
   try {
@@ -31,7 +29,7 @@ const createLinks = (contentPath) => {
 
   console.log('Создаю симлинки:')
   SYMLINKS_DEST.forEach((dest, i) => {
-    const source = path.join(contentPath, CONTENT_REP_FOLDERS[i])
+    const source = path.join(contentPath, contentRepFolders[i])
     console.log(`${dest} → ${source}`)
     fs.symlinkSync(source, dest)
   })
@@ -39,7 +37,7 @@ const createLinks = (contentPath) => {
   console.log('✅ Готово')
 }
 
-let contentPath = DEFAULT_PATH_TO_CONTENT
+let contentPath = defaultPathToContent
 if (process.argv[2] === '--default') {
   console.log('Использую настройки из .env')
   createLinks(contentPath)
@@ -49,8 +47,8 @@ if (process.argv[2] === '--default') {
     output: process.stdout
   })
 
-  rl.question(`Укажите путь к репозиторию с контентом [нажми Enter, если это '${DEFAULT_PATH_TO_CONTENT}']:`, (answer) => {
-    contentPath = answer.trim() || DEFAULT_PATH_TO_CONTENT
+  rl.question(`Укажите путь к репозиторию с контентом [нажми Enter, если это '${defaultPathToContent}']:`, (answer) => {
+    contentPath = answer.trim() || defaultPathToContent
     if (!path.isAbsolute(contentPath)) {
       contentPath = path.relative('src', contentPath)
     }
