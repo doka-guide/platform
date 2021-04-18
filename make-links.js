@@ -31,7 +31,7 @@ existingSymlinks.forEach((dest) => {
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
-});
+})
 
 rl.question(`Укажите путь к репозиторию с контентом [нажми Enter, если это "${DEFAULT_PATH_TO_CONTENT}"]:`, (answer) => {
   let contentPath = answer.trim() || DEFAULT_PATH_TO_CONTENT
@@ -48,5 +48,5 @@ rl.question(`Укажите путь к репозиторию с контент
 
   console.log('✅ Готово')
   rl.close()
-});
+})
 
