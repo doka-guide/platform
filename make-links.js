@@ -15,8 +15,6 @@ const existingSymlinks = SYMLINKS_DEST.filter((dest) => {
     return false
   }
 })
-
-console.log(existingSymlinks, SYMLINKS_DEST);
   
 if (existingSymlinks.length === SYMLINKS_DEST.length) {
   console.log('Символические ссылки уже установлены')
