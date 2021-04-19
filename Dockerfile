@@ -4,9 +4,7 @@ WORKDIR /platform
 COPY . .
 
 RUN npm install \
-&& ln -sf ../content/css src/css \
-&& ln -sf ../content/js src/js \
-&& ln -sf ../content/html src/html
+&& node make-links.js --default
 
 VOLUME /platform/content
 EXPOSE 8080
