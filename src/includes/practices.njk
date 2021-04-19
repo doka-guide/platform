@@ -1,4 +1,10 @@
-{% if collections.practice %}
+{# Глобальные переменные #}
+{# Укажите название папки с практиками #}
+{% set folderName = "practice/" %}
+{# Путь до файла с практиками #}
+{% set practicePath = page.url + folderName %}
+{# Конец глобальных переменных #}
+
 <section class="practices">
   <h2 class="practices__title">В работе</h2>
 
@@ -6,11 +12,11 @@
 
     {% if practice.filePathStem.indexOf(page.url) %}
     {% else %}
+      {% set author = practice.filePathStem.slice(practicePath.length) %}
 
-      {% set practiceAuthor = practice.filePathStem.slice(page.url.length + 9) %}
       <section class="practices__item">
         {# временное решение, пока на это место не будут подставляться реальные имена #}
-        <h3 class="practices__author">{{ '@' + practiceAuthor }}</h3>
+        <h3 class="practices__author">{{ '@' + author }}</h3>
         {{ practice.data.content | safe }}
       </section>
 
@@ -23,4 +29,3 @@
   </section>
 
 <section>
-{% endif %}
