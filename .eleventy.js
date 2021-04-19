@@ -1,10 +1,10 @@
 const htmlmin = require('html-minifier')
+const { mainSections } = require("./config/constants.js")
 
 module.exports = function(config) {
-  const sections = ['html', 'css', 'js', 'tools']
 
   // Add all Tags
-  sections.forEach((section) => {
+  mainSections.forEach((section) => {
     let subSectionArticles = section + 'Articles'
     let subSectionDoka = section + 'Doka'
 
