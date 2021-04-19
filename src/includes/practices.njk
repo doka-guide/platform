@@ -1,32 +1,15 @@
-{# Глобальные переменные #}
-{# Укажите название папки с практиками #}
-{% set src = "src" %}
-{% set folderName = "practice/" %}
-{# Путь до файла с практиками #}
-{% set practicePath = page.url + folderName %}
-{# Конец глобальных переменных #}
+{% set pagePractice = collections.practice | filterPractice(page) %}
 
-<section class="practices">
-  <h2 class="practices__title">В работе</h2>
+{% if pagePractice.length > 0 %}
+  <section class="practices">
+    <h2 class="practices__title">В работе</h2>
 
-  {% for practice in collections.practice %}
-
-    {% if practice.filePathStem.indexOf(page.url) %}
-    {% else %}
-      {% set author = practice.filePathStem.slice(practicePath.length) %}
-
-      <section class="practices__item">
-        {# временное решение, пока на это место не будут подставляться реальные имена #}
-        <h3 class="practices__author">@{{ author }}</h3>
+    {% for practice in pagePractice %}
+      <article>
+        <h3 class="practices__author">@{{ practice.fileSlug }}</h3>
         {{ practice.data.content | safe }}
-      </section>
+      </article>
+    {% endfor %}
 
-    {% endif %}
-
-  {% endfor %}
-
-  <section class="practice__item practice__item_offer">
-    <p>Вы можете помочь проекту, если напишите, как применяете элемент, свойство или подход, который мы описали в статье, на практике. <a href="https://github.com/Y-Doka/content/tree/master/{{ page.url }}">Начать на Github.</a></p>
   </section>
-
-<section>
+{% endif %}
