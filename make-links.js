@@ -47,7 +47,7 @@ if (process.argv[2] === '--default') {
     output: process.stdout
   })
 
-  rl.question(`Укажите путь к репозиторию с контентом [нажми Enter, если это '${defaultPathToContent}']:`, (answer) => {
+  rl.question(`Укажите путь к репозиторию с контентом (нажмите Enter, если это '${defaultPathToContent}'):`, (answer) => {
     contentPath = answer.trim() || defaultPathToContent
     if (!path.isAbsolute(contentPath)) {
       contentPath = path.relative('src', contentPath)
