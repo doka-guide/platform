@@ -1,5 +1,6 @@
 {# Глобальные переменные #}
 {# Укажите название папки с практиками #}
+{% set src = "src" %}
 {% set folderName = "practice/" %}
 {# Путь до файла с практиками #}
 {% set practicePath = page.url + folderName %}
@@ -25,7 +26,7 @@
   {% endfor %}
 
   <section class="practice__item practice__item_offer">
-    <p>Вы можете помочь проекту, если напишите, как применяете элемент, свойство или подход, который мы описали в статье, на практике. <a href="https://github.com/Y-Doka/content/tree/master/{{ page.inputPath.slice(6, -8) }}">Начать на Github.</a></p>
+    <p>Вы можете помочь проекту, если напишите, как применяете элемент, свойство или подход, который мы описали в статье, на практике. <a href="https://github.com/Y-Doka/content/tree/master/{{ page.url }}">Начать на Github.</a></p>
   </section>
 
 <section>
