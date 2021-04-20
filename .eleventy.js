@@ -1,5 +1,4 @@
 const htmlmin = require('html-minifier')
-const fs = require("fs")
 const { mainSections } = require("./config/constants.js")
 
 module.exports = function(config) {
