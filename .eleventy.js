@@ -22,7 +22,7 @@ module.exports = function(config) {
     )
   })
 
-  // 404
+  // 404 for local build
   config.setBrowserSyncConfig({
     callbacks: {
       ready: function(err, bs) {
