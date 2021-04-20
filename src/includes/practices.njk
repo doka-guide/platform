@@ -1,4 +1,4 @@
-{% set pagePractice = collections.practice | filterPractice(page) %}
+{% set pagePractice = collections.practice | keepRelatedTo(page) %}
 
 {% if pagePractice.length > 0 %}
   <section class="practices">

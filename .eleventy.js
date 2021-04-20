@@ -57,7 +57,7 @@ module.exports = function(config) {
     return content
   })
 
-  config.addFilter('filterPractice', (array, page) => {
+  config.addFilter('keepRelatedTo', (array, page) => {
     return array.filter(
       practice => (
         practice.filePathStem.includes(page.url)
