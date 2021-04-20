@@ -13,12 +13,6 @@
         X-Content-Type-Options = "nosniff"
         Referrer-Policy= "no-referrer-when-downgrade"
 
-# [[redirects]]
-#     from = "https://eleventastic.netlify.com/*"
-#     to = "https://eleventastic.dev/:splat"
-#     status = 301
-#     force = true
-
 [[redirects]]
     from = "*"
     to = "/404"
