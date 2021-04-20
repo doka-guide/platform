@@ -1,0 +1,15 @@
+{% set pagePractice = collections.practice | keepRelatedTo(page) %}
+
+{% if pagePractice.length > 0 %}
+  <section class="practices">
+    <h2 class="practices__title">В работе</h2>
+
+    {% for practice in pagePractice %}
+      <article>
+        <h3 class="practices__author">@{{ practice.fileSlug }}</h3>
+        {{ practice.data.content | safe }}
+      </article>
+    {% endfor %}
+
+  </section>
+{% endif %}
