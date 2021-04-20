@@ -1,7 +1,7 @@
 const htmlmin = require('html-minifier')
 const {
   mainSections,
-  dokaCommunityLink,
+  dokaOrgLink,
   platformRepLink,
   contentRepLink
 } = require("./config/constants.js")
@@ -27,8 +27,8 @@ module.exports = function(config) {
   })
 
   // Add all shortcodes
-  config.addShortcode("dokaCommunityLink", function() {
-    return dokaCommunityLink;
+  config.addShortcode("dokaOrgLink", function() {
+    return dokaOrgLink;
   });
 
   config.addShortcode("platformRepLink", function() {
