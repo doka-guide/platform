@@ -17,8 +17,8 @@
   },
   "scripts": {
     "start": "eleventy --serve --quiet",
-    "build": "eleventy && gulp",
-    "netlify": "gulp setupContent && npm run build && gulp dropContent",
+    "build": "eleventy && npnx gulp",
+    "netlify": "npx gulp setupContent && npm run build && npx gulp dropContent",
     "editorconfig": "editorconfig-checker",
     "test": "npm run editorconfig"
   },
