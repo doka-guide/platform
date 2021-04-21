@@ -1,8 +1,10 @@
 <footer class="footer">
   <div class="footer__content">
+    {% if page.url !== '/about/' %}
     <p>
-      <a class="footer__link" href="/">О проекте</a>
+      <a class="footer__link" href="/about">О проекте</a>
     </p>
+    {% endif %}
     <p>
       Присоединяйся к нам <a class="footer__link" href="/">на GitHub</a>
     </p>
