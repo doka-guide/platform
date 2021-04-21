@@ -1,0 +1,16 @@
+---
+title: Оглавление раздела «Дока» про JavaScript
+layout: navigation.njk
+permalink: /js/doka/index.html
+---
+{% if collections.js | length %}
+<section>
+  {% include "collections/js-doka-list.njk" %}
+  <p>
+    <a href="/js">Больше статей про JavaScript</a>
+  </p>
+  <p>
+    <a href="/all">К полному оглавлению</a>
+  </p>
+</section>
+{% endif %}

@@ -1,0 +1,16 @@
+---
+title: Оглавление раздела «Дока» про HTML
+layout: navigation.njk
+permalink: /html/doka/index.html
+---
+{% if collections.html | length %}
+<section>
+  {% include "collections/html-doka-list.njk" %}
+  <p>
+    <a href="/html">Больше статей про HTML</a>
+  </p>
+  <p>
+    <a href="/all">К полному оглавлению</a>
+  </p>
+</section>
+{% endif %}

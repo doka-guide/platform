@@ -1,0 +1,14 @@
+---
+title: Оглавление раздела CSS
+layout: navigation.njk
+permalink: /css/index.html
+---
+{% if collections.css | length %}
+<section>
+  {% include "collections/css-articles-list.njk" %}
+  {% include "collections/css-doka-list.njk" %}
+  <p>
+    <a href="/all">К полному оглавлению</a>
+  </p>
+</section>
+{% endif %}

@@ -1,0 +1,14 @@
+---
+title: Оглавление раздела HTML
+layout: navigation.njk
+permalink: html/index.html
+---
+{% if collections.html | length %}
+<section>
+  {% include "collections/html-articles-list.njk" %}
+  {% include "collections/html-doka-list.njk" %}
+  <p>
+    <a href="/all">К полному оглавлению</a>
+  </p>
+</section>
+{% endif %}

@@ -1,40 +1,38 @@
 ---
 title: Дока. Все статьи
-layout: table-of-content.njk
+layout: navigation.njk
 permalink: all/index.html
 ---
+{% if collections.html | length %}
+<section>
+  <h2>HTML</h2>
+  {% include "collections/html-articles-list.njk" %}
+  {% include "collections/html-doka-list.njk" %}
+</section>
+{% endif %}
 
+{% if collections.css | length %}
+<section>
+  <h2>CSS</h2>
+  {% include "collections/css-articles-list.njk" %}
+  {% include "collections/css-doka-list.njk" %}
+</section>
+{% endif %}
 
-  {% if collections.html | length %}
-  <section>
-    <h2>HTML</h2>
-    {% include "collections/html-articles-list.njk" %}
-    {% include "collections/html-doka-list.njk" %}
-  </section>
-  {% endif %}
+{% if collections.js | length %}
+<section>
+  <h2>JavaScript</h2>
+  {% include "collections/js-articles-list.njk" %}
+  {% include "collections/js-doka-list.njk" %}
+</section>
+{% endif %}
 
-  {% if collections.css | length %}
-  <section>
-    <h2>CSS</h2>
-    {% include "collections/css-articles-list.njk" %}
-    {% include "collections/css-doka-list.njk" %}
-  </section>
-  {% endif %}
-
-  {% if collections.js | length %}
-  <section>
-    <h2>JavaScript</h2>
-    {% include "collections/js-articles-list.njk" %}
-    {% include "collections/js-doka-list.njk" %}
-  </section>
-  {% endif %}
-
-  {% if collections.tools | length %}
-  <section>
-    <h2>Инструменты</h2>
-    {% include "collections/tools-articles-list.njk" %}
-    {% include "collections/tools-doka-list.njk" %}
-  </section>
-  {% endif %}
+{% if collections.tools | length %}
+<section>
+  <h2>Инструменты</h2>
+  {% include "collections/tools-articles-list.njk" %}
+  {% include "collections/tools-doka-list.njk" %}
+</section>
+{% endif %}
 
 

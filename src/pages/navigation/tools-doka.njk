@@ -1,0 +1,16 @@
+---
+title: Оглавление раздела «Дока» про инструменты
+layout: navigation.njk
+permalink: tools/doka/index.html
+---
+{% if collections.js | length %}
+<section>
+  {% include "collections/js-doka-list.njk" %}
+  <p>
+    <a href="/tools">Больше статей про инструменты</a>
+  </p>
+  <p>
+    <a href="/all">К полному оглавлению</a>
+  </p>
+</section>
+{% endif %}

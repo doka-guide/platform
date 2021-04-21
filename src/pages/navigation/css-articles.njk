@@ -1,0 +1,16 @@
+---
+title: Оглавление раздела «Статьи» про CSS
+layout: navigation.njk
+permalink: /css/articles/index.html
+---
+{% if collections.css | length %}
+<section>
+  {% include "collections/css-articles-list.njk" %}
+  <p>
+    <a href="/css">Больше статей про CSS</a>
+  </p>
+  <p>
+    <a href="/all">К полному оглавлению</a>
+  </p>
+</section>
+{% endif %}

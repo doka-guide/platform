@@ -1,0 +1,16 @@
+---
+title: Оглавление раздела «Дока» про CSS
+layout: navigation.njk
+permalink: /css/doka/index.html
+---
+{% if collections.css | length %}
+<section>
+  {% include "collections/css-doka-list.njk" %}
+  <p>
+    <a href="/css">Больше статей про CSS</a>
+  </p>
+  <p>
+    <a href="/all">К полному оглавлению</a>
+  </p>
+</section>
+{% endif %}
