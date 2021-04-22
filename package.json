@@ -27,7 +27,7 @@
     "dotenv": "^8.2.0",
     "esbuild": "^0.11.11",
     "gulp": "^4.0.2",
-    "gulp-esbuild": "^0.7.3",
+    "gulp-esbuild": "^0.7.4",
     "gulp-postcss": "^9.0.0",
     "gulp-replace": "^1.0.0",
     "html-minifier": "^4.0.0",
