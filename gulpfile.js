@@ -71,7 +71,7 @@ clean = () => {
 
 exports.setupContent = gulp.series(
   cloneContent,
-  makeLinks,
+  // makeLinks,
 )
 
 exports.dropContent = () => del([
