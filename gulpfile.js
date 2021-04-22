@@ -15,7 +15,7 @@ const { contentRepGithub, contentRepFolders } = require(path.join(__dirname, 'co
 
 const cloneContent = () => git.clone(contentRepGithub)
 
-const makeLinks = shell.task('node make-links.js --default', {
+const makeLinks = shell.task(`node ${path.join(__dirname, 'make-links.js')} --default`, {
   env: {
     PATH_TO_CONTENT: path.join(__dirname, 'content')
   }
