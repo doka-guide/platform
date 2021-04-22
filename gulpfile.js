@@ -17,9 +17,9 @@ const cloneContent = () => git.clone(contentRepGithub)
 
 const makeLinks = shell.task(`node make-links.js --default`, {
   env: {
-    PATH_TO_CONTENT: path.join(__dirname, 'content')
-  },
-  shell: 'bash'
+    PATH_TO_CONTENT: path.join(__dirname, 'content'),
+    PATH: process.env.PATH
+  }
 })
 
 // Styles
@@ -71,7 +71,7 @@ clean = () => {
 
 exports.setupContent = gulp.series(
   cloneContent,
-  // makeLinks,
+  makeLinks,
 )
 
 exports.dropContent = () => del([
