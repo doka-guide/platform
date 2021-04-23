@@ -29,7 +29,7 @@
     "gulp": "^4.0.2",
     "gulp-esbuild": "^0.7.4",
     "gulp-postcss": "^9.0.0",
-    "gulp-replace": "^1.0.0",
+    "gulp-replace": "^1.1.1",
     "html-minifier": "^4.0.0",
     "postcss": "^8.2.10",
     "postcss-cli": "^8.3.1",
