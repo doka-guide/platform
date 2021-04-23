@@ -1,4 +1,17 @@
 ---
 layout: base.njk
 ---
-{{ content | safe }}
+
+<header class="header">
+  <a href="/">
+    {% include "ui/logo.njk" %}
+  </a>
+</header>
+
+<main>
+  <h1>{{ title }}</h1>
+
+  {{ content | safe }}
+</main>
+
+{% include "footer.njk" %}
