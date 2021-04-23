@@ -1,0 +1,31 @@
+name: Deploy Platform With Content
+
+on:
+  push:
+    branches:
+      - service/actions
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Кэширование модулей
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Установка модулей
+        run: npm ci
+      - name: Сборка сайта
+        run: npm run build
+      - name: Публикация сайта
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=dist --prod
