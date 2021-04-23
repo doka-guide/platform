@@ -1,5 +1,10 @@
 const htmlmin = require('html-minifier')
-const { mainSections } = require("./config/constants.js")
+const {
+  mainSections,
+  dokaOrgLink,
+  platformRepLink,
+  contentRepLink
+} = require("./config/constants.js")
 
 module.exports = function(config) {
 
@@ -20,6 +25,19 @@ module.exports = function(config) {
       collectionApi.getFilteredByGlob(`src/${section}/doka/**/index.md`)
     )
   })
+
+  // Add all shortcodes
+  config.addShortcode("dokaOrgLink", function() {
+    return dokaOrgLink;
+  });
+
+  config.addShortcode("platformRepLink", function() {
+    return platformRepLink;
+  });
+
+  config.addShortcode("contentRepLink", function() {
+    return contentRepLink;
+  });
 
   config.addFilter('ruDate', (value) => {
     return value.toLocaleString('ru', {
