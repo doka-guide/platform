@@ -1,4 +1,8 @@
+const path = require('path')
+
 const gulp = require('gulp')
+const git = require('gulp-git')
+const shell = require('gulp-shell')
 const postcss = require('gulp-postcss')
 const csso = require('postcss-csso')
 const pimport = require('postcss-import')
@@ -7,14 +11,25 @@ const esbuild = require('gulp-esbuild')
 const replace = require('gulp-replace')
 const del = require('del')
 
+const { contentRepGithub, contentRepFolders } = require(path.join(__dirname, 'config/constants'))
+
+const cloneContent = () => git.clone(contentRepGithub)
+
+const makeLinks = shell.task(`node make-links.js --default`, {
+  env: {
+    PATH_TO_CONTENT: path.join(__dirname, 'content'),
+    PATH: process.env.PATH
+  }
+})
+
 // Styles
 
 const styles = () => {
   return gulp.src('src/styles/index.css')
     .pipe(postcss([
-        pimport,
-        autoprefixer,
-        csso,
+      pimport,
+      autoprefixer,
+      csso,
     ]))
     .pipe(replace(/\.\.\//g, ''))
     .pipe(gulp.dest('dist'))
@@ -49,13 +64,22 @@ const paths = () => {
 
 clean = () => {
   return del([
-      'dist/styles',
-      'dist/scripts',
+    'dist/styles',
+    'dist/scripts',
   ])
 }
 
-// Default
+exports.setupContent = gulp.series(
+  cloneContent,
+  makeLinks,
+)
 
+exports.dropContent = () => del([
+  'content',
+  ...contentRepFolders.map(folder => `src/${folder}`),
+])
+
+// Default
 exports.default = gulp.series(
   styles,
   scripts,
