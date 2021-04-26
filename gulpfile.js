@@ -55,7 +55,7 @@ const paths = () => {
       /(<link rel="stylesheet" href=")styles\/(index.css">)/, '$1$2'
     ))
     .pipe(replace(
-      /(<script) type="module"( src=")scripts\/(index.js">)/, '$1$2$3'
+      /(<script) type="module"( src="\/)scripts\/(index.js">)/, '$1$2$3'
     ))
     .pipe(gulp.dest('dist'))
 }
