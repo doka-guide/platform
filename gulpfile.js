@@ -52,7 +52,7 @@ const scripts = () => {
 const paths = () => {
   return gulp.src('dist/**/*.html')
     .pipe(replace(
-      /(<link rel="stylesheet" href=")styles\/(index.css">)/, '$1$2'
+      /(<link rel="stylesheet" href="\/)styles\/(index.css">)/, '$1$2'
     ))
     .pipe(replace(
       /(<script) type="module"( src=")scripts\/(index.js">)/, '$1$2$3'
