@@ -29,7 +29,7 @@
     "dotenv": "^8.2.0",
     "esbuild": "^0.11.13",
     "gulp": "^4.0.2",
-    "gulp-esbuild": "^0.7.4",
+    "gulp-esbuild": "^0.7.5",
     "gulp-git": "^2.10.1",
     "gulp-postcss": "^9.0.0",
     "gulp-replace": "^1.1.1",
