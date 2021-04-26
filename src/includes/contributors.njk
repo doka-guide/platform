@@ -1,5 +1,12 @@
 <section class="contributors">
-  <p>Автор: {{ author }}</p>
+  <p>Авторы: </p>
+  <ul>
+      {% for author in authors %}
+        <li>
+          {{ author }}
+        </li>
+      {% endfor %}
+  </ul>
   {% if contributors %}
     <details>
       <summary>Свой вклад внесли</summary>
