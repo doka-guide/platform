@@ -6,9 +6,9 @@
     </a>
   </header>
 
-  <nav>
+  <nav class="aside__nav">
     {% if collections.html | length %}
-    <details>
+    <details class="aside__details">
       <summary>HTML</summary>
 
       {% include "collections/html-articles.njk" %}
@@ -19,7 +19,7 @@
     {% endif %}
 
     {% if collections.css | length %}
-    <details>
+    <details class="aside__details">
       <summary>CSS</summary>
 
       {% include "collections/css-articles.njk" %}
@@ -30,7 +30,7 @@
     {% endif %}
 
     {% if collections.js | length %}
-    <details>
+    <details class="aside__details">
       <summary>JavaScript</summary>
 
       {% include "collections/js-articles.njk" %}
@@ -41,7 +41,7 @@
     {% endif %}
 
     {% if collections.tools | length %}
-    <details>
+    <details class="aside__details">
       <summary>Инструменты</summary>
 
       {% include "collections/tools-articles.njk" %}
