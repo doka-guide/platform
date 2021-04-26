@@ -1,7 +1,6 @@
 .aside {
   width: 20.625em;
-  min-height: 100vh;
-  height: 100%;
+  height: 100vh;
 
   display: grid;
   grid-template-rows:
@@ -10,12 +9,6 @@
     min-content;
 
   background: #f8f8f8;
-
-  position: relative;
-}
-
-.aside__details {
-  cursor: pointer;
 }
 
 .aside_hidden {
@@ -23,20 +16,10 @@
   transition: all 0.2s ease-out;
 }
 
-.aside__nav {
-  padding-left: 36px;
-}
-
 .aside__footer {
   display: grid;
   grid-template-columns: 1fr max-content;
   padding-right: 30px;
-
-  position: sticky;
-  left: 0px;
-  bottom: 0px;
-
-  background: #f8f8f8;
 }
 
 .aside_hidden .aside__footer {
