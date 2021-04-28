@@ -12,6 +12,8 @@
   background: #f8f8f8;
 
   position: relative;
+
+  transition: all 0.2s ease-out;
 }
 
 .aside__details {

@@ -9,3 +9,15 @@
   grid-template-columns: 3.75em auto;
   grid-column-gap: 20px;
 }
+
+.aside-page__content {
+  max-width: calc(100% - 20.625em);
+
+  transition: all 0.2s ease-out;
+}
+
+.aside-page__content_hidden {
+  max-width: calc(100% - 3.75em);
+
+  transition: all 0.2s ease-out;
+}
