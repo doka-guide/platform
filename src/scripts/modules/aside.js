@@ -1,9 +1,8 @@
-const body = document.querySelector('body');
-const aside = document.querySelector('.aside');
-
+const body = document.querySelector('body')
+const aside = document.querySelector('.aside')
 
 function asideMoving() {
-  const arrow = aside.querySelector('.aside__arrow-btn');
+  const arrow = aside.querySelector('.aside__arrow-btn')
   arrow.addEventListener('click', action)
 }
 
@@ -12,8 +11,8 @@ function toggleAside() {
 }
 
 function animationAsidePage() {
-  const asidePage = document.querySelector('.aside-page');
-  const content = document.querySelector('.aside-page__content');
+  const asidePage = document.querySelector('.aside-page')
+  const content = document.querySelector('.aside-page__content')
 
   asidePage.classList.toggle('aside-page_hidden-aside')
   content.classList.toggle('aside-page__content_hidden')
