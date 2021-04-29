@@ -1,7 +1,7 @@
 <div class="feedback">
   <h2>Обратная связь</h2>
 
-  <form method="POST" name="doka-feeback" data-netlify="true" class="feedback-form js-feedback-form">
+  <form method="POST" name="{% feedbackFormName %}" data-netlify="true" class="feedback-form js-feedback-form">
     <input type="hidden" name="article" value="{{title}}">
     <div class="feedback-form__label">
       Статья была полезной?
