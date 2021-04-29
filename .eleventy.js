@@ -83,6 +83,11 @@ module.exports = function(config) {
     )
   })
 
+  // Collections
+  config.addCollection("searchable", (collection) =>
+    collection.getFilteredByGlob("./src/posts/**/*.md")
+  )
+
   config.addPassthroughCopy('src/favicon.ico')
   config.addPassthroughCopy('src/manifest.json')
   config.addPassthroughCopy('src/fonts')

@@ -1,0 +1,22 @@
+---
+permalink: search-data.json
+---
+
+[{%- for item in collections.searchable %}
+  {% set defaultURL = '' %}
+  {% if item.data.links[0] %}
+    {% for name, link in item.data.links[0] %}
+      {% set defaultURL = link %}
+    {% endfor %}
+  {% else %}
+    {% set defaultURL = item.url %}
+  {% endif %}
+  {
+  "title": "{{ item.data.title | lower | safe }}",
+  "summary" : "{{ item.data.summary | default( [], true) | join(" ") | safe }}",
+  "type" : "{{ item.type | lower }}",
+  "url": "{{defaultURL}}",
+  "tags" : "{{ item.data.tags | safe }}"
+  }
+  {% if not loop.last %},{% endif %}
+{%- endfor %}]

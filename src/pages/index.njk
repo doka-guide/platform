@@ -11,17 +11,7 @@ permalink: index.html
   </header>
 
   <main class="index__content">
-    <div class="search">
-      <div class="search__topics">
-        <button class="search__button" type="button">HTML</button>
-        <button class="search__button" type="button">CSS</button>
-        <button class="search__button" type="button">JS</button>
-      </div>
-      <input class="search__input"
-        type="text"
-        placeholder="Поиск…"
-        autofocus>
-    </div>
+    {% include "search.njk" %}
   </main>
 
   {% include "footer.njk" %}
