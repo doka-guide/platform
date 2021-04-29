@@ -25,5 +25,4 @@ function action () {
 
 if (body.contains(aside)) {
   asideMoving()
-  asideOpener()
 }
