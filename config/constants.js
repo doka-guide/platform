@@ -7,5 +7,6 @@ module.exports = {
   defaultPathToContent: process.env.PATH_TO_CONTENT,
   dokaOrgLink: process.env.DOKA_ORG,
   platformRepLink: process.env.PLATFORM_REP_GITHUB_URL,
-  contentRepLink: process.env.CONTENT_REP_GITHUB_URL
+  contentRepLink: process.env.CONTENT_REP_GITHUB_URL,
+  feedbackFormName: process.env.FEEDBACK_FORM_NANE
 }
