@@ -89,8 +89,8 @@ function showMessage(type) {
 }
 
 if (document.location.host.contains('localhost')){
-  const localhostMessage = document.querySelector('.feedback__localhost-message_hidden');
+  const localhostMessage = document.querySelector('.feedback__localhost-message_hidden')
 
-  form.classList.add('feedback-form_hidden');
+  form.classList.add('feedback-form_hidden')
   localhostMessage.classList.remove('feedback__localhost-message_hidden')
 }
