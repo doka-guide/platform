@@ -28,7 +28,7 @@ jobs:
       - name: Публикация сайта
         uses: netlify/actions/cli@master
         with:
-          args: deploy --dir=dist --message='Публикация контента сайта' --prod
+          args: deploy --dir=dist --message='Публикация контента сайта из platform' --prod
         env:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
