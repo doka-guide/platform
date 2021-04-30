@@ -3,7 +3,8 @@ const {
   mainSections,
   dokaOrgLink,
   platformRepLink,
-  contentRepLink
+  contentRepLink,
+  feedbackFormName
 } = require("./config/constants.js")
 
 module.exports = function(config) {
@@ -37,6 +38,10 @@ module.exports = function(config) {
 
   config.addShortcode("contentRepLink", function() {
     return contentRepLink;
+  });
+
+  config.addShortcode("feedbackFormName", function() {
+    return feedbackFormName;
   });
 
   config.addFilter('ruDate', (value) => {
