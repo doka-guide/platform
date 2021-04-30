@@ -3,6 +3,14 @@ layout: aside-page.njk
 ---
 
 <article>
+  {% if cover %}
+    <picture>
+      {% if cover.mobile %}
+      <source srcset="{{ cover.mobile }}" media="(max-width: 425px)">
+      {% endif%}
+      <img src="{{ cover.desktop }}" width="900" height="537" alt="{{ cover.alt }}">
+    </picture>
+  {% endif%}
   <h1>{{ title }}</h1>
   <a href="{% contentRepLink %}/blob/master{{ page.url }}" target="_blank">
     Отредактировать на GitHub
