@@ -4,8 +4,4 @@ updates:
   directory: "/"
   schedule:
     interval: daily
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: "@11ty/eleventy"
-    versions:
-    - 0.12.1
+  open-pull-requests-limit: 5
