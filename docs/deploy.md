@@ -8,14 +8,16 @@
 
 ## Как собираем
 
-Проект собирается с помощью GitHub Actions.
+Проект собирается с помощью [GitHub Actions](https://docs.github.com/en/actions).
 
-В каждом репозитории описан свой workflow для сборки, но они идентичны по содержанию:
-* [workflow в `content`](https://github.com/Y-Doka/content/blob/main/.github/workflows/netlify-deploy.yml)
-* [workflow в `platform`](https://github.com/Y-Doka/platform/blob/main/.github/workflows/netlify-deploy.yml)
+В каждом репозитории описан свой воркфлоу для сборки, но они идентичны по содержанию:
+
+- [Воркфлоу контента](https://github.com/Y-Doka/content/blob/main/.github/workflows/netlify-deploy.yml)
+- [Воркфлоу платформы](https://github.com/Y-Doka/platform/blob/main/.github/workflows/netlify-deploy.yml)
 
 Сборка состоит из пяти этапов:
-1. Скачать свежие версии репозиториев `content` и `platform`
+
+1. Скачать свежие версии контента и платформы
 1. Установить зависимости
 1. Подключить статьи к платформе
 1. Собрать проект
