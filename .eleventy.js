@@ -42,8 +42,8 @@ module.exports = function(config) {
       'aria-label': 'Этот заголовок',
     }),
   slugify: () => 'section',
-  });
-  config.setLibrary("md", markdownLibrary);
+  })
+  config.setLibrary("md", markdownLibrary)
 
   // Add all shortcodes
   config.addShortcode("dokaOrgLink", function() {
@@ -56,11 +56,11 @@ module.exports = function(config) {
 
   config.addShortcode("contentRepLink", function() {
     return contentRepLink;
-  });
+  })
 
   config.addShortcode("feedbackFormName", function() {
     return feedbackFormName;
-  });
+  })
 
   config.addFilter('ruDate', (value) => {
     return value.toLocaleString('ru', {
