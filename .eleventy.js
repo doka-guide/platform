@@ -6,6 +6,8 @@ const {
   contentRepLink,
   feedbackFormName
 } = require("./config/constants.js")
+const markdownIt = require("markdown-it")
+const markdownItAnchor = require("markdown-it-anchor")
 
 module.exports = function(config) {
 
@@ -26,6 +28,18 @@ module.exports = function(config) {
       collectionApi.getFilteredByGlob(`src/${section}/doka/**/index.md`)
     )
   })
+
+  // Customize Markdown library and settings:
+  let markdownLibrary = markdownIt({
+    html: true,
+    breaks: true,
+    linkify: true
+  }).use(markdownItAnchor, {
+    permalink: true,
+    permalinkClass: "direct-link",
+    permalinkSymbol: "#"
+  });
+  config.setLibrary("md", markdownLibrary);
 
   // Add all shortcodes
   config.addShortcode("dokaOrgLink", function() {
