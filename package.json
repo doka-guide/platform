@@ -35,6 +35,7 @@
     "gulp-replace": "^1.1.2",
     "gulp-shell": "^0.8.0",
     "html-minifier": "^4.0.0",
+    "markdown-it": "^12.0.6",
     "markdown-it-anchor": "^7.1.0",
     "postcss": "^8.2.13",
     "postcss-cli": "^8.3.1",
