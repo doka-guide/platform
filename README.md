@@ -8,6 +8,8 @@
 
 Сайт «Доки» работает на базе [Eleventy](https://www.11ty.dev). При помощи Nunjucks-темплейтов Eleventy превращает статьи в формате Markdown в HTML-страницы.
 
+Проект собирается с помощью GitHub Actions и хостится в Netlfiy, читайте [подробнее про деплой](./docs/deploy.md).
+
 ## Как работать
 
 Для работы с платформой вам потребуется [Node.js v14](https://nodejs.org/en/) и npm v6.
