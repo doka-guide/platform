@@ -80,6 +80,16 @@ module.exports = function(config) {
     return content
   })
 
+  config.addTransform('fix-demos', (content, outputPath) => {
+    if(outputPath && outputPath.endsWith('.html')) {
+      let iframePath = /src="\.\.\/demos\//ig;
+      content = content.replace(iframePath, (math) => {
+        return `src="./demos/`
+      })
+    }
+    return content;
+  })
+
   config.addFilter('keepRelatedTo', (array, page) => {
     return array.filter(
       practice => (
