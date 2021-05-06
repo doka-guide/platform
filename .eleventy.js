@@ -41,7 +41,7 @@ module.exports = function(config) {
     permalinkAttrs: () => ({
       'aria-label': 'Этот заголовок',
     }),
-  slugify: () => 'section',
+    slugify: () => 'section',
   })
   config.setLibrary("md", markdownLibrary)
 
