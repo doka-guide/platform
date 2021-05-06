@@ -37,7 +37,11 @@ module.exports = function(config) {
   }).use(markdownItAnchor, {
     permalink: true,
     permalinkClass: "direct-link",
-    permalinkSymbol: "#"
+    permalinkSymbol: "#",
+    permalinkAttrs: () => ({
+      'aria-label': 'Этот заголовок',
+    }),
+  slugify: () => 'section',
   });
   config.setLibrary("md", markdownLibrary);
 
