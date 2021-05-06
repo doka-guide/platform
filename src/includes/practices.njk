@@ -1,8 +1,11 @@
 {% set pagePractice = collections.practice | keepRelatedTo(page) %}
 
 {% if pagePractice.length > 0 %}
-  <section class="practices">
-    <h2 class="practices__title">В работе</h2>
+  <section class="practices" id="practices">
+    <h2 class="practices__title">
+      В работе
+      <a class="direct-link" href="#practices" aria-label="Все практики">#</a>
+    </h2>
 
     {% for practice in pagePractice %}
       <article>
