@@ -83,9 +83,7 @@ module.exports = function(config) {
   config.addTransform('fix-demos', (content, outputPath) => {
     if(outputPath && outputPath.endsWith('.html')) {
       let iframePath = /src="\.\.\/demos\//ig;
-      content = content.replace(iframePath, (math) => {
-        return `src="./demos/`
-      })
+      content = content.replace(iframePath, 'src="./demos/')
     }
     return content;
   })
