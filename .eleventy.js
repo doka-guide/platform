@@ -80,7 +80,9 @@ module.exports = function(config) {
     return content
   })
 
-  // Правит пути к демкам внутри советов
+  // Правит пути к демкам, которые вставлены в раздел «В работе». 
+  // Чтобы сослаться на демку из раздела «В работе» используется относительный путь "../demos/index.html". 
+  // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет "../demos/index.html" на "./demos/index.html"
   config.addTransform('fixDemos', (content, outputPath) => {
     if(outputPath && outputPath.endsWith('.html')) {
       let iframePath = /src="\.\.\/demos\//ig
