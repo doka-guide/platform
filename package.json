@@ -32,7 +32,7 @@
     "gulp-esbuild": "^0.7.6",
     "gulp-git": "^2.10.1",
     "gulp-postcss": "^9.0.0",
-    "gulp-replace": "^1.1.2",
+    "gulp-replace": "^1.1.3",
     "gulp-shell": "^0.8.0",
     "html-minifier": "^4.0.0",
     "postcss": "^8.2.14",
