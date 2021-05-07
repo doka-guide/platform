@@ -80,7 +80,7 @@ module.exports = function(config) {
     return content
   })
 
-  // After executing {% include "practices.njk"%}, the paths in the <iframe> with the demo are broken, because in the content these paths are specified relatively, and the {% include %} function takes the practices to a higher level. This transformation is necessary to edit the paths.
+  // Правит пути к демкам внутри советов
   config.addTransform('fix-demos', (content, outputPath) => {
     if(outputPath && outputPath.endsWith('.html')) {
       let iframePath = /src="\.\.\/demos\//ig;
