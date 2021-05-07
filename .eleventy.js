@@ -81,7 +81,7 @@ module.exports = function(config) {
   })
 
   // Правит пути к демкам внутри советов
-  config.addTransform('fix-demos', (content, outputPath) => {
+  config.addTransform('fixDemos', (content, outputPath) => {
     if(outputPath && outputPath.endsWith('.html')) {
       let iframePath = /src="\.\.\/demos\//ig
       content = content.replace(iframePath, 'src="./demos/')
