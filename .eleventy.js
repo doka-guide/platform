@@ -8,6 +8,7 @@ const {
 } = require("./config/constants.js")
 const markdownIt = require("markdown-it")
 const markdownItAnchor = require("markdown-it-anchor")
+const { slugify } = require("transliteration")
 
 module.exports = function(config) {
 
@@ -41,7 +42,7 @@ module.exports = function(config) {
     permalinkAttrs: () => ({
       'aria-label': 'Этот заголовок',
     }),
-    slugify: () => 'section',
+    slugify
   })
   config.setLibrary("md", markdownLibrary)
 
