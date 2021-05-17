@@ -30,7 +30,7 @@ module.exports = function(config) {
     )
   })
 
-  // Customize Markdown library and settings:
+  // Настраивает markdown-it
   let markdownLibrary = markdownIt({
     html: true,
     breaks: true,
