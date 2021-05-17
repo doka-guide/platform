@@ -6,6 +6,9 @@ const {
   contentRepLink,
   feedbackFormName
 } = require("./config/constants.js")
+const markdownIt = require("markdown-it")
+const markdownItAnchor = require("markdown-it-anchor")
+const { slugify } = require("transliteration")
 
 module.exports = function(config) {
 
@@ -27,6 +30,22 @@ module.exports = function(config) {
     )
   })
 
+  // Настраивает markdown-it
+  let markdownLibrary = markdownIt({
+    html: true,
+    breaks: true,
+    linkify: true
+  }).use(markdownItAnchor, {
+    permalink: true,
+    permalinkClass: "direct-link",
+    permalinkSymbol: "#",
+    permalinkAttrs: () => ({
+      'aria-label': 'Этот заголовок',
+    }),
+    slugify
+  })
+  config.setLibrary("md", markdownLibrary)
+
   // Add all shortcodes
   config.addShortcode("dokaOrgLink", function() {
     return dokaOrgLink;
@@ -38,11 +57,11 @@ module.exports = function(config) {
 
   config.addShortcode("contentRepLink", function() {
     return contentRepLink;
-  });
+  })
 
   config.addShortcode("feedbackFormName", function() {
     return feedbackFormName;
-  });
+  })
 
   config.addFilter('ruDate', (value) => {
     return value.toLocaleString('ru', {
