@@ -1,15 +1,15 @@
-name: Deploy Platform With Content
+name: Публикация сайта на Netlify
 
 on:
   push:
     branches:
-      - main
+      - service/actions
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Загрузка platform
+      - name: Загрузка платформы
         uses: actions/checkout@v2
       - name: Загрузка контента
         uses: actions/checkout@v2
@@ -34,9 +34,7 @@ jobs:
           node make-links.js --default
           npm run build
       - name: Публикация сайта
-        uses: netlify/actions/cli@master
-        with:
-          args: deploy --dir=dist --message='Публикация платформы (https://github.com/Y-Doka/platform/commit/${{ github.sha }})' --prod
+        run: npx netlify deploy --dir=dist --message='Публикация платформы (https://github.com/Y-Doka/platform/commit/${{ github.sha }})' --prod
         env:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
