@@ -3,7 +3,7 @@ name: Публикация сайта на Netlify
 on:
   push:
     branches:
-      - service/actions
+      - main
 
 jobs:
   deploy:
