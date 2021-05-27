@@ -13,3 +13,15 @@
   margin: 0;
   height: 100%;
 }
+
+/* Content container */
+
+.base__container {
+  width: 100%;
+  max-width: 1440px;
+  padding: 0 30px;
+}
+
+.base__container iframe {
+  max-width: 100%;
+}
