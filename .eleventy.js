@@ -104,14 +104,8 @@ module.exports = function(config) {
   // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет "../demos/index.html" на "./demos/index.html"
   config.addTransform('fixDemos', (content, outputPath) => {
     if(outputPath && outputPath.endsWith('.html')) {
-      let demosPath = /src="\.\.\/demos\//ig
-      let imagesPath = /src="\.\.\/images\//ig
-      let videoPath = /src="\.\.\/video\//ig
-      let audioPath = /src="\.\.\/audio\//ig
-      content = content.replace(demosPath, 'src="./demos/')
-      content = content.replace(imagesPath, 'src="./images/')
-      content = content.replace(videoPath, 'src="./video/')
-      content = content.replace(audioPath, 'src="./audio/')
+      let oldPath = /src="\.\.\//ig
+      content = content.replace(oldPath, 'src="./')
     }
     return content
   })
