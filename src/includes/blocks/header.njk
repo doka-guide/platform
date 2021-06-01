@@ -1,0 +1,7 @@
+<header class="header">
+  {% if page.url !== '/' %}<a href="/">{% endif %}
+
+  {% include "blocks/logo.njk" %}
+
+  {% if page.url !== '/' %}</a>{% endif %}
+</header>

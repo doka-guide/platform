@@ -1,10 +1,6 @@
 <aside class="aside">
 
-  <header class="header">
-    <a href="/">
-      {% include "ui/logo.njk" %}
-    </a>
-  </header>
+  {% include "blocks/header.njk" %}
 
   <nav class="aside__nav">
     {% if collections.html | length %}
@@ -53,7 +49,7 @@
   </nav>
 
   <div class="aside__footer">
-    {% include "footer.njk" %}
+    {% include "blocks/footer.njk" %}
     <button class="aside__arrow-btn" type="button" aria-label="Скрыть навигацию"></button>
   </div>
 </aside>
