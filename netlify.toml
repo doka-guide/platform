@@ -5,6 +5,9 @@
 [context.production.environment]
     ELEVENTY_ENV = "production"
 
+[functions]
+    directory = "serverless"
+
 [[headers]]
     for = "/*"
     [headers.values]
