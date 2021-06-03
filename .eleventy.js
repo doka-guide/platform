@@ -105,8 +105,14 @@ module.exports = function(config) {
   // Такие же правила применяются к остальному типу контента. В других случаях на два уровня вверх в статьях мы не ходим.
   config.addTransform('fixDemos', (content, outputPath) => {
     if(outputPath && outputPath.endsWith('.html')) {
-      let oldPath = /src="\.\.\//ig
-      content = content.replace(oldPath, 'src="./')
+      let demosPath = /src="\.\.\/demos\//ig
+      let imagesPath = /src="\.\.\/images\//ig
+      let videoPath = /src="\.\.\/video\//ig
+      let audioPath = /src="\.\.\/audio\//ig
+      content = content.replace(demosPath, 'src="./demos/')
+      content = content.replace(imagesPath, 'src="./images/')
+      content = content.replace(videoPath, 'src="./video/')
+      content = content.replace(audioPath, 'src="./audio/')
     }
     return content
   })
