@@ -73,7 +73,9 @@ module.exports = function(config) {
     let metadata = await Image(src, {
       // TODO: Надо описать размеры в соответствии с дизайном
       width: [300, 600],
-      formats: ['webp', 'jpeg', 'png']
+      formats: ['webp', 'jpeg', 'png'],
+      // TODO: Принимать путь файла и класть его в нужное место
+      outputDir: "dist/images/"
     })
 
     let lowsrc = metadata.jpeg[0]
