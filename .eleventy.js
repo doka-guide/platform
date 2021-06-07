@@ -9,6 +9,7 @@ const {
 const markdownIt = require("markdown-it")
 const markdownItAnchor = require("markdown-it-anchor")
 const { slugify } = require("transliteration")
+const Image = require("@11ty/eleventy-img")
 
 module.exports = function(config) {
 
@@ -63,6 +64,25 @@ module.exports = function(config) {
     return feedbackFormName;
   })
 
+  // Добавляет работу плагина Image для обработки картинок
+  config.addShortcode("image", async function (src, alt, sizes = "100vw") {
+    if(alt === undefined) {
+      throw new Error(`Отсутствует \`alt\` для изображения с адресом: ${src}`)
+    }
+
+    let metadata = await Image(src, {
+      // TODO: Надо описать размеры в соответствии с дизайном
+      width: [300, 600],
+      formats: ['webp', 'jpeg', 'png']
+    })
+
+    let lowsrc = metadata.jpeg[0]
+
+    return `<picture>${Object.values(metadata).map(imageFormat => {
+      return `<source type="${imageFormat[0].sourceType}" srcset="${imageFormat.map(entry => entry.srcset).join(", ")}" sizes="${sizes}">`
+    }).join("\n")}<img src="${lowsrc.url}" width="${lowsrc.width}" height="${lowsrc.heigh}" alt="${alt}" loading="lazy" decoding="async"></picture>`
+  })
+
   config.addFilter('ruDate', (value) => {
     return value.toLocaleString('ru', {
       year: 'numeric',
@@ -99,8 +119,8 @@ module.exports = function(config) {
     return content
   })
 
-  // Правит пути к демкам, которые вставлены в раздел «В работе». 
-  // Чтобы сослаться на демку из раздела «В работе» используется относительный путь "../demos/index.html". 
+  // Правит пути к демкам, которые вставлены в раздел «В работе».
+  // Чтобы сослаться на демку из раздела «В работе» используется относительный путь "../demos/index.html".
   // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет "../demos/index.html" на "./demos/index.html"
   config.addTransform('fixDemos', (content, outputPath) => {
     if(outputPath && outputPath.endsWith('.html')) {
