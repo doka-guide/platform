@@ -43,5 +43,8 @@
     "postcss-csso": "^5.0.1",
     "postcss-import": "^14.0.2",
     "transliteration": "^2.2.0"
+  },
+  "dependencies": {
+    "@11ty/eleventy-img": "^0.9.0"
   }
 }
