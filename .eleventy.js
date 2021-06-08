@@ -65,24 +65,30 @@ module.exports = function(config) {
   })
 
   // Добавляет работу плагина Image для обработки картинок
-  config.addShortcode("image", async function (src, alt, sizes = "100vw") {
-    if(alt === undefined) {
-      throw new Error(`Отсутствует \`alt\` для изображения с адресом: ${src}`)
-    }
+  config.addShortcode("image", (outputPath) => {
+    // Проверяет на то, что заменяться файл будет в статье
+    mainSections.forEach((section) => {
+      if (outputPath.contains(section)) {
+        let options = {
+          width: width,
+          formats: [null]
+        }
 
-    let metadata = await Image(src, {
-      // TODO: Надо описать размеры в соответствии с дизайном
-      width: [300, 600],
-      formats: ['webp', 'jpeg', 'png'],
-      // TODO: Принимать путь файла и класть его в нужное место
-      outputDir: "dist/images/"
+        Image(src, option)
+
+        let imageAtributes = {
+          class: cls,
+          alt,
+          sizes,
+          loading: "lazy",
+          decoding: "async",
+        }
+
+        metadata = Image.statsSync(src, options)
+
+        return Image.generateHTML(metadata, imageAtributes)
+      }
     })
-
-    let lowsrc = metadata.jpeg[0]
-
-    return `<picture>${Object.values(metadata).map(imageFormat => {
-      return `<source type="${imageFormat[0].sourceType}" srcset="${imageFormat.map(entry => entry.srcset).join(", ")}" sizes="${sizes}">`
-    }).join("\n")}<img src="${lowsrc.url}" width="${lowsrc.width}" height="${lowsrc.heigh}" alt="${alt}" loading="lazy" decoding="async"></picture>`
   })
 
   config.addFilter('ruDate', (value) => {
