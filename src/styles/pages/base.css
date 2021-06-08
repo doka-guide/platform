@@ -25,3 +25,8 @@
 .base__container iframe {
   max-width: 100%;
 }
+
+/* fix size picture https://new.y-doka.site/js/articles/async-in-js/ */
+article img {
+  max-width: 100%;
+}
