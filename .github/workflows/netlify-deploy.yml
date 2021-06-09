@@ -1,4 +1,4 @@
-name: Публикация сайта на Netlify
+name: Netlify Deploy
 
 on:
   push:

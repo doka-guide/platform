@@ -1,5 +1,7 @@
 # Платформа Доки
 
+[![Статус Netlify](https://github.com/Y-Doka/platform/workflows/Netlify%20Deploy/badge.svg)](https://github.com/Y-Doka/platform/actions?query=workflow%3ANetlify%20Deploy)
+
 Дока — это добрая энциклопедия для веб-разработчиков. Наша цель — сделать документацию по веб-разработке практичной, понятной и не унылой.
 
 Этот репозиторий содержит платформу для сайта «[Дока](https://y-doka.site/)». Платформа собирает статьи из [отдельного репозитория](https://github.com/y-doka/content).
