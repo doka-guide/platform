@@ -12,8 +12,8 @@
 
 В каждом репозитории описан свой воркфлоу для сборки, но они идентичны по содержанию:
 
-- [Воркфлоу контента](https://github.com/Y-Doka/content/blob/main/.github/workflows/netlify-deploy.yml)
-- [Воркфлоу платформы](https://github.com/Y-Doka/platform/blob/main/.github/workflows/netlify-deploy.yml)
+- [Воркфлоу контента](https://github.com/doka.guide/content/blob/main/.github/workflows/netlify-deploy.yml)
+- [Воркфлоу платформы](https://github.com/doka.guide/platform/blob/main/.github/workflows/netlify-deploy.yml)
 
 Сборка состоит из пяти этапов:
 
