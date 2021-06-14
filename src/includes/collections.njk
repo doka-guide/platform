@@ -2,53 +2,53 @@
 
 {% asyncAll section in sections %}
   {% if page.url !== '/all/'%}<details><summary>{% endif %}
-    {% if page.url === '/all/'%}<h2>{% endif %}
+  {% if page.url === '/all/'%}<h2>{% endif %}
 
 
-    {% if section == 'JS' %}
-      JavaScript
-      {% else %}
-      {% if section == 'TOOLS' %}
-        Инструменты
-      {% else %}
-      {{ section }}
-      {% endif %}
+  {% if section == 'JS' %}
+    JavaScript
+    {% else %}
+    {% if section == 'TOOLS' %}
+      Инструменты
+    {% else %}
+    {{ section }}
     {% endif %}
+  {% endif %}
 
-    {% if page.url !== '/all/'%}</summary>{% endif %}
-    {% if page.url === '/all/'%}</h2>{% endif %}
+  {% if page.url !== '/all/'%}</summary>{% endif %}
+  {% if page.url === '/all/'%}</h2>{% endif %}
 
-    {% if section == 'HTML'%}
-    <ul>
-      {% for post in collections.html %}
-        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-      {% endfor %}
-    </ul>
-    {% endif %}
+  {% if section == 'HTML'%}
+  <ul>
+    {% for post in collections.html %}
+      <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
 
-    {% if section == 'CSS'%}
-    <ul>
-      {% for post in collections.css %}
-        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-      {% endfor %}
-    </ul>
-    {% endif %}
+  {% if section == 'CSS'%}
+  <ul>
+    {% for post in collections.css %}
+      <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
 
-    {% if section == 'JS'%}
-    <ul>
-      {% for post in collections.js %}
-        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-      {% endfor %}
-    </ul>
-    {% endif %}
+  {% if section == 'JS'%}
+  <ul>
+    {% for post in collections.js %}
+      <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
 
-    {% if section == 'TOOLS'%}
-    <ul>
-      {% for post in collections.tools %}
-        <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-      {% endfor %}
-    </ul>
-    {% endif %}
+  {% if section == 'TOOLS'%}
+  <ul>
+    {% for post in collections.tools %}
+      <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
 
-    {% if page.url !== '/all/'%}</details>{% endif %}
+  {% if page.url !== '/all/'%}</details>{% endif %}
 {% endall %}
