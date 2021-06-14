@@ -1,3 +1,4 @@
+{% if collections.html | length %}
 {% if page.url !== '/all/'%}<details><summary>{% endif %}
 {% if page.url === '/all/'%}<h2>{% endif %}
 HTML
@@ -9,3 +10,4 @@ HTML
   {% endfor %}
 </ul>
 {% if page.url !== '/all/'%}</details>{% endif %}
+{% endif %}

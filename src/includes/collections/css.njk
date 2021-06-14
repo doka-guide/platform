@@ -1,3 +1,4 @@
+{% if collections.css | length %}
 {% if page.url !== '/all/'%}<details><summary>{% endif %}
 {% if page.url === '/all/'%}<h2>{% endif %}
 CSS
@@ -9,3 +10,4 @@ CSS
   {% endfor %}
 </ul>
 {% if page.url !== '/all/'%}</details>{% endif %}
+{% endif %}
