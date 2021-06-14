@@ -14,19 +14,8 @@ module.exports = function(config) {
 
   // Add all Tags
   mainSections.forEach((section) => {
-    let subSectionArticles = section + 'Articles'
-    let subSectionDoka = section + 'Doka'
-
     config.addCollection(section, (collectionApi) =>
       collectionApi.getFilteredByGlob(`src/${section}/**/index.md`)
-    )
-
-    config.addCollection(subSectionArticles, (collectionApi) =>
-      collectionApi.getFilteredByGlob(`src/${section}/articles/**/index.md`)
-    )
-
-    config.addCollection(subSectionDoka, (collectionApi) =>
-      collectionApi.getFilteredByGlob(`src/${section}/doka/**/index.md`)
     )
   })
 
@@ -99,8 +88,8 @@ module.exports = function(config) {
     return content
   })
 
-  // Правит пути к демкам, которые вставлены в раздел «В работе». 
-  // Чтобы сослаться на демку из раздела «В работе» используется относительный путь "../demos/index.html". 
+  // Правит пути к демкам, которые вставлены в раздел «В работе».
+  // Чтобы сослаться на демку из раздела «В работе» используется относительный путь "../demos/index.html".
   // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет "../demos/index.html" на "./demos/index.html"
   config.addTransform('fixDemos', (content, outputPath) => {
     if(outputPath && outputPath.endsWith('.html')) {

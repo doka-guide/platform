@@ -3,49 +3,10 @@
   {% include "blocks/header.njk" %}
 
   <nav class="aside__nav">
-    {% if collections.html | length %}
-    <details class="aside__details">
-      <summary>HTML</summary>
-
-      {% include "collections/html-articles.njk" %}
-
-      {% include "collections/html-doka-list.njk" %}
-
-    </details>
-    {% endif %}
-
-    {% if collections.css | length %}
-    <details class="aside__details">
-      <summary>CSS</summary>
-
-      {% include "collections/css-articles.njk" %}
-
-      {% include "collections/css-doka-list.njk" %}
-
-    </details>
-    {% endif %}
-
-    {% if collections.js | length %}
-    <details class="aside__details">
-      <summary>JavaScript</summary>
-
-      {% include "collections/js-articles.njk" %}
-
-      {% include "collections/js-doka-list.njk" %}
-
-    </details>
-    {% endif %}
-
-    {% if collections.tools | length %}
-    <details class="aside__details">
-      <summary>Инструменты</summary>
-
-      {% include "collections/tools-articles.njk" %}
-
-      {% include "collections/tools-doka-list.njk" %}
-
-    </details>
-    {% endif %}
+    {% include "collections/html.njk" %}
+    {% include "collections/css.njk" %}
+    {% include "collections/js.njk" %}
+    {% include "collections/tools.njk" %}
   </nav>
 
   <div class="aside__footer">
