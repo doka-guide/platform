@@ -1,0 +1,65 @@
+{% set sections = ["HTML", "CSS", "JS", "TOOLS"] %}
+
+{% macro list(title) %}
+
+{% if title == 'HTML'%}
+<ul>
+  {% for post in collections.html %}
+    <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if title == 'CSS'%}
+<ul>
+  {% for post in collections.css %}
+    <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if title == 'JS'%}
+<ul>
+  {% for post in collections.js %}
+    <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if title == 'TOOLS'%}
+<ul>
+  {% for post in collections.tools %}
+    <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% endmacro %}
+
+
+{% macro collection(title) %}
+  {% if page.url !== '/all/'%}<details><summary>{% endif %}
+  {% if page.url === '/all/'%}<h2>{% endif %}
+
+
+  {% if title == 'JS' %}
+    JavaScript
+    {% else %}
+    {% if title == 'TOOLS' %}
+      Инструменты
+    {% else %}
+    {{ title }}
+    {% endif %}
+  {% endif %}
+
+  {% if page.url !== '/all/'%}</summary>{% endif %}
+  {% if page.url === '/all/'%}</h2>{% endif %}
+
+  {{ list(title) }}
+
+  {% if page.url !== '/all/'%}</details>{% endif %}
+{% endmacro %}
+
+{% asyncAll section in sections %}
+  {{ collection(section)}}
+{% endall %}
