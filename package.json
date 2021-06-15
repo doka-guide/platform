@@ -36,7 +36,7 @@
     "gulp-shell": "^0.8.0",
     "html-minifier": "^4.0.0",
     "markdown-it": "^12.0.6",
-    "markdown-it-anchor": "^7.1.0",
+    "markdown-it-anchor": "^8.0.0",
     "netlify": "^6.1.29",
     "postcss": "^8.3.2",
     "postcss-cli": "^8.3.1",
