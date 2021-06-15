@@ -1,1 +1,1 @@
-// import "./modules/module.js"
+import "./modules/aside.js"
