@@ -12,7 +12,7 @@
   path: 'tools'
 }] %}
 
-{% asyncAll section in sections %}
+{% for section in sections %}
   {% if page.url !== '/all/'%}<details><summary>{% endif %}
   {% if page.url === '/all/'%}<h2>{% endif %}
 
@@ -55,4 +55,4 @@
   {% endif %}
 
   {% if page.url !== '/all/'%}</details>{% endif %}
-{% endall %}
+{% endfor %}
