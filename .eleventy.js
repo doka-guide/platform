@@ -71,7 +71,7 @@ module.exports = function(config) {
 
     if (counter >= 86400) {
       counter = Math.round(counter/86400)
-      if ((counter.length - 1) >= 5 || (counter.length - 1) >= 5) {
+      if (counter >= 5 || (counter.length - 1) >= 5) {
         piece = 'дней'
       } else if (counter >= 2 || (counter.length - 1) >= 2) {
         piece = 'дня'
@@ -80,7 +80,7 @@ module.exports = function(config) {
       }
     } else if (counter >= 3600) {
       counter = Math.round(counter/3600)
-      if ((counter.length - 1) >= 5 || (counter.length - 1) >= 5) {
+      if (counter >= 5 || (counter.length - 1) >= 5) {
         piece = 'часов'
       } else if (counter >= 2 || (counter.length - 1) >= 2) {
         piece = 'часа'
@@ -89,7 +89,7 @@ module.exports = function(config) {
       }
     } else if (counter >= 60) {
       counter = Math.round(counter/60)
-      if ((counter.length - 1) >= 5 || (counter.length - 1) >= 5) {
+      if (counter >= 5 || (counter.length - 1) >= 5) {
         piece = 'минут'
       } else if (counter >= 2 || (counter.length - 1) >= 2) {
         piece = 'минуты'
