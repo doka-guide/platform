@@ -34,7 +34,9 @@ jobs:
           node make-links.js --default
           npm run build
       - name: Публикация сайта
-        run: npx netlify deploy --dir=dist --message='Публикация платформы (https://github.com/Y-Doka/platform/commit/${{ github.sha }})' --prod
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=dist --message='Публикация платформы (https://github.com/doka-guide/platform/commit/${{ github.sha }})' --prod
         env:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
