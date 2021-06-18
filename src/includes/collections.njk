@@ -22,37 +22,15 @@
   {% if page.url !== '/all/'%}</summary>{% endif %}
   {% if page.url === '/all/'%}</h2>{% endif %}
 
-  {% if section.path == 'html'%}
-  <ul>
-    {% for post in collections.html %}
-      <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-
-  {% if section.path == 'css'%}
-  <ul>
-    {% for post in collections.css %}
-      <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-
-  {% if section.path == 'js'%}
-  <ul>
-    {% for post in collections.js %}
-      <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-
-  {% if section.path == 'tools'%}
-  <ul>
-    {% for post in collections.tools %}
-      <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-    {% endfor %}
-  </ul>
-  {% endif %}
+  {% for type in ['js', 'css', 'html', 'tools'] %}
+   {% if section.path == type %}
+     <ul>
+       {% for post in collections[type] %}
+         <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+       {% endfor %}
+     </ul>
+     {% endif %}
+  {% endfor %}
 
   {% if page.url !== '/all/'%}</details>{% endif %}
 {% endfor %}
