@@ -69,44 +69,29 @@ module.exports = function(config) {
     let counter = new Date().getTime()/1000-(new Date(date).getTime()/1000)
     let piece;
 
+    const rtf = new Intl.RelativeTimeFormat("ru", {
+      localeMatcher: "best fit",
+      numeric: "always",
+      style: "long",
+    });
+
     if (counter >= 86400) {
       counter = Math.round(counter/86400)
-      if (counter >= 5 || (counter.length - 1) >= 5) {
-        piece = 'дней'
-      } else if (counter >= 2 || (counter.length - 1) >= 2) {
-        piece = 'дня'
-      } else {
-        piece = 'день'
-      }
+      piece = 'day'
     } else if (counter >= 3600) {
       counter = Math.round(counter/3600)
-      if (counter >= 5 || (counter.length - 1) >= 5) {
-        piece = 'часов'
-      } else if (counter >= 2 || (counter.length - 1) >= 2) {
-        piece = 'часа'
-      } else {
-        piece = 'час'
-      }
+      piece = 'hour'
     } else if (counter >= 60) {
       counter = Math.round(counter/60)
-      if (counter >= 5 || (counter.length - 1) >= 5) {
-        piece = 'минут'
-      } else if (counter >= 2 || (counter.length - 1) >= 2) {
-        piece = 'минуты'
-      } else {
-        piece = 'минуту'
-      }
+      piece = 'minute'
     } else {
       counter = Math.round(counter)
-      if (counter >= 5 || (counter.length - 1) >= 5) {
-        piece = 'секунд'
-      } else if (counter >= 2 || (counter.length - 1) >= 2) {
-        piece = 'секунды'
-      } else {
-        piece = 'секунду'
-      }
+      piece = 'second'
     }
-    return `Отредактировано: ` + counter + ` ` + piece + ` назад`
+
+    let rtfDate = rtf.format(-counter, piece)
+
+    return `Отредактировано: ` + rtfDate
   })
 
   config.addFilter('ruDate', (value) => {
