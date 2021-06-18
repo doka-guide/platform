@@ -13,14 +13,21 @@
 }] %}
 
 {% for section in sections %}
-  {% if page.url !== '/all/'%}<details><summary>{% endif %}
-  {% if page.url === '/all/'%}<h2>{% endif %}
+  {% if page.url !== '/all/'%}
+    <details>
+      <summary>
+  {% else %}
+    <h2>
+  {% endif %}
 
 
   {{section.title}}
 
-  {% if page.url !== '/all/'%}</summary>{% endif %}
-  {% if page.url === '/all/'%}</h2>{% endif %}
+  {% if page.url !== '/all/'%}
+    </summary>
+  {% else %}
+    </h2>
+  {% endif %}
 
   {% for type in ['js', 'css', 'html', 'tools'] %}
    {% if section.path == type %}
