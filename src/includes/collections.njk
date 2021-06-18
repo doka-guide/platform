@@ -1,19 +1,12 @@
-{% set sections = [{
-  title: 'HTML',
-  path: 'html'
-},{
-  title: 'CSS',
-  path: 'css'
-},{
-  title: 'JavaScript',
-  path: 'js'
-},{
-  title: 'Инструменты',
-  path: 'tools'
-}] %}
+{% set sections = {
+  html: 'HTML',
+  css: 'CSS',
+  js: 'JavaScript',
+  tools: 'Инструменты'
+} %}
 
-{% for section in sections %}
-  {% if page.url !== '/all/'%}
+{% for path, title in sections %}
+  {% if page.url !== '/all/' %}
     <details>
       <summary>
   {% else %}
@@ -21,7 +14,7 @@
   {% endif %}
 
 
-  {{ section.title }}
+  {{ title }}
 
   {% if page.url !== '/all/'%}
     </summary>
@@ -29,15 +22,11 @@
     </h2>
   {% endif %}
 
-  {% for type in ['js', 'css', 'html', 'tools'] %}
-   {% if section.path == type %}
-     <ul>
-       {% for post in collections[type] %}
-         <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
-       {% endfor %}
-     </ul>
-     {% endif %}
-  {% endfor %}
+   <ul>
+     {% for post in collections[path] %}
+       <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+     {% endfor %}
+   </ul>
 
   {% if page.url !== '/all/'%}</details>{% endif %}
 {% endfor %}
