@@ -1,2 +1,4 @@
 User-Agent: *
 Allow: /
+
+Sitemap: http://doka.guide/sitemap.xml
