@@ -14,19 +14,8 @@ module.exports = function(config) {
 
   // Add all Tags
   mainSections.forEach((section) => {
-    let subSectionArticles = section + 'Articles'
-    let subSectionDoka = section + 'Doka'
-
     config.addCollection(section, (collectionApi) =>
       collectionApi.getFilteredByGlob(`src/${section}/**/index.md`)
-    )
-
-    config.addCollection(subSectionArticles, (collectionApi) =>
-      collectionApi.getFilteredByGlob(`src/${section}/articles/**/index.md`)
-    )
-
-    config.addCollection(subSectionDoka, (collectionApi) =>
-      collectionApi.getFilteredByGlob(`src/${section}/doka/**/index.md`)
     )
   })
 

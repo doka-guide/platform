@@ -6,35 +6,5 @@ permalink: all/index.html
 <!-- table of content -->
 
 <div class="toc">
-  {% if collections.html | length %}
-  <section class="toc__block">
-    <h2>HTML</h2>
-    {% include "collections/html-articles-list.njk" %}
-    {% include "collections/html-doka-list.njk" %}
-  </section>
-  {% endif %}
-
-  {% if collections.css | length %}
-  <section class="toc__block">
-    <h2>CSS</h2>
-    {% include "collections/css-articles-list.njk" %}
-    {% include "collections/css-doka-list.njk" %}
-  </section>
-  {% endif %}
-
-  {% if collections.js | length %}
-  <section class="toc__block">
-    <h2>JavaScript</h2>
-    {% include "collections/js-articles-list.njk" %}
-    {% include "collections/js-doka-list.njk" %}
-  </section>
-  {% endif %}
-
-  {% if collections.tools | length %}
-  <section class="toc__block">
-    <h2>Инструменты</h2>
-    {% include "collections/tools-articles-list.njk" %}
-    {% include "collections/tools-doka-list.njk" %}
-  </section>
-  {% endif %}
+  {% include "collections.njk" %}
 </div>
