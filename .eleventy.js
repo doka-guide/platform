@@ -102,6 +102,11 @@ module.exports = function(config) {
     return value.toISOString()
   })
 
+  // Фильтрует теги
+  config.addFilter("filterTagListStubOnly", tags => {
+    return (tags || []).filter(tag => ["doka", "article"].indexOf(tag) === -1);
+  })
+
   config.addTransform('htmlmin', (content, outputPath) => {
     if (outputPath) {
       let isHtml = outputPath.endsWith('.html')

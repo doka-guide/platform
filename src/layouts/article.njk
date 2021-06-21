@@ -29,6 +29,10 @@
 
           <p>{% lastModified page.date %}</p>
 
+          {% for tag in tags | filterTagListStubOnly %}
+            {% include "stub.njk" %}
+          {% endfor %}
+
           {{ content | safe }}
 
         </article>
