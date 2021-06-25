@@ -141,8 +141,6 @@ module.exports = function(config) {
   config.addPassthroughCopy('src/favicon.ico')
   config.addPassthroughCopy('src/manifest.json')
   config.addPassthroughCopy('src/fonts')
-  config.addPassthroughCopy('src/styles')
-  config.addPassthroughCopy('src/scripts')
   config.addPassthroughCopy('src/**/*.(html|gif|jpg|png|svg|mp4|webm|zip)')
 
   return {
