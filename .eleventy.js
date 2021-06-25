@@ -12,6 +12,19 @@ const { slugify } = require("transliteration")
 
 module.exports = function(config) {
 
+  config.setBrowserSyncConfig({
+    server: {
+      baseDir: [
+        './dist',
+        './src'
+      ]
+    },
+    files: [
+      'src/styles/**/*.*',
+      'src/scripts/**/*.*'
+    ],
+  })
+
   // Add all Tags
   mainSections.forEach((section) => {
     config.addCollection(section, (collectionApi) =>
