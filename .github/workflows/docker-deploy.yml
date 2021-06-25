@@ -3,7 +3,7 @@ name: Docker Deploy
 on:
   push:
     branches:
-      - main
+      - feature/docker-hub
 
 jobs:
   docker:
