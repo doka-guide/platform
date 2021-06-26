@@ -102,6 +102,10 @@ module.exports = function(config) {
     return value.toISOString()
   })
 
+  config.addFilter('fullDateString', (value) => {
+    return value.toISOString().split('T')[0]
+  })
+
   config.addTransform('htmlmin', (content, outputPath) => {
     if (outputPath) {
       let isHtml = outputPath.endsWith('.html')
