@@ -1,16 +1,14 @@
-{% set pagePractice = collections.practice | keepRelatedTo(page) %}
-
-{% if pagePractice.length > 0 %}
+{% if practices.length > 0 %}
   <section class="practices" id="practices">
     <h2 class="practices__title">
       В работе
       <a href="#practices" aria-label="Все практики">#</a>
     </h2>
 
-    {% for practice in pagePractice %}
+    {% for practice in practices %}
       <article>
         <h3 class="practices__author">@{{ practice.fileSlug }}</h3>
-        {{ practice.data.content | safe }}
+        {{ practice.templateContent | safe }}
       </article>
     {% endfor %}
 

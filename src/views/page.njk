@@ -1,0 +1,12 @@
+---
+layout: simple-page.njk
+pagination:
+  data: collections.pages
+  size: 1
+  alias: pageObject
+permalink: "{{ (pageObject.data.location or pageObject.fileSlug) | slug }}/index.html"
+eleventyComputed:
+  title: "{{ pageObject.data.title }}"
+---
+
+{{ pageObject.templateContent | safe }}

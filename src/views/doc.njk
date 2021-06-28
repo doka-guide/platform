@@ -1,31 +1,26 @@
----
-layout: 'base.njk'
-bodyClass: 'aside-page'
----
-
 {% include "blocks/aside.njk" %}
 
 <main>
   <div class="aside-page__content base__container">
 
     <article>
-      {% if cover %}
+      {% if doc.cover %}
         <picture>
           {% if cover.mobile %}
-          <source srcset="{{ cover.mobile }}" media="(max-width: 425px)">
+          <source srcset="{{ doc.cover.mobile }}" media="(max-width: 425px)">
           {% endif%}
-          <img src="{{ cover.desktop }}" width="900" height="537" alt="{{ cover.alt }}">
+          <img src="{{ doc.cover.desktop }}" width="900" height="537" alt="{{ doc.cover.alt }}">
         </picture>
       {% endif%}
 
       <h1>{{ title }}</h1>
-      <a href="{% contentRepLink %}/blob/main{{ page.url }}" target="_blank">
+      <a href="{% contentRepLink %}/blob/main{{ docPath }}" target="_blank">
         Отредактировать на GitHub
       </a>
 
-      <p>{% lastModified page.date %}</p>
+      <p>{% lastModified doc.data.page.date %}</p>
 
-      {{ content | safe }}
+      {{ doc.templateContent | safe }}
 
     </article>
 
