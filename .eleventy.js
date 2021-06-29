@@ -103,9 +103,9 @@ module.exports = function(config) {
   })
 
   // Фильтрует теги
-  config.addFilter("filterTagListStubOnly", tags => {
-    return (tags || []).filter(tag => ["doka", "article"].indexOf(tag) === -1);
-  })
+  config.addFilter("hasTag", (tags, tag) => {
+    return tags.includes(tag);
+  });
 
   config.addTransform('htmlmin', (content, outputPath) => {
     if (outputPath) {

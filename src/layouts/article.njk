@@ -29,9 +29,9 @@
 
           <p>{% lastModified page.date %}</p>
 
-          {% for tag in tags | filterTagListStubOnly %}
+          {% if tags | hasTag('placeholder') %}
             {% include "stub.njk" %}
-          {% endfor %}
+          {% endif %}
 
           {{ content | safe }}
 
