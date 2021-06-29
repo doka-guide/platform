@@ -108,7 +108,7 @@ module.exports = function(config) {
   
   // Фильтрует теги
   config.addFilter("hasTag", (tags, tag) => {
-    return tags.includes(tag);
+    return (tags || []).includes(tag);
   });
 
   config.addTransform('htmlmin', (content, outputPath) => {
