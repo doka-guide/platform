@@ -22,26 +22,39 @@
     "editorconfig": "editorconfig-checker",
     "test": "npm run editorconfig"
   },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.css": "stylelint --fix"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "preserveUnused": true
+  },
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
     "autoprefixer": "^10.2.6",
     "del": "^6.0.0",
     "dotenv": "^10.0.0",
     "esbuild": "^0.12.9",
+    "eslint": "^7.29.0",
     "gulp": "^4.0.2",
-    "gulp-esbuild": "^0.8.1",
+    "gulp-esbuild": "^0.8.2",
     "gulp-git": "^2.10.1",
     "gulp-postcss": "^9.0.0",
     "gulp-replace": "^1.1.3",
     "gulp-shell": "^0.8.0",
     "html-minifier": "^4.0.0",
+    "lint-staged": "^11.0.0",
     "markdown-it": "^12.0.6",
-    "markdown-it-anchor": "^8.0.0",
-    "netlify": "^6.1.29",
+    "markdown-it-anchor": "^8.0.3",
+    "netlify-cli": "^3.37.37",
     "postcss": "^8.3.5",
     "postcss-cli": "^8.3.1",
     "postcss-csso": "^5.0.1",
     "postcss-import": "^14.0.2",
+    "simple-git-hooks": "^2.4.1",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0",
     "transliteration": "^2.2.0"
   }
 }

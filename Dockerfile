@@ -3,7 +3,7 @@ FROM node:lts-alpine
 WORKDIR /platform
 COPY . .
 
-RUN npm install \
+RUN npm ci \
 && node make-links.js --default
 
 VOLUME /platform/content

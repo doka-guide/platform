@@ -102,6 +102,10 @@ module.exports = function(config) {
     return value.toISOString()
   })
 
+  config.addFilter('fullDateString', (value) => {
+    return value.toISOString().split('T')[0]
+  })
+  
   // Фильтрует теги
   config.addFilter("hasTag", (tags, tag) => {
     return tags.includes(tag);
@@ -145,6 +149,7 @@ module.exports = function(config) {
 
   config.addPassthroughCopy('src/favicon.ico')
   config.addPassthroughCopy('src/manifest.json')
+  config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
   config.addPassthroughCopy('src/styles')
   config.addPassthroughCopy('src/scripts')
