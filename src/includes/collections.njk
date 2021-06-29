@@ -7,15 +7,15 @@
 
 {% set isAllPage = page.url === '/all/' %}
 
-{% macro simpleSection(title, chidlren) %}
+{% macro simpleSection(title, children) %}
   <h2>{{ title }}</h2>
-  {{ chidlren | safe }}
+  {{ children | safe }}
 {% endmacro %}
 
-{% macro detailsSection(title, chidlren) %}
+{% macro detailsSection(title, children) %}
   <details>
     <summary>{{ title }}</summary>
-    {{ chidlren | safe }}
+    {{ children | safe }}
   </details>
 {% endmacro %}
 
@@ -30,5 +30,5 @@
 
   {% set viewComponent = simpleSection if isAllPage else detailsSection %}
 
-  {{ viewComponent(title=title, chidlren=docList) }}
+  {{ viewComponent(title=title, children=docList) }}
 {% endfor %}
