@@ -38,7 +38,7 @@
     "esbuild": "^0.12.9",
     "eslint": "^7.29.0",
     "gulp": "^4.0.2",
-    "gulp-esbuild": "^0.8.2",
+    "gulp-esbuild": "^0.8.3",
     "gulp-git": "^2.10.1",
     "gulp-postcss": "^9.0.0",
     "gulp-replace": "^1.1.3",
