@@ -18,7 +18,7 @@ module.exports = {
     },
 
     authors: function(data) {
-      const { doc } = data;
+      const { doc } = data
       return doc.data.authors
     },
 
