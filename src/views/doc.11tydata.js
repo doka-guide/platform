@@ -14,12 +14,21 @@ module.exports = {
   eleventyComputed: {
     title: function(data) {
       const { doc } = data
-
       return doc.data.title
     },
 
+    authors: function(data) {
+      const { doc } = data
+      return doc.data.authors
+    },
+
+    contributors: function(data) {
+      const { doc } = data
+      return doc.data.contributors
+    },
+
     docPath: function(data) {
-      return data.doc.filePathStem.replace('index', '');
+      return data.doc.filePathStem.replace('index', '')
     },
 
     practices: function(data) {
