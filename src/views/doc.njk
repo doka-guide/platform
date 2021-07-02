@@ -20,6 +20,10 @@
 
       <p>{% lastModified doc.data.page.date %}</p>
 
+      {% if doc.data.tags | hasTag('placeholder') %}
+        {% include "placeholder.njk" %}
+      {% endif %}
+
       {{ doc.templateContent | safe }}
 
     </article>

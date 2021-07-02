@@ -132,6 +132,11 @@ module.exports = function(config) {
     return value.toISOString().split('T')[0]
   })
 
+  // Фильтрует теги
+  config.addFilter("hasTag", (tags, tag) => {
+    return (tags || []).includes(tag);
+  });
+
   // Правит пути к демкам, которые вставлены в раздел «В работе».
   // Чтобы сослаться на демку из раздела «В работе» используется относительный путь "../demos/index.html".
   // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет "../demos/index.html" на "./demos/index.html"
