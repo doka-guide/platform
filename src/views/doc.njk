@@ -18,7 +18,7 @@
         Отредактировать на GitHub
       </a>
 
-      <p>{% lastModified doc.data.page.date %}</p>
+      <p>{{ updatedAt | lastModified }}</p>
 
       {{ doc.templateContent | safe }}
 

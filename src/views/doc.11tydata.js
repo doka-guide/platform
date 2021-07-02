@@ -1,3 +1,5 @@
+const fsp = require('fs/promises')
+
 module.exports = {
   layout: 'base.njk',
 
@@ -29,6 +31,13 @@ module.exports = {
       return allPractices.filter(practice => {
         return practice.filePathStem.includes(docPath)
       })
+    },
+
+    updatedAt: async function(data) {
+      const { doc } = data
+      const { inputPath } = doc.data.page
+      const stat = await fsp.stat(inputPath)
+      return stat.mtime
     }
   }
 }

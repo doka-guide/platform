@@ -78,10 +78,12 @@ module.exports = function(config) {
     return feedbackFormName;
   })
 
-  // Добавляет переменную для обозначения последнего редактирования статьи
+  // Добавляет фильтр для обозначения последнего редактирования статьи
   // {% lastModified page.date %}
-  config.addShortcode("lastModified", function (date) {
-    let counter = new Date().getTime()/1000-(new Date(date).getTime()/1000)
+  config.addFilter("lastModified", function (date) {
+    const currentTime = new Date().getTime() / 1000
+    const pageModifiedTime = (new Date(date).getTime() / 1000)
+    let counter = currentTime - pageModifiedTime
     let piece;
 
     const rtf = new Intl.RelativeTimeFormat("ru", {
