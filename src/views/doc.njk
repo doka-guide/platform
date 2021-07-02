@@ -21,7 +21,7 @@
       <p>{% lastModified doc.data.page.date %}</p>
 
       {% if doc.data.tags | hasTag('placeholder') %}
-        {% include "stub.njk" %}
+        {% include "placeholder.njk" %}
       {% endif %}
 
       {{ doc.templateContent | safe }}
