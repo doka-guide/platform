@@ -1,0 +1,34 @@
+{% include "blocks/aside.njk" %}
+
+<main>
+  <div class="aside-page__content base__container">
+
+    <article>
+      {% if doc.cover %}
+        <picture>
+          {% if cover.mobile %}
+          <source srcset="{{ doc.cover.mobile }}" media="(max-width: 425px)">
+          {% endif%}
+          <img src="{{ doc.cover.desktop }}" width="900" height="537" alt="{{ doc.cover.alt }}">
+        </picture>
+      {% endif%}
+
+      <h1>{{ title }}</h1>
+      <a href="{% contentRepLink %}/blob/main{{ docPath }}" target="_blank">
+        Отредактировать на GitHub
+      </a>
+
+      <p>{% lastModified doc.data.page.date %}</p>
+
+      {{ doc.templateContent | safe }}
+
+    </article>
+
+    {% include "practices.njk" %}
+
+    {% include "contributors.njk" %}
+
+    {% include "feedback-form.njk" %}
+
+  </div>
+</main>

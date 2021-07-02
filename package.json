@@ -16,8 +16,8 @@
     "url": "https://github.com/doka-guide/platform"
   },
   "scripts": {
-    "start": "eleventy --serve --quiet",
-    "build": "eleventy && npx gulp",
+    "start": "NODE_ENV=development eleventy --serve --quiet",
+    "build": "NODE_ENV=production eleventy --quiet && npx gulp",
     "netlify": "npx gulp setupContent && npm run build && npx gulp dropContent",
     "editorconfig": "editorconfig-checker",
     "test": "npm run editorconfig"

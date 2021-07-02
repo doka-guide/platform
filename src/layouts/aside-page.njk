@@ -1,26 +1,16 @@
-<!DOCTYPE html>
-<html class="base" lang="{{ meta.lang }}">
-  <head>
+---
+layout: 'base.njk'
+bodyClass: 'aside-page'
+---
 
-    {% include "meta.njk" %}
+<main>
+  <div class="aside-page__content base__container">
 
-  </head>
-  <body class="base__body aside-page">
+    <h1>{{ title }}</h1>
 
-    {% include "blocks/aside.njk" %}
+    {{ content | safe }}
 
-    <main>
-      <div class="aside-page__content base__container">
+  </div>
+</main>
 
-        <h1>{{ title }}</h1>
-
-        {{ content | safe }}
-
-      </div>
-    </main>
-
-    {% include "blocks/footer.njk" %}
-
-  </body>
-  <script type="module" src="/scripts/index.js"></script>
-</html>
+{% include "blocks/footer.njk" %}

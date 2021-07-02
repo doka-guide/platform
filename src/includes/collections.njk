@@ -5,27 +5,30 @@
   tools: 'Инструменты'
 } %}
 
+{% set isAllPage = page.url === '/all/' %}
+
+{% macro simpleSection(title, children) %}
+  <h2>{{ title }}</h2>
+  {{ children | safe }}
+{% endmacro %}
+
+{% macro detailsSection(title, children) %}
+  <details>
+    <summary>{{ title }}</summary>
+    {{ children | safe }}
+  </details>
+{% endmacro %}
+
 {% for path, title in sections %}
-  {% if page.url !== '/all/' %}
-    <details>
-      <summary>
-  {% else %}
-    <h2>
-  {% endif %}
-
-  {{ title }}
-
-  {% if page.url !== '/all/'%}
-    </summary>
-  {% else %}
-    </h2>
-  {% endif %}
-
-   <ul>
+  {% set docList %}
+    <ul>
      {% for post in collections[path] %}
-       <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+       <li><a href="/{{path}}/{{post.fileSlug}}/">{{ post.data.title }}</a></li>
      {% endfor %}
    </ul>
+  {% endset %}
 
-  {% if page.url !== '/all/'%}</details>{% endif %}
+  {% set viewComponent = simpleSection if isAllPage else detailsSection %}
+
+  {{ viewComponent(title=title, children=docList) }}
 {% endfor %}

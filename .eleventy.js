@@ -10,6 +10,14 @@ const markdownIt = require("markdown-it")
 const markdownItAnchor = require("markdown-it-anchor")
 const { slugify } = require("transliteration")
 
+const ENVS = {
+  DEVELOPMENT: 'development',
+  PRODUCTION: 'production',
+}
+const env = process.env.NODE_ENV || ENVS.PRODUCTION
+const isProdEnv = env === ENVS.PRODUCTION
+const isDevEnv = !isProdEnv
+
 module.exports = function(config) {
 
   // Add all Tags
@@ -17,6 +25,24 @@ module.exports = function(config) {
     config.addCollection(section, (collectionApi) =>
       collectionApi.getFilteredByGlob(`src/${section}/**/index.md`)
     )
+  })
+
+  config.addCollection('docs', (collectionApi) => {
+    const dokas = collectionApi.getFilteredByTag('doka',)
+    const articles = collectionApi.getFilteredByTag('article')
+    return [].concat(dokas, articles)
+  })
+
+  config.addCollection('people', collectionApi => {
+    return collectionApi.getFilteredByGlob('src/people/**/index.md')
+  })
+
+  config.addCollection('practice', collectionApi => {
+    return collectionApi.getFilteredByGlob('src/**/practice/*.md')
+  })
+
+  config.addCollection('pages', collectionApi => {
+    return collectionApi.getFilteredByGlob('src/pages/**/index.md')
   })
 
   // Настраивает markdown-it
@@ -106,23 +132,6 @@ module.exports = function(config) {
     return value.toISOString().split('T')[0]
   })
 
-  config.addTransform('htmlmin', (content, outputPath) => {
-    if (outputPath) {
-      let isHtml = outputPath.endsWith('.html')
-      let notDemo = !outputPath.includes('demos')
-      if (isHtml && notDemo) {
-        return htmlmin.minify(
-          content, {
-            removeComments: true,
-            collapseWhitespace: true,
-          }
-        )
-      }
-    }
-
-    return content
-  })
-
   // Правит пути к демкам, которые вставлены в раздел «В работе».
   // Чтобы сослаться на демку из раздела «В работе» используется относительный путь "../demos/index.html".
   // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет "../demos/index.html" на "./demos/index.html"
@@ -134,13 +143,24 @@ module.exports = function(config) {
     return content
   })
 
-  config.addFilter('keepRelatedTo', (array, page) => {
-    return array.filter(
-      practice => (
-        practice.filePathStem.includes(page.url)
-      )
-    )
-  })
+  if (isProdEnv) {
+    config.addTransform('htmlmin', (content, outputPath) => {
+      if (outputPath) {
+        let isHtml = outputPath.endsWith('.html')
+        let notDemo = !outputPath.includes('demos')
+        if (isHtml && notDemo) {
+          return htmlmin.minify(
+            content, {
+              removeComments: true,
+              collapseWhitespace: true,
+            }
+          )
+        }
+      }
+
+      return content
+    })
+  }
 
   config.addPassthroughCopy('src/favicon.ico')
   config.addPassthroughCopy('src/manifest.json')
