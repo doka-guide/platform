@@ -1,4 +1,5 @@
-const fsp = require('fs/promises')
+// дата-заглушка, если в статье нет даты последнего обновления
+const updatedDatePlaceholder = new Date(2021, 1, 9)
 
 module.exports = {
   layout: 'base.njk',
@@ -33,11 +34,14 @@ module.exports = {
       })
     },
 
-    updatedAt: async function(data) {
+    updatedAt: function(data) {
       const { doc } = data
-      const { inputPath } = doc.data.page
-      const stat = await fsp.stat(inputPath)
-      return stat.mtime
+      const date = doc.data.updatedAt
+        ? doc.data.updatedAt instanceof Date
+          ? doc.data.updatedAt
+          : new Date(doc.data.updatedAt)
+        : updatedDatePlaceholder
+      return date
     }
   }
 }

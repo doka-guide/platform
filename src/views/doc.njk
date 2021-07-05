@@ -18,7 +18,12 @@
         Отредактировать на GitHub
       </a>
 
-      <p>{{ updatedAt | lastModified }}</p>
+      <p>
+        Отредактировано:
+        <time data-relative-time datetime="{{ updatedAt | isoDate }}">
+           {{ updatedAt | ruDate }}
+        </time>
+      </p>
 
       {{ doc.templateContent | safe }}
 
