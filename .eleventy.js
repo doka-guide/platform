@@ -9,6 +9,7 @@ const {
 const markdownIt = require("markdown-it")
 const markdownItAnchor = require("markdown-it-anchor")
 const { slugify } = require("transliteration")
+const { parseHTML } = require('linkedom')
 
 const ENVS = {
   DEVELOPMENT: 'development',
@@ -137,14 +138,26 @@ module.exports = function(config) {
     return (tags || []).includes(tag);
   });
 
-  // Правит пути к демкам, которые вставлены в раздел «В работе».
-  // Чтобы сослаться на демку из раздела «В работе» используется относительный путь "../demos/index.html".
-  // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет "../demos/index.html" на "./demos/index.html"
-  config.addTransform('fixDemos', (content, outputPath) => {
-    if(outputPath && outputPath.endsWith('.html')) {
-      let iframePath = /src="\.\.\/demos\//ig
-      content = content.replace(iframePath, 'src="./demos/')
+  config.addTransform('html-transforms', (content, outputPath) => {
+    if (outputPath && outputPath.endsWith('.html')) {
+      const DOM = parseHTML(content)
+
+      const practicesSection = DOM.document.getElementById('practices')
+      if (practicesSection) {
+        // Правит пути к демкам и картинкам, которые вставлены в раздел «В работе».
+        // Чтобы сослаться на демку из раздела «В работе» используется относительный путь "../demos/index.html".
+        // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет "../demos/index.html" на "./demos/index.html"
+        const mediaElements = practicesSection.querySelectorAll('img, iframe')
+        for (const element of mediaElements) {
+          const oldLink = element.getAttribute('src');
+          const newLink = oldLink.replace('../', '');
+          element.setAttribute('src', newLink);
+        }
+      }
+
+      return DOM.document.toString()
     }
+
     return content
   })
 
