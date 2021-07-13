@@ -1,15 +1,15 @@
 const htmlmin = require('html-minifier')
+const markdownIt = require('markdown-it')
+const markdownItAnchor = require('markdown-it-anchor')
+const { slugify } = require('transliteration')
+const { parseHTML } = require('linkedom')
 const {
   mainSections,
   dokaOrgLink,
   platformRepLink,
   contentRepLink,
   feedbackFormName
-} = require("./config/constants.js")
-const markdownIt = require("markdown-it")
-const markdownItAnchor = require("markdown-it-anchor")
-const { slugify } = require("transliteration")
-const { parseHTML } = require('linkedom')
+} = require('./config/constants.js')
 
 const ENVS = {
   DEVELOPMENT: 'development',
@@ -17,7 +17,6 @@ const ENVS = {
 }
 const env = process.env.NODE_ENV || ENVS.PRODUCTION
 const isProdEnv = env === ENVS.PRODUCTION
-const isDevEnv = !isProdEnv
 
 module.exports = function(config) {
 
@@ -29,7 +28,7 @@ module.exports = function(config) {
   })
 
   config.addCollection('docs', (collectionApi) => {
-    const dokas = collectionApi.getFilteredByTag('doka',)
+    const dokas = collectionApi.getFilteredByTag('doka')
     const articles = collectionApi.getFilteredByTag('article')
     return [].concat(dokas, articles)
   })
@@ -53,42 +52,42 @@ module.exports = function(config) {
     linkify: true
   }).use(markdownItAnchor, {
     permalink: true,
-    permalinkClass: "direct-link",
-    permalinkSymbol: "#",
+    permalinkClass: 'direct-link',
+    permalinkSymbol: '#',
     permalinkAttrs: () => ({
       'aria-label': 'Этот заголовок',
     }),
     slugify
   })
-  config.setLibrary("md", markdownLibrary)
+  config.setLibrary('md', markdownLibrary)
 
   // Add all shortcodes
-  config.addShortcode("dokaOrgLink", function() {
+  config.addShortcode('dokaOrgLink', function() {
     return dokaOrgLink;
   });
 
-  config.addShortcode("platformRepLink", function() {
+  config.addShortcode('platformRepLink', function() {
     return platformRepLink;
   });
 
-  config.addShortcode("contentRepLink", function() {
+  config.addShortcode('contentRepLink', function() {
     return contentRepLink;
   })
 
-  config.addShortcode("feedbackFormName", function() {
+  config.addShortcode('feedbackFormName', function() {
     return feedbackFormName;
   })
 
   // Добавляет переменную для обозначения последнего редактирования статьи
   // {% lastModified page.date %}
-  config.addShortcode("lastModified", function (date) {
+  config.addShortcode('lastModified', function (date) {
     let counter = new Date().getTime()/1000-(new Date(date).getTime()/1000)
     let piece;
 
-    const rtf = new Intl.RelativeTimeFormat("ru", {
-      localeMatcher: "best fit",
-      numeric: "always",
-      style: "long",
+    const rtf = new Intl.RelativeTimeFormat('ru', {
+      localeMatcher: 'best fit',
+      numeric: 'always',
+      style: 'long',
     });
 
     if (counter >= 86400) {
@@ -134,7 +133,7 @@ module.exports = function(config) {
   })
 
   // Фильтрует теги
-  config.addFilter("hasTag", (tags, tag) => {
+  config.addFilter('hasTag', (tags, tag) => {
     return (tags || []).includes(tag);
   });
 
@@ -145,8 +144,8 @@ module.exports = function(config) {
       const practicesSection = DOM.document.getElementById('practices')
       if (practicesSection) {
         // Правит пути к демкам и картинкам, которые вставлены в раздел «В работе».
-        // Чтобы сослаться на демку из раздела «В работе» используется относительный путь "../demos/index.html".
-        // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет "../demos/index.html" на "./demos/index.html"
+        // Чтобы сослаться на демку из раздела «В работе» используется относительный путь '../demos/index.html'.
+        // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет '../demos/index.html' на './demos/index.html'
         const mediaElements = practicesSection.querySelectorAll('img, iframe')
         for (const element of mediaElements) {
           const oldLink = element.getAttribute('src');
