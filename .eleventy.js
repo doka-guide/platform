@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const os = require('os')
-const htmlmin = require('html-minifier')
+const htmlnano = require('htmlnano')
 const markdownIt = require('markdown-it')
 const markdownItAnchor = require('markdown-it-anchor')
 const { slugify } = require('transliteration')
@@ -230,12 +230,24 @@ module.exports = function(config) {
         let isHtml = outputPath.endsWith('.html')
         let notDemo = !outputPath.includes('demos')
         if (isHtml && notDemo) {
-          return htmlmin.minify(
-            content, {
-              removeComments: true,
-              collapseWhitespace: true,
-            }
-          )
+          return htmlnano.process(content, {
+            collapseAttributeWhitespace: true,
+            collapseWhitespace: 'conservative',
+            deduplicateAttributeValues: true,
+            minifyCss: false,
+            minifyJs: false,
+            minifyJson: false,
+            minifySvg: true,
+            removeComments: 'safe',
+            removeEmptyAttributes: false,
+            removeAttributeQuotes: false,
+            removeRedundantAttributes: true,
+            removeOptionalTags: false,
+            collapseBooleanAttributes: true,
+            mergeStyles: false,
+            mergeScripts: false,
+            minifyUrls: false
+          }).then(result => result.html)
         }
       }
 
