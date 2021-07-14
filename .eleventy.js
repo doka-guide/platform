@@ -1,8 +1,12 @@
+const path = require('path')
+const fs = require('fs')
+const os = require('os')
 const htmlmin = require('html-minifier')
 const markdownIt = require('markdown-it')
 const markdownItAnchor = require('markdown-it-anchor')
 const { slugify } = require('transliteration')
 const { parseHTML } = require('linkedom')
+const Image = require('@11ty/eleventy-img')
 const {
   mainSections,
   dokaOrgLink,
@@ -141,16 +145,76 @@ module.exports = function(config) {
     if (outputPath && outputPath.endsWith('.html')) {
       const DOM = parseHTML(content)
 
-      const practicesSection = DOM.document.getElementById('practices')
-      if (practicesSection) {
-        // Правит пути к демкам и картинкам, которые вставлены в раздел «В работе».
-        // Чтобы сослаться на демку из раздела «В работе» используется относительный путь '../demos/index.html'.
-        // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет '../demos/index.html' на './demos/index.html'
-        const mediaElements = practicesSection.querySelectorAll('img, iframe')
-        for (const element of mediaElements) {
-          const oldLink = element.getAttribute('src');
-          const newLink = oldLink.replace('../', './');
-          element.setAttribute('src', newLink);
+      // Правит пути к демкам и картинкам, которые вставлены в раздел «В работе».
+      // Чтобы сослаться на демку из раздела «В работе» используется относительный путь '../demos/index.html'.
+      // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет '../demos/index.html' на './demos/index.html'
+      {
+        const practicesSection = DOM.document.getElementById('practices')
+        if (practicesSection) {
+          const mediaElements = practicesSection.querySelectorAll('img, iframe')
+          for (const element of mediaElements) {
+            const oldLink = element.getAttribute('src');
+            const newLink = oldLink.replace('../', './');
+            element.setAttribute('src', newLink);
+          }
+        }
+      }
+
+      // замена img на picture внутри статьи
+      if (isProdEnv) {
+        const articleContainer = DOM.document.querySelector('main .aside-page__content')
+        if (articleContainer) {
+          // задаём базовый путь до исходных картинок, используя outputPath
+          // например, из пути `dist/css/active/index.html` нужно получить `/css/active/`
+          const baseSourcePath = outputPath
+            .replace('dist/', '')
+            .replace('/index.html', '')
+          const imagesSourcePath = path.join('src', baseSourcePath)
+          const imagesOutputPath = path.join('dist', baseSourcePath, 'images')
+
+          const extWhiteList = ['.gif', '.svg']
+
+          Image.concurrency = os.cpus().length
+
+          const images = articleContainer.querySelectorAll('img')
+
+          for (const image of images) {
+            const originalLink = path.join(imagesSourcePath, image.src)
+            if (!fs.existsSync(originalLink)) {
+              console.warn(`Изображение ${originalLink} не существует`)
+              continue
+            }
+
+            const ext = path.extname(originalLink)
+            if (extWhiteList.includes(ext)) {
+              continue
+            }
+
+            const options = {
+              urlPath: 'images/',
+              outputDir: imagesOutputPath,
+              widths: [600, 1200],
+              formats: [ext.replace('.', ''), 'webp'],
+              filenameFormat: function (id, src, width, format) {
+                const extension = path.extname(src);
+                const name = path.basename(src, extension);
+                return `${name}-${width}w.${format}`;
+              }
+            }
+
+            const imageAttributes = Object.fromEntries(
+              [...image.attributes].map(attr => [attr.name, attr.value])
+            )
+            imageAttributes.sizes = imageAttributes.sizes || '100vw'
+
+            Image(originalLink, options)
+            const metadata = Image.statsSync(originalLink, options)
+
+            const imageHTML = Image.generateHTML(metadata, imageAttributes)
+            const tempElement = DOM.document.createElement('div')
+            tempElement.innerHTML = imageHTML
+            image.replaceWith(tempElement.firstElementChild)
+          }
         }
       }
 
