@@ -37,9 +37,7 @@ module.exports = {
     updatedAt: function(data) {
       const { doc } = data
       const date = doc.data.updatedAt
-        ? doc.data.updatedAt instanceof Date
-          ? doc.data.updatedAt
-          : new Date(doc.data.updatedAt)
+        ? new Date(doc.data.updatedAt)
         : updatedDatePlaceholder
       return date
     }
