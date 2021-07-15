@@ -21,6 +21,19 @@ const isDevEnv = !isProdEnv
 
 module.exports = function(config) {
 
+  config.setBrowserSyncConfig({
+    server: {
+      baseDir: [
+        './dist',
+        './src'
+      ]
+    },
+    files: [
+      'src/styles/**/*.*',
+      'src/scripts/**/*.*'
+    ],
+  })
+
   // Add all Tags
   mainSections.forEach((section) => {
     config.addCollection(section, (collectionApi) =>
@@ -184,8 +197,6 @@ module.exports = function(config) {
   config.addPassthroughCopy('src/manifest.json')
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
-  config.addPassthroughCopy('src/styles')
-  config.addPassthroughCopy('src/scripts')
   config.addPassthroughCopy('src/**/*.(html|gif|jpg|png|svg|mp4|webm|zip)')
 
   return {
