@@ -1,4 +1,4 @@
-name: Netlify Deploy
+name: Build Testing
 
 on:
   pull_request
