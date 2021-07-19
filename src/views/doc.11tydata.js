@@ -1,6 +1,3 @@
-// дата-заглушка, если в статье нет даты последнего обновления
-const updatedDatePlaceholder = new Date(2021, 1, 9)
-
 module.exports = {
   layout: 'base.njk',
 
@@ -36,10 +33,7 @@ module.exports = {
 
     updatedAt: function(data) {
       const { doc } = data
-      const date = doc.data.updatedAt
-        ? new Date(doc.data.updatedAt)
-        : updatedDatePlaceholder
-      return date
+      return new Date(doc.data.updatedAt)
     }
   }
 }
