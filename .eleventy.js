@@ -92,37 +92,6 @@ module.exports = function(config) {
     return feedbackFormName;
   })
 
-  // Добавляет переменную для обозначения последнего редактирования статьи
-  // {% lastModified page.date %}
-  config.addShortcode("lastModified", function (date) {
-    let counter = new Date().getTime()/1000-(new Date(date).getTime()/1000)
-    let piece;
-
-    const rtf = new Intl.RelativeTimeFormat("ru", {
-      localeMatcher: "best fit",
-      numeric: "always",
-      style: "long",
-    });
-
-    if (counter >= 86400) {
-      counter = Math.round(counter/86400)
-      piece = 'day'
-    } else if (counter >= 3600) {
-      counter = Math.round(counter/3600)
-      piece = 'hour'
-    } else if (counter >= 60) {
-      counter = Math.round(counter/60)
-      piece = 'minute'
-    } else {
-      counter = Math.round(counter)
-      piece = 'second'
-    }
-
-    let rtfDate = rtf.format(-counter, piece)
-
-    return `Отредактировано: ` + rtfDate
-  })
-
   config.addFilter('ruDate', (value) => {
     return value.toLocaleString('ru', {
       year: 'numeric',

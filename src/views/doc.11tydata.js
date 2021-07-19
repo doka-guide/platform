@@ -38,6 +38,11 @@ module.exports = {
       return allPractices.filter(practice => {
         return practice.filePathStem.includes(docPath)
       })
+    },
+
+    updatedAt: function(data) {
+      const { doc } = data
+      return new Date(doc.data.updatedAt)
     }
   }
 }
