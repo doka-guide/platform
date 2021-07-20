@@ -42,7 +42,7 @@ module.exports = {
 
     updatedAt: function(data) {
       const { doc } = data
-      return new Date(doc.data.updatedAt)
+      return doc.data.updatedAt ? new Date(doc.data.updatedAt) : null
     }
   }
 }

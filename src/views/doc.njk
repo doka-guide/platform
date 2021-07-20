@@ -18,12 +18,14 @@
         Отредактировать на GitHub
       </a>
 
-      <p>
-        Отредактировано:
-        <time data-relative-time datetime="{{ updatedAt | isoDate }}">
-           {{ updatedAt | ruDate }}
-        </time>
-      </p>
+      {% if updatedAt %}
+        <p>
+          Отредактировано:
+          <time data-relative-time datetime="{{ updatedAt | isoDate }}">
+            {{ updatedAt | ruDate }}
+          </time>
+        </p>
+      {% endif %}
 
       {% if doc.data.tags | hasTag('placeholder') %}
         {% include "placeholder.njk" %}
