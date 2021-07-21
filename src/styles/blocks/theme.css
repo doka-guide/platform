@@ -38,17 +38,17 @@
 }
 
 .theme_color_light {
-  --color-1: hsl(var(--color-alpha));
-  --color-2: hsl(var(--color-beta));
-  --color-3: hsl(var(--color-gamma));
-  --color-4: hsl(var(--color-delta));
-  --color-5: hsl(var(--color-epsilon));
+  --color-html: hsl(var(--color-alpha));
+  --color-css: hsl(var(--color-beta));
+  --color-js: hsl(var(--color-gamma));
+  --color-svg: hsl(var(--color-delta));
+  --color-tools: hsl(var(--color-epsilon));
 }
 
 .theme_color_dark {
-  --color-1: hsl(var(--color-alpha) / 0.4);
-  --color-2: hsl(var(--color-beta) / 0.4);
-  --color-3: hsl(var(--color-gamma) / 0.4);
-  --color-4: hsl(var(--color-delta) / 0.4);
-  --color-5: hsl(var(--color-epsilon) / 0.4);
+  --color-html: hsl(var(--color-alpha) / 0.4);
+  --color-css: hsl(var(--color-beta) / 0.4);
+  --color-js: hsl(var(--color-gamma) / 0.4);
+  --color-svg: hsl(var(--color-delta) / 0.4);
+  --color-tools: hsl(var(--color-epsilon) / 0.4);
 }
