@@ -38,6 +38,8 @@
 }
 
 .theme_color_light {
+  --color-text: #000;
+  --color-background: #fff;
   --color-html: hsl(var(--color-alpha));
   --color-css: hsl(var(--color-beta));
   --color-js: hsl(var(--color-gamma));
@@ -46,6 +48,8 @@
 }
 
 .theme_color_dark {
+  --color-text: #fff;
+  --color-background: #000;
   --color-html: hsl(var(--color-alpha) / 0.4);
   --color-css: hsl(var(--color-beta) / 0.4);
   --color-js: hsl(var(--color-gamma) / 0.4);
