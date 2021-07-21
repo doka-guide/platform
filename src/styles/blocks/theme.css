@@ -1,10 +1,12 @@
-.theme {
+:root {
   --color-alpha: 25 100% 59%;
   --color-beta: 209 100% 59%;
   --color-gamma: 49 100% 58%;
   --color-delta: 346 81% 78%;
   --color-epsilon: 122 78% 58%;
 }
+
+.theme {}
 
 .theme_font_alpha {
   --font-family: 'Graphik', sans-serif;
