@@ -37,7 +37,7 @@ module.exports = function(config) {
   // Add all Tags
   mainSections.forEach((section) => {
     config.addCollection(section, (collectionApi) =>
-      collectionApi.getFilteredByGlob(`src/${section}/**/index.md`)
+      collectionApi.getFilteredByGlob(`src/${section}/*/**/index.md`)
     )
   })
 
