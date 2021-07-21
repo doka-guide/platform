@@ -1,0 +1,52 @@
+.theme {
+  --color-alpha: 25 100% 59%;
+  --color-beta: 209 100% 59%;
+  --color-gamma: 49 100% 58%;
+  --color-delta: 346 81% 78%;
+  --color-epsilon: 122 78% 58%;
+}
+
+.theme_font_alpha {
+  --font-family: 'Graphik', sans-serif;
+  --font-size-s: 15px;
+  --font-line-height-s: 20px;
+  --font-size-m: 24px;
+  --font-line-height-m: 24px;
+  --font-size-l: 36px;
+  --font-line-height-l: 42px;
+  --font-size-xl: 48px;
+  --font-line-height-xl: 60px;
+  --font-size-xxl: 60px;
+  --font-line-height-xxl: 60px;
+}
+
+.theme_font_beta {
+  --font-family: 'Spot Mono', monospace;
+  --letter-spacing: -0.04em;
+  --font-size-s: 18px;
+  --font-line-height-s: 18px;
+  --font-size-m: 28px;
+  --font-line-height-m: 30px;
+  --font-size-l: 42px;
+  --font-line-height-l: 42px;
+  --font-size-xl: 60px;
+  --font-line-height-xl: 60px;
+  --font-size-xxl: 72px;
+  --font-line-height-xxl: 60px;
+}
+
+.theme_color_light {
+  --color-1: hsl(var(--color-alpha));
+  --color-2: hsl(var(--color-beta));
+  --color-3: hsl(var(--color-gamma));
+  --color-4: hsl(var(--color-delta));
+  --color-5: hsl(var(--color-epsilon));
+}
+
+.theme_color_dark {
+  --color-1: hsl(var(--color-alpha) / 0.4);
+  --color-2: hsl(var(--color-beta) / 0.4);
+  --color-3: hsl(var(--color-gamma) / 0.4);
+  --color-4: hsl(var(--color-delta) / 0.4);
+  --color-5: hsl(var(--color-epsilon) / 0.4);
+}
