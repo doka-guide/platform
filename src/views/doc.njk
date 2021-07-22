@@ -8,10 +8,10 @@
         <picture>
           {% if doc.data.cover.mobile %}
           <source srcset="{{ doc.data.cover.mobile }}" media="(max-width: 425px)">
-          {% endif%}
+          {% endif %}
           <img src="{{ doc.data.cover.desktop }}" width="900" height="537" alt="{{ doc.data.cover.alt }}">
         </picture>
-      {% endif%}
+      {% endif %}
 
       <h1>{{ title }}</h1>
       <a href="{% contentRepLink %}/blob/main{{ docPath }}" target="_blank">
