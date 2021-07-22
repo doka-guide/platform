@@ -1,14 +1,14 @@
 :root {
-  --color-alpha: 25 100% 59%;
-  --color-beta: 209 100% 59%;
-  --color-gamma: 49 100% 58%;
-  --color-delta: 346 81% 78%;
-  --color-epsilon: 122 78% 58%;
+  --color-orange: 25 100% 59%;
+  --color-blue: 209 100% 59%;
+  --color-yellow: 49 100% 58%;
+  --color-pink: 346 81% 78%;
+  --color-green: 122 78% 58%;
 }
 
 .theme {}
 
-.theme_font_alpha {
+.theme_font_text {
   --font-family: 'Graphik', sans-serif;
   --font-size-s: 15px;
   --font-line-height-s: 20px;
@@ -22,7 +22,7 @@
   --font-line-height-xxl: 60px;
 }
 
-.theme_font_beta {
+.theme_font_code {
   --font-family: 'Spot Mono', monospace;
   --letter-spacing: -0.04em;
   --font-size-s: 18px;
