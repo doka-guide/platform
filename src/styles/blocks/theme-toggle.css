@@ -1,0 +1,59 @@
+.theme-toggle {
+  position: relative;
+  display: inline-block;
+}
+
+.theme-toggle__input {
+  opacity: 0;
+  margin: 0;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.theme-toggle__desc {}
+
+.theme-toggle__control {
+  --lightness: calc(var(--is-light-theme-on) * 87% + var(--is-dark-theme-on) * 40%);
+
+  position: relative;
+  display: grid;
+  grid-gap: 10px;
+  grid-auto-flow: column;
+  align-items: center;
+  background-color: hsl(0deg 0% var(--lightness));
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  transition: background-color 0.3s;
+}
+
+.theme-toggle__thumb {
+  position: absolute;
+  top: 0;
+  left: calc(100% * var(--is-dark-theme-on));
+  transform: translateX(calc(-100% * var(--is-dark-theme-on)));
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--color-background);
+  transition: transform 0.3s, left 0.3s;
+}
+
+.theme-toggle__icon {
+  z-index: 1;
+  transition: opacity 0.3s;
+}
+
+.theme-toggle__icon_light {
+  opacity: calc(1 - var(--is-dark-theme-on) * 0.6);
+}
+
+.theme-toggle__icon_dark {
+  opacity: calc(1 - var(--is-light-theme-on) * 0.6);
+}

@@ -2,14 +2,14 @@
 
 /* Fonts */
 
-@import 'fonts/inter/inter.css';
+/* @import 'fonts/inter/inter.css';
 @import 'fonts/roboto/roboto.css';
-@import 'fonts/roboto/roboto-mono.css';
+@import 'fonts/roboto/roboto-mono.css'; */
 
 /* Globals */
 
-@import 'variables.css';
-@import 'box-sizing.css';
+/* @import 'variables.css';
+@import 'box-sizing.css'; */
 
 /* Pages and Layouts */
 
@@ -20,6 +20,7 @@
 /* Blocks */
 
 @import 'blocks/theme.css';
+@import 'blocks/visually-hidden.css';
 @import 'blocks/base-list.css';
 @import 'blocks/link.css';
 @import 'blocks/base.css';
@@ -27,4 +28,5 @@
 @import 'blocks/aside.css';
 @import 'blocks/search.css';
 @import 'blocks/footer-nav-list.css';
+@import 'blocks/theme-toggle.css';
 @import 'blocks/footer.css';
