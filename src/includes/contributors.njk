@@ -1,22 +1,36 @@
+{% macro person(name, url) %}
+  {% if url %}
+    <a href="{{ url }}">{{ name }}</a>
+  {% else %}
+    <span>{{ name }}</span>
+  {% endif %}
+{% endmacro %}
+
+{% macro personsList(list) %}
+  <ul>
+    {% for personItem in list %}
+      <li>
+        {{ person(name=personItem.data.name, url=personItem.data.url) }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+
 <section class="contributors">
   <p>Авторы: </p>
-  <ul>
-      {% for author in authors %}
-        <li>
-          {{ author }}
-        </li>
-      {% endfor %}
-  </ul>
+  {{ personsList(list=populatedAuthors) }}
+
   {% if contributors %}
     <details>
       <summary>Свой вклад внесли</summary>
-      <ul>
-          {% for contributor in contributors %}
-            <li>
-              {{ contributor }}
-            </li>
-          {% endfor %}
-      </ul>
+      {{ personsList(list=populatedContributors) }}
+    </details>
+  {% endif %}
+
+  {% if editors %}
+    <details>
+      <summary>Редакторы статьи</summary>
+      {{ personsList(list=populatedEditors) }}
     </details>
   {% endif %}
 </section>

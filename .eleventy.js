@@ -37,7 +37,7 @@ module.exports = function(config) {
   // Add all Tags
   mainSections.forEach((section) => {
     config.addCollection(section, (collectionApi) =>
-      collectionApi.getFilteredByGlob(`src/${section}/**/index.md`)
+      collectionApi.getFilteredByGlob(`src/${section}/*/**/index.md`)
     )
   })
 
@@ -48,7 +48,15 @@ module.exports = function(config) {
   })
 
   config.addCollection('people', collectionApi => {
-    return collectionApi.getFilteredByGlob('src/people/**/index.md')
+    return collectionApi.getFilteredByGlob('src/people/*/index.md')
+  })
+
+  config.addCollection('peopleById', collectionApi => {
+    return collectionApi.getFilteredByGlob('src/people/*/index.md')
+      .reduce((hashMap, person) => {
+        hashMap[person.fileSlug] = person
+        return hashMap
+      }, {})
   })
 
   config.addCollection('practice', collectionApi => {
