@@ -1,12 +1,15 @@
-<footer class="footer">
-  <div class="footer__content">
-    {% if page.url !== '/about/' %}
-    <p>
-      <a class="footer__link" href="/about">О проекте</a>
-    </p>
-    {% endif %}
-    <p>
-      Присоединяйся к нам <a class="footer__link" href="{% dokaOrgLink %}">на GitHub</a>
-    </p>
-  </div>
+<footer class="footer theme theme_font_beta">
+  <div class="footer__toggle"></div>
+
+  <ul class="base-list footer-nav-list footer__list">
+    <li class="footer-nav-list__item">
+      <a class="link footer-nav-list__link" href="{% dokaOrgLink %}">Github</a>
+    </li>
+    <li class="footer-nav-list__item">
+      <a class="link footer-nav-list__link" href="/about">О проекте</a>
+    </li>
+    <li class="footer-nav-list__item">
+      <a class="link footer-nav-list__link" href="#404">Лицензии</a>
+    </li>
+  </ul>
 </footer>

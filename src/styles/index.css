@@ -1,3 +1,5 @@
+@charset 'utf-8';
+
 /* Fonts */
 
 @import 'fonts/inter/inter.css';
@@ -17,7 +19,12 @@
 
 /* Blocks */
 
+@import 'blocks/theme.css';
+@import 'blocks/base-list.css';
+@import 'blocks/link.css';
+@import 'blocks/base.css';
 @import 'blocks/header.css';
 @import 'blocks/aside.css';
 @import 'blocks/search.css';
+@import 'blocks/footer-nav-list.css';
 @import 'blocks/footer.css';

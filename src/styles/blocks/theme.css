@@ -1,4 +1,6 @@
 :root {
+  --color-light: 0 0% 100%;
+  --color-dark: 0 0% 0%;
   --color-alpha: 25 100% 59%;
   --color-beta: 209 100% 59%;
   --color-gamma: 49 100% 58%;
@@ -38,8 +40,10 @@
 }
 
 .theme_color_light {
-  --color-text: #000;
-  --color-background: #fff;
+  --color-base-text: var(--color-dark);
+  --color-base-background: var(--color-light);
+  --color-text: hsl(var(--color-light));
+  --color-background: hsl(var(--color-dark));
   --color-html: hsl(var(--color-alpha));
   --color-css: hsl(var(--color-beta));
   --color-js: hsl(var(--color-gamma));
@@ -48,8 +52,10 @@
 }
 
 .theme_color_dark {
-  --color-text: #fff;
-  --color-background: #000;
+  --color-base-text: var(--color-light);
+  --color-base-background: var(--color-dark);
+  --color-text: hsl(var(--color-light));
+  --color-background: hsl(var(--color-dark));
   --color-html: hsl(var(--color-alpha) / 0.4);
   --color-css: hsl(var(--color-beta) / 0.4);
   --color-js: hsl(var(--color-gamma) / 0.4);

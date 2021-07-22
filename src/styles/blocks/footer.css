@@ -1,25 +1,8 @@
-/* Header */
-
 .footer {
-  padding: 18px 30px;
-  text-underline-offset: 0.1em;
-  font-size: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/* Articles */
-
-.footer__nav-list {
-  display: grid;
-  grid-template-columns: repeat(4, min-content);
-  list-style-type: none;
-  padding-inline-start: 0;
-}
-
-.footer__link {
-  color: var(--basic-black)
-}
-
-.footer__link:focus-visible {
-  outline: solid 2px var(--color-blue-light);
-  outline-offset: 2px;
-}
+.footer__list {}
