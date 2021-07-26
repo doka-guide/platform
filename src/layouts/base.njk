@@ -7,6 +7,8 @@
   </head>
   <body class="base__body {{ bodyClass }}">
 
+    {% include "analytics/metrika.njk" %}
+
     {{ content | safe }}
 
     <script type="module" src="/scripts/index.js"></script>
