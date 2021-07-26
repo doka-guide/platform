@@ -12,29 +12,40 @@
 
 .theme_font_text {
   --font-family: 'Graphik', sans-serif;
+
   --font-size-s: 15px;
   --font-line-height-s: 20px;
+
   --font-size-m: 24px;
   --font-line-height-m: 30px;
+
   --font-size-l: 36px;
   --font-line-height-l: 42px;
+
   --font-size-xl: 48px;
   --font-line-height-xl: 60px;
+
   --font-size-xxl: 60px;
   --font-line-height-xxl: 60px;
 }
 
 .theme_font_code {
   --font-family: 'Spot Mono', monospace;
+
   --letter-spacing: -0.04em;
+
   --font-size-s: 18px;
   --font-line-height-s: 18px;
+
   --font-size-m: 28px;
   --font-line-height-m: 30px;
+
   --font-size-l: 42px;
   --font-line-height-l: 42px;
+
   --font-size-xl: 60px;
   --font-line-height-xl: 60px;
+
   --font-size-xxl: 72px;
   --font-line-height-xxl: 60px;
 }
@@ -42,10 +53,13 @@
 .theme_color_light {
   --is-light-theme-on: 1;
   --is-dark-theme-on: 0;
+
   --color-base-text: var(--color-dark);
   --color-base-background: var(--color-light);
+
   --color-text: hsl(var(--color-dark));
   --color-background: hsl(var(--color-light));
+
   --color-html: hsl(var(--color-alpha));
   --color-css: hsl(var(--color-beta));
   --color-js: hsl(var(--color-gamma));
@@ -56,10 +70,13 @@
 .theme_color_dark {
   --is-light-theme-on: 0;
   --is-dark-theme-on: 1;
+
   --color-base-text: var(--color-light);
   --color-base-background: var(--color-dark);
+
   --color-text: hsl(var(--color-light));
   --color-background: hsl(var(--color-dark));
+
   --color-html: hsl(var(--color-alpha) / 0.4);
   --color-css: hsl(var(--color-beta) / 0.4);
   --color-js: hsl(var(--color-gamma) / 0.4);
