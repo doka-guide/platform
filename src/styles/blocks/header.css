@@ -10,7 +10,7 @@
 /* Logo */
 
 .header__logo {
-
+  filter: invert(calc(100% * var(--is-dark-theme-on)));
 }
 
 /* Articles */
