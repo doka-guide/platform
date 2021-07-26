@@ -62,7 +62,7 @@ const paths = () => {
 
 // Clean
 
-clean = () => {
+const clean = () => {
   return del([
     'dist/styles',
     'dist/scripts',
