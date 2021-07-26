@@ -4,6 +4,7 @@
   initial-value: 1;
 }
 
+a,
 .link {
   --text-color: hsl(var(--color-base-text));
   --stroke-color: hsl(var(--color-base-text) / var(--stroke-opacity));
@@ -15,6 +16,7 @@
   transition: --stroke-opacity 0.2s;
 }
 
+a:hover,
 .link:hover {
   --stroke-opacity: 0.75;
 }
