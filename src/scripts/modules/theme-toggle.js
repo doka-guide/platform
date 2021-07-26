@@ -18,7 +18,7 @@ const toggleElement = document.querySelector('.theme-toggle')
 
 // Функции
 function isPrefersColorSchemeSupported() {
-  return window.matchMedia(PREFERS_MQ).media !== 'not all';
+  return window.matchMedia(PREFERS_MQ).media !== 'not all'
 }
 
 function hasStoredTheme() {
