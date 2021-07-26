@@ -9,7 +9,7 @@
     1fr
     min-content;
 
-  background: #f8f8f8;
+  background: hsl(0deg 0% calc(97% * var(--is-light-theme-on) + 16% * var(--is-dark-theme-on)));
 
   position: relative;
 
@@ -30,26 +30,27 @@
 }
 
 .aside__footer {
-  display: grid;
-  grid-template-columns: 1fr max-content;
-  padding-right: 30px;
-
+  /* display: grid;
+  grid-template-columns: 1fr max-content; */
+  padding: 20px 30px;
   position: sticky;
-  left: 0px;
-  bottom: 0px;
+  left: 0;
+  bottom: 0;
 
-  background: #f8f8f8;
+  background: inherit;
 }
 
 .aside_hidden .aside__footer {
-  padding: 0;
+  /* padding: 0; */
 }
 
 /* Aside Hidder */
 
 .aside__arrow-btn {
+  margin-left: auto;
   display: block;
   width: 2.2em;
+  height: 1.6em;
   border: none;
   background-color: transparent;
   background-image: url(/images/aside-arrow.svg);
@@ -57,11 +58,11 @@
   background-position: center center;
   transition: transform 0.1s ease-in;
   cursor: pointer;
+  filter: invert(calc(100% * var(--is-dark-theme-on)));
 }
 
 .aside_hidden .aside__arrow-btn {
   transform-origin: center;
   transform: scale(-1, 1);
   transition: transform 0.1s ease-out;
-  margin-right: 15px;
 }
