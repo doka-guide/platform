@@ -64,11 +64,11 @@ function applyTheme(theme = getCurrentTheme()) {
   rootElement.classList.toggle(LIGHT_THEME_CSS_CLASS, THEMES.LIGHT === theme)
   rootElement.classList.toggle(DARK_THEME_CSS_CLASS, THEMES.DARK === theme)
 
-  toggleElement.checked = THEMES.DARK === theme
+  toggleElement.setAttribute('aria-pressed', THEMES.DARK === theme)
 }
 
 // Инициализация
-toggleElement.addEventListener('change', toggleTheme)
+toggleElement.addEventListener('click', toggleTheme)
 
 if (isPrefersColorSchemeSupported() && !hasStoredTheme()) {
   window.matchMedia(PREFERS_MQ_DARK).addEventListener('change', event => {
