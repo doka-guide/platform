@@ -6,10 +6,10 @@
     </h2>
 
     {% for practice in practices %}
-      <article id="practices__{{ practice.fileSlug }}">
+      <article id="practices-{{ practice.fileSlug }}">
         <h3 class="practices__author">
           @{{ practice.fileSlug }}
-          <a href="#practices__{{ practice.fileSlug }}" aria-label="Пример в работе от @{{ practice.fileSlug }}">#</a>
+          <a href="#practices-{{ practice.fileSlug }}" aria-label="Пример в работе от @{{ practice.fileSlug }}">#</a>
         </h3>
         {{ practice.templateContent | safe }}
       </article>
