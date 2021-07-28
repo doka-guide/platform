@@ -6,8 +6,11 @@
     </h2>
 
     {% for practice in practices %}
-      <article>
-        <h3 class="practices__author">@{{ practice.fileSlug }}</h3>
+      <article id="practices-{{ practice.fileSlug }}">
+        <h3 class="practices__author">
+          @{{ practice.fileSlug }}
+          <a href="#practices-{{ practice.fileSlug }}" aria-label="Пример в работе от @{{ practice.fileSlug }}">#</a>
+        </h3>
         {{ practice.templateContent | safe }}
       </article>
     {% endfor %}
