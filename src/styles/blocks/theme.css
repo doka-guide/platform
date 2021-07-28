@@ -1,4 +1,4 @@
-:root {
+.theme {
   --color-light: 0 0% 100%;
   --color-dark: 0 0% 0%;
 
@@ -8,8 +8,6 @@
   --color-pink: 346 81% 78%;
   --color-green: 122 78% 58%;
 }
-
-.theme {}
 
 .theme_font_text {
   --font-family: 'Graphik', sans-serif;
