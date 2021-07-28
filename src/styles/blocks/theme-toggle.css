@@ -40,13 +40,14 @@
 
 .theme-toggle__icon {
   z-index: 1;
+  opacity: calc(1 - var(--icon-fade-mode, 1) * 0.4);
   transition: opacity 0.3s;
 }
 
 .theme-toggle__icon_light {
-  opacity: calc(1 - var(--is-dark-theme-on) * 0.6);
+  --icon-fade-mode: var(--is-dark-theme-on);
 }
 
 .theme-toggle__icon_dark {
-  opacity: calc(1 - var(--is-light-theme-on) * 0.6);
+  --icon-fade-mode: var(--is-light-theme-on);
 }
