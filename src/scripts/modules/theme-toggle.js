@@ -1,20 +1,24 @@
 // константы
-const STORAGE_KEY = 'theme'
+const STORAGE_KEY = 'color-theme'
+
 const THEMES = {
   DARK: 'dark',
   LIGHT: 'light'
 }
 const DEFAULT_THEME = THEMES.LIGHT
+
 const PREFERS_MQ = '(prefers-color-scheme)'
 const PREFERS_MQ_DARK = '(prefers-color-scheme: dark)'
 const PREFERS_MQ_DEFAULT = '(prefers-color-scheme: light), (prefers-color-scheme: no-preference)'
 
-const LIGHT_THEME_CSS_CLASS = 'theme_color_light'
-const DARK_THEME_CSS_CLASS = 'theme_color_dark'
+const LIGHT_THEME_CSS_CLASS = 'base--light-theme'
+const DARK_THEME_CSS_CLASS = 'base--dark-theme'
 
 // DOM-элементы
 const rootElement = document.documentElement
 const toggleElement = document.querySelector('.theme-toggle')
+
+const store = sessionStorage;
 
 // Функции
 function isPrefersColorSchemeSupported() {
@@ -22,11 +26,11 @@ function isPrefersColorSchemeSupported() {
 }
 
 function hasStoredTheme() {
-  return !!localStorage.getItem(STORAGE_KEY)
+  return !!store.getItem(STORAGE_KEY)
 }
 
 function getCurrentTheme() {
-  const theme = localStorage.getItem(STORAGE_KEY)
+  const theme = store.getItem(STORAGE_KEY)
 
   if (theme) {
     return theme
@@ -49,7 +53,7 @@ function getCurrentTheme() {
 }
 
 function setCurrentTheme(theme) {
-  localStorage.setItem(STORAGE_KEY, theme)
+  store.setItem(STORAGE_KEY, theme)
 }
 
 function toggleTheme() {
@@ -61,34 +65,17 @@ function toggleTheme() {
 }
 
 function applyTheme(theme = getCurrentTheme()) {
-  rootElement.classList.toggle(LIGHT_THEME_CSS_CLASS, THEMES.LIGHT === theme)
-  rootElement.classList.toggle(DARK_THEME_CSS_CLASS, THEMES.DARK === theme)
+  const isDarkTheme = THEMES.DARK === theme;
 
-  toggleElement.setAttribute('aria-pressed', THEMES.DARK === theme)
+  rootElement.classList.toggle(LIGHT_THEME_CSS_CLASS, !isDarkTheme)
+  rootElement.classList.toggle(DARK_THEME_CSS_CLASS, isDarkTheme)
+
+  toggleElement.setAttribute('aria-pressed', isDarkTheme)
 }
 
 // Инициализация
 toggleElement.addEventListener('click', toggleTheme)
 
-if (isPrefersColorSchemeSupported() && !hasStoredTheme()) {
-  window.matchMedia(PREFERS_MQ_DARK).addEventListener('change', event => {
-    const newTheme = event.matches ? THEMES.DARK : THEMES.LIGHT
-    applyTheme(newTheme)
-  })
+if (hasStoredTheme()) {
+  applyTheme()
 }
-
-window.addEventListener('storage', event => {
-  if (event.key !== STORAGE_KEY) {
-    return
-  }
-
-  const newTheme = event.newValue
-
-  if (!newTheme) {
-    return
-  }
-
-  applyTheme(newTheme)
-})
-
-applyTheme()
