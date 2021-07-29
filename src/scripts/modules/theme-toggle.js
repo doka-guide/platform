@@ -13,8 +13,7 @@ const PREFERS_MQ_DEFAULT = '(prefers-color-scheme: light), (prefers-color-scheme
 
 // DOM-элементы
 const toggleElement = document.querySelector('.theme-toggle')
-const lightThemeStyles = document.head.querySelector('[data-light-theme]')
-const darkThemeStyles = document.head.querySelector('[data-dark-theme]')
+const darkThemeStyles = document.head.querySelector('style[media="(prefers-color-scheme: dark)"]')
 
 const store = sessionStorage;
 
@@ -67,7 +66,6 @@ function applyTheme(theme = getCurrentTheme()) {
 
   darkThemeStyles.media = 'all'
   darkThemeStyles.disabled = !isDarkTheme
-  lightThemeStyles.disabled = isDarkTheme
   toggleElement.setAttribute('aria-pressed', isDarkTheme)
 }
 
