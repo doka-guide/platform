@@ -11,12 +11,10 @@ const PREFERS_MQ = '(prefers-color-scheme)'
 const PREFERS_MQ_DARK = '(prefers-color-scheme: dark)'
 const PREFERS_MQ_DEFAULT = '(prefers-color-scheme: light), (prefers-color-scheme: no-preference)'
 
-const LIGHT_THEME_CSS_CLASS = 'base--light-theme'
-const DARK_THEME_CSS_CLASS = 'base--dark-theme'
-
 // DOM-элементы
-const rootElement = document.documentElement
 const toggleElement = document.querySelector('.theme-toggle')
+const lightThemeStyles = document.head.querySelector('[data-light-theme]')
+const darkThemeStyles = document.head.querySelector('[data-dark-theme]')
 
 const store = sessionStorage;
 
@@ -65,11 +63,11 @@ function toggleTheme() {
 }
 
 function applyTheme(theme = getCurrentTheme()) {
-  const isDarkTheme = THEMES.DARK === theme;
+  const isDarkTheme = THEMES.DARK === theme
 
-  rootElement.classList.toggle(LIGHT_THEME_CSS_CLASS, !isDarkTheme)
-  rootElement.classList.toggle(DARK_THEME_CSS_CLASS, isDarkTheme)
-
+  darkThemeStyles.media = 'all'
+  darkThemeStyles.disabled = !isDarkTheme
+  lightThemeStyles.disabled = isDarkTheme
   toggleElement.setAttribute('aria-pressed', isDarkTheme)
 }
 

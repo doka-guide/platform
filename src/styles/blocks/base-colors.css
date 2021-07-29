@@ -1,0 +1,11 @@
+/* базовая палитра цветов */
+:root {
+  --color-light: 0 0% 100%;
+  --color-dark: 0 0% 0%;
+
+  --color-orange: 25 100% 59%;
+  --color-blue: 209 100% 59%;
+  --color-yellow: 49 100% 58%;
+  --color-pink: 346 81% 78%;
+  --color-green: 122 78% 58%;
+}

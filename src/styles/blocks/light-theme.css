@@ -1,0 +1,17 @@
+/* настройки светлой темы (тема по умолчанию) */
+:root {
+  --is-light-theme-on: 1;
+  --is-dark-theme-on: 0;
+
+  --color-base-text: var(--color-dark);
+  --color-base-background: var(--color-light);
+
+  --color-text: hsl(var(--color-dark));
+  --color-background: hsl(var(--color-light));
+
+  --color-html: hsl(var(--color-alpha));
+  --color-css: hsl(var(--color-beta));
+  --color-js: hsl(var(--color-gamma));
+  --color-svg: hsl(var(--color-delta));
+  --color-tools: hsl(var(--color-epsilon));
+}
