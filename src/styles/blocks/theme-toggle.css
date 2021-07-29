@@ -44,10 +44,10 @@
   transition: opacity 0.3s;
 }
 
-.theme-toggle__icon_light {
+.theme-toggle__icon--light {
   --icon-fade-mode: var(--is-dark-theme-on);
 }
 
-.theme-toggle__icon_dark {
+.theme-toggle__icon--dark {
   --icon-fade-mode: var(--is-light-theme-on);
 }
