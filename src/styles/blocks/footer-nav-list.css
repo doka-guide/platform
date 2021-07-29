@@ -1,10 +1,6 @@
 .footer-nav-list {
   display: flex;
   align-items: baseline;
-  font-size: var(--font-size-m);
-  line-height: var(--font-line-height-m);
-  font-family: var(--font-family);
-  letter-spacing: var(--letter-spacing);
 }
 
 .footer-nav-list__item {}

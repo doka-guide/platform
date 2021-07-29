@@ -20,7 +20,7 @@
 
 /* Blocks */
 
-@import 'blocks/theme.css';
+@import 'blocks/font-theme.css';
 @import 'blocks/visually-hidden.css';
 @import 'blocks/base-list.css';
 @import 'blocks/link.css';

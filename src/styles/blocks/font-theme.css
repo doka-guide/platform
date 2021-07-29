@@ -1,6 +1,5 @@
-.theme {}
-
-.theme_font_text {
+.font-theme,
+.font-theme--text {
   --font-family: 'Graphik', sans-serif;
 
   --font-size-s: 15px;
@@ -19,7 +18,7 @@
   --font-line-height-xxl: 60px;
 }
 
-.theme_font_code {
+.font-theme--code {
   --font-family: 'Spot Mono', monospace;
 
   --letter-spacing: -0.04em;
