@@ -193,7 +193,7 @@ module.exports = function(config) {
             const options = {
               urlPath: 'images/',
               outputDir: imagesOutputPath,
-              widths: [600, 1200],
+              widths: [300, 600, 1200, 2400],
               formats: [ext.replace('.', ''), 'webp'],
               filenameFormat: function (id, src, width, format) {
                 const extension = path.extname(src);
@@ -205,7 +205,7 @@ module.exports = function(config) {
             const imageAttributes = Object.fromEntries(
               [...image.attributes].map(attr => [attr.name, attr.value])
             )
-            imageAttributes.sizes = imageAttributes.sizes || '100vw'
+            imageAttributes.sizes = imageAttributes.sizes || '(min-width: 1200px) 1200px, calc(100vw - 40px)'
 
             Image(originalLink, options)
             const metadata = Image.statsSync(originalLink, options)
