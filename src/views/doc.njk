@@ -4,21 +4,28 @@
   <div class="aside-page__content base__container">
 
     <article>
-      {% if doc.cover %}
+      {% if doc.data.cover %}
         <picture>
-          {% if cover.mobile %}
-          <source srcset="{{ doc.cover.mobile }}" media="(max-width: 425px)">
-          {% endif%}
-          <img src="{{ doc.cover.desktop }}" width="900" height="537" alt="{{ doc.cover.alt }}">
+          {% if doc.data.cover.mobile %}
+          <source srcset="{{ doc.data.cover.mobile }}" media="(max-width: 425px)">
+          {% endif %}
+          <img src="{{ doc.data.cover.desktop }}" width="900" height="537" alt="{{ doc.data.cover.alt }}">
         </picture>
-      {% endif%}
+      {% endif %}
 
       <h1>{{ title }}</h1>
       <a href="{% contentRepLink %}/blob/main{{ docPath }}" target="_blank">
         Отредактировать на GitHub
       </a>
 
-      <p>{% lastModified doc.data.page.date %}</p>
+      {% if updatedAt %}
+        <p>
+          Отредактировано:
+          <time data-relative-time datetime="{{ updatedAt | isoDate }}">
+            {{ updatedAt | ruDate }}
+          </time>
+        </p>
+      {% endif %}
 
       {% if doc.data.tags | hasTag('placeholder') %}
         {% include "placeholder.njk" %}

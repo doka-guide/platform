@@ -24,10 +24,23 @@ const isProdEnv = env === ENVS.PRODUCTION
 
 module.exports = function(config) {
 
+  config.setBrowserSyncConfig({
+    server: {
+      baseDir: [
+        './dist',
+        './src'
+      ]
+    },
+    files: [
+      'src/styles/**/*.*',
+      'src/scripts/**/*.*'
+    ],
+  })
+
   // Add all Tags
   mainSections.forEach((section) => {
     config.addCollection(section, (collectionApi) =>
-      collectionApi.getFilteredByGlob(`src/${section}/**/index.md`)
+      collectionApi.getFilteredByGlob(`src/${section}/*/**/index.md`)
     )
   })
 
@@ -38,7 +51,15 @@ module.exports = function(config) {
   })
 
   config.addCollection('people', collectionApi => {
-    return collectionApi.getFilteredByGlob('src/people/**/index.md')
+    return collectionApi.getFilteredByGlob('src/people/*/index.md')
+  })
+
+  config.addCollection('peopleById', collectionApi => {
+    return collectionApi.getFilteredByGlob('src/people/*/index.md')
+      .reduce((hashMap, person) => {
+        hashMap[person.fileSlug] = person
+        return hashMap
+      }, {})
   })
 
   config.addCollection('practice', collectionApi => {
@@ -80,37 +101,6 @@ module.exports = function(config) {
 
   config.addShortcode('feedbackFormName', function() {
     return feedbackFormName;
-  })
-
-  // Добавляет переменную для обозначения последнего редактирования статьи
-  // {% lastModified page.date %}
-  config.addShortcode('lastModified', function (date) {
-    let counter = new Date().getTime()/1000-(new Date(date).getTime()/1000)
-    let piece;
-
-    const rtf = new Intl.RelativeTimeFormat('ru', {
-      localeMatcher: 'best fit',
-      numeric: 'always',
-      style: 'long',
-    });
-
-    if (counter >= 86400) {
-      counter = Math.round(counter/86400)
-      piece = 'day'
-    } else if (counter >= 3600) {
-      counter = Math.round(counter/3600)
-      piece = 'hour'
-    } else if (counter >= 60) {
-      counter = Math.round(counter/60)
-      piece = 'minute'
-    } else {
-      counter = Math.round(counter)
-      piece = 'second'
-    }
-
-    let rtfDate = rtf.format(-counter, piece)
-
-    return `Отредактировано: ` + rtfDate
   })
 
   config.addFilter('ruDate', (value) => {
@@ -259,8 +249,6 @@ module.exports = function(config) {
   config.addPassthroughCopy('src/manifest.json')
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
-  config.addPassthroughCopy('src/styles')
-  config.addPassthroughCopy('src/scripts')
   config.addPassthroughCopy('src/**/*.(html|gif|jpg|png|svg|mp4|webm|zip)')
 
   return {
