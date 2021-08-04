@@ -9,9 +9,9 @@
   --color-text: hsl(var(--color-dark));
   --color-background: hsl(var(--color-light));
 
-  --color-html: hsl(var(--color-alpha));
-  --color-css: hsl(var(--color-beta));
-  --color-js: hsl(var(--color-gamma));
-  --color-svg: hsl(var(--color-delta));
-  --color-tools: hsl(var(--color-epsilon));
+  --color-html: hsl(var(--color-orange));
+  --color-css: hsl(var(--color-blue));
+  --color-js: hsl(var(--color-yellow));
+  --color-svg: hsl(var(--color-pink));
+  --color-tools: hsl(var(--color-green));
 }
