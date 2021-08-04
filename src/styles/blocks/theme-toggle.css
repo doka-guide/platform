@@ -1,4 +1,7 @@
 .theme-toggle {
+  --thumb-gap: 8px;
+  --thumb-size: 28px;
+  --lightness: calc(var(--is-light-theme-on) * 87% + var(--is-dark-theme-on) * 40%);
   margin: 0;
   appearance: none;
   position: relative;
@@ -13,15 +16,15 @@
 .theme-toggle__desc {}
 
 .theme-toggle__control {
-  --lightness: calc(var(--is-light-theme-on) * 87% + var(--is-dark-theme-on) * 40%);
-
   position: relative;
   display: grid;
-  grid-gap: 10px;
+  grid-gap: var(--thumb-gap);
   grid-auto-flow: column;
   align-items: center;
   background-color: hsl(0deg 0% var(--lightness));
-  border: 2px solid transparent;
+  border-width: 2px 3px;
+  border-style: solid;
+  border-color: transparent;
   border-radius: 9999px;
   transition: background-color 0.3s;
 }
@@ -29,10 +32,10 @@
 .theme-toggle__thumb {
   position: absolute;
   top: 0;
-  left: calc(100% * var(--is-dark-theme-on));
-  transform: translateX(calc(-100% * var(--is-dark-theme-on)));
-  width: 28px;
-  height: 28px;
+  left: 0;
+  transform: translateX(calc(var(--is-dark-theme-on) * (100% + var(--thumb-gap))));
+  width: var(--thumb-size);
+  height: var(--thumb-size);
   border-radius: 50%;
   background-color: var(--color-background);
   transition: transform 0.3s, left 0.3s;
@@ -41,6 +44,8 @@
 .theme-toggle__icon {
   z-index: 1;
   opacity: calc(1 - var(--icon-fade-mode, 1) * 0.4);
+  width: var(--thumb-size);
+  height: var(--thumb-size);
   transition: opacity 0.3s;
 }
 
