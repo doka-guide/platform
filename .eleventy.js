@@ -105,7 +105,7 @@ module.exports = function(config) {
 
   config.addNunjucksShortcode('readingTime', (text) => {
     let textLength = text.split(' ').length
-    const wordsPerMinute = 250
+    const wordsPerMinute = 150
     const value = Math.ceil(textLength / wordsPerMinute)
     if(textLength > 0){
       return `${value} min read`
