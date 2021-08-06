@@ -64,7 +64,7 @@ function toggleTheme() {
 function applyTheme(theme = getCurrentTheme()) {
   const isDarkTheme = THEMES.DARK === theme
 
-  darkThemeStyles.media = isDarkTheme ? 'all' : 'none'
+  darkThemeStyles.media = isDarkTheme ? 'all' : 'not all'
   toggleElement.setAttribute('aria-pressed', isDarkTheme)
 }
 
