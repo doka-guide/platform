@@ -1,15 +1,19 @@
-const htmlmin = require('html-minifier')
+const path = require('path')
+const fs = require('fs')
+const os = require('os')
+const htmlnano = require('htmlnano')
+const markdownIt = require('markdown-it')
+const markdownItAnchor = require('markdown-it-anchor')
+const { slugify } = require('transliteration')
+const { parseHTML } = require('linkedom')
+const Image = require('@11ty/eleventy-img')
 const {
   mainSections,
   dokaOrgLink,
   platformRepLink,
   contentRepLink,
   feedbackFormName
-} = require("./config/constants.js")
-const markdownIt = require("markdown-it")
-const markdownItAnchor = require("markdown-it-anchor")
-const { slugify } = require("transliteration")
-const { parseHTML } = require('linkedom')
+} = require('./config/constants.js')
 
 const ENVS = {
   DEVELOPMENT: 'development',
@@ -17,7 +21,6 @@ const ENVS = {
 }
 const env = process.env.NODE_ENV || ENVS.PRODUCTION
 const isProdEnv = env === ENVS.PRODUCTION
-const isDevEnv = !isProdEnv
 
 module.exports = function(config) {
 
@@ -42,7 +45,7 @@ module.exports = function(config) {
   })
 
   config.addCollection('docs', (collectionApi) => {
-    const dokas = collectionApi.getFilteredByTag('doka',)
+    const dokas = collectionApi.getFilteredByTag('doka')
     const articles = collectionApi.getFilteredByTag('article')
     return [].concat(dokas, articles)
   })
@@ -74,29 +77,29 @@ module.exports = function(config) {
     linkify: true
   }).use(markdownItAnchor, {
     permalink: true,
-    permalinkClass: "direct-link",
-    permalinkSymbol: "#",
+    permalinkClass: 'direct-link',
+    permalinkSymbol: '#',
     permalinkAttrs: () => ({
       'aria-label': 'Этот заголовок',
     }),
     slugify
   })
-  config.setLibrary("md", markdownLibrary)
+  config.setLibrary('md', markdownLibrary)
 
   // Add all shortcodes
-  config.addShortcode("dokaOrgLink", function() {
+  config.addShortcode('dokaOrgLink', function() {
     return dokaOrgLink;
   });
 
-  config.addShortcode("platformRepLink", function() {
+  config.addShortcode('platformRepLink', function() {
     return platformRepLink;
   });
 
-  config.addShortcode("contentRepLink", function() {
+  config.addShortcode('contentRepLink', function() {
     return contentRepLink;
   })
 
-  config.addShortcode("feedbackFormName", function() {
+  config.addShortcode('feedbackFormName', function() {
     return feedbackFormName;
   })
 
@@ -124,7 +127,7 @@ module.exports = function(config) {
   })
 
   // Фильтрует теги
-  config.addFilter("hasTag", (tags, tag) => {
+  config.addFilter('hasTag', (tags, tag) => {
     return (tags || []).includes(tag);
   });
 
@@ -132,16 +135,76 @@ module.exports = function(config) {
     if (outputPath && outputPath.endsWith('.html')) {
       const DOM = parseHTML(content)
 
-      const practicesSection = DOM.document.getElementById('practices')
-      if (practicesSection) {
-        // Правит пути к демкам и картинкам, которые вставлены в раздел «В работе».
-        // Чтобы сослаться на демку из раздела «В работе» используется относительный путь "../demos/index.html".
-        // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет "../demos/index.html" на "./demos/index.html"
-        const mediaElements = practicesSection.querySelectorAll('img, iframe')
-        for (const element of mediaElements) {
-          const oldLink = element.getAttribute('src');
-          const newLink = oldLink.replace('../', './');
-          element.setAttribute('src', newLink);
+      // Правит пути к демкам и картинкам, которые вставлены в раздел «В работе».
+      // Чтобы сослаться на демку из раздела «В работе» используется относительный путь '../demos/index.html'.
+      // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет '../demos/index.html' на './demos/index.html'
+      {
+        const practicesSection = DOM.document.getElementById('practices')
+        if (practicesSection) {
+          const mediaElements = practicesSection.querySelectorAll('img, iframe')
+          for (const element of mediaElements) {
+            const oldLink = element.getAttribute('src');
+            const newLink = oldLink.replace('../', './');
+            element.setAttribute('src', newLink);
+          }
+        }
+      }
+
+      // замена img на picture внутри статьи
+      if (isProdEnv) {
+        const articleContainer = DOM.document.querySelector('main .aside-page__content')
+        if (articleContainer) {
+          // задаём базовый путь до исходных картинок, используя outputPath
+          // например, из пути `dist/css/active/index.html` нужно получить `/css/active/`
+          const baseSourcePath = outputPath
+            .replace('dist/', '')
+            .replace('/index.html', '')
+          const imagesSourcePath = path.join('src', baseSourcePath)
+          const imagesOutputPath = path.join('dist', baseSourcePath, 'images')
+
+          const extWhiteList = ['.gif', '.svg']
+
+          Image.concurrency = os.cpus().length
+
+          const images = articleContainer.querySelectorAll('img')
+
+          for (const image of images) {
+            const originalLink = path.join(imagesSourcePath, image.src)
+            if (!fs.existsSync(originalLink)) {
+              console.warn(`Изображение ${originalLink} не существует`)
+              continue
+            }
+
+            const ext = path.extname(originalLink)
+            if (extWhiteList.includes(ext)) {
+              continue
+            }
+
+            const options = {
+              urlPath: 'images/',
+              outputDir: imagesOutputPath,
+              widths: [300, 600, 1200, 2400],
+              formats: [ext.replace('.', ''), 'webp'],
+              filenameFormat: function (id, src, width, format) {
+                const extension = path.extname(src);
+                const name = path.basename(src, extension);
+                return `${name}-${width}w.${format}`;
+              }
+            }
+
+            const imageAttributes = Object.fromEntries(
+              [...image.attributes].map(attr => [attr.name, attr.value])
+            )
+            imageAttributes.sizes = imageAttributes.sizes || '(min-width: 1200px) 1200px, calc(100vw - 40px)'
+
+            Image(originalLink, options)
+            const metadata = Image.statsSync(originalLink, options)
+
+            const imageHTML = Image.generateHTML(metadata, imageAttributes)
+            const tempElement = DOM.document.createElement('div')
+            tempElement.innerHTML = imageHTML
+            image.replaceWith(tempElement.firstElementChild)
+          }
         }
       }
 
@@ -157,12 +220,24 @@ module.exports = function(config) {
         let isHtml = outputPath.endsWith('.html')
         let notDemo = !outputPath.includes('demos')
         if (isHtml && notDemo) {
-          return htmlmin.minify(
-            content, {
-              removeComments: true,
-              collapseWhitespace: true,
-            }
-          )
+          return htmlnano.process(content, {
+            collapseAttributeWhitespace: true,
+            collapseWhitespace: 'conservative',
+            deduplicateAttributeValues: true,
+            minifyCss: false,
+            minifyJs: false,
+            minifyJson: false,
+            minifySvg: true,
+            removeComments: 'safe',
+            removeEmptyAttributes: false,
+            removeAttributeQuotes: false,
+            removeRedundantAttributes: true,
+            removeOptionalTags: false,
+            collapseBooleanAttributes: true,
+            mergeStyles: false,
+            mergeScripts: false,
+            minifyUrls: false
+          }).then(result => result.html)
         }
       }
 
