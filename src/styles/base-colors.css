@@ -1,5 +1,7 @@
 /* базовая палитра цветов */
 :root {
+  color-scheme: light dark;
+
   --color-light: 0 0% 100%;
   --color-dark: 0 0% 0%;
 
