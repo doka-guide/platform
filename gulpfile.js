@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 
 const gulp = require('gulp')
 const git = require('gulp-git')
@@ -10,6 +11,8 @@ const autoprefixer = require('autoprefixer')
 const esbuild = require('gulp-esbuild')
 const replace = require('gulp-replace')
 const del = require('del')
+const rev = require('gulp-rev')
+const revRewrite = require('gulp-rev-rewrite')
 
 const { contentRepGithub, contentRepFolders } = require(path.join(__dirname, 'config/constants'))
 
@@ -72,6 +75,27 @@ const clean = () => {
   ])
 }
 
+// Cache
+const cacheHash = () => {
+  return gulp
+    .src('dist/**/*.{css,js}')
+    .pipe(rev())
+    .pipe(gulp.dest('dist'))
+    .pipe(rev.manifest('rev-manifset.json'))
+    .pipe(gulp.dest('dist'))
+}
+
+const cacheReplace = () => {
+  return gulp
+    .src('dist/**/*.{html,css,svg}')
+    .pipe(revRewrite({
+      manifest: fs.readFileSync('dist/rev-manifset.json')
+    }))
+    .pipe(gulp.dest('dist'));
+}
+
+const cache = gulp.series(cacheHash, cacheReplace)
+
 exports.setupContent = gulp.series(
   cloneContent,
   makeLinks,
@@ -88,4 +112,5 @@ exports.default = gulp.series(
   scripts,
   paths,
   clean,
+  cache
 )
