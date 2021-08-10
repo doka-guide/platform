@@ -27,26 +27,18 @@ function hasStoredTheme() {
 }
 
 function getCurrentTheme() {
-  const theme = store.getItem(STORAGE_KEY)
+  const storedTheme = store.getItem(STORAGE_KEY)
 
-  if (theme) {
-    return theme
-  }
+  const themeByCriteria = [
+    [() => !!storedTheme, storedTheme],
+    [() => !isPrefersColorSchemeSupported(), DEFAULT_THEME],
+    [() => window.matchMedia(PREFERS_MQ_DEFAULT).matches, DEFAULT_THEME],
+    [() => window.matchMedia(PREFERS_MQ_DARK).matches, THEMES.DARK],
+    [() => true, DEFAULT_THEME],
+  ]
 
-  switch (true) {
-    case (!isPrefersColorSchemeSupported()):
-    case (window.matchMedia(PREFERS_MQ_DEFAULT).matches): {
-      return DEFAULT_THEME
-    }
-
-    case (window.matchMedia(PREFERS_MQ_DARK).matches): {
-      return THEMES.DARK
-    }
-
-    default: {
-      return DEFAULT_THEME
-    }
-  }
+  const [,theme] = themeByCriteria.find(([criteria]) => criteria())
+  return theme
 }
 
 function setCurrentTheme(theme) {
