@@ -38,4 +38,4 @@ npm install
 
 - правим конфликты (если есть) в файле _package.json_
 - принимаем изменения в _package-lock.json_ из той ветки, которую вливаем в свою;
-- обновляем файл _package-lock.json_, выполнив команду `npm install`
+- обновляем файл _package-lock.json_, выполнив команду `npm install`.
