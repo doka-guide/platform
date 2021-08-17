@@ -1,0 +1,33 @@
+.theme-toggle {
+  --bg-lightness: calc(var(--is-light-theme-on) * 87% + var(--is-dark-theme-on) * 46%);
+
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 9in;
+  background-color: hsl(0 0% var(--bg-lightness));
+}
+
+.theme-toggle__item {
+  opacity: 0.6;
+  margin: 0;
+  appearance: none;
+  padding: 5px 10px;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  border-radius: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.theme-toggle__item:focus,
+.theme-toggle__item:hover {
+  opacity: 1;
+}
+
+.theme-toggle__item--is-active {
+  opacity: 1;
+  background-color: var(--color-background);
+  pointer-events: none;
+}

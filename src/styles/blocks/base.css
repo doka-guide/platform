@@ -1,0 +1,8 @@
+.base {
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+.base__body {
+  margin: 0;
+}

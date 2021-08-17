@@ -1,0 +1,17 @@
+/* настройки для тёмной темы */
+:root {
+  --is-light-theme-on: 0;
+  --is-dark-theme-on: 1;
+
+  --color-base-text: var(--color-light);
+  --color-base-background: var(--color-dark);
+
+  --color-text: hsl(var(--color-light));
+  --color-background: hsl(var(--color-dark));
+
+  --color-html: hsl(var(--color-orange) / 0.4);
+  --color-css: hsl(var(--color-blue) / 0.4);
+  --color-js: hsl(var(--color-yellow) / 0.4);
+  --color-svg: hsl(var(--color-pink) / 0.4);
+  --color-tools: hsl(var(--color-green) / 0.4);
+}
