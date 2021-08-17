@@ -1,0 +1,17 @@
+.index-group-list {
+  --list-item-gutter: 11px;
+}
+
+.index-group-list__item {}
+
+.index-group-list__item + .index-group-list__item {
+  margin-top: var(--list-item-gutter);
+}
+
+.index-group-list__link {}
+
+@media (min-width: 768px) {
+  .index-group-list {
+    --list-item-gutter: 14px;
+  }
+}
