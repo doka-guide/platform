@@ -17,7 +17,7 @@
 @import 'pages/aside-page.css';
 
 /* Blocks */
-
+@import 'blocks/font-theme.css';
 @import 'blocks/base.css';
 @import 'blocks/header.css';
 @import 'blocks/aside.css';
