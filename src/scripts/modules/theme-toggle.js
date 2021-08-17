@@ -75,14 +75,14 @@ function applyTheme(theme = getCurrentTheme()) {
 
   darkThemeStyles.media = mediaMap[theme]
   toggleElement
-    .querySelectorAll(buttonItemSelector)
+    ?.querySelectorAll(buttonItemSelector)
     .forEach(item => {
       item.classList.toggle(buttonItemActiveClass, item.value === theme)
     })
 }
 
 // Инициализация
-toggleElement.addEventListener('click', toggleTheme)
+toggleElement?.addEventListener('click', toggleTheme)
 
 if (hasStoredTheme()) {
   applyTheme()

@@ -1,0 +1,48 @@
+.featured-artices-list {
+  --page-size: 6;
+  --columns: 1;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(var(--columns), 1fr);
+}
+
+.featured-artices-list__item {
+  display: grid;
+}
+
+.featured-artices-list__item:not(.featured-artices-list__item--is-active):nth-child(n + 7) {
+  display: none;
+}
+
+@media not all and (min-width: 1366px) {
+  .featured-artices-list {
+    --page-size: 4;
+  }
+
+  .featured-artices-list__item:not(.featured-artices-list__item--is-active):nth-child(n + 5) {
+    display: none;
+  }
+}
+
+@media not all and (min-width: 768px) {
+  .featured-artices-list {
+    --page-size: 3;
+  }
+
+  .featured-artices-list__item:not(.featured-artices-list__item--is-active):nth-child(n + 4) {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .featured-artices-list {
+    --columns: 2;
+  }
+}
+
+@media (min-width: 1366px) {
+  .featured-artices-list {
+    --columns: 3;
+    grid-gap: 20px;
+  }
+}

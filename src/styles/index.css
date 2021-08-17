@@ -17,10 +17,18 @@
 @import 'pages/aside-page.css';
 
 /* Blocks */
+@import 'blocks/visually-hidden.css';
+@import 'blocks/base-list.css';
+@import 'blocks/container.css';
 @import 'blocks/font-theme.css';
+@import 'blocks/link.css';
+@import 'blocks/button.css';
 @import 'blocks/base.css';
 @import 'blocks/header.css';
 @import 'blocks/aside.css';
 @import 'blocks/search.css';
 @import 'blocks/footer.css';
 @import 'blocks/theme-toggle.css';
+@import 'blocks/featured-article.css';
+@import 'blocks/featured-artices-list.css';
+@import 'blocks/articles-gallery.css';

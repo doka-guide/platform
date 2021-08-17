@@ -1,0 +1,22 @@
+@property --stroke-opacity {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+.link {
+  --text-color: hsl(var(--color-base-text));
+  --stroke-color: hsl(var(--color-base-text) / var(--stroke-opacity));
+  --stroke-opacity: 0.3;
+
+  color: var(--text-color);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--stroke-color);
+  text-underline-position: under;
+  transition: --stroke-opacity 0.2s;
+}
+
+.link:hover {
+  --stroke-opacity: 0.75;
+}

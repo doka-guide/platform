@@ -1,0 +1,18 @@
+{% macro featuredArticle(article) %}
+  {% set fontTheme = 'code' if article.type === 'doka' else 'text' %}
+  {% set hasImage = article.cover %}
+
+  <article class="featured-article" style="--accent-color: var(--color-{{ article.section }})">
+    {% if hasImage %}
+      <img class="featured-article__image" src="{{ article.link }}/{{ article.cover.desktop }}" alt="">
+    {% endif %}
+    <h3 class="featured-article__title font-theme font-theme--{{ fontTheme }}">
+      <a class="featured-article__link link" href="{{ article.link }}" title="{{ article.title }}">{{ article.title }}</a>
+    </h3>
+    {% if ((not hasImage) and article.description) %}
+      <p class="featured-article__desc">
+        {{ article.description }}
+      </p>
+    {% endif %}
+  </article>
+{% endmacro %}

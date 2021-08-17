@@ -1,0 +1,15 @@
+.container {
+  --container-gutter: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  max-width: 1680px;
+  padding-left: var(--container-gutter);
+  padding-right: var(--container-gutter);
+}
+
+@media (min-width: 1366px) {
+  .container {
+    --container-gutter: 20px;
+  }
+}
