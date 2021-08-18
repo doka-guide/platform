@@ -1,0 +1,29 @@
+.logo {
+  --ligthness: calc(var(--is-light-theme-on) * 90% + var(--is-dark-theme-on) * 25%);
+  --logo-background-color: hsl(0 0% var(--ligthness));
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-family);
+  font-size: var(--font-size-xl);
+  line-height: var(--font-line-height-xl);
+  letter-spacing: var(--letter-spacing);
+}
+
+.logo__image {
+  width: 122px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  background-color: var(--logo-background-color);
+  border-radius: 9in;
+}
+
+.logo__symbols {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.logo__text {
+  margin-left: 6px;
+}

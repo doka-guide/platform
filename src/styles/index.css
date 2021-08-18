@@ -24,7 +24,9 @@
 @import 'blocks/link.css';
 @import 'blocks/button.css';
 @import 'blocks/base.css';
+@import 'blocks/logo.css';
 @import 'blocks/header.css';
+@import 'blocks/nav-list.css';
 @import 'blocks/aside.css';
 @import 'blocks/search.css';
 @import 'blocks/footer.css';
