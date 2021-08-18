@@ -6,14 +6,8 @@ const THEMES = {
   LIGHT: 'light',
   AUTO: 'auto'
 }
-const DEFAULT_THEME = THEMES.AUTO
 
-const PREFERS_MQ = '(prefers-color-scheme)'
-const PREFERS_MQ_DARK = '(prefers-color-scheme: dark)'
-const PREFERS_MQ_DEFAULT = '(prefers-color-scheme: light), (prefers-color-scheme: no-preference)'
-
-const buttonItemSelector = '.theme-toggle__item'
-const buttonItemActiveClass = 'theme-toggle__item--is-active'
+const controlSelector = '.theme-toggle__control'
 
 // DOM-элементы
 const toggleElement = document.querySelector('.theme-toggle')
@@ -22,27 +16,13 @@ const darkThemeStyles = document.head.querySelector('link[media="(prefers-color-
 const store = localStorage;
 
 // Функции
-function isPrefersColorSchemeSupported() {
-  return window.matchMedia(PREFERS_MQ).media !== 'not all'
-}
-
 function hasStoredTheme() {
   return !!store.getItem(STORAGE_KEY)
 }
 
 function getCurrentTheme() {
   const storedTheme = store.getItem(STORAGE_KEY)
-
-  const themeByCriteria = [
-    [() => !!storedTheme, storedTheme],
-    [() => !isPrefersColorSchemeSupported(), DEFAULT_THEME],
-    [() => window.matchMedia(PREFERS_MQ_DEFAULT).matches, DEFAULT_THEME],
-    [() => window.matchMedia(PREFERS_MQ_DARK).matches, THEMES.DARK],
-    [() => true, DEFAULT_THEME],
-  ]
-
-  const [,theme] = themeByCriteria.find(([criteria]) => criteria())
-  return theme
+  return storedTheme || THEMES.AUTO
 }
 
 function setCurrentTheme(theme) {
@@ -54,36 +34,49 @@ function setCurrentTheme(theme) {
 }
 
 function toggleTheme(event) {
-  const button = event.target.closest(buttonItemSelector)
+  const newTheme = event.target?.value
 
-  if (!button) {
+  if (!newTheme) {
     return
   }
-
-  const newTheme = button.value
 
   setCurrentTheme(newTheme)
   applyTheme(newTheme)
 }
 
 function applyTheme(theme = getCurrentTheme()) {
-  const mediaMap = {
+  const darkStyleMediaMap = {
     [THEMES.AUTO]: '(prefers-color-scheme: dark)',
     [THEMES.LIGHT]: 'not all',
     [THEMES.DARK]: 'all',
   }
 
-  darkThemeStyles.media = mediaMap[theme]
+  darkThemeStyles.media = darkStyleMediaMap[theme]
   toggleElement
-    ?.querySelectorAll(buttonItemSelector)
+    ?.querySelectorAll(controlSelector)
     .forEach(item => {
-      item.classList.toggle(buttonItemActiveClass, item.value === theme)
+      item.checked = item.value === theme
     })
 }
 
 // Инициализация
-toggleElement?.addEventListener('click', toggleTheme)
+toggleElement?.addEventListener('change', toggleTheme)
 
+window.addEventListener('storage', event => {
+  if (event.key !== STORAGE_KEY) {
+    return
+  }
+
+  const newTheme = event.newValue
+
+  if (!newTheme) {
+    return
+  }
+
+  applyTheme(newTheme)
+})
+
+// TODO: перенести в inline-скрипты для избежания миганий
 if (hasStoredTheme()) {
   applyTheme()
 }
