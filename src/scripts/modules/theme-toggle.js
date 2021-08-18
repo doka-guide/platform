@@ -7,8 +7,6 @@ const THEMES = {
   AUTO: 'auto'
 }
 
-const controlSelector = '.theme-toggle__control'
-
 // DOM-элементы
 const toggleElement = document.querySelector('.theme-toggle')
 const darkThemeStyles = document.head.querySelector('link[media="(prefers-color-scheme: dark)"]')
@@ -52,15 +50,11 @@ function applyTheme(theme = getCurrentTheme()) {
   }
 
   darkThemeStyles.media = darkStyleMediaMap[theme]
-  toggleElement
-    ?.querySelectorAll(controlSelector)
-    .forEach(item => {
-      item.checked = item.value === theme
-    })
+  toggleElement.querySelector(`[value="${theme}"]`).checked = true
 }
 
 // Инициализация
-toggleElement?.addEventListener('change', toggleTheme)
+toggleElement.addEventListener('change', toggleTheme)
 
 window.addEventListener('storage', event => {
   if (event.key !== STORAGE_KEY) {
