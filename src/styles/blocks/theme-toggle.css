@@ -2,6 +2,7 @@
   --bg-lightness: calc(var(--is-light-theme-on) * 87% + var(--is-dark-theme-on) * 46%);
 
   display: inline-flex;
+  align-items: baseline;
   padding: 2px;
   border-radius: 9in;
   background-color: hsl(0 0% var(--bg-lightness));
@@ -11,14 +12,15 @@
   opacity: 0.6;
   margin: 0;
   appearance: none;
-  padding: 5px 10px;
+  padding: 0.4em 0.67em;
   border: 0;
   font: inherit;
+  line-height: 1;
   color: inherit;
   background-color: transparent;
   border-radius: inherit;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, background-color 0s 0.1s;
 }
 
 .theme-toggle__item:focus,
