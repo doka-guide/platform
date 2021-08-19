@@ -240,7 +240,7 @@ module.exports = function(config) {
             minifyCss: false,
             minifyJs: false,
             minifyJson: false,
-            minifySvg: true,
+            minifySvg: false,
             removeComments: 'safe',
             removeEmptyAttributes: false,
             removeAttributeQuotes: false,
