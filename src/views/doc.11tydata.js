@@ -21,10 +21,12 @@ function getPopulatedPersons(personKey) {
   }
 }
 
+function hasTag(tags, tag) {
+  return (tags || []).includes(tag)
+}
+
 module.exports = {
   layout: 'base.njk',
-
-  bodyClass: 'aside-page',
 
   pagination: {
     data: 'collections.docs',
@@ -40,6 +42,16 @@ module.exports = {
       return doc.data.title
     },
 
+    cover: function(data) {
+      const { doc } = data
+      return doc.data.cover
+    },
+
+    description: function(data) {
+      const { doc } = data
+      return doc.data.description
+    },
+
     authors: getPersons('authors'),
 
     populatedAuthors: getPopulatedPersons('authors'),
@@ -53,7 +65,24 @@ module.exports = {
     populatedEditors: getPopulatedPersons('editors'),
 
     docPath: function(data) {
-      return data.doc.filePathStem.replace('index', '')
+      const { doc } = data
+      return doc.filePathStem.replace('index', '')
+    },
+
+    category: function(data) {
+      const { doc } = data
+      return doc.filePathStem.split('/')[1]
+    },
+
+    categoryName: function(data) {
+      const { category, collections } = data
+      return collections.articleIndexes
+        .find(section => section.fileSlug === category)?.data.name
+    },
+
+    type: function(data) {
+      const { doc } = data
+      return hasTag(doc.data.tags, 'article') ? 'article' : 'doka'
     },
 
     practices: function(data) {

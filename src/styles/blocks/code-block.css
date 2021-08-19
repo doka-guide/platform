@@ -1,0 +1,34 @@
+.code-block {
+  counter-reset: line-count 0;
+  overflow: auto;
+}
+
+.code-block__content {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  font-family: var(--font-family, monospace);
+  letter-spacing: var(--letter-spacing);
+}
+
+.code-block__line {
+  display: contents;
+}
+
+.code-block__line-number {
+  position: sticky;
+  left: 0;
+  padding-right: 0.83em;
+  display: inline-block;
+  text-align: end;
+  background-color: hsla(var(--color-base-background) / 0.92);
+}
+
+.code-block__line-number::before {
+  content: counter(line-count);
+  counter-increment: line-count;
+  opacity: 0.6;
+}
+
+.code-block__line-content {}
+
+/* TODO: тема для подсветки кода */

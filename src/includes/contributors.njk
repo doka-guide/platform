@@ -1,36 +1,44 @@
 {% macro person(name, url) %}
   {% if url %}
-    <a href="{{ url }}">{{ name }}</a>
+    <a class="persons-list__name link" href="{{ url }}">{{ name }}</a>
   {% else %}
-    <span>{{ name }}</span>
+    <span class="persons-list__name">{{ name }}</span>
   {% endif %}
 {% endmacro %}
 
-{% macro personsList(list) %}
-  <ul>
-    {% for personItem in list %}
-      <li>
-        {{ person(name=personItem.data.name, url=personItem.data.url) }}
-      </li>
-    {% endfor %}
-  </ul>
+{% macro personsList(list, maxPersons = 3) %}
+  {% set totalPersonsCount = list.length %}
+  {% set extraPersonsCount = totalPersonsCount - maxPersons %}
+  {% set divider = "," %}
+
+  <div class="persons-list">
+    <ul class="persons-list__items base-list">
+      {% for personItem in list %}
+        {% set isHidden = loop.index > maxPersons %}
+        <li class="persons-list__item" {% if isHidden %}hidden{% endif %}>
+          {{ person(name=personItem.data.name, url=personItem.data.url) }}
+          {% if not loop.last %}
+            {{ divider }}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    {% if extraPersonsCount > 0 %}
+      <span class="persons-list__extra">
+        и <button class="persons-list__button link" type="button">ещё {{ extraPersonsCount }}</button>
+      </span>
+    {% endif %}
+  </div>
 {% endmacro %}
 
 <section class="contributors">
-  <p>Авторы: </p>
-  {{ personsList(list=populatedAuthors) }}
+  <div class="contributors__item">Авторы {{ personsList(list=populatedAuthors) }}</div>
 
-  {% if contributors %}
-    <details>
-      <summary>Свой вклад внесли</summary>
-      {{ personsList(list=populatedContributors) }}
-    </details>
+  {% if populatedContributors.length > 0 %}
+    <div class="contributors__item">Контрибьюторы {{ personsList(list=populatedContributors) }}</div>
   {% endif %}
 
-  {% if editors %}
-    <details>
-      <summary>Редакторы статьи</summary>
-      {{ personsList(list=populatedEditors) }}
-    </details>
+  {% if populatedEditors.length > 0 %}
+    <div class="contributors__item">Редакторы {{ personsList(list=populatedEditors) }}</div>
   {% endif %}
 </section>

@@ -14,4 +14,11 @@
   --color-js: hsl(var(--color-yellow) / 0.4);
   --color-svg: hsl(var(--color-pink) / 0.4);
   --color-tools: hsl(var(--color-green) / 0.4);
+
+  --color-code-blue: hsl(209 98% 48%);
+  --color-code-green: hsl(133 100% 36%);
+  --color-code-red: hsl(0 100% 46%);
+  --color-code-purple: hsl(300 100% 41%);
+  --color-code-gray: hsl(0 0% 46%);
+  --color-code-text: hsl(0 0% 100%);
 }

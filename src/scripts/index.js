@@ -1,4 +1,6 @@
-import "./modules/aside.js"
-import "./modules/last-update.js"
-import "./modules/theme-toggle.js"
-import "./modules/articles-gallery.js"
+import './modules/aside.js'
+import './modules/last-update.js'
+import './modules/theme-toggle.js'
+import './modules/articles-gallery.js'
+import './modules/persons-list.js'
+import './modules/article-nav.js'

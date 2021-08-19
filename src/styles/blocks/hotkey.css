@@ -1,0 +1,24 @@
+.hotkey {
+  opacity: 0.6;
+  min-width: 14px;
+  padding: 1px 6px;
+  border: 1px solid hsl(var(--color-base-text) / 0.3);
+  font-size: 17px;
+  line-height: 1;
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-spacing);
+  text-transform: uppercase;
+  border-radius: 5px;
+}
+
+@media not all and (min-width: 768px) {
+  .hotkey {
+    display: none;
+  }
+}
+
+@media (min-width: 1366px) {
+  .hotkey {
+    font-size: 20px;
+  }
+}
