@@ -9,7 +9,7 @@ const THEMES = {
 
 // DOM-элементы
 const toggleElement = document.querySelector('.theme-toggle')
-const darkThemeStyles = document.head.querySelector('link[media="(prefers-color-scheme: dark)"]')
+const darkThemeStyles = document.head.querySelector('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]')
 
 const store = localStorage;
 
