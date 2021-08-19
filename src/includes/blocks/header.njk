@@ -23,7 +23,7 @@
 
 {% set logoWrapper = simpleLogo if isMainPage else linkLogo %}
 
-<header class="header {% if isMainPage %}header--is-open{% endif %}">
+<header class="header {% if isMainPage %}header--open{% endif %}">
   {{ logoWrapper(children=logo) }}
 
   {% include "blocks/search.njk" %}

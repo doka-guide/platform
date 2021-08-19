@@ -9,7 +9,7 @@ function init() {
   const list = gallery.querySelector('.featured-artices-list')
   const items = Array.from(list.querySelectorAll('.featured-artices-list__item'))
 
-  const activeClass = 'featured-artices-list__item--is-active'
+  const activeClass = 'featured-artices-list__item--active'
 
   const pageSize = parseInt(getComputedStyle(list).getPropertyValue('--page-size')) || 1
   let lastItemIndex = pageSize

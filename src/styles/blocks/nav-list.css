@@ -31,12 +31,12 @@
   border-radius: 6px;
 }
 
-.nav-list__link--is-highlighted,
+.nav-list__link--highlighted,
 .nav-list__link:hover {
   width: 100%;
 }
 
-.nav-list__link--is-highlighted::after,
+.nav-list__link--highlighted::after,
 .nav-list__link:hover::after {
   opacity: calc(1 - var(--is-dark-theme-on) * 0.6);
   height: 100%;

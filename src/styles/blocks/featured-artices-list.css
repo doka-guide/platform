@@ -10,7 +10,7 @@
   display: grid;
 }
 
-.featured-artices-list__item:not(.featured-artices-list__item--is-active):nth-child(n + 7) {
+.featured-artices-list__item:not(.featured-artices-list__item--active):nth-child(n + 7) {
   display: none;
 }
 
@@ -19,7 +19,7 @@
     --page-size: 4;
   }
 
-  .featured-artices-list__item:not(.featured-artices-list__item--is-active):nth-child(n + 5) {
+  .featured-artices-list__item:not(.featured-artices-list__item--active):nth-child(n + 5) {
     display: none;
   }
 }
@@ -29,7 +29,7 @@
     --page-size: 3;
   }
 
-  .featured-artices-list__item:not(.featured-artices-list__item--is-active):nth-child(n + 4) {
+  .featured-artices-list__item:not(.featured-artices-list__item--active):nth-child(n + 4) {
     display: none;
   }
 }
