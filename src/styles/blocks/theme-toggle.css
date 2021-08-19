@@ -4,7 +4,7 @@
   display: inline-flex;
   align-items: baseline;
   padding: 2px;
-  border-radius: 9in;
+  border-radius: 2em;
   background-color: hsl(0 0% var(--bg-lightness));
 }
 
@@ -39,7 +39,7 @@
   line-height: 1;
   color: inherit;
   background-color: transparent;
-  border-radius: 9in;
+  border-radius: 2em;
   transition: opacity 0.2s;
 }
 

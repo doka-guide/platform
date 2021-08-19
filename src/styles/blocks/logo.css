@@ -15,7 +15,7 @@
   display: grid;
   place-items: center;
   background-color: var(--logo-background-color);
-  border-radius: 9in;
+  border-radius: 2em;
 }
 
 .logo__symbols {
