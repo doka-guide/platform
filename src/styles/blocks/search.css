@@ -4,7 +4,8 @@
 
 .search__input,
 .search__controls {
-  grid-area: 1 / 1 / -1 / -1;
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
 }
 
 .search__input {
