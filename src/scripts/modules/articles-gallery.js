@@ -9,7 +9,7 @@ function init() {
   const list = gallery.querySelector('.featured-artices-list')
   const items = Array.from(list.querySelectorAll('.featured-artices-list__item'))
 
-  if (!list && !button) {
+  if (!list && !button && items.length > 0) {
     return
   }
 
