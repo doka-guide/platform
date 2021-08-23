@@ -1,0 +1,24 @@
+.intro {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-bottom: clamp(40px, 4.8%, 80px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.intro__description {
+  margin: 0;
+}
+
+.intro__link {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+}
+
+.intro__icon {
+  width: 0.968em;
+  height: 0.92em;
+}

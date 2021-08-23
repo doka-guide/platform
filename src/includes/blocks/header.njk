@@ -1,7 +1,31 @@
-<header class="header">
-  {% if page.url !== '/' %}<a href="/">{% endif %}
+{% macro divider() %}
+  <span class="header__divider font-theme font-theme--code" aria-hidden="true"></span>
+{% endmacro %}
 
+{% macro simpleLogo(children) %}
+  <div class="header__logo">
+    {{ children | safe  }}
+  </div>
+{% endmacro %}
+
+{% macro linkLogo(children) %}
+  <a class="header__logo link" href="/">
+    {{ children | safe  }}
+  </a>
+{% endmacro %}
+
+{% set logo %}
   {% include "blocks/logo.njk" %}
+  {{ divider() }}
+{% endset %}
 
-  {% if page.url !== '/' %}</a>{% endif %}
+{% set isMainPage = page.url === '/' %}
+
+{% set logoWrapper = simpleLogo if isMainPage else linkLogo %}
+
+<header class="header {% if isMainPage %}header--open{% endif %}">
+  {{ logoWrapper(children=logo) }}
+
+  {% include "blocks/search.njk" %}
+  {% include "blocks/nav-list.njk" %}
 </header>

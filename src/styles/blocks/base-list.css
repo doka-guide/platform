@@ -1,0 +1,5 @@
+.base-list {
+  margin: 0;
+  padding: 0;
+  list-style-image: url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg"/%3E');
+}

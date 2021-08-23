@@ -1,0 +1,4 @@
+.materials-collection {
+  padding-bottom: 40px;
+  padding-bottom: clamp(40px, 11%, 180px);
+}

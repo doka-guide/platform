@@ -1,0 +1,19 @@
+.button {
+  margin: 0;
+  appearance: none;
+  display: inline-block;
+  padding: 0.5em 1.25em;
+  border: 1px solid;
+  font: inherit;
+  text-decoration: none;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.button:active {
+  color: var(--color-background);
+  background-color: var(--color-text);
+  border-color: transparent;
+}

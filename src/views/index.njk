@@ -1,28 +1,64 @@
----
-title: Дока
-layout: base.njk
-permalink: index.html
----
+{% from "blocks/featured-article.njk" import featuredArticle %}
 
-<div class="index">
-  <header class="index__header header">
-    {% include "blocks/logo.njk" %}
-    <a class="header__link" href="/all">Все статьи</a>
-  </header>
+{% include "blocks/header.njk" %}
 
-  <main class="index__content">
-    <div class="search">
-      <div class="search__topics">
-        <button class="search__button" type="button">HTML</button>
-        <button class="search__button" type="button">CSS</button>
-        <button class="search__button" type="button">JS</button>
+<main>
+  <div class="container">
+    <div class="intro">
+      <p class="intro__description">Документация для разработчиков на человеческом языке</p>
+      <div class="intro__link">
+        <svg class="intro__icon" width="23" height="22" fill="currentColor" viewBox="0 0 23 22" aria-hidden="true">
+          <path d="M11.28 0C5.05 0 0 5 0 11.17c0 4.94 3.23 9.12 7.71 10.6.57.1.77-.24.77-.54l-.01-1.9c-3.14.67-3.8-1.5-3.8-1.5-.52-1.29-1.26-1.64-1.26-1.64-1.02-.69.08-.67.08-.67 1.13.08 1.73 1.15 1.73 1.15 1 1.7 2.64 1.21 3.28.92.1-.72.4-1.21.72-1.5-2.5-.27-5.13-1.23-5.13-5.5 0-1.22.43-2.22 1.16-3-.12-.29-.5-1.42.1-2.96 0 0 .95-.3 3.1 1.15a11.05 11.05 0 015.66 0c2.15-1.45 3.1-1.15 3.1-1.15.61 1.54.23 2.68.1 2.96a4.3 4.3 0 011.17 3c0 4.29-2.64 5.23-5.16 5.5.4.35.77 1.04.77 2.08l-.01 3.06c0 .3.2.65.77.54a11.18 11.18 0 007.71-10.6C22.56 5 17.51 0 11.28 0z" />
+        </svg>
+        <a class="link" href="{% contentRepLink %}">Стать контрибьютором</a>
       </div>
-      <input class="search__input"
-        type="text"
-        placeholder="Поиск…"
-        autofocus>
     </div>
-  </main>
 
-  {% include "blocks/footer.njk" %}
-</div>
+    <section class="articles-gallery">
+      <h2 class="visually-hidden">Избранные статьи</h2>
+
+      <ul class="featured-artices-list base-list">
+        {% for article in featuredArticles %}
+          {% set isHidden = loop.index > featuredArticlesPageSize %}
+          {% if isHidden %}
+            <template>
+              <li class="featured-artices-list__item">
+                {{ featuredArticle(article=article) }}
+              </li>
+            </template>
+          {% else %}
+            <li class="featured-artices-list__item">
+              {{ featuredArticle(article=article) }}
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      <button class="articles-gallery__more-button button" type="button">Показать ещё</button>
+    </section>
+
+    <section class="materials-collection">
+      <h2 class="visually-hidden">Подборки материалов</h2>
+
+      <ul class="article-indexes-list base-list">
+        {% for sectionIndex in collections.articleIndexes %}
+          <li class="article-indexes-list__item">
+            <h3 class="article-indexes-list__title" style="--accent-color: var(--color-base-{{ sectionIndex.fileSlug }})">
+              <a class="article-indexes-list__link" href="/{{ sectionIndex.fileSlug }}/">
+                {{ sectionIndex.data.name }}
+              </a>
+            </h3>
+            <ul class="index-group-list base-list">
+              {% for group in sectionIndex.data.groups %}
+                <li class="index-group-list__item">
+                  <a class="index-group-list__link link" href="#404">{{ group.name }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+</main>
+
+{% include "blocks/footer.njk" %}

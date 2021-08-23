@@ -70,6 +70,19 @@ module.exports = function(config) {
     return collectionApi.getFilteredByGlob('src/pages/**/index.md')
   })
 
+  config.addCollection('articleIndexes', collectionApi => {
+    const articleIndexes = collectionApi.getFilteredByGlob(`src/{${mainSections.join(',')}}/index.md`)
+    const existIds = articleIndexes.map(section => section.fileSlug)
+    const visualOrder = mainSections.filter(sectionId => existIds.includes(sectionId))
+
+    const indexesMap = articleIndexes.reduce((map, section) => {
+      map[section.fileSlug] = section
+      return map
+    }, {})
+
+    return visualOrder.map(sectionId => indexesMap[sectionId])
+  })
+
   // Настраивает markdown-it
   let markdownLibrary = markdownIt({
     html: true,
@@ -227,7 +240,7 @@ module.exports = function(config) {
             minifyCss: false,
             minifyJs: false,
             minifyJson: false,
-            minifySvg: true,
+            minifySvg: false,
             removeComments: 'safe',
             removeEmptyAttributes: false,
             removeAttributeQuotes: false,

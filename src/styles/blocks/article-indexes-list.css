@@ -1,0 +1,39 @@
+.article-indexes-list {
+  --column-offset: 40px;
+  margin-bottom: calc(-1 * var(--column-offset));
+  overflow: hidden;
+  column-width: 280px;
+  column-gap: 60px;
+}
+
+.article-indexes-list__item {
+  overflow: hidden;
+  display: block;
+  padding-bottom: var(--column-offset);
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.article-indexes-list__title {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-weight: normal;
+  font-size: var(--font-size-l);
+  line-height: 1;
+}
+
+.article-indexes-list__link {
+  display: inline-block;
+  vertical-align: top;
+  color: inherit;
+  text-decoration: none;
+}
+
+.article-indexes-list__link::after {
+  content: '';
+  margin-top: 3px;
+  display: block;
+  height: 4px;
+  border-radius: 4px;
+  background-color: var(--accent-color);
+}
