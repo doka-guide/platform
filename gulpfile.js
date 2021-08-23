@@ -28,7 +28,7 @@ const makeLinks = shell.task(`node make-links.js --default`, {
 // Styles
 
 const styles = () => {
-  return gulp.src('src/styles/index.css')
+  return gulp.src('src/styles/{index.css,dark-theme.css}')
     .pipe(postcss([
       pimport,
       autoprefixer,
@@ -56,6 +56,9 @@ const paths = () => {
   return gulp.src('dist/**/*.html')
     .pipe(replace(
       /(<link rel="stylesheet" href="\/)styles\/(index.css">)/, '$1$2'
+    ))
+    .pipe(replace(
+      /(<link rel="stylesheet" href="\/)styles\/(dark-theme.css" media="(prefers-color-scheme: dark)">)/, '$1$2'
     ))
     .pipe(replace(
       /(<script) type="module"( src="\/)scripts\/(index.js">)/, '$1$2$3'
