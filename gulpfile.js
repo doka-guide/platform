@@ -9,7 +9,6 @@ const csso = require('postcss-csso')
 const pimport = require('postcss-import')
 const autoprefixer = require('autoprefixer')
 const esbuild = require('gulp-esbuild')
-const replace = require('gulp-replace')
 const del = require('del')
 const rev = require('gulp-rev')
 const revRewrite = require('gulp-rev-rewrite')
@@ -34,8 +33,7 @@ const styles = () => {
       autoprefixer,
       csso,
     ]))
-    .pipe(replace(/\.\.\//g, ''))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist/styles'))
 }
 
 // Scripts
@@ -47,23 +45,7 @@ const scripts = () => {
       bundle: true,
       minify: true,
     }))
-    .pipe(gulp.dest('dist'))
-}
-
-// Paths
-
-const paths = () => {
-  return gulp.src('dist/**/*.html')
-    .pipe(replace(
-      /(<link rel="stylesheet" href="\/)styles\/(index.css">)/, '$1$2'
-    ))
-    .pipe(replace(
-      /(<link rel="stylesheet" href="\/)styles\/(dark-theme.css" media="(prefers-color-scheme: dark)">)/, '$1$2'
-    ))
-    .pipe(replace(
-      /(<script) type="module"( src="\/)scripts\/(index.js">)/, '$1$2$3'
-    ))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist/scripts'))
 }
 
 // Clean
@@ -108,9 +90,8 @@ exports.dropContent = () => del([
 
 // Default
 exports.default = gulp.series(
+  clean,
   styles,
   scripts,
-  paths,
-  clean,
   cache
 )
