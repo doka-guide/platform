@@ -11,13 +11,13 @@ jobs:
       DEPLOY_DOMAIN: 'https://${{ github.repository_owner }}-platform-pr-${{ github.event.number }}.surge.sh'
       SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
     steps:
-      - name: Загрузка platform
+      - name: Загрузка платформы
+        uses: actions/checkout@v2
+      - name: Загрузка контента
         uses: actions/checkout@v2
         with:
           repository: doka-guide/content
           path: content
-      - name: Загрузка контента
-        uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
