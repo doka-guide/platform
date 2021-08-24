@@ -43,7 +43,6 @@
     "gulp-esbuild": "^0.8.2",
     "gulp-git": "^2.10.1",
     "gulp-postcss": "^9.0.0",
-    "gulp-replace": "^1.1.3",
     "gulp-rev": "^9.0.0",
     "gulp-rev-rewrite": "^4.0.0",
     "gulp-shell": "^0.8.0",
