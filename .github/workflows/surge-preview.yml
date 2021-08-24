@@ -1,0 +1,66 @@
+name: Surge
+
+on:
+  pull_request
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.draft == false }}
+    env:
+      DEPLOY_DOMAIN: 'https://${{ github.repository_owner }}-platform-pr-${{ github.event.number }}.surge.sh'
+      SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+    steps:
+      - name: Загрузка platform
+        uses: actions/checkout@v2
+        with:
+          repository: doka-guide/content
+          path: content
+      - name: Загрузка контента
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Кэширование модулей
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Установка модулей
+        run: npm ci
+      - name: Сообщение о начале публикации превью
+        id: comment
+        if: ${{ env.SURGE_TOKEN != '' }}
+        uses: jungwinter/comment@v1
+        with:
+          type: create
+          body: 'Идёт сборка и публикация превью...'
+          issue_number: ${{ github.event.number }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Сборка и публикация сайта
+        id: surge
+        run: |
+          node make-links.js --default
+          npm run build
+          if ! [[ ${{ env.SURGE_TOKEN == '' }} ]]; then
+            npx surge ./dist ${{ env.DEPLOY_DOMAIN }} --token ${{ env.SURGE_TOKEN }}
+          else
+            echo 'Публикация для форка репозитория'
+            npx surge ./dist ${{ env.DEPLOY_DOMAIN }} --token '6973bdb764f0d5fd07c910de27e2d7d0'
+          fi
+          echo 'Ссылка на превью — ${{ env.DEPLOY_DOMAIN }}'
+      - name: Сообщение об окончании публикации превью
+        if: ${{ env.SURGE_TOKEN != '' && steps.surge.conclusion == 'success' }}
+        uses: jungwinter/comment@v1
+        with:
+          type: edit
+          body: |
+            [Превью контента](${{ env.DEPLOY_DOMAIN }}) из ${{ github.sha }} опубликовано.
+          comment_id: ${{ steps.comment.outputs.id }}
+          token: ${{ secrets.GITHUB_TOKEN }}
