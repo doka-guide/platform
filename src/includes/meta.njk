@@ -7,13 +7,13 @@
 {% set regExp = r/(css|html|js|tools).*/g %}
 
 {% set articleTitle = title + ' - ' + doc.data.title if page.url != '/' else title %}
-{% set articleTag = doc.data.tags[0] if doc.data.tags %}
+{% set articleTag = doc.data.tags[0] if doc.data.tags else 'Сайт ' %}
 {% set articleCategory = categoryList['css'] if (r/css.*/g).test(page.url) %}
 {% set articleCategory = categoryList['html'] if (r/html.*/g).test(page.url) %}
 {% set articleCategory = categoryList['js'] if (r/js.*/g).test(page.url) %}
 {% set articleCategory = categoryList['tools'] if (r/tools.*/g).test(page.url) %}
 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, nofollow">
 
