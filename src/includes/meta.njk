@@ -51,11 +51,14 @@
   <meta property="article:tag" content="{{ articleTag }}">
 {% endif %}
 
-{% if doc.data.cover %}
-  <meta itemprop="image" content="{{ doc.data.cover.desktop }}">
-  <meta property="og:image" content="{{ doc.data.cover.desktop }}">
+{% if doc.data.cover.og %}
+  <meta itemprop="image" content="https://doka.guide{{ page.url }}/{{ doc.data.cover.og }}">
+  <meta property="og:image" content="https://doka.guide{{ page.url }}/{{ doc.data.cover.og }}">
   <meta property="og:image:alt" content="{{ doc.data.cover.alt }}">
-  <meta property="twitter:image" content="{{ doc.data.cover.desktop }}">
+{% endif %}
+
+{% if doc.data.cover.twitter %}
+  <meta property="twitter:image" content="https://doka.guide{{ page.url }}/{{ doc.data.cover.twitter }}">
   <meta property="twitter:image:alt" content="{{ doc.data.cover.alt }}">
 {% endif %}
 
