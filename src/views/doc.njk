@@ -27,6 +27,13 @@
         </p>
       {% endif %}
 
+      <p>
+        Время чтения:
+        <span>
+          {% readingTime doc.templateContent %}
+        </span>
+      </p>
+
       {% if doc.data.tags | hasTag('placeholder') %}
         {% include "placeholder.njk" %}
       {% endif %}
