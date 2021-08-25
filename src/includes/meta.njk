@@ -5,13 +5,17 @@
   tools: 'Инструменты'
 } %}
 {% set regExp = r/(css|html|js|tools).*/g %}
+{% set regExpCss = r/css.*/g %}
+{% set regExpHtml = r/html.*/g %}
+{% set regExpJs = r/js.*/g %}
+{% set regExpTools = r/tools.*/g %}
 
 {% set articleTitle = title + ' - ' + doc.data.title if page.url != '/' else title %}
 {% set articleTag = doc.data.tags[0] if doc.data.tags else 'Сайт ' %}
-{% set articleCategory = categoryList['css'] if (r/css.*/g).test(page.url) %}
-{% set articleCategory = categoryList['html'] if (r/html.*/g).test(page.url) %}
-{% set articleCategory = categoryList['js'] if (r/js.*/g).test(page.url) %}
-{% set articleCategory = categoryList['tools'] if (r/tools.*/g).test(page.url) %}
+{% set articleCategory = categoryList['css'] if regExpCss.test(page.url) %}
+{% set articleCategory = categoryList['html'] if regExpHtml.test(page.url) %}
+{% set articleCategory = categoryList['js'] if regExpJs.test(page.url) %}
+{% set articleCategory = categoryList['tools'] if regExpTools.test(page.url) %}
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,14 +25,17 @@
 <meta itemprop="name" content="{{ articleTitle }}">
 <meta property="og:title" content="{{ articleTitle }}">
 <meta property="twitter:title" content="{{ articleTitle }}">
-<meta itemprop="description" content="{{ doc.data.description }}">
-<meta property="og:description" content="{{ doc.data.description }}">
 <meta property="og:url" content="https://doka.guide{{ page.url }}">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Дока">
 <meta property="twitter:card" content="summary">
 <meta property="twitter:site" content="@doka_guide">
-<meta property="twitter:description" content="{{ doc.data.description }}">
+
+{% if doc.data.description %}
+  <meta itemprop="description" content="{{ doc.data.description }}">
+  <meta property="og:description" content="{{ doc.data.description }}">
+  <meta property="twitter:description" content="{{ doc.data.description }}">
+{% endif %}
 
 {% if regExp.test(page.url) %}
   <meta property="og:type" content="article">
@@ -44,7 +51,7 @@
   <meta property="article:tag" content="{{ articleTag }}">
 {% endif %}
 
-{% if regExp.test(page.url) and doc.data.cover %}
+{% if doc.data.cover %}
   <meta itemprop="image" content="{{ doc.data.cover.desktop }}">
   <meta property="og:image" content="{{ doc.data.cover.desktop }}">
   <meta property="og:image:alt" content="{{ doc.data.cover.alt }}">
