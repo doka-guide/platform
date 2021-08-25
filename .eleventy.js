@@ -107,8 +107,12 @@ module.exports = function(config) {
     let textLength = text.split(' ').length
     const wordsPerMinute = 150
     const value = Math.ceil(textLength / wordsPerMinute)
-    if(textLength > 0){
-      return `${value} min read`
+    if(value > 15){
+      return `больше 15 мин`
+    } else if (value < 5) {
+      return `меньше 5 мин`
+    } else {
+      return `${value} мин`
     }
   })
 
