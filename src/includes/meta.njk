@@ -71,4 +71,32 @@
   <script type="application/ld+json">
     {{ jsonLd | stringifyJson }}
   </script>
+{% elif regExp.test(page.url) %}
+  <script type="application/ld+json">
+    {
+      "@context": "http:\/\/schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://doka.guide{{ page.url }}"
+      },
+      "headline": "https://doka.guide{{ page.url }}",
+      "datePublished": "{{ createdAt }}",
+      "dateModified": "{{ updatedAt }}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ doc.data.authors[0] }}"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Дока",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://doka.guide/images/publisher-logo.svg"
+        }
+      },
+      "description": "{{ doc.data.description }}",
+      "url": "https://doka.guide{{ page.url }}",
+    }
+  </script>
 {% endif %}
