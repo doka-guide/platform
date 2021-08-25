@@ -73,6 +73,32 @@ module.exports = {
     updatedAt: function(data) {
       const { doc } = data
       return doc.data.updatedAt ? new Date(doc.data.updatedAt) : null
+    },
+
+    articleTitle: function(data) {
+      const { doc } = data
+      return `Дока - ${doc.data.title}`
+    },
+
+    articleTag: function(data) {
+      const { doc } = data
+      return doc.data.tags[0]
+    },
+
+    articleCategory: function(data) {
+      const { docPath } = data
+      const categoryList = {
+        css: 'CSS',
+        html: 'HTML',
+        js: 'JavaScript',
+        tools: 'Инструменты'
+      }
+      const categoryKeys = Object.keys(categoryList)
+      for (const index in categoryKeys) {
+        if (docPath.includes(categoryKeys[index])) {
+          return categoryList[categoryKeys[index]]
+        }
+      }
     }
   }
 }
