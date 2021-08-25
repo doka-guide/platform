@@ -10,8 +10,8 @@
 {% set regExpJs = r/js.*/g %}
 {% set regExpTools = r/tools.*/g %}
 
-{% set articleTitle = 'Дока - ' + doc.data.title if page.url != '/' else title %}
-{% set articleTag = doc.data.tags[0] if doc.data.tags else 'Сайт ' %}
+{% set articleTitle = 'Дока - ' + doc.data.title if doc.data.title != '/' else title %}
+{% set articleTag = doc.data.tags[0] if doc.data.tags %}
 {% set articleCategory = categoryList['css'] if regExpCss.test(page.url) %}
 {% set articleCategory = categoryList['html'] if regExpHtml.test(page.url) %}
 {% set articleCategory = categoryList['js'] if regExpJs.test(page.url) %}
