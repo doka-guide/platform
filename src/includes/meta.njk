@@ -71,7 +71,7 @@
   <script type="application/ld+json">
     {{ jsonLd | dump }}
   </script>
-{% elif regExp.test(page.url) %}
+{% else %}
   <script type="application/ld+json">
     {
       "@context": "http:\/\/schema.org",

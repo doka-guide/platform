@@ -65,6 +65,11 @@ module.exports = {
       })
     },
 
+    createdAt: function(data) {
+      const { doc } = data
+      return doc.data.createdAt ? new Date(doc.data.createdAt) : null
+    },
+
     updatedAt: function(data) {
       const { doc } = data
       return doc.data.updatedAt ? new Date(doc.data.updatedAt) : null
