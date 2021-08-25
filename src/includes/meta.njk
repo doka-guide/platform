@@ -38,6 +38,12 @@
 <meta property="article:opinion" content="false">
 <meta property="article:tag" content="{{ category }}">
 <meta property="article:tag" content="{{ meta.tags[0] if meta.tags }}">
+<meta property="twitter:card" content="summary">
+<meta property="twitter:site" content="@doka_guide">
+<meta property="twitter:title" content="{{ title }}{{ meta.title if page.url != '/' }}">
+<meta property="twitter:description" content="{{ meta.description if meta.description }}">
+<meta property="twitter:image:alt" content="{{ meta.cover.alt if meta.cover }}">
+<meta property="twitter:image" content="{{ meta.cover.desktop if meta.cover }}">
 <meta name="color-scheme" content="light dark">
 <link rel="canonical" href="https://doka.guide{{ page.url }}">
 <link rel="stylesheet" href="/styles/index.css">
