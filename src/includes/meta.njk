@@ -1,11 +1,11 @@
-{% set sections = {
+{% set categoryList = {
   html: 'HTML',
   css: 'CSS',
   js: 'JavaScript',
   tools: 'Инструменты'
 } %}
 
-{% for path, categoryName in sections %}
+{% for path, categoryName in categoryList %}
   {% if path in page.url %}
     {% set category = categoryName %}
   {% endif %}
