@@ -47,7 +47,7 @@
 {% if regExp.test(page.url) %}
   <meta property="og:type" content="article">
   <meta property="article:section" content="Technology">
-  <meta property="article:opinion" content="false">
+  <meta property="article:opinion" content="{{ hasOpinion }}">
   <script type="application/ld+json">
     {
       "@context": "http:\/\/schema.org",

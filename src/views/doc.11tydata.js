@@ -65,6 +65,15 @@ module.exports = {
       })
     },
 
+    hasOpinion: function(data) {
+      const allPractices = data.collections.practice
+      const { docPath } = data
+
+      return (allPractices.filter(practice => {
+        return practice.filePathStem.includes(docPath)
+      }).length > 0) ? 'true' : 'false'
+    },
+
     createdAt: function(data) {
       const { doc } = data
       return doc.data.createdAt ? new Date(doc.data.createdAt) : null
