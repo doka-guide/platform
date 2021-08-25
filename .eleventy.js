@@ -144,6 +144,10 @@ module.exports = function(config) {
     return (tags || []).includes(tag);
   });
 
+  config.addFilter('stringifyJson', (jsonObject) => {
+    return JSON.stringify(jsonObject)
+  })
+
   config.addTransform('html-transforms', (content, outputPath) => {
     if (outputPath && outputPath.endsWith('.html')) {
       const DOM = parseHTML(content)
