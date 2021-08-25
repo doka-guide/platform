@@ -69,7 +69,7 @@
 
 {% if jsonLd %}
   <script type="application/ld+json">
-    {{ jsonLd | stringifyJson }}
+    {{ jsonLd | dump }}
   </script>
 {% elif regExp.test(page.url) %}
   <script type="application/ld+json">
