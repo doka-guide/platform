@@ -22,6 +22,7 @@
   margin-right: var(--logo-letter-spacing);
   font-size: 0.8em;
   line-height: 1;
+  font-family: var(--font-family);
   letter-spacing: calc(var(--logo-letter-spacing) * -1);
   text-decoration: none;
 }
