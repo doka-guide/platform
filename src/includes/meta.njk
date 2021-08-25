@@ -1,21 +1,4 @@
-{% set categoryList = {
-  css: 'CSS',
-  html: 'HTML',
-  js: 'JavaScript',
-  tools: 'Инструменты'
-} %}
 {% set regExp = r/(css|html|js|tools).*/g %}
-{% set regExpCss = r/css.*/g %}
-{% set regExpHtml = r/html.*/g %}
-{% set regExpJs = r/js.*/g %}
-{% set regExpTools = r/tools.*/g %}
-
-{% set articleTitle = 'Дока - ' + doc.data.title if doc.data.title != '/' else title %}
-{% set articleTag = doc.data.tags[0] if doc.data.tags %}
-{% set articleCategory = categoryList['css'] if regExpCss.test(page.url) %}
-{% set articleCategory = categoryList['html'] if regExpHtml.test(page.url) %}
-{% set articleCategory = categoryList['js'] if regExpJs.test(page.url) %}
-{% set articleCategory = categoryList['tools'] if regExpTools.test(page.url) %}
 
 {% macro authorsList(list) %}[{% for personItem in list %}{
   "@type": "Person",
