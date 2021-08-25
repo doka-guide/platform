@@ -17,6 +17,11 @@
 {% set articleCategory = categoryList['js'] if regExpJs.test(page.url) %}
 {% set articleCategory = categoryList['tools'] if regExpTools.test(page.url) %}
 
+{% macro authorsList(list) %}[{% for personItem in list %}{
+  "@type": "Person",
+  "name": "{{ personItem.data.name }}"
+}{{ '' if loop.last else ',' }}{% endfor %}]{% endmacro %}
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, nofollow">
@@ -35,12 +40,6 @@
   <meta itemprop="description" content="{{ doc.data.description }}">
   <meta property="og:description" content="{{ doc.data.description }}">
   <meta property="twitter:description" content="{{ doc.data.description }}">
-{% endif %}
-
-{% if regExp.test(page.url) %}
-  <meta property="og:type" content="article">
-  <meta property="article:section" content="Technology">
-  <meta property="article:opinion" content="false">
 {% endif %}
 
 {% if articleCategory != '' %}
@@ -62,16 +61,10 @@
   <meta property="twitter:image:alt" content="{{ doc.data.cover.alt }}">
 {% endif %}
 
-<meta name="color-scheme" content="light dark">
-<link rel="canonical" href="https://doka.guide{{ page.url }}">
-<link rel="stylesheet" href="/styles/index.css">
-<link rel="stylesheet" href="/styles/dark-theme.css" media="(prefers-color-scheme: dark)">
-
-{% if jsonLd %}
-  <script type="application/ld+json">
-    {{ jsonLd | dump }}
-  </script>
-{% else %}
+{% if regExp.test(page.url) %}
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="Technology">
+  <meta property="article:opinion" content="false">
   <script type="application/ld+json">
     {
       "@context": "http:\/\/schema.org",
@@ -83,10 +76,7 @@
       "headline": "https://doka.guide{{ page.url }}",
       "datePublished": "{{ createdAt }}",
       "dateModified": "{{ updatedAt }}",
-      "author": {
-        "@type": "Person",
-        "name": "{{ doc.data.authors[0] }}"
-      },
+      "author": {{ authorsList(list=populatedAuthors) }},
       "publisher": {
         "@type": "Organization",
         "name": "Дока",
@@ -100,3 +90,8 @@
     }
   </script>
 {% endif %}
+
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://doka.guide{{ page.url }}">
+<link rel="stylesheet" href="/styles/index.css">
+<link rel="stylesheet" href="/styles/dark-theme.css" media="(prefers-color-scheme: dark)">
