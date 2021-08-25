@@ -2,10 +2,8 @@
   display: flex;
   align-items: baseline;
   font-size: var(--font-size-m);
-  line-height: var(--font-line-height-m);
-
-  /* line-height: 1.15; */
   letter-spacing: var(--letter-spacing);
+  line-height: var(--font-line-height-m);
 }
 
 .breadcrumbs__text {
@@ -27,6 +25,7 @@
 @media (min-width: 768px) {
   .breadcrumbs {
     font-size: var(--font-size-l);
-    line-height: var(--font-line-height-l);
+
+    /* line-height: var(--font-line-height-l); */
   }
 }

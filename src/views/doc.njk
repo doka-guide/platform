@@ -1,16 +1,17 @@
 {% from "blocks/header.njk" import header %}
 
-{% call header(
+{{ header(
   pageCategoryId=category,
   category=categoryName,
-  title=title
-) %}
-{% endcall %}
+  title=title,
+  link=docPath,
+  articleIndexes=collections.articleIndexes
+) }}
 
 <main class="doc" style="--accent-color: var(--color-{{ category }});">
   <article class="doc__article article {% if cover %}article--with-cover{% endif %}">
     <header class="article__header">
-      <div class="article__header-inner doc__wrapper">
+      <div class="article__header-inner">
         {% if cover %}
           <picture>
             {% if cover.mobile %}
@@ -19,6 +20,13 @@
             <img class="article__image" src="{{ cover.desktop }}" alt="{{ cover.alt }}">
           </picture>
         {% endif %}
+
+        <p class="article__category">
+          <a class="article__category-link link font-theme font-theme--code" href="/{{ category }}/">
+            {{ categoryName }}
+          </a>
+          <span class="article__category-divider" aria-hidden="true">/</span>
+        </p>
 
         <h1 class="article__title {% if type === 'doka' %}font-theme font-theme--code{% endif %}">
           {{ title }}

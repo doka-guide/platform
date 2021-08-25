@@ -11,6 +11,7 @@
 .search__input {
   margin: 0;
   display: block;
+  box-sizing: border-box;
   width: 100%;
   height: 66px;
   border: 0;

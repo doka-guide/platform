@@ -10,9 +10,7 @@
 .logo__image {
   align-self: center;
   box-sizing: border-box;
-
-  /* padding: 2px 10px; */
-  padding: calc(2 / 42 * 1em) calc(10 / 42 * 1em);
+  padding: 2px 10px;
   display: inline-grid;
   place-items: center;
   background-color: var(--logo-background-color);
@@ -22,7 +20,7 @@
 .logo__symbols {
   --logo-letter-spacing: 0.34em;
   margin-right: var(--logo-letter-spacing);
-  font-size: 0.67em;
+  font-size: 0.8em;
   line-height: 1;
   letter-spacing: calc(var(--logo-letter-spacing) * -1);
   text-decoration: none;
