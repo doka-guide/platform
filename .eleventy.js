@@ -251,7 +251,7 @@ module.exports = function(config) {
             collapseWhitespace: 'conservative',
             deduplicateAttributeValues: true,
             minifyCss: false,
-            minifyJs: false,
+            minifyJs: true,
             minifyJson: false,
             minifySvg: false,
             removeComments: 'safe',

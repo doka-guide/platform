@@ -8,7 +8,7 @@ const THEMES = {
 }
 
 // DOM-элементы
-const toggleElement = document.querySelector('.theme-toggle')
+let toggleElement
 const darkThemeStyles = document.head.querySelector('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]')
 
 const store = localStorage;
@@ -49,28 +49,37 @@ function applyTheme(theme = getCurrentTheme()) {
     [THEMES.DARK]: 'all',
   }
 
-  darkThemeStyles.media = darkStyleMediaMap[theme]
-  toggleElement.querySelector(`[value="${theme}"]`).checked = true
+  if (darkThemeStyles) {
+    darkThemeStyles.media = darkStyleMediaMap[theme]
+  }
+
+  if (toggleElement) {
+    toggleElement.querySelector(`[value="${theme}"]`).checked = true
+  }
 }
 
 // Инициализация
-toggleElement.addEventListener('change', toggleTheme)
-
-window.addEventListener('storage', event => {
-  if (event.key !== STORAGE_KEY) {
-    return
-  }
-
-  const newTheme = event.newValue
-
-  if (!newTheme) {
-    return
-  }
-
-  applyTheme(newTheme)
-})
-
-// TODO: перенести в inline-скрипты для избежания миганий
 if (hasStoredTheme()) {
   applyTheme()
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  toggleElement = document.querySelector('.theme-toggle')
+  toggleElement?.addEventListener('change', toggleTheme)
+
+  window.addEventListener('storage', event => {
+    if (event.key !== STORAGE_KEY) {
+      return
+    }
+
+    const newTheme = event.newValue
+
+    if (!newTheme) {
+      return
+    }
+
+    applyTheme(newTheme)
+  })
+
+  applyTheme()
+})
