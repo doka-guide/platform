@@ -1,5 +1,5 @@
 .header {
-  --header-bg-color: var(--accent-color, --color-background);
+  --header-bg-color: var(--accent-color, var(--color-background));
   position: relative;
   z-index: 1;
   background-color: var(--color-background);

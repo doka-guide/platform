@@ -1,28 +1,7 @@
-/* Fonts */
+@charset 'utf-8';
 
-/* @import 'fonts/inter/inter.css'; */
-
-/* @import 'fonts/roboto/roboto.css'; */
-
-/* @import 'fonts/roboto/roboto-mono.css'; */
-
-/* Globals */
 @import 'base-colors.css';
 @import 'light-theme.css';
-
-/* @import 'variables.css'; */
-
-/* @import 'box-sizing.css'; */
-
-/* Pages and Layouts */
-
-/* @import 'pages/base.css'; */
-
-/* @import 'pages/index.css'; */
-
-/* @import 'pages/aside-page.css'; */
-
-/* Blocks */
 @import 'blocks/visually-hidden.css';
 @import 'blocks/base-list.css';
 @import 'blocks/container.css';
