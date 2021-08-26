@@ -97,6 +97,8 @@
 
 .header--fixed-hide {
   animation-direction: reverse;
+  animation-duration: 0.2s;
+  animation-timing-function: ease;
 }
 
 @keyframes fixedHeaderAnimation {
@@ -114,6 +116,7 @@
   margin-top: -1px;
   height: 40px;
   background: linear-gradient(var(--color-background), hsl(var(--color-base-background) / 0));
+  pointer-events: none;
 }
 
 .header:not(.header--fixed) .header__title {
