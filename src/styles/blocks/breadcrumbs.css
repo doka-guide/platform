@@ -4,6 +4,7 @@
   font-size: var(--font-size-m);
   letter-spacing: var(--letter-spacing);
   line-height: var(--font-line-height-m);
+  font-family: var(--font-family);
 }
 
 .breadcrumbs__text {
