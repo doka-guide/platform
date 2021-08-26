@@ -53,6 +53,17 @@
           <div class="article-nav__content"></div>
         </div>
 
+        <p>
+          Время чтения:
+          <span>
+            {% readingTime doc.templateContent %}
+          </span>
+        </p>
+
+        {% if doc.data.tags | hasTag('placeholder') %}
+          {% include "placeholder.njk" %}
+        {% endif %}
+
         <footer class="article__meta">
           <div class="article__persons">
             {% include "contributors.njk" %}

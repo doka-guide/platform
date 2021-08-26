@@ -106,6 +106,19 @@ module.exports = function(config) {
     return feedbackFormName;
   })
 
+  config.addNunjucksShortcode('readingTime', (text) => {
+    let textLength = text.split(' ').length
+    const wordsPerMinute = 150
+    const value = Math.ceil(textLength / wordsPerMinute)
+    if(value > 15){
+      return `больше 15 мин`
+    } else if (value < 5) {
+      return `меньше 5 мин`
+    } else {
+      return `${value} мин`
+    }
+  })
+
   config.addFilter('ruDate', (value) => {
     return value.toLocaleString('ru', {
       year: 'numeric',
