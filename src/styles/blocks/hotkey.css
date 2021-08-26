@@ -3,6 +3,7 @@
   min-width: 14px;
   padding: 1px 6px;
   border: 1px solid hsl(var(--color-base-text) / 0.3);
+  text-align: center;
   font-size: 17px;
   line-height: 1;
   font-family: var(--font-family);
