@@ -86,7 +86,7 @@ module.exports = {
 
     articleTitle: function(data) {
       const { doc } = data
-      return ` ${doc.data.title} - Дока`
+      return `${doc.data.title} - Дока`
     },
 
     articleTag: function(data) {
