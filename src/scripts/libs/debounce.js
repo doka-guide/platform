@@ -1,9 +1,9 @@
-export default function debounce(fn, delay) {
+export default function debounce(callback, delay) {
   let timeout
   return function(e) {
-    timeout && clearTimeout(timeout);
+    timeout && clearTimeout(timeout)
     timeout = setTimeout(function() {
-      fn(e)
+      callback(e)
     }, delay)
-  };
+  }
 }

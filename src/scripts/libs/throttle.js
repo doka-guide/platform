@@ -1,25 +1,25 @@
-export default function throttle(func, ms) {
-  let isThrottled = false;
-  let savedArgs;
-  let savedThis;
+export default function throttle(callback, delay) {
+  let isThrottled = false
+  let savedArgs
+  let savedThis
 
   return function wrapper() {
     if (isThrottled) {
-      savedArgs = arguments;
-      savedThis = this;
-      return;
+      savedArgs = arguments
+      savedThis = this
+      return
     }
 
-    func.apply(this, arguments);
+    callback.apply(this, arguments)
 
-    isThrottled = true;
+    isThrottled = true
 
     setTimeout(function () {
-      isThrottled = false;
+      isThrottled = false
       if (savedArgs) {
-        wrapper.apply(savedThis, savedArgs);
-        savedArgs = savedThis = null;
+        wrapper.apply(savedThis, savedArgs)
+        savedArgs = savedThis = null
       }
-    }, ms);
+    }, delay)
   };
 }
