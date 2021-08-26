@@ -25,8 +25,8 @@ module.exports = function(config) {
   config.setBrowserSyncConfig({
     server: {
       baseDir: [
+        './src',
         './dist',
-        './src'
       ]
     },
     files: [
