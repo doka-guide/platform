@@ -1,3 +1,5 @@
+const { baseUrl, mainSections } = require('../../config/constants')
+
 function getPersons(personKey) {
   return function(data) {
     const { doc } = data
@@ -56,6 +58,8 @@ module.exports = {
       return data.doc.filePathStem.replace('index', '')
     },
 
+    baseUrl,
+
     practices: function(data) {
       const allPractices = data.collections.practice
       const { docPath } = data
@@ -65,13 +69,9 @@ module.exports = {
       })
     },
 
-    hasOpinion: function(data) {
-      const allPractices = data.collections.practice
-      const { docPath } = data
-
-      return (allPractices.filter(practice => {
-        return practice.filePathStem.includes(docPath)
-      }).length > 0) ? 'true' : 'false'
+    containsPractice: function(data) {
+      const { practices } = data
+      return (practices.length > 0) ? 'true' : 'false'
     },
 
     createdAt: function(data) {
@@ -96,16 +96,10 @@ module.exports = {
 
     articleCategory: function(data) {
       const { docPath } = data
-      const categoryList = {
-        css: 'CSS',
-        html: 'HTML',
-        js: 'JavaScript',
-        tools: 'Инструменты'
-      }
-      const categoryKeys = Object.keys(categoryList)
+      const categoryKeys = Object.keys(mainSections)
       for (const index in categoryKeys) {
         if (docPath.includes(categoryKeys[index])) {
-          return categoryList[categoryKeys[index]]
+          return mainSections[categoryKeys[index]]
         }
       }
     }

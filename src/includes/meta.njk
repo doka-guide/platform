@@ -21,7 +21,7 @@
   <meta property="twitter:title" content="{{ title }}">
 {% endif %}
 
-<meta property="og:url" content="https://doka.guide{{ page.url }}">
+<meta property="og:url" content="{{ baseUrl }}{{ page.url }}">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Дока">
 <meta property="twitter:card" content="summary">
@@ -42,29 +42,29 @@
 {% endif %}
 
 {% if doc.data.cover.og %}
-  <meta itemprop="image" content="https://doka.guide{{ page.url }}/{{ doc.data.cover.og }}">
-  <meta property="og:image" content="https://doka.guide{{ page.url }}/{{ doc.data.cover.og }}">
+  <meta itemprop="image" content="{{ baseUrl }}{{ page.url }}/{{ doc.data.cover.og }}">
+  <meta property="og:image" content="{{ baseUrl }}{{ page.url }}/{{ doc.data.cover.og }}">
   <meta property="og:image:alt" content="{{ doc.data.cover.alt }}">
 {% endif %}
 
 {% if doc.data.cover.twitter %}
-  <meta property="twitter:image" content="https://doka.guide{{ page.url }}/{{ doc.data.cover.twitter }}">
+  <meta property="twitter:image" content="{{ baseUrl }}{{ page.url }}/{{ doc.data.cover.twitter }}">
   <meta property="twitter:image:alt" content="{{ doc.data.cover.alt }}">
 {% endif %}
 
 {% if regExp.test(page.url) %}
   <meta property="og:type" content="article">
   <meta property="article:section" content="Technology">
-  <meta property="article:opinion" content="{{ hasOpinion }}">
+  <meta property="article:opinion" content="{{ containsPractice }}">
   <script type="application/ld+json">
     {
       "@context": "http:\/\/schema.org",
       "@type": "Article",
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://doka.guide{{ page.url }}"
+        "@id": "{{ baseUrl }}{{ page.url }}"
       },
-      "headline": "https://doka.guide{{ page.url }}",
+      "headline": "{{ baseUrl }}{{ page.url }}",
       "datePublished": "{{ createdAt }}",
       "dateModified": "{{ updatedAt }}",
       "author": {{ authorsList(list=populatedAuthors) }},
@@ -73,16 +73,16 @@
         "name": "Дока",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://doka.guide/images/publisher-logo.svg"
+          "url": "{{ baseUrl }}/images/publisher-logo.svg"
         }
       },
       "description": "{{ doc.data.description }}",
-      "url": "https://doka.guide{{ page.url }}",
+      "url": "{{ baseUrl }}{{ page.url }}",
     }
   </script>
 {% endif %}
 
 <meta name="color-scheme" content="light dark">
-<link rel="canonical" href="https://doka.guide{{ page.url }}">
+<link rel="canonical" href="{{ baseUrl }}{{ page.url }}">
 <link rel="stylesheet" href="/styles/index.css">
 <link rel="stylesheet" href="/styles/dark-theme.css" media="(prefers-color-scheme: dark)">
