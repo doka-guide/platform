@@ -9,10 +9,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, nofollow">
 
-<title>{{ articleTitle }}</title>
-<meta itemprop="name" content="{{ articleTitle }}">
-<meta property="og:title" content="{{ articleTitle }}">
-<meta property="twitter:title" content="{{ articleTitle }}">
+{% if doc.data.description %}
+  <title>{{ articleTitle }}</title>
+  <meta itemprop="name" content="{{ articleTitle }}">
+  <meta property="og:title" content="{{ articleTitle }}">
+  <meta property="twitter:title" content="{{ articleTitle }}">
+{% else %}
+  <title>{{ title }}</title>
+  <meta itemprop="name" content="{{ title }}">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="twitter:title" content="{{ title }}">
+{% endif %}
+
 <meta property="og:url" content="https://doka.guide{{ page.url }}">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Дока">
