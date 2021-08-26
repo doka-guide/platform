@@ -52,7 +52,8 @@ const scripts = () => {
 
 const clean = () => {
   return del([
-    'dist',
+    'dist/styles',
+    'dist/scripts',
   ])
 }
 
