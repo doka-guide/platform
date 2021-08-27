@@ -97,6 +97,11 @@ module.exports = {
     updatedAt: function(data) {
       const { doc } = data
       return doc.data.updatedAt ? new Date(doc.data.updatedAt) : null
+    },
+
+    isPlaceholder: function(data) {
+      const { doc } = data
+      return hasTag(doc.data.tags, 'placeholder')
     }
   }
 }
