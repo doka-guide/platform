@@ -92,6 +92,12 @@
   height: auto;
 }
 
+.article__content iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+
 .article--with-cover {}
 
 .article--with-cover .article__header {}
