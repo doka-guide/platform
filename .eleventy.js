@@ -85,7 +85,10 @@ module.exports = function(config) {
   let markdownLibrary = markdownIt({
     html: true,
     breaks: true,
-    linkify: true
+    linkify: true,
+    highlight: function(str, lang) {
+      return `<pre data-lang="${lang}"><code class="language-${lang}">${markdownLibrary.utils.escapeHtml(str)}</code></pre>`
+    }
   })
   config.setLibrary('md', markdownLibrary)
 
