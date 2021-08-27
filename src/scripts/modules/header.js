@@ -8,7 +8,7 @@ function init() {
     return
   }
 
-  let headerHeight;
+  let headerHeight
 
   const articleAside = document.querySelector('.article__aside')
   const toggleButtons = header.querySelectorAll('.menu-toggle')
@@ -21,7 +21,7 @@ function init() {
     })
   })
 
-  window.addEventListener('scroll', throttle(() => {
+  function checkFixed() {
     if (window.scrollY > window.innerHeight) {
       if (header.classList.contains('header--fixed')) return
 
@@ -52,7 +52,10 @@ function init() {
       header.classList.add('header--animating', 'header--fixed-hide')
       articleAside?.classList.remove('article__aside--offset')
     }
-  }, 200), { passive: true })
+  }
+
+  checkFixed()
+  window.addEventListener('scroll', throttle(checkFixed, 200), { passive: true })
 
   function calculateHeaderHeight() {
     headerHeight = header.offsetHeight

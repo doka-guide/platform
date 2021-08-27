@@ -1,4 +1,5 @@
 .menu-toggle {
+  position: relative;
   appearance: none;
   margin: 0;
   display: block;
@@ -7,6 +8,12 @@
   background-color: transparent;
   color: inherit;
   cursor: pointer;
+}
+
+.menu-toggle::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
 }
 
 .menu-toggle__inner {

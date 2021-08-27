@@ -7,7 +7,7 @@
 {% macro header(pageCategoryId, category, title, link, articleIndexes, isStatic) %}
   <header class="header {% if isMainPage %}header--open{% endif %} {% if isStatic %}header--static{% endif %}" style="--accent-color: var(--color-{{ pageCategoryId }})">
     {% if not isStatic %}
-      <div class="header__inner">
+      <div class="header__inner header__inner--main">
         <ul class="header__breadcrumbs breadcrumbs base-list font-theme font-theme--code">
           <li class="breadcrumbs__item">
             {{ logo(isLink=true) }}
