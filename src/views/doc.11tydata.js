@@ -1,3 +1,5 @@
+const { baseUrl, mainSections } = require('../../config/constants')
+
 function getPersons(personKey) {
   return function(data) {
     const { doc } = data
@@ -85,6 +87,8 @@ module.exports = {
       return hasTag(doc.data.tags, 'article') ? 'article' : 'doka'
     },
 
+    baseUrl,
+
     practices: function(data) {
       const allPractices = data.collections.practice
       const { docPath } = data
@@ -92,6 +96,16 @@ module.exports = {
       return allPractices.filter(practice => {
         return practice.filePathStem.includes(docPath)
       })
+    },
+
+    containsPractice: function(data) {
+      const { practices } = data
+      return (practices.length > 0) ? 'true' : 'false'
+    },
+
+    createdAt: function(data) {
+      const { doc } = data
+      return doc.data.createdAt ? new Date(doc.data.createdAt) : null
     },
 
     updatedAt: function(data) {
@@ -102,6 +116,26 @@ module.exports = {
     isPlaceholder: function(data) {
       const { doc } = data
       return hasTag(doc.data.tags, 'placeholder')
+    },
+
+    articleTitle: function(data) {
+      const { doc } = data
+      return `${doc.data.title} - Дока`
+    },
+
+    articleTag: function(data) {
+      const { doc } = data
+      return doc.data.tags[0]
+    },
+
+    articleCategory: function(data) {
+      const { docPath } = data
+      const categoryKeys = Object.keys(mainSections)
+      for (const index in categoryKeys) {
+        if (docPath.includes(categoryKeys[index])) {
+          return mainSections[categoryKeys[index]]
+        }
+      }
     }
   }
 }
