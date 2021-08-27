@@ -1,12 +1,8 @@
 const os = require('os')
-const Prism = require('prismjs')
-const prismLoadLanguages = require('prismjs/components/')
+const hljs = require('highlight.js/lib/common')
 
 function renderLine(line) {
-  return `<span class="code-block__line">
-    <span class="code-block__line-number"></span>
-    <span class="code-block__line-content">${line}</span>
-  </span>`.replace(new RegExp(os.EOL, 'gi'), '')
+  return `<span class="code-block__line"><span class="code-block__line-number"></span><span class="code-block__line-content">${line}</span></span>`
 }
 
 // расстановка классов и атрибутов для элементов кода внутри тела статьи,
@@ -19,19 +15,22 @@ module.exports = function(DOM) {
   DOM.document.querySelector('.article__content')
     ?.querySelectorAll('pre[data-lang] > code')
     ?.forEach(codeBlock => {
-      let lang = codeBlock.parentNode.getAttribute('data-lang').trim()
+      let language = codeBlock.parentNode.getAttribute('data-lang').trim()
 
-      if (lang === 'js') {
-        lang = 'javascript'
+      if (language === 'js') {
+        language = 'javascript'
       }
 
-      if (lang) {
-        prismLoadLanguages([lang])
-
-        const lines = codeBlock.textContent
+      if (language) {
+        const lines = hljs.highlight(codeBlock.textContent, { language }).value
           .split(os.EOL)
-          .filter((line, index, linesArray) => (index === 0 || index === linesArray.length -1) && line.trim() === '' ? false : true)
-          .map((line) => renderLine(Prism.highlight(line, Prism.languages[lang], lang)))
+          // удаляем первую и последнюю пустые строки
+          .filter((line, index, linesArray) => {
+            const isFirtsOrLastLine = (index === 0 || index === linesArray.length -1)
+            const isEmptyLine = line.trim() === ''
+            return !(isFirtsOrLastLine && isEmptyLine)
+          })
+          .map((line) => renderLine(line))
           .join(os.EOL)
 
         codeBlock.innerHTML = lines
