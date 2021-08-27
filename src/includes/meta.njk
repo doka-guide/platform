@@ -1,14 +1,89 @@
+{% set regExp = r/(css|html|js|tools).*/g %}
+
+{% macro authorsList(list) %}[{% for personItem in list %}{
+  "@type": "Person",
+  "name": "{{ personItem.data.name }}"
+}{{ '' if loop.last else ',' }}{% endfor %}]{% endmacro %}
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>
-  {% filter escape %}
-    {{ title }}
-    {% if page.url != '/' %}
-      — {{ meta.title }}
-    {% endif %}
-  {% endfilter %}
-</title>
+<meta name="robots" content="index, nofollow">
+
+{% if doc.data.description %}
+  <title>{{ articleTitle }}</title>
+  <meta itemprop="name" content="{{ articleTitle }}">
+  <meta property="og:title" content="{{ articleTitle }}">
+  <meta property="twitter:title" content="{{ articleTitle }}">
+{% else %}
+  <title>{{ title }}</title>
+  <meta itemprop="name" content="{{ title }}">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="twitter:title" content="{{ title }}">
+{% endif %}
+
+<meta property="og:url" content="{{ baseUrl }}{{ page.url }}">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Дока">
+<meta property="twitter:card" content="summary">
+<meta property="twitter:site" content="@doka_guide">
+
+{% if doc.data.description %}
+  <meta itemprop="description" content="{{ doc.data.description }}">
+  <meta property="og:description" content="{{ doc.data.description }}">
+  <meta property="twitter:description" content="{{ doc.data.description }}">
+{% endif %}
+
+{% if articleCategory %}
+  <meta property="article:tag" content="{{ articleCategory }}">
+{% endif %}
+
+{% if articleTag %}
+  <meta property="article:tag" content="{{ articleTag }}">
+{% endif %}
+
+{% if doc.data.cover.og %}
+  <meta itemprop="image" content="{{ baseUrl }}{{ page.url }}/{{ doc.data.cover.og }}">
+  <meta property="og:image" content="{{ baseUrl }}{{ page.url }}/{{ doc.data.cover.og }}">
+  <meta property="og:image:alt" content="{{ doc.data.cover.alt }}">
+{% endif %}
+
+{% if doc.data.cover.twitter %}
+  <meta property="twitter:image" content="{{ baseUrl }}{{ page.url }}/{{ doc.data.cover.twitter }}">
+  <meta property="twitter:image:alt" content="{{ doc.data.cover.alt }}">
+{% endif %}
+
+{% if regExp.test(page.url) %}
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="Technology">
+  <meta property="article:opinion" content="{{ containsPractice }}">
+  <script type="application/ld+json">
+    {
+      "@context": "http:\/\/schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ baseUrl }}{{ page.url }}"
+      },
+      "headline": "{{ baseUrl }}{{ page.url }}",
+      "datePublished": "{{ createdAt }}",
+      "dateModified": "{{ updatedAt }}",
+      "author": {{ authorsList(list=populatedAuthors) }},
+      "publisher": {
+        "@type": "Organization",
+        "name": "Дока",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{ baseUrl }}/images/publisher-logo.svg"
+        }
+      },
+      "description": "{{ doc.data.description }}",
+      "url": "{{ baseUrl }}{{ page.url }}",
+    }
+  </script>
+{% endif %}
+
 <meta name="color-scheme" content="light dark">
+<link rel="canonical" href="{{ baseUrl }}{{ page.url }}">
 <link rel="stylesheet" href="/styles/index.css">
 <link rel="stylesheet" href="/styles/dark-theme.css" media="(prefers-color-scheme: dark)">
 <script>

@@ -1,6 +1,7 @@
 require('dotenv').config({ path: '.env' })
 
 module.exports = {
+  baseUrl: process.env.BASE_URL,
   mainSections: process.env.SECTIONS.split(', '),
   contentRepGithub: process.env.CONTENT_REP_GITHUB,
   contentRepFolders: process.env.CONTENT_REP_FOLDERS.split(', '),

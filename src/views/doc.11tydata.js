@@ -1,3 +1,5 @@
+const { baseUrl, mainSections } = require('../../config/constants')
+
 function getPersons(personKey) {
   return function(data) {
     const { doc } = data
@@ -56,6 +58,8 @@ module.exports = {
       return data.doc.filePathStem.replace('index', '')
     },
 
+    baseUrl,
+
     practices: function(data) {
       const allPractices = data.collections.practice
       const { docPath } = data
@@ -65,9 +69,39 @@ module.exports = {
       })
     },
 
+    containsPractice: function(data) {
+      const { practices } = data
+      return (practices.length > 0) ? 'true' : 'false'
+    },
+
+    createdAt: function(data) {
+      const { doc } = data
+      return doc.data.createdAt ? new Date(doc.data.createdAt) : null
+    },
+
     updatedAt: function(data) {
       const { doc } = data
       return doc.data.updatedAt ? new Date(doc.data.updatedAt) : null
+    },
+
+    articleTitle: function(data) {
+      const { doc } = data
+      return `${doc.data.title} - Дока`
+    },
+
+    articleTag: function(data) {
+      const { doc } = data
+      return doc.data.tags[0]
+    },
+
+    articleCategory: function(data) {
+      const { docPath } = data
+      const categoryKeys = Object.keys(mainSections)
+      for (const index in categoryKeys) {
+        if (docPath.includes(categoryKeys[index])) {
+          return mainSections[categoryKeys[index]]
+        }
+      }
     }
   }
 }
