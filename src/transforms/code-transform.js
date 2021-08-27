@@ -2,6 +2,13 @@ const os = require('os')
 const Prism = require('prismjs')
 const prismLoadLanguages = require('prismjs/components/')
 
+function renderLine(line) {
+  return `<span class="code-block__line">
+    <span class="code-block__line-number"></span>
+    <span class="code-block__line-content">${line}</span>
+  </span>`.replace(new RegExp(os.EOL, 'gi'), '')
+}
+
 // расстановка классов и атрибутов для элементов кода внутри тела статьи,
 // подсветка синтаксиса,
 // расстановка номеров строк
@@ -21,10 +28,10 @@ module.exports = function(DOM) {
       if (lang) {
         prismLoadLanguages([lang])
 
-        const lines = Prism.highlight(codeBlock.textContent, Prism.languages[lang], lang)
+        const lines = codeBlock.textContent
           .split(os.EOL)
           .filter((line, index, linesArray) => (index === 0 || index === linesArray.length -1) && line.trim() === '' ? false : true)
-          .map((line) => `<span class="code-block__line"><span class="code-block__line-number"></span><span class="code-block__line-content">${line}</span></span>`)
+          .map((line) => renderLine(Prism.highlight(line, Prism.languages[lang], lang)))
           .join(os.EOL)
 
         codeBlock.innerHTML = lines
