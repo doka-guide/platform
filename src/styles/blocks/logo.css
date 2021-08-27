@@ -2,28 +2,32 @@
   --ligthness: calc(var(--is-light-theme-on) * 90% + var(--is-dark-theme-on) * 25%);
   --logo-background-color: hsl(0 0% var(--ligthness));
   display: inline-flex;
-  align-items: center;
+  white-space: nowrap;
+  text-decoration: none;
   font-family: var(--font-family);
-  font-size: var(--font-size-xl);
-  line-height: var(--font-line-height-xl);
-  letter-spacing: var(--letter-spacing);
+  color: inherit;
 }
 
 .logo__image {
-  width: 122px;
-  height: 45px;
-  display: grid;
+  align-self: center;
+  box-sizing: border-box;
+  padding: 2px 10px;
+  display: inline-grid;
   place-items: center;
   background-color: var(--logo-background-color);
   border-radius: 2em;
 }
 
 .logo__symbols {
-  display: block;
-  max-width: 100%;
-  height: auto;
+  --logo-letter-spacing: 0.34em;
+  margin-right: var(--logo-letter-spacing);
+  font-size: 0.8em;
+  line-height: 1;
+  letter-spacing: calc(var(--logo-letter-spacing) * -1);
+  text-decoration: none;
 }
 
 .logo__text {
   margin-left: 6px;
+  align-self: baseline;
 }

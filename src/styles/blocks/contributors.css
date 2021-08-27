@@ -1,0 +1,5 @@
+.contributors {}
+
+.contributors__item:not(:first-child) {
+  margin-top: 12px;
+}

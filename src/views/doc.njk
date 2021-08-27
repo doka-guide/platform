@@ -1,52 +1,110 @@
-{% include "blocks/aside.njk" %}
+{% from "blocks/header.njk" import header %}
 
-<main>
-  <div class="aside-page__content base__container">
+{{ header(
+  pageCategoryId=category,
+  category=categoryName,
+  title=title,
+  link=docPath,
+  articleIndexes=collections.articleIndexes
+) }}
 
-    <article>
-      {% if doc.data.cover %}
-        <picture>
-          {% if doc.data.cover.mobile %}
-          <source srcset="{{ doc.data.cover.mobile }}" media="(max-width: 425px)">
+<div class="doc" style="--accent-color: var(--color-{{ category }});">
+  <main class="doc__article">
+    <article class=" article {% if cover %}article--with-cover{% endif %}">
+      <header class="article__header">
+        <div class="article__header-inner">
+          {% if cover %}
+            <picture>
+              {% if cover.mobile %}
+              <source srcset="{{ cover.mobile }}" media="(max-width: 425px)">
+              {% endif %}
+              <img class="article__image" src="{{ cover.desktop }}" alt="{{ cover.alt }}">
+            </picture>
           {% endif %}
-          <img src="{{ doc.data.cover.desktop }}" width="900" height="537" alt="{{ doc.data.cover.alt }}">
-        </picture>
-      {% endif %}
 
-      <h1>{{ title }}</h1>
-      <a href="{% contentRepLink %}/blob/main{{ docPath }}" target="_blank">
-        Отредактировать на GitHub
-      </a>
+          <p class="article__category">
+            <a class="article__category-link link font-theme font-theme--code" href="/{{ category }}/">
+              {{ categoryName }}
+            </a>
+            <span class="article__category-divider" aria-hidden="true">/</span>
+          </p>
 
-      {% if updatedAt %}
-        <p>
-          Отредактировано:
-          <time data-relative-time datetime="{{ updatedAt | isoDate }}">
-            {{ updatedAt | ruDate }}
-          </time>
-        </p>
-      {% endif %}
+          <h1 class="article__title {% if type === 'doka' %}font-theme font-theme--code{% endif %}">
+            {{ title }}
+          </h1>
 
-      <p>
-        Время чтения:
-        <span>
-          {% readingTime doc.templateContent %}
-        </span>
-      </p>
+          {% if description %}
+            <p class="article__description">{{ description }}</p>
+          {% endif %}
 
-      {% if doc.data.tags | hasTag('placeholder') %}
-        {% include "placeholder.njk" %}
-      {% endif %}
+          <p class="article__read-time">
+            Время чтения: {% readingTime doc.templateContent %}
+          </p>
 
-      {{ doc.templateContent | safe }}
+          {% if isPlaceholder %}
+            <p class="article__placeholder">
+              <svg class="article__placeholder-icon" width="23" height="23" viewBox="0 0 23 23" fill="currentColor">
+                <path d="M1.1 7.5l6.22-6.22c.28-.28.6-.42.96-.42.34 0 .66.14.97.42l9.4 9.4c.62.62 1.01 1.21 1.18 1.77l2.6 8.53c.09.22.13.46.13.71 0 .7-.35 1.05-1.05 1.05-.22 0-.46-.04-.71-.13l-8.53-2.6a4.19 4.19 0 01-1.76-1.18L1.1 9.43C.8 9.12.64 8.8.64 8.46c0-.34.15-.66.46-.97zm7.35-3.95l-1.8 1.8 8.27 8.23c.28-.28.81-.95 1.6-2.01L8.44 3.55zm2.94 13.14c.64-.42 1.32-.95 2.02-1.6L5.13 6.87 3.37 8.63l8.02 8.06zm6.51-3.19a13.8 13.8 0 01-4.62 4.62l4.28 1.51c.31-.11.68-.38 1.1-.8.42-.42.68-.78.8-1.09L17.9 13.5z"/>
+              </svg>
+              <span class="article__placeholder-content">
+                Это незавершённая статья. Вы можете помочь её закончить! Почитайте <a class="link" href="https://github.com/doka-guide/content/blob/main/docs/contributing.md" target="_blank">о том, как контрибьютить в Доку</a>.
+              </span>
+            </p>
+          {% endif %}
+        </div>
+      </header>
 
+      <div class="article__layout">
+        <div class="article__aside" tabindex="0">
+          <div class="article__nav article-nav">
+            <button class="article-nav__button nav-button" type="button">
+              <span class="visually-hidden">Открыть/закрыть навигацию по статье</span>
+              <svg class="article-nav__button-icon article-nav__button-icon--close" width="48" height="48" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
+                <path d="M31.27 32.88l-7.3-7.3-7.24 7.24c-.43.43-.81.58-1.15.58a.94.94 0 01-.71-.26.94.94 0 01-.27-.72c0-.34.15-.72.58-1.15l7.24-7.24-7.24-7.23c-.43-.43-.58-.81-.58-1.16 0-.32.1-.54.27-.7a.94.94 0 01.7-.28c.35 0 .73.16 1.16.59l7.24 7.23 7.3-7.3c.44-.44.8-.58 1.09-.58.15 0 .36.07.62.37.28.3.36.55.36.73 0 .3-.14.65-.52 1.03l-7.3 7.3 7.3 7.3c.44.44.58.8.58 1.1 0 .15-.07.36-.37.62-.3.27-.55.35-.73.35-.3 0-.65-.13-1.03-.52z"/>
+              </svg>
+              <svg class="article-nav__button-icon article-nav__button-icon--open" width="48" height="48" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
+                <path d="M29.1 23.68c0 1.1-.6 2.16-1.78 3.17 1.06.6 1.58 1.47 1.58 2.6 0 1.05-.45 1.9-1.36 2.56-.9.67-2.01 1-3.34 1-1.8 0-3.25-.43-4.37-1.31-.32-.24-.48-.5-.48-.75 0-.19.07-.36.2-.5.12-.13.29-.2.5-.2.2 0 .5.13.86.37 1.01.68 2.11 1.03 3.31 1.03 1 0 1.77-.2 2.33-.63.56-.41.84-.96.84-1.63 0-.6-.28-1.06-.84-1.37-.56-.3-1.48-.6-2.76-.9-1.76-.42-3-.91-3.72-1.47A2.81 2.81 0 0119 23.3c0-1.1.59-2.15 1.75-3.17a2.82 2.82 0 01-1.56-2.6c0-1.05.45-1.9 1.35-2.56a5.5 5.5 0 013.36-1c1.79 0 3.25.43 4.37 1.31.32.24.48.49.48.74 0 .2-.07.36-.2.5-.12.14-.3.2-.5.2s-.5-.12-.86-.36a5.75 5.75 0 00-3.32-1.03c-.99 0-1.76.2-2.32.62-.56.42-.84.96-.84 1.63 0 .61.28 1.07.84 1.37.56.3 1.48.61 2.76.91 1.76.42 3 .9 3.72 1.47a2.81 2.81 0 011.08 2.35zm-5-2.38c-.86-.22-1.55-.42-2.06-.6-1.02.7-1.54 1.5-1.54 2.4 0 .66.26 1.17.77 1.54.51.35 1.42.7 2.71 1.03.87.23 1.56.43 2.07.6 1.02-.69 1.53-1.49 1.53-2.4 0-.65-.25-1.16-.76-1.5a8.74 8.74 0 00-2.72-1.07z"/>
+              </svg>
+            </button>
+            <div class="article-nav__content"></div>
+          </div>
+
+          <footer class="article__meta">
+            <div class="article__persons">
+              {% include "contributors.njk" %}
+            </div>
+
+            {% set githubicon %}
+            <svg class="article__github-icon" width="12" height="11" fill="currentColor" viewBox="0 0 12 11" aria-hidden="true">
+              <path d="M6 0C2.69 0 0 2.52 0 5.64c0 2.49 1.72 4.6 4.1 5.35.3.05.41-.12.41-.27v-.96C2.83 10.1 2.47 9 2.47 9c-.27-.65-.66-.82-.66-.82-.55-.35.04-.35.04-.35.6.04.92.58.92.58.53.87 1.4.62 1.74.47.06-.36.21-.61.38-.75-1.33-.14-2.73-.63-2.73-2.79 0-.61.24-1.11.62-1.5-.06-.15-.27-.72.06-1.5 0 0 .5-.15 1.65.58a6.17 6.17 0 013 0c1.15-.73 1.65-.58 1.65-.58.33.78.12 1.35.06 1.5.38.39.62.89.62 1.5 0 2.17-1.4 2.65-2.74 2.79.21.17.4.52.4 1.04v1.55c0 .15.1.32.41.27A5.68 5.68 0 0012 5.64C12 2.52 9.31 0 6 0z" />
+            </svg>
+            {% endset %}
+
+            <a class="article__edit-button button" href="{% contentRepLink %}/blob/main{{ docPath }}" target="_blank">
+              Редактировать на {{ githubicon | safe }}  GitHub
+            </a>
+
+            {% if updatedAt %}
+              <p class="article__update-date">
+                Обновлено
+                <time data-relative-time datetime="{{ updatedAt | isoDate }}">
+                  {{ updatedAt | ruDate }}
+                </time>
+              </p>
+            {% endif %}
+          </footer>
+        </div>
+
+        <div class="article__content doc__wrapper">
+          {{ doc.templateContent | safe }}
+          {% include "practices.njk" %}
+        </div>
+      </div>
     </article>
+  </main>
 
-    {% include "practices.njk" %}
-
-    {% include "contributors.njk" %}
-
-    {% include "feedback-form.njk" %}
-
+  {# {% include "feedback-form.njk" %} #}
+  <div class="doc__footer doc__wrapper">
+    {% include "blocks/footer.njk" %}
   </div>
-</main>
+</div>

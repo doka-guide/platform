@@ -1,0 +1,30 @@
+.persons-list {
+  display: inline;
+}
+
+.persons-list__items {
+  display: inline;
+}
+
+.persons-list__item:not([hidden]) {
+  display: inline-flex;
+}
+
+.persons-list__link {}
+
+.persons-list__name {}
+
+.persons-list__button {
+  margin: 0;
+  appearance: none;
+  padding: 0;
+  border: 0;
+  display: inline;
+  font: inherit;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.persons-list__extra:not([hidden]) {
+  display: inline;
+}

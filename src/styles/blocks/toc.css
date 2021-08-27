@@ -1,0 +1,11 @@
+.toc {}
+
+.toc__list {}
+
+.toc__list .toc__list {
+  margin-left: 24px;
+}
+
+.toc__item {}
+
+.toc__link {}

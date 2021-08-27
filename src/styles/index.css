@@ -1,22 +1,8 @@
-/* Fonts */
+@charset 'utf-8';
 
-@import 'fonts/inter/inter.css';
-@import 'fonts/roboto/roboto.css';
-@import 'fonts/roboto/roboto-mono.css';
-
-/* Globals */
+@import 'fonts.css';
 @import 'base-colors.css';
 @import 'light-theme.css';
-@import 'variables.css';
-@import 'box-sizing.css';
-
-/* Pages and Layouts */
-
-@import 'pages/base.css';
-@import 'pages/index.css';
-@import 'pages/aside-page.css';
-
-/* Blocks */
 @import 'blocks/visually-hidden.css';
 @import 'blocks/base-list.css';
 @import 'blocks/container.css';
@@ -25,6 +11,9 @@
 @import 'blocks/button.css';
 @import 'blocks/base.css';
 @import 'blocks/logo.css';
+@import 'blocks/hotkey.css';
+@import 'blocks/breadcrumbs.css';
+@import 'blocks/menu-toggle.css';
 @import 'blocks/header.css';
 @import 'blocks/nav-list.css';
 @import 'blocks/aside.css';
@@ -38,3 +27,13 @@
 @import 'blocks/index-group-list.css';
 @import 'blocks/article-indexes-list.css';
 @import 'blocks/materials-collection.css';
+@import 'blocks/article-heading.css';
+@import 'blocks/article-nav.css';
+@import 'blocks/contributors.css';
+@import 'blocks/article.css';
+@import 'blocks/doc.css';
+@import 'blocks/persons-list.css';
+@import 'blocks/toc.css';
+@import 'blocks/code-block.css';
+@import 'blocks/vote.css';
+@import 'blocks/feedback-form.css';

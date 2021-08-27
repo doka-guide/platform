@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'Graphik';
+  src: url('/fonts/graphik/Graphik-Regular-Web.woff2') format('woff2');
+  font-style: normal;
+  font-weight: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'Graphik';
+  src: url('/fonts/graphik/Graphik-Regular-Italic-Web.woff2') format('woff2');
+  font-style: italic;
+  font-weight: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'Graphik';
+  src: url('/fonts/graphik/Graphik-Medium-Web.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: fallback;
+}

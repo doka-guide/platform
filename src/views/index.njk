@@ -1,6 +1,10 @@
 {% from "blocks/featured-article.njk" import featuredArticle %}
+{% from "blocks/header.njk" import header %}
 
-{% include "blocks/header.njk" %}
+{{ header(
+  isStatic=true,
+  articleIndexes=collections.articleIndexes
+) }}
 
 <main>
   <div class="container">

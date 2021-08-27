@@ -1,12 +1,6 @@
-const path = require('path')
-const fs = require('fs')
-const os = require('os')
 const htmlnano = require('htmlnano')
 const markdownIt = require('markdown-it')
-const markdownItAnchor = require('markdown-it-anchor')
-const { slugify } = require('transliteration')
 const { parseHTML } = require('linkedom')
-const Image = require('@11ty/eleventy-img')
 const {
   mainSections,
   dokaOrgLink,
@@ -14,6 +8,10 @@ const {
   contentRepLink,
   feedbackFormName
 } = require('./config/constants.js')
+const demoLinkTransform = require('./src/transforms/demo-link-transform');
+const imageTransform = require('./src/transforms/image-transform');
+const headingsTransform = require('./src/transforms/headings-transform');
+const codeTransform = require('./src/transforms/code-transform');
 
 const ENVS = {
   DEVELOPMENT: 'development',
@@ -27,8 +25,8 @@ module.exports = function(config) {
   config.setBrowserSyncConfig({
     server: {
       baseDir: [
+        './src',
         './dist',
-        './src'
       ]
     },
     files: [
@@ -87,15 +85,10 @@ module.exports = function(config) {
   let markdownLibrary = markdownIt({
     html: true,
     breaks: true,
-    linkify: true
-  }).use(markdownItAnchor, {
-    permalink: true,
-    permalinkClass: 'direct-link',
-    permalinkSymbol: '#',
-    permalinkAttrs: () => ({
-      'aria-label': 'Этот заголовок',
-    }),
-    slugify
+    linkify: true,
+    highlight: function(str, lang) {
+      return `<pre data-lang="${lang}"><code class="language-${lang}">${markdownLibrary.utils.escapeHtml(str)}</code></pre>`
+    }
   })
   config.setLibrary('md', markdownLibrary)
 
@@ -161,78 +154,14 @@ module.exports = function(config) {
     if (outputPath && outputPath.endsWith('.html')) {
       const DOM = parseHTML(content)
 
-      // Правит пути к демкам и картинкам, которые вставлены в раздел «В работе».
-      // Чтобы сослаться на демку из раздела «В работе» используется относительный путь '../demos/index.html'.
-      // При сборке сайта, раздел вклеивается в основную статью и относительная ссылка ломается. Эта трансформация заменяет '../demos/index.html' на './demos/index.html'
-      {
-        const practicesSection = DOM.document.getElementById('practices')
-        if (practicesSection) {
-          const mediaElements = practicesSection.querySelectorAll('img, iframe')
-          for (const element of mediaElements) {
-            const oldLink = element.getAttribute('src');
-            const newLink = oldLink.replace('../', './');
-            element.setAttribute('src', newLink);
-          }
-        }
-      }
+      const transforms = [
+        demoLinkTransform,
+        isProdEnv && imageTransform,
+        headingsTransform,
+        codeTransform
+      ]
 
-      // замена img на picture внутри статьи
-      if (isProdEnv) {
-        const articleContainer = DOM.document.querySelector('main .aside-page__content')
-        if (articleContainer) {
-          // задаём базовый путь до исходных картинок, используя outputPath
-          // например, из пути `dist/css/active/index.html` нужно получить `/css/active/`
-          const baseSourcePath = outputPath
-            .replace('dist/', '')
-            .replace('/index.html', '')
-          const imagesSourcePath = path.join('src', baseSourcePath)
-          const imagesOutputPath = path.join('dist', baseSourcePath, 'images')
-
-          const extWhiteList = ['.gif', '.svg']
-
-          Image.concurrency = os.cpus().length
-
-          const images = articleContainer.querySelectorAll('img')
-
-          for (const image of images) {
-            const originalLink = path.join(imagesSourcePath, image.src)
-            if (!fs.existsSync(originalLink)) {
-              console.warn(`Изображение ${originalLink} не существует`)
-              continue
-            }
-
-            const ext = path.extname(originalLink)
-            if (extWhiteList.includes(ext)) {
-              continue
-            }
-
-            const options = {
-              urlPath: 'images/',
-              outputDir: imagesOutputPath,
-              widths: [300, 600, 1200, 2400],
-              formats: [ext.replace('.', ''), 'webp'],
-              filenameFormat: function (id, src, width, format) {
-                const extension = path.extname(src);
-                const name = path.basename(src, extension);
-                return `${name}-${width}w.${format}`;
-              }
-            }
-
-            const imageAttributes = Object.fromEntries(
-              [...image.attributes].map(attr => [attr.name, attr.value])
-            )
-            imageAttributes.sizes = imageAttributes.sizes || '(min-width: 1200px) 1200px, calc(100vw - 40px)'
-
-            Image(originalLink, options)
-            const metadata = Image.statsSync(originalLink, options)
-
-            const imageHTML = Image.generateHTML(metadata, imageAttributes)
-            const tempElement = DOM.document.createElement('div')
-            tempElement.innerHTML = imageHTML
-            image.replaceWith(tempElement.firstElementChild)
-          }
-        }
-      }
+      transforms.filter(Boolean).forEach(transform => transform(DOM, content, outputPath))
 
       return DOM.document.toString()
     }
