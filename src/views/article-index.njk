@@ -1,0 +1,99 @@
+{% from "blocks/header.njk" import header %}
+
+{% set placeholderIcon %}
+<svg class="articles-group__placeholder-icon" width="23" height="23" viewBox="0 0 23 23" fill="currentColor">
+  <path d="M1.1 7.5l6.22-6.22c.28-.28.6-.42.96-.42.34 0 .66.14.97.42l9.4 9.4c.62.62 1.01 1.21 1.18 1.77l2.6 8.53c.09.22.13.46.13.71 0 .7-.35 1.05-1.05 1.05-.22 0-.46-.04-.71-.13l-8.53-2.6a4.19 4.19 0 01-1.76-1.18L1.1 9.43C.8 9.12.64 8.8.64 8.46c0-.34.15-.66.46-.97zm7.35-3.95l-1.8 1.8 8.27 8.23c.28-.28.81-.95 1.6-2.01L8.44 3.55zm2.94 13.14c.64-.42 1.32-.95 2.02-1.6L5.13 6.87 3.37 8.63l8.02 8.06zm6.51-3.19a13.8 13.8 0 01-4.62 4.62l4.28 1.51c.31-.11.68-.38 1.1-.8.42-.42.68-.78.8-1.09L17.9 13.5z"/>
+</svg>
+{% endset placeholderIcon %}
+
+{{ header(
+  pageCategoryId=category,
+  title=categoryName,
+  link=permalink,
+  articleIndexes=collections.articleIndexes
+) }}
+
+<div class="index-block" style="--accent-color: var(--color-{{ category }})">
+  <div class="index-block__header">
+    <h1 class="index-block__title">
+      {{ categoryName }}
+    </h1>
+    <div class="index-block__description">
+      {{ articleIndex.templateContent | safe }}
+    </div>
+  </div>
+
+  <fieldset class="index-block__filter">
+    {# fieldset и legend не работают с flexbox/grid #}
+    <legend class="visually-hidden">Сортировать по:</legend>
+    <div class="index-block__filter-legend" aria-hidden="true">Сортировать по:</div>
+
+    <div class="index-block__filter-control switch">
+      <label class="switch__item">
+        <input class="switch__input" type="radio" name="index-filter" value="themes" autocomplete="off" checked>
+        <span class="switch__label">Темам</span>
+      </label>
+      <label class="switch__item">
+        <input class="switch__input" type="radio" name="index-filter" value="alphabet" autocomplete="off">
+        <span class="switch__label">Алфавиту</span>
+      </label>
+    </div>
+  </fieldset>
+
+  <main class="index-block__main">
+    <section class="index-section" id="themes">
+      <h2 class="visually-hidden">Статьи раздела «{{ categoryName }}» по темам</h2>
+
+      {% for group in groups %}
+        <section class="index-section__item articles-group">
+          <h3 class="articles-group__title">
+            {{ group.name }}
+          </h3>
+          <ul class="articles-group__list base-list">
+            {% for articleId in group.items %}
+              {% set isDoka = categoryArticlesBySlug[articleId].data.tags | hasTag('doka') %}
+              {% set isPlaceholder = categoryArticlesBySlug[articleId].data.tags | hasTag('placeholder') %}
+              <li>
+                <a class="articles-group__link link font-theme {% if isDoka %}font-theme--code{% endif %}" href="/{{ category }}/{{ articleId }}/">
+                  {% if isPlaceholder %}
+                    {{ placeholderIcon | safe }}
+                  {% endif %}
+                  {{ categoryArticlesBySlug[articleId].data.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+    </section>
+
+    <section class="index-section" id="alphabet" hidden>
+      <h2 class="visually-hidden">Статьи раздела «{{ categoryName }}» по алфавиту</h2>
+      {% for letter in firstLettersOfArticles %}
+        <section class="index-section__item articles-group">
+          <h3 class="articles-group__title articles-group__title--letter">
+            {{ letter }}
+          </h3>
+          <ul class="articles-group__list base-list">
+            {% for articleId in categoryArticlesByAlphabet[letter] %}
+              {% set isDoka = categoryArticlesBySlug[articleId].data.tags | hasTag('doka') %}
+              {% set isPlaceholder = categoryArticlesBySlug[articleId].data.tags | hasTag('placeholder') %}
+              <li>
+                <a class="articles-group__link link font-theme {% if isDoka %}font-theme--code{% endif %}" href="/{{ category }}/{{ articleId }}/">
+                  {% if isPlaceholder %}
+                    {{ placeholderIcon | safe }}
+                  {% endif %}
+                  {{ categoryArticlesBySlug[articleId].data.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+    </section>
+  </main>
+
+  <div class="index-block__footer">
+    {% include "blocks/footer.njk" %}
+  </div>
+</div>
