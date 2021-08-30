@@ -21,3 +21,11 @@
   font-weight: 500;
   font-display: fallback;
 }
+
+@font-face {
+  font-family: 'Spot Mono';
+  src: url('/fonts/spot-mono/SpotMono-Light.woff2') format('woff2');
+  font-style: normal;
+  font-weight: normal;
+  font-display: fallback;
+}
