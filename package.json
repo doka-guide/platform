@@ -60,5 +60,8 @@
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
     "transliteration": "^2.2.0"
+  },
+  "dependencies": {
+    "algoliasearch": "^4.10.5"
   }
 }
