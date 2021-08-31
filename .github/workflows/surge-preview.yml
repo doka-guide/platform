@@ -72,7 +72,7 @@ jobs:
           repository: ${{ github.repository }}
           number: ${{ github.event.number }}
           id: surge-progress-${{ github.event.number }}
-          message: '[Превью контента](${{ env.DEPLOY_DOMAIN }}) из ${{ github.sha }} опубликовано.'
+          message: '[Превью контента](${{ env.DEPLOY_DOMAIN }}) из ${{ github.event.pull_request.head.ref }} опубликовано.'
           recreate: true
       - name: Сообщение о неудаче публикации превью
         uses: hasura/comment-progress@v2.1.0
@@ -82,5 +82,5 @@ jobs:
           repository: ${{ github.repository }}
           number: ${{ github.event.number }}
           id: surge-progress-${{ github.event.number }}
-          message: 'Превью контента из ${{ github.sha }} не опубликовано. Ошибка сборки или публикации. [Подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)'
+          message: 'Превью контента из ${{ github.event.pull_request.head.ref }} не опубликовано. Ошибка сборки или публикации. [Подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)'
           fail: true
