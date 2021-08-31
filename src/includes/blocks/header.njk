@@ -5,7 +5,17 @@
 {% endmacro %}
 
 {% macro header(pageCategoryId, category, title, link, articleIndexes, isStatic) %}
-  <header class="header {% if isMainPage %}header--open{% endif %} {% if isStatic %}header--static{% endif %}" style="--accent-color: var(--color-{{ pageCategoryId }})">
+  {% set hasAccentColor = pageCategoryId %}
+
+  <header
+    class="
+      header
+      {% if isMainPage %}header--open{% endif %}
+      {% if isStatic %}header--static{% endif %}
+      {% if not hasAccentColor %}header--simple{% endif %}
+    "
+    {% if hasAccentColor %}style="--accent-color: var(--color-{{ pageCategoryId }})"{% endif %}
+  >
     {% if not isStatic %}
       <div class="header__inner header__inner--main">
         <ul class="header__breadcrumbs breadcrumbs base-list font-theme font-theme--code">
