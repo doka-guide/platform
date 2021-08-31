@@ -205,6 +205,7 @@ module.exports = function(config) {
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
   config.addPassthroughCopy('src/**/*.(html|gif|jpg|png|svg|mp4|webm|zip)')
+  config.addPassthroughCopy('src/(css|html|js|tools)/**/demos/**/*')
 
   return {
     dir: {
