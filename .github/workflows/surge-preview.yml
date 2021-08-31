@@ -48,7 +48,7 @@ jobs:
           repository: ${{ github.repository }}
           number: ${{ github.event.number }}
           id: surge-progress-${{ github.event.number }}
-          message: 'Идёт сборка и публикация превью... [Смотреть подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)'
+          message: 'Идёт сборка и публикация превью... [Подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)'
           recreate: true
       - name: Сборка и публикация сайта
         id: surge
@@ -81,5 +81,5 @@ jobs:
           repository: ${{ github.repository }}
           number: ${{ github.event.number }}
           id: surge-progress-${{ github.event.number }}
-          message: 'Превью контента из ${{ github.sha }} не опубликовано. Ошибка сборки или публикации. [Смотреть подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)'
+          message: 'Превью контента из ${{ github.sha }} не опубликовано. Ошибка сборки или публикации. [Подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)'
           fail: true
