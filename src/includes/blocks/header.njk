@@ -20,6 +20,7 @@
 {% endset %}
 
 {% set isMainPage = page.url === '/' %}
+{% set isNotSearchPage = page.url !== '/search.html' %}
 
 {% set logoWrapper = simpleLogo if isMainPage else linkLogo %}
 
@@ -28,4 +29,5 @@
 
   {% include "blocks/search.njk" %}
   {% include "blocks/nav-list.njk" %}
+  {% if isNotSearchPage %}{% include "blocks/search-hits.njk" %}{% endif %}
 </header>
