@@ -135,6 +135,10 @@
   display: none;
 }
 
+.header--simple.header--fixed::after {
+  border-top: 1px solid;
+}
+
 .header--open {
   --accent-color: var(--color-backgound);
 }
