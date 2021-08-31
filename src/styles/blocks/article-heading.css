@@ -1,0 +1,23 @@
+.article-heading {}
+
+.article-heading__title {
+  margin: 0;
+  display: inline;
+  scroll-margin: 1em;
+}
+
+.article-heading__link {
+  display: inline-block;
+  transition: 0.2s;
+}
+
+@media (hover: hover) {
+  .article-heading:not(:hover) .article-heading__link {
+    transform: translateX(-25%);
+    opacity: 0;
+  }
+}
+
+.article-heading__icon {
+  display: block;
+}

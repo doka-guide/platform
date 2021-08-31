@@ -1,47 +1,217 @@
 .header {
+  --header-bg-color: var(--accent-color, var(--color-background));
+  position: relative;
+  z-index: 1;
+  background-color: var(--color-background);
+}
+
+.header::before {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(0 0 0 / 0.33);
+  transition: 0.2s;
+}
+
+.header__inner {
+  position: relative;
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--header-bg-color);
+}
+
+.header__inner--menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-areas:
+    'logo   button'
+    'search search'
+    'list   list';
+  grid-gap: 10px;
   font-size: var(--font-size-xl);
   line-height: var(--font-line-height-xl);
   letter-spacing: var(--letter-spacing);
+  background-color: var(--color-background);
+  transition: 0.6s cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+.header__breadcrumbs {
+  min-width: 0;
+  line-height: 1.25;
 }
 
 .header__divider {
   opacity: 0.3;
-  margin: 0 10px;
-  font-size: var(--font-size-xl);
-  line-height: var(--font-line-height-xl);
-  font-family: var(--font-family);
+  margin: 0 0.2em;
 }
 
 .header__divider::before {
   content: '/';
 }
 
+.header__divider--large {
+  font-size: var(--font-size-xl);
+  line-height: var(--font-line-height-xl);
+}
+
 .header__logo {
-  margin-bottom: 20px;
   display: flex;
   align-items: center;
 }
 
 .header__search {
+  margin-top: 10px;
+  grid-area: search;
   font-size: var(--font-size-xl);
   line-height: var(--font-line-height-xl);
 }
 
 .header__menu {
-  grid-column-start: 2;
+  grid-area: list;
   margin-bottom: 2.7%;
 }
 
-@media (min-width: 1366px) {
-  .header {
-    padding: 20px;
-    display: grid;
-    align-items: center;
-    grid-template-columns: auto 1fr 100px;
+.header__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.header__inner--menu .header__toggle {
+  grid-area: button;
+}
+
+.header--fixed {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+}
+
+.header--animating {
+  animation-name: fixedHeaderAnimation;
+  animation-duration: 0.6s;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+.header--fixed-show {
+  animation-direction: normal;
+}
+
+.header--fixed-hide {
+  animation-direction: reverse;
+  animation-duration: 0.2s;
+  animation-timing-function: ease;
+}
+
+@keyframes fixedHeaderAnimation {
+  from {
+    transform: translateY(-100%);
+  }
+}
+
+.header--fixed::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: -1px;
+  height: 40px;
+  background: linear-gradient(var(--color-background), hsl(var(--color-base-background) / 0));
+  pointer-events: none;
+}
+
+.header:not(.header--fixed) .header__title {
+  display: none;
+}
+
+.header--simple.header--fixed::after {
+  border-top: 1px solid;
+}
+
+.header--open {
+  --accent-color: var(--color-backgound);
+}
+
+.header--open::after {
+  display: none;
+}
+
+.header:not(.header--open, .header--static) .header__inner--menu {
+  visibility: hidden;
+  transform: translateY(-100%);
+}
+
+.header--open::before {
+  transition-delay: 0.4s;
+}
+
+.header:not(.header--open)::before {
+  opacity: 0;
+  visibility: hidden;
+  transition-delay: 0s;
+}
+
+.header--static .header__inner--menu {
+  position: static;
+}
+
+.header--static .header__toggle {
+  display: none;
+}
+
+@media not all and (min-width: 768px) {
+  .header--fixed .header__category {
+    display: none;
   }
 
-  .header__logo {
-    margin-bottom: 0;
+  .header--fixed .header__breadcrumbs {
+    flex-wrap: wrap;
+  }
+
+  .header--fixed .header__title {
+    margin-top: 10px;
+    flex-basis: 100%;
+  }
+
+  .header__inner--main .header__toggle {
+    margin-top: 10px;
+    align-self: flex-start;
+  }
+}
+
+@media (min-width: 1366px) {
+  .header__inner {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .header__inner--menu {
+    grid-template-areas:
+      'logo search button'
+      '.    list   .';
+    grid-auto-columns: auto 1fr 140px;
+    grid-gap: 0;
+  }
+
+  .header__search {
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 1680px) {
+  .header__inner--menu {
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 }
