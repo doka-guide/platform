@@ -1,0 +1,112 @@
+.index-block {
+  --offset: 10px;
+}
+
+.index-block__header {
+  padding: var(--offset);
+  background-color: var(--accent-color);
+}
+
+.index-block__title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: var(--font-size-xl);
+  line-height: var(--font-line-height-xl);
+  font-weight: normal;
+}
+
+.index-block__description {}
+
+/* TODO: вынести в html transforms */
+.index-block__description p {
+  margin: 0;
+}
+
+.index-block__description--aside {}
+
+.index-block__filter {
+  margin: 0;
+  position: sticky;
+  bottom: 0;
+  padding: var(--offset);
+  border: 0;
+  display: flex;
+  font-size: var(--font-size-s);
+  line-height: var(--font-line-height-s);
+  background-color: var(--color-background);
+}
+
+.index-block__filter-legend {}
+
+.index-block__filter-control {}
+
+.index-block__main {}
+
+@media not all and (min-width: 1366px) {
+  .index-block__header {
+    padding-top: clamp(20px, 8%, 130px);
+  }
+
+  .index-block__filter {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border-top: 1px solid;
+    font-size: var(--font-size-m);
+    line-height: var(--font-line-height-m);
+  }
+
+  .index-block__filter::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    margin-bottom: 1px;
+    height: 40px;
+    background-image: linear-gradient(hsl(var(--color-base-background) / 0), var(--color-background));
+  }
+}
+
+@media (min-width: 1366px) {
+  .index-block {
+    --offset: 20px;
+    display: grid;
+    grid-template-columns: 420px 1fr;
+  }
+
+  .index-block__header {
+    grid-column: 1;
+    background-color: transparent;
+  }
+
+  .index-block__title {
+    position: absolute;
+    opacity: 0;
+  }
+
+  .index-block__description {}
+
+  .index-block__filter {
+    grid-column: 1;
+    padding: var(--offset);
+    padding-right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .index-block__main {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .index-block__footer {
+    grid-column: 2;
+    align-self: end;
+  }
+}
