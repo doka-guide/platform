@@ -42,3 +42,7 @@
   color: inherit;
   background-color: transparent;
 }
+
+.search__output {
+  grid-area: search-output;
+}

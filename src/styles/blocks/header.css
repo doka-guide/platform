@@ -35,6 +35,7 @@
   grid-template-areas:
     'logo   button'
     'search search'
+    'search-output search-output'
     'list   list';
   grid-gap: 10px;
   font-size: var(--font-size-xl);
@@ -199,6 +200,7 @@
   .header__inner--menu {
     grid-template-areas:
       'logo search button'
+      '.    search-output   .'
       '.    list   .';
     grid-auto-columns: auto 1fr 140px;
     grid-gap: 0;
