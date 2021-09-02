@@ -28,7 +28,7 @@
   opacity: 0.6;
 }
 
-.search__controls {
+/* .search__controls {
   place-self: center end;
   display: flex;
   flex-direction: column;
@@ -41,7 +41,7 @@
   margin: 0;
   color: inherit;
   background-color: transparent;
-}
+} */
 
 .search__output {
   grid-area: search-output;

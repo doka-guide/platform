@@ -1,4 +1,6 @@
-import algoliasearch from 'algoliasearch/lite'
+import algoliasearch from '/algoliasearch/dist/algoliasearch-lite.esm.browser.js'
+import { escape } from '/html-escaper/esm/index.js'
+import debounce from '../libs/debounce.js'
 
 const APP_ID = 'ZGJEP79XK2'
 const API_KEY = '8c308ac7e0a1271a2bb0d7836f3703d4'
@@ -9,19 +11,22 @@ export const searchIndex = client.initIndex(INDEX_NAME)
 
 const SEARCH_FIELD_SELECTOR = '.search__input'
 const SEARCH_HITS_SELECTOR = '.search__output'
-const SEARCH_TAG_SELECTOR = '.search__tag'
-const SEARCH_CATEGORY_SELECTOR = '.search__category'
+const SEARCH_TAG_SELECTOR = '.search-tag'
+const SEARCH_CATEGORY_SELECTOR = '.search-category'
 
 const HIT_COUNT = 10
 const MIN_SEARCH_SYMBOLS = 3
 const SYMBOL_LIMIT = 150
 const MAX_VALUES_PER_FACET = 20
 const DELIMITER = '…'
+
+const UNKNOWN_CATEGORY = 'UNKNOWN_CATEGORY'
 const HIT_ORDER = [
   'html',
   'css',
   'js',
-  'tools'
+  'tools',
+  UNKNOWN_CATEGORY
 ]
 const HIT_CATEGORY_TITLES = {
   html: 'HTML',
@@ -89,7 +94,7 @@ function processHits(searchObject) {
 
 function markQuery(text, query) {
   const searchRegEx = new RegExp(query, 'gi')
-  return text.replace(searchRegEx, match => `<span class="search-hit__marked">${match}</span>`)
+  return text.replace(searchRegEx, match => templates.mark(match))
 }
 
 function adjustTextMatch(text, index, query, limit) {
@@ -124,27 +129,20 @@ function adjustTextSize(text, query, limit) {
 }
 
 function renderHits(hitObjectList, query, limit) {
-  let output = ''
-  let categoryIndex = -1
-  hitObjectList.sort((a, b) => {
-    HIT_ORDER[a.category] - HIT_ORDER[b.category]
-  })
-  hitObjectList.forEach(hitObject => {
-    if (categoryIndex != HIT_ORDER[hitObject.category]) {
-      categoryIndex = HIT_ORDER[hitObject.category]
-      if (categoryIndex > 0) {
-        output += `</div>`
-      }
-      output += `<div class="search__hit search-hit__category">
-        <h2>${HIT_CATEGORY_TITLES[hitObject.category]}</h2>`
-    }
-    output += `<div class="search__hit search-hit search__hit--${hitObject.category}">
-      <a href="${hitObject.url}"><h3 class="search-hit__title">${markQuery(hitObject.title, query)}</h3></a>
-      <p class="search-hit__summary">${markQuery(adjustTextSize(hitObject.summary, query, limit), query)}</p>
-    </div>`
-  })
-  output += `</div>`
-  return output
+  if (!hitObjectList || hitObjectList.length === 0) {
+    return templates.emptyResults()
+  }
+
+  const hitObjectMap = hitObjectList.reduce((map, hitObject) => {
+    map[hitObject.category] = map[hitObject.category || UNKNOWN_CATEGORY] || []
+    map[hitObject.category].push(hitObject)
+    return map
+  }, {})
+
+  return HIT_ORDER
+    .filter(category => category in hitObjectMap)
+    .map(category => templates.section(category, hitObjectMap[category], query, limit))
+    .join('')
 }
 
 function updateFacet() {
@@ -154,47 +152,46 @@ function updateFacet() {
 function assignSearchField(inputSelector, outputSelector) {
   const searchField = document.querySelector(inputSelector)
   const searchHits = document.querySelector(outputSelector)
-  if (searchField) {
-    searchField.addEventListener('keyup', function () {
-      const q = this.value
-      if (q.length > MIN_SEARCH_SYMBOLS - 1) {
-        search(q)
-          .then(function (searchObject) {
-            searchHits.innerHTML = renderHits(processHits(searchObject), q, SYMBOL_LIMIT)
-          })
-      } else {
-        searchHits.innerHTML = ''
-      }
-    })
+
+  if (!searchField && !searchHits) {
+    return
   }
+
+  searchField.addEventListener('input', debounce(function (event) {
+    const q = event.target.value
+    if (q.length >= MIN_SEARCH_SYMBOLS) {
+      search(q)
+        .then(function(searchObject) {
+          searchHits.innerHTML = renderHits(processHits(searchObject), q, SYMBOL_LIMIT)
+        })
+    } else {
+      searchHits.innerHTML = ''
+    }
+  }, 150))
 }
 
 function facetListenerBuilder(type, hits) {
-  return function (event) {
+  return function(event) {
     const newFacetValue = event.target?.value
+
     if (!newFacetValue) {
       return
     }
+
     switch (type) {
       case 'category':
-        if (newFacetValue !== '') {
-          facetCategoryList = [ newFacetValue ]
-        } else {
-          facetCategoryList = []
-        }
+        facetCategoryList = newFacetValue !== '' ? [newFacetValue] : []
         break;
       case 'tag':
-        if (newFacetValue !== '') {
-          facetTagList = [ newFacetValue ]
-        } else {
-          facetTagList = []
-        }
+        facetTagList = newFacetValue !== '' ? [newFacetValue]: []
         break;
       default:
         return
     }
+
     updateFacet()
-    if (query.length > MIN_SEARCH_SYMBOLS - 1) {
+
+    if (query.length >= MIN_SEARCH_SYMBOLS) {
       search(query)
         .then(function (searchObject) {
           hits.innerHTML = renderHits(processHits(searchObject), query, SYMBOL_LIMIT)
@@ -207,9 +204,10 @@ function assignFacetFields(categorySelector, tagSelector, outputSelector) {
   const searchCategory = document.querySelector(categorySelector)
   const searchTag = document.querySelector(tagSelector)
   const searchHits = document.querySelector(outputSelector)
+
   if (searchCategory && searchTag) {
-    searchCategory.addEventListener('click', facetListenerBuilder('category', searchHits))
-    searchTag.addEventListener('click', facetListenerBuilder('tag', searchHits))
+    searchCategory.addEventListener('change', facetListenerBuilder('category', searchHits))
+    searchTag.addEventListener('change', facetListenerBuilder('tag', searchHits))
   }
 }
 
@@ -217,3 +215,59 @@ document.addEventListener('DOMContentLoaded', function () {
   assignSearchField(SEARCH_FIELD_SELECTOR, SEARCH_HITS_SELECTOR)
   assignFacetFields(SEARCH_CATEGORY_SELECTOR, SEARCH_TAG_SELECTOR, SEARCH_HITS_SELECTOR)
 })
+
+function isDoka(hitObject) {
+  return hitObject.tags.includes('doka')
+}
+
+function isPlaceholder(hitObject) {
+  return hitObject.tags.includes('placeholder')
+}
+
+const templates = {
+  mark: (match) => `<mark class="search-hit__marked">${match}</mark>`,
+
+  hit: (hitObject, query, limit) => {
+    const editIcon = isPlaceholder ? '<img class="search-hit__edit" src="/images/edit-icon.svg" alt="" width="0.5em" height="0.5em">' : ''
+
+    return `<article class="search-hit">
+      <h3 class="search-hit__title ${isDoka(hitObject) ? 'font-theme font-theme--code' : ''}">
+        <a class="search-hit__link link" href="${hitObject.url}">
+          ${editIcon}${markQuery(escape(hitObject.title), query)}
+        </a>
+      </h3>
+      <div class="search-hit__summary">
+        ${markQuery(adjustTextSize(escape(hitObject.summary), query, limit), query)}
+      </div>
+    </article>
+  `
+},
+
+  categoryTitle: (category) => `
+    <h2 class="search-section__title">
+      <a class="search-section__title-link" href="/${category}/">
+        ${HIT_CATEGORY_TITLES[category]}
+      </a>
+    </h2>
+  `,
+
+  section: (category, list, query, limit) => `
+    <section class="search-section" style="--accent-color: var(--color-base-${category})">
+      ${category !== UNKNOWN_CATEGORY ? templates.categoryTitle(category) : ''}
+      <ul class="search-section__list base-list">
+        ${
+          list.map(hitObject => `
+            <li class="search-section__list-item">
+              ${templates.hit(hitObject, query, limit)}
+            </li>
+          `)
+          .join('')
+        }
+      </ul>
+    </section>
+  `,
+
+  emptyResults: () => `
+    <div>Ничего не найдено</div>
+  `
+}

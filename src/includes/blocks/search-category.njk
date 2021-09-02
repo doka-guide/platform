@@ -1,19 +1,13 @@
-<div class="search__category">
-  <div class="search__category__legend" aria-hidden="true">Показать только:</div>
-  <label class="search__category__item">
-    <input class="search__category__control" type="radio" name="search-category" value="category:html">
-    <span class="search__category__text">HTML</span>
-  </label>
-  <label class="search__category__item">
-    <input class="search__category__control" type="radio" name="search-category" value="category:css">
-    <span class="search__category__text">CSS</span>
-  </label>
-  <label class="search__category__item">
-    <input class="search__category__control" type="radio" name="search-category" value="category:js">
-    <span class="search__category__text">JavaScript</span>
-  </label>
-  <label class="search__category__item">
-    <input class="search__category__control" type="radio" name="search-category" value="category:tools">
-    <span class="search__category__text">Инструменты</span>
-  </label>
-</div>
+<fieldset class="search-category">
+  <legend class="visually-hidden" aria-hidden="true">Фильтровать по:</legend>
+  <div class="search-category__legend">Фильтровать по:</div>
+
+  {% for category in collections.articleIndexes %}
+    <label class="search-category__item tag" style="--accent-color: var(--color-{{ category.fileSlug }})">
+      <input class="tag__control" type="radio" name="search-category" value="category:{{ category.fileSlug }}" form="search-form">
+      <span class="tag__text">
+        {{ category.data.name }}
+      </span>
+    </label>
+  {% endfor %}
+</fieldset>

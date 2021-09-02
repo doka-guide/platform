@@ -1,0 +1,30 @@
+.search-category {
+  margin: 0;
+  padding: var(--offset);
+  border: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.search-category__legend {}
+
+.search-category__item {}
+
+@media (min-width: 1366px) {
+  .search-category {
+    position: sticky;
+    top: calc(var(--header-height, 0) * 1px);
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media not all and (min-width: 768px) {
+  .search-category {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

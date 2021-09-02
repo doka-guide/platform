@@ -6,7 +6,7 @@
 
 {% macro header(pageCategoryId, category, title, link, articleIndexes, isStatic) %}
   {% set hasAccentColor = pageCategoryId %}
-  {% set isNotSearchPage = page.url !== '/search.html' %}
+  {% set isNotSearchPage = page.url !== '/search/' %}
 
   <header
     class="
@@ -18,8 +18,8 @@
     {% if hasAccentColor %}style="--accent-color: var(--color-{{ pageCategoryId }})"{% endif %}
   >
     {% if not isStatic %}
-      <div class="header__inner header__inner--main">
-        <ul class="header__breadcrumbs breadcrumbs base-list font-theme font-theme--code">
+      <div class="header__inner header__inner--main font-theme font-theme--code">
+        <ul class="header__breadcrumbs breadcrumbs base-list">
           <li class="breadcrumbs__item">
             {{ logo(isLink=true) }}
             {{ divider() }}

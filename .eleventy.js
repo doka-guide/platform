@@ -27,6 +27,7 @@ module.exports = function(config) {
       baseDir: [
         './src',
         './dist',
+        './node_modules'
       ]
     },
     files: [

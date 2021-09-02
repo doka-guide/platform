@@ -1,0 +1,50 @@
+.search-section {}
+
+.search-section:not(:last-child) {
+  margin-bottom: 40px;
+}
+
+.search-section__title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font: inherit;
+}
+
+.search-section__title-link {
+  display: inline-block;
+  vertical-align: top;
+  padding: 4px 10px;
+  text-decoration: none;
+  color: inherit;
+  background-color: var(--accent-color);
+}
+
+.search-section__list {}
+
+.search-section__list-item {}
+
+.search-section__list-item:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  .search-section:not(:last-child) {
+    margin-bottom: 50px;
+  }
+}
+
+@media (min-width: 1366px) {
+  .search-section__title {
+    margin-bottom: 20px;
+  }
+
+  .search-section__list-item:not(:last-child) {
+    margin-bottom: 30px;
+  }
+}
+
+@media (min-width: 1680px) {
+  .search-section:not(:last-child) {
+    margin-bottom: 50px;
+  }
+}
