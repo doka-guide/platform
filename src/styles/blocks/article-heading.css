@@ -4,10 +4,12 @@
   margin: 0;
   display: inline;
   scroll-margin: 1em;
+  font: inherit;
 }
 
 .article-heading__link {
   display: inline-block;
+  color: hsl(var(--color-blue));
   transition: 0.2s;
 }
 
@@ -20,4 +22,30 @@
 
 .article-heading__icon {
   display: block;
+  width: 0.64em;
+  height: auto;
 }
+
+.article-heading--level-1 {
+  font-size: var(--font-size-xxl);
+  line-height: var(--font-line-height-xxl);
+}
+
+.article-heading--level-2 {
+  font-size: var(--font-size-xl);
+  line-height: var(--font-line-height-xl);
+}
+
+.article-heading--level-3 {
+  font-size: var(--font-size-l);
+  line-height: var(--font-line-height-l);
+}
+
+.article-heading--level-4 {
+  font-size: var(--font-size-m);
+  line-height: var(--font-line-height-m);
+}
+
+.article-heading--level-5 {}
+
+.article-heading--level-6 {}
