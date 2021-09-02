@@ -1,12 +1,4 @@
-.article-heading {
-  --header-height: 80px;
-}
-
-@media not all and (min-width: 768px) {
-  .article-heading {
-    --header-height: 63px;
-  }
-}
+.article-heading {}
 
 .article-heading__title {
   margin: 0;
@@ -14,7 +6,7 @@
 }
 
 .article-heading:not(:first-of-type) .article-heading__title {
-  scroll-margin: calc(var(--header-height) + 1em);
+  scroll-margin: calc((var(--header-height, 0) * 1px) + 1em);
 }
 
 .article-heading:first-of-type .article-heading__title {
