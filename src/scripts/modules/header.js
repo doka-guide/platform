@@ -12,6 +12,7 @@ function init() {
 
   const articleAside = document.querySelector('.article__aside')
   const toggleButtons = header.querySelectorAll('.menu-toggle')
+  const articleHeaders = document.querySelectorAll('.article-heading__title')
 
   const headerActiveClass = 'header--open'
 
@@ -33,6 +34,9 @@ function init() {
       header.classList.add('header--fixed', 'header--animating', 'header--fixed-show')
       articleAside?.classList.add('article__aside--offset')
 
+      // Добавление заголовкам модификатора для создания отступов
+      articleHeaders.forEach(element => element?.classList.add('article-heading__title--scroll-offset'))
+
     } else {
       if (!header.classList.contains('header--fixed')) return
 
@@ -40,6 +44,7 @@ function init() {
       // 4 - "магическое число"
       if (window.scrollY <= headerHeight * 4) {
         articleAside?.classList.remove('article__aside--offset')
+        articleHeaders.forEach(element => element?.classList.remove('article-heading__title--scroll-offset'))
         header.classList.remove('header--fixed')
         return
       }
@@ -51,6 +56,7 @@ function init() {
 
       header.classList.add('header--animating', 'header--fixed-hide')
       articleAside?.classList.remove('article__aside--offset')
+      articleHeaders.forEach(element => element?.classList.remove('article-heading__title--scroll-offset'))
     }
   }
 

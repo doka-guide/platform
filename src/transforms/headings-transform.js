@@ -35,6 +35,10 @@ module.exports = function(DOM) {
       heading.replaceWith(headingWrapper)
     }
 
+    // добавление первому заголовку модификатора, для ограничения прокрутки
+    const firstHeading = DOM.document.querySelector('.article-heading__title')
+    firstHeading.classList.add('article-heading__title--start')
+
     // генерация оглавления
     const articleNavContent = DOM.document.querySelector('.article-nav__content')
     // обновлённые заголовки

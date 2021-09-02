@@ -3,7 +3,14 @@
 .article-heading__title {
   margin: 0;
   display: inline;
+}
+
+.article-heading__title--start {
   scroll-margin: 1em;
+}
+
+.article-heading__title--scroll-offset {
+  scroll-margin: calc(80px + 1em);
 }
 
 .article-heading__link {
@@ -20,4 +27,10 @@
 
 .article-heading__icon {
   display: block;
+}
+
+@media not all and (min-width: 768px) {
+  .article-heading__title--scroll-offset {
+    scroll-margin: calc(63px + 1em);
+  }
 }
