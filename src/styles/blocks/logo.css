@@ -6,6 +6,7 @@
   text-decoration: none;
   font-family: var(--font-family);
   color: inherit;
+  font-feature-settings: 'ss01' on;
 }
 
 .logo__image {
