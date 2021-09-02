@@ -1,26 +1,26 @@
 const { slugify } = require('transliteration')
-const HeadingHierarchy = require('../libs/heading-hierarchy/heading-hierarchy')
 
 // генерация id для заголовков и ссылок на них
 /**
  * @param {Window} DOM
  */
 module.exports = function(DOM) {
-  const articleContent = DOM.document.querySelector('.article__content')
+  const content = DOM.document.querySelector('.content')
 
-  if (articleContent) {
-    let headings = articleContent.querySelectorAll('h2, h3, h4, h5, h6')
+  if (content) {
+    let headings = content.querySelectorAll('h2, h3, h4, h5, h6')
 
     for (const heading of headings) {
       const clonedHeading = heading.cloneNode(true)
       const headingText = heading.textContent.trim()
+      const level = heading.tagName.slice(1)
       const id = slugify(headingText)
       clonedHeading.setAttribute('id', slugify(headingText))
       clonedHeading.setAttribute('tabindex', -1)
       clonedHeading.classList.add('article-heading__title')
 
       const headingWrapper = DOM.document.createElement('div')
-      headingWrapper.classList.add('article-heading')
+      headingWrapper.classList.add('article-heading', 'article-heading--level-' + level)
       headingWrapper.innerHTML = `
         ${clonedHeading.outerHTML}
         <a class="article-heading__link" href="#${id}">
@@ -34,13 +34,5 @@ module.exports = function(DOM) {
 
       heading.replaceWith(headingWrapper)
     }
-
-    // генерация оглавления
-    const articleNavContent = DOM.document.querySelector('.article-nav__content')
-    // обновлённые заголовки
-    headings = articleContent.querySelectorAll('h2, h3, h4, h5, h6')
-
-    const hierarchy = HeadingHierarchy.createHierarchy(Array.from(headings))
-    articleNavContent.innerHTML = HeadingHierarchy.render(hierarchy)
   }
 }
