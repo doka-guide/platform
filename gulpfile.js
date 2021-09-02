@@ -44,6 +44,22 @@ const scripts = () => {
       target: 'es2015',
       bundle: true,
       minify: true,
+      nodePaths: ['node_modules'],
+      plugins: [{
+        name: 'node-modules-resolution',
+        setup(build) {
+          build.onResolve({ filter: /^\// }, args => {
+            const cwd = process.cwd()
+            const newPath = args.path.includes(cwd)
+              ? args.path
+              : path.join(cwd, 'node_modules', args.path)
+
+            return {
+              path: newPath
+            }
+          })
+        }
+      }]
     }))
     .pipe(gulp.dest('dist/scripts'))
 }
