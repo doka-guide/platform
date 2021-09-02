@@ -12,6 +12,7 @@ const demoLinkTransform = require('./src/transforms/demo-link-transform');
 const imageTransform = require('./src/transforms/image-transform');
 const headingsTransform = require('./src/transforms/headings-transform');
 const codeTransform = require('./src/transforms/code-transform');
+const tocTransform = require('./src/transforms/toc-transform');
 
 const ENVS = {
   DEVELOPMENT: 'development',
@@ -159,7 +160,8 @@ module.exports = function(config) {
         demoLinkTransform,
         isProdEnv && imageTransform,
         headingsTransform,
-        codeTransform
+        tocTransform,
+        codeTransform,
       ]
 
       transforms.filter(Boolean).forEach(transform => transform(DOM, content, outputPath))
