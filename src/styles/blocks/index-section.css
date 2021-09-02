@@ -1,6 +1,8 @@
 .index-section {
+  --offset: 10px;
+  --gutter: 40px;
   overflow: hidden;
-  padding: 10px;
+  padding: var(--offset);
   column-width: 370px;
   column-gap: 20px;
   line-height: 1.25;
@@ -16,7 +18,8 @@
 }
 
 .index-section__item {
-  margin-bottom: 40px;
+  overflow: hidden;
+  padding-bottom: var(--gutter);
   display: block;
   page-break-inside: avoid;
   break-inside: avoid;
@@ -24,22 +27,19 @@
 
 @media (min-width: 768px) {
   .index-section {
-    padding: 20px;
-  }
-
-  .index-section__item {
-    margin-bottom: 22px;
+    --offset: 20px;
+    --gutter: 22px;
   }
 }
 
 @media (min-width: 1366px) {
-  .index-section__item {
-    margin-bottom: 60px;
+  .index-section {
+    --gutter: 60px;
   }
 }
 
-@media (min-width: 1480px) {
-  .index-section__item {
-    margin-bottom: 70px;
+@media (min-width: 1680px) {
+  .index-section {
+    --gutter: 70px;
   }
 }
