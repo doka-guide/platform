@@ -228,7 +228,7 @@ const templates = {
   mark: (match) => `<mark class="search-hit__marked">${match}</mark>`,
 
   hit: (hitObject, query, limit) => {
-    const editIcon = isPlaceholder ? '<img class="search-hit__edit" src="/images/edit-icon.svg" alt="" width="0.5em" height="0.5em">' : ''
+    const editIcon = isPlaceholder(hitObject) ? '<img class="search-hit__edit" src="/images/edit-icon.svg" alt="" width="0.5em" height="0.5em">' : ''
 
     return `<article class="search-hit">
       <h3 class="search-hit__title ${isDoka(hitObject) ? 'font-theme font-theme--code' : ''}">
