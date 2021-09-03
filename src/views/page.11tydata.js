@@ -9,7 +9,7 @@ module.exports = {
     alias: 'pageObject',
   },
 
-  permalink: "{{ (pageObject.data.location or pageObject.fileSlug) | slug }}/index.html",
+  permalink: "{{ (pageObject.data.location or pageObject.fileSlug) | slugify }}/index.html",
 
   eleventyComputed: {
     title: function(data) {
