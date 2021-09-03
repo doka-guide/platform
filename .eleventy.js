@@ -1,3 +1,4 @@
+const { slugify } = require('transliteration')
 const htmlnano = require('htmlnano')
 const markdownIt = require('markdown-it')
 const { parseHTML } = require('linkedom')
@@ -150,6 +151,10 @@ module.exports = function(config) {
   config.addFilter('hasTag', (tags, tag) => {
     return (tags || []).includes(tag);
   });
+
+  config.addFilter('slugify', (content) => {
+    return slugify(content)
+  })
 
   config.addTransform('html-transforms', (content, outputPath) => {
     if (outputPath && outputPath.endsWith('.html')) {

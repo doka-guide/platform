@@ -45,16 +45,19 @@
 
       <ul class="article-indexes-list base-list">
         {% for sectionIndex in collections.articleIndexes %}
+          {% set category = sectionIndex.fileSlug %}
           <li class="article-indexes-list__item">
-            <h3 class="article-indexes-list__title" style="--accent-color: var(--color-base-{{ sectionIndex.fileSlug }})">
-              <a class="article-indexes-list__link" href="/{{ sectionIndex.fileSlug }}/">
+            <h3 class="article-indexes-list__title" style="--accent-color: var(--color-base-{{ category }})">
+              <a class="article-indexes-list__link" href="/{{ category }}/">
                 {{ sectionIndex.data.name }}
               </a>
             </h3>
             <ul class="index-group-list base-list">
               {% for group in sectionIndex.data.groups %}
                 <li class="index-group-list__item">
-                  <a class="index-group-list__link link" href="#404">{{ group.name }}</a>
+                  <a class="index-group-list__link link" href="/{{ category }}#{{ group.name | slugify }}">
+                    {{ group.name }}
+                  </a>
                 </li>
               {% endfor %}
             </ul>
