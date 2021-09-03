@@ -7,7 +7,7 @@ module.exports = {
     alias: 'articleIndex'
   },
 
-  permalink: '/{{articleIndex.fileSlug}}/',
+  permalink: '/{{ articleIndex.fileSlug }}/',
 
   firstLetterBlackList: ['::', ':', '!', '@'],
 
@@ -20,6 +20,11 @@ module.exports = {
     categoryName: function(data) {
       const { articleIndex } = data
       return articleIndex.data.name
+    },
+
+    categoryLink: function(data) {
+      const { category } = data
+      return `/${category}/`
     },
 
     groups: function(data) {
