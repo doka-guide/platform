@@ -1,3 +1,5 @@
+const { slugify } = require('transliteration')
+
 module.exports = {
   layout: 'base.njk',
 
@@ -18,6 +20,11 @@ module.exports = {
     description: function(data) {
       const { pageObject } = data
       return pageObject.data.description
+    },
+
+    pageLink: function(data) {
+      const { pageObject } = data
+      return `/${slugify(pageObject.data.location || pageObject.fileSlug)}/`
     }
   }
 }
