@@ -3,15 +3,15 @@
 .article-heading__title {
   margin: 0;
   display: inline;
-}
-
-.article-heading:not(:first-of-type) .article-heading__title {
-  scroll-margin: calc((var(--header-height, 0) * 1px) + 1em);
+  font: inherit;
 }
 
 .article-heading:first-of-type .article-heading__title {
   scroll-margin: 1em;
-  font: inherit;
+}
+
+.article-heading:not(:first-of-type) .article-heading__title {
+  scroll-margin: calc((var(--header-height, 0) * 1px) + 1em);
 }
 
 .article-heading__link {
