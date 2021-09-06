@@ -89,7 +89,9 @@ module.exports = function(config) {
     breaks: true,
     linkify: true,
     highlight: function(str, lang) {
-      return `<pre data-lang="${lang}"><code class="language-${lang}">${markdownLibrary.utils.escapeHtml(str)}</code></pre>`
+      const dataAttribute = lang ? `data-lang="${lang}"`: ''
+      const classAttribute = lang ? `class="language-${lang}"` : ''
+      return `<pre ${dataAttribute}><code ${classAttribute}>${markdownLibrary.utils.escapeHtml(str)}</code></pre>`
     }
   })
   config.setLibrary('md', markdownLibrary)
