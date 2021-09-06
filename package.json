@@ -49,7 +49,7 @@
     "highlight.js": "^11.2.0",
     "html-escaper": "^3.0.3",
     "htmlnano": "^1.0.0",
-    "linkedom": "^0.11.0",
+    "linkedom": "^0.11.2",
     "lint-staged": "^11.0.0",
     "markdown-it": "^12.0.6",
     "netlify-cli": "^3.37.37",
