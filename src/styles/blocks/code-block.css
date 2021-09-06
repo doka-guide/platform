@@ -1,24 +1,27 @@
 .code-block {
   counter-reset: line-count 0;
   overflow: auto;
+  white-space: pre;
 }
 
 .code-block__content {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  font-family: var(--font-family, monospace);
+  border-collapse: collapse;
+  font-size: var(--font-size-s);
+  line-height: calc(24 / 18);
   letter-spacing: var(--letter-spacing);
+  font-family: var(--font-family, monospace);
 }
 
-.code-block__line {
-  display: contents;
-}
+.code-block__origin {}
+
+.code-block__line {}
 
 .code-block__line-number {
   position: sticky;
   left: 0;
   padding-right: 0.83em;
-  display: inline-block;
+  vertical-align: baseline;
+  font-weight: normal;
   text-align: end;
   background-color: hsla(var(--color-base-background) / 0.92);
 }
@@ -29,6 +32,6 @@
   opacity: 0.6;
 }
 
-.code-block__line-content {}
-
-/* TODO: тема для подсветки кода */
+.code-block__line-content {
+  vertical-align: baseline;
+}

@@ -2,7 +2,7 @@ const os = require('os')
 const hljs = require('highlight.js/lib/common')
 
 function renderLine(line) {
-  return `<span class="code-block__line"><span class="code-block__line-number"></span><span class="code-block__line-content">${line}</span></span>`
+  return `<tr class="code-block__line"><th class="code-block__line-number"></th><td class="code-block__line-content">${line}</td></tr>`
 }
 
 // расстановка классов и атрибутов для элементов кода внутри тела статьи,
@@ -21,23 +21,31 @@ module.exports = function(DOM) {
         language = 'javascript'
       }
 
-      if (language) {
-        const lines = hljs.highlight(codeBlock.textContent, { language }).value
-          .split(os.EOL)
+      const content = language
+        ? hljs.highlight(codeBlock.textContent, { language }).value
+        : codeBlock.textContent
+
+      const lines = content
+        .split(os.EOL)
+        .filter((line, index, linesArray) => {
           // удаляем первую и последнюю пустые строки
-          .filter((line, index, linesArray) => {
-            const isFirtsOrLastLine = (index === 0 || index === linesArray.length -1)
-            const isEmptyLine = line.trim() === ''
-            return !(isFirtsOrLastLine && isEmptyLine)
-          })
-          .map((line) => renderLine(line))
-          .join(os.EOL)
+          const isFirtsOrLastLine = (index === 0 || index === linesArray.length -1)
+          const isEmptyLine = line.trim() === ''
+          return !(isFirtsOrLastLine && isEmptyLine)
+        })
+        .map((line) => renderLine(line))
+        .join(os.EOL)
 
-        codeBlock.innerHTML = lines
-      }
 
-      codeBlock.parentNode.classList.add('code-block font-theme font-theme--code')
-      codeBlock.parentNode.setAttribute('tabindex', 0)
-      codeBlock.classList.add('code-block__content')
+        const wrapper = DOM.document.createElement('div')
+        wrapper.setAttribute('tabindex', 0)
+        wrapper.classList.add('code-block', 'font-theme', 'font-theme--code')
+        wrapper.innerHTML = `<table class="code-block__content" aria-hidden="true"><tbody>${lines}</tbody></table>`
+
+        codeBlock.parentNode.classList.add('code-block__origin', 'visually-hidden')
+        const clonedCodeElement = codeBlock.parentNode;
+        wrapper.appendChild(clonedCodeElement)
+
+        codeBlock.parentNode.replaceWith(wrapper)
     })
 }

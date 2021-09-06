@@ -1,3 +1,5 @@
+@import 'code-dark-theme.css';
+
 /* настройки для тёмной темы */
 :root {
   --is-light-theme-on: 0;
