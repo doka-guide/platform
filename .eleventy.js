@@ -167,10 +167,11 @@ module.exports = function(config) {
         isProdEnv && imageTransform,
         headingsTransform,
         tocTransform,
-        codeTransform,
       ]
 
-      transforms.filter(Boolean).forEach(transform => transform(DOM, content, outputPath))
+      transforms
+        .filter(Boolean)
+        .forEach(transform => transform(DOM, content, outputPath))
 
       return DOM.document.toString()
     }
@@ -179,7 +180,7 @@ module.exports = function(config) {
   })
 
   if (isProdEnv) {
-    config.addTransform('htmlmin', (content, outputPath) => {
+    config.addTransform('html-min', (content, outputPath) => {
       if (outputPath) {
         let isHtml = outputPath.endsWith('.html')
         let notDemo = !outputPath.includes('demos')
@@ -208,6 +209,16 @@ module.exports = function(config) {
       return content
     })
   }
+
+  config.addTransform('html-code-transform', (content, outputPath) => {
+    if (outputPath?.endsWith?.('.html')) {
+      const DOM = parseHTML(content)
+      codeTransform(DOM)
+      return DOM.document.toString()
+    }
+
+    return content
+  })
 
   config.addPassthroughCopy('src/favicon.ico')
   config.addPassthroughCopy('src/manifest.json')
