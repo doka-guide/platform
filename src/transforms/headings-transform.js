@@ -12,6 +12,11 @@ module.exports = function(window) {
 
     for (const heading of headings) {
       const clonedHeading = heading.cloneNode(true)
+
+      for (const codeElement of clonedHeading.querySelectorAll('code')) {
+        codeElement.classList.add('article-heading__code', 'font-theme', 'font-theme--code')
+      }
+
       const headingText = heading.textContent.trim()
       const level = heading.tagName.slice(1)
       const id = slugify(headingText)

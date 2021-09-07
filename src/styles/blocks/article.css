@@ -125,18 +125,6 @@
   padding: calc(var(--offset) * 2) var(--offset);
 }
 
-.article__content img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-.article__content iframe {
-  display: block;
-  width: 100%;
-  border: 0;
-}
-
 .article--with-cover {}
 
 .article--with-cover .article__header {}
