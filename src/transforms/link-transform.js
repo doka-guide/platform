@@ -1,8 +1,8 @@
 /**
- * @param {Window} DOM
+ * @param {Window} window
  */
-module.exports = function(DOM) {
-  DOM.document
+module.exports = function(window) {
+  window.document
     .querySelector('.content')
     ?.querySelectorAll('a')
     ?.forEach(link => {

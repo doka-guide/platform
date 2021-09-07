@@ -161,7 +161,7 @@ module.exports = function(config) {
 
   config.addTransform('html-transforms', (content, outputPath) => {
     if (outputPath && outputPath.endsWith('.html')) {
-      const DOM = parseHTML(content)
+      const window = parseHTML(content)
 
       const transforms = [
         demoLinkTransform,
@@ -173,9 +173,9 @@ module.exports = function(config) {
 
       transforms
         .filter(Boolean)
-        .forEach(transform => transform(DOM, content, outputPath))
+        .forEach(transform => transform(window, content, outputPath))
 
-      return DOM.document.toString()
+      return window.document.toString()
     }
 
     return content
@@ -214,9 +214,9 @@ module.exports = function(config) {
 
   config.addTransform('html-code-transform', (content, outputPath) => {
     if (outputPath?.endsWith?.('.html')) {
-      const DOM = parseHTML(content)
-      codeTransform(DOM)
-      return DOM.document.toString()
+      const window = parseHTML(content)
+      codeTransform(window)
+      return window.document.toString()
     }
 
     return content

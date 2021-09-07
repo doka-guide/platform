@@ -5,11 +5,11 @@ const Image = require('@11ty/eleventy-img')
 
 // замена img на picture внутри статьи
 /**
- * @param {Window} DOM
+ * @param {Window} window
  */
- module.exports = function(DOM, content, outputPath) {
+ module.exports = function(window, content, outputPath) {
    // замена img на picture внутри статьи
-   const articleContainer = DOM.document.querySelector('.article__content')
+   const articleContainer = window.document.querySelector('.article__content')
    if (articleContainer) {
      // задаём базовый путь до исходных картинок, используя outputPath
      // например, из пути `dist/css/active/index.html` нужно получить `/css/active/`
@@ -58,7 +58,7 @@ const Image = require('@11ty/eleventy-img')
        const metadata = Image.statsSync(originalLink, options)
 
        const imageHTML = Image.generateHTML(metadata, imageAttributes)
-       const tempElement = DOM.document.createElement('div')
+       const tempElement = window.document.createElement('div')
        tempElement.innerHTML = imageHTML
        image.replaceWith(tempElement.firstElementChild)
      }
