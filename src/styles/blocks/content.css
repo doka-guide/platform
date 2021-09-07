@@ -20,3 +20,10 @@
   width: 100%;
   border: 0;
 }
+
+@media (min-width: 1366px) {
+  .content p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
