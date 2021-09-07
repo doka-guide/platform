@@ -1,7 +1,7 @@
 .code {
   --lightness: calc(var(--is-dark-theme-on) * 20% + var(--is-light-theme-on) * 92%);
   display: inline-block;
-  padding: 0 0.43em;
+  padding: 0 12px;
   font-size: var(--font-size-m);
   line-height: var(--font-line-height-m);
   font-family: var(--font-family);

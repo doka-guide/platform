@@ -1,4 +1,6 @@
 .code-block {
+  margin-top: 10px;
+  margin-bottom: 20px;
   counter-reset: line-count 0;
   overflow: auto;
   white-space: pre;
@@ -34,4 +36,25 @@
 
 .code-block__line-content {
   vertical-align: baseline;
+}
+
+@media (min-width: 768px) {
+  .code-block {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 1366px) {
+  .code-block {
+    margin-top: 20px;
+    margin-bottom: 60px;
+  }
+}
+
+@media (min-width: 1680px) {
+  .code-block {
+    margin-top: 32px;
+    margin-bottom: 50px;
+  }
 }
