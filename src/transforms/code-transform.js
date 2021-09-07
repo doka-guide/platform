@@ -14,16 +14,17 @@ function renderLine(line) {
 module.exports = function(DOM) {
   DOM.document.querySelector('.article__content')
     ?.querySelectorAll('pre[data-lang] > code')
-    ?.forEach(codeBlock => {
-      let language = codeBlock.parentNode.getAttribute('data-lang').trim()
+    ?.forEach(codeElement => {
+      const preElement = codeElement.parentNode
+      let language = preElement.getAttribute('data-lang').trim()
 
       if (language === 'js') {
         language = 'javascript'
       }
 
       const content = language
-        ? hljs.highlight(codeBlock.textContent, { language }).value
-        : codeBlock.textContent
+        ? hljs.highlight(codeElement.textContent, { language }).value
+        : codeElement.textContent
 
       const lines = content
         .split(os.EOL)
@@ -36,16 +37,15 @@ module.exports = function(DOM) {
         .map((line) => renderLine(line))
         .join(os.EOL)
 
+      const wrapper = DOM.document.createElement('div')
+      wrapper.setAttribute('tabindex', 0)
+      wrapper.classList.add('code-block', 'font-theme', 'font-theme--code')
+      wrapper.innerHTML = `<table class="code-block__content" aria-hidden="true"><tbody>${lines}</tbody></table>`
 
-        const wrapper = DOM.document.createElement('div')
-        wrapper.setAttribute('tabindex', 0)
-        wrapper.classList.add('code-block', 'font-theme', 'font-theme--code')
-        wrapper.innerHTML = `<table class="code-block__content" aria-hidden="true"><tbody>${lines}</tbody></table>`
+      preElement.classList.add('code-block__origin', 'visually-hidden')
+      const clonedCodeElement = preElement.cloneNode(true)
+      wrapper.appendChild(clonedCodeElement)
 
-        codeBlock.parentNode.classList.add('code-block__origin', 'visually-hidden')
-        const clonedCodeElement = codeBlock.parentNode;
-        wrapper.appendChild(clonedCodeElement)
-
-        codeBlock.parentNode.replaceWith(wrapper)
+      preElement.replaceWith(wrapper)
     })
 }
