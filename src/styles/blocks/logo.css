@@ -29,6 +29,7 @@
 }
 
 .logo__text {
+  --stroke-width: 2px;
   margin-left: 6px;
   align-self: baseline;
 }

@@ -9,10 +9,10 @@ function renderLine(line) {
 // подсветка синтаксиса,
 // расстановка номеров строк
 /**
- * @param {Window} DOM
+ * @param {Window} window
  */
-module.exports = function(DOM) {
-  DOM.document.querySelector('.article__content')
+module.exports = function(window) {
+  window.document.querySelector('.article__content')
     ?.querySelectorAll('pre[data-lang] > code')
     ?.forEach(codeElement => {
       const preElement = codeElement.parentNode
@@ -37,7 +37,7 @@ module.exports = function(DOM) {
         .map((line) => renderLine(line))
         .join(os.EOL)
 
-      const wrapper = DOM.document.createElement('div')
+      const wrapper = window.document.createElement('div')
       wrapper.setAttribute('tabindex', 0)
       wrapper.classList.add('code-block', 'font-theme', 'font-theme--code')
       wrapper.innerHTML = `<table class="code-block__content" aria-hidden="true"><tbody>${lines}</tbody></table>`
