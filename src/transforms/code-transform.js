@@ -7,12 +7,15 @@ function renderLine(line) {
 
 // расстановка классов и атрибутов для элементов кода внутри тела статьи,
 // подсветка синтаксиса,
-// расстановка номеров строк
+// расстановка номеров строк,
+// расстановка классов на инлайновые блоки с кодом
 /**
  * @param {Window} window
  */
 module.exports = function(window) {
-  window.document.querySelector('.article__content')
+  const articleContent = window.document.querySelector('.article__content')
+
+  articleContent
     ?.querySelectorAll('pre[data-lang] > code')
     ?.forEach(codeElement => {
       const preElement = codeElement.parentNode
@@ -47,5 +50,11 @@ module.exports = function(window) {
       wrapper.appendChild(clonedCodeElement)
 
       preElement.replaceWith(wrapper)
+    })
+
+  articleContent
+    ?.querySelectorAll('p code')
+    ?.forEach(codeElement => {
+      codeElement.classList.add('code', 'font-theme', 'font-theme--code')
     })
 }
