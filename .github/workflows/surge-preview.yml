@@ -1,4 +1,4 @@
-name: Surge
+name: Surge Preview
 
 on:
   pull_request
