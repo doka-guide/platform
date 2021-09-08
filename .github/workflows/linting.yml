@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  es-lint:
+  eslint:
     runs-on: ubuntu-latest
     steps:
       - name: Загрузка платформы
