@@ -52,6 +52,7 @@
     "linkedom": "^0.11.2",
     "lint-staged": "^11.0.0",
     "markdown-it": "^12.0.6",
+    "markdown-it-container": "^3.0.0",
     "netlify-cli": "^3.37.37",
     "postcss": "^8.3.5",
     "postcss-cli": "^8.3.1",

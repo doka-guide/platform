@@ -1,0 +1,26 @@
+.callout {
+  --lightness: calc(var(--is-dark-theme-on) * 20% + var(--is-light-theme-on) * 92%);
+  --padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  padding: var(--padding);
+  padding-right: 3em;
+  border-radius: 6px;
+  background-color: hsl(0 0% var(--lightness));
+}
+
+.callout__icon {
+  flex: 0 0 auto;
+}
+
+.callout__content {
+  flex: 1 1 360px;
+}
+
+@media (min-width: 1366px) {
+  .callout {
+    --padding: 20px;
+  }
+}

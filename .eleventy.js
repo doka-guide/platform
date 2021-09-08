@@ -1,6 +1,7 @@
 const { slugify } = require('transliteration')
 const htmlnano = require('htmlnano')
 const markdownIt = require('markdown-it')
+const markdownItContainer = require('markdown-it-container')
 const { parseHTML } = require('linkedom')
 const {
   mainSections,
@@ -95,6 +96,31 @@ module.exports = function(config) {
       return `<pre ${dataAttribute}><code ${classAttribute}>${markdownLibrary.utils.escapeHtml(str)}</code></pre>`
     }
   })
+
+  {
+    const calloutElementRegexp = /^callout\s+(.*)$/
+
+    markdownLibrary.use(markdownItContainer, 'callout', {
+      validate(params) {
+        return params.trim().match(calloutElementRegexp);
+      },
+
+      render(tokens, idx) {
+        const { info, nesting } = tokens[idx]
+        const matches = info.trim().match(calloutElementRegexp)
+
+        if (nesting === 1) {
+          const icon = markdownLibrary.utils.escapeHtml(matches[1])
+          return `<aside class="callout">
+              ${icon ? `<span class="callout__icon">${icon}</span>` : ''}
+              <span class="callout__content content">`
+        }
+
+        return `</span></aside>`
+      },
+    })
+  }
+
   config.setLibrary('md', markdownLibrary)
 
   // Add all shortcodes
