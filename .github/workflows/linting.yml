@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  linting:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Загрузка платформы
@@ -25,7 +25,33 @@ jobs:
             ${{ runner.os }}-
       - name: Установка модулей
         run: npm ci
+      - uses: actions/upload-artifact@v2
+        with:
+          name: with-modules
+          path: ./
+  es-lint:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - uses: actions/download-artifact@v2
+        with:
+          name: with-modules
+          path: ./
       - name: Проверка линтером JS
         run: npx eslint 'src/scripts/**/*.js'
+  stylelint:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - uses: actions/download-artifact@v2
+        with:
+          name: mwith-modules
+          path: ./
       - name: Проверка линтером CSS
         run: npx stylelint 'src/styles/**/*.css'
