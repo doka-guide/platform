@@ -4,6 +4,10 @@
   margin-top: 0;
 }
 
+.content > :last-child {
+  margin-bottom: 0;
+}
+
 .content p {
   margin-top: 10px;
   margin-bottom: 10px;
