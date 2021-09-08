@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  linting:
     runs-on: ubuntu-latest
     steps:
       - name: Загрузка платформы
