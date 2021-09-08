@@ -7,39 +7,25 @@ on:
       - main
 
 jobs:
-  build:
+  es-lint:
     runs-on: ubuntu-latest
     steps:
       - name: Загрузка платформы
         uses: actions/checkout@v2
-      - name: Кэширование модулей
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Установка модулей
-        run: npm ci
-  es-lint:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
       - name: Проверка линтером JS
         run: npx eslint 'src/scripts/**/*.js'
   stylelint:
-    needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Загрузка платформы
+        uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
       - name: Проверка линтером CSS
-        run: npx stylelint 'src/styles/**/*.css'
+        run: |
+          npm install --save-dev stylelint-config-standard
+          npx stylelint 'src/styles/**/*.css'
