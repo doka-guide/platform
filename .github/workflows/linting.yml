@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
+      - name: Установка необходимых зависимостей
+        run:  npm install --save-dev stylelint-config-standard
       - name: Проверка линтером CSS
-        run: |
-          npm install --save-dev stylelint-config-standard
-          npx stylelint 'src/styles/**/*.css'
+        run: npx stylelint 'src/styles/**/*.css'
