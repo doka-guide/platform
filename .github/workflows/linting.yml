@@ -1,0 +1,18 @@
+name: Linting
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Загрузка платформы
+        uses: actions/checkout@v2
+      - name: Проверка линтером JS
+        run: npx eslint 'src/scripts/**/*.js'
+      - name: Проверка линтером CSS
+        run: npx stylelint 'src/styles/**/*.css'
