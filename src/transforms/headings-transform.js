@@ -2,16 +2,21 @@ const { slugify } = require('transliteration')
 
 // генерация id для заголовков и ссылок на них
 /**
- * @param {Window} DOM
+ * @param {Window} window
  */
-module.exports = function(DOM) {
-  const content = DOM.document.querySelector('.content')
+module.exports = function(window) {
+  const content = window.document.querySelector('.content')
 
   if (content) {
     let headings = content.querySelectorAll('h2, h3, h4, h5, h6')
 
     for (const heading of headings) {
       const clonedHeading = heading.cloneNode(true)
+
+      for (const codeElement of clonedHeading.querySelectorAll('code')) {
+        codeElement.classList.add('article-heading__code', 'font-theme', 'font-theme--code')
+      }
+
       const headingText = heading.textContent.trim()
       const level = heading.tagName.slice(1)
       const id = slugify(headingText)
@@ -19,7 +24,7 @@ module.exports = function(DOM) {
       clonedHeading.setAttribute('tabindex', -1)
       clonedHeading.classList.add('article-heading__title')
 
-      const headingWrapper = DOM.document.createElement('div')
+      const headingWrapper = window.document.createElement('div')
       headingWrapper.classList.add('article-heading', 'article-heading--level-' + level)
       headingWrapper.innerHTML = `
         ${clonedHeading.outerHTML}

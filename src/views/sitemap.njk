@@ -1,13 +1,8 @@
----
-layout: false
-permalink: /sitemap.xml
-eleventyExcludeFromCollections: true
----
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{%- for page in collections.all %}
+{%- for page in pages %}
   <url>
-    <loc>{{ page.url }}index.html</loc>
+    <loc>{{ page.url }}</loc>
     <lastmod>{{ page.date | fullDateString }}</lastmod>
   </url>
 {%- endfor %}

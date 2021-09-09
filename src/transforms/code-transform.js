@@ -2,42 +2,59 @@ const os = require('os')
 const hljs = require('highlight.js/lib/common')
 
 function renderLine(line) {
-  return `<span class="code-block__line"><span class="code-block__line-number"></span><span class="code-block__line-content">${line}</span></span>`
+  return `<tr class="code-block__line"><th class="code-block__line-number"></th><td class="code-block__line-content">${line}</td></tr>`
 }
 
 // расстановка классов и атрибутов для элементов кода внутри тела статьи,
 // подсветка синтаксиса,
-// расстановка номеров строк
+// расстановка номеров строк,
+// расстановка классов на инлайновые блоки с кодом
 /**
- * @param {Window} DOM
+ * @param {Window} window
  */
-module.exports = function(DOM) {
-  DOM.document.querySelector('.article__content')
+module.exports = function(window) {
+  const articleContent = window.document.querySelector('.article__content')
+
+  articleContent
     ?.querySelectorAll('pre[data-lang] > code')
-    ?.forEach(codeBlock => {
-      let language = codeBlock.parentNode.getAttribute('data-lang').trim()
+    ?.forEach(codeElement => {
+      const preElement = codeElement.parentNode
+      let language = preElement.getAttribute('data-lang').trim()
 
       if (language === 'js') {
         language = 'javascript'
       }
 
-      if (language) {
-        const lines = hljs.highlight(codeBlock.textContent, { language }).value
-          .split(os.EOL)
+      const content = language
+        ? hljs.highlight(codeElement.textContent, { language }).value
+        : codeElement.textContent
+
+      const lines = content
+        .split(os.EOL)
+        .filter((line, index, linesArray) => {
           // удаляем первую и последнюю пустые строки
-          .filter((line, index, linesArray) => {
-            const isFirtsOrLastLine = (index === 0 || index === linesArray.length -1)
-            const isEmptyLine = line.trim() === ''
-            return !(isFirtsOrLastLine && isEmptyLine)
-          })
-          .map((line) => renderLine(line))
-          .join(os.EOL)
+          const isFirtsOrLastLine = (index === 0 || index === linesArray.length -1)
+          const isEmptyLine = line.trim() === ''
+          return !(isFirtsOrLastLine && isEmptyLine)
+        })
+        .map((line) => renderLine(line))
+        .join(os.EOL)
 
-        codeBlock.innerHTML = lines
-      }
+      const wrapper = window.document.createElement('div')
+      wrapper.setAttribute('tabindex', 0)
+      wrapper.classList.add('code-block', 'font-theme', 'font-theme--code')
+      wrapper.innerHTML = `<table class="code-block__content" aria-hidden="true"><tbody>${lines}</tbody></table>`
 
-      codeBlock.parentNode.classList.add('code-block font-theme font-theme--code')
-      codeBlock.parentNode.setAttribute('tabindex', 0)
-      codeBlock.classList.add('code-block__content')
+      preElement.classList.add('code-block__origin', 'visually-hidden')
+      const clonedCodeElement = preElement.cloneNode(true)
+      wrapper.appendChild(clonedCodeElement)
+
+      preElement.replaceWith(wrapper)
+    })
+
+  articleContent
+    ?.querySelectorAll('p code, ul code, ol code')
+    ?.forEach(codeElement => {
+      codeElement.classList.add('code', 'font-theme', 'font-theme--code')
     })
 }

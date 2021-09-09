@@ -1,5 +1,6 @@
 .standalone-page {
   --offset: 10px;
+  padding-bottom: clamp(20px, 14.7%, 160px);
 }
 
 .standalone-page__wrapper {

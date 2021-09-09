@@ -1,3 +1,5 @@
+const { slugify } = require('transliteration')
+
 module.exports = {
   layout: 'base.njk',
 
@@ -7,7 +9,7 @@ module.exports = {
     alias: 'pageObject',
   },
 
-  permalink: "{{ (pageObject.data.location or pageObject.fileSlug) | slug }}/index.html",
+  permalink: "{{ (pageObject.data.location or pageObject.fileSlug) | slugify }}/index.html",
 
   eleventyComputed: {
     title: function(data) {
@@ -18,6 +20,11 @@ module.exports = {
     description: function(data) {
       const { pageObject } = data
       return pageObject.data.description
+    },
+
+    pageLink: function(data) {
+      const { pageObject } = data
+      return `/${slugify(pageObject.data.location || pageObject.fileSlug)}/`
     }
   }
 }

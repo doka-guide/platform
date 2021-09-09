@@ -1,0 +1,5 @@
+.all-articles {
+  --padding-rule: clamp(40px, 10%, 120px);
+  padding: var(--padding-rule) 0;
+  column-width: 300px;
+}

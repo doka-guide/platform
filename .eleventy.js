@@ -1,5 +1,7 @@
+const { slugify } = require('transliteration')
 const htmlnano = require('htmlnano')
 const markdownIt = require('markdown-it')
+const markdownItContainer = require('markdown-it-container')
 const { parseHTML } = require('linkedom')
 const {
   mainSections,
@@ -13,6 +15,7 @@ const imageTransform = require('./src/transforms/image-transform');
 const headingsTransform = require('./src/transforms/headings-transform');
 const codeTransform = require('./src/transforms/code-transform');
 const tocTransform = require('./src/transforms/toc-transform');
+const linkTransform = require('./src/transforms/link-transform');
 
 const ENVS = {
   DEVELOPMENT: 'development',
@@ -89,9 +92,36 @@ module.exports = function(config) {
     breaks: true,
     linkify: true,
     highlight: function(str, lang) {
-      return `<pre data-lang="${lang}"><code class="language-${lang}">${markdownLibrary.utils.escapeHtml(str)}</code></pre>`
+      const dataAttribute = lang ? `data-lang="${lang}"`: ''
+      const classAttribute = lang ? `class="language-${lang}"` : ''
+      return `<pre ${dataAttribute}><code ${classAttribute}>${markdownLibrary.utils.escapeHtml(str)}</code></pre>`
     }
   })
+
+  {
+    const calloutElementRegexp = /^callout\s+(.*)$/
+
+    markdownLibrary.use(markdownItContainer, 'callout', {
+      validate(params) {
+        return params.trim().match(calloutElementRegexp);
+      },
+
+      render(tokens, idx) {
+        const { info, nesting } = tokens[idx]
+        const matches = info.trim().match(calloutElementRegexp)
+
+        if (nesting === 1) {
+          const icon = markdownLibrary.utils.escapeHtml(matches[1])
+          return `<aside class="callout">
+              ${icon ? `<span class="callout__icon">${icon}</span>` : ''}
+              <span class="callout__content content">`
+        }
+
+        return `</span></aside>`
+      },
+    })
+  }
+
   config.setLibrary('md', markdownLibrary)
 
   // Add all shortcodes
@@ -152,28 +182,34 @@ module.exports = function(config) {
     return (tags || []).includes(tag);
   });
 
+  config.addFilter('slugify', (content) => {
+    return slugify(content)
+  })
+
   config.addTransform('html-transforms', (content, outputPath) => {
     if (outputPath && outputPath.endsWith('.html')) {
-      const DOM = parseHTML(content)
+      const window = parseHTML(content)
 
       const transforms = [
         demoLinkTransform,
         isProdEnv && imageTransform,
         headingsTransform,
         tocTransform,
-        codeTransform,
+        linkTransform,
       ]
 
-      transforms.filter(Boolean).forEach(transform => transform(DOM, content, outputPath))
+      transforms
+        .filter(Boolean)
+        .forEach(transform => transform(window, content, outputPath))
 
-      return DOM.document.toString()
+      return window.document.toString()
     }
 
     return content
   })
 
   if (isProdEnv) {
-    config.addTransform('htmlmin', (content, outputPath) => {
+    config.addTransform('html-min', (content, outputPath) => {
       if (outputPath) {
         let isHtml = outputPath.endsWith('.html')
         let notDemo = !outputPath.includes('demos')
@@ -202,6 +238,16 @@ module.exports = function(config) {
       return content
     })
   }
+
+  config.addTransform('html-code-transform', (content, outputPath) => {
+    if (outputPath?.endsWith?.('.html')) {
+      const window = parseHTML(content)
+      codeTransform(window)
+      return window.document.toString()
+    }
+
+    return content
+  })
 
   config.addPassthroughCopy('src/favicon.ico')
   config.addPassthroughCopy('src/manifest.json')

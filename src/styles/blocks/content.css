@@ -1,1 +1,33 @@
 .content {}
+
+.content > :first-child {
+  margin-top: 0;
+}
+
+.content > :last-child {
+  margin-bottom: 0;
+}
+
+.content p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.content iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+
+@media (min-width: 1366px) {
+  .content p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}

@@ -9,7 +9,7 @@
 {{ header(
   pageCategoryId=category,
   title=categoryName,
-  link=permalink,
+  link=categoryLink,
   articleIndexes=collections.articleIndexes
 ) }}
 
@@ -45,7 +45,7 @@
       <h2 class="visually-hidden">Статьи раздела «{{ categoryName }}» по темам</h2>
 
       {% for group in groups %}
-        <section class="index-section__item articles-group">
+        <section class="index-section__item articles-group" id="{{ group.name | slugify }}">
           <h3 class="articles-group__title">
             {{ group.name }}
           </h3>

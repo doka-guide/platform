@@ -30,7 +30,7 @@
 @media not all and (min-width: 768px) {
   .footer {
     align-items: flex-start;
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 
   .footer__theme-toggle,
@@ -44,5 +44,6 @@
 
   .footer__theme-toggle {
     gap: 4px;
+    order: 1;
   }
 }

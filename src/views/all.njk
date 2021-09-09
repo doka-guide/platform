@@ -1,10 +1,40 @@
 ---
 title: Все статьи
-layout: simple-page.njk
-permalink: all/index.html
+layout: base.njk
+permalink: /all/
 ---
-<!-- table of content -->
 
-<div class="toc">
-  {% include "collections.njk" %}
+{% from "blocks/header.njk" import header %}
+
+{{ header(
+  title=title,
+  link=permalink,
+  articleIndexes=collections.articleIndexes
+) }}
+
+<div class="container">
+  <ul class="article-indexes-list base-list all-articles">
+    {% for sectionIndex in collections.articleIndexes %}
+      {% set category = sectionIndex.fileSlug %}
+
+      <li class="article-indexes-list__item">
+        <h3 class="article-indexes-list__title" style="--accent-color: var(--color-base-{{ category }})">
+          <a class="article-indexes-list__link" href="/{{ category }}/">
+            {{ sectionIndex.data.name }}
+          </a>
+        </h3>
+        <ul class="index-group-list base-list">
+          {% for article in collections[category] %}
+            <li class="index-group-list__item">
+              <a class="index-group-list__link link" href="/{{ category }}/{{ article.fileSlug }}/">
+                {{ article.data.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
 </div>
+
+{% include "blocks/footer.njk" %}

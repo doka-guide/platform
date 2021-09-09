@@ -27,7 +27,13 @@
   font-weight: normal;
 }
 
-.featured-article__link {}
+.featured-article__link {
+  --stroke-width: 2px;
+}
+
+.featured-article__link:hover {
+  --stroke-opacity: 0;
+}
 
 .featured-article__link::after {
   content: '';
