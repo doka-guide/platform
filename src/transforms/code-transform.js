@@ -16,9 +16,10 @@ module.exports = function(window) {
   const articleContent = window.document.querySelector('.article__content')
 
   articleContent
-    ?.querySelectorAll('pre[data-lang] > code')
-    ?.forEach(codeElement => {
-      const preElement = codeElement.parentNode
+    ?.querySelectorAll('pre[data-lang]')
+    ?.forEach(preElement => {
+      const codeElement = preElement.querySelector('code')
+
       let language = preElement.getAttribute('data-lang').trim()
 
       if (language === 'js') {
@@ -50,6 +51,13 @@ module.exports = function(window) {
       wrapper.appendChild(clonedCodeElement)
 
       preElement.replaceWith(wrapper)
+    })
+
+  articleContent
+    ?.querySelectorAll('pre:not([data-lang])')
+    ?.forEach(preElement => {
+      preElement.classList.add('format-block', 'font-theme', 'font-theme--code')
+      preElement.setAttribute('tabindex', 0)
     })
 
   articleContent

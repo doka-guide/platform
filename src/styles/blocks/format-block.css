@@ -1,0 +1,10 @@
+.format-block {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  overflow: auto;
+  white-space: pre;
+  font-size: var(--font-size-s);
+  line-height: calc(24 / 18);
+  letter-spacing: var(--letter-spacing);
+  font-family: var(--font-family, monospace);
+}
