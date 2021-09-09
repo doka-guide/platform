@@ -241,7 +241,7 @@ const templates = {
       </div>
     </article>
   `
-},
+    },
 
   categoryTitle: (category) => `
     <h2 class="search-section__title">
