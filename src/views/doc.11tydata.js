@@ -38,6 +38,8 @@ module.exports = {
 
   permalink: '/{{doc.filePathStem}}.html',
 
+  pageType: 'Article',
+
   eleventyComputed: {
     title: function(data) {
       const { doc } = data

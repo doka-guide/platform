@@ -1,5 +1,3 @@
-{% set regExp = r/(css|html|js|tools).*/g %}
-
 {% macro authorsList(list) %}[{% for personItem in list %}{
   "@type": "Person",
   "name": "{{ personItem.data.name }}"
@@ -52,7 +50,7 @@
   <meta property="twitter:image:alt" content="{{ doc.data.cover.alt }}">
 {% endif %}
 
-{% if regExp.test(page.url) %}
+{% if pageType === 'Article' %}
   <meta property="og:type" content="article">
   <meta property="article:section" content="Technology">
   <meta property="article:opinion" content="{{ containsPractice }}">
