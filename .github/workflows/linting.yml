@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  eslint:
+  js:
     runs-on: ubuntu-latest
     steps:
       - name: Загрузка платформы
@@ -17,7 +17,7 @@ jobs:
           node-version: '14'
       - name: Проверка линтером JS
         run: npx eslint '*.js'
-  stylelint:
+  css:
     runs-on: ubuntu-latest
     steps:
       - name: Загрузка платформы
