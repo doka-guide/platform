@@ -36,6 +36,7 @@
 @import 'blocks/persons-list.css';
 @import 'blocks/toc.css';
 @import 'blocks/code-block.css';
+@import 'blocks/format-block.css';
 @import 'blocks/vote.css';
 @import 'blocks/feedback-form.css';
 @import 'blocks/callout.css';

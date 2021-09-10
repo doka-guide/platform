@@ -91,9 +91,10 @@ module.exports = function(config) {
     breaks: true,
     linkify: true,
     highlight: function(str, lang) {
-      const dataAttribute = lang ? `data-lang="${lang}"`: ''
-      const classAttribute = lang ? `class="language-${lang}"` : ''
-      return `<pre ${dataAttribute}><code ${classAttribute}>${markdownLibrary.utils.escapeHtml(str)}</code></pre>`
+      const content = markdownLibrary.utils.escapeHtml(str)
+      return lang
+        ? `<pre data-lang="${lang}"><code class="language-${lang}">${content}</code></pre>`
+        : `<pre>${content}</pre>`
     }
   })
 

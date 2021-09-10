@@ -4,14 +4,14 @@
   counter-reset: line-count 0;
   overflow: auto;
   white-space: pre;
-}
-
-.code-block__content {
-  border-collapse: collapse;
   font-size: var(--font-size-s);
   line-height: calc(24 / 18);
   letter-spacing: var(--letter-spacing);
   font-family: var(--font-family, monospace);
+}
+
+.code-block__content {
+  border-collapse: collapse;
 }
 
 .code-block__origin {}
