@@ -3,6 +3,24 @@ const path = require('path')
 const fs = require('fs')
 const Image = require('@11ty/eleventy-img')
 
+Image.concurrency = os.cpus().length
+
+const config = {
+  extBlackList: ['.gif', '.svg'],
+  widths: [300, 600, 1200, 2200],
+  sizes: [
+    '(min-width: 1576px) 1087px',
+    '(min-width: 1366px) calc(100vw - 435px - 2 * 20px)',
+    'calc(100vw - 2 * 10px)'
+  ].join(', '),
+  formats: (originalExtension) => ['webp', originalExtension],
+  filenameFormat: (id, src, width, format) => {
+    const extension = path.extname(src)
+    const name = path.basename(src, extension)
+    return `${name}-${width}w.${format}`
+  }
+}
+
 // замена img на picture внутри статьи
 /**
  * @param {Window} window
@@ -19,10 +37,6 @@ const Image = require('@11ty/eleventy-img')
      const imagesSourcePath = path.join('src', baseSourcePath)
      const imagesOutputPath = path.join('dist', baseSourcePath, 'images')
 
-     const extWhiteList = ['.gif', '.svg']
-
-     Image.concurrency = os.cpus().length
-
      const images = articleContainer.querySelectorAll('img')
 
      for (const image of images) {
@@ -33,26 +47,22 @@ const Image = require('@11ty/eleventy-img')
        }
 
        const ext = path.extname(originalLink)
-       if (extWhiteList.includes(ext)) {
+       if (config.extBlackList.includes(ext)) {
          continue
        }
 
        const options = {
          urlPath: 'images/',
          outputDir: imagesOutputPath,
-         widths: [300, 600, 1200, 2400],
-         formats: [ext.replace('.', ''), 'webp'],
-         filenameFormat: function (id, src, width, format) {
-           const extension = path.extname(src);
-           const name = path.basename(src, extension);
-           return `${name}-${width}w.${format}`;
-         }
+         widths: config.widths,
+         formats: config.formats(ext.replace('.', '')),
+         filenameFormat: config.filenameFormat
        }
 
        const imageAttributes = Object.fromEntries(
          [...image.attributes].map(attr => [attr.name, attr.value])
        )
-       imageAttributes.sizes = imageAttributes.sizes || '(min-width: 1200px) 1200px, calc(100vw - 40px)'
+       imageAttributes.sizes = imageAttributes.sizes || config.sizes
 
        Image(originalLink, options)
        const metadata = Image.statsSync(originalLink, options)
