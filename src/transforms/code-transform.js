@@ -1,5 +1,5 @@
 const os = require('os')
-const hljs = require('highlight.js/lib/common')
+const hljs = require('highlight.js')
 
 function renderLine(line) {
   return `<tr class="code-block__line"><th class="code-block__line-number"></th><td class="code-block__line-content">${line}</td></tr>`
