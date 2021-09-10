@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '14'
       - name: Проверка линтером JS
-        run: npx eslint 'src/scripts/**/*.js'
+        run: npx eslint '*.js'
   stylelint:
     runs-on: ubuntu-latest
     steps:
