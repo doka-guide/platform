@@ -65,4 +65,27 @@ module.exports = function(window) {
     ?.forEach(codeElement => {
       codeElement.classList.add('code', 'font-theme', 'font-theme--code')
     })
+
+  // добавление классов на блоки `code` внутри заголовков
+  {
+    const classMap = {
+      'articles-group__link': 'articles-group__code',
+      'articles-group__title': 'articles-group__code',
+      'article__title': 'article__title-code',
+      'featured-article__link': 'featured-article__code',
+      'index-group-list__link': 'index-group-list__code',
+      'header__title': 'header__title-code',
+    }
+
+    for (const [parentClass, codeClass] of Object.entries(classMap)) {
+      window.document.querySelectorAll(`.${parentClass}`)
+        .forEach(parentElement => {
+          const codeElement = parentElement.querySelector('code')
+          if (codeElement) {
+            codeElement.classList.add(codeClass, 'font-theme', 'font-theme--code')
+          }
+        })
+    }
+  }
+
 }

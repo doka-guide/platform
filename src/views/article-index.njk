@@ -47,18 +47,17 @@
       {% for group in groups %}
         <section class="index-section__item articles-group" id="{{ group.name | slugify }}">
           <h3 class="articles-group__title">
-            {{ group.name }}
+            {{ group.name | titleMarkdown | safe }}
           </h3>
           <ul class="articles-group__list base-list">
             {% for articleId in group.items %}
-              {% set isDoka = categoryArticlesBySlug[articleId].data.tags | hasTag('doka') %}
               {% set isPlaceholder = categoryArticlesBySlug[articleId].data.tags | hasTag('placeholder') %}
               <li>
-                <a class="articles-group__link link font-theme {% if isDoka %}font-theme--code{% endif %}" href="/{{ category }}/{{ articleId }}/">
+                <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
                   {% if isPlaceholder %}
                     {{ placeholderIcon | safe }}
                   {% endif %}
-                  {{ categoryArticlesBySlug[articleId].data.title }}
+                  {{ categoryArticlesBySlug[articleId].data.title | titleMarkdown | safe }}
                 </a>
               </li>
             {% endfor %}
@@ -76,14 +75,13 @@
           </h3>
           <ul class="articles-group__list base-list">
             {% for articleId in categoryArticlesByAlphabet[letter] %}
-              {% set isDoka = categoryArticlesBySlug[articleId].data.tags | hasTag('doka') %}
               {% set isPlaceholder = categoryArticlesBySlug[articleId].data.tags | hasTag('placeholder') %}
               <li>
-                <a class="articles-group__link link font-theme {% if isDoka %}font-theme--code{% endif %}" href="/{{ category }}/{{ articleId }}/">
+                <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
                   {% if isPlaceholder %}
                     {{ placeholderIcon | safe }}
                   {% endif %}
-                  {{ categoryArticlesBySlug[articleId].data.title }}
+                  {{ categoryArticlesBySlug[articleId].data.title | titleMarkdown | safe }}
                 </a>
               </li>
             {% endfor %}

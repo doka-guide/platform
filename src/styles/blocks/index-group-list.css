@@ -10,6 +10,13 @@
 
 .index-group-list__link {}
 
+.index-group-list__code {
+  font-size: var(--font-size-m);
+  line-height: var(--font-line-height-m);
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-spacing);
+}
+
 @media (min-width: 768px) {
   .index-group-list {
     --list-item-gutter: 14px;
