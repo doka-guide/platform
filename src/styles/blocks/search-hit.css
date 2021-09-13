@@ -29,6 +29,13 @@
   right: 0;
 }
 
+.search-hit__link-code {
+  font-size: var(--font-size-l);
+  line-height: var(--font-line-height-l);
+  letter-spacing: var(--letter-spacing);
+  font-family: var(--font-family);
+}
+
 .search-hit__edit {
   margin-right: 0.1em;
   position: relative;

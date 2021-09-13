@@ -21,8 +21,6 @@
 }
 
 .articles-group__link {
-  display: inline-flex;
-  vertical-align: top;
   font-size: var(--font-size-m);
   line-height: var(--font-line-height-m);
   font-family: var(--font-family);
