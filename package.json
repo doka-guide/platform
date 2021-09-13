@@ -47,7 +47,6 @@
     "gulp-rev-rewrite": "^4.0.0",
     "gulp-shell": "^0.8.0",
     "highlight.js": "^11.2.0",
-    "html-escaper": "^3.0.3",
     "htmlnano": "^1.0.0",
     "linkedom": "^0.11.2",
     "lint-staged": "^11.0.0",
@@ -62,5 +61,9 @@
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
     "transliteration": "^2.2.0"
+  },
+  "dependencies": {
+    "algoliasearch": "^4.10.5",
+    "html-escaper": "^3.0.3"
   }
 }

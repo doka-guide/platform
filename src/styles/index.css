@@ -44,6 +44,12 @@
 @import 'blocks/index-block.css';
 @import 'blocks/switch.css';
 @import 'blocks/standalone-page.css';
+@import 'blocks/tag.css';
+@import 'blocks/search-category.css';
+@import 'blocks/search-tag.css';
+@import 'blocks/search-hit.css';
+@import 'blocks/search-section.css';
+@import 'blocks/search-page.css';
 @import 'blocks/content.css';
 @import 'blocks/all-articles.css';
 @import 'code-light-theme.css';
