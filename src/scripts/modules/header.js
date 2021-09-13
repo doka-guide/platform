@@ -2,13 +2,30 @@ import throttle from '../libs/throttle.js'
 import debounce from '../libs/debounce.js'
 
 function init() {
-  const header = document.querySelector('.header:not(.header--static)')
+  let header
+  let headerHeight
 
+  header = document.querySelector('.header')
   if (!header) {
     return
   }
 
-  let headerHeight
+  function calculateHeaderHeight() {
+    headerHeight = header.offsetHeight
+    document.documentElement.style.setProperty('--header-height', headerHeight)
+  }
+
+  calculateHeaderHeight()
+  window.addEventListener('resize', debounce(calculateHeaderHeight, 200))
+  window.addEventListener('orientationchange', debounce(calculateHeaderHeight, 200))
+
+  const collapsableHeader = document.querySelector('.header:not(.header--static,.search-page__header)')
+
+  if (!collapsableHeader) {
+    return
+  }
+
+  header = collapsableHeader
 
   const articleAside = document.querySelector('.article__aside')
   const toggleButtons = header.querySelectorAll('.menu-toggle')
@@ -56,15 +73,6 @@ function init() {
 
   checkFixed()
   window.addEventListener('scroll', throttle(checkFixed, 200), { passive: true })
-
-  function calculateHeaderHeight() {
-    headerHeight = header.offsetHeight
-    document.documentElement.style.setProperty('--header-height', headerHeight)
-  }
-
-  calculateHeaderHeight()
-  window.addEventListener('resize', debounce(calculateHeaderHeight, 200))
-  window.addEventListener('orientationchange', debounce(calculateHeaderHeight, 200))
 }
 
 init()
