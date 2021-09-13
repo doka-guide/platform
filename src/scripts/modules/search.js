@@ -164,6 +164,9 @@ function assignSearchField(inputSelector, outputSelector) {
         .then(function(searchObject) {
           searchHits.innerHTML = renderHits(processHits(searchObject), q, SYMBOL_LIMIT)
         })
+        .catch(error => {
+          console.error(error)
+        })
     } else {
       searchHits.innerHTML = ''
     }
