@@ -1,4 +1,5 @@
 const { slugify } = require('transliteration')
+const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 module.exports = {
   layout: 'base.njk',
@@ -15,6 +16,10 @@ module.exports = {
     title: function(data) {
       const { pageObject } = data
       return pageObject.data.title
+    },
+
+    documentTitle: function(data) {
+      return titleFormatter([data.title, 'Дока'])
     },
 
     description: function(data) {

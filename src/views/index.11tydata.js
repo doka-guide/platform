@@ -7,7 +7,7 @@ function hasTag(tags, tag) {
 module.exports = {
   layout: 'base.njk',
   permalink: '/',
-  title: 'Дока',
+  documentTitle: 'Дока',
 
   featuredArticlesMaxCount: 18,
   featuredTag: 'featured',
