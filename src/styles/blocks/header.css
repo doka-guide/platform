@@ -61,7 +61,14 @@
 
 .header__breadcrumbs {
   min-width: 0;
+  font-size: var(--font-size-m);
+  letter-spacing: var(--letter-spacing);
+  font-family: var(--font-family);
   line-height: 1.25;
+}
+
+.header__title-code {
+  font: inherit;
 }
 
 .header__divider {
@@ -204,6 +211,12 @@
   .header__inner--main .header__toggle {
     margin-top: 10px;
     align-self: flex-start;
+  }
+}
+
+@media (min-width: 768px) {
+  .header__breadcrumbs {
+    font-size: var(--font-size-l);
   }
 }
 

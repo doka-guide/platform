@@ -56,7 +56,7 @@
               {% for group in sectionIndex.data.groups %}
                 <li class="index-group-list__item">
                   <a class="index-group-list__link link" href="/{{ category }}#{{ group.name | slugify }}">
-                    {{ group.name }}
+                    {{ group.name | titleMarkdown | safe }}
                   </a>
                 </li>
               {% endfor %}

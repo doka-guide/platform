@@ -29,8 +29,8 @@
             <span class="article__category-divider" aria-hidden="true">/</span>
           </p>
 
-          <h1 class="article__title {% if type === 'doka' %}font-theme font-theme--code{% endif %}">
-            {{ title }}
+          <h1 class="article__title">
+            {{ title | titleMarkdown | safe }}
           </h1>
 
           {% if description %}

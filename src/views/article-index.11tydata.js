@@ -1,5 +1,7 @@
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
+const letterOnlyRegExp = /[a-zа-яё]/i
+
 module.exports = {
   layout: 'base.njk',
 
@@ -10,8 +12,6 @@ module.exports = {
   },
 
   permalink: '/{{ articleIndex.fileSlug }}/',
-
-  firstLetterBlackList: ['::', ':', '!', '@'],
 
   eleventyComputed: {
     category: function(data) {
@@ -52,24 +52,18 @@ module.exports = {
     },
 
     categoryArticlesByAlphabet: function(data) {
-      const { categoryArticles, firstLetterBlackList } = data
+      const { categoryArticles } = data
       return categoryArticles?.reduce?.((map, article) => {
-        let { title } = article.data
+        const { title } = article.data
 
-        // удаляем '<' из начала названия статьи
-        if (title[0] === '<') {
-          title = title.replace('<', '')
-        }
-
-        // удаляем символы из `firstLetterBlackList` из начала названия статьи
-        for (const symbols of firstLetterBlackList) {
-          if (title.startsWith(symbols)) {
-            title = title.replace(symbols, '')
+        let firstLetter
+        for (const letter of title) {
+          if (letterOnlyRegExp.test(letter)) {
+            firstLetter = letter.toLowerCase()
             break
           }
         }
 
-        const firstLetter = title[0].toLowerCase()
         map[firstLetter] = map[firstLetter] || []
         map[firstLetter].push(article.fileSlug)
         return map

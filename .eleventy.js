@@ -16,6 +16,7 @@ const headingsTransform = require('./src/transforms/headings-transform');
 const codeTransform = require('./src/transforms/code-transform');
 const tocTransform = require('./src/transforms/toc-transform');
 const linkTransform = require('./src/transforms/link-transform');
+const documentTitleTransform = require('./src/transforms/document-title-transform');
 
 const ENVS = {
   DEVELOPMENT: 'development',
@@ -187,6 +188,18 @@ module.exports = function(config) {
     return slugify(content)
   })
 
+  {
+    const titleMarkdown = markdownIt({
+      html: false,
+      linkify: false,
+      typographer: false
+    })
+
+    config.addFilter('titleMarkdown', (content) => {
+      return titleMarkdown.renderInline(content)
+    })
+  }
+
   config.addTransform('html-transforms', (content, outputPath) => {
     if (outputPath && outputPath.endsWith('.html')) {
       const window = parseHTML(content)
@@ -197,6 +210,7 @@ module.exports = function(config) {
         headingsTransform,
         tocTransform,
         linkTransform,
+        documentTitleTransform,
       ]
 
       transforms
