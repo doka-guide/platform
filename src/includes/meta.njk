@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, nofollow">
 
+<title>{{ documentTitle }}</title>
+
 {% if doc.data.description %}
-  <title>{{ articleTitle }}</title>
   <meta itemprop="name" content="{{ articleTitle }}">
   <meta property="og:title" content="{{ articleTitle }}">
   <meta property="twitter:title" content="{{ articleTitle }}">
 {% else %}
-  <title>{{ title }}</title>
   <meta itemprop="name" content="{{ title }}">
   <meta property="og:title" content="{{ title }}">
   <meta property="twitter:title" content="{{ title }}">

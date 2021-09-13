@@ -1,4 +1,5 @@
 const { baseUrl, mainSections } = require('../../config/constants')
+const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 function getPersons(personKey) {
   return function(data) {
@@ -120,9 +121,8 @@ module.exports = {
       return hasTag(doc.data.tags, 'placeholder')
     },
 
-    articleTitle: function(data) {
-      const { doc } = data
-      return `${doc.data.title} - Дока`
+    documentTitle: function(data) {
+      return titleFormatter([data.title, data.categoryName, 'Дока'])
     },
 
     articleTag: function(data) {

@@ -1,3 +1,5 @@
+const { titleFormatter } = require('../libs/title-formatter/title-formatter')
+
 const letterOnlyRegExp = /[a-zа-яё]/i
 
 module.exports = {
@@ -20,6 +22,10 @@ module.exports = {
     categoryName: function(data) {
       const { articleIndex } = data
       return articleIndex.data.name
+    },
+
+    documentTitle: function(data) {
+      return titleFormatter([data.categoryName, 'Дока'])
     },
 
     categoryLink: function(data) {
