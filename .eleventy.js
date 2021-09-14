@@ -44,7 +44,17 @@ module.exports = function(config) {
   // Add all Tags
   mainSections.forEach((section) => {
     config.addCollection(section, (collectionApi) =>
-      collectionApi.getFilteredByGlob(`src/${section}/*/**/index.md`)
+      collectionApi
+        .getFilteredByGlob(`src/${section}/*/**/index.md`)
+        .sort((item1, item2) => {
+          const [title1, title2] = [item1.data.title, item2.data.title]
+            .map(title => title.toLowerCase())
+          switch (true) {
+            case (title1 > title2): return 1
+            case (title1 < title2): return -1
+            default: return 0
+          }
+        })
     )
   })
 
