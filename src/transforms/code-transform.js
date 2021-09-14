@@ -83,11 +83,6 @@ module.exports = function(window) {
           parentElement.querySelectorAll('code').forEach(codeElement => {
             codeElement.classList.add(codeClass, 'font-theme', 'font-theme--code')
           })
-          codeElement.forEach(element => {
-            if (element) {
-              element.classList.add(codeClass, 'font-theme', 'font-theme--code')
-            }
-          })
         })
     }
   }
