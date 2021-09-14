@@ -219,10 +219,6 @@ document.addEventListener('DOMContentLoaded', function () {
   assignFacetFields(SEARCH_CATEGORY_SELECTOR, SEARCH_TAG_SELECTOR, SEARCH_HITS_SELECTOR)
 })
 
-function isDoka(hitObject) {
-  return hitObject.tags.includes('doka')
-}
-
 function isPlaceholder(hitObject) {
   return hitObject.tags.includes('placeholder')
 }
@@ -232,11 +228,12 @@ const templates = {
 
   hit: (hitObject, query, limit) => {
     const editIcon = isPlaceholder(hitObject) ? '<img class="search-hit__edit" src="/images/edit-icon.svg" alt="" width="0.5em" height="0.5em">' : ''
+    const title = hitObject.title.replace(/`(.*?)`/g, '<code class="search-hit__link-code">$1</code>')
 
     return `<article class="search-hit">
-      <h3 class="search-hit__title ${isDoka(hitObject) ? 'font-theme font-theme--code' : ''}">
+      <h3 class="search-hit__title">
         <a class="search-hit__link link" href="${hitObject.url}">
-          ${editIcon}${markQuery(escape(hitObject.title), query)}
+          ${editIcon}${markQuery(title, query)}
         </a>
       </h3>
       <div class="search-hit__summary">
