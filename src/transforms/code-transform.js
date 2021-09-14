@@ -80,10 +80,9 @@ module.exports = function(window) {
     for (const [parentClass, codeClass] of Object.entries(classMap)) {
       window.document.querySelectorAll(`.${parentClass}`)
         .forEach(parentElement => {
-          const codeElement = parentElement.querySelector('code')
-          if (codeElement) {
+          parentElement.querySelectorAll('code').forEach(codeElement => {
             codeElement.classList.add(codeClass, 'font-theme', 'font-theme--code')
-          }
+          })
         })
     }
   }
