@@ -1,9 +1,12 @@
 {% from "blocks/header.njk" import header %}
 
+{% set isLogoContrastColor = hasCategory %}
+
 {{ header(
   title=title,
   link=permalink,
-  articleIndexes=collections.articleIndexes
+  articleIndexes=collections.articleIndexes,
+  isLogoContrastColor=isLogoContrastColor
 ) }}
 
 <div class="container">

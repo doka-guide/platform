@@ -6,42 +6,14 @@ title: 'Дока — Поиск'
 {% from "blocks/header.njk" import header, divider %}
 {% from "blocks/logo.njk" import logo %}
 
-{# {% macro divider() %}
-  <span class="header__divider font-theme font-theme--code" aria-hidden="true"></span>
-{% endmacro %}
-
-{% macro linkLogo(children) %}
-  <a class="header__logo link" href="/">
-    {{ children | safe  }}
-  </a>
-{% endmacro %}
-
-{% set logo %}
-  {% include "blocks/logo.njk" %}
-  {{ divider() }}
-{% endset %}
-
-{% set isMainPage = page.url === '/' %}
-
-{% set logoWrapper = linkLogo %}
-
-<header class="header {% if isMainPage %}header--open{% endif %}">
-  {{ logoWrapper(children=logo) }}
-
-  {% include "blocks/search.njk" %}
-</header> #}
-
-{# {% call header(
-  isStatic=true
-) %}
-{% endcall %} #}
-
+{% set isLogoContrastColor = hasCategory %}
+<pre>{{ categoryName | dump(2) }}</pre>
 
 <div class="search-page">
   <header class="header search-page__header">
     <div class="header__inner header__inner--main search-page__header-inner">
       <div class="header__logo">
-        {{ logo(isLink=true) }}
+        {{ logo(isLink=true, isContrastColor=isLogoContrastColor) }}
         {{ divider() }}
       </div>
 

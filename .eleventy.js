@@ -26,6 +26,7 @@ const env = process.env.NODE_ENV || ENVS.PRODUCTION
 const isProdEnv = env === ENVS.PRODUCTION
 
 module.exports = function(config) {
+  config.setDataDeepMerge(true)
 
   config.setBrowserSyncConfig({
     server: {

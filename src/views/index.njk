@@ -1,9 +1,12 @@
 {% from "blocks/featured-article.njk" import featuredArticle %}
 {% from "blocks/header.njk" import header %}
 
+{% set isLogoContrastColor = hasCategory %}
+
 {{ header(
   isStatic=true,
-  articleIndexes=collections.articleIndexes
+  articleIndexes=collections.articleIndexes,
+  isLogoContrastColor=isLogoContrastColor
 ) }}
 
 <main>

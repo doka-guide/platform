@@ -1,24 +1,18 @@
-{% macro simpleLogo(children) %}
-  <div class="logo font-theme font-theme--code">
-    {{ children | safe  }}
-  </div>
-{% endmacro %}
-
-{% macro linkLogo(children) %}
-  <a class="logo font-theme font-theme--code" href="/">
-    {{ children | safe  }}
-  </a>
-{% endmacro %}
-
-{% macro logo(isLink) %}
+{% macro logo(isLink, isContrastColor) %}
   {% set logoWrapper = linkLogo if isLink else simpleLogo %}
-
-  {% set children %}
-  <div class="logo__image" aria-hidden="true">
-    <div class="logo__symbols">U・ᴥ・U</div>
-  </div>
-  <div class="logo__text {{ 'link' if isLink else '' }}">Дока</div>
+  {% set tag = 'a' if isLink else 'div' %}
+  {% set attrs = 'href=/' if isLink %}
+  {% set classes %}
+    logo
+    {{'logo--color-contrast' if isContrastColor else 'logo--color-fade'}}
+    font-theme
+    font-theme--code
   {% endset %}
 
-  {{ logoWrapper(children=children) }}
+  <{{tag}} class="{{ classes }}" {{ attrs }}>
+    <div class="logo__image" aria-hidden="true">
+      <div class="logo__symbols">U・ᴥ・U</div>
+    </div>
+    <div class="logo__text {{ 'link' if isLink else '' }}">Дока</div>
+  </{{tag}}>
 {% endmacro %}

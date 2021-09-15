@@ -33,3 +33,11 @@
   margin-left: 6px;
   align-self: baseline;
 }
+
+.logo--color-contrast {
+  --ligthness: calc(var(--is-light-theme-on) * 100%);
+}
+
+.logo--color-fade {
+  --ligthness: calc(var(--is-light-theme-on) * 90% + var(--is-dark-theme-on) * 25%);
+}

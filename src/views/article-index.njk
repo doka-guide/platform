@@ -1,12 +1,15 @@
 {% from "blocks/header.njk" import header %}
 
+{% set isLogoContrastColor = hasCategory %}
+
 {% set iconEditPlaceholder %}<span class="articles-group__placeholder-icon font-theme font-theme--code" aria-hidden="true"></span>{% endset %}
 
 {{ header(
   pageCategoryId=category,
   title=categoryName,
   link=categoryLink,
-  articleIndexes=collections.articleIndexes
+  articleIndexes=collections.articleIndexes,
+  isLogoContrastColor=isLogoContrastColor
 ) }}
 
 <div class="index-block" style="--accent-color: var(--color-{{ category }})">
