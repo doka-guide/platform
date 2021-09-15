@@ -1,11 +1,14 @@
 {% from "blocks/header.njk" import header %}
 
+{% set isLogoContrastColor = hasCategory %}
+
 {{ header(
   pageCategoryId=category,
   category=categoryName,
   title=title,
   link=docPath,
-  articleIndexes=collections.articleIndexes
+  articleIndexes=collections.articleIndexes,
+  isLogoContrastColor=isLogoContrastColor
 ) }}
 
 <div class="doc" style="--accent-color: var(--color-{{ category }});">
