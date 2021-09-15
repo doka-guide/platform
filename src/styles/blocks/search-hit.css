@@ -6,7 +6,7 @@
   margin-top: 0;
   margin-bottom: 10px;
   font-size: var(--font-size-l);
-  line-height: var(--font-line-height-l);
+  line-height: 1.15;
   letter-spacing: var(--letter-spacing);
   font-family: var(--font-family);
   font-weight: normal;
@@ -14,10 +14,14 @@
 
 .search-hit__link {
   --stroke-color: var(--accent-color);
-  display: inline-block;
-  vertical-align: top;
   color: inherit;
-  text-decoration-thickness: 2px;
+  text-decoration: none;
+
+  /* в Chrome у иконки линия подчёркивания рисуется ниже основной, поэтому text-decoration заменён на градиент */
+  background-image: linear-gradient(90deg, var(--accent-color), var(--accent-color));
+  background-repeat: repeat-x;
+  background-size: 100% 2px;
+  background-position: 0 100%;
 }
 
 .search-hit__link::before {
@@ -37,13 +41,12 @@
 }
 
 .search-hit__edit {
-  margin-right: 0.1em;
-  position: relative;
-  top: -0.125em;
-  display: inline-block;
-  width: 0.55em;
-  height: auto;
-  filter: invert(var(--is-dark-theme-on));
+  font-family: var(--font-family);
+  font-size: var(--font-size-l);
+}
+
+.search-hit__edit::before {
+  content: '✎';
 }
 
 .search-hit__summary {}

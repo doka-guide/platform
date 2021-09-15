@@ -33,10 +33,10 @@
   letter-spacing: var(--letter-spacing);
 }
 
-.articles-group__placeholder-icon {
-  margin-right: 0.1em;
-  width: 0.6em;
-  height: auto;
+.articles-group__placeholder-icon::before {
+  content: '✎';
+  font-family: var(--font-family);
+  font-size: var(--font-size-m);
 }
 
 @media (min-width: 768px) {
