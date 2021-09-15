@@ -227,7 +227,7 @@ const templates = {
   mark: (match) => `<mark class="search-hit__marked">${match}</mark>`,
 
   hit: (hitObject, query, limit) => {
-    const editIcon = isPlaceholder(hitObject) ? '<img class="search-hit__edit" src="/images/edit-icon.svg" alt="" width="0.5em" height="0.5em">' : ''
+    const editIcon = isPlaceholder(hitObject) ? '<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>' : ''
     const title = hitObject.title.replace(/`(.*?)`/g, '<code class="search-hit__link-code">$1</code>')
 
     return `<article class="search-hit">
