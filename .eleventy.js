@@ -52,6 +52,9 @@ module.exports = function(config) {
         .sort((item1, item2) => {
           const [title1, title2] = [item1.data.title, item2.data.title]
             .map(title => title.toLowerCase())
+            // учитываем только буквы
+            .map(title => title.replace(/[^a-zа-яё]/gi, ''))
+
           switch (true) {
             case (title1 > title2): return 1
             case (title1 < title2): return -1
