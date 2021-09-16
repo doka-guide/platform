@@ -281,7 +281,7 @@ module.exports = function(config) {
   })
 
   config.addPassthroughCopy('src/favicon.ico')
-  config.addPassthroughCopy('src/site.webmanifest')
+  config.addPassthroughCopy('src/manifest.json')
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
   config.addPassthroughCopy('src/**/*.(html|gif|jpg|png|svg|mp4|webm|zip)')
