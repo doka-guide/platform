@@ -73,6 +73,27 @@ module.exports = {
     firstLettersOfArticles: function(data) {
       const { categoryArticlesByAlphabet = {} } = data
       return Object.keys(categoryArticlesByAlphabet).sort()
+    },
+
+    // статьи для блока "остальное" (не попали в индекс)
+    restArticles: function(data) {
+      const { categoryArticles, groups } = data
+
+      const allArticlesIds = categoryArticles.map?.(article => article.fileSlug)
+      const indexArticlesIds = groups.flatMap?.(group => group.items)
+
+      return allArticlesIds?.filter(articleId => !indexArticlesIds.includes(articleId))
+    },
+
+    allGroups: function(data) {
+      const { groups, restArticles } = data
+      return [
+        ...groups,
+        {
+          name: 'Остальные',
+          items: restArticles
+        }
+      ]
     }
   }
 }
