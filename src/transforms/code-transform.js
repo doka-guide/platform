@@ -2,7 +2,9 @@ const os = require('os')
 const hljs = require('highlight.js')
 
 function renderLine(line) {
-  return `<tr class="code-block__line"><th class="code-block__line-number"></th><td class="code-block__line-content">${line}</td></tr>`
+  // добвляет возможность копировать пустые строки
+  line = line ? line : '\n'
+  return `<code class="code-block__line">${line}</code>`
 }
 
 // расстановка классов и атрибутов для элементов кода внутри тела статьи,
@@ -30,7 +32,7 @@ module.exports = function(window) {
         ? hljs.highlight(codeElement.textContent, { language }).value
         : codeElement.textContent
 
-      const lines = content
+      let lines = content
         .split(os.EOL)
         .filter((line, index, linesArray) => {
           // удаляем первую и последнюю пустые строки
@@ -39,18 +41,15 @@ module.exports = function(window) {
           return !(isFirtsOrLastLine && isEmptyLine)
         })
         .map((line) => renderLine(line))
-        .join(os.EOL)
 
-      const wrapper = window.document.createElement('div')
-      wrapper.setAttribute('tabindex', 0)
-      wrapper.classList.add('code-block', 'font-theme', 'font-theme--code')
-      wrapper.innerHTML = `<table class="code-block__content" aria-hidden="true"><tbody>${lines}</tbody></table>`
+      const digits = String(lines.length).length
 
-      preElement.classList.add('code-block__origin', 'visually-hidden')
-      const clonedCodeElement = preElement.cloneNode(true)
-      wrapper.appendChild(clonedCodeElement)
+      lines = lines.join(os.EOL)
 
-      preElement.replaceWith(wrapper)
+      preElement.classList.add('code-block', 'font-theme', 'font-theme--code')
+      preElement.setAttribute('tabindex', 0)
+      preElement.setAttribute('style', `--digits: ${digits}`)
+      preElement.innerHTML = lines
     })
 
   articleContent
