@@ -17,11 +17,11 @@
       <header class="article__header">
         <div class="article__header-inner">
           {% if cover %}
-            <picture>
+            <picture class="article__image">
               {% if cover.mobile %}
-              <source srcset="{{ cover.mobile }}" media="(max-width: 425px)">
+              <source srcset="{{ cover.mobile }}" media="(max-width: 1365px)" width="1080" height="1080">
               {% endif %}
-              <img class="article__image" src="{{ cover.desktop }}" alt="{{ cover.alt }}">
+              <img class="article__image-content" src="{{ cover.desktop }}" alt="{{ cover.alt }}" width="1920" height="1080">
             </picture>
           {% endif %}
 
