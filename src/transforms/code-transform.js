@@ -2,7 +2,7 @@ const os = require('os')
 const hljs = require('highlight.js')
 
 function renderLine(line) {
-  // добвляет возможность копировать пустые строки
+  // добавляет возможность копировать пустые строки
   line = line ? line : '\n'
   return `<code class="code-block__line">${line}</code>`
 }
