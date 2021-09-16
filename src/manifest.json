@@ -18,8 +18,8 @@
       "type": "image/png"
     },
     {
-      "src": "/images/icons/384x384.png",
-      "sizes": "384x384",
+      "src": "/images/icons/512x512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]
