@@ -7,7 +7,7 @@
   margin-bottom: 20px;
   counter-reset: line-count 0;
   overflow: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior-x: contain;
   white-space: normal;
   font-size: var(--font-size-s);
   line-height: calc(24 / 18);
