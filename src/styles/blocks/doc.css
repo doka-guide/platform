@@ -42,7 +42,7 @@
   }
 }
 
-@media (min-width: 1900px) {
+@media (min-width: 2000px) {
   .doc {
     --columns-template: var(--aside-with) 1fr var(--aside-with);
   }

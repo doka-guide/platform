@@ -186,6 +186,8 @@
   .article__content {
     grid-column-start: 2;
     grid-column-end: span 1;
+    padding-top: var(--offset);
+    padding-bottom: var(--offset);
   }
 
   .article--with-cover {}
