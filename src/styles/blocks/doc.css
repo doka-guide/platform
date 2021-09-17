@@ -3,8 +3,9 @@
 }
 
 .doc__wrapper {
-  margin-left: auto;
-  margin-right: auto;
+  /* margin-left: auto; */
+
+  /* margin-right: auto; */
   box-sizing: border-box;
   padding: var(--offset);
   width: 100%;
@@ -26,7 +27,7 @@
 @media (min-width: 1366px) {
   .doc {
     --offset: 20px;
-    --aside-with: 435px;
+    --aside-with: 25%;
     --content-width: 1087px;
     --columns-template: var(--aside-with) 1fr;
     display: grid;
@@ -39,5 +40,16 @@
 
   .doc__article {
     grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1900px) {
+  .doc {
+    --columns-template: var(--aside-with) 1fr var(--aside-with);
+  }
+
+  .doc__wrapper {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
