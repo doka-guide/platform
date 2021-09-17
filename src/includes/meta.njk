@@ -19,7 +19,9 @@
   <meta property="twitter:title" content="{{ title }}">
 {% endif %}
 
-<meta property="og:url" content="{{ baseUrl }}{{ page.url }}">
+<link rel="canonical" href="{{ fullPageUrl }}">
+
+<meta property="og:url" content="{{ fullPageUrl }}">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Дока">
 <meta property="twitter:card" content="summary">
@@ -40,13 +42,13 @@
 {% endif %}
 
 {% if doc.data.cover.og %}
-  <meta itemprop="image" content="{{ baseUrl }}{{ page.url }}/{{ doc.data.cover.og }}">
-  <meta property="og:image" content="{{ baseUrl }}{{ page.url }}/{{ doc.data.cover.og }}">
+  <meta itemprop="image" content="{{ fullPageUrl }}/{{ doc.data.cover.og }}">
+  <meta property="og:image" content="{{ fullPageUrl }}/{{ doc.data.cover.og }}">
   <meta property="og:image:alt" content="{{ doc.data.cover.alt }}">
 {% endif %}
 
 {% if doc.data.cover.twitter %}
-  <meta property="twitter:image" content="{{ baseUrl }}{{ page.url }}/{{ doc.data.cover.twitter }}">
+  <meta property="twitter:image" content="{{ fullPageUrl }}/{{ doc.data.cover.twitter }}">
   <meta property="twitter:image:alt" content="{{ doc.data.cover.alt }}">
 {% endif %}
 
@@ -60,9 +62,9 @@
       "@type": "Article",
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "{{ baseUrl }}{{ page.url }}"
+        "@id": "{{ fullPageUrl }}"
       },
-      "headline": "{{ baseUrl }}{{ page.url }}",
+      "headline": "{{ fullPageUrl }}",
       "datePublished": "{{ createdAt }}",
       "dateModified": "{{ updatedAt }}",
       "author": {{ authorsList(list=populatedAuthors) }},
@@ -75,7 +77,7 @@
         }
       },
       "description": "{{ doc.data.description }}",
-      "url": "{{ baseUrl }}{{ page.url }}",
+      "url": "{{ fullPageUrl }}",
     }
   </script>
 {% endif %}
