@@ -93,7 +93,7 @@ module.exports = {
           name: 'Остальные',
           items: restArticles
         }
-      ]
+      ].filter(group => group.items.length > 0)
     }
   }
 }
