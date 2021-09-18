@@ -13,7 +13,9 @@
   margin-bottom: 10px;
 }
 
-.content img {
+.content img,
+.content video,
+.content audio {
   display: block;
   max-width: 100%;
   height: auto;
