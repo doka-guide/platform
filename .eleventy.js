@@ -17,7 +17,7 @@ const codeTransform = require('./src/transforms/code-transform');
 const tocTransform = require('./src/transforms/toc-transform');
 const linkTransform = require('./src/transforms/link-transform');
 const documentTitleTransform = require('./src/transforms/document-title-transform');
-const imageParagpahTransform = require('./src/transforms/image-paragpah-transform');
+const imageParagraphTransform = require('./src/transforms/image-paragraph-transform');
 
 const ENVS = {
   DEVELOPMENT: 'development',
@@ -221,7 +221,7 @@ module.exports = function(config) {
     const transforms = [
       demoLinkTransform,
       isProdEnv && imageTransform,
-      imageParagpahTransform,
+      imageParagraphTransform,
       headingsTransform,
       tocTransform,
       linkTransform,
