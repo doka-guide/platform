@@ -17,8 +17,7 @@ module.exports = {
       // массив массивов
       const allFeaturedArticles = mainSections.map(section =>
         data.collections[section]
-          // TODO: uncomment
-          // .filter(article => hasTag(article.data.tags, data.featuredTag))
+          .filter(article => hasTag(article.data.tags, data.featuredTag))
           .slice(0, data.featuredArticlesMaxCount)
       )
 
