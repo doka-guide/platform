@@ -48,7 +48,7 @@
 }
 
 .article__image {
-  --aspect-ratio: 1 / 1;
+  --aspect-ratio: 16 / 9;
   margin-bottom: 60px;
   margin-bottom: clamp(20px, 5.5%, 60px);
   position: relative;
@@ -61,9 +61,9 @@
   padding-top: calc(100% / (var(--aspect-ratio)));
 }
 
-@media (min-width: 1366px) {
+@media not all and (min-width: 425px) {
   .article__image {
-    --aspect-ratio: 16 / 9;
+    --aspect-ratio: 1 / 1;
   }
 }
 
@@ -73,6 +73,8 @@
   left: 0;
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  object-position: 50% 50%;
 }
 
 .article__description {
