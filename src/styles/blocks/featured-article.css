@@ -13,6 +13,8 @@
 .featured-article__image {
   margin-bottom: auto;
   display: block;
+  box-sizing: border-box;
+  padding: 20px;
   width: 100%;
   height: auto;
 }
