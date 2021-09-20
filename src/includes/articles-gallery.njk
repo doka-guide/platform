@@ -1,0 +1,26 @@
+{% from "blocks/featured-article.njk" import featuredArticle %}
+
+<section class="articles-gallery">
+  <h2 class="visually-hidden">Избранные статьи</h2>
+
+  <ul class="featured-artices-list base-list">
+    {% for article in featuredArticles %}
+      {% set isHidden = loop.index > featuredArticlesPageSize %}
+      {% if isHidden %}
+        <template>
+          <li class="featured-artices-list__item">
+            {{ featuredArticle(article=article) }}
+          </li>
+        </template>
+      {% else %}
+        <li class="featured-artices-list__item">
+          {{ featuredArticle(article=article) }}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+  <button class="articles-gallery__more-button button" type="button">
+    Показать ещё
+  </button>
+</section>

@@ -28,7 +28,7 @@
 
 .header__inner--main {
   font-size: var(--font-size-m);
-  letter-spacing: var(--letter-spacing);
+  letter-spacing: -0.06em;
   line-height: var(--font-line-height-m);
   font-family: var(--font-family);
 }
@@ -62,7 +62,6 @@
 .header__breadcrumbs {
   min-width: 0;
   font-size: var(--font-size-m);
-  letter-spacing: var(--letter-spacing);
   font-family: var(--font-family);
   line-height: 1.25;
 }

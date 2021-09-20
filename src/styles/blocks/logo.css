@@ -1,18 +1,20 @@
 .logo {
   --ligthness: calc(var(--is-light-theme-on) * 90% + var(--is-dark-theme-on) * 25%);
   --logo-background-color: hsl(0 0% var(--ligthness));
+  --logo-letter-spacing: -0.34em;
+  --image-font-size: 0.8em;
+  --image-padding: 2px 10px;
   display: inline-flex;
   white-space: nowrap;
   text-decoration: none;
   font-family: var(--font-family);
   color: inherit;
-  font-feature-settings: 'ss01' on;
 }
 
 .logo__image {
   align-self: center;
   box-sizing: border-box;
-  padding: 2px 10px;
+  padding: var(--image-padding);
   display: inline-grid;
   place-items: center;
   background-color: var(--logo-background-color);
@@ -20,11 +22,10 @@
 }
 
 .logo__symbols {
-  --logo-letter-spacing: 0.34em;
-  margin-right: var(--logo-letter-spacing);
-  font-size: 0.8em;
+  margin-right: calc(var(--logo-letter-spacing) * -1);
+  font-size: var(--image-font-size);
   line-height: 1;
-  letter-spacing: calc(var(--logo-letter-spacing) * -1);
+  letter-spacing: var(--logo-letter-spacing);
   text-decoration: none;
 }
 
@@ -32,6 +33,10 @@
   --stroke-width: 2px;
   margin-left: 6px;
   align-self: baseline;
+}
+
+.logo__text::first-letter {
+  font-feature-settings: 'ss01' on;
 }
 
 .logo--color-contrast {

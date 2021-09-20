@@ -1,18 +1,21 @@
-{% macro logo(isLink, isContrastColor) %}
+{% macro logo(isLink, isContrastColor, class, isImageHidden=false) %}
   {% set logoWrapper = linkLogo if isLink else simpleLogo %}
   {% set tag = 'a' if isLink else 'div' %}
   {% set attrs = 'href=/' if isLink %}
   {% set classes %}
     logo
-    {{'logo--color-contrast' if isContrastColor else 'logo--color-fade'}}
+    {{ 'logo--color-contrast' if isContrastColor else 'logo--color-fade' }}
     font-theme
     font-theme--code
+    {{ class if class }}
   {% endset %}
 
   <{{tag}} class="{{ classes }}" {{ attrs }}>
-    <div class="logo__image" aria-hidden="true">
-      <div class="logo__symbols">U・ᴥ・U</div>
-    </div>
+    {% if (not isImageHidden) %}
+      <div class="logo__image" aria-hidden="true">
+        <div class="logo__symbols">U・ᴥ・U</div>
+      </div>
+    {% endif %}
     <div class="logo__text {{ 'link' if isLink else '' }}">Дока</div>
   </{{tag}}>
 {% endmacro %}

@@ -3,6 +3,7 @@
 @import 'fonts.css';
 @import 'base-colors.css';
 @import 'light-theme.css';
+@import 'code-light-theme.css';
 @import 'blocks/visually-hidden.css';
 @import 'blocks/base-list.css';
 @import 'blocks/container.css';
@@ -52,4 +53,4 @@
 @import 'blocks/search-page.css';
 @import 'blocks/content.css';
 @import 'blocks/all-articles.css';
-@import 'code-light-theme.css';
+@import 'blocks/not-found.css';
