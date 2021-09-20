@@ -1,2 +1,27 @@
-<h1>{{ title }}</h1>
-<p><a href="/">Вернуться на главную</a></p>
+{% from "blocks/logo.njk" import logo %}
+
+<div class="header header--simple header--static">
+  <div class="header__inner header__inner--main">
+    {{ logo(isLink=true, isImageHidden=true) }}
+  </div>
+</div>
+
+<main>
+  <div class="not-found font-theme font-theme--code">
+    <div class="not-found__logo logo">
+      <div class="logo__image" aria-hidden="true">
+        <div class="logo__symbols">U×ᴥ×U</div>
+      </div>
+    </div>
+    <p class="not-found__description">
+      Мы ничего не нашли, <br>
+      но смотрите, что есть ещё:
+    </p>
+  </div>
+
+  <div class="container">
+    {% include "articles-gallery.njk" %}
+  </div>
+</main>
+
+{% include "blocks/footer.njk" %}
