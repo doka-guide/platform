@@ -13,35 +13,22 @@
   display: block;
   box-sizing: border-box;
   width: 100%;
-  height: 66px;
+  height: 1.1em;
   border: 0;
-  padding: 6px 10px;
+  padding: 0 10px;
   font: inherit;
+  letter-spacing: inherit;
   color: inherit;
   border-radius: 6px;
   background-color: hsl(0 0% 77% / 0.33);
 }
 
 .search__input::placeholder {
-  color: inherit;
-  font: inherit;
   opacity: 0.6;
-}
-
-/* .search__controls {
-  place-self: center end;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-}
-
-.search__button {
-  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
   color: inherit;
-  background-color: transparent;
-} */
+}
 
 .search__output {
   grid-area: search-output;

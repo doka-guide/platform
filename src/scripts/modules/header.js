@@ -19,18 +19,16 @@ function init() {
   window.addEventListener('resize', debounce(calculateHeaderHeight, 200))
   window.addEventListener('orientationchange', debounce(calculateHeaderHeight, 200))
 
-  const collapsableHeader = document.querySelector('.header:not(.header--static,.search-page__header)')
-
-  if (!collapsableHeader) {
+  if (!header.matches('.header:not(.header--static,.search-page__header)')) {
     return
   }
-
-  header = collapsableHeader
 
   const articleAside = document.querySelector('.article__aside')
   const toggleButtons = header.querySelectorAll('.menu-toggle')
 
   const headerActiveClass = 'header--open'
+
+  const scrollThreshold = 1.5;
 
   toggleButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -39,7 +37,7 @@ function init() {
   })
 
   function checkFixed() {
-    if (window.scrollY > window.innerHeight) {
+    if (window.scrollY > scrollThreshold * window.innerHeight) {
       if (header.classList.contains('header--fixed')) return
 
       header.addEventListener('animationend', event => {
