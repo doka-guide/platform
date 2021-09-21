@@ -5,11 +5,8 @@
 {% endmacro %}
 
 <div class="social-card" style="--accent-color: var(--color-{{ category }});">
-  <header
-    class="header social-card__header"
-    style="--accent-color: var(--color-{{ category }})"
-  >
-    <div class="header__inner header__inner--main font-theme font-theme--code">
+  <header class="header social-card__header">
+    <div class="header__inner header__inner--main font-theme font-theme--code social-card__header-inner">
       <ul class="header__breadcrumbs breadcrumbs base-list">
         <li class="breadcrumbs__item">
           {{ logo(isLink=true, isContrastColor=isLogoContrastColor) }}

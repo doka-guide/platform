@@ -5,17 +5,16 @@
 }
 
 .social-card__header {
-  background-color: var(--accent-color);
-  padding: 30px;
 }
 
 .social-card__header-inner {
-  box-sizing: border-box;
-  padding: var(--offset);
-  padding-top: clamp(20px, 8%, 130px);
+  padding: 20px 30px 0;
+  background-color: var(--accent-color);
 }
 
 .social-card__title {
+  box-sizing: border-box;
+  padding-top: clamp(20px, 8%, 130px);
   margin: 0;
   font-size: calc(var(--font-size-xl) * 2);
   line-height: calc(var(--font-line-height-xl) * 2);
