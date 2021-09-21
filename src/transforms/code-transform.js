@@ -71,6 +71,7 @@ module.exports = function(window) {
       'articles-group__link': 'articles-group__code',
       'articles-group__title': 'articles-group__code',
       'article__title': 'article__title-code',
+      'social-card__title': 'social-card__title-code',
       'featured-article__link': 'featured-article__code',
       'index-group-list__link': 'index-group-list__code',
       'header__title': 'header__title-code',
