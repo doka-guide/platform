@@ -13,7 +13,7 @@
   display: block;
   box-sizing: border-box;
   width: 100%;
-  height: 1.1em;
+  height: var(--search-input-height, 1.25em);
   border: 0;
   padding: 0 10px;
   font: inherit;

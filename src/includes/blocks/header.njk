@@ -6,7 +6,7 @@
 
 {% macro header(pageCategoryId, category, title, link, articleIndexes, isStatic, isLogoContrastColor) %}
   {% set hasAccentColor = pageCategoryId %}
-  {% set isNotSearchPage = page.url !== '/search/' %}
+  {% set isNotSearchPage = pageUrl !== '/search/' %}
 
   <header
     class="

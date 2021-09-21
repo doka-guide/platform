@@ -4,6 +4,7 @@
 }
 
 .search-page__header {
+  --search-input-height: 1.5em;
   position: sticky;
   top: 0;
   border-bottom: 1px solid;
