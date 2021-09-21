@@ -17,8 +17,6 @@ module.exports = {
     alias: 'doc'
   },
 
-  permalink: 'social-cards/{{doc.filePathStem}}.html',
-
   eleventyComputed: {
     title: function(data) {
       const { doc } = data
@@ -40,6 +38,11 @@ module.exports = {
     docPath: function(data) {
       const { doc } = data
       return doc.filePathStem.replace('index', '')
+    },
+
+    permalink: function(data) {
+      const { doc } = data
+      return `${doc.filePathStem.replace('index', '')}images/covers/og.html`
     },
 
     category: function(data) {
