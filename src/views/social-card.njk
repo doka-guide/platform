@@ -1,5 +1,7 @@
 {% from "blocks/logo.njk" import logo %}
 
+{% set isLogoContrastColor = hasCategory %}
+
 {% macro divider(isLarge) %}
   <span class="header__divider {% if isLarge %}header__divider--large{% endif %} font-theme font-theme--code" aria-hidden="true"></span>
 {% endmacro %}
@@ -15,7 +17,7 @@
 
         {% if category %}
           <li class="breadcrumbs__item header__category">
-            <a class="breadcrumbs__text link" href="/{{ pageCategoryId }}/">{{ category }}</a>
+            <a class="breadcrumbs__text link" href="/{{ category }}/">{{ categoryName }}</a>
             {{ divider() }}
           </li>
         {% endif %}
