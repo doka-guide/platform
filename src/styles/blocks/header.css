@@ -73,6 +73,8 @@
 .header__divider {
   opacity: 0.3;
   margin: 0 0.2em;
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-spacing);
 }
 
 .header__divider::before {
