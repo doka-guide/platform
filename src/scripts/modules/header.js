@@ -2,13 +2,14 @@ import throttle from '../libs/throttle.js'
 import debounce from '../libs/debounce.js'
 
 function init() {
-  let header
+  const header = document.querySelector('.header')
   let headerHeight
 
-  header = document.querySelector('.header')
   if (!header) {
     return
   }
+
+  const input = header.querySelector('.search__input')
 
   function calculateHeaderHeight() {
     headerHeight = header.offsetHeight
@@ -19,27 +20,75 @@ function init() {
   window.addEventListener('resize', debounce(calculateHeaderHeight, 200))
   window.addEventListener('orientationchange', debounce(calculateHeaderHeight, 200))
 
-  const collapsableHeader = document.querySelector('.header:not(.header--static,.search-page__header)')
+  document.addEventListener('keydown', (event) => {
+    if (event.code === 'Slash' && document.activeElement !== input) {
+      event.preventDefault()
+    }
+  })
 
-  if (!collapsableHeader) {
+  document.addEventListener('keyup', (event) => {
+    if (event.code === 'Slash') {
+      input?.focus()
+    }
+  })
+
+  if (!header.matches('.header:not(.header--static,.search-page__header)')) {
     return
   }
-
-  header = collapsableHeader
 
   const articleAside = document.querySelector('.article__aside')
   const toggleButtons = header.querySelectorAll('.menu-toggle')
 
   const headerActiveClass = 'header--open'
 
+  function openOnKeyUp(event) {
+    if (event.code === 'Slash') {
+      openHeader()
+    }
+  }
+
+  function closeOnKeyUp(event) {
+    if (event.code === 'Escape') {
+      closeHeader()
+    }
+  }
+
+  function closeOnClickOutSide(event) {
+    if (!event.target.closest('.header__inner')) {
+      closeHeader()
+    }
+  }
+
+  function openHeader() {
+    header.classList.add(headerActiveClass)
+    document.addEventListener('keyup', closeOnKeyUp)
+    document.addEventListener('click', closeOnClickOutSide)
+    document.removeEventListener('keyup', openOnKeyUp)
+  }
+
+  function closeHeader() {
+    header.classList.remove(headerActiveClass)
+    document.removeEventListener('keyup', closeOnKeyUp)
+    document.removeEventListener('click', closeOnClickOutSide)
+    document.addEventListener('keyup', openOnKeyUp)
+  }
+
+  function isHeaderOpen() {
+    return header.classList.contains(headerActiveClass)
+  }
+
   toggleButtons.forEach(button => {
     button.addEventListener('click', () => {
-      header.classList.toggle(headerActiveClass)
+      isHeaderOpen() ? closeHeader() : openHeader()
     })
   })
 
+  document.addEventListener('keyup', openOnKeyUp)
+
+  const scrollThreshold = 1.5;
+
   function checkFixed() {
-    if (window.scrollY > window.innerHeight) {
+    if (window.scrollY > scrollThreshold * window.innerHeight) {
       if (header.classList.contains('header--fixed')) return
 
       header.addEventListener('animationend', event => {

@@ -197,12 +197,13 @@
     height: calc(100vh - var(--header-offset, 0px));
     display: grid;
     grid-template-rows: 1fr auto;
-    transition: top 0.2s ease;
+    transition: 0.2s ease;
+    will-change: top, height;
   }
 
   .article__aside--offset {
     --header-offset: calc(var(--header-height, 0) * 1px);
-    transition: top 0.6s cubic-bezier(0.65, 0.05, 0.36, 1);
+    transition: 0.6s cubic-bezier(0.65, 0.05, 0.36, 1);
   }
 
   .article__content {
