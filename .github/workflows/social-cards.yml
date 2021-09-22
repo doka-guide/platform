@@ -1,0 +1,53 @@
+name: Social Cards
+
+on:
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Загрузка платформы
+        uses: actions/checkout@v2
+      - name: Загрузка контента
+        uses: actions/checkout@v2
+        with:
+          repository: doka-guide/content
+          path: content
+      - name: Кэширование модулей
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Установка модулей
+        run: npm ci
+      - name: Подготовка обложек для социальных сетей
+        run: |
+          npm install --global screenshoteer
+          OIFS=$IFS; IFS=$'\n'; files=($(ls dist/*/*/index.og.html)); IFS=$OIFS
+          for og_file in $files; do
+            output_og="${og_file//\index.og.html/images/covers/og.png}"
+            output_twitter="${og_file//\index.og.html/images/covers/twitter.png}"
+            screenshoteer --w 1024 --h 512 --url $og_file --file $output_og
+            screenshoteer --w 1024 --h 512 --url $og_file --file $output_twitter
+            rm $og_file
+          done
+      - name: Сборка и публикация сайта
+        id: surge
+        continue-on-error: true
+        run: |
+          node make-links.js --default
+          npm run build
+          if ! [[ ${{ env.SURGE_TOKEN == '' }} ]]; then
+            npx surge ./dist ${{ env.DEPLOY_DOMAIN }} --token ${{ env.SURGE_TOKEN }}
+          else
+            echo 'Публикация для форка репозитория'
+            npx surge ./dist ${{ env.DEPLOY_DOMAIN }} --token '6973bdb764f0d5fd07c910de27e2d7d0'
+          fi
+          echo 'Ссылка на превью — ${{ env.DEPLOY_DOMAIN }}'
