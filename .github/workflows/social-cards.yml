@@ -34,10 +34,11 @@ jobs:
           npm install --global screenshoteer
           OIFS=$IFS; IFS=$'\n'; files=($(ls dist/*/*/index.og.html)); IFS=$OIFS
           for in_file in $files; do
+            tmp_file='${in_file}.t'
             while read a; do
               echo ${a//\/styles/\.\./\.\./styles}
-            done < $in_file > '${in_file}.t'
-            mv '${in_file}{.t,}'
+            done < $in_file > tmp_file
+            mv $tmp_file $in_file
             input_file='file:///home/runner/work/platform/platform/${in_file}'
             output_og='${file//\index.og.html/images/covers/og.png}'
             output_twitter='${file//\index.og.html/images/covers/twitter.png}'
