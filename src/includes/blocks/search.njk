@@ -1,7 +1,16 @@
 <form class="header__search search font-theme font-theme--code" method="get" name="search-form" action="/search/" id="search-form">
-  <input class="search__input" type="text" name="q" placeholder="Поиск">
-  {# <div class="search__controls">
-    <div class="search__button hotkey" type="button" value="up">↑</div>
-    <div class="search__button hotkey" type="button" value="down">↓</div>
-  </div> #}
+  <div class="search__control">
+    <input class="search__input" type="text" name="q" placeholder="Поиск" autocomplete="off">
+
+    <kbd class="hotkey search__key search__key--activate">/</kbd>
+    <kbd class="hotkey search__key search__key--enter">↲</kbd>
+  </div>
+
+  <div class="search__suggestion search__suggestion--hide">
+    <div class="search__suggestion-content">
+      <ul class="suggestion-list base-list"></ul>
+      <div class="search__suggestion-sentinel" aria-hidden="true"></div>
+    </div>
+    <kbd class="search__suggestion-key hotkey">ESC</kbd>
+  </div>
 </form>

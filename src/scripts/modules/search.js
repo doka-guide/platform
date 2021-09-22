@@ -13,6 +13,8 @@ const SEARCH_FIELD_SELECTOR = '.search__input'
 const SEARCH_HITS_SELECTOR = '.search__output'
 const SEARCH_TAG_SELECTOR = '.search-tag'
 const SEARCH_CATEGORY_SELECTOR = '.search-category'
+const SUGGESTION_CONTAINER_SELECTOR = '.search__suggestion'
+const SUGGESTION_LIST_SELECTOR = '.suggestion-list'
 
 const HIT_COUNT = 10
 const MIN_SEARCH_SYMBOLS = 3
@@ -63,9 +65,58 @@ function adjustQueryParams() {
   }
 }
 
+const isSearchPage = window.location.pathname.indexOf('/search/') > -1
+
+const searchForm = document.forms['search-form']
+const searchField = document.querySelector(SEARCH_FIELD_SELECTOR)
+const suggestionContainer = document.querySelector(SUGGESTION_CONTAINER_SELECTOR)
+const suggestionList = suggestionContainer?.querySelector(SUGGESTION_LIST_SELECTOR)
+const searchHits = isSearchPage ? document.querySelector(SEARCH_HITS_SELECTOR) : suggestionList
+
 function search(q) {
   query = q
   return searchIndex.search(q, adjustQueryParams())
+}
+
+const render = isSearchPage
+  ? (processedHits, queryText) => renderHits(processedHits, queryText, SYMBOL_LIMIT)
+  : (processedHits, queryText) => renderSuggestions(processedHits, queryText)
+
+const startEffect = isSearchPage
+  ? () => {}
+  : () => {
+    // closeSuggestion()
+    openSuggestion()
+  }
+
+function openSuggestion() {
+  suggestionContainer?.classList.remove('search__suggestion--hide')
+}
+
+function closeSuggestion() {
+  suggestionContainer?.classList.add('search__suggestion--hide')
+}
+
+function isSuggestionOpen() {
+  return !suggestionContainer?.classList.contains('search__suggestion--hide')
+}
+
+function closeSuggestionOnKeyUp(event) {
+  if (event.code === 'Escape' && isSuggestionOpen()) {
+    event.stopPropagation()
+    closeSuggestion()
+  }
+}
+
+function closeSuggestionOnOutSideClick(event) {
+  if (!event.target.closest(SUGGESTION_CONTAINER_SELECTOR)) {
+    closeSuggestion()
+  }
+}
+
+if (!isSearchPage) {
+  searchForm?.addEventListener('keyup', closeSuggestionOnKeyUp)
+  document.addEventListener('click', closeSuggestionOnOutSideClick)
 }
 
 function processHits(searchObject) {
@@ -145,61 +196,99 @@ function renderHits(hitObjectList, query, limit) {
     .join('')
 }
 
+function renderSuggestions(hitObjectList) {
+  if (!hitObjectList || hitObjectList.length === 0) {
+    return templates.emptyResults()
+  }
+
+  return templates.suggestionList(hitObjectList)
+}
+
 function updateFacet() {
   facetFilterList = [facetTagList, facetCategoryList]
 }
 
-function assignSearchField(inputSelector, outputSelector) {
-  const searchField = document.querySelector(inputSelector)
-  const searchHits = document.querySelector(outputSelector)
+function makeSearchEffect(queryText) {
+  if (queryText.length >= MIN_SEARCH_SYMBOLS) {
+    startEffect()
+    search(queryText)
+      .then(function(searchObject) {
+        const processedHits = processHits(searchObject)
+        searchHits.innerHTML = render(processedHits, queryText)
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  } else {
+    searchHits.innerHTML = ''
+  }
+}
 
-  if (!searchField && !searchHits) {
+function assignSearchField() {
+  if (!searchField && !searchHits && !searchForm) {
     return
   }
 
+  const params = new URLSearchParams(window.location.search)
+  const queryText = params.get('q')
+  if (queryText) {
+    searchField.value = queryText
+    makeSearchEffect(queryText)
+  }
+
   searchField.addEventListener('input', debounce(function (event) {
-    const q = event.target.value
-    if (q.length >= MIN_SEARCH_SYMBOLS) {
-      search(q)
-        .then(function(searchObject) {
-          searchHits.innerHTML = renderHits(processHits(searchObject), q, SYMBOL_LIMIT)
-        })
-        .catch(error => {
-          console.error(error)
-        })
-    } else {
-      searchHits.innerHTML = ''
-    }
+    makeSearchEffect(event.target.value)
   }, 150))
+
+  searchForm.addEventListener('reset', () => {
+    searchHits.innerHTML = ''
+    facetFilterList = []
+  })
+
+  if (isSearchPage) {
+    searchField.focus()
+
+    searchForm.addEventListener('submit', event => {
+      event.preventDefault()
+    })
+
+    document.addEventListener('keydown', (event) => {
+      if (event.code === 'Slash' && document.activeElement !== searchField) {
+        event.preventDefault()
+      }
+    })
+
+    document.addEventListener('keyup', (event) => {
+      if (event.code === 'Escape') {
+        searchForm.reset()
+      }
+
+      if (event.code === 'Slash' && document.activeElement !== searchField) {
+        setTimeout(() => {
+          searchField.focus()
+        })
+      }
+    })
+  }
 }
 
-function facetListenerBuilder(type, hits) {
+function facetListenerBuilder(type) {
   return function(event) {
-    const newFacetValue = event.target?.value
-
-    if (!newFacetValue) {
-      return
-    }
+    const newFacetValue = event.target.value
 
     switch (type) {
       case 'category':
         facetCategoryList = newFacetValue !== '' ? [newFacetValue] : []
-        break;
+        break
       case 'tag':
         facetTagList = newFacetValue !== '' ? [newFacetValue]: []
-        break;
+        break
       default:
         return
     }
 
     updateFacet()
-
-    if (query.length >= MIN_SEARCH_SYMBOLS) {
-      search(query)
-        .then(function (searchObject) {
-          hits.innerHTML = renderHits(processHits(searchObject), query, SYMBOL_LIMIT)
-        })
-    }
+    makeSearchEffect(query)
   }
 }
 
@@ -228,7 +317,7 @@ const templates = {
 
   hit: (hitObject, query, limit) => {
     const editIcon = isPlaceholder(hitObject) ? '<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>' : ''
-    const title = hitObject.title.replace(/`(.*?)`/g, '<code class="search-hit__link-code">$1</code>')
+    const title = escape(hitObject.title).replace(/`(.*?)`/g, '<code class="search-hit__link-code">$1</code>')
 
     return `<article class="search-hit">
       <h3 class="search-hit__title">
@@ -268,6 +357,19 @@ const templates = {
   `,
 
   emptyResults: () => `
-    <div>Ничего не найдено</div>
-  `
+    <div class="search-page__empty">Ничего не найдено</div>
+  `,
+
+  suggestionList: (hitObjectList) => {
+    const itemsMarkup = hitObjectList.map((hitObject) => {
+      const title = escape(hitObject.title).replace(/`(.*?)`/g, '<code class="suggestion-list__code">$1</code>')
+      return `
+        <li class="suggestion-list__item" style="--accent-color: var(--color-${hitObject.category});">
+          <a class="suggestion-list__link" href="${hitObject.url}">${title}</a>
+        </li>
+      `
+    }).join('')
+
+    return itemsMarkup
+  }
 }

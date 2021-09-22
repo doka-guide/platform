@@ -3,6 +3,7 @@ const htmlnano = require('htmlnano')
 const markdownIt = require('markdown-it')
 const markdownItContainer = require('markdown-it-container')
 const { parseHTML } = require('linkedom')
+const { isProdEnv } = require('./config/env')
 const {
   mainSections,
   dokaOrgLink,
@@ -18,13 +19,6 @@ const tocTransform = require('./src/transforms/toc-transform');
 const linkTransform = require('./src/transforms/link-transform');
 const documentTitleTransform = require('./src/transforms/document-title-transform');
 const imageParagraphTransform = require('./src/transforms/image-paragraph-transform');
-
-const ENVS = {
-  DEVELOPMENT: 'development',
-  PRODUCTION: 'production',
-}
-const env = process.env.NODE_ENV || ENVS.PRODUCTION
-const isProdEnv = env === ENVS.PRODUCTION
 
 module.exports = function(config) {
   config.setDataDeepMerge(true)

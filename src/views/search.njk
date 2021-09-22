@@ -7,21 +7,22 @@ title: 'Дока — Поиск'
 {% from "blocks/logo.njk" import logo %}
 
 {% set isLogoContrastColor = hasCategory %}
-<pre>{{ categoryName | dump(2) }}</pre>
 
 <div class="search-page">
   <header class="header search-page__header">
-    <div class="header__inner header__inner--main search-page__header-inner">
-      <div class="header__logo">
+    <div class="header__inner header__inner--main font-theme font-theme--code search-page__header-inner">
+      <div class="header__logo search-page__logo">
         {{ logo(isLink=true, isContrastColor=isLogoContrastColor) }}
         {{ divider() }}
       </div>
 
-      {% include "blocks/search.njk" %}
+      <div class="search-page__search">
+        {% include "blocks/search.njk" %}
+      </div>
 
-      <div class="header__toggle">
-        <button class="menu-toggle" type="reset" form="search-form">
-          <span class="visually-hidden">Закрыть меню</span>
+      <div class="header__toggle search-page__toggle">
+        <button class="menu-toggle" type="reset" form="search-form" title="Очистить фильтры">
+          <span class="visually-hidden">Очистить фильтры</span>
           <div class="menu-toggle__inner menu-toggle__inner--close">
             <kbd class="hotkey font-theme font-theme--code">esc</kbd>
             <svg class="menu-toggle__icon menu-toggle__icon--close" width="45" height="45" viewBox="0 0 45 45">
@@ -63,7 +64,10 @@ title: 'Дока — Поиск'
   </aside>
 
   <main class="search-page__main">
-  {% include "blocks/search-hits.njk" %}
+    {% include "blocks/search-hits.njk" %}
+    <div class="search__placeholder">
+      Введите что-нибудь в поле для начала поиска
+    </div>
   </main>
 
   <div class="search-page__footer">

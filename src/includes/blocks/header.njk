@@ -6,7 +6,6 @@
 
 {% macro header(pageCategoryId, category, title, link, articleIndexes, isStatic, isLogoContrastColor) %}
   {% set hasAccentColor = pageCategoryId %}
-  {% set isNotSearchPage = page.url !== '/search/' %}
 
   <header
     class="
@@ -21,7 +20,7 @@
       <div class="header__inner header__inner--main font-theme font-theme--code">
         <ul class="header__breadcrumbs breadcrumbs base-list">
           <li class="breadcrumbs__item">
-            {{ logo(isLink=true, isContrastColor=isLogoContrastColor) }}
+            {{ logo(class="header__logo", isLink=true, isContrastColor=isLogoContrastColor) }}
             {{ divider() }}
           </li>
 
@@ -65,7 +64,6 @@
 
       {% include "blocks/search.njk" %}
       {% include "blocks/nav-list.njk" %}
-      {% if isNotSearchPage %}{% include "blocks/search-hits.njk" %}{% endif %}
 
       <div class="header__toggle">
         <button class="menu-toggle" type="button">
