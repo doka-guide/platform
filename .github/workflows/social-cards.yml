@@ -4,8 +4,11 @@ on:
   pull_request:
 
 jobs:
-  deploy:
+  social:
     runs-on: ubuntu-latest
+    env:
+      DEPLOY_DOMAIN: 'https://${{ github.repository_owner }}-platform-pr-${{ github.event.number }}.surge.sh'
+      SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
     steps:
       - name: Загрузка платформы
         uses: actions/checkout@v2
