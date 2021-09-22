@@ -45,11 +45,16 @@
   <meta itemprop="image" content="{{ fullPageUrl }}/{{ doc.data.cover.og }}">
   <meta property="og:image" content="{{ fullPageUrl }}/{{ doc.data.cover.og }}">
   <meta property="og:image:alt" content="{{ doc.data.cover.alt }}">
+{% else %}
+  <meta itemprop="image" content="{{ fullPageUrl }}/images/covers/og.png">
+  <meta property="og:image" content="{{ fullPageUrl }}/images/covers/og.png">
 {% endif %}
 
 {% if doc.data.cover.twitter %}
   <meta property="twitter:image" content="{{ fullPageUrl }}/{{ doc.data.cover.twitter }}">
   <meta property="twitter:image:alt" content="{{ doc.data.cover.alt }}">
+{% else %}
+  <meta property="twitter:image" content="{{ fullPageUrl }}//images/covers/twitter.png">
 {% endif %}
 
 {% if pageType === 'Article' %}
