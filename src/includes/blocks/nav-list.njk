@@ -2,7 +2,9 @@
   {% for sectionIndex in articleIndexes %}
     <li class="nav-list__item" style="--accent-color: var(--color-base-{{ sectionIndex.fileSlug }})">
       <a class="nav-list__link" href="/{{ sectionIndex.fileSlug }}/">
-        {{ sectionIndex.data.name }}
+        <span class="nav-list__link-text">
+          {{ sectionIndex.data.name }}
+        </span>
       </a>
     </li>
   {% endfor %}

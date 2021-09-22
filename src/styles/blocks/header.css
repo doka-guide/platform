@@ -1,5 +1,6 @@
 .header {
   --header-bg-color: var(--accent-color, var(--color-background));
+  --search-input-height: 1.1em;
   position: relative;
   z-index: 1;
   background-color: var(--color-background);
@@ -41,22 +42,24 @@
 }
 
 .header__inner--menu {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  overflow: auto;
+  max-height: 100vh;
   display: grid;
+  align-content: start;
   grid-template-areas:
     'logo   button'
     'search search'
     'search-output search-output'
     'list   list';
-  grid-gap: 10px;
   font-size: var(--font-size-xl);
   line-height: var(--font-line-height-xl);
   letter-spacing: var(--letter-spacing);
   background-color: var(--color-background);
-  transition: 0.6s cubic-bezier(0.65, 0.05, 0.36, 1);
+  transition: transform 0.6s cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
 .header__breadcrumbs {
@@ -73,6 +76,8 @@
 .header__divider {
   opacity: 0.3;
   margin: 0 0.2em;
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-spacing);
 }
 
 .header__divider::before {
@@ -90,15 +95,42 @@
 }
 
 .header__inner--menu .header__search {
-  margin-top: 10px;
+  margin-top: 12px;
   grid-area: search;
+  font-family: var(--font-family);
   font-size: var(--font-size-xl);
   line-height: var(--font-line-height-xl);
+  letter-spacing: -0.08em;
 }
 
 .header__menu {
   grid-area: list;
+  margin-top: var(--gap, 16px);
   margin-bottom: 2.7%;
+}
+
+@media not all and (min-width: 768px) {
+  .header__menu {
+    --gap: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .header__menu {
+    --gap: 14px;
+  }
+}
+
+@media (min-width: 1366px) {
+  .header__menu {
+    --gap: 6px;
+  }
+}
+
+@media (min-width: 1680px) {
+  .header__menu {
+    --gap: 9px;
+  }
 }
 
 .header__toggle {
@@ -171,7 +203,6 @@
 }
 
 .header:not(.header--open, .header--static) .header__inner--menu {
-  visibility: hidden;
   transform: translateY(-100%);
 }
 
@@ -194,7 +225,7 @@
 }
 
 @media not all and (min-width: 768px) {
-  .header--fixed .header__category {
+  .header__category {
     display: none;
   }
 
@@ -210,6 +241,10 @@
   .header__inner--main .header__toggle {
     margin-top: 10px;
     align-self: flex-start;
+  }
+
+  .header:not(.header--fixed) .header__inner--main .header__logo {
+    font-size: 1.2em;
   }
 }
 
@@ -230,8 +265,7 @@
       'logo search button'
       '.    search-output   .'
       '.    list   .';
-    grid-auto-columns: auto 1fr auto;
-    grid-gap: 0;
+    grid-auto-columns: auto 1fr 11%;
   }
 
   .header__inner--menu .header__search {

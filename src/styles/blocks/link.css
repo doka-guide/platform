@@ -5,9 +5,9 @@
 }
 
 .link {
+  --stroke-opacity: 0.3;
   --text-color: hsl(var(--color-base-text));
   --stroke-color: hsl(var(--color-base-text) / var(--stroke-opacity));
-  --stroke-opacity: 0.3;
 
   color: var(--text-color);
   text-decoration-line: underline;
