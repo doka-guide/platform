@@ -1,5 +1,9 @@
 .search {
   display: grid;
+  font-family: var(--font-family);
+  font-size: var(--font-size-l);
+  line-height: var(--font-line-height-l);
+  letter-spacing: var(--letter-spacing);
 }
 
 .search__input,
@@ -32,4 +36,8 @@
 
 .search__output {
   grid-area: search-output;
+}
+
+.search__output:not(:empty) + .search__placeholder {
+  display: none;
 }

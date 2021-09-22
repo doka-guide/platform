@@ -4,7 +4,7 @@
 }
 
 .search-page__header {
-  --search-input-height: 1.5em;
+  --search-input-height: 1.285em;
   position: sticky;
   top: 0;
   border-bottom: 1px solid;
@@ -92,6 +92,8 @@
   max-width: 809px;
 }
 
+.search-page__empty {}
+
 .search-page__footer {}
 
 @media not all and (min-width: 1366px) {
@@ -106,6 +108,29 @@
 }
 
 @media not all and (min-width: 768px) {
+  .search-page__header-inner {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    font-size: 32px;
+    line-height: 34px;
+  }
+
+  .search-page__search {
+    margin-top: 12px;
+    grid-row: 2;
+    grid-column-start: 1;
+    grid-column-end: -1;
+  }
+
+  .search-page__header .search-page__toggle {
+    margin-top: 0;
+  }
+
+  /* TODO: уменьшить специфичность */
+  .search-page__header .search-page__header-inner .search-page__logo.search-page__logo {
+    font-size: 1em;
+  }
+
   .search-page__aside {
     top: 0;
     display: flex;
@@ -119,6 +144,7 @@
     min-height: 0;
     overflow: auto;
     transition: transform 0.5s cubic-bezier(0.65, 0.05, 0.36, 1);
+    background-color: hsl(0 0% var(--lightness));
   }
 
   .search-page__aside-button {

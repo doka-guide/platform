@@ -63,6 +63,10 @@ function adjustQueryParams() {
   }
 }
 
+const searchForm = document.forms['search-form']
+const searchField = document.querySelector(SEARCH_FIELD_SELECTOR)
+const searchHits = document.querySelector(SEARCH_HITS_SELECTOR)
+
 function search(q) {
   query = q
   return searchIndex.search(q, adjustQueryParams())
@@ -149,57 +153,86 @@ function updateFacet() {
   facetFilterList = [facetTagList, facetCategoryList]
 }
 
-function assignSearchField(inputSelector, outputSelector) {
-  const searchField = document.querySelector(inputSelector)
-  const searchHits = document.querySelector(outputSelector)
+function makeSearchEffect(q) {
+  if (q.length >= MIN_SEARCH_SYMBOLS) {
+    search(q)
+      .then(function(searchObject) {
+        searchHits.innerHTML = renderHits(processHits(searchObject), q, SYMBOL_LIMIT)
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  } else {
+    searchHits.innerHTML = ''
+  }
+}
 
-  if (!searchField && !searchHits) {
+function assignSearchField() {
+  if (!searchField && !searchHits && !searchForm) {
     return
   }
 
+  const params = new URLSearchParams(window.location.search)
+  const queryText = params.get('q')
+  if (queryText) {
+    searchField.value = queryText
+    makeSearchEffect(queryText)
+  }
+
   searchField.addEventListener('input', debounce(function (event) {
-    const q = event.target.value
-    if (q.length >= MIN_SEARCH_SYMBOLS) {
-      search(q)
-        .then(function(searchObject) {
-          searchHits.innerHTML = renderHits(processHits(searchObject), q, SYMBOL_LIMIT)
-        })
-        .catch(error => {
-          console.error(error)
-        })
-    } else {
-      searchHits.innerHTML = ''
-    }
+    makeSearchEffect(event.target.value)
   }, 150))
+
+  searchForm.addEventListener('reset', () => {
+    searchHits.innerHTML = ''
+    facetFilterList = []
+  })
+
+  const isSearchPage = window.location.pathname.indexOf('/search/') > -1
+  if (isSearchPage) {
+    searchField.focus()
+
+    searchForm.addEventListener('submit', event => {
+      event.preventDefault()
+    })
+
+    document.addEventListener('keydown', (event) => {
+      if (event.code === 'Slash' && document.activeElement !== searchField) {
+        event.preventDefault()
+      }
+    })
+
+    document.addEventListener('keyup', (event) => {
+      if (event.code === 'Escape') {
+        searchForm.reset()
+      }
+
+      if (event.code === 'Slash' && document.activeElement !== searchField) {
+        setTimeout(() => {
+          searchField.focus()
+        })
+      }
+    })
+  }
 }
 
-function facetListenerBuilder(type, hits) {
+function facetListenerBuilder(type) {
   return function(event) {
-    const newFacetValue = event.target?.value
-
-    if (!newFacetValue) {
-      return
-    }
+    const newFacetValue = event.target.value
 
     switch (type) {
       case 'category':
         facetCategoryList = newFacetValue !== '' ? [newFacetValue] : []
-        break;
+        break
       case 'tag':
         facetTagList = newFacetValue !== '' ? [newFacetValue]: []
-        break;
+        break
       default:
         return
     }
 
     updateFacet()
-
-    if (query.length >= MIN_SEARCH_SYMBOLS) {
-      search(query)
-        .then(function (searchObject) {
-          hits.innerHTML = renderHits(processHits(searchObject), query, SYMBOL_LIMIT)
-        })
-    }
+    makeSearchEffect(query)
   }
 }
 
@@ -228,7 +261,7 @@ const templates = {
 
   hit: (hitObject, query, limit) => {
     const editIcon = isPlaceholder(hitObject) ? '<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>' : ''
-    const title = hitObject.title.replace(/`(.*?)`/g, '<code class="search-hit__link-code">$1</code>')
+    const title = escape(hitObject.title).replace(/`(.*?)`/g, '<code class="search-hit__link-code">$1</code>')
 
     return `<article class="search-hit">
       <h3 class="search-hit__title">
@@ -268,6 +301,6 @@ const templates = {
   `,
 
   emptyResults: () => `
-    <div>Ничего не найдено</div>
+    <div class="search-page__empty">Ничего не найдено</div>
   `
 }

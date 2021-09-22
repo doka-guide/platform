@@ -1,5 +1,6 @@
 .nav-list {
   --stroke-size: calc(6 / 48 * 1em);
+  --transition: 150ms ease-in-out;
   display: grid;
   gap: var(--gap);
 }
@@ -37,7 +38,7 @@
   right: 0;
   background-color: var(--accent-color);
   border-radius: var(--stroke-size);
-  transition: 150ms ease-in-out;
+  transition: var(--transition);
 }
 
 .nav-list__link-text {
@@ -56,6 +57,11 @@
 .nav-list__link:hover::after {
   opacity: calc(1 - var(--is-dark-theme-on) * 0.6);
   visibility: visible;
+}
+
+.nav-list__link:hover .nav-list__link-text::after {
+  opacity: 0;
+  transition: var(--transition);
 }
 
 @media not all and (min-width: 768px) {
