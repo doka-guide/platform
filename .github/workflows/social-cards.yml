@@ -45,7 +45,7 @@ jobs:
             output_twitter=$(echo "${in_file//index.og.html/images/covers/twitter.png}")
             screenshoteer --w 1024 --h 512 --url $input_file --file $output_og
             screenshoteer --w 1024 --h 512 --url $input_file --file $output_twitter
-            rm $og_file
+            rm $input_file
           done
       - name: Публикация сайта
         id: surge
