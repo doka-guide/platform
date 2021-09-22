@@ -40,7 +40,7 @@ jobs:
             screenshoteer --w 1024 --h 512 --url $og_file --file $output_twitter
             rm $og_file
           done
-      - name: Сборка и публикация сайта
+      - name: Публикация сайта
         id: surge
         continue-on-error: true
         run: |
