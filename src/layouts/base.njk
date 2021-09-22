@@ -7,7 +7,9 @@
   </head>
   <body class="base__body {{ bodyClass }}">
 
-    {% include "analytics/metrika.njk" %}
+    {% if isProdEnv %}
+      {% include "analytics/metrika.njk" %}
+    {% endif %}
 
     {{ content | safe }}
 
