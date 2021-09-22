@@ -9,6 +9,8 @@ function init() {
     return
   }
 
+  const input = header.querySelector('.search__input')
+
   function calculateHeaderHeight() {
     headerHeight = header.offsetHeight
     document.documentElement.style.setProperty('--header-height', headerHeight)
@@ -17,6 +19,18 @@ function init() {
   calculateHeaderHeight()
   window.addEventListener('resize', debounce(calculateHeaderHeight, 200))
   window.addEventListener('orientationchange', debounce(calculateHeaderHeight, 200))
+
+  document.addEventListener('keydown', (event) => {
+    if (event.code === 'Slash' && document.activeElement !== input) {
+      event.preventDefault()
+    }
+  })
+
+  document.addEventListener('keyup', (event) => {
+    if (event.code === 'Slash') {
+      input?.focus()
+    }
+  })
 
   if (!header.matches('.header:not(.header--static,.search-page__header)')) {
     return
@@ -50,8 +64,6 @@ function init() {
     document.addEventListener('keyup', closeOnKeyUp)
     document.addEventListener('click', closeOnClickOutSide)
     document.removeEventListener('keyup', openOnKeyUp)
-
-    header.querySelector('.search__input')?.focus();
   }
 
   function closeHeader() {
@@ -72,12 +84,6 @@ function init() {
   })
 
   document.addEventListener('keyup', openOnKeyUp)
-
-  document.addEventListener('keydown', (event) => {
-    if (event.code === 'Slash') {
-      event.preventDefault()
-    }
-  })
 
   const scrollThreshold = 1.5;
 

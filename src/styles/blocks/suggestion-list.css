@@ -1,0 +1,39 @@
+.suggestion-list {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75ch;
+}
+
+.suggestion-list__item {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+}
+
+.suggestion-list__item:not(:last-child)::after {
+  content: ',';
+}
+
+.suggestion-list,
+.suggestion-list__code {
+  font-size: calc(var(--font-size-m) * 1.17);
+  line-height: 1;
+}
+
+.suggestion-list__link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.suggestion-list__link::after {
+  content: '';
+  display: block;
+  height: 2px;
+  background-color: var(--accent-color);
+  border-radius: 2px;
+}
+
+.suggestion-list__code {
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-spacing);
+}

@@ -1,4 +1,5 @@
 .search {
+  position: relative;
   display: grid;
   font-family: var(--font-family);
   font-size: var(--font-size-l);
@@ -27,6 +28,16 @@
   background-color: hsl(0 0% 77% / 0.33);
 }
 
+.search__control {
+  position: relative;
+  display: grid;
+}
+
+.search__control > * {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+}
+
 .search__input::placeholder {
   opacity: 0.6;
   font: inherit;
@@ -34,10 +45,83 @@
   color: inherit;
 }
 
-.search__output {
-  grid-area: search-output;
+.search__key {
+  margin: 0 10px;
+  place-self: center end;
+}
+
+.search__input:focus ~ .search__key--activate {
+  visibility: hidden;
+}
+
+.search__input:not(:focus) ~ .search__key--enter {
+  visibility: hidden;
 }
 
 .search__output:not(:empty) + .search__placeholder {
   display: none;
+}
+
+.search__suggestion {
+  --lightness: calc(100% - var(--is-dark-theme-on) * 80%);
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  font-size: calc(var(--font-size-m) * 1.17);
+  background-color: hsl(0 0% var(--lightness));
+  box-shadow: 0 4px 4px rgb(0 0 0 / 0.25);
+  border-radius: 6px;
+  transition: 0.4s;
+}
+
+.search__suggestion--hide {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(0.5em);
+}
+
+.search__suggestion-content {
+  position: relative;
+  overflow: hidden;
+  height: 1em;
+  padding-bottom: 2px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.search__suggestion-sentinel {
+  margin-left: -1px;
+  flex: 0 0 auto;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.search__suggestion-sentinel::after {
+  --text-lightness: calc(var(--is-light-theme-on) * 67% + var(--is-dark-theme-on) * 33%);
+  content: '...';
+  transform: translateY(-100%);
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: calc(var(--font-size-m) * 1.17);
+  letter-spacing: normal;
+  background: linear-gradient(to left, hsl(0 0% var(--lightness)) 3ch, hsl(0 0% var(--lightness) / 0) 10ch);
+  color: hsl(0 0% var(--text-lightness));
+}
+
+.search__suggestion-key {
+  margin-left: 10%;
+  flex: 0 0 auto;
 }

@@ -6,7 +6,6 @@
 
 {% macro header(pageCategoryId, category, title, link, articleIndexes, isStatic, isLogoContrastColor) %}
   {% set hasAccentColor = pageCategoryId %}
-  {% set isNotSearchPage = pageUrl !== '/search/' %}
 
   <header
     class="
@@ -65,7 +64,6 @@
 
       {% include "blocks/search.njk" %}
       {% include "blocks/nav-list.njk" %}
-      {% if isNotSearchPage %}{% include "blocks/search-hits.njk" %}{% endif %}
 
       <div class="header__toggle">
         <button class="menu-toggle" type="button">
