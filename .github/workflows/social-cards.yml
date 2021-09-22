@@ -40,8 +40,8 @@ jobs:
             done < $in_file > $tmp_file
             mv $tmp_file $in_file
             input_file=$(echo "file:///home/runner/work/platform/platform/${in_file}")
-            output_og=$(echo "${file//\index.og.html/images/covers/og.png}")
-            output_twitter=$(echo "${file//\index.og.html/images/covers/twitter.png}")
+            output_og=$(echo "${in_file//index.og.html/images/covers/og.png}")
+            output_twitter=$(echo "${in_file//index.og.html/images/covers/twitter.png}")
             screenshoteer --w 1024 --h 512 --url $input_file --file $output_og
             screenshoteer --w 1024 --h 512 --url $input_file --file $output_twitter
             rm $og_file
