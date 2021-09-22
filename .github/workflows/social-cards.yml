@@ -27,8 +27,10 @@ jobs:
             ${{ runner.os }}-
       - name: Установка модулей
         run: npm ci
-      - name: Подготовка обложек для социальных сетей
+      - name: Сборка сайта
         run: |
+          node make-links.js --default
+          npm run build
           npm install --global screenshoteer
           OIFS=$IFS; IFS=$'\n'; files=($(ls dist/*/*/index.og.html)); IFS=$OIFS
           for og_file in $files; do
@@ -42,8 +44,6 @@ jobs:
         id: surge
         continue-on-error: true
         run: |
-          node make-links.js --default
-          npm run build
           if ! [[ ${{ env.SURGE_TOKEN == '' }} ]]; then
             npx surge ./dist ${{ env.DEPLOY_DOMAIN }} --token ${{ env.SURGE_TOKEN }}
           else
