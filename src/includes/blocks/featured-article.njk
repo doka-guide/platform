@@ -1,18 +1,22 @@
-{% macro featuredArticle(article) %}
-  {% set hasImage = article.cover %}
+{% macro featuredArticle(article, isImageVisible) %}
+  {% set cover = article.cover %}
+  {% set text = article.description %}
+
+  {% set isImageShown = (isImageVisible and cover) or ((not isImageVisible) and cover and (not text)) %}
+  {% set isTextShown = ((not isImageShown) and text) %}
 
   <article class="featured-article" style="--accent-color: var(--color-{{ article.section }})">
-    {% if hasImage %}
-      <img class="featured-article__image" src="{{ article.link }}/{{ article.cover.mobile }}" alt="">
+    {% if isImageShown %}
+      <img class="featured-article__image" src="{{ article.link }}/{{ cover.mobile }}" alt="">
     {% endif %}
     <h3 class="featured-article__title">
       <a class="featured-article__link link" href="{{ article.link }}" title="{{ article.title }}">
         {{ article.title | titleMarkdown | safe }}
       </a>
     </h3>
-    {% if ((not hasImage) and article.description) %}
+    {% if isTextShown %}
       <p class="featured-article__description">
-        {{ article.description }}
+        {{ text }}
       </p>
     {% endif %}
   </article>
