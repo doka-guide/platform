@@ -51,6 +51,7 @@ module.exports = {
             cover: article.data.cover,
             description: article.data.description,
             link: `/${section}/${article.fileSlug}`,
+            linkTitle: article.data.title.replace(/`/g, ''),
             section,
             type: hasTag(article.data.tags, 'article') ? 'article': 'doka'
           }
