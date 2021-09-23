@@ -6,6 +6,7 @@
   align-items: baseline;
   gap: 10px;
   padding: var(--padding);
+  overflow-wrap: break-word;
   padding-right: 3em;
   border-radius: 6px;
   background-color: hsl(0 0% var(--lightness));
@@ -17,6 +18,10 @@
 
 .callout__content {
   flex: 1 1 360px;
+}
+
+.callout__content .code {
+  --lightness: calc(var(--is-light-theme-on) * 100%);
 }
 
 @media (min-width: 1366px) {
