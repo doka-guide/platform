@@ -71,7 +71,8 @@ module.exports = {
 
     docPath: function(data) {
       const { doc } = data
-      return doc.filePathStem.replace('index', '')
+      // Удаляем `/index` с конца пути
+      return doc.filePathStem.replace('/index', '')
     },
 
     category: function(data) {
