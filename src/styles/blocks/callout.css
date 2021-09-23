@@ -19,6 +19,10 @@
   flex: 1 1 360px;
 }
 
+.callout__content .code {
+  --lightness: calc(var(--is-light-theme-on) * 100%);
+}
+
 @media (min-width: 1366px) {
   .callout {
     --padding: 20px;
