@@ -45,8 +45,10 @@ jobs:
             input_file=$(echo "file:///home/runner/work/platform/platform/${in_file}")
             mkdir -p $(echo "${in_file//index.og.html/images/covers/}")
             output_og=$(echo "${in_file//index.og.html/images/covers/og.png}")
-            output_twitter=$(echo "${in_file//index.og.html/images/covers/twitter.png}")
+            echo $output_og
             screenshoteer --w 1024 --h 512 --url $input_file --file $output_og
+            output_twitter=$(echo "${in_file//index.og.html/images/covers/twitter.png}")
+            echo $output_twitter
             screenshoteer --w 1024 --h 512 --url $input_file --file $output_twitter
           done
       - name: Публикация сайта
