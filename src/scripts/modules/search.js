@@ -312,12 +312,16 @@ function isPlaceholder(hitObject) {
   return hitObject.tags.includes('placeholder')
 }
 
+function escapeText(text, replaceTemplate) {
+  return escape(text).replace(/`(.*?)`/g, replaceTemplate)
+}
+
 const templates = {
   mark: (match) => `<mark class="search-hit__marked">${match}</mark>`,
 
   hit: (hitObject, query, limit) => {
     const editIcon = isPlaceholder(hitObject) ? '<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>' : ''
-    const title = escape(hitObject.title).replace(/`(.*?)`/g, '<code class="search-hit__link-code">$1</code>')
+    const title = escapeText(hitObject.title, '<code class="search-hit__link-code font-theme font-theme--code">$1</code>')
 
     return `<article class="search-hit">
       <h3 class="search-hit__title">
@@ -326,7 +330,7 @@ const templates = {
         </a>
       </h3>
       <div class="search-hit__summary">
-        ${markQuery(adjustTextSize(escape(hitObject.summary), query, limit), query)}
+        ${markQuery(adjustTextSize(escapeText(hitObject.summary, '<code class="search-hit__text-code font-theme font-theme--code">$1</code>'), query, limit), query)}
       </div>
     </article>
   `
@@ -362,7 +366,7 @@ const templates = {
 
   suggestionList: (hitObjectList) => {
     const itemsMarkup = hitObjectList.map((hitObject) => {
-      const title = escape(hitObject.title).replace(/`(.*?)`/g, '<code class="suggestion-list__code">$1</code>')
+      const title = escapeText(hitObject.title, '<code class="suggestion-list__code font-theme font-theme--code">$1</code>')
       return `
         <li class="suggestion-list__item" style="--accent-color: var(--color-${hitObject.category});">
           <a class="suggestion-list__link" href="${hitObject.url}">${title}</a>
