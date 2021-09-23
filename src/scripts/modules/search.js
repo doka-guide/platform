@@ -333,7 +333,7 @@ const templates = {
     },
 
   categoryTitle: (category) => `
-    <h2 class="search-section__title">
+    <h2 class="search-section__title" style="--accent-color: var(--color-${category})">
       <a class="search-section__title-link" href="/${category}/">
         ${HIT_CATEGORY_TITLES[category]}
       </a>
