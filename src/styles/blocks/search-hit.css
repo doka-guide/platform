@@ -40,6 +40,13 @@
   font-family: var(--font-family);
 }
 
+.search-hit__text-code {
+  font-size: var(--font-size-m);
+  line-height: var(--font-line-height-m);
+  letter-spacing: var(--letter-spacing);
+  font-family: var(--font-family);
+}
+
 .search-hit__edit {
   font-family: var(--font-family);
   font-size: var(--font-size-l);
