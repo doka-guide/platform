@@ -9,6 +9,11 @@
 }
 
 .content p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.content > p {
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -28,27 +33,31 @@
 }
 
 @media (min-width: 768px) {
-  .content p,
-  .content ul {
+  .content > p,
+  .content > ul,
+  .content > .callout {
     max-width: 81%;
   }
 }
 
 @media (min-width: 1366px) {
-  .content p {
+  .content > p,
+  .content > .callout {
     margin-top: 20px;
     margin-bottom: 20px;
   }
 
-  .content p,
-  .content ul {
+  .content > p,
+  .content > ul,
+  .content > .callout {
     max-width: 87.5%;
   }
 }
 
 @media (min-width: 1680px) {
-  .content p,
-  .content ul {
+  .content > p,
+  .content > ul,
+  .content > .callout {
     max-width: 100%;
   }
 }

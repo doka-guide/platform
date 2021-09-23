@@ -5,6 +5,7 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 10px;
+  box-sizing: border-box;
   padding: var(--padding);
   padding-right: 3em;
   border-radius: 6px;
@@ -17,6 +18,10 @@
 
 .callout__content {
   flex: 1 1 360px;
+}
+
+.callout__content > * {
+  max-width: 100%;
 }
 
 @media (min-width: 1366px) {
