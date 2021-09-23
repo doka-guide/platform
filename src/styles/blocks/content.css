@@ -35,20 +35,21 @@
 @media (min-width: 768px) {
   .content > p,
   .content > ul,
+  .content > ol,
   .content > .callout {
     max-width: 81%;
   }
 }
 
 @media (min-width: 1366px) {
-  .content > p,
-  .content > .callout {
+  .content > p {
     margin-top: 20px;
     margin-bottom: 20px;
   }
 
   .content > p,
   .content > ul,
+  .content > ol,
   .content > .callout {
     max-width: 87.5%;
   }
@@ -57,6 +58,7 @@
 @media (min-width: 1680px) {
   .content > p,
   .content > ul,
+  .content > ol,
   .content > .callout {
     max-width: 100%;
   }
