@@ -5,6 +5,7 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 10px;
+  box-sizing: border-box;
   padding: var(--padding);
   overflow-wrap: break-word;
   padding-right: 3em;
@@ -18,6 +19,10 @@
 
 .callout__content {
   flex: 1 1 360px;
+}
+
+.callout__content > * {
+  max-width: 100%;
 }
 
 .callout__content .code {
