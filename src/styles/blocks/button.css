@@ -1,19 +1,35 @@
 .button {
+  --color: var(--color-text);
+  --background: var(--color-background);
+  --border-color: var(--color);
   margin: 0;
   appearance: none;
   display: inline-block;
-  padding: 0.5em 1.25em;
-  border: 1px solid;
+  box-sizing: border-box;
+  padding: 0.5em 1.33em;
+  border: 1px solid var(--border-color);
   font: inherit;
   text-decoration: none;
-  color: var(--color-text);
-  background-color: var(--color-background);
+  color: var(--color);
+  background-color: var(--background);
   border-radius: 6px;
   cursor: pointer;
 }
 
 .button:active {
-  color: var(--color-background);
-  background-color: var(--color-text);
-  border-color: transparent;
+  --color: var(--color-background);
+  --background: var(--color-text);
+  --border-color: var(--background);
+}
+
+.button--invert {
+  --color: var(--color-background);
+  --background: var(--color-text);
+  --border-color: var(--background);
+}
+
+.button--invert:active {
+  --color: var(--color-text);
+  --background: var(--color-background);
+  --border-color: var(--color);
 }

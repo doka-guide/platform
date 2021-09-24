@@ -15,6 +15,15 @@
 
 .doc__article {}
 
+.doc__feedback-form {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--offset);
+  padding-right: var(--offset);
+  padding-top: 100px;
+  max-width: 672px;
+}
+
 .doc__footer {
   margin-top: 50px;
   margin-top: clamp(20px, 4.5%, 50px);
