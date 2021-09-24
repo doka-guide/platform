@@ -98,7 +98,7 @@ module.exports = {
       const { docPath } = data
 
       return allPractices.filter(practice => {
-        return practice.filePathStem.includes(docPath)
+        return practice.filePathStem.startsWith(`${docPath}/practice`)
       })
     },
 
