@@ -4,12 +4,13 @@
 
     {% include "meta.njk" %}
 
-  </head>
-  <body class="base__body {{ bodyClass }}">
-
     {% if env.isProdEnv %}
       {% include "analytics/metrika.njk" %}
+      {% include "analytics/google.njk" %}
     {% endif %}
+
+  </head>
+  <body class="base__body {{ bodyClass }}">
 
     {{ content | safe }}
 
