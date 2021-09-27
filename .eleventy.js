@@ -220,6 +220,7 @@ module.exports = function(config) {
       tocTransform,
       linkTransform,
       documentTitleTransform,
+      codeTransform,
     ].filter(Boolean)
 
     config.addTransform('html-transforms', async (content, outputPath) => {
@@ -267,16 +268,6 @@ module.exports = function(config) {
       return content
     })
   }
-
-  config.addTransform('html-code-transform', (content, outputPath) => {
-    if (outputPath?.endsWith?.('.html')) {
-      const window = parseHTML(content)
-      codeTransform(window)
-      return window.document.toString()
-    }
-
-    return content
-  })
 
   config.addPassthroughCopy('src/favicon.ico')
   config.addPassthroughCopy('src/manifest.json')
