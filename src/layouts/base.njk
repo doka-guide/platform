@@ -9,6 +9,7 @@
 
     {% if env.isProdEnv %}
       {% include "analytics/metrika.njk" %}
+      {% include "analytics/google.njk" %}
     {% endif %}
 
     {{ content | safe }}
