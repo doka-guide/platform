@@ -42,6 +42,7 @@
 
 .featured-article__link:hover {
   --stroke-opacity: 0;
+  --stroke-width: 0;
 }
 
 .featured-article__link::after {
