@@ -1,4 +1,4 @@
-import debounce from '../libs/debounce.js';
+import debounce from '../libs/debounce.js'
 
 function init() {
   const codeBlocks = document.querySelectorAll('pre[data-lang]')

@@ -1,4 +1,3 @@
-// const os = require('os')
 const Prism = require('prismjs')
 const loadLanguages = require('prismjs/components/')
 const { escape } = require('html-escaper')
