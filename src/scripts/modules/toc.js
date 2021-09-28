@@ -20,18 +20,6 @@ function init() {
     threshold: [threshold],
   }
 
-  links.forEach(link => {
-    const titleId = link.hash.slice(1)
-    linksMap[titleId] = link
-  })
-
-  titles.forEach((title, index) => {
-    titlesMap[title.id] = {
-      element: title,
-      index
-    }
-  })
-
   function findNearestTitle() {
     const halfWindowHeight = window.innerHeight / 2
     return Array.from(titles)
@@ -68,6 +56,41 @@ function init() {
     }
   }
 
+  function getTitleCenterPosition(title) {
+    const titleBox = title?.getBoundingClientRect()
+
+    const additionalOffset = 5 // небольшой отступ, чтобы заголовок гарантировано пересёк границу и стал активным
+    return window.scrollY + (titleBox.top + titleBox.height * threshold + additionalOffset) - window.innerHeight / 2
+  }
+
+  function getTitleFromHash(hash) {
+    const titleId = hash.slice(1)
+    return titlesMap[titleId]?.element
+  }
+
+  function scrollToTitle(hash) {
+    const title = getTitleFromHash(hash)
+
+    window.scrollTo({
+      top: getTitleCenterPosition(title),
+      behavior: 'smooth'
+    })
+
+    history.pushState(null, null, hash)
+  }
+
+  links.forEach(link => {
+    const titleId = link.hash.slice(1)
+    linksMap[titleId] = link
+  })
+
+  titles.forEach((title, index) => {
+    titlesMap[title.id] = {
+      element: title,
+      index
+    }
+  })
+
   const observer = new IntersectionObserver(observerCallback, observerOptions)
 
   titles.forEach(title => {
@@ -79,6 +102,10 @@ function init() {
     setActiveTitle(nearestTitle)
   }
 
+  if (window.location.hash) {
+    scrollToTitle(window.location.hash)
+  }
+
   document.querySelector('.toc')?.addEventListener('click', event => {
     const link = event.target.closest('.toc__link')
 
@@ -87,19 +114,7 @@ function init() {
     }
 
     event.preventDefault()
-
-    const titleId = link.hash.slice(1)
-    const title = titlesMap[titleId]?.element
-
-    const titleBox = title?.getBoundingClientRect()
-
-    const additionalOffset = 5 // небольшой отступ, чтобы заголовок гарантировано пересёк границу и стал активным
-    const newScrollPoistion = window.scrollY + (titleBox.top + titleBox.height * threshold + additionalOffset) - window.innerHeight / 2
-
-    window.scrollTo({
-      top: newScrollPoistion,
-      behavior: 'smooth'
-    })
+    scrollToTitle(link.hash)
   })
 }
 
