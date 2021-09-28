@@ -1,11 +1,22 @@
-.toc {}
+.toc {
+  /* TODO: вынести в глобальные переменные и отрефакторить остальные компоненты */
+  --lightness: calc(var(--is-dark-theme-on) * 20% + var(--is-light-theme-on) * 92%);
+}
 
 .toc__list {}
 
 .toc__list .toc__list {
-  margin-left: 24px;
+  margin-left: 14px;
 }
 
 .toc__item {}
 
-.toc__link {}
+.toc__link {
+  padding: 1px 10px 2px;
+  border-radius: 2em;
+}
+
+.toc__link--active {
+  text-decoration: none;
+  background-color: hsl(0 0% var(--lightness));
+}
