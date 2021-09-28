@@ -369,7 +369,7 @@ const templates = {
       const title = escapeText(hitObject.title, '<code class="suggestion-list__code font-theme font-theme--code">$1</code>')
       return `
         <li class="suggestion-list__item" style="--accent-color: var(--color-${hitObject.category});">
-          <a class="suggestion-list__link" href="${hitObject.url}">${title}</a>
+          <a class="suggestion-list__link link" href="${hitObject.url}">${title}</a>
         </li>
       `
     }).join('')

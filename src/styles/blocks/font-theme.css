@@ -2,6 +2,8 @@
 .font-theme--text {
   --font-family: 'Graphik', sans-serif;
 
+  --letter-spacing: normal;
+
   --font-size-s: 14px;
   --font-line-height-s: 14px;
 

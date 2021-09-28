@@ -46,8 +46,6 @@
   top: 0;
   left: 0;
   right: 0;
-  overflow: auto;
-  max-height: 100vh;
   display: grid;
   align-content: start;
   grid-template-areas:
