@@ -61,7 +61,7 @@ module.exports = {
 
     themeColor: function(data) {
       const { category } = data
-      return categoryColors[category]
+      return categoryColors[category || 'default']
     }
   },
 }

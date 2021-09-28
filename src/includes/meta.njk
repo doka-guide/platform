@@ -93,10 +93,8 @@
 <link rel="stylesheet" href="/styles/index.css">
 <link rel="stylesheet" href="/styles/dark-theme.css" media="(prefers-color-scheme: dark)">
 {% if themeColor %}
-  <meta name="theme-color" content="{{ themeColor }}">
-{% else %}
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="{{ themeColor.light }}">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="{{ themeColor.dark }}">
 {% endif %}
 <script>
   (function() {

@@ -9,7 +9,7 @@ const THEMES = {
 
 // DOM-элементы
 let toggleElement
-const darkThemeStyles = document.head.querySelector('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]')
+const darkThemeElements = document.head.querySelectorAll('[media*=prefers-color-scheme][media*=dark]')
 
 const store = localStorage;
 
@@ -49,8 +49,8 @@ function applyTheme(theme = getCurrentTheme()) {
     [THEMES.DARK]: 'all',
   }
 
-  if (darkThemeStyles) {
-    darkThemeStyles.media = darkStyleMediaMap[theme]
+  for (const element of darkThemeElements) {
+    element.media = darkStyleMediaMap[theme]
   }
 
   if (toggleElement) {
