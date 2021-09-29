@@ -5,6 +5,7 @@
 {% endmacro %}
 
 {% macro header(pageCategoryId, category, title, link, articleIndexes, isStatic, isLogoContrastColor) %}
+  {% set hasAccentColor = pageCategoryId %}
   <header
     class="
       header
