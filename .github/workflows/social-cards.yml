@@ -4,12 +4,8 @@ on:
   pull_request
 
 jobs:
-  preview:
+  generate:
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.draft == false }}
-    env:
-      DEPLOY_DOMAIN: 'https://${{ github.repository_owner }}-platform-pr-${{ github.event.number }}.surge.sh'
-      SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
     steps:
       - name: Загрузка платформы
         uses: actions/checkout@v2
