@@ -52,9 +52,10 @@
     z-index: 1;
     left: 0;
     right: 0;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: var(--offset, 20px);
     border-top: 1px solid;
     font-size: var(--font-size-m);
     line-height: var(--font-line-height-m);

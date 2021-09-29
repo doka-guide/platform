@@ -3,8 +3,8 @@
   --gutter: 40px;
   overflow: hidden;
   padding: var(--offset);
-  column-width: 370px;
-  column-gap: 20px;
+  column-gap: var(--offset);
+  column-width: 15em;
   line-height: 1.25;
   animation: showIndexSection 0.4s both;
   will-change: transform, opacity;
