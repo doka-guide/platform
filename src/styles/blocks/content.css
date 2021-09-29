@@ -32,6 +32,16 @@
   border: 0;
 }
 
+.content img,
+.content video,
+.content audio,
+.content iframe,
+.content details,
+.content blockquote,
+.content .callout {
+  margin-block: var(--offset);
+}
+
 @media (min-width: 768px) {
   .content > p,
   .content > ul,
