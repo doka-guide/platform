@@ -35,7 +35,7 @@ jobs:
           node make-links.js --default
           npm run build
       - name: Генерация карточек
-        run: ./social-cards.sh '/home/runner/work/platform/platform'
+        run: ./social-cards.sh '/home/runner/work/platform/platform/'
       - uses: actions/upload-artifact@v2
         with:
           name: doka-guide-platform-social-cards
