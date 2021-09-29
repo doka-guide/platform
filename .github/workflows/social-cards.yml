@@ -40,5 +40,5 @@ jobs:
         with:
           name: doka-guide-platform-social-cards
           path: |
-            src/**/**/images/covers/og.png
-            src/**/**/images/covers/twitter.png
+            dist/**/**/images/covers/og.png
+            dist/**/**/images/covers/twitter.png
