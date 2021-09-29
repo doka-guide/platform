@@ -59,12 +59,38 @@
   background-color: var(--accent-color);
 }
 
+.content table {
+  border-collapse: collapse;
+}
+
+.content table th,
+.content table td {
+  text-align: start;
+  padding: 0.25em 0.5em;
+  border: 1px solid var(--color-fade);
+}
+
+.content table thead th {
+  position: relative;
+  z-index: 0;
+}
+
+.content table thead th::before {
+  content: '';
+  opacity: 0.6;
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-color: var(--color-fade);
+}
+
 .content img,
 .content video,
 .content audio,
 .content iframe,
 .content details,
 .content blockquote,
+.content table,
 .content .callout {
   margin-block: var(--offset);
 }
