@@ -1,13 +1,11 @@
 .callout {
   --padding: 10px;
   display: flex;
-  flex-wrap: wrap;
   align-items: baseline;
   gap: 10px;
   box-sizing: border-box;
-  padding: var(--padding);
+  padding: 10px;
   overflow-wrap: break-word;
-  padding-right: 3em;
   border-radius: 6px;
   background-color: var(--color-fade);
 }
@@ -17,7 +15,7 @@
 }
 
 .callout__content {
-  flex: 1 1 360px;
+  flex: 1 1 auto;
 }
 
 .callout__content > * {
@@ -28,8 +26,20 @@
   --lightness: calc(var(--is-light-theme-on) * 100%);
 }
 
+@media (min-width: 768px) {
+  .callout {
+    padding-right: 20px;
+  }
+}
+
 @media (min-width: 1366px) {
   .callout {
-    --padding: 20px;
+    padding: 20px;
+  }
+}
+
+@media (min-width: 1680px) {
+  .callout {
+    padding-right: 3em;
   }
 }
