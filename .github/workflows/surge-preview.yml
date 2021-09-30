@@ -51,20 +51,12 @@ jobs:
           id: surge-progress-${{ github.event.number }}
           message: 'Идёт сборка и публикация превью... [Подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)'
           recreate: true
-      - name: Сборка сайта
+      - name: Сборка и публикация сайта
+        id: surge
         continue-on-error: true
         run: |
           node make-links.js --default
           npm run build
-          rm dist/**/**/index.og.html
-      - name: Загрузка карточек социальных сетей
-        uses: actions/download-artifact@v2
-        with:
-          name: doka-guide-platform-social-cards
-      - name: Публикация сайта
-        id: surge
-        continue-on-error: true
-        run: |
           if ! [[ ${{ env.SURGE_TOKEN == '' }} ]]; then
             npx surge ./dist ${{ env.DEPLOY_DOMAIN }} --token ${{ env.SURGE_TOKEN }}
           else
