@@ -52,7 +52,6 @@ jobs:
           message: 'Идёт сборка и публикация превью... [Подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)'
           recreate: true
       - name: Сборка сайта
-        id: surge
         continue-on-error: true
         run: |
           node make-links.js --default
