@@ -99,6 +99,12 @@
   margin-block: var(--offset);
 }
 
+@media (max-height: 640px) {
+  .content iframe {
+    max-height: calc(100vh - var(--header-height, 0) * 1px - 3em);
+  }
+}
+
 @media (min-width: 768px) {
   .content > p,
   .content > ul,
