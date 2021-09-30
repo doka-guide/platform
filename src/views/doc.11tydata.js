@@ -123,7 +123,9 @@ module.exports = {
     },
 
     documentTitle: function(data) {
-      return titleFormatter([data.title, data.categoryName, 'Дока'])
+      // удаляем символы обратных кавычек из markdown
+      const title = data.title.replace(/`/g, '')
+      return titleFormatter([title, data.categoryName, 'Дока'])
     },
 
     articleTag: function(data) {

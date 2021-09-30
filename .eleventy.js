@@ -17,7 +17,6 @@ const headingsTransform = require('./src/transforms/headings-transform');
 const codeTransform = require('./src/transforms/code-transform');
 const tocTransform = require('./src/transforms/toc-transform');
 const linkTransform = require('./src/transforms/link-transform');
-const documentTitleTransform = require('./src/transforms/document-title-transform');
 const imageParagraphTransform = require('./src/transforms/image-paragraph-transform');
 
 module.exports = function(config) {
@@ -219,7 +218,6 @@ module.exports = function(config) {
       headingsTransform,
       tocTransform,
       linkTransform,
-      documentTitleTransform,
       codeTransform,
     ].filter(Boolean)
 
