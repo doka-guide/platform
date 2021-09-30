@@ -2,20 +2,21 @@ const Prism = require('prismjs')
 const loadLanguages = require('prismjs/components/')
 const { escape } = require('html-escaper')
 
+loadLanguages()
+
 const endOfLine = '\n'
+
+const LANG_ALIASES= {
+  'js': 'javascript',
+  'nginxconf': 'nginx'
+}
 
 function renderOriginalLine(line) {
   return `<span class="code-block__original-line">${escape(line)}</span>`
 }
 
 function highlightCode(source, language) {
-  loadLanguages([language])
   return Prism.highlight(source, Prism.languages[language], language)
-}
-
-const LANG_NAME_CORRECTIONS = {
-  'js': 'javascript',
-  'nginxconf': 'nginx'
 }
 
 // расстановка классов и атрибутов для элементов кода внутри тела статьи,
@@ -34,7 +35,7 @@ module.exports = function(window) {
       const codeElement = preElement.querySelector('code')
 
       let language = preElement.getAttribute('data-lang').trim()
-      language = LANG_NAME_CORRECTIONS[language] || language
+      language = LANG_ALIASES[language] || language
 
       const originalContent = codeElement.textContent
       const highlightedContent = language
