@@ -17,16 +17,37 @@
 }
 
 .tag-filter__text {
+  position: relative;
+  z-index: 0;
   display: block;
+  overflow: hidden;
   padding: 2px 8px;
   border: 2px solid var(--accent-color, currentColor);
   line-height: 1;
   text-align: center;
   border-radius: 2em;
-  transition: 125ms;
+  transition: background-color 125ms;
 }
 
-.tag-filter:hover .tag-filter__text,
-.tag-filter__control:checked + .tag-filter__text {
+.tag-filter__text::before {
+  content: '';
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+  inset: 0;
   background-color: var(--accent-color);
+  transition: opacity 125ms;
+  will-change: opacity;
+}
+
+.tag-filter:hover .tag-filter__text::before {
+  opacity:
+    calc(
+      var(--is-light-theme-on) * 0.1 +
+      var(--is-dark-theme-on) * 0.4
+    );
+}
+
+.tag-filter__control:checked + .tag-filter__text::before {
+  opacity: 1;
 }

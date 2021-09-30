@@ -30,3 +30,7 @@
   text-underline-offset: 0.2em;
   color: inherit;
 }
+
+.suggestion-list__link:hover {
+  color: var(--accent-color);
+}
