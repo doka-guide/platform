@@ -1,5 +1,17 @@
+{% set rootStyles %}
+  {% if category %}
+    --accent-color: var(--color-{{ category }});
+    --accent-base-color: var(--color-base-{{ category }});
+  {% endif %}
+{% endset %}
+
 <!DOCTYPE html>
-<html class="base font-theme" lang="{{ meta.lang }}" itemscope itemtype="https://schema.org/{{ pageType }}">
+<html
+  class="base font-theme"
+  lang="{{ meta.lang }}"
+  itemscope itemtype="https://schema.org/{{ pageType }}"
+  {% if rootStyles %}style="{{ rootStyles }}"{% endif %}
+>
   <head>
 
     {% include "meta.njk" %}
