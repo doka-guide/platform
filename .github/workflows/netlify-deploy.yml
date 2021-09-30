@@ -30,7 +30,6 @@ jobs:
       - name: Установка модулей
         run: npm ci
       - name: Сборка сайта
-        if: ${{ success() }}
         run: |
           node make-links.js --default
           npm run build
@@ -44,7 +43,6 @@ jobs:
           branch: main
           name: doka-guide-platform-social-cards
       - name: Публикация сайта
-        if: ${{ success() }}
         run: npx netlify deploy --dir=dist --message='Публикация платформы (https://github.com/doka-guide/platform/commit/${{ github.sha }})' --prod
         env:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
