@@ -9,14 +9,14 @@
 
 <title>{{ documentTitle }}</title>
 
-{% if doc.data.description %}
+{% if articleTitle %}
   <meta itemprop="name" content="{{ articleTitle }}">
   <meta property="og:title" content="{{ articleTitle }}">
   <meta property="twitter:title" content="{{ articleTitle }}">
 {% else %}
-  <meta itemprop="name" content="{{ title }}">
-  <meta property="og:title" content="{{ title }}">
-  <meta property="twitter:title" content="{{ title }}">
+  <meta itemprop="name" content="{{ documentTitle }}">
+  <meta property="og:title" content="{{ documentTitle }}">
+  <meta property="twitter:title" content="{{ documentTitle }}">
 {% endif %}
 
 <link rel="canonical" href="{{ fullPageUrl }}">
