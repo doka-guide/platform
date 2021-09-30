@@ -1,11 +1,11 @@
-.tag {
+.tag-filter {
   position: relative;
   cursor: pointer;
   font-size: var(--font-size-m);
   line-height: var(--font-line-height-m);
 }
 
-.tag__control {
+.tag-filter__control {
   opacity: 0;
   position: absolute;
   left: 0;
@@ -16,7 +16,7 @@
   cursor: pointer;
 }
 
-.tag__text {
+.tag-filter__text {
   display: block;
   padding: 2px 8px;
   border: 2px solid var(--accent-color, currentColor);
@@ -26,7 +26,7 @@
   transition: 125ms;
 }
 
-.tag:hover .tag__text,
-.tag__control:checked + .tag__text {
+.tag-filter:hover .tag-filter__text,
+.tag-filter__control:checked + .tag-filter__text {
   background-color: var(--accent-color);
 }

@@ -77,7 +77,7 @@ module.exports = function(window) {
     })
 
   articleContent
-    ?.querySelectorAll('p code, ul code, ol code')
+    ?.querySelectorAll('p code, ul code, ol code, table code')
     ?.forEach(codeElement => {
       codeElement.classList.add('code', 'font-theme', 'font-theme--code')
     })

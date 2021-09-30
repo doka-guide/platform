@@ -3,9 +3,9 @@
   <div class="search-category__legend">Фильтровать по:</div>
 
   {% for category in collections.articleIndexes %}
-    <label class="search-category__item tag" style="--accent-color: var(--color-{{ category.fileSlug }})">
-      <input class="tag__control" type="radio" name="search-category" value="category:{{ category.fileSlug }}" form="search-form">
-      <span class="tag__text">
+    <label class="search-category__item tag-filter" style="--accent-color: var(--color-{{ category.fileSlug }})">
+      <input class="tag-filter__control" type="radio" name="search-category" value="category:{{ category.fileSlug }}" form="search-form">
+      <span class="tag-filter__text">
         {{ category.data.name }}
       </span>
     </label>

@@ -68,11 +68,6 @@
   white-space: pre;
 }
 
-/* TODO: поправить "протекающие" стили */
-.code-block .token.tag {
-  font: inherit;
-}
-
 @media (min-width: 768px) {
   .code-block {
     margin-top: 20px;
