@@ -1,7 +1,8 @@
-<form class="feedback-form" method="post" name="feedback-form" data-state="idle" autocomplete="off">
+<form class="feedback-form" name="{{ feedbackFormName }}" method="post" autocomplete="off" data-state="idle" data-netlify="true">
   <div class="feedback-form__header font-theme font-theme--code">
-    <div class="feedback-form__title">Оцените статью</div>
-    <div class="feedback-form__title feedback-form__title--success" >Спасибо</div>
+    <div class="feedback-form__title" data-state="idle">Оцените статью</div>
+    <div class="feedback-form__title feedback-form__title--success" data-state="success">Спасибо</div>
+    <div class="feedback-form__title feedback-form__title--error" data-state="error">Спасибо</div>
   </div>
 
   <fieldset class="feedback-form__fieldset feedback-form__fieldset--vote">
@@ -62,5 +63,9 @@
 
   <p class="feedback-form__description">
     Ошибки отправляйте в <a class="link" href="{% contentRepLink %}">pull-request на GitHub</a>
+  </p>
+
+  <p class="feedback-form__error" data-state="error">
+    Во время отправки формы произошла ошибка. Попробуйте позднее
   </p>
 </form>

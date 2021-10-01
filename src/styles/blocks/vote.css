@@ -74,3 +74,12 @@
 .vote__input:not(:disabled) {
   cursor: pointer;
 }
+
+.vote__label--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.vote__label--disabled .vote__input {
+  display: none;
+}

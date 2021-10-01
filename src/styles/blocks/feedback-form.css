@@ -47,7 +47,7 @@
 }
 
 .feedback-form__fieldset:disabled {
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 .feedback-form__legend {
@@ -69,6 +69,13 @@
   margin-top: 20px;
 }
 
-.feedback-form:not([data-state="success"]) .feedback-form__title--success {
+.feedback-form__error {
+  margin-top: 20px;
+  color: hsl(0, 81%, 64%);
+}
+
+.feedback-form:not([data-state="idle"]) [data-state="idle"],
+.feedback-form:not([data-state="success"]) [data-state="success"],
+.feedback-form:not([data-state="error"]) [data-state="error"] {
   display: none;
 }

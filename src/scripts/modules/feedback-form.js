@@ -1,5 +1,5 @@
 function init() {
-  const form = document.forms['feedback-form']
+  const form = document.querySelector('.feedback-form')
 
   if (!form) {
     return
@@ -9,11 +9,12 @@ function init() {
   const textControl = form.querySelector('.feedback-form__text')
 
   let isSending = false
+  let isLike;
 
   // есть ли в форме нужные данные
   function isFilledForm() {
-    return form['is-useful'].value !== '0'
-      && (form['reason'].value !== 'other' || form['comment'].value.trim() !== '')
+    return isLike ||
+      (form['reason'].value !== 'other' || form['comment'].value.trim() !== '')
   }
 
   function sendForm() {
@@ -25,7 +26,10 @@ function init() {
 
     return fetch('/', {
       method: 'POST',
-      body: new URLSearchParams(new FormData(form))
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: (new URLSearchParams(new FormData(form))).toString()
     })
       .then(response => {
         if (!response.ok) {
@@ -36,11 +40,6 @@ function init() {
       })
       .then(() => {
         form.dataset.state = 'success'
-        form.elements.forEach(element => {
-          if (element.tagName.toLowerCase() === 'fieldset') {
-            element.disabled = true
-          }
-        })
       })
       .catch(error => {
         form.dataset.state = 'error'
@@ -48,6 +47,13 @@ function init() {
       })
       .finally(() => {
         isSending = false
+
+        const label = form.querySelector(isLike ? '.vote__label--down' : '.vote__label--up')
+        if (label) {
+          label.classList.add('vote__label--disabled')
+          label.querySelector('input').disabled = true
+        }
+        form.querySelector('.feedback-form__fieldset--reason').disabled = true
       })
   }
 
@@ -56,11 +62,13 @@ function init() {
 
     switch (true) {
       case (name === 'is-useful' && value === '0'): {
+        isLike = false
         reasonFieldset.hidden = false
         break;
       }
 
       case (name === 'is-useful' && value === '1'): {
+        isLike = true
         reasonFieldset.hidden = true
         sendForm()
         break;
