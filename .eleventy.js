@@ -17,7 +17,6 @@ const headingsTransform = require('./src/transforms/headings-transform');
 const codeTransform = require('./src/transforms/code-transform');
 const tocTransform = require('./src/transforms/toc-transform');
 const linkTransform = require('./src/transforms/link-transform');
-const documentTitleTransform = require('./src/transforms/document-title-transform');
 const imageParagraphTransform = require('./src/transforms/image-paragraph-transform');
 
 module.exports = function(config) {
@@ -126,11 +125,11 @@ module.exports = function(config) {
         if (nesting === 1) {
           const icon = markdownLibrary.utils.escapeHtml(matches[1])
           return `<aside class="callout">
-              ${icon ? `<span class="callout__icon">${icon}</span>` : ''}
-              <span class="callout__content content">`
+              ${icon ? `<div class="callout__icon">${icon}</div>` : ''}
+              <div class="callout__content">`
         }
 
-        return `</span></aside>`
+        return `</div></aside>`
       },
     })
   }
@@ -219,7 +218,7 @@ module.exports = function(config) {
       headingsTransform,
       tocTransform,
       linkTransform,
-      documentTitleTransform,
+      codeTransform,
     ].filter(Boolean)
 
     config.addTransform('html-transforms', async (content, outputPath) => {
@@ -267,16 +266,6 @@ module.exports = function(config) {
       return content
     })
   }
-
-  config.addTransform('html-code-transform', (content, outputPath) => {
-    if (outputPath?.endsWith?.('.html')) {
-      const window = parseHTML(content)
-      codeTransform(window)
-      return window.document.toString()
-    }
-
-    return content
-  })
 
   config.addPassthroughCopy('src/favicon.ico')
   config.addPassthroughCopy('src/manifest.json')

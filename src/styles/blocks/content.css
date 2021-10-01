@@ -9,6 +9,11 @@
 }
 
 .content p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.content > p {
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -27,28 +32,107 @@
   border: 0;
 }
 
+.content blockquote {
+  margin-left: 0;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  padding: var(--offset) calc(2 * var(--offset));
+  border-radius: 0 6px 6px 0;
+}
+
+.content blockquote::before {
+  content: '';
+  opacity:
+    calc(
+      0.1 * var(--is-light-theme-on) +
+      0.4 * var(--is-dark-theme-on)
+    );
+  position: absolute;
+  inset: 0;
+  background-color: var(--accent-color);
+}
+
+.content blockquote::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background-color: var(--accent-color);
+}
+
+.content table {
+  border-collapse: collapse;
+}
+
+.content table th,
+.content table td {
+  text-align: start;
+  padding: 0.25em 0.5em;
+  border: 1px solid var(--color-fade);
+}
+
+.content table thead th {
+  position: relative;
+  z-index: 0;
+}
+
+.content table thead th::before {
+  content: '';
+  opacity: 0.6;
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-color: var(--color-fade);
+}
+
+.content img,
+.content video,
+.content audio,
+.content iframe,
+.content details,
+.content blockquote,
+.content table,
+.content .callout {
+  margin-block: var(--offset);
+}
+
+@media (max-height: 640px) {
+  .content iframe {
+    max-height: calc(100vh - var(--header-height, 0) * 1px - 3em);
+  }
+}
+
 @media (min-width: 768px) {
-  .content p,
-  .content ul {
+  .content > p,
+  .content > ul,
+  .content > ol,
+  .content > .callout {
     max-width: 81%;
   }
 }
 
 @media (min-width: 1366px) {
-  .content p {
+  .content > p {
     margin-top: 20px;
     margin-bottom: 20px;
   }
 
-  .content p,
-  .content ul {
+  .content > p,
+  .content > ul,
+  .content > ol,
+  .content > .callout {
     max-width: 87.5%;
   }
 }
 
 @media (min-width: 1680px) {
-  .content p,
-  .content ul {
+  .content > p,
+  .content > ul,
+  .content > ol,
+  .content > .callout {
     max-width: 100%;
   }
 }

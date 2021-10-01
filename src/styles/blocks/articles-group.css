@@ -31,6 +31,8 @@
   line-height: var(--font-line-height-m);
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .articles-group__placeholder-icon::before {

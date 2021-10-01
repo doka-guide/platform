@@ -3,8 +3,8 @@
   --gutter: 40px;
   overflow: hidden;
   padding: var(--offset);
-  column-width: 370px;
-  column-gap: 20px;
+  column-gap: var(--offset);
+  column-width: 15em;
   line-height: 1.25;
   animation: showIndexSection 0.4s both;
   will-change: transform, opacity;
@@ -20,9 +20,8 @@
 .index-section__item {
   scroll-margin-block: calc(var(--header-height, 0) * 1px + 1em);
   position: relative;
-  overflow: hidden;
   padding-bottom: var(--gutter);
-  display: block;
+  display: flow-root;
   page-break-inside: avoid;
   break-inside: avoid;
 }
@@ -32,10 +31,8 @@
   opacity: 0;
   position: absolute;
   z-index: -1;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: var(--gutter);
+  inset: calc(-1 * var(--offset) / 2);
+  bottom: calc(var(--gutter) - var(--offset) / 2);
   background-color: var(--accent-color);
 }
 
