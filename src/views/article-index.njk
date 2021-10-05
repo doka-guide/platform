@@ -13,78 +13,80 @@
 ) }}
 
 <div class="index-block">
-  <div class="index-block__header">
-    <h1 class="index-block__title">
-      {{ categoryName }}
-    </h1>
-    <div class="index-block__description content">
-      {{ articleIndex.templateContent | safe }}
+  <div class="index-block__inner">
+    <div class="index-block__header">
+      <h1 class="index-block__title">
+        {{ categoryName }}
+      </h1>
+      <div class="index-block__description content">
+        {{ articleIndex.templateContent | safe }}
+      </div>
     </div>
+
+    <fieldset class="index-block__filter">
+      {# fieldset и legend не работают с flexbox/grid #}
+      <legend class="visually-hidden">Сортировать по:</legend>
+      <div class="index-block__filter-legend" aria-hidden="true">Сортировать по:</div>
+
+      <div class="index-block__filter-control switch">
+        <label class="switch__item">
+          <input class="switch__input" type="radio" name="index-filter" value="themes" autocomplete="off" checked>
+          <span class="switch__label">Темам</span>
+        </label>
+        <label class="switch__item">
+          <input class="switch__input" type="radio" name="index-filter" value="alphabet" autocomplete="off">
+          <span class="switch__label">Алфавиту</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <main class="index-block__main">
+      <section class="index-section" id="themes">
+        <h2 class="visually-hidden">Статьи раздела «{{ categoryName }}» по темам</h2>
+
+        {% for group in allGroups %}
+          <section class="index-section__item articles-group" id="{{ group.name | slugify }}">
+            <h3 class="articles-group__title">
+              {{ group.name | titleMarkdown | safe }}
+            </h3>
+            <ul class="articles-group__list base-list">
+              {% for articleId in group.items %}
+                {% set isPlaceholder = categoryArticlesBySlug[articleId].data.tags | hasTag('placeholder') %}
+                <li>
+                  <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
+                    {% if isPlaceholder %}{{ iconEditPlaceholder | safe }}{% endif -%}
+                    {{- categoryArticlesBySlug[articleId].data.title | titleMarkdown | safe }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </section>
+        {% endfor %}
+      </section>
+
+      <section class="index-section" id="alphabet" hidden>
+        <h2 class="visually-hidden">Статьи раздела «{{ categoryName }}» по алфавиту</h2>
+        {% for letter in firstLettersOfArticles %}
+          <section class="index-section__item articles-group">
+            <h3 class="articles-group__title articles-group__title--letter">
+              {{ letter }}
+            </h3>
+            <ul class="articles-group__list base-list">
+              {% for articleId in categoryArticlesByAlphabet[letter] %}
+                {% set isPlaceholder = categoryArticlesBySlug[articleId].data.tags | hasTag('placeholder') %}
+                <li>
+                  <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
+                    {% if isPlaceholder %}{{ iconEditPlaceholder | safe }}{% endif -%}
+                    {{- categoryArticlesBySlug[articleId].data.title | titleMarkdown | safe }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </section>
+        {% endfor %}
+      </section>
+    </main>
   </div>
-
-  <fieldset class="index-block__filter">
-    {# fieldset и legend не работают с flexbox/grid #}
-    <legend class="visually-hidden">Сортировать по:</legend>
-    <div class="index-block__filter-legend" aria-hidden="true">Сортировать по:</div>
-
-    <div class="index-block__filter-control switch">
-      <label class="switch__item">
-        <input class="switch__input" type="radio" name="index-filter" value="themes" autocomplete="off" checked>
-        <span class="switch__label">Темам</span>
-      </label>
-      <label class="switch__item">
-        <input class="switch__input" type="radio" name="index-filter" value="alphabet" autocomplete="off">
-        <span class="switch__label">Алфавиту</span>
-      </label>
-    </div>
-  </fieldset>
-
-  <main class="index-block__main">
-    <section class="index-section" id="themes">
-      <h2 class="visually-hidden">Статьи раздела «{{ categoryName }}» по темам</h2>
-
-      {% for group in allGroups %}
-        <section class="index-section__item articles-group" id="{{ group.name | slugify }}">
-          <h3 class="articles-group__title">
-            {{ group.name | titleMarkdown | safe }}
-          </h3>
-          <ul class="articles-group__list base-list">
-            {% for articleId in group.items %}
-              {% set isPlaceholder = categoryArticlesBySlug[articleId].data.tags | hasTag('placeholder') %}
-              <li>
-                <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
-                  {% if isPlaceholder %}{{ iconEditPlaceholder | safe }}{% endif -%}
-                  {{- categoryArticlesBySlug[articleId].data.title | titleMarkdown | safe }}
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </section>
-      {% endfor %}
-    </section>
-
-    <section class="index-section" id="alphabet" hidden>
-      <h2 class="visually-hidden">Статьи раздела «{{ categoryName }}» по алфавиту</h2>
-      {% for letter in firstLettersOfArticles %}
-        <section class="index-section__item articles-group">
-          <h3 class="articles-group__title articles-group__title--letter">
-            {{ letter }}
-          </h3>
-          <ul class="articles-group__list base-list">
-            {% for articleId in categoryArticlesByAlphabet[letter] %}
-              {% set isPlaceholder = categoryArticlesBySlug[articleId].data.tags | hasTag('placeholder') %}
-              <li>
-                <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
-                  {% if isPlaceholder %}{{ iconEditPlaceholder | safe }}{% endif -%}
-                  {{- categoryArticlesBySlug[articleId].data.title | titleMarkdown | safe }}
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </section>
-      {% endfor %}
-    </section>
-  </main>
 
   <div class="index-block__footer">
     {% include "blocks/footer.njk" %}
