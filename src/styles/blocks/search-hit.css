@@ -33,6 +33,10 @@
   right: 0;
 }
 
+.search-hit__link:hover {
+  color: var(--accent-color);
+}
+
 .search-hit__link-code {
   font-size: var(--font-size-l);
   line-height: var(--font-line-height-l);

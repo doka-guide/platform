@@ -1,5 +1,6 @@
 const { baseUrl, mainSections } = require('../../config/constants')
 const categoryColors = require('../../config/category-colors')
+const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 function hasTag(tags, tag) {
   return (tags || []).includes(tag)
@@ -10,6 +11,10 @@ module.exports = {
   featuredTag: 'featured',
 
   eleventyComputed: {
+    documentTitle: function(data) {
+      return titleFormatter([data.title, 'Дока'])
+    },
+
     hasCategory: function(data) {
       return !!(data.categoryName)
     },
