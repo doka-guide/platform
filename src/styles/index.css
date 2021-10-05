@@ -11,6 +11,7 @@
 @import 'blocks/link.css';
 @import 'blocks/code.css';
 @import 'blocks/button.css';
+@import 'blocks/control.css';
 @import 'blocks/base.css';
 @import 'blocks/logo.css';
 @import 'blocks/hotkey.css';
@@ -38,6 +39,8 @@
 @import 'blocks/code-block.css';
 @import 'blocks/format-block.css';
 @import 'blocks/vote.css';
+@import 'blocks/feedback-control-list.css';
+@import 'blocks/text-control.css';
 @import 'blocks/feedback-form.css';
 @import 'blocks/callout.css';
 @import 'blocks/articles-group.css';
