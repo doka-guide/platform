@@ -11,6 +11,11 @@
     "not dead",
     "not ie <= 11"
   ],
+  "nodeW3Cvalidator": {
+    "suppressErrors": [
+      "Attribute “media” not allowed on element “meta” at this point."
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/doka-guide/platform"
