@@ -45,7 +45,6 @@ function setCurrentTheme(theme) {
 
 function toggleTheme(event) {
   const newTheme = event.target?.value
-  console.log('changed theme: ', newTheme)
 
   if (!newTheme) {
     return
