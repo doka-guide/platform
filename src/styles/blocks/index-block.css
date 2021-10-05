@@ -43,15 +43,17 @@
 .index-block__main {}
 
 @media not all and (min-width: 1366px) {
+  .index-block__inner {
+    display: grid;
+  }
+
   .index-block__header {
     padding-top: clamp(20px, 8%, 130px);
   }
 
   .index-block__filter {
-    position: fixed;
+    order: 1;
     z-index: 1;
-    left: 0;
-    right: 0;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
@@ -78,6 +80,10 @@
     --offset: 20px;
     display: grid;
     grid-template-columns: 420px 1fr;
+  }
+
+  .index-block__inner {
+    display: contents;
   }
 
   .index-block__header {
