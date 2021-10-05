@@ -1,4 +1,5 @@
 const { baseUrl, mainSections } = require('../../config/constants')
+const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 function hasTag(tags, tag) {
@@ -61,6 +62,11 @@ module.exports = {
             type: hasTag(article.data.tags, 'article') ? 'article': 'doka'
           }
         })
+    },
+
+    themeColor: function(data) {
+      const { category } = data
+      return categoryColors[category || 'default']
     }
   },
 }
