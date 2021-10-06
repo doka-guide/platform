@@ -1,5 +1,4 @@
 const iframePolicies = [
-  'allow-same-origin',
   'allow-scripts',
   'allow-forms',
 ]
