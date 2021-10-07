@@ -62,7 +62,9 @@
 
 .search-hit__summary {}
 
-.search-hit__marked {}
+.search-hit__marked {
+  background-color: hsl(44deg 100% 59%);
+}
 
 @media (min-width: 1024px) {
   .search-hit__title {
