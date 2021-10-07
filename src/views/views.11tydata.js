@@ -63,7 +63,7 @@ module.exports = {
             title: article.data.title,
             cover: article.data.cover,
             get imageLink() {
-              return this.link + '/' + this.cover.mobile
+              return `${this.link}/${this.cover.mobile}`
             },
             imageMetaData: article.data?.cover?.mobile
               ? await getImageMetaData(path.join('src', section, article.fileSlug, article.data.cover.mobile))
