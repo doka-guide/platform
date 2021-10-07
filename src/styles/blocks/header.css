@@ -121,7 +121,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .header__menu {
     --gap: 6px;
   }
@@ -249,7 +249,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .header__inner {
     padding-left: 20px;
     padding-right: 20px;

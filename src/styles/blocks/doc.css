@@ -32,7 +32,7 @@
   max-width: 100%;
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .doc {
     --offset: 20px;
     --aside-with: 25%;

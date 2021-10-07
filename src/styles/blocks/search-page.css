@@ -84,7 +84,7 @@
   align-self: end;
 }
 
-@media not all and (min-width: 1366px) {
+@media not all and (min-width: 1024px) {
   .search-page {
     display: grid;
     grid-template-rows: auto 1fr auto auto;
@@ -199,7 +199,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .search-page {
     --offset: 20px;
     display: grid;

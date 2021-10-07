@@ -21,7 +21,7 @@
   gap: 30px;
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .footer {
     padding: 20px;
   }

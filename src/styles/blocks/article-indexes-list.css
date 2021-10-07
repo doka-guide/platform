@@ -2,7 +2,7 @@
   --column-offset: 40px;
   margin-bottom: calc(-1 * var(--column-offset));
   overflow: hidden;
-  column-width: 280px;
+  column-width: 250px;
   column-gap: 60px;
 }
 

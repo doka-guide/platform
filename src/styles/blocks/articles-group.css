@@ -47,7 +47,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .articles-group__title {
     margin-bottom: 10px;
   }

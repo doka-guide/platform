@@ -14,7 +14,7 @@
   display: none;
 }
 
-@media not all and (min-width: 1366px) {
+@media not all and (min-width: 1200px) {
   .featured-artices-list {
     --page-size: 4;
   }
@@ -40,7 +40,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1200px) {
   .featured-artices-list {
     --columns: 3;
     grid-gap: 20px;

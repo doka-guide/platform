@@ -54,7 +54,7 @@
   opacity: 0.7;
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .menu-toggle__icon--open {
     gap: 10px;
   }

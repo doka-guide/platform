@@ -92,7 +92,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .article-heading--level-2 {
     margin-top: 60px;
     margin-bottom: 20px;
