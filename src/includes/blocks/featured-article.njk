@@ -3,7 +3,7 @@
 
   <article class="featured-article" style="--accent-color: var(--color-{{ article.section }})">
     {% if hasImage %}
-      <img class="featured-article__image" src="{{ article.imageLink }}" width="{{ article.imageMetaData.width }}" height="{{ article.imageMetaData.height }}" loading="async" alt="">
+      <img class="featured-article__image" src="{{ article.imageLink }}" width="{{ article.imageMetaData.width }}" height="{{ article.imageMetaData.height }}" loading="lazy" alt="">
     {% endif %}
     <h3 class="featured-article__title">
       <a class="featured-article__link link" href="{{ article.link }}">
