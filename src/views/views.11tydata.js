@@ -1,9 +1,15 @@
+const path = require('path')
+const sharp = require('sharp')
 const { baseUrl, mainSections } = require('../../config/constants')
 const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 function hasTag(tags, tag) {
   return (tags || []).includes(tag)
+}
+
+function getImageMetaData(imagePath) {
+  return sharp(imagePath).metadata()
 }
 
 module.exports = {
@@ -48,20 +54,27 @@ module.exports = {
         articlesForShow.push(sectionArticles[articleIndex])
       }
 
-      return articlesForShow
+      return Promise.all(articlesForShow
         .filter(Boolean)
-        .map(article => {
-          const section = article.filePathStem.split('/')[1];
+        .map(async article => {
+          const section = article.filePathStem.split('/')[1]
+
           return {
             title: article.data.title,
             cover: article.data.cover,
+            get imageLink() {
+              return `${this.link}/${this.cover.mobile}`
+            },
+            imageMetaData: article.data?.cover?.mobile
+              ? await getImageMetaData(path.join('src', section, article.fileSlug, article.data.cover.mobile))
+              : null,
             description: article.data.description,
             link: `/${section}/${article.fileSlug}`,
             linkTitle: article.data.title.replace(/`/g, ''),
             section,
-            type: hasTag(article.data.tags, 'article') ? 'article': 'doka'
           }
         })
+      )
     },
 
     themeColor: function(data) {
