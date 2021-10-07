@@ -228,7 +228,5 @@
   .search-page__footer {
     grid-column-start: 2;
     grid-column-end: -1;
-
-    /* align-self: end; */
   }
 }
