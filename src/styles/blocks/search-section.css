@@ -33,7 +33,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .search-section__title {
     margin-bottom: 20px;
   }

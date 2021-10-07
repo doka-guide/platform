@@ -96,7 +96,7 @@
 
 .search-page__footer {}
 
-@media not all and (min-width: 1366px) {
+@media not all and (min-width: 1024px) {
   .search-page__aside {
     position: fixed;
     z-index: 1;
@@ -167,7 +167,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .search-page {
     --offset: 20px;
     display: grid;

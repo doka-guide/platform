@@ -32,7 +32,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .callout {
     padding: 20px;
   }

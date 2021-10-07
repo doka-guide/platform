@@ -75,7 +75,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .code-block {
     margin-top: 20px;
     margin-bottom: 60px;

@@ -64,7 +64,7 @@
 
 .search-hit__marked {}
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .search-hit__title {
     margin-bottom: 14px;
   }

@@ -114,7 +114,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .content > p {
     margin-top: 20px;
     margin-bottom: 20px;

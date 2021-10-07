@@ -68,7 +68,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .index-section {
     --gutter: 60px;
   }

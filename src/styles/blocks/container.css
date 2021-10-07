@@ -8,7 +8,7 @@
   padding-right: var(--container-gutter);
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .container {
     --container-gutter: 20px;
   }

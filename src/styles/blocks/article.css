@@ -162,7 +162,7 @@
   margin-left: 0;
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .article {}
 
   .article__header-inner {}
@@ -234,7 +234,7 @@
   .article__content {}
 }
 
-@media not all and (min-width: 1366px) {
+@media not all and (min-width: 1024px) {
   .article {}
 
   .article__layout {
