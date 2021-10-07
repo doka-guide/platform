@@ -1,0 +1,29 @@
+.notification {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding: 10px;
+  gap: 0.5em;
+  background-color: var(--color-text);
+}
+
+.notification__content {
+  flex: 1 1 12em;
+  color: var(--color-background);
+}
+
+.notification__content,
+.notification__button {
+  padding-block: 0.3em;
+}
+
+.notification__button {
+  flex: 0 0 auto;
+  padding-inline: 0.85em;
+}
+
+@media (min-width: 1366px) {
+  .notification {
+    padding: 12px 20px;
+  }
+}
