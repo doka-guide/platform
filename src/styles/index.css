@@ -58,3 +58,5 @@
 @import 'blocks/all-articles.css';
 @import 'blocks/not-found.css';
 @import 'blocks/suggestion-list.css';
+@import 'blocks/notification.css';
+@import 'blocks/cookie-notification.css';
