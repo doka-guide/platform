@@ -1,6 +1,6 @@
 <form class="feedback-form" name="{{ feedbackFormName }}" method="post" autocomplete="off" data-state="idle" data-netlify="true">
   <div class="feedback-form__header font-theme font-theme--code">
-    <div class="feedback-form__title" data-state="idle">Оцените статью</div>
+    <div class="feedback-form__title" data-state="idle">Статья была полезной?</div>
     <div class="feedback-form__title feedback-form__title--success" data-state="success">Спасибо</div>
     <div class="feedback-form__title feedback-form__title--error" data-state="error">Спасибо</div>
   </div>
@@ -8,64 +8,64 @@
   <fieldset class="feedback-form__fieldset feedback-form__fieldset--vote">
     <div class="vote font-theme font-theme--code">
       <label class="vote__label vote__label--up">
-        <span class="visually-hidden">Понравилось</span>
+        <span class="visually-hidden">Да</span>
         <input class="vote__input" type="radio" name="is-useful" value="1">
         <span class="vote__control" aria-hidden="true">^‿^</span>
       </label>
       <label class="vote__label vote__label--down">
-        <span class="visually-hidden">Не понравилось</span>
+        <span class="visually-hidden">Нет</span>
         <input class="vote__input" type="radio" name="is-useful" value="0">
         <span class="vote__control" aria-hidden="true">ˇ⌒ˇ</span>
       </label>
   </fieldset>
 
   <fieldset class="feedback-form__fieldset feedback-form__fieldset--reason" hidden>
-    <legend class="feedback-form__legend">Что не понравилось?</legend>
+    <legend class="feedback-form__legend">Расскажите, что не понравилось?</legend>
     <ul class="feedback-control-list base-list">
       <li class="feedback-control-list__item">
         <label class="control">
-          <input class="control__input" type="radio" name="reason" value="Сложно">
-          <span class="control__label">Сложно</span>
+          <input class="control__input" type="radio" name="reason" value="Статья слишком сложная">
+          <span class="control__label">Статья слишком сложная</span>
         </label>
       </li>
       <li class="feedback-control-list__item">
         <label class="control">
-          <input class="control__input" type="radio" name="reason" value="Давно не обновлялась">
-          <span class="control__label">Давно не обновлялась</span>
+          <input class="control__input" type="radio" name="reason" value="Статья устарела">
+          <span class="control__label">Статья устарела</span>
         </label>
       </li>
       <li class="feedback-control-list__item">
         <label class="control">
-          <input class="control__input" type="radio" name="reason" value="Неполная информация">
-          <span class="control__label">Неполная информация</span>
+          <input class="control__input" type="radio" name="reason" value="В статье не хватает информации">
+          <span class="control__label">В статье не хватает информации</span>
         </label>
       </li>
       <li class="feedback-control-list__item">
         <label class="control">
-          <input class="control__input" type="radio" name="reason" value="Мало примеров">
-          <span class="control__label">Мало примеров</span>
+          <input class="control__input" type="radio" name="reason" value="В статье мало примеров">
+          <span class="control__label">В статье мало примеров</span>
         </label>
       </li>
       <li class="feedback-control-list__item">
         <label class="control">
           <input class="control__input" type="radio" name="reason" value="other">
-          <span class="control__label">Другое</span>
+          <span class="control__label">Что-то другое</span>
         </label>
       </li>
     </ul>
     <div class="feedback-form__text" hidden>
       <div class="text-control">
-        <textarea class="text-control__item text-control__input" name="comment" placeholder="Расскажите подробнее"></textarea>
+        <textarea class="text-control__item text-control__input" name="comment" placeholder="Расскажите, пожалуйста, подробнее"></textarea>
         <button class="text-control__item text-control__button button button--invert" type="submit">Отправить</button>
       </div>
     </div>
   </fieldset>
 
   <p class="feedback-form__description">
-    Ошибки отправляйте в <a class="link" href="{% contentRepLink %}">pull-request на GitHub</a>
+    Если вы нашли ошибку, отправьте нам <a class="link" href="{% contentRepLink %}">пул-реквест</a>!
   </p>
 
   <p class="feedback-form__error" data-state="error">
-    Во время отправки формы произошла ошибка. Попробуйте позднее
+    Во время отправки формы что-то пошло не так. Попробуйте ещё раз?
   </p>
 </form>
