@@ -1,4 +1,5 @@
 {% from "blocks/header.njk" import header %}
+{% from "blocks/footer.njk" import footer %}
 
 {% set isLogoContrastColor = hasCategory %}
 
@@ -12,8 +13,8 @@
 ) }}
 
 <div class="doc">
-  <main class="doc__article">
-    <article class=" article {% if cover %}article--with-cover{% endif %}">
+  <main class="doc__main">
+    <article class="doc__article article {% if cover %}article--with-cover{% endif %}">
       <header class="article__header">
         <div class="article__header-inner doc__wrapper">
           {% if cover %}
@@ -104,12 +105,13 @@
         </div>
       </div>
     </article>
+
+    <aside class="doc__feedback-form">
+      {% include "feedback-form.njk" %}
+    </aside>
   </main>
 
-  <div class="doc__feedback-form">
-    {% include "feedback-form.njk" %}
-  </div>
   <div class="doc__footer doc__wrapper">
-    {% include "blocks/footer.njk" %}
+    {{ footer() }}
   </div>
 </div>

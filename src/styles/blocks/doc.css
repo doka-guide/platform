@@ -11,11 +11,16 @@
   min-width: 0;
 }
 
-.doc > * {}
+.doc__main,
+.doc__article {
+  display: contents;
+}
 
 .doc__article {}
 
 .doc__feedback-form {
+  grid-column-start: 2;
+  grid-column-end: span 1;
   margin-left: auto;
   margin-right: auto;
   padding-left: var(--offset);
@@ -40,6 +45,7 @@
     --columns-template: var(--aside-with) 1fr;
     display: grid;
     grid-template-columns: var(--columns-template);
+    align-items: start;
   }
 
   .doc > * {
