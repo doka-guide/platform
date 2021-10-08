@@ -99,6 +99,10 @@
   margin-block: var(--offset);
 }
 
+.content .link {
+  overflow-wrap: break-word;
+}
+
 @media (max-height: 640px) {
   .content iframe {
     max-height: calc(100vh - var(--header-height, 0) * 1px - 3em);
