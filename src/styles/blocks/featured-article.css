@@ -10,13 +10,28 @@
   background-color: var(--accent-color, hsl(0 0% 90%));
 }
 
-.featured-article__image {
+.featured-article__image-wrapper {
   margin-bottom: auto;
+  position: relative;
   display: block;
+}
+
+.featured-article__image-wrapper::before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+.featured-article__image {
+  position: absolute;
+  top: 0;
+  left: 0;
   box-sizing: border-box;
-  padding: 20px;
   width: 100%;
-  height: auto;
+  height: 100%;
+  padding: 20px;
+  object-fit: contain;
+  object-position: center top;
 }
 
 .featured-article__title {
