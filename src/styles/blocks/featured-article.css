@@ -31,6 +31,7 @@
   height: 100%;
   padding: 20px;
   object-fit: contain;
+  object-position: center top;
 }
 
 .featured-article__title {
