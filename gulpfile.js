@@ -33,7 +33,9 @@ const styles = () => {
     .pipe(postcss([
       pimport,
       autoprefixer,
-      csso,
+      csso({
+        restructure: false
+      }),
     ]))
     .pipe(gulp.dest('dist/styles'))
 }

@@ -1,4 +1,6 @@
 const { baseUrl, mainSections } = require('../../config/constants')
+const categoryColors = require('../../config/category-colors')
+const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 function hasTag(tags, tag) {
   return (tags || []).includes(tag)
@@ -9,6 +11,10 @@ module.exports = {
   featuredTag: 'featured',
 
   eleventyComputed: {
+    documentTitle: function(data) {
+      return titleFormatter([data.title, 'Дока'])
+    },
+
     hasCategory: function(data) {
       return !!(data.categoryName)
     },
@@ -45,16 +51,25 @@ module.exports = {
       return articlesForShow
         .filter(Boolean)
         .map(article => {
-          const section = article.filePathStem.split('/')[1];
+          const section = article.filePathStem.split('/')[1]
+
           return {
             title: article.data.title,
             cover: article.data.cover,
+            get imageLink() {
+              return `${this.link}/${this.cover.mobile}`
+            },
             description: article.data.description,
             link: `/${section}/${article.fileSlug}`,
+            linkTitle: article.data.title.replace(/`/g, ''),
             section,
-            type: hasTag(article.data.tags, 'article') ? 'article': 'doka'
           }
         })
+    },
+
+    themeColor: function(data) {
+      const { category } = data
+      return categoryColors[category || 'default']
     }
   },
 }

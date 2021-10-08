@@ -71,6 +71,11 @@ function init() {
     document.removeEventListener('keyup', closeOnKeyUp)
     document.removeEventListener('click', closeOnClickOutSide)
     document.addEventListener('keyup', openOnKeyUp)
+
+    if (input) {
+      input.value = '';
+      input.blur();
+    }
   }
 
   function isHeaderOpen() {

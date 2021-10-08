@@ -11,7 +11,7 @@
   isLogoContrastColor=isLogoContrastColor
 ) }}
 
-<div class="doc" style="--accent-color: var(--color-{{ category }});">
+<div class="doc">
   <main class="doc__article">
     <article class=" article {% if cover %}article--with-cover{% endif %}">
       <header class="article__header">
@@ -106,7 +106,9 @@
     </article>
   </main>
 
-  {# {% include "feedback-form.njk" %} #}
+  <div class="doc__feedback-form">
+    {% include "feedback-form.njk" %}
+  </div>
   <div class="doc__footer doc__wrapper">
     {% include "blocks/footer.njk" %}
   </div>

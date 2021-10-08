@@ -11,6 +11,11 @@
     "not dead",
     "not ie <= 11"
   ],
+  "nodeW3Cvalidator": {
+    "suppressErrors": [
+      "Attribute “media” not allowed on element “meta” at this point."
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/doka-guide/platform"
@@ -50,7 +55,7 @@
     "gulp-tap": "^2.0.0",
     "highlight.js": "^11.2.0",
     "htmlnano": "^1.0.1",
-    "linkedom": "^0.11.2",
+    "linkedom": "^0.12.1",
     "lint-staged": "^11.1.2",
     "markdown-it": "^12.2.0",
     "markdown-it-container": "^3.0.0",
@@ -60,6 +65,7 @@
     "postcss-csso": "^5.0.1",
     "postcss-import": "^14.0.2",
     "puppeteer": "^10.4.0",
+    "prismjs": "^1.25.0",
     "sharp": "^0.29.1",
     "simple-git-hooks": "^2.6.1",
     "stylelint": "^13.13.1",

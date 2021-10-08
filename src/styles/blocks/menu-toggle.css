@@ -22,7 +22,9 @@
   align-items: center;
 }
 
-.menu-toggle__icon {}
+.menu-toggle__icon {
+  transition: opacity 0.2s;
+}
 
 .menu-toggle__icon--open {
   display: flex;
@@ -48,7 +50,11 @@
   --is-menu-open: 1;
 }
 
-@media (min-width: 1366px) {
+.menu-toggle:hover .menu-toggle__icon {
+  opacity: 0.7;
+}
+
+@media (min-width: 1024px) {
   .menu-toggle__icon--open {
     gap: 10px;
   }

@@ -11,6 +11,7 @@
 @import 'blocks/link.css';
 @import 'blocks/code.css';
 @import 'blocks/button.css';
+@import 'blocks/control.css';
 @import 'blocks/base.css';
 @import 'blocks/logo.css';
 @import 'blocks/hotkey.css';
@@ -38,6 +39,8 @@
 @import 'blocks/code-block.css';
 @import 'blocks/format-block.css';
 @import 'blocks/vote.css';
+@import 'blocks/feedback-control-list.css';
+@import 'blocks/text-control.css';
 @import 'blocks/feedback-form.css';
 @import 'blocks/callout.css';
 @import 'blocks/articles-group.css';
@@ -45,7 +48,7 @@
 @import 'blocks/index-block.css';
 @import 'blocks/switch.css';
 @import 'blocks/standalone-page.css';
-@import 'blocks/tag.css';
+@import 'blocks/tag-filter.css';
 @import 'blocks/search-category.css';
 @import 'blocks/search-tag.css';
 @import 'blocks/search-hit.css';
@@ -56,3 +59,5 @@
 @import 'blocks/not-found.css';
 @import 'blocks/social-card.css';
 @import 'blocks/suggestion-list.css';
+@import 'blocks/notification.css';
+@import 'blocks/cookie-notification.css';

@@ -1,10 +1,22 @@
-const os = require('os')
-const hljs = require('highlight.js')
+const Prism = require('prismjs')
+const loadLanguages = require('prismjs/components/')
+const { escape } = require('html-escaper')
 
-function renderLine(line) {
-  // добавляет возможность копировать пустые строки
-  line = line ? line : '\n'
-  return `<code class="code-block__line">${line}</code>`
+loadLanguages()
+
+const endOfLine = '\n'
+
+const LANG_ALIASES= {
+  'js': 'javascript',
+  'nginxconf': 'nginx'
+}
+
+function renderOriginalLine(line) {
+  return `<span class="code-block__original-line">${escape(line)}</span>`
+}
+
+function highlightCode(source, language) {
+  return Prism.highlight(source, Prism.languages[language], language)
 }
 
 // расстановка классов и атрибутов для элементов кода внутри тела статьи,
@@ -23,33 +35,39 @@ module.exports = function(window) {
       const codeElement = preElement.querySelector('code')
 
       let language = preElement.getAttribute('data-lang').trim()
+      language = LANG_ALIASES[language] || language
 
-      if (language === 'js') {
-        language = 'javascript'
-      }
+      const originalContent = codeElement.textContent
+      const highlightedContent = language
+        ? highlightCode(originalContent, language)
+        : originalContent
 
-      const content = language
-        ? hljs.highlight(codeElement.textContent, { language }).value
-        : codeElement.textContent
-
-      let lines = content
-        .split(os.EOL)
+      const lines = originalContent
+        .split(endOfLine)
         .filter((line, index, linesArray) => {
           // удаляем первую и последнюю пустые строки
           const isFirtsOrLastLine = (index === 0 || index === linesArray.length -1)
           const isEmptyLine = line.trim() === ''
           return !(isFirtsOrLastLine && isEmptyLine)
         })
-        .map((line) => renderLine(line))
+        .map((line) => renderOriginalLine(line))
 
-      const digits = String(lines.length).length
+      const originalSplittedContent = lines.join('')
 
-      lines = lines.join(os.EOL)
+      const linesBlock = window.document.createElement('span')
+      linesBlock.classList.add('code-block__lines')
+      linesBlock.innerHTML = Array.from(
+        { length: lines.length },
+        () => `<span class="code-block__line"></span>`
+      ).join('')
 
       preElement.classList.add('code-block', 'font-theme', 'font-theme--code')
       preElement.setAttribute('tabindex', 0)
-      preElement.setAttribute('style', `--digits: ${digits}`)
-      preElement.innerHTML = lines
+      preElement.innerHTML = `
+      ${linesBlock.outerHTML}
+        <span class="code-block__original">${originalSplittedContent}</span>
+        <code class="code-block__highlight">${highlightedContent}</code>
+      `
     })
 
   articleContent
@@ -60,7 +78,7 @@ module.exports = function(window) {
     })
 
   articleContent
-    ?.querySelectorAll('p code, ul code, ol code')
+    ?.querySelectorAll('p code, ul code, ol code, table code')
     ?.forEach(codeElement => {
       codeElement.classList.add('code', 'font-theme', 'font-theme--code')
     })

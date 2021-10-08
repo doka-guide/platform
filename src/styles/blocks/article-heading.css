@@ -1,20 +1,23 @@
-.article-heading {}
+.article-heading {
+  position: relative;
+  max-width: max-content;
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+}
 
 .article-heading__title {
-  margin: 0;
-  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 0.8em;
   font: inherit;
-}
-
-.article-heading:first-of-type .article-heading__title {
-  scroll-margin: 1em;
-}
-
-.article-heading:not(:first-of-type) .article-heading__title {
   scroll-margin: calc((var(--header-height, 0) * 1px) + 1em);
 }
 
 .article-heading__link {
+  position: absolute;
+  top: calc(var(--line-height) / 2 + 0.125em);
+  right: 0;
+  transform: translateY(-50%);
   display: inline-block;
   color: hsl(var(--color-blue));
   transition: 0.2s;
@@ -22,7 +25,6 @@
 
 @media (hover: hover) {
   .article-heading:not(:hover) .article-heading__link {
-    transform: translateX(-25%);
     opacity: 0;
   }
 }
@@ -40,26 +42,26 @@
 
 .article-heading--level-1,
 .article-heading--level-1 .article-heading__code {
-  font-size: var(--font-size-xxl);
-  line-height: var(--font-line-height-xxl);
+  --font-size: var(--font-size-xxl);
+  --line-height: var(--font-line-height-xxl);
 }
 
 .article-heading--level-2,
 .article-heading--level-2 .article-heading__code {
-  font-size: var(--font-size-xl);
-  line-height: var(--font-line-height-xl);
+  --font-size: var(--font-size-xl);
+  --line-height: var(--font-line-height-xl);
 }
 
 .article-heading--level-3,
 .article-heading--level-3 .article-heading__code {
-  font-size: var(--font-size-l);
-  line-height: var(--font-line-height-l);
+  --font-size: var(--font-size-l);
+  --line-height: var(--font-line-height-l);
 }
 
 .article-heading--level-4,
 .article-heading--level-4 .article-heading__code {
-  font-size: var(--font-size-m);
-  line-height: var(--font-line-height-m);
+  --font-size: var(--font-size-m);
+  --line-height: var(--font-line-height-m);
 }
 
 .article-heading--level-2 {
@@ -90,7 +92,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .article-heading--level-2 {
     margin-top: 60px;
     margin-bottom: 20px;

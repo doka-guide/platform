@@ -77,7 +77,7 @@
   min-height: 0;
 }
 
-@media not all and (min-width: 1366px) {
+@media not all and (min-width: 1024px) {
   .article-nav__content {
     background-color: hsl(0 0% var(--lightness));
   }
@@ -97,7 +97,7 @@
   opacity: 0;
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .article-nav {
     position: static;
     transform: none;

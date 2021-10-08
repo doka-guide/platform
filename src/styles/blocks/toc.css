@@ -3,9 +3,20 @@
 .toc__list {}
 
 .toc__list .toc__list {
-  margin-left: 24px;
+  margin-left: 14px;
 }
 
-.toc__item {}
+.toc__item {
+  padding-left: 10px;
+}
 
-.toc__link {}
+.toc__link {
+  margin-left: -10px;
+  padding: 0 10px 2px;
+  border-radius: 2em;
+}
+
+.toc__link--active {
+  text-decoration: none;
+  background-color: var(--color-fade);
+}

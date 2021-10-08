@@ -71,7 +71,8 @@ module.exports = {
 
     docPath: function(data) {
       const { doc } = data
-      return doc.filePathStem.replace('index', '')
+      // Удаляем `/index` с конца пути
+      return doc.filePathStem.replace('/index', '')
     },
 
     category: function(data) {
@@ -97,7 +98,7 @@ module.exports = {
       const { docPath } = data
 
       return allPractices.filter(practice => {
-        return practice.filePathStem.includes(docPath)
+        return practice.filePathStem.startsWith(`${docPath}/practice`)
       })
     },
 
@@ -122,7 +123,9 @@ module.exports = {
     },
 
     documentTitle: function(data) {
-      return titleFormatter([data.title, data.categoryName, 'Дока'])
+      // удаляем символы обратных кавычек из markdown
+      const title = data.title.replace(/`/g, '')
+      return titleFormatter([title, data.categoryName, 'Дока'])
     },
 
     articleTag: function(data) {

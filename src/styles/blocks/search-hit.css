@@ -33,9 +33,20 @@
   right: 0;
 }
 
+.search-hit__link:hover {
+  color: var(--accent-color);
+}
+
 .search-hit__link-code {
   font-size: var(--font-size-l);
   line-height: var(--font-line-height-l);
+  letter-spacing: var(--letter-spacing);
+  font-family: var(--font-family);
+}
+
+.search-hit__text-code {
+  font-size: var(--font-size-m);
+  line-height: var(--font-line-height-m);
   letter-spacing: var(--letter-spacing);
   font-family: var(--font-family);
 }
@@ -51,9 +62,11 @@
 
 .search-hit__summary {}
 
-.search-hit__marked {}
+.search-hit__marked {
+  background-color: hsl(44deg 100% 59%);
+}
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .search-hit__title {
     margin-bottom: 14px;
   }

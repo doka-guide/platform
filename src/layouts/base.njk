@@ -1,5 +1,17 @@
+{% set rootStyles %}
+  {% if category %}
+    --accent-color: var(--color-{{ category }});
+    --accent-base-color: var(--color-base-{{ category }});
+  {% endif %}
+{% endset %}
+
 <!DOCTYPE html>
-<html class="base font-theme" lang="{{ meta.lang }}" itemscope itemtype="https://schema.org/{{ pageType }}">
+<html
+  class="base font-theme"
+  lang="{{ meta.lang }}"
+  itemscope itemtype="https://schema.org/{{ pageType }}"
+  {% if rootStyles %}style="{{ rootStyles }}"{% endif %}
+>
   <head>
 
     {% include "meta.njk" %}
@@ -7,11 +19,14 @@
   </head>
   <body class="base__body {{ bodyClass }}">
 
-    {% if isProdEnv %}
+    {% if env.isProdEnv %}
       {% include "analytics/metrika.njk" %}
+      {% include "analytics/google.njk" %}
     {% endif %}
 
     {{ content | safe }}
+
+    {% include "blocks/cookie-notification.njk" %}
 
     <script type="module" src="/scripts/index.js"></script>
   </body>

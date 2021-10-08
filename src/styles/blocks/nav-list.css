@@ -75,7 +75,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .nav-list {
     --block-padding: 6px;
     line-height: inherit;
