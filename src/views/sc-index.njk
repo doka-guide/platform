@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html class="base font-theme" lang="{{ meta.lang }}" itemscope itemtype="https://schema.org/{{ pageType }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="../styles/index.sc.css">
+    <link rel="stylesheet" href="../styles/dark-theme.css" media="(prefers-color-scheme: dark)">
+  </head>
+  <body class="base__body {{ bodyClass }}">
+
+    {% from "blocks/logo.njk" import logo %}
+
+    {% set isLogoContrastColor = hasCategory %}
+
+    <div class="index-block" style="--accent-color: var(--color-{{ category }})">
+      <div class="index-block__header">
+        <h1 class="index-block__title">
+          Статьи раздела «{{ categoryName }}» по алфавиту
+        </h1>
+      </div>
+
+      <main style="display:grid;grid-template-column:1200px 1024px;grid-gap:24px;grid-auto-rows:1024px;">
+        {% for letter in firstLettersOfArticles %}
+          {% from "blocks/social-card.njk" import socialCard %}
+          {% for articleId in categoryArticlesByAlphabet[letter] %}
+            <iframe src="{{ articleId }}/index.sc.html" height="630" width="1200" styles="display:block;">
+            </iframe>
+            <iframe src="{{ articleId }}/index.sc.html" height="1024" width="1024" styles="display:block;">
+            </iframe>
+          {% endfor %}
+        {% endfor %}
+      </main>
+    </div>
+
+  </body>
+</html>
