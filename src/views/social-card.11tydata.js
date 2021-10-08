@@ -9,15 +9,13 @@ function getPersons(personKey) {
 }
 
 module.exports = {
-  layout: 'base.njk',
-
   pagination: {
     data: 'collections.docs',
     size: 1,
     alias: 'doc'
   },
 
-  permalink: "{{doc.filePathStem}}.og.html",
+  permalink: "{{doc.filePathStem}}.sc.html",
 
   eleventyComputed: {
     title: function(data) {
