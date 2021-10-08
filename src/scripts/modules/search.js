@@ -117,6 +117,12 @@ function closeSuggestionOnOutSideClick(event) {
 if (!isSearchPage) {
   searchForm?.addEventListener('keyup', closeSuggestionOnKeyUp)
   document.addEventListener('click', closeSuggestionOnOutSideClick)
+
+  searchForm.addEventListener('submit', event => {
+    if (searchField.value.trim() === '') {
+      event.preventDefault()
+    }
+  })
 }
 
 function processHits(searchObject) {
