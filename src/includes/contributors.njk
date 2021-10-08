@@ -31,14 +31,23 @@
   </div>
 {% endmacro %}
 
-<section class="contributors">
-  <div class="contributors__item">Авторы {{ personsList(list=populatedAuthors) }}</div>
+<dl class="contributors">
+  <div class="contributors__item">
+    <dt class="contributors__key">Авторы</dt>
+    <dd class="contributors__value">{{ personsList(list=populatedAuthors) }}</dd>
+  </div>
 
   {% if populatedContributors.length > 0 %}
-    <div class="contributors__item">Контрибьюторы {{ personsList(list=populatedContributors) }}</div>
+    <div class="contributors__item">
+      <dt class="contributors__key">Контрибьюторы</dt>
+      <dd class="contributors__value">{{ personsList(list=populatedContributors) }}</dd>
+    </div>
   {% endif %}
 
   {% if populatedEditors.length > 0 %}
-    <div class="contributors__item">Редакторы {{ personsList(list=populatedEditors) }}</div>
+    <div class="contributors__item">
+      <dt class="contributors__key">Редакторы</dt>
+      <dd class="contributors__value">{{ personsList(list=populatedEditors) }}</dd>
+    </div>
   {% endif %}
-</section>
+</dl>

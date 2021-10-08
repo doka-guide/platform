@@ -1,5 +1,13 @@
-.contributors {}
+.contributors {
+  margin: 0;
+}
 
 .contributors__item:not(:first-child) {
   margin-top: 12px;
+}
+
+.contributors__key,
+.contributors__value {
+  margin: 0;
+  display: inline;
 }
