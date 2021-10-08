@@ -12,13 +12,13 @@
 
 .search-tag__switch {}
 
-@media not all and (min-width: 1366px) {
+@media not all and (min-width: 1024px) {
   .search-tag__legend {
     display: none;
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .search-tag {
     position: sticky;
     bottom: 0;

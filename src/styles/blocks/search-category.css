@@ -12,7 +12,7 @@
 
 .search-category__item {}
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .search-category {
     position: sticky;
     top: calc(var(--header-height, 0) * 1px);

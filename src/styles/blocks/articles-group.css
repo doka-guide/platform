@@ -31,6 +31,8 @@
   line-height: var(--font-line-height-m);
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .articles-group__placeholder-icon::before {
@@ -45,7 +47,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .articles-group__title {
     margin-bottom: 10px;
   }

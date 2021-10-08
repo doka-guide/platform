@@ -1,0 +1,51 @@
+.text-control {
+  --padding-block: calc(5 / 15 * 1em);
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.text-control__item {
+  box-sizing: border-box;
+  padding-top: var(--padding-block);
+  padding-bottom: var(--padding-block);
+  font: inherit;
+}
+
+.text-control__input {
+  --input-height: calc(var(--font-line-height-s, 20px) + 2 * var(--padding-block) + 2 * 1px);
+  --border-color-opacity: calc(1 - var(--is-dark-theme-on) * 0.6);
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  min-height: var(--input-height);
+  height: var(--input-height);
+  border-style: solid;
+  border-width: 1px 0;
+  border-top-color: transparent;
+  border-bottom-color: hsl(var(--color-base-text) / var(--border-color-opacity));
+  color: inherit;
+  background-color: transparent;
+  resize: vertical;
+}
+
+.text-control__input::placeholder {
+  opacity: 0.55;
+  font: inherit;
+  color: inherit;
+}
+
+.text-control__button {
+  flex: 0 0 auto;
+  padding-left: calc(19 / 15 * 1em);
+  padding-right: calc(19 / 15 * 1em);
+}
+
+@media not all and (min-width: 768px) {
+  .text-control {
+    flex-direction: column;
+    align-items: center;
+  }
+}

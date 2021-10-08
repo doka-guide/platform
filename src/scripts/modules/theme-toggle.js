@@ -10,6 +10,18 @@ const THEMES = {
 // DOM-элементы
 let toggleElement
 const darkThemeStyles = document.head.querySelector('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]')
+const lightThemeMeta = document.head.querySelector('meta[name=theme-color][media*=prefers-color-scheme][media*=light]')
+const darkThemeMeta = document.head.querySelector('meta[name=theme-color][media*=prefers-color-scheme][media*=dark]')
+
+const themeColorMetaElements = {
+  [THEMES.LIGHT]: lightThemeMeta,
+  [THEMES.DARK]: darkThemeMeta
+}
+
+const metaColors = {
+  [THEMES.LIGHT]: lightThemeMeta.content,
+  [THEMES.DARK]: darkThemeMeta.content,
+}
 
 const store = localStorage;
 
@@ -55,6 +67,10 @@ function applyTheme(theme = getCurrentTheme()) {
 
   if (toggleElement) {
     toggleElement.querySelector(`[value="${theme}"]`).checked = true
+  }
+
+  for (const [colorTheme, themeColorElement] of Object.entries(themeColorMetaElements)) {
+    themeColorElement.content = metaColors[theme === THEMES.AUTO ? colorTheme : theme]
   }
 }
 

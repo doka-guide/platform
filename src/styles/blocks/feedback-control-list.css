@@ -1,0 +1,12 @@
+.feedback-control-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  align-content: flex-start;
+  justify-content: center;
+  gap: 10px;
+  row-gap: 12px;
+  list-style: none;
+}
+
+.feedback-control-list__item {}
