@@ -1,4 +1,5 @@
 {% from "blocks/logo.njk" import logo %}
+{% from "blocks/footer.njk" import footer %}
 
 <div class="header header--simple header--static">
   <div class="header__inner header__inner--main">
@@ -24,4 +25,4 @@
   </div>
 </main>
 
-{% include "blocks/footer.njk" %}
+{{ footer() }}

@@ -1,4 +1,5 @@
 {% from "blocks/header.njk" import header %}
+{% from "blocks/footer.njk" import footer %}
 
 {% set isLogoContrastColor = hasCategory %}
 
@@ -88,7 +89,5 @@
     </main>
   </div>
 
-  <div class="index-block__footer">
-    {% include "blocks/footer.njk" %}
-  </div>
+  {{ footer(class="index-block__footer") }}
 </div>
