@@ -23,11 +23,12 @@ const MAX_VALUES_PER_FACET = 20
 const DELIMITER = '…'
 
 const SEARCHABLE_SHORT_WORDS = [
+  // HTML
   'a',
   'b',
   'br',
-  'dl',
   'dd',
+  'dl',
   'dt',
   'em',
   'h1',
@@ -42,9 +43,21 @@ const SEARCHABLE_SHORT_WORDS = [
   'ol',
   'p',
   'q',
+  'rb',
+  'rp',
+  'rt',
   's',
+  'td',
+  'th',
+  'tr',
+  'tt',
   'u',
-  'ul'
+  'ul',
+  // CSS
+  'px',
+  'em',
+  'in',
+  'pt',
 ]
 
 const UNKNOWN_CATEGORY = 'UNKNOWN_CATEGORY'
