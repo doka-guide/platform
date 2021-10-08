@@ -22,6 +22,31 @@ const SYMBOL_LIMIT = 150
 const MAX_VALUES_PER_FACET = 20
 const DELIMITER = '…'
 
+const SEARCHABLE_SHORT_WORDS = [
+  'a',
+  'b',
+  'br',
+  'dl',
+  'dd',
+  'dt',
+  'em',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'hr',
+  'i',
+  'li',
+  'ol',
+  'p',
+  'q',
+  's',
+  'u',
+  'ul'
+]
+
 const UNKNOWN_CATEGORY = 'UNKNOWN_CATEGORY'
 const HIT_ORDER = [
   'html',
@@ -209,7 +234,7 @@ function updateFacet() {
 }
 
 function makeSearchEffect(queryText) {
-  if (queryText.length >= MIN_SEARCH_SYMBOLS) {
+  if (SEARCHABLE_SHORT_WORDS.find(queryText) || queryText.length >= MIN_SEARCH_SYMBOLS) {
     startEffect()
     search(queryText)
       .then(function(searchObject) {
