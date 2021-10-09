@@ -54,10 +54,21 @@ const SEARCHABLE_SHORT_WORDS = [
   'u',
   'ul',
   // CSS
-  'px',
+  'ch',
+  'cm',
   'em',
+  'ex',
+  'ic',
   'in',
+  'lh',
+  'mm',
+  'ms',
+  'pc',
   'pt',
+  'px',
+  's',
+  'vh',
+  'vw',
 ]
 
 const UNKNOWN_CATEGORY = 'UNKNOWN_CATEGORY'
