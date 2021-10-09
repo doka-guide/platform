@@ -1,16 +1,31 @@
+{% macro practiceAuthorName(name, url) %}
+  {% if url %}
+    <a class="link" href="{{ url }}">{{ name }}</a>
+  {% else %}
+    {{ name }}
+  {% endif %}
+{% endmacro %}
+
 {% if practices.length > 0 %}
   <section class="practices" id="practices">
+    {{ practicesAuthors.length }}
     <h2 class="practices__title">
       В работе
     </h2>
 
     {% for practice in practices %}
+      {% set practiceAuthor = collections.peopleById[practice.fileSlug] %}
+
       <article id="practices-{{ practice.fileSlug }}">
-        <h3 class="practices__author">@{{ practice.fileSlug }}</h3>
+        <h3 class="practices__author">
+          {{ practiceAuthorName(
+            name=(practiceAuthor.data.name or practice.fileSlug),
+            url=practiceAuthor.data.url
+          ) }}
+        </h3>
         {{ practice.templateContent | safe }}
       </article>
     {% endfor %}
 
   </section>
 {% endif %}
-
