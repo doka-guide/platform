@@ -32,13 +32,12 @@ code[class*="language-"],
 pre[class*="language-"] {
   background: hsl(230, 1%, 98%);
   color: hsl(230, 8%, 24%);
-  font-family: "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  font-family: var(--font-family, "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace);
   direction: ltr;
   text-align: left;
   white-space: pre;
   word-spacing: normal;
   word-break: normal;
-  line-height: 1.5;
   -moz-tab-size: 2;
   -o-tab-size: 2;
   tab-size: 2;
@@ -198,7 +197,6 @@ pre[class*="language-"] {
 .language-markdown .token.blockquote.punctuation,
 .language-markdown .token.hr.punctuation {
   color: hsl(230, 4%, 64%);
-  font-style: italic;
 }
 
 .language-markdown .token.code-snippet {
@@ -221,14 +219,10 @@ pre[class*="language-"] {
 }
 
 /* General */
-.token.bold {
-  font-weight: bold;
-}
+.token.bold {}
 
 .token.comment,
-.token.italic {
-  font-style: italic;
-}
+.token.italic {}
 
 .token.entity {
   cursor: help;
