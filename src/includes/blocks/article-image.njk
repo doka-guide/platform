@@ -1,0 +1,31 @@
+{% macro articleImage(class, cover, authors) %}
+  {% set var = value %}
+  <div class="article-image {{ class if class }}">
+    <picture class="article-image__picture">
+      {% if cover.mobile %}
+        <source srcset="{{ cover.mobile }}" media="(max-width: 425px)" width="1080" height="1080">
+      {% endif %}
+      <img class="article-image__content" src="{{ cover.desktop }}" alt="{{ cover.alt }}" width="1920" height="1080">
+    </picture>
+    {% if (authors and authors.length > 0) %}
+      <div class="article-image__author">
+        Иллюстрация: {{ authorsList(authors=authors) }}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro articleAuthor(name, url) %}
+  {%- if url -%}
+    <a class="link" href="{{ url }}">{{ name }}</a>
+  {%- else -%}
+    <span>{{ name }}</span>
+  {%- endif -%}
+{% endmacro %}
+
+{% macro authorsList(authors) %}
+  {% set joinSymbol = joiner() %}
+  {% for author in authors -%}
+    {{ joinSymbol() }} {{ articleAuthor(name=author.data.name, url=author.data.url) }}
+  {%- endfor %}
+{% endmacro %}
