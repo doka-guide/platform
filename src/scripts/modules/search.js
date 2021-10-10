@@ -22,7 +22,7 @@ const SYMBOL_LIMIT = 150
 const MAX_VALUES_PER_FACET = 20
 const DELIMITER = '…'
 
-const SEARCHABLE_SHORT_WORDS = [
+const SEARCHABLE_SHORT_WORDS = new Set([
   // HTML
   'a',
   'b',
@@ -69,7 +69,7 @@ const SEARCHABLE_SHORT_WORDS = [
   's',
   'vh',
   'vw',
-]
+])
 
 const UNKNOWN_CATEGORY = 'UNKNOWN_CATEGORY'
 const HIT_ORDER = [
@@ -258,7 +258,7 @@ function updateFacet() {
 }
 
 function makeSearchEffect(queryText) {
-  if (queryText.length >= MIN_SEARCH_SYMBOLS || SEARCHABLE_SHORT_WORDS.includes(queryText)) {
+  if (queryText.length >= MIN_SEARCH_SYMBOLS || SEARCHABLE_SHORT_WORDS.has(queryText)) {
     startEffect()
     search(queryText)
       .then(function(searchObject) {
