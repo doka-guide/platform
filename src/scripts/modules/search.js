@@ -258,7 +258,7 @@ function updateFacet() {
 }
 
 function makeSearchEffect(queryText) {
-  if (SEARCHABLE_SHORT_WORDS.includes(queryText) || queryText.length >= MIN_SEARCH_SYMBOLS) {
+  if (queryText.length >= MIN_SEARCH_SYMBOLS || SEARCHABLE_SHORT_WORDS.includes(queryText)) {
     startEffect()
     search(queryText)
       .then(function(searchObject) {
