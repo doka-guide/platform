@@ -1,5 +1,5 @@
 .text-control {
-  --padding-block: calc(5 / 15 * 1em);
+  --input-line-height: var(--font-line-height-s, 24px);
   display: flex;
   align-items: flex-start;
   gap: 20px;
@@ -7,13 +7,13 @@
 
 .text-control__item {
   box-sizing: border-box;
-  padding-top: var(--padding-block);
-  padding-bottom: var(--padding-block);
+  padding-block: var(--padding-block);
   font: inherit;
+  line-height: var(--input-line-height);
 }
 
 .text-control__input {
-  --input-height: calc(var(--font-line-height-s, 20px) + 2 * var(--padding-block) + 2 * 1px);
+  --input-height: calc(var(--input-line-height) + 2 * var(--padding-block) + 2 * 1px);
   --border-color-opacity: calc(1 - var(--is-dark-theme-on) * 0.6);
   flex: 1 1 auto;
   box-sizing: border-box;
@@ -39,13 +39,54 @@
 
 .text-control__button {
   flex: 0 0 auto;
-  padding-left: calc(19 / 15 * 1em);
-  padding-right: calc(19 / 15 * 1em);
 }
 
 @media not all and (min-width: 768px) {
   .text-control {
+    --padding-block: 5px;
+    --input-line-height: calc(16 / 14 * 1em);
     flex-direction: column;
     align-items: center;
+  }
+
+  .text-control__item {
+  }
+
+  .text-control__button {
+    padding-inline: 19px;
+    line-height: inherit;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-control {
+    --padding-block: 0px; /* stylelint-disable length-zero-no-unit */
+    --input-line-height: var(--font-line-height-s);
+  }
+
+  .text-control__button {
+    padding-inline: 9px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .text-control {
+    --padding-block: 3px;
+    --input-line-height: calc(16 / 12 * 1em);
+  }
+
+  .text-control__button {
+    padding-inline: 19px;
+  }
+}
+
+@media (min-width: 1680px) {
+  .text-control {
+    --padding-block: 5px;
+    --input-line-height: var(--font-line-height-s);
+  }
+
+  .text-control__button {
+    padding-inline: 19px;
   }
 }
