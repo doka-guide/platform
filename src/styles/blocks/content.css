@@ -30,6 +30,7 @@
   display: block;
   width: 100%;
   border: 0;
+  background-color: #fff;
 }
 
 .content blockquote {
