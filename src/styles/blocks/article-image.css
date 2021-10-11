@@ -1,5 +1,7 @@
 .article-image {
   --aspect-ratio: 16 / 9;
+  display: grid;
+  grid-template-columns: 1fr auto;
 }
 
 .article-image__picture {
@@ -24,7 +26,9 @@
 }
 
 .article-image__author {
-  text-align: right;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: end;
   font-size: 0.64em;
   line-height: 1.25;
 }
