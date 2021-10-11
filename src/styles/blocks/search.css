@@ -147,8 +147,8 @@
 }
 
 @media not all and (min-width: 1024px) {
-  .search__suggestion-footer {
-    margin-top: 40px;
+  .search__full-link {
+    margin-top: 20px;
   }
 
   .search__suggestion-key {
