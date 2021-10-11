@@ -1,17 +1,26 @@
 <form class="header__search search font-theme font-theme--code" method="get" name="search-form" action="/search/" id="search-form">
-  <div class="search__control">
+  <label class="search__control">
     <input class="search__input" type="text" name="q" placeholder="Поиск" autocomplete="off">
+
+    <a class="search__algolia-link link font-theme font-theme--text" href="https://www.algolia.com/" target="_blank" rel="noopener noreferrer">
+      <span class="search__algolia-text">Поиск</span>
+      <span class="visually-hidden">Algolia</span>
+      <img class="search__algolia-logo" src="/images/algolia-logo.svg" width="100" height="25" alt="Логотип Algolia">
+    </a>
 
     <kbd class="hotkey search__key search__key--activate">/</kbd>
     <kbd class="hotkey search__key search__key--enter">↲</kbd>
-  </div>
+  </label>
 
   <div class="search__suggestion search__suggestion--hide">
     <div class="search__suggestion-content font-theme font-theme--text">
       <ul class="suggestion-list base-list"></ul>
     </div>
     <kbd class="search__suggestion-key hotkey">ESC</kbd>
-    <a class="search__full-link link font-theme font-theme--text" href="/search/">Расширенный поиск</a>
+
+    <div class="search__full-link font-theme font-theme--text">
+      <a class="link" href="/search/">Расширенный поиск</a>
+    </div>
   </div>
 
 </form>

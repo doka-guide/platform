@@ -18,24 +18,33 @@
   display: block;
   box-sizing: border-box;
   width: 100%;
-  height: var(--search-input-height, 1.25em);
+  height: 100%;
   border: 0;
-  padding: 0 10px;
+  padding: 0;
   font: inherit;
   letter-spacing: inherit;
   color: inherit;
-  border-radius: 6px;
-  background-color: hsl(0 0% 77% / 0.33);
+  background-color: transparent;
+}
+
+.search__input:focus {
+  outline: 0;
 }
 
 .search__control {
   position: relative;
-  display: grid;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-sizing: border-box;
+  height: var(--search-input-height, 1.25em);
+  padding: 0 10px;
+  border-radius: 6px;
+  background-color: hsl(0 0% 77% / 0.33);
 }
 
-.search__control > * {
-  grid-column: 1 / -1;
-  grid-row: 1 / -1;
+.search__control:focus-within {
+  box-shadow: 0 0 0 2px var(--color-base-css);
 }
 
 .search__input::placeholder {
@@ -46,16 +55,14 @@
 }
 
 .search__key {
+  flex: 0 0 auto;
   margin: 0 10px;
   place-self: center end;
 }
 
-.search__input:focus ~ .search__key--activate {
-  visibility: hidden;
-}
-
+.search__input:focus ~ .search__key--activate,
 .search__input:not(:focus) ~ .search__key--enter {
-  visibility: hidden;
+  display: none;
 }
 
 .search__output:not(:empty) + .search__placeholder {
@@ -107,20 +114,44 @@
 }
 
 .search__full-link {
-  flex-basis: 100%;
-  text-align: end;
+  flex: 1 1 100%;
+  text-align: right;
   font-size: var(--font-size-s);
   line-height: var(--font-line-height-s);
   font-family: var(--font-family);
   letter-spacing: normal;
 }
 
-@media not all and (min-width: 1024px) {
-  .search__suggestion-key {
+.search__algolia-link {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: var(--font-size-s);
+  line-height: 1;
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-spacing);
+}
+
+.search__algolia-logo {
+  position: relative;
+  top: 0.125em;
+  max-width: 4.5em;
+  height: auto;
+}
+
+@media not all and (min-width: 375px) {
+  .search__algolia-text {
     display: none;
   }
+}
 
-  .search__full-link {
-    margin-top: 20px;
+@media not all and (min-width: 1024px) {
+  .search__suggestion-footer {
+    margin-top: 40px;
+  }
+
+  .search__suggestion-key {
+    display: none;
   }
 }

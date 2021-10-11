@@ -74,8 +74,11 @@
 }
 
 .search-page__main {
+  box-sizing: border-box;
   padding: var(--offset);
-  max-width: 809px;
+  max-width: calc(809px - 2 * var(--offset));
+  width: 100%;
+  min-height: 100%;
 }
 
 .search-page__empty {}
