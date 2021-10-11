@@ -1,10 +1,13 @@
 const { baseUrl, mainSections } = require('../../config/constants')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
-function getPersons(personKey) {
+function getPersons(personGetter) {
   return function(data) {
     const { doc } = data
-    return doc.data[personKey]
+    const persons = typeof personGetter === 'function'
+      ? personGetter(doc)
+      : doc.data[personGetter]
+    return Array.isArray(persons) ? persons : [persons]
   }
 }
 
@@ -68,6 +71,10 @@ module.exports = {
     editors: getPersons('editors'),
 
     populatedEditors: getPopulatedPersons('editors'),
+
+    coverAuthors: getPersons(doc => doc.data?.cover?.author),
+
+    populatedCoverAuthors: getPopulatedPersons('coverAuthors'),
 
     docPath: function(data) {
       const { doc } = data
