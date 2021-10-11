@@ -23,6 +23,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development eleventy --serve --quiet",
     "build": "cross-env NODE_ENV=production eleventy --quiet && npx gulp",
+    "preview": "cross-env NODE_ENV=development eleventy --quiet && npx gulp",
     "netlify": "npx gulp setupContent && npm run build && npx gulp dropContent",
     "editorconfig": "editorconfig-checker",
     "test": "npm run editorconfig"
