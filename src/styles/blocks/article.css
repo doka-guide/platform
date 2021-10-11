@@ -286,8 +286,12 @@
     margin-bottom: 0;
   }
 
-  .contributors__item:not(:first-child) {
-    margin-top: 0;
+  .article__content {
+    display: contents;
+  }
+
+  .article__content-inner {
+    padding: inherit;
   }
 }
 

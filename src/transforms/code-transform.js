@@ -27,7 +27,7 @@ function highlightCode(source, language) {
  * @param {Window} window
  */
 module.exports = function(window) {
-  const articleContent = window.document.querySelector('.article__content')
+  const articleContent = window.document.querySelector('.article__content-inner')
 
   articleContent
     ?.querySelectorAll('pre[data-lang]')
