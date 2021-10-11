@@ -11,3 +11,9 @@
   margin: 0;
   display: inline;
 }
+
+@media not all and (min-width: 1024px) {
+  .contributors__item:not(:first-child) {
+    margin-top: 0;
+  }
+}

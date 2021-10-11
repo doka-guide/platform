@@ -19,8 +19,7 @@
 .doc__article {}
 
 .doc__feedback-form {
-  grid-column-start: 2;
-  grid-column-end: span 1;
+  order: 2;
   margin-left: auto;
   margin-right: auto;
   padding-left: var(--offset);

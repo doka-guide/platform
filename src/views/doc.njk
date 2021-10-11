@@ -99,16 +99,18 @@
           </footer>
         </div>
 
-        <div class="article__content doc__wrapper content">
-          {{ doc.templateContent | safe }}
-          {% include "practices.njk" %}
+        <div class="article__content doc__wrapper">
+          <div class="article__content-inner content">
+            {{ doc.templateContent | safe }}
+            {% include "practices.njk" %}
+          </div>
+
+          <aside class="doc__feedback-form">
+            {% include "feedback-form.njk" %}
+          </aside>
         </div>
       </div>
     </article>
-
-    <aside class="doc__feedback-form">
-      {% include "feedback-form.njk" %}
-    </aside>
   </main>
 
   <div class="doc__footer doc__wrapper">
