@@ -16,7 +16,7 @@ function getPopulatedPersons(personKey) {
     const { peopleById } = data.collections
     const personsIds = data[personKey] || []
 
-    return personsIds.map(personId => peopleById[personId]
+    return personsIds.filter(Boolean).map(personId => peopleById[personId]
       ? peopleById[personId]
       : {
           data: {
