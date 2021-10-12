@@ -41,7 +41,7 @@ jobs:
           echo "::set-output name=check_id::$check_run_id"
       - name: Установка модулей
         run: npm ci
-      - name: Сообщение начале публикации превью
+      - name: Сообщение о начале публикации превью
         uses: hasura/comment-progress@v2.1.0
         if: ${{ env.SURGE_TOKEN != '' }}
         with:
