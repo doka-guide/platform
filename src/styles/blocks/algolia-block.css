@@ -1,0 +1,18 @@
+.algolia-block {
+  text-decoration: none;
+  color: inherit;
+  font-size: var(--font-size-s);
+  line-height: var(--font-line-height-s);
+}
+
+.algolia-block__text {
+  margin-bottom: 4px;
+  display: block;
+}
+
+.algolia-block__image {
+  display: inline-block;
+  vertical-align: top;
+  width: 6em;
+  height: auto;
+}

@@ -14,8 +14,6 @@
 
 @media (min-width: 1024px) {
   .search-category {
-    position: sticky;
-    top: calc(var(--header-height, 0) * 1px);
     flex-direction: column;
     align-items: flex-start;
   }
