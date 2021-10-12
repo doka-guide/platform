@@ -130,8 +130,11 @@ module.exports = {
     },
 
     documentTitle: function(data) {
-      // удаляем символы обратных кавычек из markdown
-      const title = data.title.replace(/`/g, '')
+      // удаляем символы обратных кавычек и угловых скобок html-тегов из markdown
+      const title = data.title
+        .replace(/`/g, '')
+        .replace(/</g, '')
+        .replace(/>/g, '')
       return titleFormatter([title, data.categoryName, 'Дока'])
     },
 
