@@ -1,5 +1,6 @@
 {% from "blocks/header.njk" import header %}
 {% from "blocks/footer.njk" import footer %}
+{% from "blocks/article-image.njk" import articleImage %}
 
 {% set isLogoContrastColor = hasCategory %}
 
@@ -18,12 +19,7 @@
       <header class="article__header">
         <div class="article__header-inner doc__wrapper">
           {% if cover %}
-            <picture class="article__image">
-              {% if cover.mobile %}
-              <source srcset="{{ cover.mobile }}" media="(max-width: 425px)" width="1080" height="1080">
-              {% endif %}
-              <img class="article__image-content" src="{{ cover.desktop }}" alt="{{ cover.alt }}" width="1920" height="1080">
-            </picture>
+            {{ articleImage(class="article__image", cover=cover, authors=populatedCoverAuthors) }}
           {% endif %}
 
           <p class="article__category">
@@ -99,16 +95,18 @@
           </footer>
         </div>
 
-        <div class="article__content doc__wrapper content">
-          {{ doc.templateContent | safe }}
-          {% include "practices.njk" %}
+        <div class="article__content doc__wrapper">
+          <div class="article__content-inner content">
+            {{ doc.templateContent | safe }}
+            {% include "practices.njk" %}
+          </div>
+
+          <aside class="doc__feedback-form">
+            {% include "feedback-form.njk" %}
+          </aside>
         </div>
       </div>
     </article>
-
-    <aside class="doc__feedback-form">
-      {% include "feedback-form.njk" %}
-    </aside>
   </main>
 
   <div class="doc__footer doc__wrapper">

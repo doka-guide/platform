@@ -31,7 +31,7 @@ const baseConfig = {
  */
 module.exports = function(window, content, outputPath) {
   // замена img на picture внутри статьи
-  const articleContainer = window.document.querySelector('.article__content')
+  const articleContainer = window.document.querySelector('.article__content-inner')
   if (!articleContainer) {
     return
   }

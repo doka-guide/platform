@@ -5,7 +5,7 @@ const HeadingHierarchy = require('../libs/heading-hierarchy/heading-hierarchy')
  * @param {Window} window
  */
 module.exports = function(window) {
-   const articleContent = window.document.querySelector('.article__content')
+   const articleContent = window.document.querySelector('.article__content-inner')
 
    if (!articleContent) {
      return
