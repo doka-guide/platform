@@ -7,7 +7,8 @@ function getPersons(personGetter) {
     const persons = typeof personGetter === 'function'
       ? personGetter(doc)
       : doc.data[personGetter]
-    return Array.isArray(persons) ? persons : [persons]
+
+    return (Array.isArray(persons) ? persons : [persons]).filter(Boolean)
   }
 }
 
