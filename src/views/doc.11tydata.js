@@ -7,6 +7,11 @@ function getPersons(personGetter) {
     const persons = typeof personGetter === 'function'
       ? personGetter(doc)
       : doc.data[personGetter]
+
+    if (!persons) {
+      return [];
+    }
+
     return Array.isArray(persons) ? persons : [persons]
   }
 }
@@ -16,7 +21,7 @@ function getPopulatedPersons(personKey) {
     const { peopleById } = data.collections
     const personsIds = data[personKey] || []
 
-    return personsIds.filter(Boolean).map(personId => peopleById[personId]
+    return personsIds.map(personId => peopleById[personId]
       ? peopleById[personId]
       : {
           data: {
