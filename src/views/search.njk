@@ -39,12 +39,15 @@ title: 'Дока — Поиск'
   <aside class="search-page__aside">
     <div class="search-page__aside-inner">
       {% include "blocks/search-category.njk" %}
-      {% include "blocks/search-tags.njk" %}
 
-      <a class="algolia-block search-page__algolia" href="https://www.algolia.com/" target="_blank" rel="noopener noreferrer">
-        <div class="algolia-block__text">Поиск работает с помощью</div>
-        <img class="algolia-block__image" src="/images/algolia-logo.svg" width="" height="" alt="Логотип Algolia">
-      </a>
+      <div class="search-page__algolia">
+        <a class="algolia-block" href="https://www.algolia.com/" target="_blank" rel="noopener noreferrer">
+          <span class="algolia-block__text">Поиск работает с помощью</span>
+          <img class="algolia-block__image" src="/images/algolia-logo.svg" width="" height="" alt="Логотип Algolia">
+        </a>
+      </div>
+
+      {% include "blocks/search-tags.njk" %}
     </div>
 
     <button class="search-page__aside-button" type="button">
@@ -78,5 +81,3 @@ title: 'Дока — Поиск'
 
   {{ footer(class="search-page__footer") }}
 </div>
-
-
