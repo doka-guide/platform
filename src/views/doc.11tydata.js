@@ -8,11 +8,7 @@ function getPersons(personGetter) {
       ? personGetter(doc)
       : doc.data[personGetter]
 
-    if (!persons) {
-      return [];
-    }
-
-    return Array.isArray(persons) ? persons : [persons]
+    return (Array.isArray(persons) ? persons : [persons]).filter(Boolean)
   }
 }
 
