@@ -1,5 +1,6 @@
 .doc {
   --offset: 10px;
+  margin-right: calc(0px - (100vw - 100%));
 }
 
 .doc__wrapper {
