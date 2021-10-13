@@ -29,6 +29,14 @@ module.exports = {
       return data.baseUrl + data.pageUrl
     },
 
+    defaultOpenGraphPath: function(data) {
+      return data.fullPageUrl + 'images/covers/og.png'
+    },
+
+    defaultTwitterPath: function(data) {
+      return data.fullPageUrl + 'images/covers/twitter.png'
+    },
+
     featuredArticles: function(data) {
       // массив массивов
       const allFeaturedArticles = mainSections.map(section =>

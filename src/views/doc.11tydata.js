@@ -83,16 +83,6 @@ module.exports = {
       return doc.filePathStem.replace('/index', '')
     },
 
-    defaultOpenGraphPath: function(data) {
-      const { doc } = data
-      return doc.filePathStem.replace('/index', '/images/covers/og.png')
-    },
-
-    defaultTwitterPath: function(data) {
-      const { doc } = data
-      return doc.filePathStem.replace('/index', '/images/covers/twitter.png')
-    },
-
     category: function(data) {
       const { doc } = data
       return doc.filePathStem.split('/')[1]
