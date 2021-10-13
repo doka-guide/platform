@@ -47,6 +47,8 @@
 }
 
 .nav-list__link-text::after {
+  position: relative;
+  z-index: -1;
   content: '';
   display: block;
   height: var(--stroke-size);
