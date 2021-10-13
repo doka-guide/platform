@@ -28,7 +28,9 @@ function init() {
 
   document.addEventListener('keyup', (event) => {
     if (event.code === 'Slash') {
-      input?.focus()
+      setTimeout(() => {
+        input?.focus()
+      })
     }
   })
 
