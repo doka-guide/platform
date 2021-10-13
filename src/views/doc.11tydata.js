@@ -83,6 +83,16 @@ module.exports = {
       return doc.filePathStem.replace('/index', '')
     },
 
+    ogCoverPath: function(data) {
+      const { doc } = data
+      return doc.filePathStem.replace('/index', '/images/covers/og.png')
+    },
+
+    twitterCoverPath: function(data) {
+      const { doc } = data
+      return doc.filePathStem.replace('/index', '/images/covers/twitter.png')
+    },
+
     category: function(data) {
       const { doc } = data
       return doc.filePathStem.split('/')[1]
