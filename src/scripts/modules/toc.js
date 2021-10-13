@@ -1,6 +1,15 @@
+/*
+Описание алгоритма.
+
+Будем считать активной ту секцию статьи, середина заголовока которой находится
+выше середины экрана.
+При срабатывании Intersection Observer находим видимые заголовки,
+берём последний из них.
+Если таковых не оказалось берём ищем ближайший неактивный заголовок выше середины экрана
+*/
 function init() {
-  const links = document.querySelectorAll('.toc__link')
-  const titles = document.querySelectorAll('.article-heading__title')
+  const links = Array.from(document.querySelectorAll('.toc__link'))
+  const titles = Array.from(document.querySelectorAll('.article-heading__title'))
 
   if (!links.legnth && !titles.length) {
     return
@@ -8,10 +17,10 @@ function init() {
 
   const linksMap = {}
   const titlesMap = {}
-  let lastActiveElement = titles[0]
-  let lastScrollPosition = window.scrollY;
+  let lastActiveTitle
 
-  const activeClass = 'toc__link--active'
+  const activeLinkClass = 'toc__link--active'
+  const visibleHeadingClass = 'article-heading__title--visible'
 
   const threshold = 0.5
 
@@ -22,37 +31,33 @@ function init() {
 
   function findNearestTitle() {
     const halfWindowHeight = window.innerHeight / 2
-    return Array.from(titles)
+    return titles
       .filter(title => {
         const titleBox = title.getBoundingClientRect()
-        return titleBox.top - titleBox.height * threshold <= halfWindowHeight
+        const windowCenterPosition = halfWindowHeight
+        const titleCenterPosition = titleBox.top + titleBox.height * threshold
+        const titleIsAbove = titleCenterPosition < windowCenterPosition
+        return titleIsAbove
       })
       .pop()
   }
 
   function setActiveTitle(title) {
-    linksMap[lastActiveElement?.id]?.classList.remove(activeClass)
-    linksMap[title?.id]?.classList.add(activeClass)
-    lastActiveElement = title
+    linksMap[lastActiveTitle?.id]?.classList.remove(activeLinkClass)
+    linksMap[title?.id]?.classList.add(activeLinkClass)
+    lastActiveTitle = title
   }
 
   function observerCallback(entries) {
-    let scrollPosition = window.scrollY
-    const scrollDirection = scrollPosition - lastScrollPosition
-    lastScrollPosition = scrollPosition
+    for (const entry of entries) {
+      entry.target.classList.toggle(visibleHeadingClass, entry.isIntersecting)
+    }
 
-    const currentTitle = entries
-      .filter(entry => entry.isIntersecting)
-      .pop()
-      ?.target
+    const visibleTitles = titles.filter(title => title.classList.contains(visibleHeadingClass))
+    const lastVisibleTitle = visibleTitles.pop() || findNearestTitle()
 
-    if (currentTitle) {
-      setActiveTitle(currentTitle)
-    } else if (scrollDirection < 0) {
-      const lastTitleData = titlesMap[lastActiveElement?.id]
-      const newLastTitleIndex = lastTitleData?.index > 0 ? lastTitleData.index - 1 : 0
-      const newLastTitle = titles[newLastTitleIndex]
-      setActiveTitle(newLastTitle)
+    if (lastVisibleTitle) {
+      setActiveTitle(lastVisibleTitle)
     }
   }
 
@@ -97,14 +102,16 @@ function init() {
     observer.observe(title)
   })
 
-  const nearestTitle = findNearestTitle()
-  if (nearestTitle) {
-    setActiveTitle(nearestTitle)
-  }
+  window.addEventListener('load', () => {
+    const nearestTitle = findNearestTitle()
+    if (nearestTitle) {
+      setActiveTitle(nearestTitle)
+    }
 
-  if (window.location.hash) {
-    scrollToTitle(window.location.hash)
-  }
+    if (window.location.hash) {
+      scrollToTitle(window.location.hash)
+    }
+  })
 
   document.querySelector('.toc')?.addEventListener('click', event => {
     const link = event.target.closest('.toc__link')
