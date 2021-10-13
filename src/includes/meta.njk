@@ -6,29 +6,55 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, nofollow">
-
-<title>{{ documentTitle }}</title>
-
 <link rel="preload" href="/fonts/graphik/graphik-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/spot-mono/spot-mono-light.woff2" as="font" type="font/woff2" crossorigin>
 
-<meta itemprop="name" content="{{ documentTitle }}">
-<meta property="og:title" content="{{ documentTitle }}">
-<meta property="twitter:title" content="{{ documentTitle }}">
+<!-- Primary Meta Tags -->
+<title>{{ documentTitle }}</title>
+<meta name="title" content="{{ documentTitle }}">
 
-<link rel="canonical" href="{{ fullPageUrl }}">
+{% if doc.data.description %}
+  <meta name="description" content="{{ doc.data.description }}">
+{% endif %}
 
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
 <meta property="og:url" content="{{ fullPageUrl }}">
+<meta property="og:title" content="{{ documentTitle }}">
+
+{% if doc.data.description %}
+  <meta property="og:description" content="{{ doc.data.description }}">
+  <meta itemprop="description" content="{{ doc.data.description }}">
+{% endif %}
+
+{% if doc.data.cover.og %}
+  <meta property="og:image" content="{{ fullPageUrl }}/{{ doc.data.cover.og }}">
+{% endif %}
+
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Дока">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{{ fullPageUrl }}">
+<meta property="twitter:title" content="{{ documentTitle }}">
+
+{% if doc.data.description %}
+  <meta property="twitter:description" content="{{ doc.data.description }}">
+{% endif %}
+
+{% if doc.data.cover.twitter %}
+  <meta property="twitter:image" content="{{ fullPageUrl }}/{{ doc.data.cover.twitter }}">
+{% endif %}
+
 <meta property="twitter:card" content="summary">
 <meta property="twitter:site" content="@doka_guide">
 
-{% if doc.data.description %}
-  <meta itemprop="description" content="{{ doc.data.description }}">
-  <meta property="og:description" content="{{ doc.data.description }}">
-  <meta property="twitter:description" content="{{ doc.data.description }}">
-{% endif %}
+<!-- Preload -->
+<link rel="preload" href="/fonts/graphik/graphik-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/spot-mono/spot-mono-light.woff2" as="font" type="font/woff2" crossorigin>
+
+<!-- Microdata -->
 
 {% if articleCategory %}
   <meta property="article:tag" content="{{ articleCategory }}">
@@ -36,22 +62,6 @@
 
 {% if articleTag %}
   <meta property="article:tag" content="{{ articleTag }}">
-{% endif %}
-
-{% if doc.data.cover.og %}
-  <meta itemprop="image" content="{{ fullPageUrl }}/{{ doc.data.cover.og }}">
-  <meta property="og:image" content="{{ fullPageUrl }}/{{ doc.data.cover.og }}">
-  <meta property="og:image:alt" content="{{ doc.data.cover.alt }}">
-{% else %}
-  <meta itemprop="image" content="{{ fullPageUrl }}images/covers/og.png">
-  <meta property="og:image" content="{{ fullPageUrl }}images/covers/og.png">
-{% endif %}
-
-{% if doc.data.cover.twitter %}
-  <meta property="twitter:image" content="{{ fullPageUrl }}/{{ doc.data.cover.twitter }}">
-  <meta property="twitter:image:alt" content="{{ doc.data.cover.alt }}">
-{% else %}
-  <meta property="twitter:image" content="{{ fullPageUrl }}images/covers/twitter.png">
 {% endif %}
 
 {% if pageType === 'Article' %}
@@ -86,10 +96,14 @@
 
 <link rel="canonical" href="{{ baseUrl }}{{ page.url }}">
 
+<!-- Icons -->
+
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" href="/images/icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/images/icons/180x180.png">
 <link rel="manifest" href="/manifest.json">
+
+<!-- Styles -->
 
 <meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="/styles/index.css">
