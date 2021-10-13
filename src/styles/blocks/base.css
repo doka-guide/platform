@@ -12,3 +12,7 @@
   margin: 0;
   overflow-x: hidden;
 }
+
+.base__body--disallow-scroll {
+  overflow-y: hidden;
+}

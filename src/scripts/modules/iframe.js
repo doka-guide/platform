@@ -7,13 +7,13 @@ function init() {
 
   for (const iframe of iframes) {
     for (const attr of iframe.attributes) {
-      if (attr.name === 'disallow-page-scroll') {
+      if (attr.name === 'data-disallow-page-scroll') {
         iframe.addEventListener('mouseenter', () => {
-          document.body.style.overflowY = 'hidden';
+          document.body.classList.add('base__body--disallow-scroll');
         })
 
         iframe.addEventListener('mouseleave', () => {
-          document.body.style.overflowY = '';
+          document.body.classList.remove('base__body--disallow-scroll');
         })
       }
     }
