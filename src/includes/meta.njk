@@ -31,7 +31,7 @@
 {% if doc.data.cover.og %}
   <meta property="og:image" content="{{ fullPageUrl }}/{{ doc.data.cover.og }}">
 {% else %}
-  <meta property="og:image" content="{{ ogCoverPath }}">
+  <meta property="og:image" content="{{ defaultOpenGraphPath }}">
 {% endif %}
 
 <meta property="og:locale" content="ru_RU">
@@ -49,7 +49,7 @@
 {% if doc.data.cover.twitter %}
   <meta property="twitter:image" content="{{ fullPageUrl }}/{{ doc.data.cover.twitter }}">
 {% else %}
-  <meta property="twitter:image" content="{{ twitterCoverPath }}">
+  <meta property="twitter:image" content="{{ defaultTwitterPath }}">
 {% endif %}
 
 <meta property="twitter:card" content="summary">
