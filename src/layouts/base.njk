@@ -1,9 +1,9 @@
-{% set rootStyles %}
-  {% if category %}
+{% if category %}
+  {% set rootStyles %}
     --accent-color: var(--color-{{ category }});
     --accent-base-color: var(--color-base-{{ category }});
-  {% endif %}
-{% endset %}
+  {% endset %}
+{% endif %}
 
 <!DOCTYPE html>
 <html
