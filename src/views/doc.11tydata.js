@@ -85,18 +85,18 @@ module.exports = {
 
     defaultOpenGraphPath: function(data) {
       const { doc } = data
-      if (doc.data.cover && doc.data.cover.og)
+      if (doc.data.cover && doc.data.cover.og) {
         return baseUrl + doc.filePathStem.replace('/index', '') + '/' + doc.data.cover.og
-      else {
+      } else {
         return data.fullPageUrl + 'images/covers/og.png'
       }
     },
 
     defaultTwitterPath: function(data) {
       const { doc } = data
-      if (doc.data.cover && doc.data.cover.twitter)
+      if (doc.data.cover && doc.data.cover.twitter) {
         return baseUrl + doc.filePathStem.replace('/index', '') + '/' + doc.data.cover.twitter
-      else {
+      } else {
         return data.fullPageUrl + 'images/covers/twitter.png'
       }
     },
