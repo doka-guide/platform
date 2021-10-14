@@ -33,20 +33,20 @@
 
 <dl class="contributors">
   <div class="contributors__item">
-    <dt class="contributors__key">Авторы</dt>
+    <dt class="contributors__key">Авторы:</dt>
     <dd class="contributors__value">{{ personsList(list=populatedAuthors) }}</dd>
   </div>
 
   {% if populatedContributors.length > 0 %}
     <div class="contributors__item">
-      <dt class="contributors__key">Контрибьюторы</dt>
+      <dt class="contributors__key">Контрибьюторы:</dt>
       <dd class="contributors__value">{{ personsList(list=populatedContributors) }}</dd>
     </div>
   {% endif %}
 
   {% if populatedEditors.length > 0 %}
     <div class="contributors__item">
-      <dt class="contributors__key">Редакторы</dt>
+      <dt class="contributors__key">Редакторы:</dt>
       <dd class="contributors__value">{{ personsList(list=populatedEditors) }}</dd>
     </div>
   {% endif %}
