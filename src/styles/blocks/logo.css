@@ -2,7 +2,7 @@
   --ligthness: calc(var(--is-light-theme-on) * 90% + var(--is-dark-theme-on) * 25%);
   --logo-background-color: hsl(0 0% var(--ligthness));
   --image-font-size: 0.9375em;
-  --logo-letter-spacing: -0.34em;
+  --logo-letter-spacing: -0.14em;
   --image-padding: calc(2 / 18.75 * 1em) calc(6 / 18.75 * 1em) 0;
   display: inline-flex;
   white-space: nowrap;
