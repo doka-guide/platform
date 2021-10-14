@@ -29,6 +29,11 @@
   text-decoration: none;
 }
 
+.logo__eye {
+  position: relative;
+  top: -0.05em;
+}
+
 .logo__text {
   --stroke-width: 2px;
   margin-left: 6px;
