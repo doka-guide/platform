@@ -83,6 +83,24 @@ module.exports = {
       return doc.filePathStem.replace('/index', '')
     },
 
+    defaultOpenGraphPath: function(data) {
+      const { doc } = data
+      if (doc.data.cover && doc.data.cover.og)
+        return baseUrl + doc.filePathStem.replace('/index', '') + '/' + doc.data.cover.og
+      else {
+        return data.fullPageUrl + 'images/covers/og.png'
+      }
+    },
+
+    defaultTwitterPath: function(data) {
+      const { doc } = data
+      if (doc.data.cover && doc.data.cover.twitter)
+        return baseUrl + doc.filePathStem.replace('/index', '') + '/' + doc.data.cover.twitter
+      else {
+        return data.fullPageUrl + 'images/covers/twitter.png'
+      }
+    },
+
     category: function(data) {
       const { doc } = data
       return doc.filePathStem.split('/')[1]

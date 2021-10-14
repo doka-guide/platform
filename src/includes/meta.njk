@@ -28,12 +28,7 @@
   <meta itemprop="description" content="{{ doc.data.description }}">
 {% endif %}
 
-{% if doc.data.cover.og %}
-  <meta property="og:image" content="{{ fullPageUrl }}/{{ doc.data.cover.og }}">
-{% else %}
-  <meta property="og:image" content="{{ defaultOpenGraphPath }}">
-{% endif %}
-
+<meta property="og:image" content="{{ defaultOpenGraphPath }}">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Дока">
 
@@ -46,12 +41,7 @@
   <meta property="twitter:description" content="{{ doc.data.description }}">
 {% endif %}
 
-{% if doc.data.cover.twitter %}
-  <meta property="twitter:image" content="{{ fullPageUrl }}/{{ doc.data.cover.twitter }}">
-{% else %}
-  <meta property="twitter:image" content="{{ defaultTwitterPath }}">
-{% endif %}
-
+<meta property="twitter:image" content="{{ defaultTwitterPath }}">
 <meta property="twitter:card" content="summary">
 <meta property="twitter:site" content="@doka_guide">
 
