@@ -4,7 +4,7 @@ permalink: '/search/'
 title: 'Дока — Поиск'
 ---
 {% from "blocks/header.njk" import header, divider %}
-{% from "blocks/footer.njk" import footer %}
+{% from "blocks/footer.njk" import footer with context%}
 {% from "blocks/logo.njk" import logo %}
 
 {% set isLogoContrastColor = hasCategory %}

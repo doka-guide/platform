@@ -1,5 +1,5 @@
 {% from "blocks/header.njk" import header %}
-{% from "blocks/footer.njk" import footer %}
+{% from "blocks/footer.njk" import footer with context %}
 {% from "blocks/article-image.njk" import articleImage %}
 
 {% set isLogoContrastColor = hasCategory %}
@@ -80,7 +80,7 @@
             </svg>
             {% endset %}
 
-            <a class="article__edit-button button" href="{% contentRepLink %}/blob/main{{ docPath }}" target="_blank">
+            <a class="article__edit-button button" href="{{ constants.contentRepLink }}/blob/main{{ docPath }}" target="_blank">
               Редактировать на {{ githubicon | safe }}  GitHub
             </a>
 

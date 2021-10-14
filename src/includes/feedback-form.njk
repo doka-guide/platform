@@ -1,4 +1,4 @@
-<form class="feedback-form" name="{{ feedbackFormName }}" method="post" autocomplete="off" data-state="idle" data-netlify="true">
+<form class="feedback-form" name="{{ constants.feedbackFormName }}" method="post" autocomplete="off" data-state="idle" data-netlify="true">
   <div class="feedback-form__header font-theme font-theme--code">
     <div class="feedback-form__title" data-state="idle">Статья была полезной?</div>
     <div class="feedback-form__title feedback-form__title--success" data-state="success">Спасибо</div>
@@ -62,7 +62,7 @@
   </fieldset>
 
   <p class="feedback-form__description">
-    Если вы нашли ошибку, отправьте нам <a class="link" href="{% contentRepLink %}">пул-реквест</a>!
+    Если вы нашли ошибку, отправьте нам <a class="link" href="{{ constants.contentRepLink }}">пул-реквест</a>!
   </p>
 
   <p class="feedback-form__error" data-state="error">
