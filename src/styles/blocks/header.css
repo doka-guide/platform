@@ -180,18 +180,6 @@
   }
 }
 
-.header--fixed::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 100%;
-  margin-top: -1px;
-  height: 40px;
-  background: linear-gradient(var(--color-background), hsl(var(--color-base-background) / 0));
-  pointer-events: none;
-}
-
 .header:not(.header--fixed) .header__title {
   display: none;
 }
