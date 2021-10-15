@@ -28,7 +28,7 @@ module.exports = function(window, content, outputPath) {
         ${iframe.outerHTML}
         <figcaption class="figure__caption">
           <a class="link" href="/${baseSourcePath}/${iframeSourceLink}" target="_blank" rel="noopener noreferrer">
-            Открыть демо в новом окне
+            Открыть демо в новой вкладке
           </a>
         </figcaption>
       `
