@@ -1,0 +1,15 @@
+.figure {
+  margin-inline: 0;
+}
+
+.figure__content {
+  margin: 0;
+}
+
+.figure__caption {
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-s);
+  line-height: var(--font-line-height-s);
+}
