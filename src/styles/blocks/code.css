@@ -1,5 +1,6 @@
 .code {
   padding: 0.025em 0.35em;
+  overflow-wrap: break-word;
   font-size: var(--font-size-m);
   line-height: var(--font-line-height-m);
   font-family: var(--font-family);
