@@ -118,7 +118,7 @@
   }
 }
 
-@supports (filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25))) {
+@supports (filter: drop-shadow(0 0)) {
   .article-nav__button-icon {
     box-shadow: none;
     filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
