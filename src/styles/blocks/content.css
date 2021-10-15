@@ -20,9 +20,9 @@
   margin-bottom: 10px;
 }
 
-.content > img,
-.content > video,
-.content > audio {
+.content img,
+.content video,
+.content audio {
   display: block;
   max-width: 100%;
   height: auto;
