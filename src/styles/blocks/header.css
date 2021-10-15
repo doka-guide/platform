@@ -153,7 +153,6 @@
 
 .header--fixed {
   position: sticky;
-  z-index: 1;
   top: 0;
 }
 
@@ -198,6 +197,10 @@
 
 .header--simple.header--fixed::after {
   border-top: 1px solid;
+}
+
+.header--open {
+  z-index: 2;
 }
 
 .header--open::after {
