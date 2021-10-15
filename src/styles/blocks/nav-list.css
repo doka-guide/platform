@@ -48,6 +48,8 @@
 
 .nav-list__link-text::after {
   content: '';
+  position: relative;
+  z-index: -1;
   display: block;
   height: var(--stroke-size);
   background-color: var(--accent-color);

@@ -23,6 +23,18 @@ function init() {
       section.hidden = section.id !== view
     })
   })
+
+  // Chrome иногда не прокручивает до anchor-блока, если в адресной строке нажать enter
+  const isChrome = /Chrome/.test(navigator.userAgent)
+  const hash = window.location.hash
+  if (isChrome && hash) {
+    window.addEventListener('load', () => {
+      document.querySelector(hash)?.scrollIntoView({
+        block: 'center',
+        behavior: 'smooth'
+      })
+    })
+  }
 }
 
 init()

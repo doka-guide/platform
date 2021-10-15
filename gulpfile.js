@@ -12,6 +12,8 @@ const esbuild = require('gulp-esbuild')
 const del = require('del')
 const rev = require('gulp-rev')
 const revRewrite = require('gulp-rev-rewrite')
+const puppeteer = require('puppeteer')
+const tap = require('gulp-tap')
 
 const { contentRepGithub, contentRepFolders } = require(path.join(__dirname, 'config/constants'))
 
@@ -27,7 +29,7 @@ const makeLinks = shell.task(`node make-links.js --default`, {
 // Styles
 
 const styles = () => {
-  return gulp.src('src/styles/{index.css,dark-theme.css}')
+  return gulp.src('src/styles/{index.css,index.sc.css,dark-theme.css}')
     .pipe(postcss([
       pimport,
       autoprefixer,
@@ -75,6 +77,7 @@ const clean = () => {
 }
 
 // Cache
+
 const cacheHash = () => {
   return gulp
     .src('dist/**/*.{css,js}')
@@ -104,6 +107,88 @@ exports.dropContent = () => del([
   'content',
   ...contentRepFolders.map(folder => `src/${folder}`),
 ])
+
+// Social cards
+
+const socialCards = () => {
+  const files = []
+  return gulp.src('dist/{css,html,js,tools}/**/index.sc.html')
+    .pipe(
+      tap((file) => {
+        files.push(file)
+      })
+    )
+    .on('end', async () => {
+      const browser = await puppeteer.launch({ headless: true })
+      const page = await browser.newPage()
+
+      for (let i = 0, len = files.length; i < len; i++) {
+        const file = files[i]
+        const imagePath = file.path.replace('index.sc.html', 'images/covers/')
+
+        if (!fs.existsSync(imagePath.replace('covers/', ''))){
+          fs.mkdirSync(imagePath.replace('covers/', ''))
+          if (!fs.existsSync(imagePath)){
+            fs.mkdirSync(imagePath)
+          }
+        } else {
+          if (!fs.existsSync(imagePath)){
+            fs.mkdirSync(imagePath)
+          }
+        }
+
+        await page.goto('file://' + file.path)
+
+        await page.setViewport({
+          width: 1200,
+          height: 630,
+          deviceScaleFactor: 1,
+        })
+
+        await page.screenshot({
+          path: path.join(
+            imagePath,
+            'og.png'
+          ),
+          type: 'png',
+          clip: {
+            x: 0,
+            y: 0,
+            width: 1200,
+            height: 630
+          }
+        })
+        console.log(`Картина ${imagePath}og.png создана`)
+
+        await page.setViewport({
+          width: 1024,
+          height: 1024,
+          deviceScaleFactor: 1,
+        })
+
+        await page.screenshot({
+          path: path.join(
+            imagePath,
+            'twitter.png'
+          ),
+          type: 'png',
+          clip: {
+            x: 0,
+            y: 0,
+            width: 1024,
+            height: 1024
+          }
+        })
+        console.log(`Картина ${imagePath}twitter.png создана`)
+      }
+
+      await browser.close()
+    })
+}
+
+// Build social cards
+
+exports.socialCards = socialCards
 
 // Default
 exports.default = gulp.series(

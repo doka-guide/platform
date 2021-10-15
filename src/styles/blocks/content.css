@@ -13,7 +13,9 @@
   margin-bottom: 0;
 }
 
-.content > p {
+.content > p,
+.content > ul,
+.content > ol {
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -33,7 +35,7 @@
   background-color: #fff;
 }
 
-.content blockquote {
+.content > blockquote {
   margin-left: 0;
   position: relative;
   z-index: 0;
@@ -42,7 +44,7 @@
   border-radius: 0 6px 6px 0;
 }
 
-.content blockquote::before {
+.content > blockquote::before {
   content: '';
   opacity:
     calc(
@@ -50,11 +52,12 @@
       0.4 * var(--is-dark-theme-on)
     );
   position: absolute;
+  z-index: -1;
   inset: 0;
   background-color: var(--accent-color);
 }
 
-.content blockquote::after {
+.content > blockquote::after {
   content: '';
   position: absolute;
   top: 0;
@@ -64,39 +67,14 @@
   background-color: var(--accent-color);
 }
 
-.content table {
-  border-collapse: collapse;
-}
-
-.content table th,
-.content table td {
-  text-align: start;
-  padding: 0.25em 0.5em;
-  border: 1px solid var(--color-fade);
-}
-
-.content table thead th {
-  position: relative;
-  z-index: 0;
-}
-
-.content table thead th::before {
-  content: '';
-  opacity: 0.6;
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background-color: var(--color-fade);
-}
-
-.content img,
-.content video,
-.content audio,
-.content iframe,
-.content details,
-.content blockquote,
-.content table,
-.content .callout {
+.content > img,
+.content > video,
+.content > audio,
+.content > iframe,
+.content > details,
+.content > blockquote,
+.content > table,
+.content > .callout {
   margin-block: var(--offset);
 }
 
@@ -105,7 +83,7 @@
 }
 
 @media (max-height: 640px) {
-  .content iframe {
+  .content > iframe {
     max-height: calc(100vh - var(--header-height, 0) * 1px - 3em);
   }
 }

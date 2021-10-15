@@ -28,7 +28,9 @@ function init() {
 
   document.addEventListener('keyup', (event) => {
     if (event.code === 'Slash') {
-      input?.focus()
+      setTimeout(() => {
+        input?.focus()
+      })
     }
   })
 
@@ -82,6 +84,16 @@ function init() {
     return header.classList.contains(headerActiveClass)
   }
 
+  function fixHeader(flag) {
+    header.classList.toggle('header--fixed', flag)
+    document.documentElement.style.setProperty('--is-header-fixed', Number(flag))
+    calculateHeaderHeight()
+  }
+
+  function isHeaderFixed() {
+    return header.classList.contains('header--fixed')
+  }
+
   toggleButtons.forEach(button => {
     button.addEventListener('click', () => {
       isHeaderOpen() ? closeHeader() : openHeader()
@@ -94,30 +106,32 @@ function init() {
 
   function checkFixed() {
     if (window.scrollY > scrollThreshold * window.innerHeight) {
-      if (header.classList.contains('header--fixed')) return
+      if (isHeaderFixed()) return
 
       header.addEventListener('animationend', event => {
         if (event.animationName !== 'fixedHeaderAnimation') return
         header.classList.remove('header--animating', 'header--fixed-show')
       }, { once: true })
 
-      header.classList.add('header--fixed', 'header--animating', 'header--fixed-show')
+      fixHeader(true)
+      header.classList.add('header--animating', 'header--fixed-show')
       articleAside?.classList.add('article__aside--offset')
 
     } else {
-      if (!header.classList.contains('header--fixed')) return
+      if (!isHeaderFixed()) return
 
       // если скроллить очень быстро, то не нужно показывать анимацию скрытия
       // 4 - "магическое число"
       if (window.scrollY <= headerHeight * 4) {
         articleAside?.classList.remove('article__aside--offset')
-        header.classList.remove('header--fixed')
+        fixHeader(false)
         return
       }
 
       header.addEventListener('animationend', event => {
         if (event.animationName !== 'fixedHeaderAnimation') return
-        header.classList.remove('header--fixed', 'header--animating', 'header--fixed-hide')
+        fixHeader(false)
+        header.classList.remove('header--animating', 'header--fixed-hide')
       }, { once: true })
 
       header.classList.add('header--animating', 'header--fixed-hide')

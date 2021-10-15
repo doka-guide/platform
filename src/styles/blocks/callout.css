@@ -1,5 +1,6 @@
 .callout {
   --padding: 10px;
+  --code-lines-background: var(--color-fade);
   display: flex;
   align-items: baseline;
   gap: 10px;
@@ -20,6 +21,14 @@
 
 .callout__content > * {
   max-width: 100%;
+}
+
+.callout__content > *:first-child {
+  margin-top: 0;
+}
+
+.callout__content > *:last-child {
+  margin-bottom: 0;
 }
 
 .callout__content .code {

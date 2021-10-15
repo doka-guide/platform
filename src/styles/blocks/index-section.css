@@ -1,13 +1,18 @@
 .index-section {
   --offset: 10px;
   --gutter: 40px;
-  overflow: hidden;
+  --column-breakpoint: 15em;
   padding: var(--offset);
-  column-gap: var(--offset);
-  column-width: 15em;
   line-height: 1.25;
   animation: showIndexSection 0.4s both;
   will-change: transform, opacity;
+}
+
+.index-section:not([hidden]) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--column-breakpoint)), 1fr));
+  column-gap: var(--offset);
+  align-items: start;
 }
 
 @keyframes showIndexSection {

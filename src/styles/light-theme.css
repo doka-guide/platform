@@ -1,5 +1,7 @@
 /* настройки светлой темы (тема по умолчанию) */
 :root {
+  color-scheme: light;
+
   --is-light-theme-on: 1;
   --is-dark-theme-on: 0;
 

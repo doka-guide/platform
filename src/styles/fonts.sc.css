@@ -1,0 +1,31 @@
+@font-face {
+  font-family: 'Graphik';
+  src: url('../fonts/graphik/graphik-regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'Graphik';
+  src: url('../fonts/graphik/graphik-regular-italic.woff2') format('woff2');
+  font-style: italic;
+  font-weight: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'Graphik';
+  src: url('../fonts/graphik/graphik-medium.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'Spot Mono';
+  src: url('../fonts/spot-mono/spot-mono-light.woff2') format('woff2');
+  font-style: normal;
+  font-weight: normal;
+  font-display: fallback;
+}

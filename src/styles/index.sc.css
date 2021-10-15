@@ -1,10 +1,9 @@
 @charset 'utf-8';
 
-@import 'fonts.css';
+@import 'fonts.sc.css';
 @import 'base-colors.css';
 @import 'light-theme.css';
 @import 'code-light-theme.css';
-@import 'blocks/algolia-block.css';
 @import 'blocks/visually-hidden.css';
 @import 'blocks/base-list.css';
 @import 'blocks/container.css';
@@ -12,7 +11,6 @@
 @import 'blocks/link.css';
 @import 'blocks/code.css';
 @import 'blocks/button.css';
-@import 'blocks/control.css';
 @import 'blocks/base.css';
 @import 'blocks/logo.css';
 @import 'blocks/hotkey.css';
@@ -40,11 +38,8 @@
 @import 'blocks/code-block.css';
 @import 'blocks/format-block.css';
 @import 'blocks/vote.css';
-@import 'blocks/feedback-control-list.css';
-@import 'blocks/text-control.css';
 @import 'blocks/feedback-form.css';
 @import 'blocks/callout.css';
-@import 'blocks/figure.css';
 @import 'blocks/articles-group.css';
 @import 'blocks/index-section.css';
 @import 'blocks/index-block.css';
@@ -61,7 +56,3 @@
 @import 'blocks/not-found.css';
 @import 'blocks/social-card.css';
 @import 'blocks/suggestion-list.css';
-@import 'blocks/notification.css';
-@import 'blocks/cookie-notification.css';
-@import 'blocks/table-wrapper.css';
-@import 'blocks/article-image.css';

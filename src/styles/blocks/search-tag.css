@@ -4,13 +4,14 @@
   border: 0;
   display: flex;
   justify-content: center;
-  font-size: var(--font-size-s);
-  line-height: var(--font-line-height-s);
 }
 
 .search-tag__legend {}
 
-.search-tag__switch {}
+.search-tag__switch {
+  font-size: var(--font-size-s);
+  line-height: var(--font-line-height-s);
+}
 
 @media not all and (min-width: 1024px) {
   .search-tag__legend {
@@ -20,8 +21,6 @@
 
 @media (min-width: 1024px) {
   .search-tag {
-    position: sticky;
-    bottom: 0;
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;

@@ -23,7 +23,9 @@
             url=practiceAuthor.data.url
           ) }}
         </h3>
-        {{ practice.templateContent | safe }}
+        <div class="content">
+          {{ practice.templateContent | safe }}
+        </div>
       </article>
     {% endfor %}
 

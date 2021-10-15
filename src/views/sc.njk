@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html class="base font-theme" lang="{{ meta.lang }}" itemscope itemtype="https://schema.org/{{ pageType }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="../../styles/index.sc.css">
+    <link rel="stylesheet" href="../../styles/dark-theme.css" media="(prefers-color-scheme: dark)">
+  </head>
+  <body class="base__body {{ bodyClass }}">
+
+    {% from "blocks/logo.njk" import logo %}
+
+    {% set isLogoContrastColor = hasCategory %}
+
+    {% macro divider(isLarge) %}
+      <span class="header__divider {% if isLarge %}header__divider--large{% endif %} font-theme font-theme--code" aria-hidden="true"></span>
+    {% endmacro %}
+
+    {% from "blocks/social-card.njk" import socialCard %}
+    {{ socialCard(category, categoryName, link, title, description, doc.templateContent) }}
+  </body>
+</html>

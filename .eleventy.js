@@ -4,13 +4,7 @@ const markdownIt = require('markdown-it')
 const markdownItContainer = require('markdown-it-container')
 const { parseHTML } = require('linkedom')
 const { isProdEnv } = require('./config/env')
-const {
-  mainSections,
-  dokaOrgLink,
-  platformRepLink,
-  contentRepLink,
-  feedbackFormName
-} = require('./config/constants.js')
+const { mainSections } = require('./config/constants.js')
 const demoLinkTransform = require('./src/transforms/demo-link-transform');
 const imageTransform = require('./src/transforms/image-transform');
 const headingsTransform = require('./src/transforms/headings-transform');
@@ -20,6 +14,7 @@ const linkTransform = require('./src/transforms/link-transform');
 const imageParagraphTransform = require('./src/transforms/image-paragraph-transform');
 const iframeAttrTransform = require('./src/transforms/iframe-attr-transform');
 const tableTransform = require('./src/transforms/table-transform');
+const demoExternalLinkTransform = require('./src/transforms/demo-external-link-transform');
 
 module.exports = function(config) {
   config.setDataDeepMerge(true)
@@ -138,23 +133,6 @@ module.exports = function(config) {
 
   config.setLibrary('md', markdownLibrary)
 
-  // Add all shortcodes
-  config.addShortcode('dokaOrgLink', function() {
-    return dokaOrgLink;
-  });
-
-  config.addShortcode('platformRepLink', function() {
-    return platformRepLink;
-  });
-
-  config.addShortcode('contentRepLink', function() {
-    return contentRepLink;
-  })
-
-  config.addShortcode('feedbackFormName', function() {
-    return feedbackFormName;
-  })
-
   config.addNunjucksShortcode('readingTime', (text) => {
     let textLength = text.split(' ').length
     const wordsPerMinute = 150
@@ -223,6 +201,7 @@ module.exports = function(config) {
       codeTransform,
       iframeAttrTransform,
       tableTransform,
+      demoExternalLinkTransform,
     ].filter(Boolean)
 
     config.addTransform('html-transforms', async (content, outputPath) => {

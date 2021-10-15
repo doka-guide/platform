@@ -7,7 +7,8 @@ function getPersons(personGetter) {
     const persons = typeof personGetter === 'function'
       ? personGetter(doc)
       : doc.data[personGetter]
-    return Array.isArray(persons) ? persons : [persons]
+
+    return (Array.isArray(persons) ? persons : [persons]).filter(Boolean)
   }
 }
 
@@ -82,6 +83,24 @@ module.exports = {
       return doc.filePathStem.replace('/index', '')
     },
 
+    defaultOpenGraphPath: function(data) {
+      const { doc, docPath } = data
+      if (doc.data?.cover?.og) {
+        return baseUrl + docPath + '/' + doc.data.cover.og
+      } else {
+        return data.fullPageUrl + 'images/covers/og.png'
+      }
+    },
+
+    defaultTwitterPath: function(data) {
+      const { doc, docPath } = data
+      if (doc.data?.cover?.twitter) {
+        return baseUrl + docPath + '/' + doc.data.cover.twitter
+      } else {
+        return data.fullPageUrl + 'images/covers/twitter.png'
+      }
+    },
+
     category: function(data) {
       const { doc } = data
       return doc.filePathStem.split('/')[1]
@@ -130,8 +149,11 @@ module.exports = {
     },
 
     documentTitle: function(data) {
-      // удаляем символы обратных кавычек из markdown
-      const title = data.title.replace(/`/g, '')
+      // удаляем символы обратных кавычек и угловых скобок html-тегов из markdown
+      const title = data.title
+        .replace(/`/g, '')
+        .replace(/</g, '')
+        .replace(/>/g, '')
       return titleFormatter([title, data.categoryName, 'Дока'])
     },
 
