@@ -2,6 +2,8 @@
 
 /* настройки для тёмной темы */
 :root {
+  color-scheme: dark;
+
   --is-light-theme-on: 0;
   --is-dark-theme-on: 1;
 
