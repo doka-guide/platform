@@ -30,6 +30,8 @@
 }
 
 .doc__footer {
+  position: relative;
+  z-index: 0;
   margin-top: 50px;
   margin-top: clamp(20px, 4.5%, 50px);
   padding-left: 0;
