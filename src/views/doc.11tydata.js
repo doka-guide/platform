@@ -85,7 +85,7 @@ module.exports = {
 
     defaultOpenGraphPath: function(data) {
       const { doc, docPath } = data
-      if (doc.data.cover && doc.data.cover.og) {
+      if (doc.data?.cover?.og) {
         return baseUrl + docPath + '/' + doc.data.cover.og
       } else {
         return data.fullPageUrl + 'images/covers/og.png'
@@ -94,7 +94,7 @@ module.exports = {
 
     defaultTwitterPath: function(data) {
       const { doc, docPath } = data
-      if (doc.data.cover && doc.data.cover.twitter) {
+      if (doc.data?.cover?.twitter) {
         return baseUrl + docPath + '/' + doc.data.cover.twitter
       } else {
         return data.fullPageUrl + 'images/covers/twitter.png'
