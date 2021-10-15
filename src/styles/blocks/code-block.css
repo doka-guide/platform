@@ -1,5 +1,6 @@
+/* вынесено в root, чтобы задать один экземпляр переменной, а не создавать несколько для каждого узла `code-block` */
 :root {
-  --number-lightness: calc(var(--is-dark-theme-on) * 60% + var(--is-light-theme-on) * 34%);
+  --code-lines-lightness: calc(var(--is-dark-theme-on) * 60% + var(--is-light-theme-on) * 34%);
 }
 
 .code-block {
@@ -30,8 +31,8 @@
   padding-right: 20px;
   font: inherit;
   text-align: end;
-  background-color: hsl(var(--color-base-background) / 0.92);
-  color: hsl(0 0% var(--number-lightness));
+  background-color: var(--code-lines-background, hsl(var(--color-base-background) / 0.92));
+  color: hsl(0 0% var(--code-lines-lightness));
 }
 
 .code-block__line {
