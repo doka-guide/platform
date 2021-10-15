@@ -24,6 +24,7 @@ module.exports = function(window, content, outputPath) {
       const iframeSourceLink = iframe.getAttribute('src').replace('./', '')
       const wrapper = window.document.createElement('figure')
       wrapper.classList.add('figure')
+      iframe.classList.add('figure__content')
       wrapper.innerHTML = `
         ${iframe.outerHTML}
         <figcaption class="figure__caption">
