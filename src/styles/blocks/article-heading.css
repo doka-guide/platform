@@ -24,7 +24,7 @@
 }
 
 @media (hover: hover) {
-  .article-heading:not(:hover) .article-heading__link {
+  .article-heading:not(:hover) .article-heading__link:not(:focus) {
     opacity: 0;
   }
 }
