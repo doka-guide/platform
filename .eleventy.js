@@ -20,6 +20,7 @@ const linkTransform = require('./src/transforms/link-transform');
 const imageParagraphTransform = require('./src/transforms/image-paragraph-transform');
 const iframeAttrTransform = require('./src/transforms/iframe-attr-transform');
 const tableTransform = require('./src/transforms/table-transform');
+const demoExternalLinkTransform = require('./src/transforms/demo-external-link-transform');
 
 module.exports = function(config) {
   config.setDataDeepMerge(true)
@@ -223,6 +224,7 @@ module.exports = function(config) {
       codeTransform,
       iframeAttrTransform,
       tableTransform,
+      demoExternalLinkTransform,
     ].filter(Boolean)
 
     config.addTransform('html-transforms', async (content, outputPath) => {

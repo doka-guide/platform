@@ -1,0 +1,11 @@
+.figure {
+  margin-inline: 0;
+}
+
+.figure__caption {
+  padding: calc(var(--offset) / 2);
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-s);
+  line-height: var(--font-line-height-s);
+}
