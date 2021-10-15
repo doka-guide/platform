@@ -28,7 +28,7 @@
   height: auto;
 }
 
-.content > iframe {
+.content iframe {
   display: block;
   width: 100%;
   border: 0;
