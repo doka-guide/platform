@@ -385,7 +385,7 @@ const templates = {
         </a>
       </h3>
       <div class="search-hit__summary">
-        ${markQuery(adjustTextSize(escapeText(hitObject.summary, '<code class="search-hit__text-code font-theme font-theme--code">$1</code>'), query, limit), query)}
+        ${markQuery(escapeText(adjustTextSize(hitObject.summary, query, limit), '<code class="search-hit__text-code font-theme font-theme--code">$1</code>'), query)}
       </div>
     </article>
   `
