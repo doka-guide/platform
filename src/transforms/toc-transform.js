@@ -15,6 +15,7 @@ module.exports = function(window) {
    const headings = articleContent.querySelectorAll('h2, h3, h4, h5, h6')
 
    const hierarchy = HeadingHierarchy.createHierarchy(Array.from(headings))
-   const tempElement = HeadingHierarchy.render(hierarchy)
+   const tempElement = window.document.createElement('div')
+   tempElement.innerHTML = HeadingHierarchy.render(hierarchy)
    articleNavContent.appendChild(tempElement.firstElementChild)
 }
