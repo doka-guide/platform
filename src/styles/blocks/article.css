@@ -20,6 +20,7 @@
 }
 
 .article__title-code {
+  overflow-wrap: break-word;
   font-size: var(--font-size-xl);
   line-height: var(--font-line-height-xl);
   font-family: var(--font-family);
