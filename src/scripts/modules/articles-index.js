@@ -12,6 +12,26 @@ function init() {
     return
   }
 
+  const PARAM_NAME = 'view'
+
+  const VIEWS = {
+    THEMES: 'themes',
+    ALPHABET: 'alphabet',
+  }
+
+  function applyView(currentView) {
+    for (const section of sections) {
+      section.hidden = section.id !== currentView
+    }
+  }
+
+  function setURLSearchParams(currentView) {
+    const params = new URLSearchParams({
+      [PARAM_NAME]: currentView
+    })
+    history.replaceState(null, null, `?${params}`)
+  }
+
   filter.addEventListener('change', event => {
     const { value: view } = event.target
 
@@ -19,10 +39,12 @@ function init() {
       return
     }
 
-    sections.forEach(section => {
-      section.hidden = section.id !== view
-    })
+    applyView(view)
+    setURLSearchParams(view)
   })
+
+  const params = new URLSearchParams(window.location.search)
+  applyView(params.get(PARAM_NAME) || VIEWS.THEMES)
 
   // Chrome иногда не прокручивает до anchor-блока, если в адресной строке нажать enter
   const isChrome = /Chrome/.test(navigator.userAgent)

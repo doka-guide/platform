@@ -31,11 +31,11 @@
 
       <div class="index-block__filter-control switch">
         <label class="switch__item">
-          <input class="switch__input" type="radio" name="index-filter" value="themes" autocomplete="off" checked>
+          <input class="switch__input" type="radio" name="index-filter" value="themes" checked>
           <span class="switch__label">Темам</span>
         </label>
         <label class="switch__item">
-          <input class="switch__input" type="radio" name="index-filter" value="alphabet" autocomplete="off">
+          <input class="switch__input" type="radio" name="index-filter" value="alphabet">
           <span class="switch__label">Алфавиту</span>
         </label>
       </div>
@@ -65,7 +65,7 @@
         {% endfor %}
       </section>
 
-      <section class="index-section" id="alphabet" hidden>
+      <section class="index-section" id="alphabet">
         <h2 class="visually-hidden">Статьи раздела «{{ categoryName }}» по алфавиту</h2>
         {% for letter in firstLettersOfArticles %}
           <section class="index-section__item articles-group">
