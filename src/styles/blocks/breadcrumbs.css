@@ -8,6 +8,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-underline-offset: 0.2em;
 }
 
 .breadcrumbs__item {
