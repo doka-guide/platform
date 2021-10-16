@@ -10,7 +10,8 @@
   display: inline-block;
   vertical-align: top;
   font: inherit;
-  background-color: var(--accent-color);
+  background-color: var(--color-background);
+  background-image: linear-gradient(var(--accent-color), var(--accent-color));
   transition: top 0.6s cubic-bezier(0.65, 0.05, 0.36, 1);
   will-change: top;
 }
