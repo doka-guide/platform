@@ -170,11 +170,6 @@
     grid-row-end: span 2;
   }
 
-  .article__update-date {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
   .article__content {
     display: contents;
   }
@@ -195,10 +190,6 @@
 
   .contributors__item:not(:first-child) {
     margin-top: 14px;
-  }
-
-  .article__update-date {
-    margin-top: 10px;
   }
 }
 
