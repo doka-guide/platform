@@ -16,6 +16,7 @@
   align-items: flex-end;
   box-sizing: border-box;
   min-height: var(--button-height);
+  margin: 0;
   padding: 30px 10px;
   background-color: transparent;
   cursor: pointer;
