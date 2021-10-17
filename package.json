@@ -26,7 +26,9 @@
     "preview": "cross-env NODE_ENV=development eleventy --quiet && npx gulp",
     "netlify": "npx gulp setupContent && npm run build && npx gulp dropContent",
     "editorconfig": "editorconfig-checker",
-    "test": "npm run editorconfig"
+    "stylelint": "stylelint 'src/styles/**/*.css'",
+    "eslint": "eslint '*.js'",
+    "test": "npm run editorconfig && npm run stylelint && npm run eslint"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",
@@ -43,6 +45,7 @@
     "cross-env": "^7.0.3",
     "del": "^6.0.0",
     "dotenv": "^10.0.0",
+    "editorconfig-checker": "^4.0.2",
     "esbuild": "^0.12.28",
     "eslint": "^7.32.0",
     "gulp": "^4.0.2",
@@ -64,8 +67,8 @@
     "postcss-cli": "^8.3.1",
     "postcss-csso": "^5.0.1",
     "postcss-import": "^14.0.2",
-    "puppeteer": "^10.4.0",
     "prismjs": "^1.25.0",
+    "puppeteer": "^10.4.0",
     "sharp": "^0.29.1",
     "simple-git-hooks": "^2.6.1",
     "stylelint": "^13.13.1",
