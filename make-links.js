@@ -13,7 +13,7 @@ const existingSymlinks = SYMLINKS_DEST.filter((dest) => {
     return false
   }
 })
-  
+
 if (existingSymlinks.length === SYMLINKS_DEST.length) {
   console.log('Символические ссылки уже установлены')
   process.exit(0)
@@ -21,7 +21,7 @@ if (existingSymlinks.length === SYMLINKS_DEST.length) {
 
 const createLinks = (contentPath) => {
   console.log(`Проверяю, установлены ли символические ссылки к ${SYMLINKS_DEST.join(', ')}`)
-  
+
   existingSymlinks.forEach((dest) => {
     console.log(`Удаляю старую ссылку ${dest}`)
     fs.unlinkSync(dest)
