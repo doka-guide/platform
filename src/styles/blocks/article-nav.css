@@ -62,8 +62,10 @@
 
 .article-nav__key-helper {
   --key-helper-gap: calc(var(--offset) / 4);
+  transform: scale(0.8);
+  transform-origin: 100% 0%;
   position: absolute;
-  top: var(--key-helper-gap);
+  top: calc(var(--key-helper-gap) * 4);
   right: var(--key-helper-gap);
   pointer-events: none;
   display: grid;
@@ -78,6 +80,7 @@
 .article-nav__content {
   overflow: auto;
   padding: var(--offset);
+  padding-right: 40px;
   min-height: 0;
 }
 
@@ -98,7 +101,6 @@
 .article-nav:not(:focus-within) .article-nav__key-helper {
   opacity: 0;
   visibility: hidden;
-  transform: translateY(calc(var(--offset) / 4));
 }
 
 @media not all and (min-width: 1024px) {

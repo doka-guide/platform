@@ -5,7 +5,9 @@ function init() {
     return
   }
 
-  const links = toc.querySelectorAll('.toc__link')
+  const LINK_SELECTOR = '.toc__link'
+
+  const links = Array.from(toc.querySelectorAll(LINK_SELECTOR))
 
   const linksLength = links.length
 
@@ -15,13 +17,12 @@ function init() {
 
   let currentLinkIndex = 0
 
-  const DIRECTIONS = {
-    FORWARD: 1,
-    BACKWARD: -1,
+  function clamp(min, value, max) {
+    return Math.max(min, Math.min(max, value))
   }
 
-  function setLinkFocus(direction) {
-    const newIndex = (currentLinkIndex + linksLength + direction) % linksLength
+  function moveLinkFocus(directionStep) {
+    const newIndex = clamp(0, currentLinkIndex + directionStep, linksLength - 1)
     links[currentLinkIndex]?.setAttribute('tabindex', -1)
     links[newIndex]?.setAttribute('tabindex', 0)
     links[newIndex]?.focus()
@@ -29,19 +30,18 @@ function init() {
   }
 
   function keyHandler(event) {
-
     switch (event.code) {
       case 'ArrowLeft':
       case 'ArrowUp': {
         event.preventDefault()
-        setLinkFocus(DIRECTIONS.BACKWARD)
+        moveLinkFocus(-1)
         break;
       }
 
       case 'ArrowRight':
-        case 'ArrowDown': {
+      case 'ArrowDown': {
         event.preventDefault()
-        setLinkFocus(DIRECTIONS.FORWARD)
+        moveLinkFocus(1)
         break;
       }
     }
@@ -59,6 +59,17 @@ function init() {
 
   toc.addEventListener('focusout', () => {
     document.removeEventListener('keydown', keyHandler)
+  })
+
+  toc.addEventListener('click', (event) => {
+    const link = event.target.closest(LINK_SELECTOR)
+
+    if (!link) {
+      return
+    }
+
+    const newIndex = links.indexOf(link)
+    moveLinkFocus(newIndex - currentLinkIndex)
   })
 }
 
