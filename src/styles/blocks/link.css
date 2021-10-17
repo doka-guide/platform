@@ -13,7 +13,8 @@
   text-decoration-line: underline;
   text-decoration-thickness: var(--stroke-width, 1px);
   text-decoration-color: var(--stroke-color);
-  text-underline-position: under;
+  text-underline-position: auto;
+  text-underline-offset: 0.125em;
   transition: --stroke-opacity 0.2s;
 }
 

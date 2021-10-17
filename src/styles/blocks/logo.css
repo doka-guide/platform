@@ -38,6 +38,7 @@
   --stroke-width: 2px;
   margin-left: 6px;
   align-self: baseline;
+  text-underline-offset: 0.2em;
 }
 
 .logo__text::first-letter {
