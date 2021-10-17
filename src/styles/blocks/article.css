@@ -108,6 +108,7 @@
 .article__meta {
   padding: var(--offset);
   padding-top: 0;
+  line-height: 1.6;
 }
 
 .article__persons {
