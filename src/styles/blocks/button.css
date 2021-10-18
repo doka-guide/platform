@@ -1,6 +1,6 @@
 .button {
   --color: var(--color-text);
-  --background: var(--color-background);
+  --background: transparent;
   --border-color: var(--color);
   --bg-base-opacity:
     calc(
@@ -34,6 +34,10 @@
   transition: opacity 0.2s;
 }
 
+.button:disabled {
+  pointer-events: none;
+}
+
 .button:hover::before {
   opacity: var(--bg-base-opacity);
 }
@@ -43,6 +47,7 @@
   transition: none;
 }
 
+.button--active,
 .button--invert {
   --color: var(--color-background);
   --background: var(--color-text);
@@ -52,4 +57,8 @@
       var(--is-light-theme-on) * 0.16 +
       var(--is-dark-theme-on) * 0.1
     );
+}
+
+.button--round {
+  border-radius: 2em;
 }
