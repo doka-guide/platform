@@ -1,3 +1,71 @@
+import BaseComponent from '../core/base-component.js'
+
+class ButtonGroup extends BaseComponent {
+  static get EVENTS() {
+    return {
+      ANSWER: 'answer',
+      CORRECTION: 'correction',
+    }
+  }
+  constructor({
+    rootElement,
+    childsSelector,
+    childActiveClass,
+    answerCondition = (activeButton) => activeButton.type !== 'button'
+  }) {
+    super()
+
+    const buttons = rootElement?.querySelectorAll(childsSelector)
+
+    rootElement.addEventListener('click', event => {
+      const activeButton = event.target.closest(childsSelector)
+
+      if (!activeButton) {
+        return
+      }
+
+      event.preventDefault()
+
+      for (const button of buttons) {
+        button.classList.toggle(childActiveClass, button === activeButton)
+      }
+
+      const isPositiveAnswer = answerCondition(activeButton)
+      const eventType = isPositiveAnswer ? ButtonGroup.EVENTS.ANSWER : ButtonGroup.EVENTS.CORRECTION
+      this.emit(eventType, activeButton.value)
+    })
+  }
+}
+
+class DetailedAnswer extends BaseComponent {
+  static get EVENTS() {
+    return {
+      ANSWER: 'answer'
+    }
+  }
+
+  static get TEXT_THRESHOLD() {
+    return 4
+  }
+
+  constructor({ rootElement }) {
+    super()
+    this.textarea = rootElement.querySelector('textarea')
+    this.button = rootElement.querySelector('button')
+
+    this.button.addEventListener('click', () => {
+      const text = this.textarea.value.trim()
+      if (text.length >= DetailedAnswer.TEXT_THRESHOLD) {
+        this.emit(DetailedAnswer.EVENTS.ANSWER, text)
+      }
+    })
+  }
+
+  focus() {
+    this.textarea.focus()
+  }
+}
+
 function init() {
   const form = document.querySelector('.feedback-form')
 
@@ -5,31 +73,30 @@ function init() {
     return
   }
 
+  const voteDownButton = form.querySelector('.vote--down')
+  const voteUpButton = form.querySelector('.vote--up')
   const reasonFieldset = form.querySelector('.feedback-form__fieldset--reason')
   const textControl = form.querySelector('.feedback-form__text')
 
   let isSending = false
-  let isLike;
 
-  // есть ли в форме нужные данные
-  function isFilledForm() {
-    return isLike ||
-      (form['reason'].value !== 'other' || form['comment'].value.trim() !== '')
-  }
-
-  function sendForm() {
+  function sendForm(answer) {
     if (isSending) {
       return
     }
 
     isSending = true
 
+    const formData = new FormData(form)
+    formData.set('answer', answer)
+    const body = (new URLSearchParams(formData)).toString()
+
     return fetch('/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: (new URLSearchParams(new FormData(form))).toString()
+      body
     })
       .then(response => {
         if (!response.ok) {
@@ -47,54 +114,55 @@ function init() {
       })
       .finally(() => {
         isSending = false
-
-        const label = form.querySelector(isLike ? '.vote__label--down' : '.vote__label--up')
-        if (label) {
-          label.classList.add('vote__label--disabled')
-          label.querySelector('input').disabled = true
-        }
-        form.querySelector('.feedback-form__fieldset--reason').disabled = true
       })
   }
 
-  form.addEventListener('change', event => {
-    const { name, value } = event.target
+  const detailedAnswer = new DetailedAnswer({
+    rootElement: textControl
+  })
 
-    switch (true) {
-      case (name === 'is-useful' && value === '0'): {
-        isLike = false
-        reasonFieldset.hidden = false
-        break;
-      }
+  detailedAnswer.on(DetailedAnswer.EVENTS.ANSWER, (event) => {
+    reasonFieldset.disabled = true
+    voteUpButton.disabled = true
+    sendForm(event?.detail)
+  })
 
-      case (name === 'is-useful' && value === '1'): {
-        isLike = true
-        reasonFieldset.hidden = true
-        sendForm()
-        break;
-      }
+  const voteButtonGroup = new ButtonGroup({
+    rootElement: form.querySelector('.feedback-form__fieldset--vote'),
+    childsSelector: '.vote',
+    childActiveClass: 'vote--active',
+  })
 
-      case (name === 'reason' && value === 'other'): {
-        textControl.hidden = false
-        break;
-      }
+  voteButtonGroup.on(ButtonGroup.EVENTS.ANSWER, (event) => {
+    voteDownButton.disabled = true
+    reasonFieldset.disabled = true
+    sendForm(event?.detail)
+  }, { once: true })
 
-      case (name === 'reason' && value !== 'other'): {
-        textControl.hidden = true
-        sendForm()
-        break;
-      }
-    }
+  voteButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
+    reasonFieldset.hidden = false
+  })
+
+  const reasonsButtonGroup = new ButtonGroup({
+    rootElement: reasonFieldset,
+    childsSelector: '.feedback-form__reason-button',
+    childActiveClass: 'button--active',
+  })
+
+  reasonsButtonGroup.on(ButtonGroup.EVENTS.ANSWER, (event) => {
+    reasonFieldset.disabled = true
+    voteUpButton.disabled = true
+    textControl.hidden = true
+    sendForm(event?.detail)
+  }, { once: true })
+
+  reasonsButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
+    textControl.hidden = false
+    detailedAnswer.focus()
   })
 
   form.addEventListener('submit', event => {
     event.preventDefault()
-
-    if (!isFilledForm()) {
-      return
-    }
-
-    sendForm()
   })
 }
 
