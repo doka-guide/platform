@@ -1,8 +1,8 @@
-// Оборачивает таблицы в обретки со прокруткой
+// Оборачивает таблицы в обёртки с прокруткой
 /**
  * @param {Window} window
  */
- module.exports = function(window) {
+module.exports = function(window) {
   window.document
     .querySelector('.content')
     ?.querySelectorAll('table')
