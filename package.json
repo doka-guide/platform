@@ -53,7 +53,6 @@
     "gulp-rev-rewrite": "^4.0.0",
     "gulp-shell": "^0.8.0",
     "gulp-tap": "^2.0.0",
-    "highlight.js": "^11.3.1",
     "htmlnano": "^1.1.1",
     "linkedom": "^0.12.1",
     "lint-staged": "^11.2.3",
