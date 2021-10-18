@@ -18,7 +18,7 @@
 }
 
 .notification__button {
-  --color-text: currentColor;
+  --background: var(--color-background);
   flex: 0 0 auto;
   padding-inline: 0.85em;
 }
