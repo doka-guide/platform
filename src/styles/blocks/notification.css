@@ -5,11 +5,11 @@
   padding: 10px;
   gap: 0.5em;
   background-color: var(--color-text);
+  color: var(--color-background);
 }
 
 .notification__content {
   flex: 1 1 12em;
-  color: var(--color-background);
 }
 
 .notification__content,
@@ -18,6 +18,7 @@
 }
 
 .notification__button {
+  --color-text: currentColor;
   flex: 0 0 auto;
   padding-inline: 0.85em;
 }
