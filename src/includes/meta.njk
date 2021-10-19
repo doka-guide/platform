@@ -18,34 +18,6 @@
 <link rel="stylesheet" href="/styles/dark-theme.css" media="(prefers-color-scheme: dark)">
 
 <!-- 5. Synchronous JS -->
-
-{% if pageType === 'Article' %}
-  <script type="application/ld+json">
-    {
-      "@context": "http:\/\/schema.org",
-      "@type": "Article",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "{{ fullPageUrl }}"
-      },
-      "headline": "{{ fullPageUrl }}",
-      "datePublished": "{{ createdAt }}",
-      "dateModified": "{{ updatedAt }}",
-      "author": {{ authorsList(list=populatedAuthors) }},
-      "publisher": {
-        "@type": "Organization",
-        "name": "Дока",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "{{ baseUrl }}/images/publisher-logo.svg"
-        }
-      },
-      "description": "{{ doc.data.description }}",
-      "url": "{{ fullPageUrl }}",
-    }
-  </script>
-{% endif %}
-
 <!-- 6. Synchronous CSS -->
 <!-- 7. Preload -->
 
@@ -122,6 +94,30 @@
 {% endif %}
 
 {% if pageType === 'Article' %}
+  <script type="application/ld+json">
+    {
+      "@context": "http:\/\/schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ fullPageUrl }}"
+      },
+      "headline": "{{ fullPageUrl }}",
+      "datePublished": "{{ createdAt }}",
+      "dateModified": "{{ updatedAt }}",
+      "author": {{ authorsList(list=populatedAuthors) }},
+      "publisher": {
+        "@type": "Organization",
+        "name": "Дока",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{ baseUrl }}/images/publisher-logo.svg"
+        }
+      },
+      "description": "{{ doc.data.description }}",
+      "url": "{{ fullPageUrl }}",
+    }
+  </script>
   <meta property="og:type" content="article">
   <meta property="article:section" content="Technology">
   <meta property="article:opinion" content="{{ containsPractice }}">
