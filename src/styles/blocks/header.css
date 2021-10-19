@@ -175,10 +175,6 @@
   animation-timing-function: ease;
 }
 
-.header--fixed-hide::after {
-  opacity: 0;
-}
-
 @keyframes fixedHeaderAnimation {
   from {
     transform: translateY(-100%);
@@ -207,6 +203,7 @@
 
 .header--open {
   z-index: 2;
+  animation: none;
 }
 
 .header--open::after {
