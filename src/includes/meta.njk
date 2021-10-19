@@ -1,22 +1,88 @@
-{% macro authorsList(list) %}[{% for personItem in list %}{
-  "@type": "Person",
-  "name": "{{ personItem.data.name }}"
-}{{ '' if loop.last else ',' }}{% endfor %}]{% endmacro %}
+<!-- 1. Primary Meta/Title -->
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, nofollow">
+
+{% if themeColor %}
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="{{ themeColor.light }}">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="{{ themeColor.dark }}">
+{% endif %}
+
+<title>{{ documentTitle }}</title>
+
+<!-- 2. Preconnect -->
+<!-- 3. Async inline script -->
+<!-- 4. CSS with @import -->
+
+<link rel="stylesheet" href="/styles/index.css">
+<link rel="stylesheet" href="/styles/dark-theme.css" media="(prefers-color-scheme: dark)">
+
+<!-- 5. Synchronous JS -->
+
+{% if pageType === 'Article' %}
+  <script type="application/ld+json">
+    {
+      "@context": "http:\/\/schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ fullPageUrl }}"
+      },
+      "headline": "{{ fullPageUrl }}",
+      "datePublished": "{{ createdAt }}",
+      "dateModified": "{{ updatedAt }}",
+      "author": {{ authorsList(list=populatedAuthors) }},
+      "publisher": {
+        "@type": "Organization",
+        "name": "Дока",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{ baseUrl }}/images/publisher-logo.svg"
+        }
+      },
+      "description": "{{ doc.data.description }}",
+      "url": "{{ fullPageUrl }}",
+    }
+  </script>
+{% endif %}
+
+<!-- 6. Synchronous CSS -->
+<!-- 7. Preload -->
 
 <link rel="preload" href="/fonts/graphik/graphik-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/spot-mono/spot-mono-light.woff2" as="font" type="font/woff2" crossorigin>
 
-<!-- Primary Meta Tags -->
-<title>{{ documentTitle }}</title>
+<!-- 8. Defer inline script -->
+
+<script>
+  (function() {
+    {% include "src/scripts/modules/theme-toggle.js" %}
+  })()
+</script>
+
+<!-- 9. Prefetch/Prerender -->
+<!-- 10. SEO/meta/icons/OS/etc. -->
+
 <meta name="title" content="{{ documentTitle }}">
 
 {% if doc.data.description %}
   <meta name="description" content="{{ doc.data.description }}">
 {% endif %}
+
+<meta name="robots" content="index, nofollow">
+<meta name="color-scheme" content="light dark">
+
+<link rel="canonical" href="{{ baseUrl }}{{ page.url }}">
+
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" href="/images/icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/images/icons/180x180.png">
+<link rel="manifest" href="/manifest.json">
+
+{% macro authorsList(list) %}[{% for personItem in list %}{
+  "@type": "Person",
+  "name": "{{ personItem.data.name }}"
+}{{ '' if loop.last else ',' }}{% endfor %}]{% endmacro %}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
@@ -59,52 +125,4 @@
   <meta property="og:type" content="article">
   <meta property="article:section" content="Technology">
   <meta property="article:opinion" content="{{ containsPractice }}">
-  <script type="application/ld+json">
-    {
-      "@context": "http:\/\/schema.org",
-      "@type": "Article",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "{{ fullPageUrl }}"
-      },
-      "headline": "{{ fullPageUrl }}",
-      "datePublished": "{{ createdAt }}",
-      "dateModified": "{{ updatedAt }}",
-      "author": {{ authorsList(list=populatedAuthors) }},
-      "publisher": {
-        "@type": "Organization",
-        "name": "Дока",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "{{ baseUrl }}/images/publisher-logo.svg"
-        }
-      },
-      "description": "{{ doc.data.description }}",
-      "url": "{{ fullPageUrl }}",
-    }
-  </script>
 {% endif %}
-
-<link rel="canonical" href="{{ baseUrl }}{{ page.url }}">
-
-<!-- Icons -->
-
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" href="/images/icons/icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/images/icons/180x180.png">
-<link rel="manifest" href="/manifest.json">
-
-<!-- Styles -->
-
-<meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="/styles/index.css">
-<link rel="stylesheet" href="/styles/dark-theme.css" media="(prefers-color-scheme: dark)">
-{% if themeColor %}
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="{{ themeColor.light }}">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="{{ themeColor.dark }}">
-{% endif %}
-<script>
-  (function() {
-    {% include "src/scripts/modules/theme-toggle.js" %}
-  })()
-</script>
