@@ -152,8 +152,10 @@
 }
 
 .header--fixed {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
 }
 
 .header--animating {
@@ -171,6 +173,10 @@
   animation-direction: reverse;
   animation-duration: 0.2s;
   animation-timing-function: ease;
+}
+
+.header--fixed-hide::after {
+  opacity: 0;
 }
 
 @keyframes fixedHeaderAnimation {

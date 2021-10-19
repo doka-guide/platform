@@ -3,7 +3,9 @@ import debounce from '../libs/debounce.js'
 
 function init() {
   const header = document.querySelector('.header')
+
   let headerHeight
+  let fixedHeaderHeight
 
   if (!header) {
     return
@@ -12,8 +14,22 @@ function init() {
   const input = header.querySelector('.search__input')
 
   function calculateHeaderHeight() {
-    headerHeight = header.offsetHeight
-    document.documentElement.style.setProperty('--header-height', headerHeight)
+    const isFixed = isHeaderFixed()
+
+    if (isFixed) {
+      fixedHeaderHeight = header.offsetHeight
+      header.classList.remove('header--fixed')
+      headerHeight = header.offsetHeight
+      header.classList.add('header--fixed')
+    } else {
+      headerHeight = header.offsetHeight
+      header.classList.add('header--fixed')
+      fixedHeaderHeight = header.offsetHeight
+      header.classList.remove('header--fixed')
+    }
+
+    document.documentElement.style.setProperty('--fixed-header-height', fixedHeaderHeight)
+    document.documentElement.style.setProperty('--not-fixed-header-height', headerHeight)
   }
 
   calculateHeaderHeight()
@@ -87,7 +103,6 @@ function init() {
   function fixHeader(flag) {
     header.classList.toggle('header--fixed', flag)
     document.documentElement.style.setProperty('--is-header-fixed', Number(flag))
-    calculateHeaderHeight()
   }
 
   function isHeaderFixed() {
