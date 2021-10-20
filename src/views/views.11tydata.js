@@ -15,6 +15,11 @@ module.exports = {
       return titleFormatter([data.title, 'Дока'])
     },
 
+    socialTitle: function(data) {
+      const { documentTitle } = data
+      return documentTitle
+    },
+
     hasCategory: function(data) {
       return !!(data.categoryName)
     },
