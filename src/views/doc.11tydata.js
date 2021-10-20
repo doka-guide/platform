@@ -150,11 +150,16 @@ module.exports = {
 
     documentTitle: function(data) {
       // удаляем символы обратных кавычек и угловых скобок html-тегов из markdown
-      const title = data.title
-        .replace(/`/g, '')
+      const title = data.title.replace(/`/g, '')
+      return titleFormatter([title, data.categoryName, 'Дока'])
+    },
+
+    socialTitle: function(data) {
+      const { documentTitle } = data
+      // удаляем символы угловых скобок html-тегов из markdown, так как соц. сети их некорректно отображают
+      return documentTitle
         .replace(/</g, '')
         .replace(/>/g, '')
-      return titleFormatter([title, data.categoryName, 'Дока'])
     },
 
     articleTag: function(data) {
