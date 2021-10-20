@@ -7,7 +7,7 @@ const sharp = require('sharp')
 Image.concurrency = os.cpus().length
 
 const baseConfig = {
-  extBlackList: ['.gif', '.svg'],
+  extBlackList: ['gif', 'svg', 'webp', 'avif'],
   widths: [300, 600, 1200, 2200],
   sizes: [
     '(min-width: 1680px) 1087px',
@@ -23,6 +23,21 @@ const baseConfig = {
   sharpWebpOptions: {
     lossless: true
   }
+}
+
+const sharpWebpOptions = {
+  default: {
+    lossless: true
+  },
+  get png() {
+    return this.default
+  },
+  jpg: {
+    quality: 80
+  },
+  get jpeg() {
+    return this.jpg
+  },
 }
 
 // замена img на picture внутри статьи
@@ -59,7 +74,7 @@ async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
     return
   }
 
-  const ext = path.extname(originalLink)
+  const ext = path.extname(originalLink).replace('.', '')
   if (baseConfig.extBlackList.includes(ext)) {
     return
   }
@@ -75,9 +90,9 @@ async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
     urlPath: 'images/',
     outputDir: imagesOutputPath,
     widths: [...baseConfig.widths, originalWidth],
-    formats: [...baseConfig.formats, ext.replace('.', '')],
+    formats: [...baseConfig.formats, ext],
     filenameFormat: baseConfig.filenameFormat,
-    sharpWebpOptions: baseConfig.sharpWebpOptions
+    sharpWebpOptions: sharpWebpOptions[ext] ? sharpWebpOptions[ext] : sharpWebpOptions.default
   }
 
   const imageAttributes = Object.fromEntries(
