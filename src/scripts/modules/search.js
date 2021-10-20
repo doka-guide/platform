@@ -72,11 +72,7 @@ const SEARCHABLE_SHORT_WORDS = new Set([
 ])
 
 const UNKNOWN_CATEGORY = 'UNKNOWN_CATEGORY'
-const HIT_ORDER = [
-  'html',
-  'css',
-  'js',
-  'tools',
+const HIT_ORDER = ['html','css','js','tools',
   UNKNOWN_CATEGORY
 ]
 const HIT_CATEGORY_TITLES = {
@@ -138,17 +134,11 @@ const startEffect = isSearchPage
     openSuggestion()
   }
 
-function openSuggestion() {
-  suggestionContainer?.classList.remove('search__suggestion--hide')
-}
+function openSuggestion() {suggestionContainer?.classList.remove('search__suggestion--hide')}
 
-function closeSuggestion() {
-  suggestionContainer?.classList.add('search__suggestion--hide')
-}
+function closeSuggestion() {suggestionContainer?.classList.add('search__suggestion--hide')}
 
-function isSuggestionOpen() {
-  return !suggestionContainer?.classList.contains('search__suggestion--hide')
-}
+function isSuggestionOpen() {return !suggestionContainer?.classList.contains('search__suggestion--hide')}
 
 function closeSuggestionOnKeyUp(event) {
   if (event.code === 'Escape' && isSuggestionOpen()) {
@@ -158,9 +148,7 @@ function closeSuggestionOnKeyUp(event) {
 }
 
 function closeSuggestionOnOutSideClick(event) {
-  if (!event.target.closest(SUGGESTION_CONTAINER_SELECTOR)) {
-    closeSuggestion()
-  }
+  if (!event.target.closest(SUGGESTION_CONTAINER_SELECTOR)) closeSuggestion()
 }
 
 if (!isSearchPage) {
@@ -180,11 +168,8 @@ function processHits(searchObject) {
   hits.forEach(articleObject => {
     let paragraph = ''
     if (articleObject.content.paragraphs.length > 1) {
-      if (articleObject.content.paragraphs[0].length > 20) {
-        paragraph = articleObject.content.paragraphs[0]
-      } else {
-        paragraph = articleObject.content.paragraphs[1]
-      }
+      if (articleObject.content.paragraphs[0].length > 20) paragraph = articleObject.content.paragraphs[0]
+      else paragraph = articleObject.content.paragraphs[1]
     }
     const articleSummary = {
       title: articleObject.title,
@@ -259,9 +244,7 @@ function renderSuggestions(hitObjectList) {
   return templates.suggestionList(hitObjectList)
 }
 
-function updateFacet() {
-  facetFilterList = [facetTagList, facetCategoryList]
-}
+function updateFacet() {facetFilterList = [facetTagList, facetCategoryList]}
 
 function makeSearchEffect(queryText) {
   if (queryText.length >= MIN_SEARCH_SYMBOLS || SEARCHABLE_SHORT_WORDS.has(queryText)) {
