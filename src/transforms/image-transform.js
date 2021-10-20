@@ -64,6 +64,11 @@ async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
     return
   }
 
+  // предположение, что если автор задал изображение внутри figure, то его не стоит преобразовывать
+  if (image.matches('figure > img')) {
+    return
+  }
+
   const { width: originalWidth } = await sharp(originalLink).metadata()
 
   const options = {
