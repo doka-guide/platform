@@ -11,10 +11,10 @@ const headingsTransform = require('./src/transforms/headings-transform');
 const codeTransform = require('./src/transforms/code-transform');
 const tocTransform = require('./src/transforms/toc-transform');
 const linkTransform = require('./src/transforms/link-transform');
-const imageParagraphTransform = require('./src/transforms/image-paragraph-transform');
 const iframeAttrTransform = require('./src/transforms/iframe-attr-transform');
 const tableTransform = require('./src/transforms/table-transform');
 const demoExternalLinkTransform = require('./src/transforms/demo-external-link-transform');
+const imagePlaceTransform = require('./src/transforms/image-place-transform');
 const detailsTransform = require('./src/transforms/details-transform');
 
 module.exports = function(config) {
@@ -195,7 +195,7 @@ module.exports = function(config) {
     const transforms = [
       demoLinkTransform,
       isProdEnv && imageTransform,
-      imageParagraphTransform,
+      imagePlaceTransform,
       headingsTransform,
       tocTransform,
       linkTransform,
