@@ -5,9 +5,7 @@ function init() {
   const header = document.querySelector('.header')
   let headerHeight
 
-  if (!header) {
-    return
-  }
+  if (!header) {return}
 
   const input = header.querySelector('.search__input')
 
@@ -21,22 +19,14 @@ function init() {
   window.addEventListener('orientationchange', debounce(calculateHeaderHeight, 200))
 
   document.addEventListener('keydown', (event) => {
-    if (event.code === 'Slash' && document.activeElement !== input) {
-      event.preventDefault()
-    }
+    if (event.code === 'Slash' && document.activeElement !== input) event.preventDefault()
   })
 
   document.addEventListener('keyup', (event) => {
-    if (event.code === 'Slash') {
-      setTimeout(() => {
-        input?.focus()
-      })
-    }
+    if (event.code === 'Slash') setTimeout(() => input?.focus())
   })
 
-  if (!header.matches('.header:not(.header--static,.search-page__header)')) {
-    return
-  }
+  if (!header.matches('.header:not(.header--static,.search-page__header)')) {return}
 
   const articleAside = document.querySelector('.article__aside')
   const toggleButtons = header.querySelectorAll('.menu-toggle')
@@ -44,21 +34,15 @@ function init() {
   const headerActiveClass = 'header--open'
 
   function openOnKeyUp(event) {
-    if (event.code === 'Slash') {
-      openHeader()
-    }
+    if (event.code === 'Slash') openHeader()
   }
 
   function closeOnKeyUp(event) {
-    if (event.code === 'Escape') {
-      closeHeader()
-    }
+    if (event.code === 'Escape') closeHeader()
   }
 
   function closeOnClickOutSide(event) {
-    if (!event.target.closest('.header__inner')) {
-      closeHeader()
-    }
+    if (!event.target.closest('.header__inner')) closeHeader() 
   }
 
   function openHeader() {
@@ -75,7 +59,7 @@ function init() {
     document.addEventListener('keyup', openOnKeyUp)
 
     if (input) {
-      input.value = '';
+      input.value = String('');
       input.blur();
     }
   }
