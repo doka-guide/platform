@@ -35,7 +35,7 @@
 <!-- 9. Prefetch/Prerender -->
 <!-- 10. SEO/meta/icons/OS/etc. -->
 
-<meta name="title" content="{{ documentTitle }}">
+<meta name="title" content="{{ socialTitle }}">
 
 {% if doc.data.description %}
   <meta name="description" content="{{ doc.data.description }}">
@@ -59,7 +59,7 @@
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ fullPageUrl }}">
-<meta property="og:title" content="{{ documentTitle }}">
+<meta property="og:title" content="{{ socialTitle }}">
 
 {% if doc.data.description %}
   <meta property="og:description" content="{{ doc.data.description }}">
@@ -73,7 +73,7 @@
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:url" content="{{ fullPageUrl }}">
-<meta property="twitter:title" content="{{ documentTitle }}">
+<meta property="twitter:title" content="{{ socialTitle }}">
 
 {% if doc.data.description %}
   <meta property="twitter:description" content="{{ doc.data.description }}">
