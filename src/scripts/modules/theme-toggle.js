@@ -44,9 +44,29 @@ function setCurrentTheme(theme) {
 }
 
 function toggleTheme(event) {
+  let browserTheme
+  const currentTheme = getCurrentTheme();
   const newTheme = event.target?.value
 
+  if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+    browserTheme = 'dark'
+  } else {
+    browserTheme = 'light'
+  }
+
   if (!newTheme) {
+    return
+  }
+
+  // Не переключаем тему по клику на Авто, если они совпадют
+  if(newTheme === 'auto' && (currentTheme === browserTheme)) {
+    setCurrentTheme(newTheme)
+    return
+  }
+
+  // Не переключаем тему по клику на !Авто, если они совпадют
+  if(currentTheme === 'auto' && browserTheme === newTheme) {
+    setCurrentTheme(newTheme)
     return
   }
 
