@@ -7,7 +7,6 @@
 .details__summary {
   padding: var(--offset);
   background-color: var(--color-fade);
-  border-radius: inherit;
   outline-offset: -2px;
   outline-width: 2px;
 }
