@@ -156,7 +156,7 @@ module.exports = {
 
     socialTitle: function(data) {
       const { documentTitle } = data
-      // удаляем символы угловых скобок html-тегов из markdown, так как соц. сети их некорректно отображают
+      // Удаляем символы угловых скобок HTML-тегов из markdown, так как соцсети их некорректно отображают
       return documentTitle
         .replace(/</g, '')
         .replace(/>/g, '')
