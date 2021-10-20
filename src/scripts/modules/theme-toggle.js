@@ -1,10 +1,10 @@
 // константы
-const STORAGE_KEY = 'color-theme'
+const STORAGE_KEY = String('color-theme')
 
 const THEMES = {
-  DARK: 'dark',
-  LIGHT: 'light',
-  AUTO: 'auto'
+  DARK: String('dark'),
+  LIGHT: String('light'),
+  AUTO: String('auto')
 }
 
 // DOM-элементы
@@ -26,9 +26,7 @@ const metaColors = {
 const store = localStorage;
 
 // Функции
-function hasStoredTheme() {
-  return !!store.getItem(STORAGE_KEY)
-}
+function hasStoredTheme() {return !!store.getItem(STORAGE_KEY)}
 
 function getCurrentTheme() {
   const storedTheme = store.getItem(STORAGE_KEY)
@@ -36,19 +34,14 @@ function getCurrentTheme() {
 }
 
 function setCurrentTheme(theme) {
-  if (theme === THEMES.AUTO) {
-    store.removeItem(STORAGE_KEY)
-  } else {
-    store.setItem(STORAGE_KEY, theme)
-  }
+  if (theme === THEMES.AUTO) store.removeItem(STORAGE_KEY)
+  else store.setItem(STORAGE_KEY, theme)
 }
 
 function toggleTheme(event) {
   const newTheme = event.target?.value
 
-  if (!newTheme) {
-    return
-  }
+  if (!newTheme) {return}
 
   setCurrentTheme(newTheme)
   applyTheme(newTheme)
@@ -61,39 +54,24 @@ function applyTheme(theme = getCurrentTheme()) {
     [THEMES.DARK]: 'all',
   }
 
-  if (darkThemeStyles) {
-    darkThemeStyles.media = darkStyleMediaMap[theme]
-  }
-
-  if (toggleElement) {
-    toggleElement.querySelector(`[value="${theme}"]`).checked = true
-  }
-
-  for (const [colorTheme, themeColorElement] of Object.entries(themeColorMetaElements)) {
-    themeColorElement.content = metaColors[theme === THEMES.AUTO ? colorTheme : theme]
-  }
+  if (darkThemeStyles) darkThemeStyles.media = darkStyleMediaMap[theme]
+  if (toggleElement) toggleElement.querySelector(`[value="${theme}"]`).checked = true
+  for (const [colorTheme, themeColorElement] of Object.entries(themeColorMetaElements)) themeColorElement.content = metaColors[theme === THEMES.AUTO ? colorTheme : theme]
 }
 
 // Инициализация
-if (hasStoredTheme()) {
-  applyTheme()
-}
+if (hasStoredTheme()) applyTheme()
+
 
 document.addEventListener('DOMContentLoaded', () => {
   toggleElement = document.querySelector('.theme-toggle')
   toggleElement?.addEventListener('change', toggleTheme)
 
   window.addEventListener('storage', event => {
-    if (event.key !== STORAGE_KEY) {
-      return
-    }
-
+    if (event.key !== STORAGE_KEY) {return}
     const newTheme = event.newValue
 
-    if (!newTheme) {
-      return
-    }
-
+    if (!newTheme) {return}
     applyTheme(newTheme)
   })
 
