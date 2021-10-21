@@ -16,7 +16,6 @@
 
 .feedback-form__fieldset {
   margin: 0;
-  overflow: hidden;
   border: 0;
   padding: 0;
 }
@@ -30,6 +29,13 @@
 .feedback-form__fieldset--vote {
   margin-bottom: 20px;
   margin-bottom: clamp(10px, 3%, 20px);
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-spacing);
+  font-size: var(--font-size-m);
+  line-height: 1;
 }
 
 .feedback-form__fieldset--reason {
@@ -52,6 +58,11 @@
 
 .feedback-form__legend + * {
   clear: both;
+}
+
+.feedback-form__reason-button {
+  padding: 5px 19px;
+  line-height: 1.15;
 }
 
 .feedback-form__text {
@@ -77,5 +88,24 @@
   .feedback-form__header {
     font-size: var(--font-size-m);
     line-height: var(--font-line-height-m);
+  }
+
+  .feedback-form__reason-button {
+    padding: 0 9px;
+    line-height: inherit;
+  }
+}
+
+@media (min-width: 1024px) {
+  .feedback-form__reason-button {
+    padding: 3px 19px;
+    line-height: calc(16 / 12);
+  }
+}
+
+@media (min-width: 1680px) {
+  .feedback-form__reason-button {
+    padding: 5px 19px;
+    line-height: inherit;
   }
 }

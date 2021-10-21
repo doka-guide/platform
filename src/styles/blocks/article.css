@@ -20,6 +20,7 @@
 }
 
 .article__title-code {
+  overflow-wrap: break-word;
   font-size: var(--font-size-xl);
   line-height: var(--font-line-height-xl);
   font-family: var(--font-family);
@@ -107,6 +108,7 @@
 .article__meta {
   padding: var(--offset);
   padding-top: 0;
+  line-height: 1.6;
 }
 
 .article__persons {
@@ -152,6 +154,7 @@
 
   .article__meta {
     order: 1;
+    margin-top: 30px;
     display: grid;
     align-items: start;
     grid-template-columns: 1fr auto;
@@ -168,11 +171,6 @@
     grid-row-end: span 2;
   }
 
-  .article__update-date {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
   .article__content {
     display: contents;
   }
@@ -184,6 +182,7 @@
 
 @media not all and (min-width: 768px) {
   .article__meta {
+    margin-top: 80px;
     display: block;
   }
 
@@ -193,10 +192,6 @@
 
   .contributors__item:not(:first-child) {
     margin-top: 14px;
-  }
-
-  .article__update-date {
-    margin-top: 10px;
   }
 }
 
@@ -243,10 +238,6 @@
   .article__aside--offset {
     --header-offset: calc(var(--header-height, 0) * 1px);
     transition: 0.6s cubic-bezier(0.65, 0.05, 0.36, 1);
-  }
-
-  .article__meta {
-    line-height: calc(16 / 12);
   }
 
   .article__persons {

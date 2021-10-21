@@ -5,6 +5,7 @@
 }
 
 .article-nav__button {
+  margin: 0;
   position: absolute;
   left: 0;
   bottom: 100%;

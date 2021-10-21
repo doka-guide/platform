@@ -5,57 +5,49 @@
     <div class="feedback-form__title feedback-form__title--error" data-state="error">Спасибо</div>
   </div>
 
-  <fieldset class="feedback-form__fieldset feedback-form__fieldset--vote">
-    <div class="vote font-theme font-theme--code">
-      <label class="vote__label vote__label--up">
-        <span class="visually-hidden">Да</span>
-        <input class="vote__input" type="radio" name="is-useful" value="1">
-        <span class="vote__control" aria-hidden="true">^‿^</span>
-      </label>
-      <label class="vote__label vote__label--down">
-        <span class="visually-hidden">Нет</span>
-        <input class="vote__input" type="radio" name="is-useful" value="0">
-        <span class="vote__control" aria-hidden="true">ˇ⌒ˇ</span>
-      </label>
+  <fieldset class="feedback-form__fieldset feedback-form__fieldset--vote font-theme font-theme--code">
+    <button class="vote vote--up" name="answer" value="Понравилось">
+      <span class="visually-hidden">Понравилось</span>
+      <span aria-hidden="true">^‿^</span>
+    </button>
+    <button class="vote vote--down" type="button">
+      <span class="visually-hidden">Не понравилось</span>
+      <span aria-hidden="true">ˇ⌒ˇ</span>
+    </button>
   </fieldset>
 
   <fieldset class="feedback-form__fieldset feedback-form__fieldset--reason" hidden>
     <legend class="feedback-form__legend">Расскажите, что не понравилось?</legend>
     <ul class="feedback-control-list base-list">
       <li class="feedback-control-list__item">
-        <label class="control">
-          <input class="control__input" type="radio" name="reason" value="Статья слишком сложная">
-          <span class="control__label">Статья слишком сложная</span>
-        </label>
+        <button class="feedback-form__reason-button button button--round" name="answer" value="Статья слишком сложная">
+          Статья слишком сложная
+        </button>
       </li>
       <li class="feedback-control-list__item">
-        <label class="control">
-          <input class="control__input" type="radio" name="reason" value="Статья устарела">
-          <span class="control__label">Статья устарела</span>
-        </label>
+        <button class="feedback-form__reason-button button button--round" name="answer" value="Статья устарела">
+          Статья устарела
+        </button>
       </li>
       <li class="feedback-control-list__item">
-        <label class="control">
-          <input class="control__input" type="radio" name="reason" value="В статье не хватает информации">
-          <span class="control__label">В статье не хватает информации</span>
-        </label>
+        <button class="feedback-form__reason-button button button--round" name="answer" value="В статье не хватает информации">
+          В статье не хватает информации
+        </button>
       </li>
       <li class="feedback-control-list__item">
-        <label class="control">
-          <input class="control__input" type="radio" name="reason" value="В статье мало примеров">
-          <span class="control__label">В статье мало примеров</span>
-        </label>
+        <button class="feedback-form__reason-button button button--round" name="answer" value="В статье мало примеров">
+          В статье мало примеров
+        </button>
       </li>
       <li class="feedback-control-list__item">
-        <label class="control">
-          <input class="control__input" type="radio" name="reason" value="other">
-          <span class="control__label">Что-то другое</span>
-        </label>
+        <button class="feedback-form__reason-button button button--round" name="answer" value="Что-то другое" type="button">
+          Что-то другое
+        </button>
       </li>
     </ul>
     <div class="feedback-form__text" hidden>
       <div class="text-control">
-        <textarea class="text-control__item text-control__input" name="comment" placeholder="Расскажите, пожалуйста, подробнее"></textarea>
+        <textarea class="text-control__item text-control__input" name="answer" placeholder="Расскажите, пожалуйста, подробнее"></textarea>
         <button class="text-control__item text-control__button button button--invert" type="submit">Отправить</button>
       </div>
     </div>
