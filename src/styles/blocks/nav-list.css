@@ -16,7 +16,7 @@
 }
 
 .nav-list__link {
-  display: inline-block;
+  display: inline-flex;
   vertical-align: top;
   padding-top: var(--block-padding);
   padding-bottom: var(--block-padding);
@@ -24,6 +24,7 @@
   padding-right: 10px;
   text-decoration: none;
   color: inherit;
+  width: calc(100% - 20px);
 }
 
 .nav-list__link::after {
