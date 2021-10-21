@@ -46,6 +46,7 @@
     "del": "^6.0.0",
     "dotenv": "^10.0.0",
     "editorconfig-checker": "^4.0.2",
+    "emoji-regex": "^10.0.0",
     "esbuild": "^0.12.29",
     "eslint": "^7.32.0",
     "gulp": "^4.0.2",
