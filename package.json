@@ -28,6 +28,7 @@
     "editorconfig": "editorconfig-checker",
     "stylelint": "stylelint 'src/styles/**/*.css'",
     "eslint": "eslint '*.js'",
+    "check-spelling": "npx yaspeller --only-errors --file-extensions '.md,.html' *",
     "test": "npm run editorconfig && npm run stylelint && npm run eslint"
   },
   "lint-staged": {
