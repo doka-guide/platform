@@ -34,7 +34,12 @@ function init() {
     }
   })
 
-  if (!header.matches('.header:not(.header--static,.search-page__header)')) {
+  const isClosableHeader = [
+    !header.classList.contains('header--static'),
+    !header.classList.contains('search-page__header')
+  ].every(Boolean)
+
+  if (!isClosableHeader) {
     return
   }
 
