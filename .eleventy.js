@@ -32,6 +32,7 @@ module.exports = function(config) {
       'src/styles/**/*.*',
       'src/scripts/**/*.*'
     ],
+    ghostMode: false,
   })
 
   // Add all Tags
