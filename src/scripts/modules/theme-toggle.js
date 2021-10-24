@@ -36,11 +36,7 @@ function getCurrentTheme() {
 }
 
 function setCurrentTheme(theme) {
-  if (theme === THEMES.AUTO) {
-    store.removeItem(STORAGE_KEY)
-  } else {
-    store.setItem(STORAGE_KEY, theme)
-  }
+  store.setItem(STORAGE_KEY, theme)
 }
 
 function toggleTheme(event) {
