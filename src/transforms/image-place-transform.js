@@ -12,21 +12,19 @@ const { Node } = require('linkedom')
     return
   }
 
-  // достаём изображения из параграфов
-  articleContent
-    .querySelectorAll('p > img, p > picture')
-    .forEach(element => {
-      element.parentElement.replaceWith(element)
-    })
-
   Array.from(articleContent.querySelectorAll('img, picture'))
     .filter(element => !element.matches('figure img, picture img'))
     .forEach(element => {
-      const sibling = element.nextSibling
-      if (sibling?.nodeType === Node.TEXT_NODE) {
-        const figcaptionText = sibling.textContent.replace('\n', '').trim()
+      // обычно все markdown-парсеры используют тег 'br' для переноса
+      const brElement = element.nextElementSibling
+      const hasCaption = brElement?.tagName.toLowerCase() === 'br'
+      const textSibling = hasCaption && brElement.nextSibling
+
+      if (textSibling?.nodeType === Node.TEXT_NODE) {
+        const figcaptionText = textSibling.textContent.trim()
         const figure = window.document.createElement('figure')
-        sibling.remove()
+        textSibling.remove()
+        brElement.remove()
         figure.innerHTML = `
           ${element.outerHTML}
           ${figcaptionText ? `<figcaption>${figcaptionText}</figcaption>` : ''}
@@ -41,5 +39,12 @@ const { Node } = require('linkedom')
       figureElement.classList.add('figure')
       figureElement.querySelector('figcaption')?.classList.add('figure__caption')
       figureElement.firstElementChild?.classList.add('figure__content')
+    })
+
+  // достаём изображения из параграфов
+  articleContent
+    .querySelectorAll('p > figure, p > picture, p > img')
+    .forEach(element => {
+      element.parentElement.replaceWith(element)
     })
 }
