@@ -386,7 +386,6 @@ const templates = {
   hit: (hitObject, query, limit) => {
     const editIcon = isPlaceholder(hitObject) ? '<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>' : ''
     const title = escapeText(hitObject.title, '<code class="search-hit__link-code font-theme font-theme--code">$1</code>')
-
     const summary = removeLinks(hitObject.summary)
 
     return `<article class="search-hit">
