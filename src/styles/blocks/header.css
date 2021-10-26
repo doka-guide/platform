@@ -152,8 +152,10 @@
 }
 
 .header--fixed {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
 }
 
 .header--animating {
@@ -201,6 +203,7 @@
 
 .header--open {
   z-index: 2;
+  animation: none;
 }
 
 .header--open::after {

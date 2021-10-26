@@ -11,10 +11,12 @@ const headingsTransform = require('./src/transforms/headings-transform');
 const codeTransform = require('./src/transforms/code-transform');
 const tocTransform = require('./src/transforms/toc-transform');
 const linkTransform = require('./src/transforms/link-transform');
-const imageParagraphTransform = require('./src/transforms/image-paragraph-transform');
 const iframeAttrTransform = require('./src/transforms/iframe-attr-transform');
 const tableTransform = require('./src/transforms/table-transform');
 const demoExternalLinkTransform = require('./src/transforms/demo-external-link-transform');
+const imagePlaceTransform = require('./src/transforms/image-place-transform');
+const detailsTransform = require('./src/transforms/details-transform');
+const calloutTransform = require('./src/transforms/callout-transform');
 
 module.exports = function(config) {
   config.setDataDeepMerge(true)
@@ -31,6 +33,7 @@ module.exports = function(config) {
       'src/styles/**/*.*',
       'src/scripts/**/*.*'
     ],
+    ghostMode: false,
   })
 
   // Add all Tags
@@ -194,7 +197,7 @@ module.exports = function(config) {
     const transforms = [
       demoLinkTransform,
       isProdEnv && imageTransform,
-      imageParagraphTransform,
+      imagePlaceTransform,
       headingsTransform,
       tocTransform,
       linkTransform,
@@ -202,6 +205,8 @@ module.exports = function(config) {
       iframeAttrTransform,
       tableTransform,
       demoExternalLinkTransform,
+      detailsTransform,
+      calloutTransform,
     ].filter(Boolean)
 
     config.addTransform('html-transforms', async (content, outputPath) => {

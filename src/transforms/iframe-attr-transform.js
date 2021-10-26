@@ -1,10 +1,4 @@
-const iframePolicies = [
-  'allow-scripts',
-  'allow-forms',
-]
-
 const attrs = {
-  sandbox: iframePolicies.join(' '),
   loading: 'lazy',
 }
 

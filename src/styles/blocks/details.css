@@ -1,0 +1,20 @@
+.details {
+  overflow: hidden;
+  border: 1px solid var(--color-fade);
+  border-radius: 6px;
+}
+
+.details__summary {
+  padding: var(--offset);
+  background-color: var(--color-fade);
+  outline-offset: -2px;
+  outline-width: 2px;
+}
+
+.details__content {
+  padding: var(--offset);
+}
+
+.details__content > * {
+  max-width: 100%;
+}
