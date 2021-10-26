@@ -371,12 +371,23 @@ function escapeText(text, replaceTemplate) {
   return escape(text).replace(/`(.*?)`/g, replaceTemplate)
 }
 
+// This function remove (...) from text
+// Eg: `test`(link) - return `test`
+//     `test`       - return `test`
+//     (link)       - return (link)
+//     test(link)   - return test(link)
+function removeLinks(text) {
+  return text.replace(/(`.*?`)(\(.*?\))/g, '$1');
+}
+
 const templates = {
   mark: (match) => `<mark class="search-hit__marked">${match}</mark>`,
 
   hit: (hitObject, query, limit) => {
     const editIcon = isPlaceholder(hitObject) ? '<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>' : ''
     const title = escapeText(hitObject.title, '<code class="search-hit__link-code font-theme font-theme--code">$1</code>')
+
+    const summary = removeLinks(hitObject.summary)
 
     return `<article class="search-hit">
       <h3 class="search-hit__title">
@@ -385,7 +396,7 @@ const templates = {
         </a>
       </h3>
       <div class="search-hit__summary">
-        ${markQuery(escapeText(adjustTextSize(hitObject.summary, query, limit), '<code class="search-hit__text-code font-theme font-theme--code">$1</code>'), query)}
+        ${markQuery(escapeText(adjustTextSize(summary, query, limit), '<code class="search-hit__text-code font-theme font-theme--code">$1</code>'), query)}
       </div>
     </article>
   `
