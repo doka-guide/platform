@@ -4,7 +4,7 @@
   <article class="featured-article" style="--accent-color: var(--color-{{ article.section }})">
     {% if hasImage %}
       <picture class="featured-article__image-wrapper">
-        <img class="featured-article__image" src="{{ article.imageLink }}" loading="lazy" alt="">
+        <img class="featured-article__image" src="{{ article.imageLink }}" loading="lazy" alt="{{ article.cover.alt }}">
       </picture>
     {% endif %}
     <h3 class="featured-article__title">
