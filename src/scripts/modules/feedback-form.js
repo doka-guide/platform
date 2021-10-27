@@ -58,7 +58,14 @@ class DetailedAnswer extends BaseComponent {
       if (text.length >= DetailedAnswer.TEXT_THRESHOLD) {
         this.emit(DetailedAnswer.EVENTS.ANSWER, text)
       }
+    });
+
+    ['keydown', 'keyup'].forEach(eventType => {
+      this.textarea.addEventListener(eventType, event => {
+        event.stopPropagation()
+      })
     })
+
   }
 
   focus() {
