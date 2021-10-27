@@ -18,17 +18,16 @@
 <!-- 3. Async inline script -->
 <!-- 4. CSS with @import -->
 <!-- 5. Synchronous JS -->
+<!-- 6. CSS without @import -->
+
+<link rel="stylesheet" href="/styles/index.css">
+<link rel="stylesheet" href="/styles/dark-theme.css" media="(prefers-color-scheme: dark)">
 
 <script>
   (function() {
     {% include "src/scripts/modules/theme-toggle.js" %}
   })()
 </script>
-
-<!-- 6. CSS without @import -->
-
-<link rel="stylesheet" href="/styles/index.css">
-<link rel="stylesheet" href="/styles/dark-theme.css" media="(prefers-color-scheme: dark)">
 
 <!-- 7. Preload -->
 
