@@ -3,8 +3,8 @@
   "author": "Doka.Team",
   "license": "MIT + CC BY-NC-SA 4.0",
   "engines": {
-    "node": "14.x",
-    "npm": "6.x"
+    "node": "16.x",
+    "npm": "8.x"
   },
   "browserslist": [
     "last 2 version",
@@ -49,7 +49,7 @@
     "emoji-regex": "^10.0.0",
     "esbuild": "^0.12.29",
     "eslint": "^7.32.0",
-    "gulp": "^4.0.2",
+    "gulp": "^3.9.1",
     "gulp-esbuild": "^0.8.7",
     "gulp-git": "^2.10.1",
     "gulp-postcss": "^9.0.1",
@@ -62,7 +62,7 @@
     "lint-staged": "^11.2.3",
     "markdown-it": "^12.2.0",
     "markdown-it-container": "^3.0.0",
-    "netlify-cli": "^6.13.2",
+    "netlify-cli": "^1.2.3",
     "postcss": "^8.3.9",
     "postcss-cli": "^8.3.1",
     "postcss-csso": "^5.0.1",
