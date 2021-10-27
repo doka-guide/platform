@@ -3,23 +3,58 @@
   "name": "{{ personItem.data.name }}"
 }{{ '' if loop.last else ',' }}{% endfor %}]{% endmacro %}
 
+<!-- 1. Title and Primary Meta -->
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, nofollow">
+<title>{{ documentTitle }}</title>
+
+{% if themeColor %}
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="{{ themeColor.light }}">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="{{ themeColor.dark }}">
+{% endif %}
+
+<!-- 2. Preconnect -->
+<!-- 3. Async inline script -->
+<!-- 4. CSS with @import -->
+<!-- 5. Synchronous JS -->
+<!-- 6. CSS without @import -->
+
+<link rel="stylesheet" href="/styles/index.css">
+<link rel="stylesheet" href="/styles/dark-theme.css" media="(prefers-color-scheme: dark)">
+
+<script>
+  (function() {
+    {% include "src/scripts/modules/theme-toggle.js" %}
+  })()
+</script>
+
+<!-- 7. Preload -->
 
 <link rel="preload" href="/fonts/graphik/graphik-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/spot-mono/spot-mono-light.woff2" as="font" type="font/woff2" crossorigin>
 
-<!-- Primary Meta Tags -->
-<title>{{ documentTitle }}</title>
+<!-- 8. Defer inline script -->
+<!-- 9. Prefetch/Prerender -->
+<!-- 10. SEO/meta/icons/OS/etc. -->
+
 <meta name="title" content="{{ socialTitle }}">
 
 {% if doc.data.description %}
   <meta name="description" content="{{ doc.data.description }}">
 {% endif %}
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
+<meta name="robots" content="index, nofollow">
+<meta name="color-scheme" content="light dark">
+
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" href="/images/icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/images/icons/180x180.png">
+<link rel="canonical" href="{{ baseUrl }}{{ page.url }}">
+<link rel="manifest" href="/manifest.json">
+
+<!-- 10.1 Open Graph (and Facebook) -->
+
 <meta property="og:url" content="{{ fullPageUrl }}">
 <meta property="og:title" content="{{ socialTitle }}">
 
@@ -28,11 +63,18 @@
   <meta itemprop="description" content="{{ doc.data.description }}">
 {% endif %}
 
+{% if pageType === 'Article' %}
+  <meta property="og:type" content="article">
+{% else %}
+  <meta property="og:type" content="website">
+{% endif %}
+
 <meta property="og:image" content="{{ defaultOpenGraphPath }}">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Дока">
 
-<!-- Twitter -->
+<!-- 10.2 Twitter -->
+
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:url" content="{{ fullPageUrl }}">
 <meta property="twitter:title" content="{{ socialTitle }}">
@@ -45,7 +87,7 @@
 <meta property="twitter:card" content="summary">
 <meta property="twitter:site" content="@doka_guide">
 
-<!-- Microdata -->
+<!-- 10.3 Microdata -->
 
 {% if articleCategory %}
   <meta property="article:tag" content="{{ articleCategory }}">
@@ -56,9 +98,6 @@
 {% endif %}
 
 {% if pageType === 'Article' %}
-  <meta property="og:type" content="article">
-  <meta property="article:section" content="Technology">
-  <meta property="article:opinion" content="{{ containsPractice }}">
   <script type="application/ld+json">
     {
       "@context": "http:\/\/schema.org",
@@ -83,28 +122,6 @@
       "url": "{{ fullPageUrl }}",
     }
   </script>
+  <meta property="article:section" content="Technology">
+  <meta property="article:opinion" content="{{ containsPractice }}">
 {% endif %}
-
-<link rel="canonical" href="{{ baseUrl }}{{ page.url }}">
-
-<!-- Icons -->
-
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" href="/images/icons/icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/images/icons/180x180.png">
-<link rel="manifest" href="/manifest.json">
-
-<!-- Styles -->
-
-<meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="/styles/index.css">
-<link rel="stylesheet" href="/styles/dark-theme.css" media="(prefers-color-scheme: dark)">
-{% if themeColor %}
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="{{ themeColor.light }}">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="{{ themeColor.dark }}">
-{% endif %}
-<script>
-  (function() {
-    {% include "src/scripts/modules/theme-toggle.js" %}
-  })()
-</script>
