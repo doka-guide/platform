@@ -49,7 +49,7 @@
     "emoji-regex": "^10.0.0",
     "esbuild": "^0.12.29",
     "eslint": "^7.32.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-esbuild": "^0.8.7",
     "gulp-git": "^2.10.1",
     "gulp-postcss": "^9.0.1",
