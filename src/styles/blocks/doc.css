@@ -47,7 +47,10 @@
     --columns-template: var(--aside-with) 1fr;
     display: grid;
     grid-template-columns: var(--columns-template);
+    grid-template-rows: auto 1fr auto;
     align-items: start;
+    align-content: start;
+    min-height: calc(100vh - var(--header-height, 0) * 1px);
   }
 
   .doc > * {

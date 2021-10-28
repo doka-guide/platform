@@ -225,10 +225,12 @@
   }
 
   .article__aside {
+    grid-row-end: span 2;
     position: sticky;
     top: var(--header-offset, 0);
     box-sizing: border-box;
-    height: calc(100vh - var(--header-offset, 0px));
+    max-height: calc(100vh - var(--header-offset, 0px));
+    height: 100%;
     display: grid;
     grid-template-rows: minmax(0, 1fr) auto;
     transition: 0.2s ease;
