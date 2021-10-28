@@ -19,13 +19,14 @@ module.exports = function(window) {
       let textContent = asideElement.textContent.trim()
       let innerHTML = asideElement.innerHTML
 
-      // используется итератор, так как textContent[0] иногда возвращает "битый" emojii
+      // используется итератор, так как textContent[0] иногда возвращает "битый" emoji
       const firstSymbol = textContent[Symbol.iterator]().next().value
-      const firstLetterIsEmoji = emojiRegex().test(firstSymbol)
+      const emojiRe = emojiRegex()
+      const firstLetterIsEmoji = emojiRe.test(firstSymbol)
 
       if (firstLetterIsEmoji) {
         icon = firstSymbol
-        innerHTML = innerHTML.replace(icon, '')
+        innerHTML = innerHTML.replace(emojiRe, '')
       }
 
       const tempElement = window.document.createElement('div')
