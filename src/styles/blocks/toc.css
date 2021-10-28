@@ -18,5 +18,5 @@
 
 .toc__link--active {
   text-decoration: none;
-  background-color: var(--color-fade);
+  background-color: var(--active-link-background, var(--color-fade));
 }

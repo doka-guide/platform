@@ -97,6 +97,8 @@
   }
 
   .article-nav__content {
+    --active-link-lightness: calc(var(--is-light-theme-on) * 92%);
+    --active-link-background: hsl(0 0% var(--active-link-lightness));
     background-color: hsl(0 0% var(--lightness));
   }
 }

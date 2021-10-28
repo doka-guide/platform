@@ -32,7 +32,7 @@
 }
 
 .callout__content .code {
-  --lightness: calc(var(--is-light-theme-on) * 100%);
+  --background-color: hsl(0 0% calc(var(--is-light-theme-on) * 100%));
 }
 
 @media (min-width: 768px) {
