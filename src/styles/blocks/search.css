@@ -48,6 +48,7 @@
 .search__key {
   margin: 0 10px;
   place-self: center end;
+  pointer-events: none;
 }
 
 .search__input:focus ~ .search__key--activate {
