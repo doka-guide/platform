@@ -24,8 +24,6 @@ class ButtonGroup extends BaseComponent {
         return
       }
 
-      event.preventDefault()
-
       for (const button of buttons) {
         button.classList.toggle(childActiveClass, button === activeButton)
       }
@@ -87,15 +85,13 @@ function init() {
 
   let isSending = false
 
-  function sendForm(answer) {
+  function sendForm(formData) {
     if (isSending) {
       return
     }
 
     isSending = true
 
-    const formData = new FormData(form)
-    formData.set('answer', answer)
     const body = (new URLSearchParams(formData)).toString()
 
     return fetch('/', {
@@ -128,10 +124,11 @@ function init() {
     rootElement: textControl
   })
 
-  detailedAnswer.on(DetailedAnswer.EVENTS.ANSWER, (event) => {
-    reasonFieldset.disabled = true
-    voteUpButton.disabled = true
-    sendForm(event?.detail)
+  detailedAnswer.on(DetailedAnswer.EVENTS.ANSWER, () => {
+    setTimeout(() => {
+      reasonFieldset.disabled = true
+      voteUpButton.disabled = true
+    })
   })
 
   const voteButtonGroup = new ButtonGroup({
@@ -140,10 +137,11 @@ function init() {
     childActiveClass: 'vote--active',
   })
 
-  voteButtonGroup.on(ButtonGroup.EVENTS.ANSWER, (event) => {
-    voteDownButton.disabled = true
-    reasonFieldset.disabled = true
-    sendForm(event?.detail)
+  voteButtonGroup.on(ButtonGroup.EVENTS.ANSWER, () => {
+    setTimeout(() => {
+      voteDownButton.disabled = true
+      reasonFieldset.disabled = true
+    })
   }, { once: true })
 
   voteButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
@@ -156,11 +154,12 @@ function init() {
     childActiveClass: 'button--active',
   })
 
-  reasonsButtonGroup.on(ButtonGroup.EVENTS.ANSWER, (event) => {
-    reasonFieldset.disabled = true
-    voteUpButton.disabled = true
-    textControl.hidden = true
-    sendForm(event?.detail)
+  reasonsButtonGroup.on(ButtonGroup.EVENTS.ANSWER, () => {
+    setTimeout(() => {
+      reasonFieldset.disabled = true
+      voteUpButton.disabled = true
+      textControl.hidden = true
+    })
   }, { once: true })
 
   reasonsButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
@@ -170,6 +169,15 @@ function init() {
 
   form.addEventListener('submit', event => {
     event.preventDefault()
+    const formData = new FormData(form)
+    const answer = formData.get('answer') || event.submitter?.value
+
+    if (!(answer && answer.length >= DetailedAnswer.TEXT_THRESHOLD) ) {
+      return
+    }
+
+    formData.set('answer', answer)
+    sendForm(formData)
   })
 }
 

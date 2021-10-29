@@ -1,12 +1,19 @@
-<form class="feedback-form" name="{{ constants.feedbackFormName }}" method="post" autocomplete="off" data-state="idle" data-netlify="true">
+<form class="feedback-form" name="{{ constants.feedbackFormName }}" method="post" autocomplete="off" data-state="idle" data-netlify="true" data-netlify-honeypot="name">
   <div class="feedback-form__header font-theme font-theme--code">
     <div class="feedback-form__title" data-state="idle">Статья была полезной?</div>
     <div class="feedback-form__title feedback-form__title--success" data-state="success">Спасибо</div>
     <div class="feedback-form__title feedback-form__title--error" data-state="error">Спасибо</div>
   </div>
 
+  <div class="visually-hidden">
+    <label>
+      Не заполняйте это поле, если вы человек
+      <input name="name" tabindex="-1">
+    </label>
+  </div>
+
   <fieldset class="feedback-form__fieldset feedback-form__fieldset--vote font-theme font-theme--code">
-    <button class="vote vote--up" name="answer" value="Понравилось">
+    <button class="vote vote--up" name="answer" value="Понравилось" type="submit">
       <span class="visually-hidden">Понравилось</span>
       <span aria-hidden="true">^‿^</span>
     </button>
@@ -20,22 +27,22 @@
     <legend class="feedback-form__legend">Расскажите, что не понравилось?</legend>
     <ul class="feedback-control-list base-list">
       <li class="feedback-control-list__item">
-        <button class="feedback-form__reason-button button button--round" name="answer" value="Статья слишком сложная">
+        <button class="feedback-form__reason-button button button--round" name="answer" value="Статья слишком сложная" type="submit">
           Статья слишком сложная
         </button>
       </li>
       <li class="feedback-control-list__item">
-        <button class="feedback-form__reason-button button button--round" name="answer" value="Статья устарела">
+        <button class="feedback-form__reason-button button button--round" name="answer" value="Статья устарела" type="submit">
           Статья устарела
         </button>
       </li>
       <li class="feedback-control-list__item">
-        <button class="feedback-form__reason-button button button--round" name="answer" value="В статье не хватает информации">
+        <button class="feedback-form__reason-button button button--round" name="answer" value="В статье не хватает информации" type="submit">
           В статье не хватает информации
         </button>
       </li>
       <li class="feedback-control-list__item">
-        <button class="feedback-form__reason-button button button--round" name="answer" value="В статье мало примеров">
+        <button class="feedback-form__reason-button button button--round" name="answer" value="В статье мало примеров" type="submit">
           В статье мало примеров
         </button>
       </li>
