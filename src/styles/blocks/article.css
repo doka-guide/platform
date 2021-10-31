@@ -117,6 +117,7 @@
 
 .article__edit-button {
   vertical-align: top;
+  will-change: transform;
 }
 
 .article__update-date {
