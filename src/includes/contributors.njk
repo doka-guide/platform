@@ -1,12 +1,14 @@
 {% macro person(name, url) %}
   {% if url %}
-    <a class="persons-list__name link" href="{{ url }}">{{ name }}</a>
+    <a class="persons-list__name link" href="{{ url }}" itemprop="url">
+      <span itemprop="name">{{ name }}</span>
+    </a>
   {% else %}
-    <span class="persons-list__name">{{ name }}</span>
+    <span class="persons-list__name" itemprop="name">{{ name }}</span>
   {% endif %}
 {% endmacro %}
 
-{% macro personsList(list, maxPersons = 3) %}
+{% macro personsList(list, personType, maxPersons = 3) %}
   {% set totalPersonsCount = list.length %}
   {% set extraPersonsCount = totalPersonsCount - maxPersons %}
   {% set divider = "," %}
@@ -15,7 +17,11 @@
     <ul class="persons-list__items base-list">
       {% for personItem in list %}
         {% set isHidden = loop.index > maxPersons %}
-        <li class="persons-list__item" {% if isHidden %}hidden{% endif %}>
+        <li
+          class="persons-list__item" {% if isHidden %}hidden{% endif %}
+          itemscope itemtype="https://schema.org/Person"
+          {% if personType %}itemprop="{{ personType }}"{% endif %}
+        >
           {{ person(name=personItem.data.name, url=personItem.data.url) }}
           {% if not loop.last %}
             {{ divider }}
@@ -34,20 +40,20 @@
 <dl class="contributors">
   <div class="contributors__item">
     <dt class="contributors__key">Авторы:</dt>
-    <dd class="contributors__value">{{ personsList(list=populatedAuthors) }}</dd>
+    <dd class="contributors__value">{{ personsList(list=populatedAuthors, personType="author") }}</dd>
   </div>
 
   {% if populatedContributors.length > 0 %}
     <div class="contributors__item">
       <dt class="contributors__key">Контрибьюторы:</dt>
-      <dd class="contributors__value">{{ personsList(list=populatedContributors) }}</dd>
+      <dd class="contributors__value">{{ personsList(list=populatedContributors, personType="contributor") }}</dd>
     </div>
   {% endif %}
 
   {% if populatedEditors.length > 0 %}
     <div class="contributors__item">
       <dt class="contributors__key">Редакторы:</dt>
-      <dd class="contributors__value">{{ personsList(list=populatedEditors) }}</dd>
+      <dd class="contributors__value">{{ personsList(list=populatedEditors, personType="editor") }}</dd>
     </div>
   {% endif %}
 </dl>

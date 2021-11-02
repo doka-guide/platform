@@ -1,6 +1,9 @@
 {% macro authorsList(list) %}[{% for personItem in list %}{
   "@type": "Person",
   "name": "{{ personItem.data.name }}"
+  {% if personItem.data.url %}
+    ,"url": "{{ personItem.data.url }}"
+  {% endif %}
 }{{ '' if loop.last else ',' }}{% endfor %}]{% endmacro %}
 
 <!-- 1. Title and Primary Meta -->
@@ -106,9 +109,16 @@
         "@type": "WebPage",
         "@id": "{{ fullPageUrl }}"
       },
-      "headline": "{{ fullPageUrl }}",
-      "datePublished": "{{ createdAt }}",
-      "dateModified": "{{ updatedAt }}",
+      "headline": "{{ socialTitle }}",
+      {% if cover %}
+      "image": [
+        "{{ fullPageUrl }}{{ cover.desktop if cover.desktop }}"
+        {% if cover.mobile %},{% endif %}
+        "{{ fullPageUrl }}{{ cover.mobile if cover.mobile }}"
+      ],
+      {% endif %}
+      "datePublished": "{{ createdAt.toISOString() if createdAt }}",
+      "dateModified": "{{ updatedAt.toISOString() if updatedAt }}",
       "author": {{ authorsList(list=populatedAuthors) }},
       "publisher": {
         "@type": "Organization",
@@ -119,7 +129,7 @@
         }
       },
       "description": "{{ doc.data.description }}",
-      "url": "{{ fullPageUrl }}",
+      "url": "{{ fullPageUrl }}"
     }
   </script>
   <meta property="article:section" content="Technology">
