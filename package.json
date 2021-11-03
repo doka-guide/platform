@@ -27,7 +27,7 @@
     "netlify": "npx gulp setupContent && npm run build && npx gulp dropContent",
     "editorconfig": "editorconfig-checker",
     "stylelint": "stylelint 'src/styles/**/*.css'",
-    "eslint": "eslint '*.js'",
+    "eslint": "eslint '**/*.js'",
     "test": "npm run editorconfig && npm run stylelint && npm run eslint"
   },
   "lint-staged": {
@@ -48,7 +48,7 @@
     "editorconfig-checker": "^4.0.2",
     "emoji-regex": "^10.0.0",
     "esbuild": "^0.13.12",
-    "eslint": "^7.32.0",
+    "eslint": "^8.1.0",
     "gulp": "^4.0.2",
     "gulp-esbuild": "^0.9.1",
     "gulp-git": "^2.10.1",
