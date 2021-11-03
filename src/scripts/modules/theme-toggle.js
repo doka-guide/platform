@@ -23,7 +23,7 @@ const metaColors = {
   [THEMES.DARK]: darkThemeMeta.content,
 }
 
-const store = localStorage;
+const store = localStorage
 
 // Функции
 function hasStoredTheme() {

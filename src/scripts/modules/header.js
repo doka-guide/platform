@@ -96,8 +96,8 @@ function init() {
     document.addEventListener('keyup', openOnKeyUp)
 
     if (input) {
-      input.value = '';
-      input.blur();
+      input.value = ''
+      input.blur()
     }
   }
 
@@ -122,7 +122,7 @@ function init() {
 
   document.addEventListener('keyup', openOnKeyUp)
 
-  const scrollThreshold = 1.5;
+  const scrollThreshold = 1.5
 
   function checkFixed() {
     if (window.scrollY > scrollThreshold * window.innerHeight) {

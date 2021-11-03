@@ -5,18 +5,18 @@ const markdownItContainer = require('markdown-it-container')
 const { parseHTML } = require('linkedom')
 const { isProdEnv } = require('./config/env')
 const { mainSections } = require('./config/constants.js')
-const demoLinkTransform = require('./src/transforms/demo-link-transform');
-const imageTransform = require('./src/transforms/image-transform');
-const headingsTransform = require('./src/transforms/headings-transform');
-const codeTransform = require('./src/transforms/code-transform');
-const tocTransform = require('./src/transforms/toc-transform');
-const linkTransform = require('./src/transforms/link-transform');
-const iframeAttrTransform = require('./src/transforms/iframe-attr-transform');
-const tableTransform = require('./src/transforms/table-transform');
-const demoExternalLinkTransform = require('./src/transforms/demo-external-link-transform');
-const imagePlaceTransform = require('./src/transforms/image-place-transform');
-const detailsTransform = require('./src/transforms/details-transform');
-const calloutTransform = require('./src/transforms/callout-transform');
+const demoLinkTransform = require('./src/transforms/demo-link-transform')
+const imageTransform = require('./src/transforms/image-transform')
+const headingsTransform = require('./src/transforms/headings-transform')
+const codeTransform = require('./src/transforms/code-transform')
+const tocTransform = require('./src/transforms/toc-transform')
+const linkTransform = require('./src/transforms/link-transform')
+const iframeAttrTransform = require('./src/transforms/iframe-attr-transform')
+const tableTransform = require('./src/transforms/table-transform')
+const demoExternalLinkTransform = require('./src/transforms/demo-external-link-transform')
+const imagePlaceTransform = require('./src/transforms/image-place-transform')
+const detailsTransform = require('./src/transforms/details-transform')
+const calloutTransform = require('./src/transforms/callout-transform')
 
 module.exports = function(config) {
   config.setDataDeepMerge(true)
@@ -115,7 +115,7 @@ module.exports = function(config) {
 
     markdownLibrary.use(markdownItContainer, 'callout', {
       validate(params) {
-        return params.trim().match(calloutElementRegexp);
+        return params.trim().match(calloutElementRegexp)
       },
 
       render(tokens, idx) {
@@ -174,8 +174,8 @@ module.exports = function(config) {
 
   // Фильтрует теги
   config.addFilter('hasTag', (tags, tag) => {
-    return (tags || []).includes(tag);
-  });
+    return (tags || []).includes(tag)
+  })
 
   config.addFilter('slugify', (content) => {
     return slugify(content)
@@ -242,6 +242,7 @@ module.exports = function(config) {
             removeEmptyAttributes: false,
             removeAttributeQuotes: false,
             removeRedundantAttributes: true,
+            sortAttributesWithLists: false,
             removeOptionalTags: false,
             collapseBooleanAttributes: true,
             mergeStyles: false,
