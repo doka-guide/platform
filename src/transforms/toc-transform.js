@@ -12,8 +12,10 @@ module.exports = function(window) {
   }
 
   const articleNavContent = window.document.querySelector('.article-nav__content')
-  const headings = articleContent.querySelectorAll('h2, h3, h4, h5, h6')
+  const headings = Array.from(articleContent.querySelectorAll('h2, h3, h4, h5, h6'))
+    // не учитываем заголовки, которые лежат внутри тегов details
+    .filter(title => !title.closest('details'))
 
-  const hierarchy = HeadingHierarchy.createHierarchy(Array.from(headings))
+  const hierarchy = HeadingHierarchy.createHierarchy(headings)
   articleNavContent.innerHTML = HeadingHierarchy.render(hierarchy)
 }
