@@ -1,12 +1,12 @@
 function formatRelativeDate(date, currentTime = new Date()) {
-  let timeDiff = (currentTime - date) / 1000;
-  let piece;
+  let timeDiff = (currentTime - date) / 1000
+  let piece
 
   const rtf = new Intl.RelativeTimeFormat('ru', {
     localeMatcher: 'best fit',
     numeric: 'always',
     style: 'long',
-  });
+  })
 
   if (timeDiff >= 86400) {
     timeDiff = Math.round(timeDiff / 86400)

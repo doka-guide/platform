@@ -50,7 +50,7 @@ module.exports = {
           .slice(0, data.featuredArticlesMaxCount)
       )
 
-      const sectionsCount = allFeaturedArticles.length;
+      const sectionsCount = allFeaturedArticles.length
 
       const articlesForShow = []
 
