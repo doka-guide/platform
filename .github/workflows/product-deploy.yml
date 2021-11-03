@@ -27,7 +27,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - name: Установка ключа
+      - name: Установка ключа для пользователя
         run: |
           set -eu
           mkdir "$HOME/.ssh"
