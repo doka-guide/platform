@@ -9,5 +9,9 @@
 
   "parserOptions": {
     "sourceType": "module"
+  },
+
+  "rules": {
+    "semi": ["warn", "never"]
   }
 }
