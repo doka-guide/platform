@@ -12,7 +12,7 @@ const LANG_ALIASES= {
 }
 
 function renderOriginalLine(line) {
-  return `<span class="code-block__original-line">${escape(line)}</span>`
+  return `<span class="block-code__original-line">${escape(line)}</span>`
 }
 
 function highlightCode(source, language) {
@@ -55,18 +55,18 @@ module.exports = function(window) {
       const originalSplittedContent = lines.join('')
 
       const linesBlock = window.document.createElement('span')
-      linesBlock.classList.add('code-block__lines')
+      linesBlock.classList.add('block-code__lines')
       linesBlock.innerHTML = Array.from(
         { length: lines.length },
-        () => `<span class="code-block__line"></span>`
+        () => `<span class="block-code__line"></span>`
       ).join('')
 
-      preElement.classList.add('code-block', 'font-theme', 'font-theme--code')
+      preElement.classList.add('block-code', 'font-theme', 'font-theme--code')
       preElement.setAttribute('tabindex', 0)
       preElement.innerHTML = `
-      ${linesBlock.outerHTML}
-        <span class="code-block__original">${originalSplittedContent}</span>
-        <code class="code-block__highlight">${highlightedContent}</code>
+        ${linesBlock.outerHTML}
+        <span class="block-code__original">${originalSplittedContent}</span>
+        <code class="block-code__highlight">${highlightedContent}</code>
       `
     })
 
@@ -80,7 +80,7 @@ module.exports = function(window) {
   articleContent
     ?.querySelectorAll('p code, ul code, ol code, table code')
     ?.forEach(codeElement => {
-      codeElement.classList.add('code', 'font-theme', 'font-theme--code')
+      codeElement.classList.add('inline-code', 'font-theme', 'font-theme--code')
     })
 
   // добавление классов на блоки `code` внутри заголовков
