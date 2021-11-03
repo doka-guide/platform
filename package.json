@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
-    "@11ty/eleventy-img": "^0.10.0",
+    "@11ty/eleventy-img": "^1.0.0",
     "autoprefixer": "^10.3.4",
     "cross-env": "^7.0.3",
     "del": "^6.0.0",
