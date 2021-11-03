@@ -242,6 +242,7 @@ module.exports = function(config) {
             removeEmptyAttributes: false,
             removeAttributeQuotes: false,
             removeRedundantAttributes: true,
+            sortAttributesWithLists: false,
             removeOptionalTags: false,
             collapseBooleanAttributes: true,
             mergeStyles: false,
