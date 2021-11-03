@@ -14,7 +14,3 @@
 .details__content {
   padding: var(--offset);
 }
-
-.details__content > * {
-  max-width: 100%;
-}
