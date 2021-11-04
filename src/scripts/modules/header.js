@@ -1,99 +1,145 @@
 import throttle from '../libs/throttle.js'
 import debounce from '../libs/debounce.js'
+import BaseComponent from '../core/base-component.js'
 
-function init() {
-  const header = document.querySelector('.header')
+const headerActiveClass = 'header--open'
+const scrollThreshold = 1.5
 
-  let headerHeight
-  let fixedHeaderHeight
+class Header extends BaseComponent {
+  constructor({ rootElement }) {
+    if (!rootElement) {
+      return null
+    }
 
-  if (!header) {
-    return
+    super()
+
+    /** @type {Object<string, HTMLElement>} */
+    this.refs = {
+      rootElement,
+      input: rootElement.querySelector('.search__input'),
+      toggleButtons: rootElement.querySelectorAll('.menu-toggle'),
+    }
+
+    this.state = {
+      headerHeight: null,
+      fixedHeaderHeight: null
+    };
+
+    [
+      'calculateHeaderHeight',
+      'openOnKeyUp',
+      'closeOnKeyUp',
+      'closeOnClickOutSide',
+      'openMenu',
+      'closeMenu',
+      'fixHeader',
+      'checkFixed'
+    ].forEach(method => {
+      this[method] = this[method].bind(this)
+    })
+
+    window.addEventListener('resize', debounce(this.calculateHeaderHeight, 200))
+    window.addEventListener('orientationchange', debounce(this.calculateHeaderHeight, 200))
+    this.calculateHeaderHeight()
+
+    document.addEventListener('keydown', (event) => {
+      // Firefox при нажатии Slash открывает свой поиск по странице
+      if (event.code === 'Slash' && document.activeElement !== this.refs.input) {
+        event.preventDefault()
+      }
+    })
+
+    document.addEventListener('keyup', (event) => {
+      if (event.code === 'Slash') {
+        setTimeout(() => {
+          this.refs.input?.focus()
+        })
+      }
+    })
+
+    if (this.isClosableHeader) {
+      this.refs.toggleButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          this.isMenuOpen ? this.closeMenu() : this.openMenu()
+        })
+      })
+
+      document.addEventListener('keyup', this.openOnKeyUp)
+
+      window.addEventListener('scroll', throttle(this.checkFixed, 200), { passive: true })
+      this.checkFixed()
+    }
   }
 
-  const input = header.querySelector('.search__input')
+  get isFixed() {
+    return this.refs.rootElement.classList.contains('header--fixed')
+  }
 
-  function calculateHeaderHeight() {
-    const isFixed = isHeaderFixed()
+  get isClosableHeader() {
+    const header = this.refs.rootElement
 
-    if (isFixed) {
-      fixedHeaderHeight = header.offsetHeight
+    return [
+      !header.classList.contains('header--static'),
+      !header.classList.contains('search-page__header')
+    ].every(Boolean)
+  }
+
+  get isMenuOpen() {
+    return this.refs.rootElement.classList.contains(headerActiveClass)
+  }
+
+  calculateHeaderHeight() {
+    const header = this.refs.rootElement
+    const state = this.state
+
+    if (this.isFixed) {
+      state.fixedHeaderHeight = header.offsetHeight
       header.classList.remove('header--fixed')
-      headerHeight = header.offsetHeight
+      state.headerHeight = header.offsetHeight
       header.classList.add('header--fixed')
     } else {
-      headerHeight = header.offsetHeight
+      state.headerHeight = header.offsetHeight
       header.classList.add('header--fixed')
-      fixedHeaderHeight = header.offsetHeight
+      state.fixedHeaderHeight = header.offsetHeight
       header.classList.remove('header--fixed')
     }
 
-    document.documentElement.style.setProperty('--fixed-header-height', fixedHeaderHeight)
-    document.documentElement.style.setProperty('--not-fixed-header-height', headerHeight)
+    document.documentElement.style.setProperty('--fixed-header-height', state.fixedHeaderHeight)
+    document.documentElement.style.setProperty('--not-fixed-header-height', state.headerHeight)
   }
 
-  calculateHeaderHeight()
-  window.addEventListener('resize', debounce(calculateHeaderHeight, 200))
-  window.addEventListener('orientationchange', debounce(calculateHeaderHeight, 200))
-
-  document.addEventListener('keydown', (event) => {
-    if (event.code === 'Slash' && document.activeElement !== input) {
-      event.preventDefault()
-    }
-  })
-
-  document.addEventListener('keyup', (event) => {
+  openOnKeyUp(event) {
     if (event.code === 'Slash') {
-      setTimeout(() => {
-        input?.focus()
-      })
-    }
-  })
-
-  const isClosableHeader = [
-    !header.classList.contains('header--static'),
-    !header.classList.contains('search-page__header')
-  ].every(Boolean)
-
-  if (!isClosableHeader) {
-    return
-  }
-
-  const articleAside = document.querySelector('.article__aside')
-  const toggleButtons = header.querySelectorAll('.menu-toggle')
-
-  const headerActiveClass = 'header--open'
-
-  function openOnKeyUp(event) {
-    if (event.code === 'Slash') {
-      openHeader()
+      this.openMenu()
     }
   }
 
-  function closeOnKeyUp(event) {
+  closeOnKeyUp(event) {
     if (event.code === 'Escape') {
-      closeHeader()
+      this.closeMenu()
     }
   }
 
-  function closeOnClickOutSide(event) {
+  closeOnClickOutSide(event) {
     if (!event.target.closest('.header__inner')) {
-      closeHeader()
+      this.closeMenu()
     }
   }
 
-  function openHeader() {
-    header.classList.add(headerActiveClass)
-    document.addEventListener('keyup', closeOnKeyUp)
-    document.addEventListener('click', closeOnClickOutSide)
-    document.removeEventListener('keyup', openOnKeyUp)
+  openMenu() {
+    this.refs.rootElement.classList.add(headerActiveClass)
+    document.removeEventListener('keyup', this.openOnKeyUp)
+    document.addEventListener('keyup', this.closeOnKeyUp)
+    document.addEventListener('click', this.closeOnClickOutSide)
   }
 
-  function closeHeader() {
-    header.classList.remove(headerActiveClass)
-    document.removeEventListener('keyup', closeOnKeyUp)
-    document.removeEventListener('click', closeOnClickOutSide)
-    document.addEventListener('keyup', openOnKeyUp)
+  closeMenu() {
+    const { input, rootElement } = this.refs
+
+    rootElement.classList.remove(headerActiveClass)
+    document.removeEventListener('keyup', this.closeOnKeyUp)
+    document.removeEventListener('click', this.closeOnClickOutSide)
+    document.addEventListener('keyup', this.openOnKeyUp)
 
     if (input) {
       input.value = ''
@@ -101,66 +147,49 @@ function init() {
     }
   }
 
-  function isHeaderOpen() {
-    return header.classList.contains(headerActiveClass)
-  }
-
-  function fixHeader(flag) {
-    header.classList.toggle('header--fixed', flag)
+  fixHeader(flag) {
+    this.refs.rootElement.classList.toggle('header--fixed', flag)
     document.documentElement.style.setProperty('--is-header-fixed', Number(flag))
   }
 
-  function isHeaderFixed() {
-    return header.classList.contains('header--fixed')
-  }
+  checkFixed() {
+    const { rootElement: header } = this.refs
 
-  toggleButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      isHeaderOpen() ? closeHeader() : openHeader()
-    })
-  })
-
-  document.addEventListener('keyup', openOnKeyUp)
-
-  const scrollThreshold = 1.5
-
-  function checkFixed() {
     if (window.scrollY > scrollThreshold * window.innerHeight) {
-      if (isHeaderFixed()) return
+      if (this.isFixed) return
 
       header.addEventListener('animationend', event => {
         if (event.animationName !== 'fixedHeaderAnimation') return
         header.classList.remove('header--animating', 'header--fixed-show')
       }, { once: true })
 
-      fixHeader(true)
+      this.fixHeader(true)
       header.classList.add('header--animating', 'header--fixed-show')
-      articleAside?.classList.add('article__aside--offset')
+      this.emit('fixed')
 
     } else {
-      if (!isHeaderFixed()) return
+      if (!this.isFixed) return
 
       // если скроллить очень быстро, то не нужно показывать анимацию скрытия
       // 4 - "магическое число"
-      if (window.scrollY <= headerHeight * 4) {
-        articleAside?.classList.remove('article__aside--offset')
-        fixHeader(false)
+      if (window.scrollY <= this.state.headerHeight * 4) {
+        this.emit('unfixed')
+        this.fixHeader(false)
         return
       }
 
       header.addEventListener('animationend', event => {
         if (event.animationName !== 'fixedHeaderAnimation') return
-        fixHeader(false)
+        this.fixHeader(false)
         header.classList.remove('header--animating', 'header--fixed-hide')
       }, { once: true })
 
       header.classList.add('header--animating', 'header--fixed-hide')
-      articleAside?.classList.remove('article__aside--offset')
+      this.emit('unfixed')
     }
   }
-
-  checkFixed()
-  window.addEventListener('scroll', throttle(checkFixed, 200), { passive: true })
 }
 
-init()
+export default new Header({
+  rootElement: document.querySelector('.header')
+})
