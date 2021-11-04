@@ -24,7 +24,7 @@
     "start": "cross-env NODE_ENV=development eleventy --serve --quiet",
     "build": "cross-env NODE_ENV=production eleventy --quiet && npx gulp",
     "preview": "cross-env NODE_ENV=development eleventy --quiet && npx gulp",
-    "deploy": "cd dist && rsync -e 'ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no' --archive --progress --compress --delete . deploy@doka.guide:$(echo $(grep 'SERVER_PATH' ../.env | cut -d '=' -f2))",
+    "deploy": "cd dist && rsync -e \"ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no\" --archive --progress --compress --delete . deploy@doka.guide:$(echo $(grep 'SERVER_PATH' ../.env | cut -d '=' -f2))",
     "editorconfig": "editorconfig-checker",
     "stylelint": "stylelint 'src/styles/**/*.css'",
     "eslint": "eslint '**/*.js'",
