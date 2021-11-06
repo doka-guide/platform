@@ -260,8 +260,8 @@ module.exports = function(config) {
   config.addPassthroughCopy('src/manifest.json')
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
-  config.addPassthroughCopy('src/**/*.(html|gif|jpg|png|svg|mp4|webm|zip)')
-  config.addPassthroughCopy('src/(css|html|js|tools)/**/demos/**/*')
+  config.addPassthroughCopy('src/images')
+  config.addPassthroughCopy('src/(css|html|js|tools)/**/!(*11tydata*)*.!(md)')
 
   return {
     dir: {
