@@ -233,7 +233,7 @@ module.exports = function(config) {
           return htmlnano.process(content, {
             collapseAttributeWhitespace: true,
             collapseWhitespace: 'conservative',
-            deduplicateAttributeValues: true,
+            deduplicateAttributeValues: false,
             minifyCss: false,
             minifyJs: true,
             minifyJson: false,
