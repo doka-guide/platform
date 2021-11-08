@@ -1,6 +1,6 @@
 # Платформа Доки
 
-[![Статус Netlify](https://github.com/doka-guide/platform/actions/workflows/netlify-deploy.yml/badge.svg?branch=main&event=push)](https://github.com/doka-guide/platform/actions/workflows/netlify-deploy.yml)
+[![Статус деплоя](https://github.com/doka-guide/platform/actions/workflows/platform-deploy.yml/badge.svg?branch=main&event=push)](https://github.com/doka-guide/platform/actions/workflows/platform-deploy.yml)
 [![Статус Docker](https://github.com/doka-guide/platform/actions/workflows/docker-deploy.yml/badge.svg?branch=main&event=push)](https://github.com/doka-guide/platform/actions/workflows/docker-deploy.yml)
 [![W3C Validator](https://github.com/doka-guide/platform/actions/workflows/w3c-validator.yml/badge.svg?branch=main&event=push)](https://github.com/doka-guide/platform/actions/workflows/w3c-validator.yml)
 
