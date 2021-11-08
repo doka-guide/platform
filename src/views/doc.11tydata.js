@@ -1,4 +1,4 @@
-const { baseUrl, mainSections } = require('../../config/constants')
+const { baseUrl } = require('../../config/constants')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 function getPersons(personGetter) {
@@ -166,15 +166,5 @@ module.exports = {
       const { doc } = data
       return doc.data.tags[0]
     },
-
-    articleCategory: function(data) {
-      const { docPath } = data
-      const categoryKeys = Object.keys(mainSections)
-      for (const index in categoryKeys) {
-        if (docPath.includes(categoryKeys[index])) {
-          return mainSections[categoryKeys[index]]
-        }
-      }
-    }
   }
 }
