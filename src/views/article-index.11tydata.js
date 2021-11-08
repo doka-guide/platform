@@ -28,6 +28,11 @@ module.exports = {
       return titleFormatter([data.categoryName, 'Дока'])
     },
 
+    documentDescription: function(data) {
+      const { categoryName } = data
+      return `Статьи Доки по теме «${categoryName}»`
+    },
+
     categoryLink: function(data) {
       const { category } = data
       return `/${category}/`
