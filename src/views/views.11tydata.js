@@ -20,6 +20,11 @@ module.exports = {
       return documentTitle
     },
 
+    documentDescription: function(data) {
+      const { documentDescription, description } = data
+      return documentDescription || description
+    },
+
     hasCategory: function(data) {
       return !!(data.categoryName)
     },

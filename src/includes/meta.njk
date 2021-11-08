@@ -43,8 +43,8 @@
 
 <meta name="title" content="{{ socialTitle }}">
 
-{% if doc.data.description %}
-  <meta name="description" content="{{ doc.data.description }}">
+{% if documentDescription %}
+  <meta name="description" content="{{ documentDescription }}">
 {% endif %}
 
 <meta name="robots" content="index, nofollow">
@@ -61,9 +61,9 @@
 <meta property="og:url" content="{{ fullPageUrl }}">
 <meta property="og:title" content="{{ socialTitle }}">
 
-{% if doc.data.description %}
-  <meta property="og:description" content="{{ doc.data.description }}">
-  <meta itemprop="description" content="{{ doc.data.description }}">
+{% if documentDescription %}
+  <meta property="og:description" content="{{ documentDescription }}">
+  <meta itemprop="description" content="{{ documentDescription }}">
 {% endif %}
 
 {% if pageType === 'Article' %}
@@ -82,8 +82,8 @@
 <meta property="twitter:url" content="{{ fullPageUrl }}">
 <meta property="twitter:title" content="{{ socialTitle }}">
 
-{% if doc.data.description %}
-  <meta property="twitter:description" content="{{ doc.data.description }}">
+{% if documentDescription %}
+  <meta property="twitter:description" content="{{ documentDescription }}">
 {% endif %}
 
 <meta property="twitter:image" content="{{ defaultTwitterPath }}">
@@ -92,8 +92,8 @@
 
 <!-- 10.3 Microdata -->
 
-{% if articleCategory %}
-  <meta property="article:tag" content="{{ articleCategory }}">
+{% if categoryName %}
+  <meta property="article:tag" content="{{ categoryName }}">
 {% endif %}
 
 {% if articleTag %}

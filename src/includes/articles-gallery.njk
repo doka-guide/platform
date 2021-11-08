@@ -1,22 +1,16 @@
 {% from "blocks/featured-article.njk" import featuredArticle %}
 
+{% set lazyLoadingIndexThreshold = 3 %}
+
 <section class="articles-gallery">
   <h2 class="visually-hidden">Избранные статьи</h2>
 
   <ul class="featured-artices-list base-list">
     {% for article in featuredArticles %}
-      {% set isHidden = loop.index > featuredArticlesPageSize %}
-      {% if isHidden %}
-        <template>
-          <li class="featured-artices-list__item">
-            {{ featuredArticle(article=article) }}
-          </li>
-        </template>
-      {% else %}
-        <li class="featured-artices-list__item">
-          {{ featuredArticle(article=article) }}
-        </li>
-      {% endif %}
+      {% set isLazyLoading = loop.index > lazyLoadingIndexThreshold %}
+      <li class="featured-artices-list__item">
+        {{ featuredArticle(article=article, isLazyLoading=isLazyLoading) }}
+      </li>
     {% endfor %}
   </ul>
 
