@@ -182,14 +182,14 @@ module.exports = function(config) {
   })
 
   {
-    const titleMarkdown = markdownIt({
+    const descriptionMarkdown = markdownIt({
       html: false,
       linkify: false,
       typographer: false
     })
 
-    config.addFilter('titleMarkdown', (content) => {
-      return titleMarkdown.renderInline(content)
+    config.addFilter('descriptionMarkdown', (content) => {
+      return descriptionMarkdown.renderInline(content)
     })
   }
 
