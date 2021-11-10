@@ -162,6 +162,14 @@ module.exports = {
         .replace(/>/g, '')
     },
 
+    documentDescription: function(data) {
+      const { description } = data
+      return description
+        ?.replace(/`/g, '')
+        ?.replace(/</g, '')
+        ?.replace(/>/g, '')
+    },
+
     articleTag: function(data) {
       const { doc } = data
       return doc.data.tags[0]
