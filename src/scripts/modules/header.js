@@ -42,21 +42,6 @@ class Header extends BaseComponent {
     window.addEventListener('orientationchange', debounce(this.calculateHeaderHeight, 200))
     this.calculateHeaderHeight()
 
-    document.addEventListener('keydown', (event) => {
-      // Firefox при нажатии Slash открывает свой поиск по странице
-      if (event.code === 'Slash' && document.activeElement !== this.refs.input) {
-        event.preventDefault()
-      }
-    })
-
-    document.addEventListener('keyup', (event) => {
-      if (event.code === 'Slash') {
-        setTimeout(() => {
-          this.refs.input?.focus()
-        })
-      }
-    })
-
     if (this.isClosableHeader) {
       this.refs.toggleButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -134,17 +119,15 @@ class Header extends BaseComponent {
   }
 
   closeMenu() {
-    const { input, rootElement } = this.refs
+    const { rootElement } = this.refs
 
     rootElement.classList.remove(headerActiveClass)
     document.removeEventListener('keyup', this.closeOnKeyUp)
     document.removeEventListener('click', this.closeOnClickOutSide)
     document.addEventListener('keyup', this.openOnKeyUp)
 
-    if (input) {
-      input.value = ''
-      input.blur()
-    }
+    this.emit('menu.close')
+
   }
 
   fixHeader(flag) {
