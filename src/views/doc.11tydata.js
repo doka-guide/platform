@@ -149,7 +149,7 @@ module.exports = {
     },
 
     documentTitle: function(data) {
-      // удаляем символы обратных кавычек и угловых скобок html-тегов из markdown
+      // удаляем символы обратных кавычек html-тегов из markdown
       const title = data.title.replace(/`/g, '')
       return titleFormatter([title, data.categoryName, 'Дока'])
     },
