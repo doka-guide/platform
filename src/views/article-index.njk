@@ -48,7 +48,7 @@
         {% for group in allGroups %}
           <section class="index-section__item articles-group" id="{{ group.name | slugify }}">
             <h3 class="articles-group__title">
-              {{ group.name | titleMarkdown | safe }}
+              {{ group.name | descriptionMarkdown | safe }}
             </h3>
             <ul class="articles-group__list base-list">
               {% for articleId in group.items %}
@@ -56,7 +56,7 @@
                 <li>
                   <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
                     {% if isPlaceholder %}{{ iconEditPlaceholder | safe }}{% endif -%}
-                    {{- categoryArticlesBySlug[articleId].data.title | titleMarkdown | safe }}
+                    {{- categoryArticlesBySlug[articleId].data.title | descriptionMarkdown | safe }}
                   </a>
                 </li>
               {% endfor %}
@@ -78,7 +78,7 @@
                 <li>
                   <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
                     {% if isPlaceholder %}{{ iconEditPlaceholder | safe }}{% endif -%}
-                    {{- categoryArticlesBySlug[articleId].data.title | titleMarkdown | safe }}
+                    {{- categoryArticlesBySlug[articleId].data.title | descriptionMarkdown | safe }}
                   </a>
                 </li>
               {% endfor %}

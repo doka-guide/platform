@@ -54,6 +54,13 @@
   margin-bottom: 0;
 }
 
+.article__description-code {
+  font-size: var(--font-size-m);
+  line-height: var(--font-line-height-m);
+  letter-spacing: var(--letter-spacing);
+  font-family: var(--font-family);
+}
+
 .article__placeholder {
   --placeholder-bg-opacity: calc(var(--is-dark-theme-on) * 0.5 + var(--is-light-theme-on) * 0.7);
   margin-top: 10px;

@@ -30,11 +30,13 @@
           </p>
 
           <h1 class="article__title" itemprop="headline">
-            {{ title | titleMarkdown | safe }}
+            {{ title | descriptionMarkdown | safe }}
           </h1>
 
           {% if description %}
-            <p class="article__description">{{ description }}</p>
+            <p class="article__description">
+              {{ description | descriptionMarkdown | safe }}
+            </p]>
           {% endif %}
 
           <p class="article__read-time">

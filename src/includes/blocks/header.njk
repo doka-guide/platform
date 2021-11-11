@@ -32,7 +32,7 @@
           {% if title %}
             <li class="breadcrumbs__item breadcrumbs__item--shrink header__title" title="{{ title }}">
               <a class="breadcrumbs__text link" href="{{ link }}">
-                {{ title | titleMarkdown | safe }}
+                {{ title | descriptionMarkdown | safe }}
               </a>
             </li>
           {% endif %}

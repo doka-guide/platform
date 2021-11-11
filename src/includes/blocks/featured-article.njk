@@ -14,7 +14,7 @@
     {% endif %}
     <h3 class="featured-article__title">
       <a class="featured-article__link link" href="{{ article.link }}">
-        {{ article.title | titleMarkdown | safe }}
+        {{ article.title | descriptionMarkdown | safe }}
       </a>
     </h3>
     {% if ((not hasImage) and article.description) %}
