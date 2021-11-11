@@ -10,6 +10,8 @@
 
 .suggestion-list__item {
   flex: 0 1 auto;
+  position: relative;
+  z-index: 0;
 }
 
 .suggestion-list__item:not(:last-child)::after {
@@ -26,8 +28,6 @@
 .suggestion-list__link {
   --stroke-width: 2px;
   --stroke-color: var(--accent-color);
-  position: relative;
-  z-index: 0;
   text-underline-position: auto;
   text-underline-offset: 0.2em;
   color: inherit;
