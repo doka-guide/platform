@@ -16,6 +16,7 @@
 }
 
 .callout__content {
+  --background-code-color: hsl(0 0% calc(var(--is-light-theme-on) * 100%));
   flex: 1 1 auto;
 }
 
@@ -29,10 +30,6 @@
 
 .callout__content > *:last-child {
   margin-bottom: 0;
-}
-
-.callout__content .code {
-  --background-color: hsl(0 0% calc(var(--is-light-theme-on) * 100%));
 }
 
 @media (min-width: 768px) {

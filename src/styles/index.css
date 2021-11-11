@@ -10,7 +10,7 @@
 @import 'blocks/container.css';
 @import 'blocks/font-theme.css';
 @import 'blocks/link.css';
-@import 'blocks/code.css';
+@import 'blocks/inline-code.css';
 @import 'blocks/button.css';
 @import 'blocks/base.css';
 @import 'blocks/logo.css';
@@ -36,7 +36,7 @@
 @import 'blocks/doc.css';
 @import 'blocks/persons-list.css';
 @import 'blocks/toc.css';
-@import 'blocks/code-block.css';
+@import 'blocks/block-code.css';
 @import 'blocks/details.css';
 @import 'blocks/format-block.css';
 @import 'blocks/vote.css';
