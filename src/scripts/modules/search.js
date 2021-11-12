@@ -191,7 +191,7 @@ function init() {
     return hitObject.tags.includes('placeholder')
   }
 
-  function replaceTicketsByCode(text, replaceTemplate) {
+  function replaceBackticksByCode(text, replaceTemplate) {
     return text.replace(/`(.*?)`/g, replaceTemplate)
   }
 
@@ -203,7 +203,7 @@ function init() {
         ? '<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>'
         : ''
       const title =
-        replaceTicketsByCode(
+        replaceBackticksByCode(
           markQuery(
             escape(hitObject.title),
             query
@@ -211,7 +211,7 @@ function init() {
           '<code class="search-hit__link-code font-theme font-theme--code">$1</code>'
         )
       const summary =
-        replaceTicketsByCode(
+        replaceBackticksByCode(
           markQuery(
             escape(adjustTextSize(hitObject.summary, query, limit)),
             query
