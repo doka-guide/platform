@@ -1,9 +1,9 @@
-/* вынесено в root, чтобы задать один экземпляр переменной, а не создавать несколько для каждого узла `code-block` */
+/* вынесено в root, чтобы задать один экземпляр переменной, а не создавать несколько для каждого узла `block-code` */
 :root {
   --code-lines-lightness: calc(var(--is-dark-theme-on) * 60% + var(--is-light-theme-on) * 34%);
 }
 
-.code-block {
+.block-code {
   --line-height: calc(24 / 18);
   margin-top: 10px;
   margin-bottom: 20px;
@@ -22,7 +22,7 @@
   font-family: var(--font-family, monospace);
 }
 
-.code-block__lines {
+.block-code__lines {
   grid-area: lines;
   position: sticky;
   left: 0;
@@ -35,56 +35,56 @@
   color: hsl(0 0% var(--code-lines-lightness));
 }
 
-.code-block__line {
+.block-code__line {
   counter-increment: line-count;
   position: relative;
   display: block;
   min-height: calc(var(--line-height) * 1em);
 }
 
-.code-block__line::before {
+.block-code__line::before {
   content: counter(line-count);
   display: block;
 }
 
-.code-block__original,
-.code-block__highlight {
+.block-code__original,
+.block-code__highlight {
   grid-area: code;
   font: inherit;
 }
 
-.code-block__original {
+.block-code__original {
   visibility: hidden;
   user-select: none;
 }
 
-.code-block__original-line {
+.block-code__original-line {
   white-space: pre;
   display: block;
   min-height: calc(var(--line-height) * 1em);
   font: inherit;
 }
 
-.code-block__highlight {
+.block-code__highlight {
   white-space: pre;
 }
 
 @media (min-width: 768px) {
-  .code-block {
+  .block-code {
     margin-top: 20px;
     margin-bottom: 20px;
   }
 }
 
 @media (min-width: 1024px) {
-  .code-block {
+  .block-code {
     margin-top: 20px;
     margin-bottom: 60px;
   }
 }
 
 @media (min-width: 1680px) {
-  .code-block {
+  .block-code {
     margin-top: 32px;
     margin-bottom: 50px;
   }
