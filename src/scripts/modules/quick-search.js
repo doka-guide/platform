@@ -83,14 +83,14 @@ class QuickSearch extends BaseComponent {
     const { suggestionContainer } = this.refs
 
     suggestionContainer?.classList.remove('search__suggestion--hide')
-    document.addEventListener('keyup', this.onCursorChange)
+    document.addEventListener('keydown', this.onCursorChange)
   }
 
   closeSuggestion() {
     const { suggestionContainer } = this.refs
 
     suggestionContainer?.classList.add('search__suggestion--hide')
-    document.removeEventListener('keyup', this.onCursorChange)
+    document.removeEventListener('keydown', this.onCursorChange)
   }
 
   get isSuggestionOpen() {
@@ -120,11 +120,13 @@ class QuickSearch extends BaseComponent {
     switch (event.code) {
       case 'ArrowDown': {
         this.moveCursor(1)
+        event.preventDefault()
         break
       }
 
       case 'ArrowUp': {
         this.moveCursor(-1)
+        event.preventDefault()
         break
       }
 
