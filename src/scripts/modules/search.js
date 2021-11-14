@@ -191,25 +191,42 @@ function init() {
     return hitObject.tags.includes('placeholder')
   }
 
-  function escapeText(text, replaceTemplate) {
-    return escape(text).replace(/`(.*?)`/g, replaceTemplate)
+  function replaceBackticksByCode(text, replaceTemplate) {
+    return text.replace(/`(.*?)`/g, replaceTemplate)
   }
 
   const templates = {
     mark: (match) => `<mark class="search-hit__marked">${match}</mark>`,
 
     hit: (hitObject, query, limit) => {
-      const editIcon = isPlaceholder(hitObject) ? '<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>' : ''
-      const title = escapeText(hitObject.title, '<code class="search-hit__link-code font-theme font-theme--code">$1</code>')
+      const editIcon = isPlaceholder(hitObject)
+        ? '<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>'
+        : ''
+      const title =
+        replaceBackticksByCode(
+          markQuery(
+            escape(hitObject.title),
+            query
+          ),
+          '<code class="search-hit__link-code font-theme font-theme--code">$1</code>'
+        )
+      const summary =
+        replaceBackticksByCode(
+          markQuery(
+            escape(adjustTextSize(hitObject.summary, query, limit)),
+            query
+          ),
+          '<code class="search-hit__text-code font-theme font-theme--code">$1</code>'
+        )
 
       return `<article class="search-hit">
         <h3 class="search-hit__title">
           <a class="search-hit__link link" href="${hitObject.url}">
-            ${editIcon}${markQuery(title, query)}
+            ${editIcon}${title}
           </a>
         </h3>
         <div class="search-hit__summary">
-          ${markQuery(escapeText(adjustTextSize(hitObject.summary, query, limit), '<code class="search-hit__text-code font-theme font-theme--code">$1</code>'), query)}
+          ${summary}
         </div>
       </article>
     `
