@@ -49,7 +49,7 @@
                 <path d="M1.1 7.5l6.22-6.22c.28-.28.6-.42.96-.42.34 0 .66.14.97.42l9.4 9.4c.62.62 1.01 1.21 1.18 1.77l2.6 8.53c.09.22.13.46.13.71 0 .7-.35 1.05-1.05 1.05-.22 0-.46-.04-.71-.13l-8.53-2.6a4.19 4.19 0 01-1.76-1.18L1.1 9.43C.8 9.12.64 8.8.64 8.46c0-.34.15-.66.46-.97zm7.35-3.95l-1.8 1.8 8.27 8.23c.28-.28.81-.95 1.6-2.01L8.44 3.55zm2.94 13.14c.64-.42 1.32-.95 2.02-1.6L5.13 6.87 3.37 8.63l8.02 8.06zm6.51-3.19a13.8 13.8 0 01-4.62 4.62l4.28 1.51c.31-.11.68-.38 1.1-.8.42-.42.68-.78.8-1.09L17.9 13.5z"/>
               </svg>
               <span class="article__placeholder-content">
-                Это незавершённая статья. Вы можете помочь её закончить! Почитайте <a class="link" href="https://github.com/doka-guide/content/blob/main/docs/contributing.md" target="_blank">о том, как контрибьютить в Доку</a>.
+                Это незавершённая статья. Вы можете помочь её закончить! Почитайте <a class="link" href="https://github.com/doka-guide/content/blob/main/docs/contributing.md" target="_blank" rel="noopener" rel="noreferrer">о том, как контрибьютить в Доку</a>.
               </span>
             </p>
           {% endif %}
@@ -82,7 +82,7 @@
             </svg>
             {% endset %}
 
-            <a class="article__edit-button button" href="{{ constants.contentRepLink }}/blob/main{{ docPath }}" target="_blank">
+            <a class="article__edit-button button" href="{{ constants.contentRepLink }}/blob/main{{ docPath }}" target="_blank" rel="noopener" rel="noreferrer">
               Редактировать на {{ githubicon | safe }}  GitHub
             </a>
 
