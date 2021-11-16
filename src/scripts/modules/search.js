@@ -10,21 +10,6 @@ function init() {
   const SEARCH_TAG_SELECTOR = '.search-tag'
   const SEARCH_CATEGORY_SELECTOR = '.search-category'
 
-  const UNKNOWN_CATEGORY = 'UNKNOWN_CATEGORY'
-  const HIT_ORDER = [
-    'html',
-    'css',
-    'js',
-    'tools',
-    UNKNOWN_CATEGORY
-  ]
-  const HIT_CATEGORY_TITLES = {
-    html: 'HTML',
-    css: 'CSS',
-    js: 'JavaScript',
-    tools: 'Инструменты'
-  }
-
   let facetTagList = []
   let facetCategoryList = []
   let facetFilterList = []
@@ -74,16 +59,7 @@ function init() {
       return templates.emptyResults()
     }
 
-    const hitObjectMap = hitObjectList.reduce((map, hitObject) => {
-      map[hitObject.category] = map[hitObject.category || UNKNOWN_CATEGORY] || []
-      map[hitObject.category].push(hitObject)
-      return map
-    }, {})
-
-    return HIT_ORDER
-      .filter(category => category in hitObjectMap)
-      .map(category => templates.section(category, hitObjectMap[category], query, limit))
-      .join('')
+    return templates.hits(hitObjectList, query, limit)
   }
 
   function updateFacet() {
@@ -219,41 +195,31 @@ function init() {
           '<code class="search-hit__text-code font-theme font-theme--code">$1</code>'
         )
 
-      return `<article class="search-hit">
-        <h3 class="search-hit__title">
-          <a class="search-hit__link link" href="${hitObject.url}">
-            ${editIcon}${title}
-          </a>
-        </h3>
-        <div class="search-hit__summary">
-          ${summary}
-        </div>
-      </article>
-    `
-      },
+      return `
+        <article class="search-hit" style="--accent-color: var(--color-base-${hitObject.category})">
+          <h3 class="search-hit__title">
+            <a class="search-hit__link link" href="${hitObject.url}">
+              ${editIcon}${title}
+            </a>
+          </h3>
+          <div class="search-hit__summary">
+            ${summary}
+          </div>
+        </article>
+      `
+    },
 
-    categoryTitle: (category) => `
-      <h2 class="search-section__title" style="--accent-color: var(--color-${category})">
-        <a class="search-section__title-link" href="/${category}/">
-          ${HIT_CATEGORY_TITLES[category]}
-        </a>
-      </h2>
-    `,
-
-    section: (category, list, query, limit) => `
-      <section class="search-section" style="--accent-color: var(--color-base-${category})">
-        ${category !== UNKNOWN_CATEGORY ? templates.categoryTitle(category) : ''}
-        <ul class="search-section__list base-list">
-          ${
-            list.map(hitObject => `
-              <li class="search-section__list-item">
-                ${templates.hit(hitObject, query, limit)}
-              </li>
-            `)
-            .join('')
-          }
-        </ul>
-      </section>
+    hits: (list, query, limit) => `
+      <ol class="search-result-list base-list">
+        ${
+          list.map(hitObject => `
+            <li class="search-result-list__item">
+              ${templates.hit(hitObject, query, limit)}
+            </li>
+          `)
+          .join('')
+        }
+      </ol>
     `,
 
     emptyResults: () => `
