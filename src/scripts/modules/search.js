@@ -140,6 +140,7 @@ function init() {
 
     document.addEventListener('keyup', (event) => {
       if (event.code === 'Escape') {
+        event.preventDefault()
         searchForm.reset()
       }
 
