@@ -7,7 +7,12 @@
   --line-height: calc(24 / 18);
   margin-top: 10px;
   margin-bottom: 20px;
+  position: relative;
   counter-reset: line-count 0;
+  white-space: normal;
+}
+
+.block-code__inner {
   display: grid;
   align-items: start;
   align-content: start;
@@ -15,7 +20,6 @@
   grid-template-areas: 'lines code';
   overflow: auto;
   overscroll-behavior-x: contain;
-  white-space: normal;
   font-size: 1em;
   line-height: var(--line-height);
   letter-spacing: var(--letter-spacing);
@@ -67,6 +71,12 @@
 
 .block-code__highlight {
   white-space: pre;
+}
+
+.block-code__tools {
+  grid-area: tools;
+  display: block;
+  padding: 12px 0;
 }
 
 @media (min-width: 768px) {

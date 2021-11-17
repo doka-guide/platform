@@ -62,11 +62,23 @@ module.exports = function(window) {
       ).join('')
 
       preElement.classList.add('block-code', 'font-theme', 'font-theme--code')
-      preElement.setAttribute('tabindex', 0)
       preElement.innerHTML = `
-        ${linesBlock.outerHTML}
-        <span class="block-code__original">${originalSplittedContent}</span>
-        <code class="block-code__highlight">${highlightedContent}</code>
+        <span class="block-code__inner " tabindex="0">
+          ${linesBlock.outerHTML}
+          <code class="block-code__original">${originalSplittedContent}</code>
+          <code class="block-code__highlight">${highlightedContent}</code>
+        </span>
+        <span class="block-code__tools">
+          <button class="block-code__copy-button copy-button" type="button" data-state="idle">
+            <svg class="copy-button__icon" width="14" height="17" viewBox="0 0 14 17" fill="none" stroke="currentColor">
+              <rect width="8.75" height="11.35" x="4.75" y="4.43" rx="1.5"/>
+              <path d="M8.8 2.3c0-.72-.58-1.3-1.3-1.3H3a2 2 0 0 0-2 2v8.07c0 .9.73 1.63 1.63 1.63"/>
+            </svg>
+            <span class="copy-button__text link" data-state="idle">Скопировать</span>
+            <span class="copy-button__text" data-state="success">Скопировано</span>
+            <span class="copy-button__text" data-state="error">Не удалось скопировать</span>
+          </button>
+        </span>
       `
     })
 
