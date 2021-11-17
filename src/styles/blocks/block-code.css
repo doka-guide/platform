@@ -12,6 +12,22 @@
   white-space: normal;
 }
 
+.block-code::before {
+  content: attr(data-lang);
+  margin-bottom: 0.5em;
+  display: block;
+  width: max-content;
+  padding: 0.45em 0.9em 0.25em;
+  font-family: var(--font-family, monospace);
+  text-transform: uppercase;
+  font-size: 0.6em;
+  line-height: 1;
+  letter-spacing: 0.025em;
+  background-color: var(--color-fade);
+  border-radius: 2em;
+  transition: opacity 0.2s;
+}
+
 .block-code__inner {
   display: grid;
   align-items: start;
@@ -97,5 +113,9 @@
   .block-code {
     margin-top: 32px;
     margin-bottom: 50px;
+  }
+
+  .block-code::before {
+    margin-bottom: 1em;
   }
 }
