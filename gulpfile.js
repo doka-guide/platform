@@ -1,5 +1,8 @@
 const path = require('path')
 const fs = require('fs')
+const fsp = require('fs/promises')
+const { Transform } = require('stream')
+const { pipeline } = require('stream/promises')
 
 const gulp = require('gulp')
 const git = require('gulp-git')
@@ -13,7 +16,6 @@ const del = require('del')
 const rev = require('gulp-rev')
 const revRewrite = require('gulp-rev-rewrite')
 const puppeteer = require('puppeteer')
-const tap = require('gulp-tap')
 
 const { contentRepGithub, contentRepFolders } = require(path.join(__dirname, 'config/constants'))
 
@@ -110,32 +112,17 @@ exports.dropContent = () => del([
 
 // Social cards
 
-const socialCards = () => {
-  const files = []
-  return gulp.src('dist/{css,html,js,tools}/**/index.sc.html')
-    .pipe(
-      tap((file) => {
-        files.push(file)
-      })
-    )
-    .on('end', async () => {
-      const browser = await puppeteer.launch({ headless: true })
-      const page = await browser.newPage()
+const socialCards = async () => {
+  const browser = await puppeteer.launch({ headless: true })
+  const page = await browser.newPage()
 
-      for (let i = 0, len = files.length; i < len; i++) {
-        const file = files[i]
+  return pipeline(
+    gulp.src('dist/{css,html,js,tools}/**/index.sc.html'),
+    new Transform({
+      objectMode: true,
+      async transform(file, encoding, done) {
         const imagePath = file.path.replace('index.sc.html', 'images/covers/')
-
-        if (!fs.existsSync(imagePath.replace('covers/', ''))){
-          fs.mkdirSync(imagePath.replace('covers/', ''))
-          if (!fs.existsSync(imagePath)){
-            fs.mkdirSync(imagePath)
-          }
-        } else {
-          if (!fs.existsSync(imagePath)){
-            fs.mkdirSync(imagePath)
-          }
-        }
+        await fsp.mkdir(imagePath, { recursive: true })
 
         await page.goto('file://' + file.path)
 
@@ -158,7 +145,6 @@ const socialCards = () => {
             height: 630
           }
         })
-        console.log(`Картина ${imagePath}og.png создана`)
 
         await page.setViewport({
           width: 1024,
@@ -179,9 +165,14 @@ const socialCards = () => {
             height: 1024
           }
         })
-        console.log(`Картина ${imagePath}twitter.png создана`)
-      }
 
+        done()
+      }
+    })
+  )
+    .catch(console.error)
+    .finally(async () => {
+      await page.close()
       await browser.close()
     })
 }
