@@ -5,18 +5,18 @@ const markdownItContainer = require('markdown-it-container')
 const { parseHTML } = require('linkedom')
 const { isProdEnv } = require('./config/env')
 const { mainSections } = require('./config/constants.js')
-const demoLinkTransform = require('./src/transforms/demo-link-transform');
-const imageTransform = require('./src/transforms/image-transform');
-const headingsTransform = require('./src/transforms/headings-transform');
-const codeTransform = require('./src/transforms/code-transform');
-const tocTransform = require('./src/transforms/toc-transform');
-const linkTransform = require('./src/transforms/link-transform');
-const iframeAttrTransform = require('./src/transforms/iframe-attr-transform');
-const tableTransform = require('./src/transforms/table-transform');
-const demoExternalLinkTransform = require('./src/transforms/demo-external-link-transform');
-const imagePlaceTransform = require('./src/transforms/image-place-transform');
-const detailsTransform = require('./src/transforms/details-transform');
-const calloutTransform = require('./src/transforms/callout-transform');
+const demoLinkTransform = require('./src/transforms/demo-link-transform')
+const imageTransform = require('./src/transforms/image-transform')
+const headingsTransform = require('./src/transforms/headings-transform')
+const codeTransform = require('./src/transforms/code-transform')
+const tocTransform = require('./src/transforms/toc-transform')
+const linkTransform = require('./src/transforms/link-transform')
+const iframeAttrTransform = require('./src/transforms/iframe-attr-transform')
+const tableTransform = require('./src/transforms/table-transform')
+const demoExternalLinkTransform = require('./src/transforms/demo-external-link-transform')
+const imagePlaceTransform = require('./src/transforms/image-place-transform')
+const detailsTransform = require('./src/transforms/details-transform')
+const calloutTransform = require('./src/transforms/callout-transform')
 
 module.exports = function(config) {
   config.setDataDeepMerge(true)
@@ -115,7 +115,7 @@ module.exports = function(config) {
 
     markdownLibrary.use(markdownItContainer, 'callout', {
       validate(params) {
-        return params.trim().match(calloutElementRegexp);
+        return params.trim().match(calloutElementRegexp)
       },
 
       render(tokens, idx) {
@@ -174,22 +174,22 @@ module.exports = function(config) {
 
   // Фильтрует теги
   config.addFilter('hasTag', (tags, tag) => {
-    return (tags || []).includes(tag);
-  });
+    return (tags || []).includes(tag)
+  })
 
   config.addFilter('slugify', (content) => {
     return slugify(content)
   })
 
   {
-    const titleMarkdown = markdownIt({
+    const descriptionMarkdown = markdownIt({
       html: false,
       linkify: false,
       typographer: false
     })
 
-    config.addFilter('titleMarkdown', (content) => {
-      return titleMarkdown.renderInline(content)
+    config.addFilter('descriptionMarkdown', (content) => {
+      return descriptionMarkdown.renderInline(content)
     })
   }
 
@@ -233,7 +233,7 @@ module.exports = function(config) {
           return htmlnano.process(content, {
             collapseAttributeWhitespace: true,
             collapseWhitespace: 'conservative',
-            deduplicateAttributeValues: true,
+            deduplicateAttributeValues: false,
             minifyCss: false,
             minifyJs: true,
             minifyJson: false,
@@ -242,6 +242,7 @@ module.exports = function(config) {
             removeEmptyAttributes: false,
             removeAttributeQuotes: false,
             removeRedundantAttributes: true,
+            sortAttributesWithLists: false,
             removeOptionalTags: false,
             collapseBooleanAttributes: true,
             mergeStyles: false,
@@ -259,8 +260,8 @@ module.exports = function(config) {
   config.addPassthroughCopy('src/manifest.json')
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
-  config.addPassthroughCopy('src/**/*.(html|gif|jpg|png|svg|mp4|webm|zip)')
-  config.addPassthroughCopy('src/(css|html|js|tools)/**/demos/**/*')
+  config.addPassthroughCopy('src/images')
+  config.addPassthroughCopy('src/(css|html|js|tools)/**/!(*11tydata*)*.!(md)')
 
   return {
     dir: {

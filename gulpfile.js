@@ -93,7 +93,7 @@ const cacheReplace = () => {
     .pipe(revRewrite({
       manifest: fs.readFileSync('dist/rev-manifset.json')
     }))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('dist'))
 }
 
 const cache = gulp.series(cacheHash, cacheReplace)

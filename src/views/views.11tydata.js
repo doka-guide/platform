@@ -20,6 +20,11 @@ module.exports = {
       return documentTitle
     },
 
+    documentDescription: function(data) {
+      const { documentDescription, description } = data
+      return documentDescription || description
+    },
+
     hasCategory: function(data) {
       return !!(data.categoryName)
     },
@@ -50,7 +55,7 @@ module.exports = {
           .slice(0, data.featuredArticlesMaxCount)
       )
 
-      const sectionsCount = allFeaturedArticles.length;
+      const sectionsCount = allFeaturedArticles.length
 
       const articlesForShow = []
 

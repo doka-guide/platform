@@ -21,5 +21,5 @@ export default function throttle(callback, delay) {
         savedArgs = savedThis = null
       }
     }, delay)
-  };
+  }
 }

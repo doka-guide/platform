@@ -1,5 +1,5 @@
 .theme-toggle {
-  --bg-lightness: calc(var(--is-light-theme-on) * 87% + var(--is-dark-theme-on) * 46%);
+  --bg-lightness: calc(var(--is-light-theme-on) * 87% + var(--is-dark-theme-on) * 20%);
 
   display: inline-flex;
   align-items: baseline;
@@ -29,7 +29,7 @@
 }
 
 .theme-toggle__text {
-  opacity: 0.6;
+  opacity: 0.7;
   margin: 0;
   appearance: none;
   display: block;

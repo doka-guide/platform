@@ -4,8 +4,8 @@
   --column-breakpoint: 15em;
   padding: var(--offset);
   line-height: 1.25;
-  animation: showIndexSection 0.4s both;
   will-change: transform, opacity;
+  animation: showIndexSection 0.4s forwards;
 }
 
 .index-section:not([hidden]) {

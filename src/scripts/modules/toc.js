@@ -8,6 +8,7 @@
 function init() {
   const links = Array.from(document.querySelectorAll('.toc__link'))
   const titles = Array.from(document.querySelectorAll('.article-heading__title'))
+    .filter(title => !title.closest('details'))
 
   if (!links.legnth && !titles.length) {
     return

@@ -75,4 +75,5 @@
 .switch:focus-within {
   outline: 2px solid hsl(var(--color-blue) / 0.7);
   outline-offset: 2px;
+  border-radius: 6px;
 }
