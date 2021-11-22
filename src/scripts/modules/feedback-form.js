@@ -85,6 +85,18 @@ function init() {
 
   let isSending = false
 
+  function getApi(f) {
+    return fetch('/api.json')
+      .then(resp => resp.json())
+      .then(api => {
+        f(api.token)
+      })
+      .catch(error => {
+        form.dataset.state = 'error'
+        console.error('Error:', error)
+      })
+  }
+
   function sendForm(formData) {
     if (isSending) {
       return
@@ -94,30 +106,37 @@ function init() {
 
     const body = (new URLSearchParams(formData)).toString()
 
-    return fetch('/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw response
-        }
+    return getApi(t => {
+      fetch('/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: t,
+          Host: 'doka.guide',
+          Origin: 'https://api.doka.guide/forms',
+          'Access-Control-Request-Method': 'POST'
+        },
+        body
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw response
+          }
 
-        return response
-      })
-      .then(() => {
-        form.dataset.state = 'success'
-      })
-      .catch(error => {
-        form.dataset.state = 'error'
-        console.error(error)
-      })
-      .finally(() => {
-        isSending = false
-      })
+          return response
+        })
+        .then(() => {
+          form.dataset.state = 'success'
+        })
+        .catch(error => {
+          form.dataset.state = 'error'
+          console.error(error)
+        })
+        .finally(() => {
+          isSending = false
+        })
+    })
   }
 
   const detailedAnswer = new DetailedAnswer({
