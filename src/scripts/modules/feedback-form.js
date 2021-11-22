@@ -107,7 +107,7 @@ function init() {
     const body = (new URLSearchParams(formData)).toString()
 
     return getApi(t => {
-      fetch('/', {
+      fetch({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
