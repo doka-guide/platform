@@ -85,11 +85,11 @@ function init() {
 
   let isSending = false
 
-  function getApi(f) {
-    return fetch('/api.json')
+  function getToken() {
+    fetch('/api.json')
       .then(resp => resp.json())
       .then(api => {
-        f(api.token)
+        return api.token
       })
       .catch(error => {
         form.dataset.state = 'error'
@@ -105,19 +105,23 @@ function init() {
     isSending = true
 
     const body = (new URLSearchParams(formData)).toString()
+    const url = 'https://api.doka.guide/forms'
 
-    return getApi(t => {
-      fetch({
+    return fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: t,
+          Authorization: getToken(),
           Host: 'doka.guide',
-          Origin: 'https://api.doka.guide/forms',
+          Origin: url,
           'Access-Control-Request-Method': 'POST'
         },
-        body
+        body: JSON.stringify({
+          type: 'feedback',
+          data: body,
+          author_id: 1
+        })
       })
         .then(response => {
           if (!response.ok) {
@@ -136,7 +140,6 @@ function init() {
         .finally(() => {
           isSending = false
         })
-    })
   }
 
   const detailedAnswer = new DetailedAnswer({
