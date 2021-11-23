@@ -7,6 +7,7 @@
   background-color: var(--color-background);
 }
 
+/* фон при открытом меню */
 .header::before {
   content: '';
   position: fixed;
@@ -20,6 +21,39 @@
   transition:
     opacity var(--header-animation-time),
     visibility var(--header-animation-time);
+}
+
+/* "тень" от фиксированной шапки */
+.header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: -1px;
+  height: 40px;
+  background:
+    linear-gradient(
+      to bottom,
+      hsl(var(--color-base-background)/1) 0%,
+      hsl(var(--color-base-background)/0.889) 2.5%,
+      hsl(var(--color-base-background)/0.856) 6%,
+      hsl(var(--color-base-background)/0.806) 10.4%,
+      hsl(var(--color-base-background)/0.742) 15.6%,
+      hsl(var(--color-base-background)/0.667) 21.5%,
+      hsl(var(--color-base-background)/0.583) 28%,
+      hsl(var(--color-base-background)/0.495) 35.1%,
+      hsl(var(--color-base-background)/0.405) 42.5%,
+      hsl(var(--color-base-background)/0.317) 50.4%,
+      hsl(var(--color-base-background)/0.233) 58.5%,
+      hsl(var(--color-base-background)/0.158) 66.8%,
+      hsl(var(--color-base-background)/0.094) 75.2%,
+      hsl(var(--color-base-background)/0.044) 83.6%,
+      hsl(var(--color-base-background)/0.011) 91.9%,
+      hsl(var(--color-base-background)/0) 100%
+    );
+  pointer-events: none;
+  transition: opacity var(--header-animation-time);
 }
 
 .header__inner {
@@ -181,35 +215,8 @@
   }
 }
 
-.header--fixed::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 100%;
-  margin-top: -1px;
-  height: 40px;
-  background:
-    linear-gradient(
-      to bottom,
-      hsl(var(--color-base-background)/1) 0%,
-      hsl(var(--color-base-background)/0.889) 2.5%,
-      hsl(var(--color-base-background)/0.856) 6%,
-      hsl(var(--color-base-background)/0.806) 10.4%,
-      hsl(var(--color-base-background)/0.742) 15.6%,
-      hsl(var(--color-base-background)/0.667) 21.5%,
-      hsl(var(--color-base-background)/0.583) 28%,
-      hsl(var(--color-base-background)/0.495) 35.1%,
-      hsl(var(--color-base-background)/0.405) 42.5%,
-      hsl(var(--color-base-background)/0.317) 50.4%,
-      hsl(var(--color-base-background)/0.233) 58.5%,
-      hsl(var(--color-base-background)/0.158) 66.8%,
-      hsl(var(--color-base-background)/0.094) 75.2%,
-      hsl(var(--color-base-background)/0.044) 83.6%,
-      hsl(var(--color-base-background)/0.011) 91.9%,
-      hsl(var(--color-base-background)/0) 100%
-    );
-  pointer-events: none;
+.header:not(.header--fixed)::after {
+  opacity: 0;
 }
 
 .header:not(.header--fixed) .header__title {
