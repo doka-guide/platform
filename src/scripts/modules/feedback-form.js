@@ -86,14 +86,10 @@ function init() {
   let isSending = false
 
   function getToken() {
-    fetch('/api.json')
+    return fetch('/api.json')
       .then(resp => resp.json())
-      .then(api => {
-        return api.token
-      })
-      .catch(error => {
-        form.dataset.state = 'error'
-        console.error('Error:', error)
+      .then(access => {
+        return access.token
       })
   }
 
@@ -104,42 +100,41 @@ function init() {
 
     isSending = true
 
-    const body = (new URLSearchParams(formData)).toString()
-    const url = 'https://api.doka.guide/forms'
+    const body = JSON.stringify({
+      type: 'feedback',
+      data: JSON.stringify(formData),
+      author_id: 1
+    })
+    const url = 'https://api.doka.guide/form'
 
-    return fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: getToken(),
-          Host: 'doka.guide',
-          Origin: url,
-          'Access-Control-Request-Method': 'POST'
-        },
-        body: JSON.stringify({
-          type: 'feedback',
-          data: body,
-          author_id: 1
-        })
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw response
-          }
+    return getToken().then(token => {
+            fetch(url, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: token
+              },
+              body
+            })
+              .then(response => {
+                if (!response.ok) {
+                  throw response
+                }
 
-          return response
-        })
-        .then(() => {
-          form.dataset.state = 'success'
-        })
-        .catch(error => {
-          form.dataset.state = 'error'
-          console.error(error)
-        })
-        .finally(() => {
-          isSending = false
-        })
+                return response
+              })
+              .then(() => {
+                form.dataset.state = 'success'
+              })
+              .catch(error => {
+                form.dataset.state = 'error'
+                console.error(error)
+              })
+              .finally(() => {
+                isSending = false
+              })
+          })
   }
 
   const detailedAnswer = new DetailedAnswer({
@@ -199,7 +194,7 @@ function init() {
     }
 
     formData.set('answer', answer)
-    sendForm(formData)
+    sendForm({ "answer": answer })
   })
 }
 
