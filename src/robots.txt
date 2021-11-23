@@ -3,3 +3,7 @@ Allow: /
 
 Sitemap: https://doka.guide/sitemap.xml
 Sitemap: http://doka.guide/sitemap.xml
+
+User-agent: Yandex
+Disallow:
+Clean-param: q

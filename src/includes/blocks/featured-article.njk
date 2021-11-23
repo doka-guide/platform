@@ -1,15 +1,20 @@
-{% macro featuredArticle(article) %}
+{% macro featuredArticle(article, isLazyLoading=false) %}
   {% set hasImage = article.cover %}
 
   <article class="featured-article" style="--accent-color: var(--color-{{ article.section }})">
     {% if hasImage %}
       <picture class="featured-article__image-wrapper">
-        <img class="featured-article__image" src="{{ article.imageLink }}" loading="lazy" alt="">
+        <img
+          class="featured-article__image"
+          src="{{ article.imageLink }}"
+          {% if isLazyLoading %}loading="lazy"{% endif %}
+          alt=""
+        >
       </picture>
     {% endif %}
     <h3 class="featured-article__title">
       <a class="featured-article__link link" href="{{ article.link }}">
-        {{ article.title | titleMarkdown | safe }}
+        {{ article.title | descriptionMarkdown | safe }}
       </a>
     </h3>
     {% if ((not hasImage) and article.description) %}

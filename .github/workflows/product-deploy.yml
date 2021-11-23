@@ -1,4 +1,4 @@
-name: Netlify Deploy
+name: Product Deploy
 
 on:
   push:
@@ -27,17 +27,19 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - name: Установка ключа для пользователя
+        run: |
+          set -eu
+          mkdir "$HOME/.ssh"
+          echo "${{ secrets.DEPLOY_KEY }}" > "$HOME/.ssh/doka_deploy"
+          chmod 600 "$HOME/.ssh/doka_deploy"
       - name: Установка модулей
         run: npm ci
       - name: Сборка сайта
         run: |
           node make-links.js --default
           npm run build
-          # rm **/index.sc.html
       - name: Генерация карточек для социальных сетей
         run: npx gulp socialCards
       - name: Публикация сайта
-        run: npx netlify deploy --dir=dist --message='Публикация платформы (https://github.com/doka-guide/platform/commit/${{ github.sha }})' --prod
-        env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: npm run deploy

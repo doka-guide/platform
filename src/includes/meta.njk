@@ -1,6 +1,9 @@
 {% macro authorsList(list) %}[{% for personItem in list %}{
   "@type": "Person",
   "name": "{{ personItem.data.name }}"
+  {% if personItem.data.url %}
+    ,"url": "{{ personItem.data.url }}"
+  {% endif %}
 }{{ '' if loop.last else ',' }}{% endfor %}]{% endmacro %}
 
 <!-- 1. Title and Primary Meta -->
@@ -40,8 +43,8 @@
 
 <meta name="title" content="{{ socialTitle }}">
 
-{% if doc.data.description %}
-  <meta name="description" content="{{ doc.data.description }}">
+{% if documentDescription %}
+  <meta name="description" content="{{ documentDescription }}">
 {% endif %}
 
 <meta name="robots" content="index, nofollow">
@@ -58,9 +61,9 @@
 <meta property="og:url" content="{{ fullPageUrl }}">
 <meta property="og:title" content="{{ socialTitle }}">
 
-{% if doc.data.description %}
-  <meta property="og:description" content="{{ doc.data.description }}">
-  <meta itemprop="description" content="{{ doc.data.description }}">
+{% if documentDescription %}
+  <meta property="og:description" content="{{ documentDescription }}">
+  <meta itemprop="description" content="{{ documentDescription }}">
 {% endif %}
 
 {% if pageType === 'Article' %}
@@ -79,8 +82,8 @@
 <meta property="twitter:url" content="{{ fullPageUrl }}">
 <meta property="twitter:title" content="{{ socialTitle }}">
 
-{% if doc.data.description %}
-  <meta property="twitter:description" content="{{ doc.data.description }}">
+{% if documentDescription %}
+  <meta property="twitter:description" content="{{ documentDescription }}">
 {% endif %}
 
 <meta property="twitter:image" content="{{ defaultTwitterPath }}">
@@ -89,8 +92,8 @@
 
 <!-- 10.3 Microdata -->
 
-{% if articleCategory %}
-  <meta property="article:tag" content="{{ articleCategory }}">
+{% if categoryName %}
+  <meta property="article:tag" content="{{ categoryName }}">
 {% endif %}
 
 {% if articleTag %}
@@ -106,9 +109,16 @@
         "@type": "WebPage",
         "@id": "{{ fullPageUrl }}"
       },
-      "headline": "{{ fullPageUrl }}",
-      "datePublished": "{{ createdAt }}",
-      "dateModified": "{{ updatedAt }}",
+      "headline": "{{ socialTitle }}",
+      {% if cover %}
+      "image": [
+        "{{ fullPageUrl }}{{ cover.desktop if cover.desktop }}"
+        {% if cover.mobile %},{% endif %}
+        "{{ fullPageUrl }}{{ cover.mobile if cover.mobile }}"
+      ],
+      {% endif %}
+      "datePublished": "{{ createdAt.toISOString() if createdAt }}",
+      "dateModified": "{{ updatedAt.toISOString() if updatedAt }}",
       "author": {{ authorsList(list=populatedAuthors) }},
       "publisher": {
         "@type": "Organization",
@@ -119,7 +129,7 @@
         }
       },
       "description": "{{ doc.data.description }}",
-      "url": "{{ fullPageUrl }}",
+      "url": "{{ fullPageUrl }}"
     }
   </script>
   <meta property="article:section" content="Technology">

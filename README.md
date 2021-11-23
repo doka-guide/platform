@@ -1,6 +1,6 @@
 # Платформа Доки
 
-[![Статус Netlify](https://github.com/doka-guide/platform/actions/workflows/netlify-deploy.yml/badge.svg?branch=main&event=push)](https://github.com/doka-guide/platform/actions/workflows/netlify-deploy.yml)
+[![Статус деплоя](https://github.com/doka-guide/platform/actions/workflows/platform-deploy.yml/badge.svg?branch=main&event=push)](https://github.com/doka-guide/platform/actions/workflows/platform-deploy.yml)
 [![Статус Docker](https://github.com/doka-guide/platform/actions/workflows/docker-deploy.yml/badge.svg?branch=main&event=push)](https://github.com/doka-guide/platform/actions/workflows/docker-deploy.yml)
 [![W3C Validator](https://github.com/doka-guide/platform/actions/workflows/w3c-validator.yml/badge.svg?branch=main&event=push)](https://github.com/doka-guide/platform/actions/workflows/w3c-validator.yml)
 
@@ -12,7 +12,7 @@
 
 Сайт «Доки» работает на базе [Eleventy](https://www.11ty.dev). При помощи Nunjucks-темплейтов Eleventy превращает статьи в формате Markdown в HTML-страницы.
 
-Проект собирается с помощью GitHub Actions и хостится на Netlify, читайте [подробнее про деплой](./docs/deploy.md).
+Проект собирается с помощью GitHub Actions и хостится на сервере, читайте [подробнее про деплой](./docs/deploy.md).
 
 ## Как работать
 

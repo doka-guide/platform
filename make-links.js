@@ -31,7 +31,7 @@ const createLinks = (contentPath) => {
   SYMLINKS_DEST.forEach((dest, i) => {
     const source = path.join(contentPath, contentRepFolders[i])
     console.log(`${dest} → ${source}`)
-    fs.symlinkSync(source, dest)
+    fs.symlinkSync(source, dest, 'junction')
   })
 
   console.log('✅ Готово')

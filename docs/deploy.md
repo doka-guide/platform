@@ -1,6 +1,6 @@
 # Деплой Доки
 
-Дока хостится на [Netlify](https://www.netlify.com/) как набор статических файлов.
+Дока хостится на сервере как набор статических файлов.
 
 ## Когда деплоим
 
@@ -12,8 +12,8 @@
 
 В каждом репозитории описан свой воркфлоу для сборки, но они идентичны по содержанию:
 
-- [Воркфлоу контента](https://github.com/doka-guide/content/blob/main/.github/workflows/netlify-deploy.yml)
-- [Воркфлоу платформы](https://github.com/doka-guide/platform/blob/main/.github/workflows/netlify-deploy.yml)
+- [Воркфлоу контента](https://github.com/doka-guide/content/blob/main/.github/workflows/product-deploy.yml)
+- [Воркфлоу платформы](https://github.com/doka-guide/platform/blob/main/.github/workflows/product-deploy.yml)
 
 Сборка состоит из пяти этапов:
 
@@ -21,6 +21,6 @@
 1. установить зависимости;
 1. подключить статьи к платформе;
 1. собрать проект;
-1. отправить папку со сборкой в Netlify.
+1. отправить папку со сборкой на сервер.
 
-На стороне Netlify не происходит никаких действий, кроме публикации переданной папки со сборкой.
+На стороне сервера не происходит никаких действий, кроме публикации переданной папки со сборкой.

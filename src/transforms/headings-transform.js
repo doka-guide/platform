@@ -10,7 +10,7 @@ module.exports = function(window) {
   if (content) {
     let headings = content.querySelectorAll('h2, h3, h4, h5, h6')
 
-    const headingHashMap = {};
+    const headingHashMap = {}
 
     for (const heading of headings) {
       const clonedHeading = heading.cloneNode(true)
@@ -24,9 +24,9 @@ module.exports = function(window) {
       const id = slugify(headingText)
 
       if (headingHashMap[id] >= 0) {
-        headingHashMap[id] += 1;
+        headingHashMap[id] += 1
       } else {
-        headingHashMap[id] = 0;
+        headingHashMap[id] = 0
       }
       const headingIdPostfix = headingHashMap[id] > 0 ? `-${headingHashMap[id]}` : ''
 

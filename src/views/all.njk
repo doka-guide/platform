@@ -25,7 +25,7 @@
           {% for article in collections[category] %}
             <li class="index-group-list__item">
               <a class="index-group-list__link link" href="/{{ category }}/{{ article.fileSlug }}/">
-                {{ article.data.title | titleMarkdown | safe }}
+                {{ article.data.title | descriptionMarkdown | safe }}
               </a>
             </li>
           {% endfor %}

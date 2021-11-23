@@ -5,5 +5,3 @@ docs
 .idea
 .git*
 .vscode
-
-netlify.toml
