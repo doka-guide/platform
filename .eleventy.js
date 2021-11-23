@@ -1,7 +1,6 @@
 const { slugify } = require('transliteration')
 const htmlnano = require('htmlnano')
 const markdownIt = require('markdown-it')
-const markdownItContainer = require('markdown-it-container')
 const { parseHTML } = require('linkedom')
 const { isProdEnv } = require('./config/env')
 const { mainSections } = require('./config/constants.js')
@@ -109,30 +108,6 @@ module.exports = function(config) {
         : `<pre>${content}</pre>`
     }
   })
-
-  {
-    const calloutElementRegexp = /^callout\s+(.*)$/
-
-    markdownLibrary.use(markdownItContainer, 'callout', {
-      validate(params) {
-        return params.trim().match(calloutElementRegexp)
-      },
-
-      render(tokens, idx) {
-        const { info, nesting } = tokens[idx]
-        const matches = info.trim().match(calloutElementRegexp)
-
-        if (nesting === 1) {
-          const icon = markdownLibrary.utils.escapeHtml(matches[1])
-          return `<aside class="callout">
-              ${icon ? `<div class="callout__icon">${icon}</div>` : ''}
-              <div class="callout__content">`
-        }
-
-        return `</div></aside>`
-      },
-    })
-  }
 
   config.setLibrary('md', markdownLibrary)
 
