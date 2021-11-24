@@ -7,7 +7,8 @@ const { isProdEnv } = require('./config/env')
 const { mainSections } = require('./config/constants.js')
 const demoLinkTransform = require('./src/transforms/demo-link-transform')
 const imageTransform = require('./src/transforms/image-transform')
-const headingsTransform = require('./src/transforms/headings-transform')
+const headingsIdTransform = require('./src/transforms/headings-id-transform')
+const headingsAnchorTransform = require('./src/transforms/headings-anchor-transform')
 const codeTransform = require('./src/transforms/code-transform')
 const tocTransform = require('./src/transforms/toc-transform')
 const linkTransform = require('./src/transforms/link-transform')
@@ -198,8 +199,9 @@ module.exports = function(config) {
       demoLinkTransform,
       isProdEnv && imageTransform,
       imagePlaceTransform,
-      headingsTransform,
+      headingsIdTransform,
       tocTransform,
+      headingsAnchorTransform,
       linkTransform,
       codeTransform,
       iframeAttrTransform,
