@@ -71,10 +71,7 @@
   top: 100%;
   left: 0;
   right: 0;
-  padding: 12px 5px;
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  overflow: hidden;
   letter-spacing: normal;
   background-color: hsl(0 0% var(--lightness) / var(--background-opacity));
   box-shadow: 0 4px 4px rgb(0 0 0 / 0.25);
@@ -97,25 +94,18 @@
 
 .search__suggestion-content {
   position: relative;
-  flex: 1 1 auto;
   overflow: auto;
-  max-height: 65vh;
+  box-sizing: border-box;
+  padding: 5px;
+  max-height: calc(100vh - 120px);
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
 }
 
-.search__suggestion-key {
-  margin-left: 10%;
-  flex: 0 0 auto;
-}
-
-.search__suggestion-footer {
-  margin-top: 10px;
-  flex-basis: 100%;
-  text-align: end;
-}
-
 .search__full-link {
+  margin: 5px auto;
+  display: block;
+  width: max-content;
   padding: 5px;
   font-size: var(--font-size-s);
   line-height: var(--font-line-height-s);

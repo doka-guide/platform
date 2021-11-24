@@ -173,17 +173,15 @@ class QuickSearch extends BaseComponent {
 
     const contentBox = getBox(suggestionContent)
     const elementBox = getBox(links[newIndex])
+    const paddingBlock = parseFloat(window.getComputedStyle(suggestionContent).paddingTop) || 0
 
     if (elementBox.top < contentBox.top) {
-      suggestionContent.scrollTop += (elementBox.top - contentBox.top)
+      suggestionContent.scrollTop += (elementBox.top - contentBox.top - paddingBlock)
     }
 
     if (elementBox.bottom > contentBox.bottom) {
-      suggestionContent.scrollTop += (elementBox.bottom - contentBox.bottom)
+      suggestionContent.scrollTop += (elementBox.bottom - contentBox.bottom + paddingBlock)
     }
-
-    // links[newIndex].scrollIntoView(newIndex < oldIndex)
-    // links[newIndex].scrollIntoView()
   }
 
   clearOutput() {
