@@ -9,7 +9,6 @@ import './modules/articles-index.js'
 import './modules/header-quick-search-presenter.js'
 import './modules/search.js'
 import './modules/search-page-filter.js'
-// TODO: вернуть и сделать рефакторинг по необходимости
-// import './modules/feedback-form.js'
+import './modules/feedback-form.js'
 import './modules/code-line-numbers.js'
 import './modules/cookie-notification.js'
