@@ -56,7 +56,6 @@
     "gulp-rev": "^9.0.0",
     "gulp-rev-rewrite": "^5.0.0",
     "gulp-shell": "^0.8.0",
-    "gulp-tap": "^2.0.0",
     "htmlnano": "^1.1.1",
     "linkedom": "^0.13.0",
     "lint-staged": "^11.2.3",
