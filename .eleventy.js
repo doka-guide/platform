@@ -17,6 +17,7 @@ const demoExternalLinkTransform = require('./src/transforms/demo-external-link-t
 const imagePlaceTransform = require('./src/transforms/image-place-transform')
 const detailsTransform = require('./src/transforms/details-transform')
 const calloutTransform = require('./src/transforms/callout-transform')
+const imageThemeTransform = require('./src/transforms/image-theme-transform')
 
 module.exports = function(config) {
   config.setDataDeepMerge(true)
@@ -196,6 +197,7 @@ module.exports = function(config) {
   {
     const transforms = [
       demoLinkTransform,
+      imageThemeTransform,
       isProdEnv && imageTransform,
       imagePlaceTransform,
       headingsTransform,

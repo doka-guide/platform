@@ -19,3 +19,11 @@
   --color-js: hsl(49 74% 23%);
   --color-tools: hsl(122 56% 23%);
 }
+
+.content img.light-mode-only {
+  display: none;
+}
+
+.content img.dark-mode-only {
+  display: block;
+}

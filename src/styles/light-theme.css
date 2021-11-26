@@ -17,3 +17,11 @@
   --color-js: hsl(var(--color-yellow));
   --color-tools: hsl(var(--color-green));
 }
+
+.content img.light-mode-only {
+  display: block;
+}
+
+.content img.dark-mode-only {
+  display: none;
+}
