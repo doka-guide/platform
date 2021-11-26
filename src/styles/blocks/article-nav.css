@@ -63,6 +63,7 @@
 
 .article-nav__content {
   overflow: auto;
+  overscroll-behavior: contain;
   padding: var(--offset);
   min-height: 0;
 }
