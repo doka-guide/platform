@@ -1,0 +1,7 @@
+.search-result-list {}
+
+.search-result-list__item {}
+
+.search-result-list__item:not(:last-child) {
+  margin-bottom: 40px;
+}
