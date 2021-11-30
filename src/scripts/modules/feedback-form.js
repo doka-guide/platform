@@ -101,24 +101,25 @@ function init() {
     })
     const url = 'https://api.doka.guide/form'
 
-    return getToken().then(token => {
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: token
-        },
-        body
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw response
-          }
-
-          return response
+    return getToken()
+      .then(token => {
+        return fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: token
+          },
+          body
         })
-    })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw response
+        }
+
+        return response
+      })
   }
 
   const detailedAnswer = new DetailedAnswer({
