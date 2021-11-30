@@ -7,7 +7,7 @@
 */
 function init() {
   const links = Array.from(document.querySelectorAll('.toc__link'))
-  const titles = Array.from(document.querySelectorAll('.article-heading__title'))
+  const titles = Array.from(document.querySelectorAll('.article-heading'))
     .filter(title => !title.closest('details'))
 
   if (!links.legnth && !titles.length) {
@@ -19,7 +19,7 @@ function init() {
   let lastActiveTitle
 
   const activeLinkClass = 'toc__link--active'
-  const visibleHeadingClass = 'article-heading__title--visible'
+  const visibleHeadingClass = 'article-heading--visible'
 
   const threshold = 0.5
 

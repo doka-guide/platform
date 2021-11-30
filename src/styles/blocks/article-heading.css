@@ -1,23 +1,17 @@
 .article-heading {
-  position: relative;
-  max-width: max-content;
   font-size: var(--font-size);
   line-height: var(--line-height);
+  scroll-margin: calc((var(--header-height, 0) * 1px) + 1em);
 }
 
 .article-heading__title {
   margin-top: 0;
   margin-bottom: 0;
-  margin-right: 0.8em;
+  display: inline;
   font: inherit;
-  scroll-margin: calc((var(--header-height, 0) * 1px) + 1em);
 }
 
 .article-heading__link {
-  position: absolute;
-  top: calc(var(--line-height) / 2 + 0.125em);
-  right: 0;
-  transform: translateY(-50%);
   display: inline-block;
   color: hsl(var(--color-blue));
   transition: 0.2s;
@@ -36,6 +30,7 @@
 }
 
 .article-heading__code {
+  font-size: 1.2em;
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
 }
