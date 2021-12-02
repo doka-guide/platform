@@ -2,6 +2,7 @@
   --aspect-ratio: 16 / 9;
   display: grid;
   grid-template-columns: 1fr auto;
+  grid-column-gap: 1em;
 }
 
 .article-image__picture {
