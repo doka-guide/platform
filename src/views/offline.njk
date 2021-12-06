@@ -1,0 +1,27 @@
+{% from "blocks/logo.njk" import logo %}
+{% from "blocks/footer.njk" import footer with context %}
+
+<div class="header header--simple header--static">
+  <div class="header__inner header__inner--main">
+    {{ logo(isLink=true, isImageHidden=true) }}
+  </div>
+</div>
+
+<main>
+  <div class="not-found font-theme font-theme--code">
+    <div class="not-found__logo logo">
+      <div class="logo__image" aria-hidden="true">
+        <div class="logo__symbols">U×ᴥ×U</div>
+      </div>
+    </div>
+    <p class="not-found__description">
+      К сожалению этой страницы нет в кеше
+    </p>
+  </div>
+
+  <div class="container">
+    {% include "articles-gallery.njk" %}
+  </div>
+</main>
+
+{{ footer() }}

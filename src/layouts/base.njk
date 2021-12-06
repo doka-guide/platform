@@ -29,5 +29,9 @@
     {% include "blocks/cookie-notification.njk" %}
 
     <script src="/scripts/index.js" {% if env.isDevEnv %}type="module"{% endif %}></script>
+
+    <script type="module">
+      import '/scripts/libs/pwaupdate/pwaupdate.js';
+    </script>
   </body>
 </html>
