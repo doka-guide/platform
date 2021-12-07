@@ -1,13 +1,8 @@
 {% from "blocks/header.njk" import header %}
 {% from "blocks/footer.njk" import footer with context %}
 
-{% set isLogoContrastColor = hasCategory %}
-
 {{ header(
-  title=title,
-  link=permalink,
-  articleIndexes=collections.articleIndexes,
-  isLogoContrastColor=isLogoContrastColor
+  articleIndexes=collections.articleIndexes
 ) }}
 
 <main>
