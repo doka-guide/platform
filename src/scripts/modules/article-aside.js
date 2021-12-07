@@ -3,7 +3,7 @@ import headerComponent from './header.js'
 function init() {
   const articleAside =  document.querySelector('.article__aside')
 
-  if (!articleAside) return
+if (!(articleAside && headerComponent)) {
 
   const activeClass = 'article__aside--offset'
 
