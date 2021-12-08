@@ -23,10 +23,20 @@
           </li>
 
           {% if category %}
-            <li class="breadcrumbs__item header__category">
-              <a class="breadcrumbs__text link" href="/{{ pageCategoryId }}/">{{ category }}</a>
-              {{ divider() }}
-            </li>
+            {% if title %}
+              <li class="breadcrumbs__item header__category">
+                <a class="breadcrumbs__text link" href="/{{ pageCategoryId }}/">
+                  {{ category }}
+                </a>
+                {{ divider() }}
+              </li>
+            {% else %}
+              <li class="breadcrumbs__item header__category header__category--standalone">
+                <span class="breadcrumbs__text">
+                  {{ category }}
+                </span>
+              </li>
+            {% endif %}
           {% endif %}
 
           {% if title %}
