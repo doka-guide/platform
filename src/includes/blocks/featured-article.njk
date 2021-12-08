@@ -8,7 +8,7 @@
           class="featured-article__image"
           src="{{ article.imageLink }}"
           {% if isLazyLoading %}loading="lazy"{% endif %}
-          alt=""
+          alt="{{ article.title }}"
         >
       </picture>
     {% endif %}
