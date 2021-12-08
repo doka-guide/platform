@@ -30,10 +30,10 @@
           {% endif %}
 
           {% if title %}
-            <li class="breadcrumbs__item breadcrumbs__item--shrink header__title" title="{{ title }}">
-              <a class="breadcrumbs__text link" href="{{ link }}">
+            <li class="breadcrumbs__item breadcrumbs__item--shrink header__title">
+              <span class="breadcrumbs__text" title="{{ title | replace('`', '') }}">
                 {{ title | descriptionMarkdown | safe }}
-              </a>
+              </span>
             </li>
           {% endif %}
         </ul>
