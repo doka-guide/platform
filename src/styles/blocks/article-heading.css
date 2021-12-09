@@ -1,7 +1,7 @@
 .article-heading {
   font-size: var(--font-size);
   line-height: var(--line-height);
-  scroll-margin: calc((var(--header-height, 0) * 1px) + 1em);
+  scroll-margin: calc((var(--fixed-header-height, 0) * 1px) + 1rem);
 }
 
 .article-heading__title {
