@@ -185,7 +185,10 @@ function init() {
 
     isSending = true
 
-    sendForm({ answer })
+    sendForm({
+      answer,
+      article_id: window.location.pathname
+    })
       .then(() => {
         form.dataset.state = 'success'
       })
