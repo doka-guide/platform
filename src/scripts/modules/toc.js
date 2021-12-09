@@ -10,7 +10,7 @@ function init() {
   const titles = Array.from(document.querySelectorAll('.article-heading'))
     .filter(title => !title.closest('details'))
 
-  if (!links.legnth && !titles.length) {
+  if (!(links.length && titles.length)) {
     return
   }
 
