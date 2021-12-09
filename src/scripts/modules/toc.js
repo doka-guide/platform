@@ -6,8 +6,12 @@
   Если таковых не оказалось ищем ближайший неактивный заголовок выше середины экрана.
 */
 function init() {
-  const links = Array.from(document.querySelectorAll('.toc__link'))
-  const titles = Array.from(document.querySelectorAll('.article-heading'))
+  const TOC_CONTAINER_SELECTOR = '.toc'
+  const TOC_LINK_SELECTOR = '.toc__link'
+  const HEADING_SELECTOR = '.article-heading'
+
+  const links = Array.from(document.querySelectorAll(TOC_LINK_SELECTOR))
+  const titles = Array.from(document.querySelectorAll(HEADING_SELECTOR))
     .filter(title => !title.closest('details'))
 
   if (!(links.length && titles.length)) {
@@ -111,8 +115,8 @@ function init() {
     }
   })
 
-  document.querySelector('.toc')?.addEventListener('click', event => {
-    const link = event.target.closest('.toc__link')
+  document.querySelector(TOC_CONTAINER_SELECTOR)?.addEventListener('click', event => {
+    const link = event.target.closest(TOC_LINK_SELECTOR)
 
     if (!link) {
       return
