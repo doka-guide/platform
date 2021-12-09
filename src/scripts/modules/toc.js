@@ -60,12 +60,12 @@ function init() {
     }
   }
 
-  function getTitleCenterPosition(title) {
-    const titleBox = title?.getBoundingClientRect()
+  // function getTitleCenterPosition(title) {
+  //   const titleBox = title?.getBoundingClientRect()
 
-    const additionalOffset = 5 // небольшой отступ, чтобы заголовок гарантировано пересёк границу и стал активным
-    return window.scrollY + (titleBox.top + titleBox.height * threshold + additionalOffset) - window.innerHeight / 2
-  }
+  //   const additionalOffset = 5 // небольшой отступ, чтобы заголовок гарантировано пересёк границу и стал активным
+  //   return window.scrollY + (titleBox.top + titleBox.height * threshold + additionalOffset) - window.innerHeight / 2
+  // }
 
   function getTitleFromHash(hash) {
     const titleId = hash.slice(1)
@@ -74,12 +74,11 @@ function init() {
 
   function scrollToTitle(hash) {
     const title = getTitleFromHash(hash)
-
-    window.scrollTo({
-      top: getTitleCenterPosition(title),
-      behavior: 'smooth'
-    })
-
+    title?.scrollIntoView()
+    // window.scrollTo({
+    //   top: getTitleCenterPosition(title),
+    //   behavior: 'smooth'
+    // })
     history.pushState(null, null, hash)
   }
 
