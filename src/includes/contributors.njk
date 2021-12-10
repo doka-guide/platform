@@ -22,7 +22,7 @@
           itemscope itemtype="https://schema.org/Person"
           {% if personType %}itemprop="{{ personType }}"{% endif %}
         >
-          {{ person(name=personItem.data.name, url=personItem.data.url) }}
+          {{ person(name=personItem.data.name, url='/people/' + personItem.fileSlug + '/') }}
           {% if not loop.last %}
             {{ divider }}
           {% endif %}

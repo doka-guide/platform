@@ -1,0 +1,67 @@
+{% from "blocks/header.njk" import header %}
+{% from "blocks/footer.njk" import footer with context %}
+
+{% macro articlesList(articles) %}
+  <ul class="index-group-list">
+    {% for article in articles %}
+      <li class="index-group-list__item">
+        <a class="index-group-list__link link" href="{{ article.link }}">
+          {{ article.title | descriptionMarkdown | safe }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+
+{{ header(
+  title=name,
+  articleIndexes=collections.articleIndexes
+) }}
+
+<main class="standalone-page">
+  <div class="standalone-page__header">
+    <div class="standalone-page__wrapper">
+      <h1 class="standalone-page__title">
+        {% if url %}
+          <a class="link" href="{{ url }}">
+            {{ name }}
+          </a>
+        {% else %}
+          {{ name }}
+        {% endif %}
+      </h1>
+      {% if person.data.description %}
+        <p class="standalone-page__description">
+          {{ person.data.description }}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="standalone-page__content standalone-page__wrapper content">
+    {{ person.templateContent | safe }}
+  </div>
+  <div class="standalone-page__content standalone-page__wrapper content">
+    {% if authorArticles and authorArticles.length > 0 %}
+      <section>
+        <h2>Автор статей</h2>
+        {{ articlesList(authorArticles) }}
+      </section>
+    {% endif %}
+
+    {% if contributorArticles and contributorArticles.length > 0 %}
+      <section>
+        <h2>Контрибьютор статей</h2>
+        {{ articlesList(contributorArticles) }}
+      </section>
+    {% endif %}
+
+    {% if editorArticles and editorArticles.length > 0 %}
+      <section>
+        <h2>Редактор статей</h2>
+        {{ articlesList(editorArticles) }}
+      </section>
+    {% endif %}
+  </div>
+</main>
+
+{{ footer() }}
