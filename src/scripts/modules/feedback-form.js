@@ -24,8 +24,6 @@ class ButtonGroup extends BaseComponent {
         return
       }
 
-      event.preventDefault()
-
       for (const button of buttons) {
         button.classList.toggle(childActiveClass, button === activeButton)
       }
@@ -87,24 +85,34 @@ function init() {
 
   let isSending = false
 
-  function sendForm(answer) {
-    if (isSending) {
-      return
-    }
+  function getToken() {
+    return fetch('/api.json')
+      .then(resp => resp.json())
+      .then(access => {
+        return access.token
+      })
+  }
 
-    isSending = true
-
-    const formData = new FormData(form)
-    formData.set('answer', answer)
-    const body = (new URLSearchParams(formData)).toString()
-
-    return fetch('/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body
+  function sendForm(formData) {
+    const body = JSON.stringify({
+      type: 'feedback',
+      data: JSON.stringify(formData),
+      author_id: 1
     })
+    const url = 'https://api.doka.guide/form'
+
+    return getToken()
+      .then(token => {
+        return fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: token
+          },
+          body
+        })
+      })
       .then(response => {
         if (!response.ok) {
           throw response
@@ -112,26 +120,17 @@ function init() {
 
         return response
       })
-      .then(() => {
-        form.dataset.state = 'success'
-      })
-      .catch(error => {
-        form.dataset.state = 'error'
-        console.error(error)
-      })
-      .finally(() => {
-        isSending = false
-      })
   }
 
   const detailedAnswer = new DetailedAnswer({
     rootElement: textControl
   })
 
-  detailedAnswer.on(DetailedAnswer.EVENTS.ANSWER, (event) => {
-    reasonFieldset.disabled = true
-    voteUpButton.disabled = true
-    sendForm(event?.detail)
+  detailedAnswer.on(DetailedAnswer.EVENTS.ANSWER, () => {
+    setTimeout(() => {
+      reasonFieldset.disabled = true
+      voteUpButton.disabled = true
+    })
   })
 
   const voteButtonGroup = new ButtonGroup({
@@ -140,10 +139,11 @@ function init() {
     childActiveClass: 'vote--active',
   })
 
-  voteButtonGroup.on(ButtonGroup.EVENTS.ANSWER, (event) => {
-    voteDownButton.disabled = true
-    reasonFieldset.disabled = true
-    sendForm(event?.detail)
+  voteButtonGroup.on(ButtonGroup.EVENTS.ANSWER, () => {
+    setTimeout(() => {
+      voteDownButton.disabled = true
+      reasonFieldset.disabled = true
+    })
   }, { once: true })
 
   voteButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
@@ -156,11 +156,12 @@ function init() {
     childActiveClass: 'button--active',
   })
 
-  reasonsButtonGroup.on(ButtonGroup.EVENTS.ANSWER, (event) => {
-    reasonFieldset.disabled = true
-    voteUpButton.disabled = true
-    textControl.hidden = true
-    sendForm(event?.detail)
+  reasonsButtonGroup.on(ButtonGroup.EVENTS.ANSWER, () => {
+    setTimeout(() => {
+      reasonFieldset.disabled = true
+      voteUpButton.disabled = true
+      textControl.hidden = true
+    })
   }, { once: true })
 
   reasonsButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
@@ -170,6 +171,34 @@ function init() {
 
   form.addEventListener('submit', event => {
     event.preventDefault()
+
+    if (isSending) {
+      return
+    }
+
+    const formData = new FormData(form)
+    const answer = formData.get('answer') || event.submitter?.value
+
+    if (!(answer && answer.length >= DetailedAnswer.TEXT_THRESHOLD) ) {
+      return
+    }
+
+    isSending = true
+
+    sendForm({
+      answer,
+      article_id: window.location.pathname
+    })
+      .then(() => {
+        form.dataset.state = 'success'
+      })
+      .catch(error => {
+        form.dataset.state = 'error'
+        console.error(error)
+      })
+      .finally(() => {
+        isSending = false
+      })
   })
 }
 
