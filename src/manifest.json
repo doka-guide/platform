@@ -6,10 +6,11 @@
   ],
   "lang": "ru",
   "dir": "ltr",
+  "id": "/",
   "start_url": "/",
   "theme_color": "#1a1a1a",
   "background_color": "#ffffff",
-  "display": "browser",
+  "display": "standalone",
   "orientation": "natural",
   "icons": [
     {
@@ -21,6 +22,12 @@
       "src": "/images/icons/512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "/images/icons/maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
