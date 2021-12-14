@@ -1,6 +1,4 @@
-const util = require('util')
-const { execFile } = require('child_process')
-const { baseUrl, defaultPathToContent } = require('../../config/constants')
+const { baseUrl } = require('../../config/constants')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 function getPersons(personGetter) {
@@ -31,22 +29,6 @@ function getPopulatedPersons(personKey) {
 
 function hasTag(tags, tag) {
   return (tags || []).includes(tag)
-}
-
-async function executeProgram(program, args, options) {
-  const { stdout } = await util.promisify(execFile)(program, args.split(' '), options)
-  return stdout
-}
-
-function getLastCommitDate(filePath, options) {
-  return executeProgram('git', `--no-pager log -n 1 --format="%ci" -- ${filePath}`, options)
-}
-
-function getFirstCommitDate(filePath, options) {
-  return executeProgram('git', `--no-pager log --reverse --format="%ci" -- ${filePath}`, options)
-    // `git log` с опцией `reverse -n1` выводит последний коммит, а не первый
-    // поэтому выводим списком и парсим
-    .then(output => output.split('\n')[0])
 }
 
 module.exports = {
@@ -155,30 +137,26 @@ module.exports = {
       return practices.length > 0 ? 'true' : 'false'
     },
 
-    createdAt: async function(data) {
-      const { docId } = data
+    createdAt: function(data) {
+      const { docId, articlesDates } = data
 
       if (!docId) {
         return
       }
 
-      const date = await getFirstCommitDate(docId, {
-        cwd: defaultPathToContent
-      })
+      const date = articlesDates[docId].createdAt
 
       return date ? new Date(date) : null
     },
 
-    updatedAt: async function(data) {
-      const { docId } = data
+    updatedAt: function(data) {
+      const { docId, articlesDates } = data
 
       if (!docId) {
         return
       }
 
-      const date = await getLastCommitDate(docId, {
-        cwd: defaultPathToContent
-      })
+      const date = articlesDates[docId].updatedAt
 
       return date ? new Date(date) : null
     },
