@@ -64,6 +64,18 @@ module.exports = function(config) {
     return [].concat(dokas, articles)
   })
 
+  config.addCollection('docsById', (collectionApi) => {
+    const dokas = collectionApi.getFilteredByTag('doka')
+    const articles = collectionApi.getFilteredByTag('article')
+    const docs = [].concat(dokas, articles)
+    return docs.reduce((map, doc) => {
+      const category = doc.filePathStem.split('/')[1]
+      const id = category + '/' + doc.fileSlug
+      map[id] = doc
+      return map
+    }, {})
+  })
+
   config.addCollection('people', collectionApi => {
     return collectionApi.getFilteredByGlob('src/people/*/index.md')
   })
