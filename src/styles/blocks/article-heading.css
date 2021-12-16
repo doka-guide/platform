@@ -1,7 +1,19 @@
 .article-heading {
+  position: relative;
+  padding-left: 1rem;
   font-size: var(--font-size);
   line-height: var(--line-height);
   scroll-margin: calc((var(--header-height, 0) * 1px) + 1em);
+}
+
+.article-heading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0.1em;
+  background-color: currentColor;
 }
 
 .article-heading__title {
