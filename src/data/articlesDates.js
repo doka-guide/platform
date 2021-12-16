@@ -12,15 +12,26 @@ async function executeProgram(program, args, options) {
   return stdout
 }
 
-function getLastCommitDate(filePath, options) {
-  return executeProgram('git', `--no-pager log -n 1 --format="%ci" -- ${filePath}`, options)
-}
+// function getLastCommitDate(filePath, options) {
+//   return executeProgram('git', `--no-pager log -n 1 --format="%ci" -- ${filePath}`, options)
+// }
 
-function getFirstCommitDate(filePath, options) {
-  return executeProgram('git', `--no-pager log --reverse --format="%ci" -- ${filePath}`, options)
-    // `git log` с опцией `reverse -n1` выводит последний коммит, а не первый
-    // поэтому выводим списком и парсим
-    .then(output => output.split('\n')[0])
+// function getFirstCommitDate(filePath, options) {
+//   return executeProgram('git', `--no-pager log --reverse --format="%ci" -- ${filePath}`, options)
+//     // `git log` с опцией `reverse -n1` выводит последний коммит, а не первый
+//     // поэтому выводим списком и парсим
+//     .then(output => output.split('\n')[0])
+// }
+
+function getCommitDates(filePath, options) {
+  return executeProgram('git', `--no-pager log --format="%ci" -- ${filePath}`, options)
+    .then(output => {
+      const dates = output.split('\n')
+      return {
+        createdAt: dates.pop(),
+        updatedAt: dates.shift()
+      }
+    })
 }
 
 async function getDatesData() {
@@ -34,10 +45,9 @@ async function getDatesData() {
     async function* (stream) {
       for await (const file of stream) {
         const articleId = path.relative(pathToContent, file.dirname)
-        const [createdAt, updatedAt] = await Promise.all([
-          getFirstCommitDate(articleId, { cwd: pathToContent }),
-          getLastCommitDate(articleId, { cwd: pathToContent })
-        ])
+        const { createdAt, updatedAt } = await getCommitDates(articleId, {
+          cwd: pathToContent
+        })
         yield {
           articleId,
           createdAt,
