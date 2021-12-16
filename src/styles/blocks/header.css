@@ -256,6 +256,12 @@
   transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
 }
 
+@media not all and (min-width: 1366px) {
+  .header:not(.header--fixed) .header__category--standalone {
+    display: none;
+  }
+}
+
 @media not all and (min-width: 768px) {
   .header__category {
     display: none;
