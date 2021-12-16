@@ -4,14 +4,9 @@ import BaseComponent from '../core/base-component.js'
 
 const headerActiveClass = 'header--open'
 const headerAnimationName = 'fixedHeaderAnimation'
-const scrollThreshold = 1.5 // TODO: для каждой страницы вычислять свое значение?
 
 class Header extends BaseComponent {
   constructor({ rootElement }) {
-    if (!rootElement) {
-      return null
-    }
-
     super()
 
     /** @type {Object<string, HTMLElement>} */
@@ -24,11 +19,37 @@ class Header extends BaseComponent {
     this.state = {
       headerHeight: null,
       fixedHeaderHeight: null,
-      lastScroll: 0
-    };
+      lastScroll: 0,
+      getScrollThreshold: window.innerHeight
+    }
+
+    const conditions = [
+      {
+        condition: () => !!document.querySelector('.article'),
+        getter: () => this.state.headerHeight + document.querySelector('.article__header').offsetHeight
+      },
+      {
+        condition: () => !!document.querySelector('.index-block'),
+        getter: () => this.state.headerHeight + document.querySelector('.index-block__header').offsetHeight
+      },
+      {
+        condition: () => !!document.querySelector('.standalone-page'),
+        getter: () => this.state.headerHeight + document.querySelector('.standalone-page__header').offsetHeight
+      },
+      {
+        condition: () => true,
+        getter: () => window.innerHeight
+      }
+    ]
+
+    for (const { condition, getter } of conditions) {
+      if (condition()) {
+        this.getScrollThreshold = getter
+        break
+      }
+    }
 
     [
-      'calculateHeaderHeight',
       'openOnKeyUp',
       'closeOnKeyUp',
       'closeOnClickOutSide',
@@ -40,9 +61,16 @@ class Header extends BaseComponent {
       this[method] = this[method].bind(this)
     })
 
-    window.addEventListener('resize', debounce(this.calculateHeaderHeight, 200))
-    window.addEventListener('orientationchange', debounce(this.calculateHeaderHeight, 200))
-    this.calculateHeaderHeight()
+    const resizeCallback = () => {
+      this.calculateHeaderHeight()
+      this.calculateScrollThreshold()
+    }
+
+    const onResize = debounce(resizeCallback, 200)
+
+    window.addEventListener('resize', onResize)
+    window.addEventListener('orientationchange', onResize)
+    resizeCallback()
 
     if (this.isClosableHeader) {
       this.refs.toggleButtons.forEach(button => {
@@ -93,6 +121,10 @@ class Header extends BaseComponent {
 
     document.documentElement.style.setProperty('--fixed-header-height', state.fixedHeaderHeight)
     document.documentElement.style.setProperty('--not-fixed-header-height', state.headerHeight)
+  }
+
+  calculateScrollThreshold() {
+    this.scrollThreshold = this.getScrollThreshold()
   }
 
   openOnKeyUp(event) {
@@ -174,12 +206,20 @@ class Header extends BaseComponent {
     const { lastScroll } = this.state
     const currentScroll = window.scrollY
     const isScrollingDown = currentScroll > lastScroll
+    const isHeaderOnTop = currentScroll === 0
     this.state.lastScroll = currentScroll
 
-    if (currentScroll <= scrollThreshold * window.innerHeight) {
+    if (isHeaderOnTop) {
       if (this.isFixed) {
         this.fixHeader(false)
         this.emit('unfixed')
+      }
+      return
+    }
+
+    if (currentScroll <= this.scrollThreshold) {
+      if (this.isFixed) {
+        this.hideHeader()
       }
       return
     }
