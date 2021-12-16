@@ -23,7 +23,7 @@ class Header extends BaseComponent {
       getScrollThreshold: window.innerHeight
     }
 
-    const conditions = [
+    const scrollThresholdConditions = [
       {
         condition: () => !!document.querySelector('.article'),
         getter: () => this.state.headerHeight + document.querySelector('.article__header').offsetHeight
@@ -42,7 +42,7 @@ class Header extends BaseComponent {
       }
     ]
 
-    for (const { condition, getter } of conditions) {
+    for (const { condition, getter } of scrollThresholdConditions) {
       if (condition()) {
         this.getScrollThreshold = getter
         break
