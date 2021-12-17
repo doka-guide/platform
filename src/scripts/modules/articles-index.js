@@ -46,15 +46,11 @@ function init() {
   const params = new URLSearchParams(window.location.search)
   applyView(params.get(PARAM_NAME) || VIEWS.THEMES)
 
-  // Chrome иногда не прокручивает до anchor-блока, если в адресной строке нажать enter
-  const isChrome = /Chrome/.test(navigator.userAgent)
+  // Chromium иногда не прокручивает до anchor-блока, если в адресной строке нажать enter
   const hash = window.location.hash
-  if (isChrome && hash) {
+  if (hash) {
     window.addEventListener('load', () => {
-      document.querySelector(hash)?.scrollIntoView({
-        block: 'center',
-        behavior: 'smooth'
-      })
+      document.querySelector(hash)?.scrollIntoView()
     })
   }
 }
