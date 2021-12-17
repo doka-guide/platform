@@ -1,11 +1,9 @@
-{% from "blocks/logo.njk" import logo %}
+{% from "blocks/header.njk" import header %}
 {% from "blocks/footer.njk" import footer with context %}
 
-<div class="header header--simple header--static">
-  <div class="header__inner header__inner--main">
-    {{ logo(isLink=true, isImageHidden=true) }}
-  </div>
-</div>
+{{ header(
+  articleIndexes=collections.articleIndexes
+) }}
 
 <main>
   <div class="not-found font-theme font-theme--code">

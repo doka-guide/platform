@@ -1,0 +1,35 @@
+.copy-button {
+  position: relative;
+  margin: 0;
+  padding: 2px 0;
+  border: 0;
+  display: grid;
+  align-items: center;
+  grid-auto-flow: column;
+  grid-gap: 6px;
+  background-color: transparent;
+  font-size: var(--font-size-s);
+  line-height: calc(20 / 15);
+  cursor: pointer;
+}
+
+.copy-button__icon {}
+
+.copy-button__text {}
+
+.copy-button__text::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.copy-button:disabled,
+.copy-button:active {
+  color: inherit;
+}
+
+.copy-button:not([data-state="idle"]) [data-state="idle"],
+.copy-button:not([data-state="success"]) [data-state="success"],
+.copy-button:not([data-state="error"]) [data-state="error"] {
+  display: none;
+}

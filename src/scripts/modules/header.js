@@ -3,14 +3,10 @@ import debounce from '../libs/debounce.js'
 import BaseComponent from '../core/base-component.js'
 
 const headerActiveClass = 'header--open'
-const scrollThreshold = 1.5
+const headerAnimationName = 'fixedHeaderAnimation'
 
 class Header extends BaseComponent {
   constructor({ rootElement }) {
-    if (!rootElement) {
-      return null
-    }
-
     super()
 
     /** @type {Object<string, HTMLElement>} */
@@ -22,11 +18,43 @@ class Header extends BaseComponent {
 
     this.state = {
       headerHeight: null,
-      fixedHeaderHeight: null
-    };
+      fixedHeaderHeight: null,
+      lastScroll: 0,
+      getScrollThreshold: window.innerHeight
+    }
+
+    const scrollThresholdConditions = [
+      {
+        condition: () => !!document.querySelector('.article'),
+        getter: () => this.state.headerHeight + document.querySelector('.article__header').offsetHeight
+      },
+      {
+        condition: () => !!document.querySelector('.index-block'),
+        getter: () => {
+          const additionalHeight = window.matchMedia('(min-width: 1366px)')
+            ? 0
+            : document.querySelector('.index-block__header').offsetHeight
+          return this.state.headerHeight + additionalHeight
+        }
+      },
+      {
+        condition: () => !!document.querySelector('.standalone-page'),
+        getter: () => this.state.headerHeight + document.querySelector('.standalone-page__header').offsetHeight
+      },
+      {
+        condition: () => true,
+        getter: () => window.innerHeight
+      }
+    ]
+
+    for (const { condition, getter } of scrollThresholdConditions) {
+      if (condition()) {
+        this.getScrollThreshold = getter
+        break
+      }
+    }
 
     [
-      'calculateHeaderHeight',
       'openOnKeyUp',
       'closeOnKeyUp',
       'closeOnClickOutSide',
@@ -38,9 +66,16 @@ class Header extends BaseComponent {
       this[method] = this[method].bind(this)
     })
 
-    window.addEventListener('resize', debounce(this.calculateHeaderHeight, 200))
-    window.addEventListener('orientationchange', debounce(this.calculateHeaderHeight, 200))
-    this.calculateHeaderHeight()
+    const resizeCallback = () => {
+      this.calculateHeaderHeight()
+      this.calculateScrollThreshold()
+    }
+
+    const onResize = debounce(resizeCallback, 200)
+
+    window.addEventListener('resize', onResize)
+    window.addEventListener('orientationchange', onResize)
+    resizeCallback()
 
     if (this.isClosableHeader) {
       this.refs.toggleButtons.forEach(button => {
@@ -51,7 +86,7 @@ class Header extends BaseComponent {
 
       document.addEventListener('keyup', this.openOnKeyUp)
 
-      window.addEventListener('scroll', throttle(this.checkFixed, 200), { passive: true })
+      window.addEventListener('scroll', throttle(this.checkFixed, 250, { leading: false }), { passive: true })
       this.checkFixed()
     }
   }
@@ -93,6 +128,10 @@ class Header extends BaseComponent {
     document.documentElement.style.setProperty('--not-fixed-header-height', state.headerHeight)
   }
 
+  calculateScrollThreshold() {
+    this.scrollThreshold = this.getScrollThreshold()
+  }
+
   openOnKeyUp(event) {
     if (event.code === 'Slash') {
       this.openMenu()
@@ -130,45 +169,74 @@ class Header extends BaseComponent {
 
   }
 
+  // методы для плавного появления/скрытия шапки
+  showHeader() {
+    const { rootElement: header } = this.refs
+    const classes = ['header--animating', 'header--fixed-show']
+
+    header.addEventListener('animationend', event => {
+      if (event.animationName !== headerAnimationName) {
+        return
+      }
+      header.classList.remove(...classes)
+    }, { once: true })
+
+    this.fixHeader(true)
+    header.classList.add(...classes)
+    this.emit('fixed')
+  }
+
+  hideHeader() {
+    const { rootElement: header } = this.refs
+    const classes = ['header--animating', 'header--fixed-hide']
+
+    header.addEventListener('animationend', event => {
+      if (event.animationName !== headerAnimationName) {
+        return
+      }
+      this.fixHeader(false)
+      header.classList.remove(...classes)
+    }, { once: true })
+
+    header.classList.add(...classes)
+    this.emit('unfixed')
+  }
+
   fixHeader(flag) {
     this.refs.rootElement.classList.toggle('header--fixed', flag)
     document.documentElement.style.setProperty('--is-header-fixed', Number(flag))
   }
 
   checkFixed() {
-    const { rootElement: header } = this.refs
+    const { lastScroll } = this.state
+    const currentScroll = window.scrollY
+    const isScrollingDown = currentScroll > lastScroll
+    const isHeaderOnTop = currentScroll === 0
+    this.state.lastScroll = currentScroll
 
-    if (window.scrollY > scrollThreshold * window.innerHeight) {
-      if (this.isFixed) return
-
-      header.addEventListener('animationend', event => {
-        if (event.animationName !== 'fixedHeaderAnimation') return
-        header.classList.remove('header--animating', 'header--fixed-show')
-      }, { once: true })
-
-      this.fixHeader(true)
-      header.classList.add('header--animating', 'header--fixed-show')
-      this.emit('fixed')
-
-    } else {
-      if (!this.isFixed) return
-
-      // если скроллить очень быстро, то не нужно показывать анимацию скрытия
-      // 4 - "магическое число"
-      if (window.scrollY <= this.state.headerHeight * 4) {
+    if (isHeaderOnTop) {
+      if (this.isFixed) {
+        this.fixHeader(false)
         this.emit('unfixed')
-        this.fixHeader(false)
-        return
       }
+      return
+    }
 
-      header.addEventListener('animationend', event => {
-        if (event.animationName !== 'fixedHeaderAnimation') return
-        this.fixHeader(false)
-        header.classList.remove('header--animating', 'header--fixed-hide')
-      }, { once: true })
+    if (currentScroll <= this.scrollThreshold) {
+      if (this.isFixed) {
+        this.hideHeader()
+      }
+      return
+    }
 
-      header.classList.add('header--animating', 'header--fixed-hide')
-      this.emit('unfixed')
+    if (isScrollingDown) {
+      if (this.isFixed) {
+        this.hideHeader()
+      }
+    } else {
+      if (!this.isFixed) {
+        this.showHeader()
+      }
     }
   }
 }

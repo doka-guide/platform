@@ -79,8 +79,8 @@ module.exports = {
 
     docPath: function(data) {
       const { doc } = data
-      // Удаляем `/index` с конца пути
-      return doc.filePathStem.replace('/index', '')
+      // Удаляем `/index` с конца пути (цель - из строки `/js/index-of/index` получить `/js/index-of`)
+      return doc.filePathStem.replace(/\/index$/, '')
     },
 
     defaultOpenGraphPath: function(data) {
