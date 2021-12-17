@@ -30,7 +30,12 @@ class Header extends BaseComponent {
       },
       {
         condition: () => !!document.querySelector('.index-block'),
-        getter: () => this.state.headerHeight + document.querySelector('.index-block__header').offsetHeight
+        getter: () => {
+          const additionalHeight = window.matchMedia('(min-width: 1366px)')
+            ? 0
+            : document.querySelector('.index-block__header').offsetHeight
+          return this.state.headerHeight + additionalHeight
+        }
       },
       {
         condition: () => !!document.querySelector('.standalone-page'),
