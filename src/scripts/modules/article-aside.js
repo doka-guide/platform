@@ -3,7 +3,7 @@ import headerComponent from './header.js'
 function init() {
   const articleAside =  document.querySelector('.article__aside')
 
-  if (!articleAside && !headerComponent) {
+  if (!(articleAside && headerComponent)) {
     return
   }
 
