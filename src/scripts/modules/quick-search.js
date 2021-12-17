@@ -12,8 +12,6 @@ class QuickSearch extends BaseComponent {
   constructor({ rootElement }) {
     super()
 
-    if(!rootElement) return
-
     this.refs = {
       rootElement,
       input: rootElement.querySelector('.search__input'),
