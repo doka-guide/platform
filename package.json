@@ -30,12 +30,12 @@
     "eslint": "eslint '**/*.js'",
     "test": "npm run editorconfig && npm run stylelint && npm run eslint"
   },
-  "lint-staged": {
+  "nano-staged": {
     "*.js": "eslint --cache --fix",
     "*.css": "stylelint --fix"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged",
+    "pre-commit": "npx nano-staged",
     "preserveUnused": true
   },
   "devDependencies": {
@@ -60,8 +60,8 @@
     "gulp-shell": "^0.8.0",
     "htmlnano": "^1.1.1",
     "linkedom": "^0.13.0",
-    "lint-staged": "^11.2.3",
     "markdown-it": "^12.2.0",
+    "nano-staged": "^0.5.0",
     "postcss": "^8.3.9",
     "postcss-csso": "^5.0.1",
     "postcss-import": "^14.0.2",
