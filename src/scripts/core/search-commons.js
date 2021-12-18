@@ -60,7 +60,7 @@ export const SEARCHABLE_SHORT_WORDS = new Set([
 export function processHits(searchObject) {
   const hits = searchObject.hits
   const results = []
-  hits.forEach(articleObject => {
+  hits.forEach((articleObject) => {
     let paragraph = ''
     if (articleObject.content.paragraphs.length > 1) {
       if (articleObject.content.paragraphs[0].length > 20) {
@@ -74,7 +74,7 @@ export function processHits(searchObject) {
       summary: paragraph,
       url: `/${articleObject.objectID}`,
       category: articleObject.category,
-      tags: articleObject.tags
+      tags: articleObject.tags,
     }
     results.push(articleSummary)
   })

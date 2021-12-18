@@ -4,7 +4,7 @@ const STORAGE_KEY = 'color-theme'
 const THEMES = {
   DARK: 'dark',
   LIGHT: 'light',
-  AUTO: 'auto'
+  AUTO: 'auto',
 }
 
 // DOM-элементы
@@ -15,7 +15,7 @@ const darkThemeMeta = document.head.querySelector('meta[name=theme-color][media*
 
 const themeColorMetaElements = {
   [THEMES.LIGHT]: lightThemeMeta,
-  [THEMES.DARK]: darkThemeMeta
+  [THEMES.DARK]: darkThemeMeta,
 }
 
 const metaColors = {
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
   toggleElement = document.querySelector('.theme-toggle')
   toggleElement?.addEventListener('change', toggleTheme)
 
-  window.addEventListener('storage', event => {
+  window.addEventListener('storage', (event) => {
     if (event.key !== STORAGE_KEY) {
       return
     }

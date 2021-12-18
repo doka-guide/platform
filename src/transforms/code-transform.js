@@ -6,9 +6,9 @@ loadLanguages()
 
 const endOfLine = '\n'
 
-const LANG_ALIASES= {
-  'js': 'javascript',
-  'nginxconf': 'nginx'
+const LANG_ALIASES = {
+  js: 'javascript',
+  nginxconf: 'nginx',
 }
 
 function renderOriginalLine(line) {
@@ -26,43 +26,36 @@ function highlightCode(source, language) {
 /**
  * @param {Window} window
  */
-module.exports = function(window) {
+module.exports = function (window) {
   const articleContent = window.document.querySelector('.article__content-inner')
 
-  articleContent
-    ?.querySelectorAll('pre[data-lang]')
-    ?.forEach(preElement => {
-      const codeElement = preElement.querySelector('code')
+  articleContent?.querySelectorAll('pre[data-lang]')?.forEach((preElement) => {
+    const codeElement = preElement.querySelector('code')
 
-      let language = preElement.getAttribute('data-lang').trim()
-      language = LANG_ALIASES[language] || language
+    let language = preElement.getAttribute('data-lang').trim()
+    language = LANG_ALIASES[language] || language
 
-      const originalContent = codeElement.textContent
-      const highlightedContent = language
-        ? highlightCode(originalContent, language)
-        : originalContent
+    const originalContent = codeElement.textContent
+    const highlightedContent = language ? highlightCode(originalContent, language) : originalContent
 
-      const lines = originalContent
-        .split(endOfLine)
-        .filter((line, index, linesArray) => {
-          // удаляем первую и последнюю пустые строки
-          const isFirtsOrLastLine = (index === 0 || index === linesArray.length -1)
-          const isEmptyLine = line.trim() === ''
-          return !(isFirtsOrLastLine && isEmptyLine)
-        })
-        .map((line) => renderOriginalLine(line))
+    const lines = originalContent
+      .split(endOfLine)
+      .filter((line, index, linesArray) => {
+        // удаляем первую и последнюю пустые строки
+        const isFirtsOrLastLine = index === 0 || index === linesArray.length - 1
+        const isEmptyLine = line.trim() === ''
+        return !(isFirtsOrLastLine && isEmptyLine)
+      })
+      .map((line) => renderOriginalLine(line))
 
-      const originalSplittedContent = lines.join('')
+    const originalSplittedContent = lines.join('')
 
-      const linesBlock = window.document.createElement('span')
-      linesBlock.classList.add('block-code__lines')
-      linesBlock.innerHTML = Array.from(
-        { length: lines.length },
-        () => `<span class="block-code__line"></span>`
-      ).join('')
+    const linesBlock = window.document.createElement('span')
+    linesBlock.classList.add('block-code__lines')
+    linesBlock.innerHTML = Array.from({ length: lines.length }, () => `<span class="block-code__line"></span>`).join('')
 
-      preElement.classList.add('block-code', 'font-theme', 'font-theme--code')
-      preElement.innerHTML = `
+    preElement.classList.add('block-code', 'font-theme', 'font-theme--code')
+    preElement.innerHTML = `
         <span class="block-code__inner " tabindex="0">
           ${linesBlock.outerHTML}
           <code class="block-code__original">${originalSplittedContent}</code>
@@ -80,43 +73,37 @@ module.exports = function(window) {
           </button>
         </span>
       `
-    })
+  })
 
-  articleContent
-    ?.querySelectorAll('pre:not([data-lang])')
-    ?.forEach(preElement => {
-      preElement.classList.add('format-block', 'font-theme', 'font-theme--code')
-      preElement.setAttribute('tabindex', 0)
-    })
+  articleContent?.querySelectorAll('pre:not([data-lang])')?.forEach((preElement) => {
+    preElement.classList.add('format-block', 'font-theme', 'font-theme--code')
+    preElement.setAttribute('tabindex', 0)
+  })
 
-  articleContent
-    ?.querySelectorAll('p code, ul code, ol code, table code')
-    ?.forEach(codeElement => {
-      codeElement.classList.add('inline-code', 'font-theme', 'font-theme--code')
-    })
+  articleContent?.querySelectorAll('p code, ul code, ol code, table code')?.forEach((codeElement) => {
+    codeElement.classList.add('inline-code', 'font-theme', 'font-theme--code')
+  })
 
   // добавление классов на блоки `code` внутри заголовков
   {
     const classMap = {
       'articles-group__link': 'articles-group__code',
       'articles-group__title': 'articles-group__code',
-      'article__title': 'article__title-code',
+      article__title: 'article__title-code',
       'social-card__title': 'social-card__title-code',
       'featured-article__link': 'featured-article__code',
       'index-group-list__link': 'index-group-list__code',
-      'header__title': 'header__title-code',
-      'article__description': 'article__description-code',
-      'article-heading': 'article-heading__code'
+      header__title: 'header__title-code',
+      article__description: 'article__description-code',
+      'article-heading': 'article-heading__code',
     }
 
     for (const [parentClass, codeClass] of Object.entries(classMap)) {
-      window.document.querySelectorAll(`.${parentClass}`)
-        .forEach(parentElement => {
-          parentElement.querySelectorAll('code').forEach(codeElement => {
-            codeElement.classList.add(codeClass, 'font-theme', 'font-theme--code')
-          })
+      window.document.querySelectorAll(`.${parentClass}`).forEach((parentElement) => {
+        parentElement.querySelectorAll('code').forEach((codeElement) => {
+          codeElement.classList.add(codeClass, 'font-theme', 'font-theme--code')
         })
+      })
     }
   }
-
 }

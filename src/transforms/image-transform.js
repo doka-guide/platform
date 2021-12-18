@@ -9,11 +9,9 @@ Image.concurrency = os.cpus().length
 const baseConfig = {
   extBlackList: ['gif', 'svg', 'webp', 'avif'],
   widths: [300, 600, 1200, 2200],
-  sizes: [
-    '(min-width: 1680px) 1087px',
-    '(min-width: 1366px) calc(75vw - 2 * 20px)',
-    'calc(100vw - 2 * 10px)'
-  ].join(', '),
+  sizes: ['(min-width: 1680px) 1087px', '(min-width: 1366px) calc(75vw - 2 * 20px)', 'calc(100vw - 2 * 10px)'].join(
+    ', '
+  ),
   formats: ['webp'],
   filenameFormat: (id, src, width, format) => {
     const extension = path.extname(src)
@@ -21,19 +19,19 @@ const baseConfig = {
     return `${name}-${width}w.${format}`
   },
   sharpWebpOptions: {
-    lossless: true
-  }
+    lossless: true,
+  },
 }
 
 const sharpWebpOptions = {
   default: {
-    lossless: true
+    lossless: true,
   },
   get png() {
     return this.default
   },
   jpg: {
-    quality: 80
+    quality: 80,
   },
   get jpeg() {
     return this.jpg
@@ -44,7 +42,7 @@ const sharpWebpOptions = {
 /**
  * @param {Window} window
  */
-module.exports = function(window, content, outputPath) {
+module.exports = function (window, content, outputPath) {
   // замена img на picture внутри статьи
   const articleContainer = window.document.querySelector('.article__content-inner')
   if (!articleContainer) {
@@ -53,18 +51,13 @@ module.exports = function(window, content, outputPath) {
 
   // задаём базовый путь до исходных картинок, используя outputPath
   // например, из пути `dist/css/active/index.html` нужно получить `/css/active/`
-  const baseSourcePath = outputPath
-    .replace('dist/', '')
-    .replace('/index.html', '')
+  const baseSourcePath = outputPath.replace('dist/', '').replace('/index.html', '')
   const imagesSourcePath = path.join('src', baseSourcePath)
   const imagesOutputPath = path.join('dist', baseSourcePath, 'images')
 
   const images = articleContainer.querySelectorAll('img')
 
-  return Promise.all(
-    Array.from(images)
-      .map(image => buildImage(image, imagesSourcePath, imagesOutputPath, window))
-  )
+  return Promise.all(Array.from(images).map((image) => buildImage(image, imagesSourcePath, imagesOutputPath, window)))
 }
 
 async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
@@ -92,12 +85,10 @@ async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
     widths: [...baseConfig.widths, originalWidth],
     formats: [...baseConfig.formats, ext],
     filenameFormat: baseConfig.filenameFormat,
-    sharpWebpOptions: sharpWebpOptions[ext] ? sharpWebpOptions[ext] : sharpWebpOptions.default
+    sharpWebpOptions: sharpWebpOptions[ext] ? sharpWebpOptions[ext] : sharpWebpOptions.default,
   }
 
-  const imageAttributes = Object.fromEntries(
-    [...image.attributes].map(attr => [attr.name, attr.value])
-  )
+  const imageAttributes = Object.fromEntries([...image.attributes].map((attr) => [attr.name, attr.value]))
   imageAttributes.sizes = imageAttributes.sizes || baseConfig.sizes
 
   const metadata = Image.statsSync(originalLink, options)

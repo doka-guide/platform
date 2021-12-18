@@ -8,47 +8,47 @@ module.exports = {
   pagination: {
     data: 'collections.articleIndexes',
     size: 1,
-    alias: 'articleIndex'
+    alias: 'articleIndex',
   },
 
   permalink: '/{{ articleIndex.fileSlug }}/',
 
   eleventyComputed: {
-    category: function(data) {
+    category: function (data) {
       const { articleIndex } = data
       return articleIndex.fileSlug
     },
 
-    categoryName: function(data) {
+    categoryName: function (data) {
       const { articleIndex } = data
       return articleIndex.data.name
     },
 
-    documentTitle: function(data) {
+    documentTitle: function (data) {
       return titleFormatter([data.categoryName, 'Дока'])
     },
 
-    documentDescription: function(data) {
+    documentDescription: function (data) {
       const { categoryName } = data
       return `Статьи Доки по теме «${categoryName}»`
     },
 
-    categoryLink: function(data) {
+    categoryLink: function (data) {
       const { category } = data
       return `/${category}/`
     },
 
-    groups: function(data) {
+    groups: function (data) {
       const { articleIndex } = data
       return articleIndex.data.groups
     },
 
-    categoryArticles: function(data) {
+    categoryArticles: function (data) {
       const { collections, category } = data
       return collections[category]
     },
 
-    categoryArticlesBySlug: function(data) {
+    categoryArticlesBySlug: function (data) {
       const { categoryArticles } = data
       return categoryArticles?.reduce?.((map, article) => {
         map[article.fileSlug] = article
@@ -56,7 +56,7 @@ module.exports = {
       }, {})
     },
 
-    categoryArticlesByAlphabet: function(data) {
+    categoryArticlesByAlphabet: function (data) {
       const { categoryArticles } = data
       return categoryArticles?.reduce?.((map, article) => {
         const { title } = article.data
@@ -75,30 +75,30 @@ module.exports = {
       }, {})
     },
 
-    firstLettersOfArticles: function(data) {
+    firstLettersOfArticles: function (data) {
       const { categoryArticlesByAlphabet = {} } = data
       return Object.keys(categoryArticlesByAlphabet).sort()
     },
 
     // статьи для блока "остальное" (не попали в индекс)
-    restArticles: function(data) {
+    restArticles: function (data) {
       const { categoryArticles, groups } = data
 
-      const allArticlesIds = categoryArticles.map?.(article => article.fileSlug)
-      const indexArticlesIds = groups.flatMap?.(group => group.items)
+      const allArticlesIds = categoryArticles.map?.((article) => article.fileSlug)
+      const indexArticlesIds = groups.flatMap?.((group) => group.items)
 
-      return allArticlesIds?.filter(articleId => !indexArticlesIds.includes(articleId))
+      return allArticlesIds?.filter((articleId) => !indexArticlesIds.includes(articleId))
     },
 
-    allGroups: function(data) {
+    allGroups: function (data) {
       const { groups, restArticles } = data
       return [
         ...groups,
         {
           name: 'Остальные',
-          items: restArticles
-        }
-      ].filter(group => group.items.length > 0)
-    }
-  }
+          items: restArticles,
+        },
+      ].filter((group) => group.items.length > 0)
+    },
+  },
 }

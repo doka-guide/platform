@@ -1,8 +1,10 @@
 class BaseComponent extends EventTarget {
   emit(eventType, detail) {
-    this.dispatchEvent(new CustomEvent(eventType, {
-      detail
-    }))
+    this.dispatchEvent(
+      new CustomEvent(eventType, {
+        detail,
+      })
+    )
   }
 }
 

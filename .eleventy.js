@@ -18,21 +18,14 @@ const imagePlaceTransform = require('./src/transforms/image-place-transform')
 const detailsTransform = require('./src/transforms/details-transform')
 const calloutTransform = require('./src/transforms/callout-transform')
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.setDataDeepMerge(true)
 
   config.setBrowserSyncConfig({
     server: {
-      baseDir: [
-        './src',
-        './dist',
-        './node_modules'
-      ]
+      baseDir: ['./src', './dist', './node_modules'],
     },
-    files: [
-      'src/styles/**/*.*',
-      'src/scripts/**/*.*'
-    ],
+    files: ['src/styles/**/*.*', 'src/scripts/**/*.*'],
     ghostMode: false,
   })
 
@@ -45,14 +38,17 @@ module.exports = function(config) {
         // Необходимо сортировать по названиям статей, чтобы гарантировать одинаковый порядок вывода при пересборках.
         .sort((item1, item2) => {
           const [title1, title2] = [item1.data.title, item2.data.title]
-            .map(title => title.toLowerCase())
+            .map((title) => title.toLowerCase())
             // учитываем только буквы
-            .map(title => title.replace(/[^a-zа-яё]/gi, ''))
+            .map((title) => title.replace(/[^a-zа-яё]/gi, ''))
 
           switch (true) {
-            case (title1 > title2): return 1
-            case (title1 < title2): return -1
-            default: return 0
+            case title1 > title2:
+              return 1
+            case title1 < title2:
+              return -1
+            default:
+              return 0
           }
         })
     )
@@ -64,37 +60,36 @@ module.exports = function(config) {
     return [].concat(dokas, articles)
   })
 
-  config.addCollection('people', collectionApi => {
+  config.addCollection('people', (collectionApi) => {
     return collectionApi.getFilteredByGlob('src/people/*/index.md')
   })
 
-  config.addCollection('peopleById', collectionApi => {
-    return collectionApi.getFilteredByGlob('src/people/*/index.md')
-      .reduce((hashMap, person) => {
-        hashMap[person.fileSlug] = person
-        return hashMap
-      }, {})
+  config.addCollection('peopleById', (collectionApi) => {
+    return collectionApi.getFilteredByGlob('src/people/*/index.md').reduce((hashMap, person) => {
+      hashMap[person.fileSlug] = person
+      return hashMap
+    }, {})
   })
 
-  config.addCollection('practice', collectionApi => {
+  config.addCollection('practice', (collectionApi) => {
     return collectionApi.getFilteredByGlob('src/**/practice/*.md')
   })
 
-  config.addCollection('pages', collectionApi => {
+  config.addCollection('pages', (collectionApi) => {
     return collectionApi.getFilteredByGlob('src/pages/**/index.md')
   })
 
-  config.addCollection('articleIndexes', collectionApi => {
+  config.addCollection('articleIndexes', (collectionApi) => {
     const articleIndexes = collectionApi.getFilteredByGlob(`src/{${mainSections.join(',')}}/index.md`)
-    const existIds = articleIndexes.map(section => section.fileSlug)
-    const visualOrder = mainSections.filter(sectionId => existIds.includes(sectionId))
+    const existIds = articleIndexes.map((section) => section.fileSlug)
+    const visualOrder = mainSections.filter((sectionId) => existIds.includes(sectionId))
 
     const indexesMap = articleIndexes.reduce((map, section) => {
       map[section.fileSlug] = section
       return map
     }, {})
 
-    return visualOrder.map(sectionId => indexesMap[sectionId])
+    return visualOrder.map((sectionId) => indexesMap[sectionId])
   })
 
   // Настраивает markdown-it
@@ -102,12 +97,10 @@ module.exports = function(config) {
     html: true,
     breaks: true,
     linkify: true,
-    highlight: function(str, lang) {
+    highlight: function (str, lang) {
       const content = markdownLibrary.utils.escapeHtml(str)
-      return lang
-        ? `<pre data-lang="${lang}"><code>${content}</code></pre>`
-        : `<pre>${content}</pre>`
-    }
+      return lang ? `<pre data-lang="${lang}"><code>${content}</code></pre>` : `<pre>${content}</pre>`
+    },
   })
 
   config.setLibrary('md', markdownLibrary)
@@ -116,7 +109,7 @@ module.exports = function(config) {
     let textLength = text.split(' ').length
     const wordsPerMinute = 150
     const value = Math.ceil(textLength / wordsPerMinute)
-    if(value > 15){
+    if (value > 15) {
       return `больше 15 мин`
     } else if (value < 5) {
       return `меньше 5 мин`
@@ -126,18 +119,22 @@ module.exports = function(config) {
   })
 
   config.addFilter('ruDate', (value) => {
-    return value.toLocaleString('ru', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }).replace(' г.', '')
+    return value
+      .toLocaleString('ru', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+      .replace(' г.', '')
   })
 
   config.addFilter('shortDate', (value) => {
-    return value.toLocaleString('ru', {
-      month: 'short',
-      day: 'numeric',
-    }).replace('.', '')
+    return value
+      .toLocaleString('ru', {
+        month: 'short',
+        day: 'numeric',
+      })
+      .replace('.', '')
   })
 
   config.addFilter('isoDate', (value) => {
@@ -161,7 +158,7 @@ module.exports = function(config) {
     const descriptionMarkdown = markdownIt({
       html: false,
       linkify: false,
-      typographer: false
+      typographer: false,
     })
 
     config.addFilter('descriptionMarkdown', (content) => {
@@ -207,25 +204,27 @@ module.exports = function(config) {
         let isHtml = outputPath.endsWith('.html')
         let notDemo = !outputPath.includes('demos')
         if (isHtml && notDemo) {
-          return htmlnano.process(content, {
-            collapseAttributeWhitespace: true,
-            collapseWhitespace: 'conservative',
-            deduplicateAttributeValues: false,
-            minifyCss: false,
-            minifyJs: true,
-            minifyJson: false,
-            minifySvg: false,
-            removeComments: 'safe',
-            removeEmptyAttributes: false,
-            removeAttributeQuotes: false,
-            removeRedundantAttributes: true,
-            sortAttributesWithLists: false,
-            removeOptionalTags: false,
-            collapseBooleanAttributes: true,
-            mergeStyles: false,
-            mergeScripts: false,
-            minifyUrls: false
-          }).then(result => result.html)
+          return htmlnano
+            .process(content, {
+              collapseAttributeWhitespace: true,
+              collapseWhitespace: 'conservative',
+              deduplicateAttributeValues: false,
+              minifyCss: false,
+              minifyJs: true,
+              minifyJson: false,
+              minifySvg: false,
+              removeComments: 'safe',
+              removeEmptyAttributes: false,
+              removeAttributeQuotes: false,
+              removeRedundantAttributes: true,
+              sortAttributesWithLists: false,
+              removeOptionalTags: false,
+              collapseBooleanAttributes: true,
+              mergeStyles: false,
+              mergeScripts: false,
+              minifyUrls: false,
+            })
+            .then((result) => result.html)
         }
       }
 
@@ -252,9 +251,6 @@ module.exports = function(config) {
     markdownTemplateEngine: false,
     htmlTemplateEngine: 'njk',
     passthroughFileCopy: true,
-    templateFormats: [
-      'md',
-      'njk',
-    ],
+    templateFormats: ['md', 'njk'],
   }
 }

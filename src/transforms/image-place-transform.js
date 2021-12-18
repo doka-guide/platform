@@ -5,7 +5,7 @@ const { Node } = require('linkedom')
  *
  * @param {Window} window
  */
- module.exports = function(window) {
+module.exports = function (window) {
   const articleContent = window.document.querySelector('.article__content-inner')
 
   if (!articleContent) {
@@ -13,8 +13,8 @@ const { Node } = require('linkedom')
   }
 
   Array.from(articleContent.querySelectorAll('img, picture'))
-    .filter(element => !element.matches('figure img, picture img'))
-    .forEach(element => {
+    .filter((element) => !element.matches('figure img, picture img'))
+    .forEach((element) => {
       // обычно все markdown-парсеры используют тег 'br' для переноса
       const brElement = element.nextElementSibling
       const hasCaption = brElement?.tagName.toLowerCase() === 'br'
@@ -33,18 +33,14 @@ const { Node } = require('linkedom')
       }
     })
 
-  articleContent
-    .querySelectorAll('figure')
-    .forEach(figureElement => {
-      figureElement.classList.add('figure')
-      figureElement.querySelector('figcaption')?.classList.add('figure__caption')
-      figureElement.firstElementChild?.classList.add('figure__content')
-    })
+  articleContent.querySelectorAll('figure').forEach((figureElement) => {
+    figureElement.classList.add('figure')
+    figureElement.querySelector('figcaption')?.classList.add('figure__caption')
+    figureElement.firstElementChild?.classList.add('figure__content')
+  })
 
   // достаём изображения из параграфов
-  articleContent
-    .querySelectorAll('p > figure, p > picture, p > img')
-    .forEach(element => {
-      element.parentElement.replaceWith(element)
-    })
+  articleContent.querySelectorAll('p > figure, p > picture, p > img').forEach((element) => {
+    element.parentElement.replaceWith(element)
+  })
 }
