@@ -27,6 +27,7 @@ function getCommitDates(filePath, options) {
   return executeProgram('git', `--no-pager log --format="%ci" -- ${filePath}`, options)
     .then(output => {
       const dates = output.split('\n')
+      dates.pop() // удаляем последний пустой элемент
       return {
         createdAt: dates.pop(),
         updatedAt: dates.shift()
