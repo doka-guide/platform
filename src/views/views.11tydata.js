@@ -78,7 +78,7 @@ module.exports = {
               return `${this.link}/${this.cover.mobile}`
             },
             description: article.data.description,
-            link: `/${section}/${article.fileSlug}`,
+            link: `/${section}/${article.fileSlug}/`,
             linkTitle: article.data.title.replace(/`/g, ''),
             section,
           }
