@@ -1,7 +1,8 @@
 const path = require('path')
 const util = require('util')
 const { execFile } = require('child_process')
-const { compose } = require('stream')
+const { Transform } = require('stream')
+const { pipeline } = require('stream/promises')
 
 const gulp = require('gulp')
 
@@ -39,33 +40,25 @@ async function getDatesData() {
   const pathToContent = path.resolve(process.cwd(), defaultPathToContent)
   const articlesData = {}
 
-  const stream = compose(
+  await pipeline(
     gulp.src(`{${mainSections.join(',')}}/*/index.md`, {
       cwd: pathToContent
     }),
-    async function* (stream) {
-      for await (const file of stream) {
+    new Transform({
+      objectMode: true,
+      async transform(file, encoding, done) {
         const articleId = path.relative(pathToContent, file.dirname)
         const { createdAt, updatedAt } = await getCommitDates(articleId, {
           cwd: pathToContent
         })
-        yield {
-          articleId,
+        articlesData[articleId] = {
           createdAt,
           updatedAt
         }
+        done()
       }
-    }
+    })
   )
-
-  for await (const chunk of stream) {
-    const { articleId, createdAt, updatedAt } = chunk
-
-    articlesData[articleId] = {
-      createdAt,
-      updatedAt
-    }
-  }
 
   return articlesData
 }
