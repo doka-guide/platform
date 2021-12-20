@@ -106,7 +106,34 @@ module.exports = function(config) {
       return map
     }, {})
 
-    return visualOrder.map(sectionId => indexesMap[sectionId])
+    const orderedArticleIndexes = visualOrder.map(sectionId => indexesMap[sectionId])
+
+    const linkedArticles = visualOrder
+      .flatMap((category) => {
+        return indexesMap[category].data.groups
+          .flatMap((group) => group.items)
+          .map((articleSlug) => ({
+            id: category + '/' + articleSlug
+          }))
+      })
+      .reduce((accumulator, articleObject, index, array) => {
+        Object.assign(articleObject, {
+          previous: array.at((index - 1) % array.length),
+          next: array.at((index + 1) % array.length)
+        })
+
+        accumulator[articleObject.id] = articleObject
+
+        return accumulator
+      }, {})
+
+    // добавляем как дополнительное свойство к коллекции, чтобы не создавать новую и не дублировать логику получения данных
+    Object.defineProperty(orderedArticleIndexes, 'linkedArticles', {
+      value: linkedArticles,
+      enumerable: false
+    })
+
+    return orderedArticleIndexes
   })
 
   // Настраивает markdown-it

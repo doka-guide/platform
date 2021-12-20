@@ -2,6 +2,18 @@
 {% from "blocks/footer.njk" import footer with context %}
 {% from "blocks/article-image.njk" import articleImage %}
 
+{% macro relatedArticle(article, icon) %}
+  <aside style="flex: 1 1 0%;">
+    <h4>
+      <a href="{{ article.link }}">
+        <span aria-hidden="true">{{ icon }}</span>
+        {{ article.title }}
+      </a>
+    </h4>
+    <p>{{ article.description }}</p>
+  </aside>
+{% endmacro %}
+
 {% set isLogoContrastColor = hasCategory %}
 
 {{ header(
@@ -109,6 +121,18 @@
         </div>
       </div>
     </article>
+
+    {% if (previousArticle or nextArticle) %}
+      <div style="display: flex">
+        {% if previousArticle %}
+          {{ relatedArticle(article=previousArticle, icon="⇐") }}
+        {% endif %}
+
+        {% if nextArticle %}
+          {{ relatedArticle(article=nextArticle, icon="⇒") }}
+        {% endif %}
+      </div>
+    {% endif %}
   </main>
 
   <div class="doc__footer doc__wrapper">
