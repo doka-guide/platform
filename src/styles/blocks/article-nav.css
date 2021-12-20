@@ -20,6 +20,7 @@
   padding: 30px 10px;
   background-color: transparent;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .article-nav__button-icon {
