@@ -5,7 +5,7 @@ const { Node } = require('linkedom')
  *
  * @param {Window} window
  */
- module.exports = function(window) {
+module.exports = function(window) {
   const articleContent = window.document.querySelector('.article__content-inner')
 
   if (!articleContent) {
