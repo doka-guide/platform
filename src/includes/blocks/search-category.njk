@@ -4,7 +4,7 @@
 
   {% for category in collections.articleIndexes %}
     <label class="search-category__item tag-filter" style="--accent-color: var(--color-{{ category.fileSlug }})">
-      <input class="tag-filter__control" type="radio" name="search-category" value="category:{{ category.fileSlug }}" form="search-form">
+      <input class="tag-filter__control" type="checkbox" name="category" value="{{ category.fileSlug }}" form="search-form">
       <span class="tag-filter__text">
         {{ category.data.name }}
       </span>

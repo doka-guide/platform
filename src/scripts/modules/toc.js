@@ -1,41 +1,47 @@
+import debounce from '../libs/debounce.js'
+
 /*
   Описание алгоритма:
 
-  Будем считать активной ту секцию статьи, середина заголовока которой находится выше середины экрана.
+  Будем считать активной ту секцию статьи, `titleThreshold * titleHeight` заголовка которой находится выше значения `getWindowThresholdPosition()`.
   При срабатывании Intersection Observer находим видимые заголовки, берём последний из них.
-  Если таковых не оказалось ищем ближайший неактивный заголовок выше середины экрана.
+  Если таковых не оказалось, ищем ближайший неактивный заголовок выше значения `getWindowThresholdPosition()`.
 */
 function init() {
-  const links = Array.from(document.querySelectorAll('.toc__link'))
-  const titles = Array.from(document.querySelectorAll('.article-heading'))
+  const TOC_CONTAINER_SELECTOR = '.toc'
+  const TOC_LINK_SELECTOR = '.toc__link'
+  const HEADING_SELECTOR = '.article-heading'
+  const HEADING_LINK_SELECTOR = '.article-heading__link'
+
+  const links = Array.from(document.querySelectorAll(TOC_LINK_SELECTOR))
+  const titles = Array.from(document.querySelectorAll(HEADING_SELECTOR))
     .filter(title => !title.closest('details'))
 
-  if (!links.legnth && !titles.length) {
+  if (!(links.length && titles.length)) {
     return
   }
 
   const linksMap = {}
   const titlesMap = {}
   let lastActiveTitle
+  let observer
 
   const activeLinkClass = 'toc__link--active'
   const visibleHeadingClass = 'article-heading--visible'
 
-  const threshold = 0.5
+  const titleThreshold = 0
 
-  const observerOptions = {
-    rootMargin: '0px 0px -50% 0px',
-    threshold: [threshold],
+  function getWindowThresholdPosition() {
+    return parseFloat(window.getComputedStyle(titles[0]).scrollMarginTop)
   }
 
   function findNearestTitle() {
-    const halfWindowHeight = window.innerHeight / 2
     return titles
       .filter(title => {
         const titleBox = title.getBoundingClientRect()
-        const windowCenterPosition = halfWindowHeight
-        const titleCenterPosition = titleBox.top + titleBox.height * threshold
-        const titleIsAbove = titleCenterPosition < windowCenterPosition
+        const windowThresholdPosition = getWindowThresholdPosition()
+        const titleThresholdPosition = titleBox.top + titleBox.height * titleThreshold
+        const titleIsAbove = titleThresholdPosition < windowThresholdPosition
         return titleIsAbove
       })
       .pop()
@@ -60,26 +66,24 @@ function init() {
     }
   }
 
-  function getTitleCenterPosition(title) {
-    const titleBox = title?.getBoundingClientRect()
-
-    const additionalOffset = 5 // небольшой отступ, чтобы заголовок гарантировано пересёк границу и стал активным
-    return window.scrollY + (titleBox.top + titleBox.height * threshold + additionalOffset) - window.innerHeight / 2
-  }
-
   function getTitleFromHash(hash) {
     const titleId = hash.slice(1)
     return titlesMap[titleId]?.element
   }
 
+  function getTitleScrollPosition(title) {
+    const titleBox = title?.getBoundingClientRect()
+
+    const additionalOffset = 1 // небольшой отступ, чтобы заголовок гарантировано пересёк границу и стал активным
+    return window.scrollY + (titleBox.top + titleBox.height * titleThreshold + additionalOffset) - getWindowThresholdPosition()
+  }
+
   function scrollToTitle(hash) {
     const title = getTitleFromHash(hash)
-
     window.scrollTo({
-      top: getTitleCenterPosition(title),
+      top: getTitleScrollPosition(title),
       behavior: 'smooth'
     })
-
     history.pushState(null, null, hash)
   }
 
@@ -95,11 +99,42 @@ function init() {
     }
   })
 
-  const observer = new IntersectionObserver(observerCallback, observerOptions)
+  function createObserver() {
+    observer = new IntersectionObserver(observerCallback, {
+      rootMargin: `0px 0px -${window.innerHeight - getWindowThresholdPosition()}px 0px`,
+      threshold: [titleThreshold],
+    })
 
-  titles.forEach(title => {
-    observer.observe(title)
-  })
+    titles.forEach(title => {
+      observer.observe(title)
+    })
+  }
+
+  function destroyObserver() {
+    titles.forEach(title => {
+      observer.unobserve(title)
+    })
+
+    observer.disconnect()
+    observer = null
+  }
+
+  function initObserver() {
+    if (observer) {
+      destroyObserver()
+    }
+
+    createObserver()
+
+    titles.forEach(title => {
+      observer.observe(title)
+    })
+  }
+
+  // делаем как макро-задачу, чтобы компонент header успел посчитать размеры
+  setTimeout(initObserver)
+
+  window.addEventListener('resize', debounce(initObserver, 200))
 
   window.addEventListener('load', () => {
     const nearestTitle = findNearestTitle()
@@ -112,8 +147,8 @@ function init() {
     }
   })
 
-  document.querySelector('.toc')?.addEventListener('click', event => {
-    const link = event.target.closest('.toc__link')
+  document.querySelector(TOC_CONTAINER_SELECTOR)?.addEventListener('click', event => {
+    const link = event.target.closest(`${TOC_LINK_SELECTOR}, ${HEADING_LINK_SELECTOR}`)
 
     if (!link) {
       return
