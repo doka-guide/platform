@@ -6,7 +6,7 @@ const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 module.exports = {
-  featuredArticlesMaxCount: 24,
+  featuredArticlesMaxCount: 12,
 
   eleventyComputed: {
     documentTitle: function(data) {
