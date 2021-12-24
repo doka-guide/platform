@@ -13,17 +13,6 @@ async function executeProgram(program, args, options) {
   return stdout
 }
 
-// function getLastCommitDate(filePath, options) {
-//   return executeProgram('git', `--no-pager log -n 1 --format="%ci" -- ${filePath}`, options)
-// }
-
-// function getFirstCommitDate(filePath, options) {
-//   return executeProgram('git', `--no-pager log --reverse --format="%ci" -- ${filePath}`, options)
-//     // `git log` с опцией `reverse -n1` выводит последний коммит, а не первый
-//     // поэтому выводим списком и парсим
-//     .then(output => output.split('\n')[0])
-// }
-
 function getCommitDates(filePath, options) {
   return executeProgram('git', `--no-pager log --format="%ci" -- ${filePath}`, options)
     .then(output => {
