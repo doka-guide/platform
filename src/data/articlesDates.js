@@ -52,7 +52,8 @@ async function getDatesData() {
   return articlesData
 }
 
-// вычисление дат через запуск процесса git занимает продолжительное время, поэтому делаем кеширование
+// Вычисление дат через запуск процесса git занимает продолжительное время, поэтому делаем кеширование.
+// Используется `global`, так как Eleventy чистит кеш модулей при пересборке
 async function memo(func, key) {
   if (!global[key]) {
     global[key] = await func()
