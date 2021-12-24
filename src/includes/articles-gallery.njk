@@ -2,19 +2,22 @@
 
 {% set lazyLoadingIndexThreshold = 3 %}
 
-<section class="articles-gallery">
-  <h2 class="visually-hidden">Избранные статьи</h2>
+{% if (featuredArticles and featuredArticles.length > 0) %}
+  <section class="articles-gallery">
+    <h2 class="visually-hidden">Избранные статьи</h2>
 
-  <ul class="featured-artices-list base-list">
-    {% for article in featuredArticles %}
-      {% set isLazyLoading = loop.index > lazyLoadingIndexThreshold %}
-      <li class="featured-artices-list__item">
-        {{ featuredArticle(article=article, isLazyLoading=isLazyLoading) }}
-      </li>
-    {% endfor %}
-  </ul>
+    <ul class="featured-artices-list base-list">
+      {% for article in featuredArticles %}
+        {% set isLazyLoading = loop.index > lazyLoadingIndexThreshold %}
+        <li class="featured-artices-list__item">
+          {{ featuredArticle(article=article, isLazyLoading=isLazyLoading) }}
+        </li>
+      {% endfor %}
+    </ul>
 
-  <button class="articles-gallery__more-button button" type="button">
-    Показать ещё
-  </button>
-</section>
+    <button class="articles-gallery__more-button button" type="button">
+      Показать ещё
+    </button>
+  </section>
+{% endif %}
+

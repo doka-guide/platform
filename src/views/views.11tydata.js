@@ -1,14 +1,12 @@
-const { baseUrl, mainSections } = require('../../config/constants')
+const path = require('path')
+const fsp = require('fs/promises')
+const frontMatter = require('gray-matter')
+const { baseUrl } = require('../../config/constants')
 const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
-function hasTag(tags, tag) {
-  return (tags || []).includes(tag)
-}
-
 module.exports = {
   featuredArticlesMaxCount: 18,
-  featuredTag: 'featured',
 
   eleventyComputed: {
     documentTitle: function(data) {
@@ -47,27 +45,26 @@ module.exports = {
       return data.fullPageUrl + 'images/covers/twitter.png'
     },
 
-    featuredArticles: function(data) {
-      // массив массивов
-      const allFeaturedArticles = mainSections.map(section =>
-        data.collections[section]
-          .filter(article => hasTag(article.data.tags, data.featuredTag))
-          .slice(0, data.featuredArticlesMaxCount)
-      )
+    featuredArticles: async function(data) {
+      const { featuredArticlesMaxCount } = data
+      const { docsById } = data.collections
 
-      const sectionsCount = allFeaturedArticles.length
-
-      const articlesForShow = []
-
-      for (let i = 0; i < data.featuredArticlesMaxCount; i++) {
-        const sectionIndex = (i + sectionsCount) % sectionsCount
-        const sectionArticles = allFeaturedArticles[sectionIndex]
-        const articleIndex = Math.floor(i / sectionsCount)
-        articlesForShow.push(sectionArticles[articleIndex])
+      if (!(docsById && Object.keys(docsById).length > 0)) {
+        return null
       }
 
+      const pathToFeaturedSettingsFile = path.join('src', 'settings', 'featured.md')
+      const fileContent = await fsp.readFile(pathToFeaturedSettingsFile, {
+        encoding: 'utf-8'
+      })
+      const frontMatterInfo = frontMatter(fileContent)
+      const pinnedArticlesIds = frontMatterInfo?.data?.pinned
+
+      const articlesForShow = pinnedArticlesIds
+        .slice(0, featuredArticlesMaxCount)
+        .map(id => docsById[id])
+
       return articlesForShow
-        .filter(Boolean)
         .map(article => {
           const section = article.filePathStem.split('/')[1]
 
@@ -78,7 +75,7 @@ module.exports = {
               return `${this.link}/${this.cover.mobile}`
             },
             description: article.data.description,
-            link: `/${section}/${article.fileSlug}`,
+            link: `/${section}/${article.fileSlug}/`,
             linkTitle: article.data.title.replace(/`/g, ''),
             section,
           }

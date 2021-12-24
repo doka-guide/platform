@@ -2,7 +2,7 @@
 /**
  * @param {Window} window
  */
- module.exports = function(window) {
+module.exports = function(window) {
   window.document
     .querySelector('.article__content-inner')
     ?.querySelectorAll('details')

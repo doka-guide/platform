@@ -35,20 +35,22 @@
 }
 
 .featured-article__title {
+  --font-size: var(--font-size-xl);
+  --line-height: var(--font-line-height-xl);
   margin: 0;
   padding: var(--gutter);
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
-  font-size: var(--font-size-xl);
-  line-height: var(--font-line-height-xl);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
   font-weight: normal;
 }
 
 .featured-article__code {
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
-  font-size: var(--font-size-xl);
-  line-height: var(--font-line-height-xl);
+  font-size: var(--font-size, var(--font-size-m));
+  line-height: var(--line-height, var(--font-line-height-m));
 }
 
 .featured-article__link {
