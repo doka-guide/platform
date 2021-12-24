@@ -60,11 +60,13 @@ module.exports = {
       const frontMatterInfo = frontMatter(fileContent)
       const featuredArticlesIds = frontMatterInfo?.data?.active
 
-      const articlesForShow = featuredArticlesIds
+      if (!featuredArticlesIds) {
+        return null
+      }
+
+      return featuredArticlesIds
         .slice(0, featuredArticlesMaxCount)
         .map(id => docsById[id])
-
-      return articlesForShow
         .map(article => {
           const section = article.filePathStem.split('/')[1]
 
