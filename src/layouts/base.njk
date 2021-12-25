@@ -18,6 +18,7 @@
 
   </head>
   <body class="base__body {{ bodyClass }}">
+    {% include "blocks/snow.njk" %}
 
     {% if env.isProdEnv %}
       {% include "analytics/metrika.njk" %}
