@@ -43,3 +43,9 @@
   background: none;
   cursor: pointer;
 }
+
+@media not all and (min-width: 768px) {
+  .snow-btn {
+    margin-top: 1em;
+  }
+}
