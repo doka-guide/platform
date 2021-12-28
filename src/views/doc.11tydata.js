@@ -216,6 +216,17 @@ module.exports = {
       const articleId = linkedArticles?.[docId]?.previous?.id
       const articleData = docsById[articleId]
       return articleData && transformArticleData(articleData)
+    },
+
+    relatedArticles: function(data) {
+      const { collections, doc } = data
+      const { docsById } = collections
+      const { related } = doc.data
+
+      return related
+        ?.slice(0, 3)
+        ?.map(articleId => docsById[articleId])
+        ?.map(articleData => transformArticleData(articleData))
     }
   }
 }

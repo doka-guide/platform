@@ -107,21 +107,27 @@
           <aside class="doc__feedback-form">
             {% include "feedback-form.njk" %}
           </aside>
+
+          {% if (relatedArticles and relatedArticles.length > 0) %}
+            <div class="doc__related-articles">
+              {% include "related-articles-gallery.njk" %}
+            </div>
+          {% endif %}
+
+          {% if (previousArticle or nextArticle) %}
+            <div class="doc__linked-articles">
+              {% if previousArticle %}
+                {{ linkedArticle(article=previousArticle, type="previous") }}
+              {% endif %}
+
+              {% if nextArticle %}
+                {{ linkedArticle(article=nextArticle, type="next") }}
+              {% endif %}
+            </div>
+          {% endif %}
         </div>
       </div>
     </article>
-
-    {% if (previousArticle or nextArticle) %}
-      <div class="doc__linked-articles">
-        {% if previousArticle %}
-          {{ linkedArticle(article=previousArticle, type="previous") }}
-        {% endif %}
-
-        {% if nextArticle %}
-          {{ linkedArticle(article=nextArticle, type="next") }}
-        {% endif %}
-      </div>
-    {% endif %}
   </main>
 
   <div class="doc__footer doc__wrapper">

@@ -45,6 +45,13 @@
   display: flex;
 }
 
+.doc__related-articles {
+  overflow: hidden;
+  padding-inline: 0;
+  padding-block-start: 65px;
+  padding-block-start: min(65px, 18%);
+}
+
 @media (min-width: 1024px) {
   .doc {
     --offset: 20px;
