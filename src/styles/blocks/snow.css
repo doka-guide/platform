@@ -9,10 +9,11 @@
   pointer-events: none;
 }
 
-.snowflake {
+.snow__flake {
   position: relative;
   top: -1.5em;
   color: #c1dcec;
+  animation-name: snowfall;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   will-change: transform;
