@@ -1,18 +1,7 @@
 {% from "blocks/header.njk" import header %}
 {% from "blocks/footer.njk" import footer with context %}
 {% from "blocks/article-image.njk" import articleImage %}
-
-{% macro relatedArticle(article, icon) %}
-  <aside style="flex: 1 1 0%;">
-    <h4>
-      <a href="{{ article.link }}">
-        <span aria-hidden="true">{{ icon }}</span>
-        {{ article.title }}
-      </a>
-    </h4>
-    <p>{{ article.description }}</p>
-  </aside>
-{% endmacro %}
+{% from "blocks/linked-article.njk" import linkedArticle %}
 
 {% set isLogoContrastColor = hasCategory %}
 
@@ -123,13 +112,13 @@
     </article>
 
     {% if (previousArticle or nextArticle) %}
-      <div style="display: flex">
+      <div class="doc__linked-articles">
         {% if previousArticle %}
-          {{ relatedArticle(article=previousArticle, icon="⇐") }}
+          {{ linkedArticle(article=previousArticle, type="previous") }}
         {% endif %}
 
         {% if nextArticle %}
-          {{ relatedArticle(article=nextArticle, icon="⇒") }}
+          {{ linkedArticle(article=nextArticle, type="next") }}
         {% endif %}
       </div>
     {% endif %}

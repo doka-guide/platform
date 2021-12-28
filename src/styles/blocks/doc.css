@@ -39,6 +39,12 @@
   max-width: 100%;
 }
 
+.doc__linked-articles {
+  margin-block-start: calc(102px - var(--offset, 0));
+  margin-block-start: min(102px - var(--offset, 0), 26%);
+  display: flex;
+}
+
 @media (min-width: 1024px) {
   .doc {
     --offset: 20px;
