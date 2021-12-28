@@ -1,4 +1,5 @@
 .snow {
+  --animationName: snowfall;
   position: fixed;
   left: 0;
   right: 0;
@@ -13,7 +14,7 @@
   position: relative;
   top: -1.5em;
   color: #c1dcec;
-  animation-name: snowfall;
+  animation-name: var(--animationName);
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   will-change: transform;

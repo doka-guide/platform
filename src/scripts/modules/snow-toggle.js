@@ -1,20 +1,21 @@
+const snow = document.querySelector('.snow')
 let snowflakes = document.querySelectorAll('.snow__flake')
-let snowControl = document.querySelectorAll('.snow-toggle__control')
+const snowToggle = document.querySelector('.snow-toggle')
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1) ) + min
 }
 
+function getRndFloat(min, max) {
+  return (Math.random() * (max - min) + min).toFixed(1)
+}
+
 snowflakes.forEach(snowflake => {
-  snowflake.style.fontSize = getRndInteger(0.7, 1.5) + 'em'
+  snowflake.style.fontSize = getRndFloat(0.7, 1.5) + 'em'
   snowflake.style.animationDuration = getRndInteger(20, 30) + 's'
   snowflake.style.animationDelay = getRndInteger(-1, snowflakes.length / 2) + 's'
 })
 
-snowControl.forEach(control => control.addEventListener('change', function(event) {
-  if (event.target?.value === 'yes') {
-    snowflakes.forEach(snowflake => snowflake.style.animationName = 'snowfall')
-  } else {
-    snowflakes.forEach(snowflake => snowflake.style.animationName = 'none')
-  }
-}))
+snowToggle.addEventListener('change', event => {
+ snow.style.setProperty('--animationName',  event.target?.value === 'yes' ? 'snowfall' : 'none')
+})
