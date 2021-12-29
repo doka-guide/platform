@@ -4,6 +4,7 @@
   display: flex;
   align-items: baseline;
   gap: 10px;
+  overflow: auto;
   box-sizing: border-box;
   padding: 10px;
   overflow-wrap: break-word;
