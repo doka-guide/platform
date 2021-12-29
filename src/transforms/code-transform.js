@@ -106,7 +106,8 @@ module.exports = function(window) {
       'index-group-list__link': 'index-group-list__code',
       'header__title': 'header__title-code',
       'article__description': 'article__description-code',
-      'article-heading': 'article-heading__code'
+      'article-heading': 'article-heading__code',
+      'figure__caption': 'figure__caption-code',
     }
 
     for (const [parentClass, codeClass] of Object.entries(classMap)) {
