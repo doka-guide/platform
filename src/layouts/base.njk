@@ -18,8 +18,6 @@
 
   </head>
   <body class="base__body {{ bodyClass }}">
-    {% include "blocks/snow.njk" %}
-
     {% if env.isProdEnv %}
       {% include "analytics/metrika.njk" %}
       {% include "analytics/google.njk" %}
@@ -28,6 +26,7 @@
     {{ content | safe }}
 
     {% include "blocks/cookie-notification.njk" %}
+    {% include "blocks/snow.njk" %}
 
     <script src="/scripts/index.js" {% if env.isDevEnv %}type="module"{% endif %}></script>
   </body>
