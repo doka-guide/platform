@@ -11,17 +11,19 @@ function getRndFloat(min, max) {
   return (Math.random() * (max - min) + min).toFixed(1)
 }
 
-function snowflakesRandom() {
-  snowflakes.forEach(snowflake => {
-    snowflake.style.fontSize = getRndFloat(0.7, 1.5) + 'em'
-    snowflake.style.animationDuration = getRndInteger(20, 30) + 's'
-    snowflake.style.animationDelay = getRndInteger(-1, snowflakes.length / 2) + 's'
-  })
+snowflakes.forEach(snowflake => {
+  snowflake.style.fontSize = getRndFloat(0.7, 1.5) + 'em'
+  snowflake.style.animationDuration = getRndInteger(20, 30) + 's'
+  snowflake.style.animationDelay = getRndInteger(-1, snowflakes.length / 2) + 's'
+})
+
+function changeSnowAnimation(animationName) {
+  snow.style.setProperty('--animationName',  animationName)
 }
 
 snowToggle.addEventListener('change', event => {
-  snow.style.setProperty('--animationName',  event.target?.value === 'yes' ? 'snowfall' : 'none')
-  localStorage.setItem(STOR_KEY, event.target?.value)
+  changeSnowAnimation(event.target.value)
+  localStorage.setItem(STOR_KEY, event.target.value)
 })
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -29,7 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (curStore) {
     snowToggle.querySelector(`.snow-toggle__control[value='${curStore}']`).checked = true
-  } else if (curStore === 'yes' || !curStore) {
-    snowflakesRandom()
   }
+
+  changeSnowAnimation(localStorage.getItem(STOR_KEY))
+
+  window.addEventListener('storage', () => {
+    changeSnowAnimation(localStorage.getItem(STOR_KEY))
+  })
 })
