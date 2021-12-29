@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     snowToggle.querySelector(`.snow-toggle__control[value='${curStore}']`).checked = true
   }
 
-  changeSnowAnimation(localStorage.getItem(STOR_KEY))
+  changeSnowAnimation(curStore)
 
   window.addEventListener('storage', () => {
     changeSnowAnimation(localStorage.getItem(STOR_KEY))
