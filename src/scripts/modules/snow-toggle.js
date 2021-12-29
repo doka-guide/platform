@@ -1,3 +1,4 @@
+const storageKey = 'snow'
 const snow = document.querySelector('.snow')
 let snowflakes = document.querySelectorAll('.snow__flake')
 const snowToggle = document.querySelector('.snow-toggle')
@@ -16,6 +17,25 @@ snowflakes.forEach(snowflake => {
   snowflake.style.animationDelay = getRndInteger(-1, snowflakes.length / 2) + 's'
 })
 
+function changeSnowAnimation(animationName) {
+  snow.style.setProperty('--animation-name',  animationName)
+}
+
 snowToggle.addEventListener('change', event => {
- snow.style.setProperty('--animationName',  event.target?.value === 'yes' ? 'snowfall' : 'none')
+  changeSnowAnimation(event.target.value)
+  localStorage.setItem(storageKey, event.target.value)
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+  let currentStorage = localStorage.getItem(storageKey)
+
+  if (currentStorage) {
+    snowToggle.querySelector(`.snow-toggle__control[value='${currentStorage}']`).checked = true
+  }
+
+  changeSnowAnimation(currentStorage)
+
+  window.addEventListener('storage', () => {
+    changeSnowAnimation(localStorage.getItem(storageKey))
+  })
 })
