@@ -1,4 +1,4 @@
-const STOR_KEY = 'snow'
+const storageKey = 'snow'
 const snow = document.querySelector('.snow')
 let snowflakes = document.querySelectorAll('.snow__flake')
 const snowToggle = document.querySelector('.snow-toggle')
@@ -18,24 +18,24 @@ snowflakes.forEach(snowflake => {
 })
 
 function changeSnowAnimation(animationName) {
-  snow.style.setProperty('--animationName',  animationName)
+  snow.style.setProperty('--animation-name',  animationName)
 }
 
 snowToggle.addEventListener('change', event => {
   changeSnowAnimation(event.target.value)
-  localStorage.setItem(STOR_KEY, event.target.value)
+  localStorage.setItem(storageKey, event.target.value)
 })
 
 document.addEventListener('DOMContentLoaded', () => {
-  let curStore = localStorage.getItem(STOR_KEY)
+  let currentStorage = localStorage.getItem(storageKey)
 
-  if (curStore) {
-    snowToggle.querySelector(`.snow-toggle__control[value='${curStore}']`).checked = true
+  if (currentStorage) {
+    snowToggle.querySelector(`.snow-toggle__control[value='${currentStorage}']`).checked = true
   }
 
-  changeSnowAnimation(curStore)
+  changeSnowAnimation(currentStorage)
 
   window.addEventListener('storage', () => {
-    changeSnowAnimation(localStorage.getItem(STOR_KEY))
+    changeSnowAnimation(localStorage.getItem(storageKey))
   })
 })
