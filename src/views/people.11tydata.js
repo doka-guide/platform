@@ -1,82 +1,78 @@
-function getArticlesAs(personRole) {
-  return function(data) {
-    const { collections, personId } = data
-    const { docs } = collections
-
-    const emptyArray = []
-
-    return docs
-      .filter(doc => (doc.data?.[personRole] ?? emptyArray).includes(personId))
-      .map(doc => transformArticlesData(doc))
-  }
-}
-
-function transformArticlesData(article) {
-  const section = article.filePathStem.split('/')[1]
-
-  return {
-    title: article.data.title,
-    cover: article.data.cover,
-    get imageLink() {
-      return `${this.link}/${this.cover.mobile}`
-    },
-    description: article.data.description,
-    link: `/${section}/${article.fileSlug}`,
-    linkTitle: article.data.title.replace(/`/g, ''),
-    section,
-  }
+function isExternalURL(url) {
+  return url.startsWith('http://')
+    || url.startsWith('https://')
+    || url.startsWith('//')
 }
 
 module.exports = {
   layout: 'base.njk',
 
-  pagination: {
-    data: 'collections.people',
-    size: 1,
-    alias: 'person'
-  },
+  title: 'Авторы',
 
-  permalink: '/people/{{ person.fileSlug }}/',
+  permalink: '/people/',
 
   eleventyComputed: {
-    personId: function(data) {
-      const { person } = data
-      return person.fileSlug
-    },
+    peopleData: function(data) {
+      const { collections } = data
+      const { people, docsByPerson } = collections
 
-    pageLink: function(data) {
-      const { personId } = data
-      return `/people/${personId}`
-    },
+      return people
+        .filter(person => {
+          const personId = person.fileSlug
+          return !!docsByPerson[personId]
+        })
+        .map(person => {
+          const personId = person.fileSlug
+          const personData = docsByPerson[personId]
+          const { name, photo } = person.data
 
-    name: function(data) {
-      const { person } = data
-      return person.data.name
-    },
+          const photoURL = photo
+            ? isExternalURL(photo)
+              ? photo
+              : `/people/${photo}/`
+            : null
 
-    url: function(data) {
-      const { person } = data
-      return person.data.url
-    },
+          const pageLink = `/people/${personId}/`
 
-    description: function(data) {
-      const { person } = data
-      return person.data.description
-    },
+          const statEntries = Object.entries(personData)
+            .map(([category, articlesByRole]) => [
+              category,
+              Object.values(articlesByRole).reduce((acc, articles) => {
+                acc += articles.length
+                return acc
+              }, 0)
+            ])
 
-    photo: function(data) {
-      const { person } = data
-      return person.data.photo
-    },
+          const mostContribution = statEntries
+            .reduce((acc, currentItem) => {
+              return currentItem[1] > acc[1] ? currentItem : acc
+            })
 
-    authorArticles: getArticlesAs('authors'),
+          let [mostContributedCategory, mostContributedCount] = mostContribution
 
-    contributorArticles: getArticlesAs('contributors'),
+          // если пользователь сделал вклад по одной статье в нескольких категориях, то оценить наибольший вклад сложно, поэтому присваиваем `null`, чтобы в UI можно было сделать альтернативное нейтральное отображение
+          mostContributedCategory = (mostContributedCount === 1 && statEntries.length > 1)
+            ? null
+            : mostContributedCategory
 
-    editorArticles: getArticlesAs('editors'),
+          const totalArticles = statEntries
+            .reduce((acc, currentItem) => {
+              acc += currentItem[1]
+              return acc
+            }, 0)
 
-    title: function(data) {
-      return data.name
-    },
+          const stat = Object.fromEntries(statEntries)
+
+          return {
+            name,
+            photoURL,
+            pageLink,
+            stat,
+            mostContributedCategory,
+            totalArticles
+          }
+        })
+        .sort((person1, person2) => person2.totalArticles - person1.totalArticles)
+    }
   }
 }

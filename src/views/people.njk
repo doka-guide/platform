@@ -1,67 +1,51 @@
 {% from "blocks/header.njk" import header %}
 {% from "blocks/footer.njk" import footer with context %}
+{% from "blocks/person.njk" import person %}
 
-{% macro articlesList(articles) %}
-  <ul class="index-group-list">
-    {% for article in articles %}
-      <li class="index-group-list__item">
-        <a class="index-group-list__link link" href="{{ article.link }}">
-          {{ article.title | descriptionMarkdown | safe }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
+{% macro peopleGridItem(data) %}
+  {%- set dataCategories -%}
+    {% set joinSymbol = joiner() %}
+    {% for category, count in data.stat -%}
+      {{ joinSymbol() }}{{ category }}
+    {%- endfor %}
+  {%- endset -%}
+
+  <li class="person-grid__item" data-categories="{{ dataCategories }}">
+    {{ person(data) }}
+  </li>
 {% endmacro %}
 
-{{ header(
-  title=name,
-  articleIndexes=collections.articleIndexes
-) }}
+<div class="people-page">
+  {{ header(
+    category=title,
+    articleIndexes=collections.articleIndexes
+  ) }}
 
-<main class="standalone-page">
-  <div class="standalone-page__header">
-    <div class="standalone-page__wrapper">
-      <h1 class="standalone-page__title">
-        {% if url %}
-          <a class="link" href="{{ url }}">
-            {{ name }}
-          </a>
-        {% else %}
-          {{ name }}
-        {% endif %}
-      </h1>
-      {% if person.data.description %}
-        <p class="standalone-page__description">
-          {{ person.data.description }}
-        </p>
-      {% endif %}
-    </div>
-  </div>
-  <div class="standalone-page__content standalone-page__wrapper content">
-    {{ person.templateContent | safe }}
-  </div>
-  <div class="standalone-page__content standalone-page__wrapper content">
-    {% if authorArticles and authorArticles.length > 0 %}
-      <section>
-        <h2>Автор статей</h2>
-        {{ articlesList(authorArticles) }}
-      </section>
-    {% endif %}
+  <main class="people-page__main">
+    <form class="people-page__filter" autocomplete="off">
+      <label class="tag-filter tag-filter--contrast">
+        <input class="tag-filter__control" type="checkbox" name="category" value="" checked>
+        <span class="tag-filter__text">
+          Все
+        </span>
+      </label>
+      {% for category in collections.articleIndexes %}
+        <label class="tag-filter" style="--accent-color: var(--color-{{ category.fileSlug }})">
+          <input class="tag-filter__control" type="checkbox" name="category" value="{{ category.fileSlug }}">
+          <span class="tag-filter__text">
+            {{ category.data.name }}
+          </span>
+        </label>
+      {% endfor %}
+    </form>
 
-    {% if contributorArticles and contributorArticles.length > 0 %}
-      <section>
-        <h2>Контрибьютор статей</h2>
-        {{ articlesList(contributorArticles) }}
-      </section>
-    {% endif %}
+    <ol class="people-page__list person-grid base-list">
+      {% for personDataItem in peopleData %}
+        {{ peopleGridItem(personDataItem) }}
+      {% endfor %}
+    </ol>
+  </main>
 
-    {% if editorArticles and editorArticles.length > 0 %}
-      <section>
-        <h2>Редактор статей</h2>
-        {{ articlesList(editorArticles) }}
-      </section>
-    {% endif %}
-  </div>
-</main>
+  {{ footer(class="people-page__footer") }}
+</div>
 
-{{ footer() }}

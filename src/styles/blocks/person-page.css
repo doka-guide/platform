@@ -1,0 +1,48 @@
+.person-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+.person-page__main {
+  padding-top: clamp(20px, 8%, 130px);
+  display: grid;
+  justify-content: space-between;
+  grid-template-columns: 245px minmax(0, 1200px) 245px;
+  grid-template-areas:
+    'avatar header   .'
+    'meta   articles .'
+    '.      footer   footer';
+}
+
+.person-page__avatar {
+  grid-area: avatar;
+}
+
+.person-page__meta {
+  grid-area: meta;
+  align-self: end;
+  position: sticky;
+  bottom: 0;
+}
+
+.person-page__header {
+  grid-area: header;
+}
+
+.person-page__title {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: var(--font-size-xxl);
+  line-height: var(--font-line-height-xxl);
+  font-weight: normal;
+}
+
+.person-page__description {}
+
+.person-page__articles {
+  grid-area: articles;
+}
+
+.person-page__footer {
+  grid-area: footer;
+}

@@ -1,4 +1,5 @@
 .tag-filter {
+  --tag-filter-color: var(--accent-color, var(--color-text, currentColor));
   position: relative;
   cursor: pointer;
   font-size: var(--font-size-m);
@@ -25,7 +26,7 @@
   display: block;
   overflow: hidden;
   padding: 2px 8px;
-  border: 2px solid var(--accent-color, currentColor);
+  border: 2px solid var(--tag-filter-color);
   line-height: 1;
   text-align: center;
   border-radius: 2em;
@@ -38,7 +39,7 @@
   position: absolute;
   z-index: -1;
   inset: 0;
-  background-color: var(--accent-color);
+  background-color: var(--tag-filter-color);
   transition: opacity 125ms;
   will-change: opacity;
 }
@@ -53,4 +54,8 @@
 
 .tag-filter__control:checked + .tag-filter__text::before {
   opacity: 1;
+}
+
+.tag-filter--contrast .tag-filter__control:checked + .tag-filter__text {
+  color: var(--color-background);
 }

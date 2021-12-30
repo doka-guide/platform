@@ -1,0 +1,72 @@
+.person {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: var(--font-size-l);
+}
+
+.person__avatar {
+  flex: 0 0 auto;
+  width: 41px;
+  height: 41px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.person__avatar--placeholder {
+  display: grid;
+  place-items: center;
+  font-family: var(--font-family);
+  text-align: center; /* для Safari */
+  background-color: var(--accent-color, var(--color-fade));
+}
+
+.person__main {
+  flex: 1 1 auto;
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.person__name {
+  display: flex;
+  align-items: baseline;
+  line-height: calc(4 / 3);
+}
+
+.person__name::after {
+  content: ',';
+  font-size: var(--font-size-m);
+}
+
+.person__link {
+  flex: 0 0 auto;
+  text-underline-offset: 0.2em;
+}
+
+.person__stat {
+  flex: 0 0 auto;
+  font-size: var(--font-size-m);
+}
+
+.person__indicators {
+  position: relative;
+  top: 0.06em;
+  display: flex;
+  align-items: center;
+}
+
+.person__indicator {
+  --border-size: 2px;
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 2px solid var(--color-background);
+  background-color: var(--accent-color);
+}
+
+.person__indicator:not(:first-child) {
+  margin-left: calc(var(--border-size) * -3);
+}
