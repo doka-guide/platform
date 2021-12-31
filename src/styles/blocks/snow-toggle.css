@@ -1,0 +1,5 @@
+@media not all and (min-width: 768px) {
+  .snow-toggle {
+    margin-top: 1em;
+  }
+}

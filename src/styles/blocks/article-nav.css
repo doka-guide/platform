@@ -20,6 +20,7 @@
   padding: 30px 10px;
   background-color: transparent;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .article-nav__button-icon {
@@ -80,6 +81,13 @@
 .article-nav:not(.article-nav--open) .article-nav__button::before {
   visibility: hidden;
   opacity: 0;
+}
+
+@media (max-width: 720px) {
+  .article-nav__button-icon {
+    left: auto;
+    right: var(--offset, 10px);
+  }
 }
 
 @media not all and (min-width: 1024px) {

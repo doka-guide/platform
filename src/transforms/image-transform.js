@@ -1,6 +1,6 @@
 const os = require('os')
 const path = require('path')
-const fs = require('fs')
+const fsp = require('fs/promises')
 const Image = require('@11ty/eleventy-img')
 const sharp = require('sharp')
 
@@ -55,25 +55,27 @@ module.exports = function (window, content, outputPath) {
   const imagesSourcePath = path.join('src', baseSourcePath)
   const imagesOutputPath = path.join('dist', baseSourcePath, 'images')
 
-  const images = articleContainer.querySelectorAll('img')
+  const images = Array.from(articleContainer.querySelectorAll('img'))
+    // игнорируем изображения, которые находятся внутри figure, picture
+    .filter(image => !image.matches('figure > img, picture > img'))
 
-  return Promise.all(Array.from(images).map((image) => buildImage(image, imagesSourcePath, imagesOutputPath, window)))
+  return Promise.all(
+    images.map(image => buildImage(image, imagesSourcePath, imagesOutputPath, window))
+  )
 }
 
 async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
   const originalLink = path.join(imagesSourcePath, image.src)
-  if (!fs.existsSync(originalLink)) {
+
+  try {
+    await fsp.stat(originalLink)
+  } catch (error) {
     console.warn(`Изображение ${originalLink} не существует`)
     return
   }
 
   const ext = path.extname(originalLink).replace('.', '')
   if (baseConfig.extBlackList.includes(ext)) {
-    return
-  }
-
-  // предположение, что если автор задал изображение внутри figure, то его не стоит преобразовывать
-  if (image.matches('figure > img')) {
     return
   }
 

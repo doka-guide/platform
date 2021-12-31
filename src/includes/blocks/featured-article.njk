@@ -20,7 +20,7 @@
     </h3>
     {% if ((not hasImage) and article.description) %}
       <p class="featured-article__description">
-        {{ article.description }}
+        {{ article.description | descriptionMarkdown | safe }}
       </p>
     {% endif %}
   </article>

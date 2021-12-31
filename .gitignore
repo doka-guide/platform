@@ -4,7 +4,7 @@ dist
 .idea
 .vscode
 
-# симлинки в корне проекта
+# симлинки на данные репозитория контента
 html
 css
 js
@@ -12,5 +12,6 @@ tools
 people
 about
 pages
+settings
 
 .eslintcache
