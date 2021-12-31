@@ -55,31 +55,28 @@ module.exports = {
 
       const pathToFeaturedSettingsFile = path.join('src', 'settings', 'featured.md')
       const fileContent = await fsp.readFile(pathToFeaturedSettingsFile, {
-        encoding: 'utf-8'
+        encoding: 'utf-8',
       })
       const frontMatterInfo = frontMatter(fileContent)
       const pinnedArticlesIds = frontMatterInfo?.data?.pinned
 
-      const articlesForShow = pinnedArticlesIds
-        .slice(0, featuredArticlesMaxCount)
-        .map(id => docsById[id])
+      const articlesForShow = pinnedArticlesIds.slice(0, featuredArticlesMaxCount).map((id) => docsById[id])
 
-      return articlesForShow
-        .map((article) => {
-          const section = article.filePathStem.split('/')[1]
+      return articlesForShow.map((article) => {
+        const section = article.filePathStem.split('/')[1]
 
-          return {
-            title: article.data.title,
-            cover: article.data.cover,
-            get imageLink() {
-              return `${this.link}/${this.cover.mobile}`
-            },
-            description: article.data.description,
-            link: `/${section}/${article.fileSlug}/`,
-            linkTitle: article.data.title.replace(/`/g, ''),
-            section,
-          }
-        })
+        return {
+          title: article.data.title,
+          cover: article.data.cover,
+          get imageLink() {
+            return `${this.link}/${this.cover.mobile}`
+          },
+          description: article.data.description,
+          link: `/${section}/${article.fileSlug}/`,
+          linkTitle: article.data.title.replace(/`/g, ''),
+          section,
+        }
+      })
     },
 
     themeColor: function (data) {

@@ -72,7 +72,7 @@ module.exports = function (config) {
     }, {})
   })
 
-  config.addCollection('people', collectionApi => {
+  config.addCollection('people', (collectionApi) => {
     return collectionApi.getFilteredByGlob('src/people/*/index.md')
   })
 

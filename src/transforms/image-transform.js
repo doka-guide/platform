@@ -57,11 +57,9 @@ module.exports = function (window, content, outputPath) {
 
   const images = Array.from(articleContainer.querySelectorAll('img'))
     // игнорируем изображения, которые находятся внутри figure, picture
-    .filter(image => !image.matches('figure > img, picture > img'))
+    .filter((image) => !image.matches('figure > img, picture > img'))
 
-  return Promise.all(
-    images.map(image => buildImage(image, imagesSourcePath, imagesOutputPath, window))
-  )
+  return Promise.all(images.map((image) => buildImage(image, imagesSourcePath, imagesOutputPath, window)))
 }
 
 async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
