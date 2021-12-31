@@ -1,7 +1,7 @@
 const path = require('path')
 const fsp = require('fs/promises')
 const frontMatter = require('gray-matter')
-const { baseUrl } = require('../../config/constants')
+const { baseUrl, mainSections } = require('../../config/constants')
 const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
@@ -85,6 +85,58 @@ module.exports = {
     themeColor: function(data) {
       const { category } = data
       return categoryColors[category || 'default']
+    },
+
+    /* создаёт структуру вида:
+    {
+      [personId]: {
+        [categoryId]: {
+          author: [articles],
+          contributor: [articles],
+          editor: [articles],
+        }
+      }
     }
-  },
+    */
+    docsByPerson: function (data) {
+      const { collections } = data
+
+      const docsByPerson = {}
+      const personFields = [
+        'authors',
+        'contributors',
+        'editors'
+      ]
+      const fieldNameMap = {
+        'authors': 'Автор',
+        'contributors': 'Контрибьютор',
+        'editors': 'Редактор',
+      }
+
+      for (const categoryId of mainSections) {
+        const docsByCategory = collections[categoryId]
+        docsByCategory.reduce((accumulator, doc) => {
+          for (const field of personFields) {
+            const personsIds = doc?.data?.[field]
+
+            if (!personsIds) {
+              continue
+            }
+
+            for (const personId of personsIds) {
+              const authorData = docsByPerson[personId] || (docsByPerson[personId] = {})
+              const authorCategoryData = authorData[categoryId] || (authorData[categoryId] = {})
+              const roleFieldName = fieldNameMap[field]
+              const authorRoleData = authorCategoryData[roleFieldName] || (authorCategoryData[roleFieldName] = [])
+              authorRoleData.push(doc)
+            }
+          }
+
+          return accumulator
+        }, docsByPerson)
+      }
+
+      return docsByPerson
+    }
+  }
 }

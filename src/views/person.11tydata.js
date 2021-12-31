@@ -1,32 +1,3 @@
-function getArticlesAs(personRole) {
-  return function(data) {
-    const { collections, personId } = data
-    const { docs } = collections
-
-    const emptyArray = []
-
-    return docs
-      .filter(doc => (doc.data?.[personRole] ?? emptyArray).includes(personId))
-      .map(doc => transformArticlesData(doc))
-  }
-}
-
-function transformArticlesData(article) {
-  const section = article.filePathStem.split('/')[1]
-
-  return {
-    title: article.data.title,
-    cover: article.data.cover,
-    get imageLink() {
-      return `${this.link}/${this.cover.mobile}`
-    },
-    description: article.data.description,
-    link: `/${section}/${article.fileSlug}`,
-    linkTitle: article.data.title.replace(/`/g, ''),
-    section,
-  }
-}
-
 module.exports = {
   layout: 'base.njk',
 
@@ -64,19 +35,12 @@ module.exports = {
       return person.data.photo
     },
 
-    authorArticles: getArticlesAs('authors'),
-
-    contributorArticles: getArticlesAs('contributors'),
-
-    editorArticles: getArticlesAs('editors'),
-
     title: function(data) {
       return data.name
     },
 
     articlesIndex: function(data) {
-      const { collections, personId } = data
-      const { docsByPerson } = collections
+      const { personId, docsByPerson } = data
       return docsByPerson[personId]
     }
   }

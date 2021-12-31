@@ -13,8 +13,8 @@ module.exports = {
 
   eleventyComputed: {
     peopleData: function(data) {
-      const { collections } = data
-      const { people, docsByPerson } = collections
+      const { collections, docsByPerson } = data
+      const { people } = collections
 
       return people
         .filter(person => {

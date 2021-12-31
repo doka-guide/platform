@@ -1,7 +1,8 @@
 .person-grid {
   display: grid;
-  grid-gap: var(--font-size-l);
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr));
+  grid-row-gap: 1.6em;
+  grid-column-gap: 5.35em;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22em), 1fr));
 }
 
 .person-grid__item {}

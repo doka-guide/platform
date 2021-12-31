@@ -5,13 +5,13 @@
 .people-page__main {
   display: flex;
   align-items: flex-start;
-  padding-top: clamp(20px, 8%, 130px);
+  padding-block: clamp(20px, 8%, 130px);
 }
 
 .people-page__filter {
   position: sticky;
   top: calc(var(--is-header-fixed) * var(--header-height) * 1px + 20px);
-  flex: 0 0 247px;
+  flex: 0 0 14em;
   box-sizing: border-box;
   padding-inline: 20px;
   display: flex;

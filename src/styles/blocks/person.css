@@ -1,14 +1,15 @@
 .person {
   display: flex;
   gap: 10px;
-  align-items: center;
+  align-items: flex-start;
   font-size: var(--font-size-l);
 }
 
 .person__avatar {
+  --avatar-size: calc(41 / 30 * 1em);
   flex: 0 0 auto;
-  width: 41px;
-  height: 41px;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
   border-radius: 50%;
   object-fit: cover;
   object-position: 50% 50%;
@@ -25,6 +26,7 @@
 .person__main {
   flex: 1 1 auto;
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
   align-items: baseline;
 }
@@ -60,10 +62,10 @@
 .person__indicator {
   --border-size: 2px;
   flex: 0 0 auto;
-  width: 9px;
-  height: 9px;
+  width: 0.3em;
+  height: 0.3em;
   border-radius: 50%;
-  border: 2px solid var(--color-background);
+  border: var(--border-size) solid var(--color-background);
   background-color: var(--accent-color);
 }
 

@@ -116,52 +116,6 @@ module.exports = function(config) {
     return visualOrder.map(sectionId => indexesMap[sectionId])
   })
 
-  /* создаёт структуру вида:
-    {
-      [personId]: {
-        [categoryId]: {
-          author: [articles],
-          contributor: [articles],
-          editor: [articles],
-        }
-      }
-    }
-  */
-  config.addCollection('docsByPerson', (collectionAPI) => {
-    const docsByPerson = {}
-    const personFields = ['authors', 'contributors', 'editors']
-    const fieldNameMap = {
-      'authors': 'Автор',
-      'contributors': 'Контрибьютор',
-      'editors': 'Редактор',
-    }
-
-    for (const categoryId of mainSections) {
-      const docsByCategory = getAllDocsByCategory(collectionAPI, categoryId)
-      docsByCategory.reduce((accumulator, doc) => {
-        for (const field of personFields) {
-          const personsIds = doc?.data?.[field]
-
-          if (!personsIds) {
-            continue
-          }
-
-          for (const personId of personsIds) {
-            const authorData = docsByPerson[personId] || (docsByPerson[personId] = {})
-            const authorCategoryData = authorData[categoryId] || (authorData[categoryId] = {})
-            const roleFieldName = fieldNameMap[field]
-            const authorRoleData = authorCategoryData[roleFieldName] || (authorCategoryData[roleFieldName] = [])
-            authorRoleData.push(doc)
-          }
-        }
-
-        return accumulator
-      }, docsByPerson)
-    }
-
-    return docsByPerson
-  })
-
   // Настраивает markdown-it
   let markdownLibrary = markdownIt({
     html: true,
@@ -319,7 +273,7 @@ module.exports = function(config) {
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
   config.addPassthroughCopy('src/images')
-  // config.addPassthroughCopy('src/(css|html|js|tools)/**/!(*11tydata*)*.!(md)')
+  config.addPassthroughCopy('src/(css|html|js|tools)/**/!(*11tydata*)*.!(md)')
 
   return {
     dir: {
