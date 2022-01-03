@@ -19,6 +19,10 @@
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
+  font-family: var(--font-family);
+  font-size: var(--font-size-m);
+  line-height: var(--font-line-height-m);
+  letter-spacing: var(--letter-spacing);
 }
 
 @media (min-width: 1024px) {
