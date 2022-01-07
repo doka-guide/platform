@@ -6,7 +6,7 @@ const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 module.exports = {
-  featuredArticlesMaxCount: 18,
+  featuredArticlesMaxCount: 12,
 
   eleventyComputed: {
     documentTitle: function(data) {
@@ -58,13 +58,15 @@ module.exports = {
         encoding: 'utf-8'
       })
       const frontMatterInfo = frontMatter(fileContent)
-      const pinnedArticlesIds = frontMatterInfo?.data?.pinned
+      const featuredArticlesIds = frontMatterInfo?.data?.active
 
-      const articlesForShow = pinnedArticlesIds
+      if (!featuredArticlesIds) {
+        return null
+      }
+
+      return featuredArticlesIds
         .slice(0, featuredArticlesMaxCount)
         .map(id => docsById[id])
-
-      return articlesForShow
         .map(article => {
           const section = article.filePathStem.split('/')[1]
 
