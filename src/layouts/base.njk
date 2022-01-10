@@ -26,7 +26,6 @@
     {{ content | safe }}
 
     {% include "blocks/cookie-notification.njk" %}
-    {% include "blocks/snow.njk" %}
 
     <script src="/scripts/index.js" {% if env.isDevEnv %}type="module"{% endif %}></script>
   </body>
