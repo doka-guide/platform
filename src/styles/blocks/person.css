@@ -1,6 +1,6 @@
 .person {
   display: flex;
-  gap: 10px;
+  gap: 0.33em;
   align-items: flex-start;
   font-size: var(--font-size-l);
 }
@@ -27,7 +27,7 @@
   flex: 1 1 auto;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 0.2em;
   align-items: baseline;
 }
 
