@@ -50,7 +50,9 @@
     <div class="person-page__articles">
       {% for category, articlesByRole in articlesIndex %}
         <section class="articles-group" style="--accent-color: var(--color-{{ category }})">
-          <h2 class="articles-group__title">{{ category }}</h2>
+          <h2 class="articles-group__title">
+            {{ articleIndexesMap[category].data.name }}
+          </h2>
           {% for personRole, articles in articlesByRole %}
             <section>
               <h3 class="articles-group__sub-title">{{ personRole }}</h3>
