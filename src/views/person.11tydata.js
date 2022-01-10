@@ -42,6 +42,18 @@ module.exports = {
     articlesIndex: function(data) {
       const { personId, docsByPerson } = data
       return docsByPerson[personId]
+    },
+
+    mostContributedCategory: function(data) {
+      const { peopleData, personId } = data
+
+      if (!peopleData) {
+        return null
+      }
+
+      return peopleData
+        .find(person => person.fileSlug === personId)
+        ?.mostContributedCategory
     }
   }
 }

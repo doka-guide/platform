@@ -8,19 +8,6 @@
 .person__avatar {
   --avatar-size: calc(41 / 30 * 1em);
   flex: 0 0 auto;
-  width: var(--avatar-size);
-  height: var(--avatar-size);
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: 50% 50%;
-}
-
-.person__avatar--placeholder {
-  display: grid;
-  place-items: center;
-  font-family: var(--font-family);
-  text-align: center; /* для Safari */
-  background-color: var(--accent-color, var(--color-fade));
 }
 
 .person__main {

@@ -1,19 +1,13 @@
-{% macro person(data) %}
-  {% if (data.mostContributedCategory) %}
-    {% set inlineStyles %}
-      --accent-color: var(--color-{{ data.mostContributedCategory }})
-    {% endset %}
-  {% endif %}
+{% from "blocks/person-avatar.njk" import personAvatar %}
 
-  <div
-    class="person"
-    {% if inlineStyles %}style="{{ inlineStyles }}"{% endif %}
-  >
-    {% if data.photoURL %}
-      <img class="person__avatar" src="{{ data.photoURL }}" alt="Изображение автора '{{ data.name }}'">
-    {% else %}
-      <div class="person__avatar person__avatar--placeholder font-theme font-theme--code" aria-hidden="true">ᴥ</div>
-    {% endif %}
+{% macro person(data) %}
+  <div class="person">
+    {{ personAvatar(
+      class = 'person__avatar',
+      photoURL = data.photoURL,
+      name = data.name,
+      category = data.mostContributedCategory
+    ) }}
 
     <div class="person__main">
       <div class="person__name">

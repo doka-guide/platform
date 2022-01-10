@@ -15,7 +15,9 @@
 }
 
 .person-page__avatar {
+  --avatar-size: 92px;
   grid-area: avatar;
+  font-size: var(--font-size-xxl);
 }
 
 .person-page__meta {
