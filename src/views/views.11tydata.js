@@ -139,15 +139,15 @@ module.exports = {
       }
 
       return docsByPerson
-    }
-  },
+    },
 
-  articleIndexesMap: function (data) {
-    const { collections } = data
-    const { articleIndexes } = collections
-    return articleIndexes.reduce((map, section) => {
-      map[section.fileSlug] = section
-      return map
-    }, {})
+    articleIndexesMap: function (data) {
+      const { collections } = data
+      const { articleIndexes } = collections
+      return articleIndexes.reduce((map, section) => {
+        map[section.fileSlug] = section
+        return map
+      }, {})
+    }
   }
 }
