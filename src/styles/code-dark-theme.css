@@ -91,7 +91,7 @@ pre[class*="language-"] {
 .token.comment,
 .token.prolog,
 .token.cdata {
-  color: hsl(220, 10%, 40%);
+  color: hsl(220, 10%, 48%);
 }
 
 .token.doctype,
