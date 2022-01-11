@@ -45,14 +45,14 @@ module.exports = {
     },
 
     mostContributedCategory: function(data) {
-      const { peopleData, personId } = data
+      const { peopleData, name: personName } = data
 
       if (!peopleData) {
         return null
       }
 
       return peopleData
-        .find(person => person.fileSlug === personId)
+        .find(person => person.name === personName)
         ?.mostContributedCategory
     }
   }

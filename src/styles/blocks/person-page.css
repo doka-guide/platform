@@ -5,8 +5,9 @@
 
 .person-page__main {
   padding-top: clamp(20px, 8%, 130px);
+  padding-inline: 20px;
   display: grid;
-  justify-content: space-between;
+  justify-content: center;
   grid-template-columns: 245px minmax(0, 1200px) 245px;
   grid-template-areas:
     'avatar header   .'
@@ -16,6 +17,8 @@
 
 .person-page__avatar {
   --avatar-size: 92px;
+  position: sticky;
+  top: 20px;
   grid-area: avatar;
   font-size: var(--font-size-xxl);
 }
@@ -43,6 +46,12 @@
 
 .person-page__articles {
   grid-area: articles;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+}
+
+.person-page__group {
+  padding-bottom: 30px;
 }
 
 .person-page__footer {
