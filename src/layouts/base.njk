@@ -29,32 +29,5 @@
     {% include "blocks/snow.njk" %}
 
     <script src="/scripts/index.js" {% if env.isDevEnv %}type="module"{% endif %}></script>
-
-    <style>
-      #output {
-        position: fixed;
-        z-index: 9;
-        left: 0;
-        bottom: 0;
-        white-space: pre-line;
-        line-height: 1;
-        padding: 1em;
-        background-color: var(--color-fade);
-      }
-    </style>
-    <pre id="output"></pre>
-    <script>
-      function log(event) {
-        output.textContent += `
-          type: ${event.type} persisted: ${event.persisted}
-        `
-      }
-
-      window.onunload = null
-      window.onbeforeload = null
-      window.addEventListener('load', log)
-      window.addEventListener('pageshow', log)
-      window.addEventListener('pagehide', log)
-    </script>
   </body>
 </html>
