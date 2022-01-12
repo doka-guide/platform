@@ -11,6 +11,8 @@ module.exports = {
 
   permalink: '/people/{{ person.fileSlug }}/',
 
+  categoryName: 'Авторы',
+
   eleventyComputed: {
     personId: function(data) {
       const { person } = data

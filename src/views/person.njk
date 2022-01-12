@@ -3,7 +3,10 @@
 {% from "blocks/person-avatar.njk" import personAvatar %}
 
 <div class="person-page">
-  {{ header(title=name) }}
+  {{ header(
+    category=categoryName,
+    title=name
+  ) }}
 
   <main class="person-page__main">
     {{ personAvatar(
