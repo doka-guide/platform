@@ -1,7 +1,8 @@
+import { escape } from '/html-escaper/esm/index.js'
 import debounce from '../libs/debounce.js'
 import searchClient from '../core/search-api-client.js'
 import BaseComponent from '../core/base-component.js'
-import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
+import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, DELIMITER, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
 
 class Filter extends BaseComponent {
   constructor({ form }) {
@@ -80,10 +81,6 @@ class Filter extends BaseComponent {
 }
 
 class SearchResultOutput extends BaseComponent {
-  static get matchedItems() {
-    return 3
-  }
-
   static isPlaceholder(hitObject) {
     return hitObject.tags.includes('placeholder')
   }
@@ -92,31 +89,66 @@ class SearchResultOutput extends BaseComponent {
     return text.replace(/`(.*?)`/g, replaceTemplate)
   }
 
+  static markQuery(text, query) {
+    const searchRegEx = new RegExp(query, 'gi')
+    return text.replace(searchRegEx, match => SearchResultOutput.templates.mark(match))
+  }
+
+  static adjustTextMatch(text, index, query, limit) {
+    if ((index - query.length / 2 > limit / 2) && (text.length - index + query.length / 2 <= limit / 2)) {
+      return `${DELIMITER}${text.substring(index - limit / 2 - query.length / 2, text.length).trim()}`
+    } else if ((index - query.length / 2 <= limit / 2) && (text.length - index + query.length / 2 > limit / 2)) {
+      return `${text.substring(0, index + query.length / 2 + limit / 2).trim()}${DELIMITER}`
+    } else {
+      return `${DELIMITER}${text.substring(index - limit / 2 - query.length / 2, index + limit / 2 + query.length / 2).trim()}${DELIMITER}`
+    }
+  }
+
+  static adjustTextSize(text, query, limit) {
+    if (text.length <= limit) {
+      return text
+    } else {
+      const searchRegEx = new RegExp(query, 'gi')
+      const result = text.matchAll(searchRegEx)
+      if (result && result.length === 1) {
+          return SearchResultOutput.adjustTextMatch(text, result.index, result[0], limit)
+      } else if (result && result.length > 1) {
+        let output = SearchResultOutput.adjustTextMatch(text, result[0].index, result[0], limit)
+        for (let i = 1; i < result.length; i++) {
+          const t = text.substring(result[i - 1].index, result[i - 1].index + limit + result[i].length)
+          output += `${DELIMITER}${SearchResultOutput.adjustTextMatch(t, result[i].index, result[i], limit)}`
+        }
+        return output
+      } else {
+        return `${text.substring(0, limit).trim()}${DELIMITER}`
+      }
+    }
+  }
+
   static get templates() {
     return {
-      summaryItem: (item) => `<p class="search-hit__summary-item">${item}</p>`,
+      mark: (match) => `<mark class="search-hit__marked">${match}</mark>`,
 
-      titleCode: `<code class="search-hit__link-code font-theme font-theme--code">$1</code>`,
-
-      textCode: `<code class="search-hit__text-code font-theme font-theme--code">$1</code>`,
-
-      placeholderIcon: `<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>`,
-
-      hit: (hitObject) => {
+      hit: (hitObject, query, limit) => {
         const editIcon = SearchResultOutput.isPlaceholder(hitObject)
-          ? SearchResultOutput.templates.placeholderIcon
+          ? '<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>'
           : ''
-        const title = SearchResultOutput.replaceBackticks(
-          hitObject.title,
-          SearchResultOutput.templates.titleCode
-        )
-        const summary = SearchResultOutput.replaceBackticks(
-          hitObject.summary
-            .slice(0, SearchResultOutput.matchedItems)
-            .map(item => SearchResultOutput.templates.summaryItem(item))
-            .join(''),
-          SearchResultOutput.templates.textCode
-        )
+        const title =
+        SearchResultOutput.replaceBackticks(
+          SearchResultOutput.markQuery(
+              escape(hitObject.title),
+              query
+            ),
+            '<code class="search-hit__link-code font-theme font-theme--code">$1</code>'
+          )
+        const summary =
+        SearchResultOutput.replaceBackticks(
+          SearchResultOutput.markQuery(
+              escape(SearchResultOutput.adjustTextSize(hitObject.summary, query, limit)),
+              query
+            ),
+            '<code class="search-hit__text-code font-theme font-theme--code">$1</code>'
+          )
 
         return `
           <article class="search-hit" style="--accent-color: var(--color-base-${hitObject.category})">
@@ -132,12 +164,12 @@ class SearchResultOutput extends BaseComponent {
         `
       },
 
-      hits: (list) => `
+      hits: (list, query, limit) => `
         <ol class="search-result-list base-list">
           ${
             list.map(hitObject => `
               <li class="search-result-list__item">
-                ${SearchResultOutput.templates.hit(hitObject)}
+                ${SearchResultOutput.templates.hit(hitObject, query, limit)}
               </li>
             `)
             .join('')
@@ -212,13 +244,7 @@ function init() {
   function makeSearchEffect(queryText, filters) {
     if (queryText.length >= MIN_SEARCH_SYMBOLS || SEARCHABLE_SHORT_WORDS.has(queryText)) {
       searchClient.search(queryText, {
-        facetFilters: filters,
-        attributesToSnippet: [
-          'title:100', // делаем большое количество слов, чтобы весь заголовок поместился в сниппет
-          'content:20'
-        ],
-        highlightPreTag: '<mark class="search-hit__marked">',
-        highlightPostTag: '</mark>'
+        facetFilters: filters
       })
       .then(function(searchObject) {
         const processedHits = processHits(searchObject)
