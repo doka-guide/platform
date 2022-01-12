@@ -1,3 +1,5 @@
+const { contentRepLink } = require('../../config/constants')
+
 module.exports = {
   layout: 'base.njk',
 
@@ -54,6 +56,24 @@ module.exports = {
       return peopleData
         .find(person => person.name === personName)
         ?.mostContributedCategory
+    },
+
+    issuesLink: function(data) {
+      const { personId } = data
+      const pathname = contentRepLink + '/issues'
+      const searchParams = new URLSearchParams({
+        q: `is:issue author:${personId}`
+      })
+      return pathname + '?' + searchParams
+    },
+
+    pullRequestsLink: function(data) {
+      const { personId } = data
+      const pathname = contentRepLink + '/pulls'
+      const searchParams = new URLSearchParams({
+        q: `is:pr author:${personId}`
+      })
+      return pathname + '?' + searchParams
     }
   }
 }

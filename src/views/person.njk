@@ -15,9 +15,15 @@
 
     <div class="person-page__meta">
       <ul>
-        <li>Personal Link</li>
-        <li>Github Issues</li>
-        <li>Github Pull requests</li>
+        <li>
+          <a class="link" href="{{ url }}">{{ personId }}</a>
+        </li>
+        <li>
+          <a class="link" href="{{ issuesLink }}">Issues</a>
+        </li>
+        <li>
+          <a class="link" href="{{ pullRequestsLink }}">Pull requests</a>
+        </li>
       </ul>
     </div>
 
