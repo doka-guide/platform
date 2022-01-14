@@ -6,7 +6,7 @@ const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 module.exports = {
-  featuredArticlesMaxCount: 18,
+  featuredArticlesMaxCount: 12,
 
   eleventyComputed: {
     documentTitle: function (data) {
@@ -58,25 +58,30 @@ module.exports = {
         encoding: 'utf-8',
       })
       const frontMatterInfo = frontMatter(fileContent)
-      const pinnedArticlesIds = frontMatterInfo?.data?.pinned
+      const featuredArticlesIds = frontMatterInfo?.data?.active
 
-      const articlesForShow = pinnedArticlesIds.slice(0, featuredArticlesMaxCount).map((id) => docsById[id])
+      if (!featuredArticlesIds) {
+        return null
+      }
 
-      return articlesForShow.map((article) => {
-        const section = article.filePathStem.split('/')[1]
+      return featuredArticlesIds
+        .slice(0, featuredArticlesMaxCount)
+        .map((id) => docsById[id])
+        .map((article) => {
+          const section = article.filePathStem.split('/')[1]
 
-        return {
-          title: article.data.title,
-          cover: article.data.cover,
-          get imageLink() {
-            return `${this.link}/${this.cover.mobile}`
-          },
-          description: article.data.description,
-          link: `/${section}/${article.fileSlug}/`,
-          linkTitle: article.data.title.replace(/`/g, ''),
-          section,
-        }
-      })
+          return {
+            title: article.data.title,
+            cover: article.data.cover,
+            get imageLink() {
+              return `${this.link}/${this.cover.mobile}`
+            },
+            description: article.data.description,
+            link: `/${section}/${article.fileSlug}/`,
+            linkTitle: article.data.title.replace(/`/g, ''),
+            section,
+          }
+        })
     },
 
     themeColor: function (data) {
