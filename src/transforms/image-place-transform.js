@@ -18,20 +18,34 @@ module.exports = function (window) {
       // обычно все markdown-парсеры используют тег 'br' для переноса
       const brElement = element.nextElementSibling
       const hasCaption = brElement?.tagName.toLowerCase() === 'br'
-      const textSibling = hasCaption && brElement.nextSibling
 
-      if (textSibling?.nodeType === Node.TEXT_NODE) {
-        const figcaptionText = textSibling.textContent.trim()
-        const figure = window.document.createElement('figure')
-        textSibling.remove()
-        brElement.remove()
-        figure.innerHTML = `
-          ${element.outerHTML}
-          ${figcaptionText ? `<figcaption>${figcaptionText}</figcaption>` : ''}
-        `
-        element.replaceWith(figure)
+      if (!hasCaption) {
+        return
       }
-    })
+
+      const fragments = []
+
+      let sibling = brElement.nextSibling
+      while (sibling) {
+        fragments.push(sibling)
+        sibling = sibling.nextSibling
+      }
+
+      const figure = window.document.createElement('figure')
+      brElement.remove()
+      figure.innerHTML = element.outerHTML
+
+      const figCaption = window.document.createElement('figcaption')
+      figCaption.innerHTML = fragments
+        .map(fragment => fragment.nodeType === Node.TEXT_NODE
+          ? fragment.textContent
+          : fragment.outerHTML
+        )
+        .join('')
+
+      figure.appendChild(figCaption)
+      element.replaceWith(figure)
+  })
 
   articleContent.querySelectorAll('figure').forEach((figureElement) => {
     figureElement.classList.add('figure')

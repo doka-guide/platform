@@ -96,6 +96,7 @@ module.exports = function (window) {
       header__title: 'header__title-code',
       article__description: 'article__description-code',
       'article-heading': 'article-heading__code',
+      figure__caption: 'figure__caption-code',
     }
 
     for (const [parentClass, codeClass] of Object.entries(classMap)) {
