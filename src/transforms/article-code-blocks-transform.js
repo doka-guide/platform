@@ -19,10 +19,8 @@ function highlightCode(source, language) {
   return Prism.highlight(source, Prism.languages[language], language)
 }
 
-// расстановка классов и атрибутов для элементов кода внутри тела статьи,
 // подсветка синтаксиса,
-// расстановка номеров строк,
-// расстановка классов на инлайновые блоки с кодом
+// расстановка номеров строк
 /**
  * @param {Window} window
  */
@@ -88,36 +86,4 @@ module.exports = function(window) {
       preElement.classList.add('format-block', 'font-theme', 'font-theme--code')
       preElement.setAttribute('tabindex', 0)
     })
-
-  articleContent
-    ?.querySelectorAll('p code, ul code, ol code, table code')
-    ?.forEach(codeElement => {
-      codeElement.classList.add('inline-code', 'code-fix', 'font-theme', 'font-theme--code')
-    })
-
-  // добавление классов на блоки `code` внутри заголовков
-  {
-    const classMap = {
-      'articles-group__link': 'articles-group__code',
-      'articles-group__title': 'articles-group__code',
-      'article__title': 'article__title-code',
-      'social-card__title': 'social-card__title-code',
-      'featured-article': 'featured-article__code',
-      'index-group-list__link': 'index-group-list__code',
-      'header__title': 'header__title-code',
-      'article__description': 'article__description-code',
-      'article-heading': 'article-heading__code',
-      'figure__caption': 'figure__caption-code',
-    }
-
-    for (const [parentClass, codeClass] of Object.entries(classMap)) {
-      window.document.querySelectorAll(`.${parentClass}`)
-        .forEach(parentElement => {
-          parentElement.querySelectorAll('code').forEach(codeElement => {
-            codeElement.classList.add(codeClass, 'code-fix', 'font-theme', 'font-theme--code')
-          })
-        })
-    }
-  }
-
 }
