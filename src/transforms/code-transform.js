@@ -92,7 +92,7 @@ module.exports = function(window) {
   articleContent
     ?.querySelectorAll('p code, ul code, ol code, table code')
     ?.forEach(codeElement => {
-      codeElement.classList.add('inline-code', 'font-theme', 'font-theme--code')
+      codeElement.classList.add('inline-code', 'code-fix', 'font-theme', 'font-theme--code')
     })
 
   // добавление классов на блоки `code` внутри заголовков
@@ -108,13 +108,14 @@ module.exports = function(window) {
       'article__description': 'article__description-code',
       'article-heading': 'article-heading__code',
       'linked-article': 'linked-article__code',
+      'figure__caption': 'figure__caption-code',
     }
 
     for (const [parentClass, codeClass] of Object.entries(classMap)) {
       window.document.querySelectorAll(`.${parentClass}`)
         .forEach(parentElement => {
           parentElement.querySelectorAll('code').forEach(codeElement => {
-            codeElement.classList.add(codeClass, 'font-theme', 'font-theme--code')
+            codeElement.classList.add(codeClass, 'code-fix', 'font-theme', 'font-theme--code')
           })
         })
     }
