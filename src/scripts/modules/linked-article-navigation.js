@@ -1,5 +1,3 @@
-import runOnKeys from '../libs/run-on-keys.js'
-
 function init() {
   const [
     previous,
@@ -9,7 +7,8 @@ function init() {
     document.querySelector('.linked-article--next .linked-article__link'),
   ]
 
-  if (!(previous && next)) {
+  // продолжаем, если есть хотя бы одна ссылка
+  if (!(previous || next)) {
     return
   }
 
@@ -17,23 +16,18 @@ function init() {
     window.location = linkElement.href
   }
 
-  function goToPrevious() {
-    goToArticle(previous)
-  }
+  document.addEventListener('keyup', event => {
+    if (!event.altKey) {
+      return
+    }
 
-  function goToNext() {
-    goToArticle(next)
-  }
+    const link = ({
+      'ArrowLeft': previous,
+      'ArrowRight': next
+    })[event.code]
 
-  if (previous) {
-    runOnKeys(goToPrevious, 'AltLeft', 'ArrowLeft')
-    runOnKeys(goToPrevious, 'AltRight', 'ArrowLeft')
-  }
-
-  if (next) {
-    runOnKeys(goToNext, 'AltLeft', 'ArrowRight')
-    runOnKeys(goToNext, 'AltRight', 'ArrowRight')
-  }
+    link && goToArticle(link)
+  })
 }
 
 init()
