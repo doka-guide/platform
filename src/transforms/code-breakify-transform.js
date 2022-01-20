@@ -1,4 +1,3 @@
-// расстановка <wbr> в элементах кода и ссылках
 function breakify(content) {
   const symbols = [
     '.',
@@ -16,27 +15,20 @@ function breakify(content) {
     '%',
     '(',
     ')',
-    '<',
-    '>',
+    '[',
+    ']',
+    '&lt;',
+    '&gt;',
     '&',
   ]
 
-  // сначала делим по `//`, чтобы точно отделить от совпадений с `/`
-  const doubleSlashSegments = content.split('//')
-
-  const formattedSegments = doubleSlashSegments
-    .map(segment => {
-      for (const symbol of symbols) {
-        segment = segment.replaceAll(symbol, match => `<wbr>${match}<wbr>`)
-      }
-
-      return segment
-    })
-
-  return formattedSegments.join('//<wbr>')
+  for (const symbol of symbols) {
+    content = content.replaceAll(symbol, match => `<wbr>${match}<wbr>`)
+  }
 }
 
 /**
+ * расстановка <wbr> в элементах кода
  * @param {Window} window
  */
 module.exports = function(window) {
