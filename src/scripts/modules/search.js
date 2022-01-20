@@ -139,7 +139,7 @@ class SearchResultOutput extends BaseComponent {
               escape(hitObject.title),
               query
             ),
-            '<code class="search-hit__link-code font-theme font-theme--code">$1</code>'
+            '<code class="search-hit__link-code code-fix font-theme font-theme--code">$1</code>'
           )
         const summary =
         SearchResultOutput.replaceBackticks(
@@ -147,7 +147,7 @@ class SearchResultOutput extends BaseComponent {
               escape(SearchResultOutput.adjustTextSize(hitObject.summary, query, limit)),
               query
             ),
-            '<code class="search-hit__text-code font-theme font-theme--code">$1</code>'
+            '<code class="search-hit__text-code code-fix font-theme font-theme--code">$1</code>'
           )
 
         return `
