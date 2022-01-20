@@ -25,6 +25,8 @@ function breakify(content) {
   for (const symbol of symbols) {
     content = content.replaceAll(symbol, match => `<wbr>${match}<wbr>`)
   }
+
+  return content
 }
 
 /**
