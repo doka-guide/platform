@@ -21,6 +21,7 @@
   background-color: transparent;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  transition: transform 0.5s;
 }
 
 .article-nav__button-icon {
@@ -75,19 +76,12 @@
 
 .article-nav:not(.article-nav--open) .article-nav__button {
   visibility: hidden;
-  transition-delay: 0.5s;
 }
 
 .article-nav:not(.article-nav--open) .article-nav__button::before {
   visibility: hidden;
   opacity: 0;
-}
-
-@media (max-width: 720px) {
-  .article-nav__button-icon {
-    left: auto;
-    right: var(--offset, 10px);
-  }
+  transition-delay: 0.5s;
 }
 
 @media not all and (min-width: 1024px) {
@@ -109,6 +103,10 @@
     --active-link-lightness: calc(var(--is-light-theme-on) * 92%);
     --active-link-background: hsl(0 0% var(--active-link-lightness));
     background-color: hsl(0 0% var(--lightness));
+  }
+
+  .article-nav:not(.article-nav--open) .article-nav__button {
+    transform: translateY(calc((1 - var(--is-header-fixed, 1)) * 100%));
   }
 }
 
