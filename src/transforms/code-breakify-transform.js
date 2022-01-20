@@ -17,9 +17,6 @@ function breakify(content) {
     ')',
     '[',
     ']',
-    '&lt;',
-    '&gt;',
-    '&',
   ]
 
   for (const symbol of symbols) {
