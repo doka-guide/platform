@@ -96,9 +96,9 @@ class SearchResultOutput extends BaseComponent {
     return {
       summaryItem: (item) => `<p class="search-hit__summary-item">${item}</p>`,
 
-      titleCode: `<code class="search-hit__link-code font-theme font-theme--code">$1</code>`,
+      titleCode: `<code class="search-hit__link-code code-fix font-theme font-theme--code">$1</code>`,
 
-      textCode: `<code class="search-hit__text-code font-theme font-theme--code">$1</code>`,
+      textCode: `<code class="search-hit__text-code code-fix font-theme font-theme--code">$1</code>`,
 
       placeholderIcon: `<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>`,
 

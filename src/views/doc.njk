@@ -1,4 +1,4 @@
-{% from "blocks/header.njk" import header %}
+{% from "blocks/header.njk" import header with context %}
 {% from "blocks/footer.njk" import footer with context %}
 {% from "blocks/article-image.njk" import articleImage %}
 
@@ -9,7 +9,6 @@
   category=categoryName,
   title=title,
   link=docPath,
-  articleIndexes=collections.articleIndexes,
   isLogoContrastColor=isLogoContrastColor
 ) }}
 

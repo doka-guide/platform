@@ -1,0 +1,4 @@
+/* https://github.com/doka-guide/platform/issues/838 */
+.code-fix {
+  line-height: 0;
+}

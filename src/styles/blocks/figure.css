@@ -11,8 +11,13 @@
 
 .figure__caption {
   padding: 1em;
-  display: flex;
-  justify-content: center;
   font-size: var(--font-size-s);
   line-height: var(--font-line-height-s);
+}
+
+.figure__caption-code {
+  font-size: var(--font-size-s);
+  line-height: var(--font-line-height-s);
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-spacing);
 }

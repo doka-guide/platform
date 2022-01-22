@@ -36,25 +36,25 @@
 }
 
 .article-heading--level-1,
-.article-heading--level-1 .article-heading__code {
+.article-heading--level-1 > * {
   --font-size: var(--font-size-xxl);
   --line-height: var(--font-line-height-xxl);
 }
 
 .article-heading--level-2,
-.article-heading--level-2 .article-heading__code {
+.article-heading--level-2 > * {
   --font-size: var(--font-size-xl);
   --line-height: var(--font-line-height-xl);
 }
 
 .article-heading--level-3,
-.article-heading--level-3 .article-heading__code {
+.article-heading--level-3 > * {
   --font-size: var(--font-size-l);
   --line-height: var(--font-line-height-l);
 }
 
 .article-heading--level-4,
-.article-heading--level-4 .article-heading__code {
+.article-heading--level-4 > * {
   --font-size: var(--font-size-m);
   --line-height: var(--font-line-height-m);
 }
