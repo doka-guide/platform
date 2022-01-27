@@ -6,10 +6,3 @@
 }
 
 .person-grid__item {}
-
-.person-grid[data-filters*='html'] .person-grid__item:not([data-categories*='html']),
-.person-grid[data-filters*='css'] .person-grid__item:not([data-categories*='css']),
-.person-grid[data-filters*='js'] .person-grid__item:not([data-categories*='js']),
-.person-grid[data-filters*='tools'] .person-grid__item:not([data-categories*='tools']) {
-  display: none;
-}

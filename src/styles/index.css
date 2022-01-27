@@ -52,6 +52,9 @@
 @import 'blocks/index-block.css';
 @import 'blocks/switch.css';
 @import 'blocks/standalone-page.css';
+@import 'blocks/filter-group.css';
+@import 'blocks/float-button.css';
+@import 'blocks/filter-panel.css';
 @import 'blocks/tag-filter.css';
 @import 'blocks/search-category.css';
 @import 'blocks/search-tag.css';

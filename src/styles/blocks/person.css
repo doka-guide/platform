@@ -19,18 +19,17 @@
 }
 
 .person__name {
-  display: flex;
-  align-items: baseline;
+  flex: 0 1 auto;
   line-height: calc(4 / 3);
 }
 
 .person__name::after {
   content: ',';
-  font-size: var(--font-size-m);
+  margin-left: 0.15em;
+  font-size: 0.77em;
 }
 
 .person__link {
-  flex: 0 0 auto;
   text-underline-offset: 0.2em;
 }
 

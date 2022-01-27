@@ -77,6 +77,7 @@ function init() {
 
   filter.addEventListener('change', onFilterChange)
   initUIFromURL()
+  applyFilters()
 }
 
 init()
