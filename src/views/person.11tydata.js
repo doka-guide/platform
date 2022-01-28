@@ -48,16 +48,34 @@ module.exports = {
       return docsByPerson[personId]
     },
 
-    mostContributedCategory: function(data) {
-      const { peopleData, name: personName } = data
+    authorData: function(data) {
+      const { peopleData, personId } = data
 
       if (!peopleData) {
         return null
       }
 
-      return peopleData
-        .find(person => person.name === personName)
-        ?.mostContributedCategory
+      return peopleData.find(person => person.id === personId)
+    },
+
+    mostContributedCategory: function(data) {
+      const { authorData } = data
+
+      if (!authorData) {
+        return null
+      }
+
+      return authorData?.mostContributedCategory
+    },
+
+    contributionStat: function(data) {
+      const { authorData } = data
+
+      if (!authorData) {
+        return null
+      }
+
+      return authorData?.contributionStat
     },
 
     issuesLink: function(data) {

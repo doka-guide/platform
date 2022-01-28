@@ -21,12 +21,16 @@
         <li>
           <a class="link" href="{{ url }}">{{ personId }}</a>
         </li>
-        <li>
-          <a class="link" href="{{ issuesLink }}">Issues</a>
-        </li>
-        <li>
-          <a class="link" href="{{ pullRequestsLink }}">Pull requests</a>
-        </li>
+        {% if contributionStat.issues > 0 %}
+          <li>
+            <a class="link" href="{{ issuesLink }}">Issues: {{ contributionStat.issues }}</a>
+          </li>
+        {% endif %}
+        {% if contributionStat.pr > 0 %}
+          <li>
+            <a class="link" href="{{ pullRequestsLink }}">Pull requests: {{ contributionStat.pr }}</a>
+          </li>
+        {% endif %}
       </ul>
     </div>
 

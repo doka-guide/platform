@@ -15,3 +15,8 @@ pages
 settings
 
 .eslintcache
+
+# кеш для @11ty/eleventy-cache-assets
+.cache
+
+.env

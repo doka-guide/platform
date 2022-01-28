@@ -1,9 +1,12 @@
 const path = require('path')
 const fsp = require('fs/promises')
+const { URL } = require('url')
 const frontMatter = require('gray-matter')
 const { baseUrl, mainSections } = require('../../config/constants')
 const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
+const { getAuthorsContributionWithCache } = require('../libs/github-contribution-service/github-contribution-service')
+const { contentRepLink } = require('../../config/constants')
 
 function isExternalURL(url) {
   return url.startsWith('http://')
@@ -147,15 +150,27 @@ module.exports = {
       return docsByPerson
     },
 
-    peopleData: function(data) {
+    peopleData: async function(data) {
       const { collections, docsByPerson } = data
       const { people } = collections
 
-      return people
-        .filter(person => {
-          const personId = person.fileSlug
-          return !!docsByPerson[personId]
-        })
+      if (!people || people.length === 0) {
+        return null
+      }
+
+      const filteredAuthors = people.filter(person => {
+        const personId = person.fileSlug
+        return !!docsByPerson[personId]
+      })
+
+      const authorsNames = filteredAuthors.map(author => author.fileSlug)
+      const contributionStat = await getAuthorsContributionWithCache({
+        authors: authorsNames,
+        // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
+        repo: (new URL(contentRepLink)).pathname.replace(/^\//, '')
+      })
+
+      return filteredAuthors
         .map(person => {
           const personId = person.fileSlug
           const personData = docsByPerson[personId]
@@ -199,12 +214,14 @@ module.exports = {
           const stat = Object.fromEntries(statEntries)
 
           return {
+            id: personId,
             name,
             photoURL,
             pageLink,
             stat,
             mostContributedCategory,
-            totalArticles
+            totalArticles,
+            contributionStat: contributionStat[personId]
           }
         })
         .sort((person1, person2) => person2.totalArticles - person1.totalArticles)
