@@ -4,7 +4,7 @@ const Cache = require('@11ty/eleventy-cache-assets')
 
 Cache.concurrency = os.cpus().length
 
-const { GITHUB_TOKEN = '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' } = process.env
+const { GITHUB_TOKEN } = process.env
 
 const octokit = new Octokit({
   auth: GITHUB_TOKEN
