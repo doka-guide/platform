@@ -1,0 +1,18 @@
+.person-links-list {
+  font-size: var(--font-size-s);
+
+  /* line-height: var(--font-line-height-s); */
+  line-height: 1.47;
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-spacing);
+}
+
+.person-links-list__item {}
+
+.person-links-list__item + .person-links-list__item {
+  margin-top: 10px;
+}
+
+.person-links-list__link {}
+
+.person-links-list__link svg {}

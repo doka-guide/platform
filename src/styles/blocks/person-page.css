@@ -1,4 +1,5 @@
 .person-page {
+  --offset: 10px;
   box-sizing: border-box;
   min-height: 100vh;
 }
@@ -28,6 +29,7 @@
   align-self: end;
   position: sticky;
   bottom: 0;
+  padding: var(--offset);
 }
 
 .person-page__header {
@@ -56,4 +58,10 @@
 
 .person-page__footer {
   grid-area: footer;
+}
+
+@media (min-width: 768px) {
+  .person-page {
+    --offset: 20px;
+  }
 }

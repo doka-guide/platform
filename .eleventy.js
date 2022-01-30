@@ -192,6 +192,11 @@ module.exports = function(config) {
     return five
   })
 
+  config.addFilter('pluralize', (content, one, many) => {
+    const number = parseInt(content)
+    return number === 1 ? one : many
+  })
+
   {
     const descriptionMarkdown = markdownIt({
       html: false,
