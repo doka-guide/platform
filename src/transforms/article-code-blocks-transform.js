@@ -32,7 +32,9 @@ module.exports = function(window) {
     ?.forEach(preElement => {
       const codeElement = preElement.querySelector('code')
 
-      let language = preElement.getAttribute('data-lang').trim()
+      let language = (preElement.getAttribute('data-lang') || '')
+        .trim()
+        .toLowerCase()
       language = LANG_ALIASES[language] || language
 
       const originalContent = codeElement.textContent
