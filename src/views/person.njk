@@ -3,20 +3,20 @@
 {% from "blocks/person-avatar.njk" import personAvatar %}
 
 {% set githubIcon %}
-<svg width="11" height="11" viewBox="0 0 11 11" fill="currentColor">
+<svg class="person-links-list__icon" width="11" height="11" viewBox="0 0 11 11" fill="currentColor">
   <path d="M5.5 0C2.461 0 0 2.523 0 5.638c0 2.492 1.577 4.604 3.761 5.351.274.052.375-.12.375-.273l-.007-.959c-1.53.34-1.853-.754-1.853-.754-.25-.651-.611-.828-.611-.828-.5-.35.037-.342.037-.342.55.041.844.581.844.581.49.862 1.286.613 1.6.468.05-.364.193-.613.348-.755-1.219-.138-2.502-.623-2.502-2.783 0-.616.213-1.118.567-1.512-.057-.146-.246-.717.05-1.492 0 0 .463-.152 1.513.578a5.214 5.214 0 0 1 1.378-.19c.466.003.939.065 1.378.19 1.05-.73 1.512-.578 1.512-.578.3.775.112 1.35.054 1.492.351.394.564.896.564 1.512 0 2.167-1.286 2.641-2.512 2.783.196.173.375.52.375 1.045 0 .755-.007 1.36-.007 1.547 0 .153.098.326.378.27C9.427 10.242 11 8.13 11 5.642 11 2.523 8.539 0 5.5 0Z" />
 </svg>
 {% endset %}
 
 {% set issuesIcon %}
-<svg width="10" height="10" viewBox="0 0 10 10">
+<svg class="person-links-list__icon" width="10" height="10" viewBox="0 0 10 10">
   <circle cx="5" cy="5" r="4.5" stroke="currentColor" fill="none"/>
   <circle cx="5" cy="5" r="1" fill="currentColor"/>
 </svg>
 {% endset %}
 
 {% set prIcon %}
-<svg width="10" height="11" viewBox="0 0 10 11" fill="none" stroke="currentColor">
+<svg class="person-links-list__icon" width="10" height="11" viewBox="0 0 10 11" fill="none" stroke="currentColor">
   <circle cx="1.875" cy="2.875" r="1.375" />
   <circle cx="1.875" cy="9.125" r="1.375" />
   <circle cx="8.125" cy="9.125" r="1.375" />
@@ -52,7 +52,7 @@
             <a class="person-links-list__link link" href="{{ issuesLink }}">
               {{ githubIcon | safe }}
               {{ issuesIcon | safe }}
-              {{ contributionStat.issues }} {{ contributionStat.issues | pluralize('issue', 'issues') }}
+              <span>{{ contributionStat.issues }} {{ contributionStat.issues | pluralize('issue', 'issues') }}</span>
             </a>
           </li>
         {% endif %}
@@ -61,7 +61,7 @@
             <a class="person-links-list__link link" href="{{ pullRequestsLink }}">
               {{ githubIcon | safe }}
               {{ prIcon | safe }}
-              {{ contributionStat.pr }} {{ contributionStat.pr | pluralize('pull request', 'pull requests') }}
+              <span>{{ contributionStat.pr }} {{ contributionStat.pr | pluralize('pull request', 'pull requests') }}</span>
             </a>
           </li>
         {% endif %}
