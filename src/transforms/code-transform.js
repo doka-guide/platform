@@ -34,7 +34,9 @@ module.exports = function(window) {
     ?.forEach(preElement => {
       const codeElement = preElement.querySelector('code')
 
-      let language = preElement.getAttribute('data-lang').trim()
+      let language = (preElement.getAttribute('data-lang') || '')
+        .trim()
+        .toLowerCase()
       language = LANG_ALIASES[language] || language
 
       const originalContent = codeElement.textContent
@@ -92,7 +94,7 @@ module.exports = function(window) {
   articleContent
     ?.querySelectorAll('p code, ul code, ol code, table code')
     ?.forEach(codeElement => {
-      codeElement.classList.add('inline-code', 'font-theme', 'font-theme--code')
+      codeElement.classList.add('inline-code', 'code-fix', 'font-theme', 'font-theme--code')
     })
 
   // добавление классов на блоки `code` внутри заголовков
@@ -106,14 +108,15 @@ module.exports = function(window) {
       'index-group-list__link': 'index-group-list__code',
       'header__title': 'header__title-code',
       'article__description': 'article__description-code',
-      'article-heading': 'article-heading__code'
+      'article-heading': 'article-heading__code',
+      'figure__caption': 'figure__caption-code',
     }
 
     for (const [parentClass, codeClass] of Object.entries(classMap)) {
       window.document.querySelectorAll(`.${parentClass}`)
         .forEach(parentElement => {
           parentElement.querySelectorAll('code').forEach(codeElement => {
-            codeElement.classList.add(codeClass, 'font-theme', 'font-theme--code')
+            codeElement.classList.add(codeClass, 'code-fix', 'font-theme', 'font-theme--code')
           })
         })
     }
