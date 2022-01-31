@@ -32,12 +32,13 @@
   ) }}
 
   <main class="person-page__main">
-    {{ personAvatar(
-      class = 'person-page__avatar',
-      photoURL = photo,
-      name = name,
-      category = mostContributedCategory
-    ) }}
+    <div class="person-page__avatar">
+      {{ personAvatar(
+        photoURL = photo,
+        name = name,
+        category = mostContributedCategory
+      ) }}
+    </div>
 
     <div class="person-page__meta">
       <ul class="base-list person-links-list font-theme font-theme--code">
