@@ -1,7 +1,7 @@
-{% macro featuredArticle(article, isLazyLoading=false) %}
+{% macro featuredArticle(article, class, isLazyLoading=false) %}
   {% set hasImage = article.cover %}
 
-  <article class="featured-article" style="--accent-color: var(--color-{{ article.section }})">
+  <article class="featured-article {{ class if class }}" style="--accent-color: var(--color-{{ article.section }})">
     {% if hasImage %}
       <picture class="featured-article__image-wrapper">
         <img
