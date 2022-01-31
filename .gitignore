@@ -15,3 +15,5 @@ pages
 settings
 
 .eslintcache
+
+.env
