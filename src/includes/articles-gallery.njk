@@ -15,9 +15,11 @@
       {% endfor %}
     </ul>
 
-    <button class="articles-gallery__more-button button" type="button">
-      Показать ещё
-    </button>
+    {% if featuredArticles and featuredArticles.length > lazyLoadingIndexThreshold %}
+      <button class="articles-gallery__more-button button" type="button">
+        Показать ещё
+      </button>
+    {% endif %}
   </section>
 {% endif %}
 
