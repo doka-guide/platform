@@ -10,7 +10,7 @@
 }
 
 .person-page__main {
-  padding-top: clamp(20px, 8%, 130px);
+  padding-top: clamp(var(--offset), 8%, 130px);
   display: grid;
   grid-template-columns: var(--sidebar-size) minmax(0, var(--content-max-size)) var(--sidebar-size-end);
   grid-template-areas:
@@ -55,6 +55,7 @@
 }
 
 .person-page__articles {
+  margin-bottom: clamp(var(--offset), 8%, 130px);
   grid-area: articles;
   display: grid;
   gap: var(--offset);

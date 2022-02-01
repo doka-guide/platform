@@ -4,7 +4,7 @@
 }
 
 .people-page__main {
-  padding-block: clamp(var(--offset), 10%, 110px);
+  padding-block: clamp(var(--offset), 8%, 130px);
 }
 
 .people-page__filter {
