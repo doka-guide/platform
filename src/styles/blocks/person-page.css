@@ -34,6 +34,7 @@
 .person-page__meta {
   grid-area: meta;
   align-self: center;
+  background-color: hsl(var(--color-base-background) / 0.9);
 }
 
 .person-page__header {
