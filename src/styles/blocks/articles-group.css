@@ -16,8 +16,8 @@
 }
 
 .articles-group__sub-title {
-  margin-top: 8px;
-  margin-bottom: 0;
+  margin-top: calc(14 / 15 * 1em);
+  margin-bottom: calc(17 / 15 * 1em);
   font-weight: normal;
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
