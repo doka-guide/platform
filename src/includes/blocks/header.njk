@@ -4,9 +4,8 @@
   <span class="header__divider {% if isLarge %}header__divider--large{% endif %} font-theme font-theme--code" aria-hidden="true"></span>
 {% endmacro %}
 
-{% macro header(pageCategoryId, category, title, link, isStatic, isLogoContrastColor) %}
+{% macro header(pageCategoryId, category, title, link, isStatic, isLogoContrastColor, hasAccentColor) %}
   {% set articleIndexes = collections.articleIndexes %}
-  {% set hasAccentColor = pageCategoryId %}
   <header
     class="
       header
