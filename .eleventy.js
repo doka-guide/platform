@@ -8,7 +8,10 @@ const demoLinkTransform = require('./src/transforms/demo-link-transform')
 const imageTransform = require('./src/transforms/image-transform')
 const headingsIdTransform = require('./src/transforms/headings-id-transform')
 const headingsAnchorTransform = require('./src/transforms/headings-anchor-transform')
-const codeTransform = require('./src/transforms/code-transform')
+const articleCodeBlocksTransform = require('./src/transforms/article-code-blocks-transform')
+const articleInlineCodeTransform = require('./src/transforms/article-inline-code-transform')
+const codeClassesTransform = require('./src/transforms/code-classes-transform')
+const codeBreakifyTransform = require('./src/transforms/code-breakify-transform')
 const tocTransform = require('./src/transforms/toc-transform')
 const linkTransform = require('./src/transforms/link-transform')
 const iframeAttrTransform = require('./src/transforms/iframe-attr-transform')
@@ -190,7 +193,10 @@ module.exports = function(config) {
       tocTransform,
       headingsAnchorTransform,
       linkTransform,
-      codeTransform,
+      articleCodeBlocksTransform,
+      articleInlineCodeTransform,
+      codeClassesTransform,
+      codeBreakifyTransform,
       iframeAttrTransform,
       tableTransform,
       demoExternalLinkTransform,
