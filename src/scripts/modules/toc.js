@@ -14,8 +14,7 @@ function init() {
   const HEADING_LINK_SELECTOR = '.article-heading__link'
 
   const links = Array.from(document.querySelectorAll(TOC_LINK_SELECTOR))
-  const titles = Array.from(document.querySelectorAll(HEADING_SELECTOR))
-    .filter(title => !title.closest('details'))
+  const titles = Array.from(document.querySelectorAll(HEADING_SELECTOR)).filter((title) => !title.closest('details'))
 
   if (!(links.length && titles.length)) {
     return
@@ -37,7 +36,7 @@ function init() {
 
   function findNearestTitle() {
     return titles
-      .filter(title => {
+      .filter((title) => {
         const titleBox = title.getBoundingClientRect()
         const windowThresholdPosition = getWindowThresholdPosition()
         const titleThresholdPosition = titleBox.top + titleBox.height * titleThreshold
@@ -58,7 +57,7 @@ function init() {
       entry.target.classList.toggle(visibleHeadingClass, entry.isIntersecting)
     }
 
-    const visibleTitles = titles.filter(title => title.classList.contains(visibleHeadingClass))
+    const visibleTitles = titles.filter((title) => title.classList.contains(visibleHeadingClass))
     const lastVisibleTitle = visibleTitles.pop() || findNearestTitle()
 
     if (lastVisibleTitle) {
@@ -75,19 +74,23 @@ function init() {
     const titleBox = title?.getBoundingClientRect()
 
     const additionalOffset = 1 // небольшой отступ, чтобы заголовок гарантировано пересёк границу и стал активным
-    return window.scrollY + (titleBox.top + titleBox.height * titleThreshold + additionalOffset) - getWindowThresholdPosition()
+    return (
+      window.scrollY +
+      (titleBox.top + titleBox.height * titleThreshold + additionalOffset) -
+      getWindowThresholdPosition()
+    )
   }
 
   function scrollToTitle(hash) {
     const title = getTitleFromHash(hash)
     window.scrollTo({
       top: getTitleScrollPosition(title),
-      behavior: 'smooth'
+      behavior: 'smooth',
     })
     history.pushState(null, null, hash)
   }
 
-  links.forEach(link => {
+  links.forEach((link) => {
     const titleId = link.hash.slice(1)
     linksMap[titleId] = link
   })
@@ -95,7 +98,7 @@ function init() {
   titles.forEach((title, index) => {
     titlesMap[title.id] = {
       element: title,
-      index
+      index,
     }
   })
 
@@ -105,13 +108,13 @@ function init() {
       threshold: [titleThreshold],
     })
 
-    titles.forEach(title => {
+    titles.forEach((title) => {
       observer.observe(title)
     })
   }
 
   function destroyObserver() {
-    titles.forEach(title => {
+    titles.forEach((title) => {
       observer.unobserve(title)
     })
 
@@ -126,7 +129,7 @@ function init() {
 
     createObserver()
 
-    titles.forEach(title => {
+    titles.forEach((title) => {
       observer.observe(title)
     })
   }
@@ -147,7 +150,7 @@ function init() {
     }
   })
 
-  document.querySelector(TOC_CONTAINER_SELECTOR)?.addEventListener('click', event => {
+  document.querySelector(TOC_CONTAINER_SELECTOR)?.addEventListener('click', (event) => {
     const link = event.target.closest(`${TOC_LINK_SELECTOR}, ${HEADING_LINK_SELECTOR}`)
 
     if (!link) {

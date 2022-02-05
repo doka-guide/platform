@@ -21,10 +21,9 @@ class QuickSearch extends BaseComponent {
     }
 
     this.state = {
-      highlightedIndex: -1
-    };
-
-    [
+      highlightedIndex: -1,
+    }
+    ;[
       'enter',
       'exit',
       'openSuggestion',
@@ -33,11 +32,11 @@ class QuickSearch extends BaseComponent {
       'closeSuggestionOnOutSideClick',
       'onSearch',
       'onCursorChange',
-    ].forEach(method => this[method] = this[method].bind(this))
+    ].forEach((method) => (this[method] = this[method].bind(this)))
 
     document.addEventListener('click', this.closeSuggestionOnOutSideClick)
     this.refs.rootElement.addEventListener('keyup', this.closeSuggestionOnKeyUp)
-    this.refs.rootElement.addEventListener('submit', event => {
+    this.refs.rootElement.addEventListener('submit', (event) => {
       if (this.refs.input.value.trim() === '') {
         event.preventDefault()
       }
@@ -184,11 +183,11 @@ class QuickSearch extends BaseComponent {
     const paddingBlock = parseFloat(window.getComputedStyle(suggestionContent).paddingTop) || 0
 
     if (elementBox.top < contentBox.top) {
-      suggestionContent.scrollTop += (elementBox.top - contentBox.top - paddingBlock)
+      suggestionContent.scrollTop += elementBox.top - contentBox.top - paddingBlock
     }
 
     if (elementBox.bottom > contentBox.bottom) {
-      suggestionContent.scrollTop += (elementBox.bottom - contentBox.bottom + paddingBlock)
+      suggestionContent.scrollTop += elementBox.bottom - contentBox.bottom + paddingBlock
     }
   }
 
@@ -202,21 +201,27 @@ class QuickSearch extends BaseComponent {
   renderResults(hitObjectList) {
     const { suggestionList } = this.refs
 
-    const itemsMarkup = !hitObjectList || hitObjectList.length === 0
-      ? `Ничего не найдено`
-      : hitObjectList.map((hitObject) => {
-          const title = hitObject.title.replace(/`(.*?)`/g, '<code class="suggestion-list__code font-theme font-theme--code">$1</code>')
-          return `
+    const itemsMarkup =
+      !hitObjectList || hitObjectList.length === 0
+        ? `Ничего не найдено`
+        : hitObjectList
+            .map((hitObject) => {
+              const title = hitObject.title.replace(
+                /`(.*?)`/g,
+                '<code class="suggestion-list__code font-theme font-theme--code">$1</code>'
+              )
+              return `
             <li class="suggestion-list__item" style="--accent-color: var(--color-${hitObject.category});">
               <a class="suggestion-list__link link" href="${hitObject.url}">${title}</a>
             </li>
           `
-        }).join('')
+            })
+            .join('')
 
     suggestionList.innerHTML = itemsMarkup
   }
 }
 
 export default new QuickSearch({
-  rootElement: document.querySelector('.search')
+  rootElement: document.querySelector('.search'),
 })

@@ -2,11 +2,11 @@
 /**
  * @param {Window} window
  */
-module.exports = function(window) {
+module.exports = function (window) {
   window.document
     .querySelector('.article__content-inner')
     ?.querySelectorAll('details')
-    ?.forEach(detailsElement => {
+    ?.forEach((detailsElement) => {
       const summaryElement = detailsElement.removeChild(detailsElement.firstElementChild)
       const detailsContent = detailsElement.innerHTML
 

@@ -1,4 +1,3 @@
-
 function init() {
   const isArticle = !!document.querySelector('.article__content-inner')
 
@@ -14,7 +13,7 @@ function init() {
 
   const MESSAGE_TIMEOUT = 5000
 
-  document.addEventListener('click', event => {
+  document.addEventListener('click', (event) => {
     const copyButton = event.target.closest('.block-code__copy-button')
 
     if (!copyButton) {

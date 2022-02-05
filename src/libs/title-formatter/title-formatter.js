@@ -1,9 +1,7 @@
 function titleFormatter(segments) {
-  return segments
-    .filter(Boolean)
-    .join(' — ')
+  return segments.filter(Boolean).join(' — ')
 }
 
 module.exports = {
-  titleFormatter
+  titleFormatter,
 }

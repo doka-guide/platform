@@ -2,28 +2,27 @@ const { baseUrl } = require('../../config/constants')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 function getPersons(personGetter) {
-  return function(data) {
+  return function (data) {
     const { doc } = data
-    const persons = typeof personGetter === 'function'
-      ? personGetter(doc)
-      : doc.data[personGetter]
+    const persons = typeof personGetter === 'function' ? personGetter(doc) : doc.data[personGetter]
 
     return (Array.isArray(persons) ? persons : [persons]).filter(Boolean)
   }
 }
 
 function getPopulatedPersons(personKey) {
-  return function(data) {
+  return function (data) {
     const { peopleById } = data.collections
     const personsIds = data[personKey] || []
 
-    return personsIds.map(personId => peopleById[personId]
-      ? peopleById[personId]
-      : {
-          data: {
-            name: personId
+    return personsIds.map((personId) =>
+      peopleById[personId]
+        ? peopleById[personId]
+        : {
+            data: {
+              name: personId,
+            },
           }
-        }
     )
   }
 }
@@ -55,7 +54,7 @@ module.exports = {
   pagination: {
     data: 'collections.docs',
     size: 1,
-    alias: 'doc'
+    alias: 'doc',
   },
 
   permalink: '/{{doc.filePathStem}}.html',
@@ -63,17 +62,17 @@ module.exports = {
   pageType: 'Article',
 
   eleventyComputed: {
-    title: function(data) {
+    title: function (data) {
       const { doc } = data
       return doc.data.title
     },
 
-    cover: function(data) {
+    cover: function (data) {
       const { doc } = data
       return doc.data.cover
     },
 
-    description: function(data) {
+    description: function (data) {
       const { doc } = data
       return doc.data.description
     },
@@ -90,17 +89,17 @@ module.exports = {
 
     populatedEditors: getPopulatedPersons('editors'),
 
-    coverAuthors: getPersons(doc => doc.data?.cover?.author),
+    coverAuthors: getPersons((doc) => doc.data?.cover?.author),
 
     populatedCoverAuthors: getPopulatedPersons('coverAuthors'),
 
-    docPath: function(data) {
+    docPath: function (data) {
       const { doc } = data
       // Удаляем `/index` с конца пути (цель - из строки `/js/index-of/index` получить `/js/index-of`)
       return doc.filePathStem.replace(/\/index$/, '')
     },
 
-    defaultOpenGraphPath: function(data) {
+    defaultOpenGraphPath: function (data) {
       const { doc, docPath } = data
       if (doc.data?.cover?.og) {
         return baseUrl + docPath + '/' + doc.data.cover.og
@@ -109,7 +108,7 @@ module.exports = {
       }
     },
 
-    defaultTwitterPath: function(data) {
+    defaultTwitterPath: function (data) {
       const { doc, docPath } = data
       if (doc.data?.cover?.twitter) {
         return baseUrl + docPath + '/' + doc.data.cover.twitter
@@ -118,87 +117,81 @@ module.exports = {
       }
     },
 
-    category: function(data) {
+    category: function (data) {
       const { doc } = data
       return doc.filePathStem.split('/')[1]
     },
 
-    categoryName: function(data) {
+    categoryName: function (data) {
       const { category, collections } = data
-      return collections.articleIndexes
-        .find(section => section.fileSlug === category)?.data.name
+      return collections.articleIndexes.find((section) => section.fileSlug === category)?.data.name
     },
 
-    docId: function(data) {
+    docId: function (data) {
       const { category, doc } = data
       const { fileSlug } = doc
       return `${category}/${fileSlug}`
     },
 
-    type: function(data) {
+    type: function (data) {
       const { doc } = data
       return hasTag(doc.data.tags, 'article') ? 'article' : 'doka'
     },
 
     baseUrl,
 
-    practices: function(data) {
+    practices: function (data) {
       const allPractices = data.collections.practice
       const { docPath } = data
 
-      return allPractices.filter(practice => {
+      return allPractices.filter((practice) => {
         return practice.filePathStem.startsWith(`${docPath}/practice`)
       })
     },
 
-    containsPractice: function(data) {
+    containsPractice: function (data) {
       const { practices } = data
-      return (practices.length > 0) ? 'true' : 'false'
+      return practices.length > 0 ? 'true' : 'false'
     },
 
-    createdAt: function(data) {
+    createdAt: function (data) {
       const { doc } = data
       return doc.data.createdAt ? new Date(doc.data.createdAt) : null
     },
 
-    updatedAt: function(data) {
+    updatedAt: function (data) {
       const { doc } = data
       return doc.data.updatedAt ? new Date(doc.data.updatedAt) : null
     },
 
-    isPlaceholder: function(data) {
+    isPlaceholder: function (data) {
       const { doc } = data
       return hasTag(doc.data.tags, 'placeholder')
     },
 
-    documentTitle: function(data) {
+    documentTitle: function (data) {
       // удаляем символы обратных кавычек html-тегов из markdown
       const title = data.title.replace(/`/g, '')
       return titleFormatter([title, data.categoryName, 'Дока'])
     },
 
-    socialTitle: function(data) {
+    socialTitle: function (data) {
       const { documentTitle } = data
       // Удаляем символы угловых скобок HTML-тегов из markdown, так как соцсети их некорректно отображают
-      return documentTitle
-        .replace(/</g, '')
-        .replace(/>/g, '')
+      return documentTitle.replace(/</g, '').replace(/>/g, '')
     },
 
-    documentDescription: function(data) {
+    documentDescription: function (data) {
       const { description } = data
-      return description
-        ?.replace(/`/g, '')
-        ?.replace(/</g, '')
-        ?.replace(/>/g, '')
+      return description?.replace(/`/g, '')?.replace(/</g, '')?.replace(/>/g, '')
     },
 
-    articleTag: function(data) {
+    articleTag: function (data) {
       const { doc } = data
       return doc.data.tags[0]
     },
 
-    nextArticle: function(data) {
+    nextArticle: function (data) {
       const { collections, docId } = data
       const { docsById, articleIndexes } = collections
       const { linkedArticles } = articleIndexes
@@ -208,7 +201,7 @@ module.exports = {
       return articleData && transformArticleData(articleData)
     },
 
-    previousArticle: function(data) {
+    previousArticle: function (data) {
       const { collections, docId } = data
       const { docsById, articleIndexes } = collections
       const { linkedArticles } = articleIndexes
@@ -218,15 +211,15 @@ module.exports = {
       return articleData && transformArticleData(articleData)
     },
 
-    relatedArticles: function(data) {
+    relatedArticles: function (data) {
       const { collections, doc } = data
       const { docsById } = collections
       const { related } = doc.data
 
       return related
         ?.slice(0, 3)
-        ?.map(articleId => docsById[articleId])
-        ?.map(articleData => transformArticleData(articleData))
-    }
-  }
+        ?.map((articleId) => docsById[articleId])
+        ?.map((articleData) => transformArticleData(articleData))
+    },
+  },
 }

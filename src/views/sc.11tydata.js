@@ -2,7 +2,7 @@ const { mainSections } = require('../../config/constants')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 
 function getPersons(personKey) {
-  return function(data) {
+  return function (data) {
     const { doc } = data
     return doc.data[personKey]
   }
@@ -12,55 +12,54 @@ module.exports = {
   pagination: {
     data: 'collections.docs',
     size: 1,
-    alias: 'doc'
+    alias: 'doc',
   },
 
-  permalink: "{{doc.filePathStem}}.sc.html",
+  permalink: '{{doc.filePathStem}}.sc.html',
 
   eleventyComputed: {
-    title: function(data) {
+    title: function (data) {
       const { doc } = data
       return doc.data.title
     },
 
-    cover: function(data) {
+    cover: function (data) {
       const { doc } = data
       return doc.data.cover
     },
 
-    description: function(data) {
+    description: function (data) {
       const { doc } = data
       return doc.data.description
     },
 
     authors: getPersons('authors'),
 
-    docPath: function(data) {
+    docPath: function (data) {
       const { doc } = data
       return doc.filePathStem.replace('index', '')
     },
 
-    category: function(data) {
+    category: function (data) {
       const { doc } = data
       return doc.filePathStem.split('/')[1]
     },
 
-    categoryName: function(data) {
+    categoryName: function (data) {
       const { category, collections } = data
-      return collections.articleIndexes
-        .find(section => section.fileSlug === category)?.data.name
+      return collections.articleIndexes.find((section) => section.fileSlug === category)?.data.name
     },
 
-    documentTitle: function(data) {
+    documentTitle: function (data) {
       return titleFormatter([data.title, data.categoryName, 'Дока'])
     },
 
-    articleTag: function(data) {
+    articleTag: function (data) {
       const { doc } = data
       return doc.data.tags[0]
     },
 
-    articleCategory: function(data) {
+    articleCategory: function (data) {
       const { docPath } = data
       const categoryKeys = Object.keys(mainSections)
       for (const index in categoryKeys) {
@@ -68,6 +67,6 @@ module.exports = {
           return mainSections[categoryKeys[index]]
         }
       }
-    }
-  }
+    },
+  },
 }

@@ -5,7 +5,7 @@
 /**
  * @param {Window} window
  */
-module.exports = function(window) {
+module.exports = function (window) {
   const practicesSection = window.document.getElementById('practices')
   if (practicesSection) {
     const mediaElements = practicesSection.querySelectorAll('img, iframe')

@@ -5,7 +5,7 @@
  * @param {string | null} content
  * @param {string} outputPath
  */
-module.exports = function(window, content, outputPath) {
+module.exports = function (window, content, outputPath) {
   const articleContent = window.document.querySelector('.article__content-inner')
 
   if (!articleContent) {
@@ -14,13 +14,11 @@ module.exports = function(window, content, outputPath) {
 
   const iframes = articleContent.querySelectorAll('iframe')
 
-  const baseSourcePath = outputPath
-    .replace('dist/', '')
-    .replace('/index.html', '')
+  const baseSourcePath = outputPath.replace('dist/', '').replace('/index.html', '')
 
   Array.from(iframes)
-    .filter(iframe => iframe.getAttribute('src').includes('demos/'))
-    .forEach(iframe => {
+    .filter((iframe) => iframe.getAttribute('src').includes('demos/'))
+    .forEach((iframe) => {
       const iframeSourceLink = iframe.getAttribute('src').replace('./', '')
       const wrapper = window.document.createElement('figure')
       wrapper.classList.add('figure')

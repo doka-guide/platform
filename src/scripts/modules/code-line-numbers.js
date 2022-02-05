@@ -8,7 +8,7 @@ function init() {
   }
 
   function computedHeights() {
-    codeBlocks.forEach(block => {
+    codeBlocks.forEach((block) => {
       const originalLines = block.querySelectorAll('.code-block__original-line')
       const linesMarkers = block.querySelectorAll('.code-block__line')
 

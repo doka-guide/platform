@@ -6,9 +6,9 @@ loadLanguages()
 
 const endOfLine = '\n'
 
-const LANG_ALIASES= {
-  'js': 'javascript',
-  'nginxconf': 'nginx'
+const LANG_ALIASES = {
+  js: 'javascript',
+  nginxconf: 'nginx',
 }
 
 function renderOriginalLine(line) {
@@ -24,45 +24,36 @@ function highlightCode(source, language) {
 /**
  * @param {Window} window
  */
-module.exports = function(window) {
+module.exports = function (window) {
   const articleContent = window.document.querySelector('.article__content-inner')
 
-  articleContent
-    ?.querySelectorAll('pre[data-lang]')
-    ?.forEach(preElement => {
-      const codeElement = preElement.querySelector('code')
+  articleContent?.querySelectorAll('pre[data-lang]')?.forEach((preElement) => {
+    const codeElement = preElement.querySelector('code')
 
-      let language = (preElement.getAttribute('data-lang') || '')
-        .trim()
-        .toLowerCase()
-      language = LANG_ALIASES[language] || language
+    let language = (preElement.getAttribute('data-lang') || '').trim().toLowerCase()
+    language = LANG_ALIASES[language] || language
 
-      const originalContent = codeElement.textContent
-      const highlightedContent = language
-        ? highlightCode(originalContent, language)
-        : originalContent
+    const originalContent = codeElement.textContent
+    const highlightedContent = language ? highlightCode(originalContent, language) : originalContent
 
-      const lines = originalContent
-        .split(endOfLine)
-        .filter((line, index, linesArray) => {
-          // удаляем первую и последнюю пустые строки
-          const isFirtsOrLastLine = (index === 0 || index === linesArray.length -1)
-          const isEmptyLine = line.trim() === ''
-          return !(isFirtsOrLastLine && isEmptyLine)
-        })
-        .map((line) => renderOriginalLine(line))
+    const lines = originalContent
+      .split(endOfLine)
+      .filter((line, index, linesArray) => {
+        // удаляем первую и последнюю пустые строки
+        const isFirtsOrLastLine = index === 0 || index === linesArray.length - 1
+        const isEmptyLine = line.trim() === ''
+        return !(isFirtsOrLastLine && isEmptyLine)
+      })
+      .map((line) => renderOriginalLine(line))
 
-      const originalSplittedContent = lines.join('')
+    const originalSplittedContent = lines.join('')
 
-      const linesBlock = window.document.createElement('span')
-      linesBlock.classList.add('block-code__lines')
-      linesBlock.innerHTML = Array.from(
-        { length: lines.length },
-        () => `<span class="block-code__line"></span>`
-      ).join('')
+    const linesBlock = window.document.createElement('span')
+    linesBlock.classList.add('block-code__lines')
+    linesBlock.innerHTML = Array.from({ length: lines.length }, () => `<span class="block-code__line"></span>`).join('')
 
-      preElement.classList.add('block-code', 'font-theme', 'font-theme--code')
-      preElement.innerHTML = `
+    preElement.classList.add('block-code', 'font-theme', 'font-theme--code')
+    preElement.innerHTML = `
         <span class="block-code__inner " tabindex="0">
           ${linesBlock.outerHTML}
           <code class="block-code__original">${originalSplittedContent}</code>
@@ -80,12 +71,10 @@ module.exports = function(window) {
           </button>
         </span>
       `
-    })
+  })
 
-  articleContent
-    ?.querySelectorAll('pre:not([data-lang])')
-    ?.forEach(preElement => {
-      preElement.classList.add('format-block', 'font-theme', 'font-theme--code')
-      preElement.setAttribute('tabindex', 0)
-    })
+  articleContent?.querySelectorAll('pre:not([data-lang])')?.forEach((preElement) => {
+    preElement.classList.add('format-block', 'font-theme', 'font-theme--code')
+    preElement.setAttribute('tabindex', 0)
+  })
 }
