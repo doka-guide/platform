@@ -11,13 +11,13 @@ class ButtonGroup extends BaseComponent {
     rootElement,
     childsSelector,
     childActiveClass,
-    answerCondition = (activeButton) => activeButton.type !== 'button'
+    answerCondition = (activeButton) => activeButton.type !== 'button',
   }) {
     super()
 
     const buttons = rootElement?.querySelectorAll(childsSelector)
 
-    rootElement.addEventListener('click', event => {
+    rootElement.addEventListener('click', (event) => {
       const activeButton = event.target.closest(childsSelector)
 
       if (!activeButton) {
@@ -38,7 +38,7 @@ class ButtonGroup extends BaseComponent {
 class DetailedAnswer extends BaseComponent {
   static get EVENTS() {
     return {
-      ANSWER: 'answer'
+      ANSWER: 'answer',
     }
   }
 
@@ -56,14 +56,12 @@ class DetailedAnswer extends BaseComponent {
       if (text.length >= DetailedAnswer.TEXT_THRESHOLD) {
         this.emit(DetailedAnswer.EVENTS.ANSWER, text)
       }
-    });
-
-    ['keydown', 'keyup'].forEach(eventType => {
-      this.textarea.addEventListener(eventType, event => {
+    })
+    ;['keydown', 'keyup'].forEach((eventType) => {
+      this.textarea.addEventListener(eventType, (event) => {
         event.stopPropagation()
       })
     })
-
   }
 
   focus() {
@@ -87,8 +85,8 @@ function init() {
 
   function getToken() {
     return fetch('/api.json')
-      .then(resp => resp.json())
-      .then(access => {
+      .then((resp) => resp.json())
+      .then((access) => {
         return access.token
       })
   }
@@ -97,23 +95,23 @@ function init() {
     const body = JSON.stringify({
       type: 'feedback',
       data: JSON.stringify(formData),
-      author_id: 1
+      author_id: 1,
     })
     const url = 'https://api.doka.guide/form'
 
     return getToken()
-      .then(token => {
+      .then((token) => {
         return fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
-            Authorization: token
+            Authorization: token,
           },
-          body
+          body,
         })
       })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw response
         }
@@ -123,7 +121,7 @@ function init() {
   }
 
   const detailedAnswer = new DetailedAnswer({
-    rootElement: textControl
+    rootElement: textControl,
   })
 
   detailedAnswer.on(DetailedAnswer.EVENTS.ANSWER, () => {
@@ -139,12 +137,16 @@ function init() {
     childActiveClass: 'vote--active',
   })
 
-  voteButtonGroup.on(ButtonGroup.EVENTS.ANSWER, () => {
-    setTimeout(() => {
-      voteDownButton.disabled = true
-      reasonFieldset.disabled = true
-    })
-  }, { once: true })
+  voteButtonGroup.on(
+    ButtonGroup.EVENTS.ANSWER,
+    () => {
+      setTimeout(() => {
+        voteDownButton.disabled = true
+        reasonFieldset.disabled = true
+      })
+    },
+    { once: true }
+  )
 
   voteButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
     reasonFieldset.hidden = false
@@ -156,20 +158,24 @@ function init() {
     childActiveClass: 'button--active',
   })
 
-  reasonsButtonGroup.on(ButtonGroup.EVENTS.ANSWER, () => {
-    setTimeout(() => {
-      reasonFieldset.disabled = true
-      voteUpButton.disabled = true
-      textControl.hidden = true
-    })
-  }, { once: true })
+  reasonsButtonGroup.on(
+    ButtonGroup.EVENTS.ANSWER,
+    () => {
+      setTimeout(() => {
+        reasonFieldset.disabled = true
+        voteUpButton.disabled = true
+        textControl.hidden = true
+      })
+    },
+    { once: true }
+  )
 
   reasonsButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
     textControl.hidden = false
     detailedAnswer.focus()
   })
 
-  form.addEventListener('submit', event => {
+  form.addEventListener('submit', (event) => {
     event.preventDefault()
 
     if (isSending) {
@@ -179,7 +185,7 @@ function init() {
     const formData = new FormData(form)
     const answer = formData.get('answer') || event.submitter?.value
 
-    if (!(answer && answer.length >= DetailedAnswer.TEXT_THRESHOLD) ) {
+    if (!(answer && answer.length >= DetailedAnswer.TEXT_THRESHOLD)) {
       return
     }
 
@@ -187,12 +193,12 @@ function init() {
 
     sendForm({
       answer,
-      article_id: window.location.pathname
+      article_id: window.location.pathname,
     })
       .then(() => {
         form.dataset.state = 'success'
       })
-      .catch(error => {
+      .catch((error) => {
         form.dataset.state = 'error'
         console.error(error)
       })

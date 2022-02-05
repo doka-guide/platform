@@ -19,7 +19,7 @@ function init() {
   let lastItemIndex = pageSize
 
   function loadItems() {
-    items.slice(lastItemIndex, lastItemIndex + pageSize).forEach(item => {
+    items.slice(lastItemIndex, lastItemIndex + pageSize).forEach((item) => {
       item.classList.add(activeClass)
     })
 

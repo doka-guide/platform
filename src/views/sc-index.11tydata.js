@@ -3,46 +3,45 @@ const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 const letterOnlyRegExp = /[a-zа-яё]/i
 
 module.exports = {
-
   pagination: {
     data: 'collections.articleIndexes',
     size: 1,
-    alias: 'articleIndex'
+    alias: 'articleIndex',
   },
 
   permalink: '/{{ articleIndex.fileSlug }}/index.sc.html',
 
   eleventyComputed: {
-    category: function(data) {
+    category: function (data) {
       const { articleIndex } = data
       return articleIndex.fileSlug
     },
 
-    categoryName: function(data) {
+    categoryName: function (data) {
       const { articleIndex } = data
       return articleIndex.data.name
     },
 
-    documentTitle: function(data) {
+    documentTitle: function (data) {
       return titleFormatter([data.categoryName, 'Дока'])
     },
 
-    categoryLink: function(data) {
+    categoryLink: function (data) {
       const { category } = data
       return `/${category}/`
     },
 
-    groups: function(data) {
+    groups: function (data) {
       const { articleIndex } = data
       return articleIndex.data.groups
     },
 
-    categoryArticles: function(data) {
+    categoryArticles: function (data) {
       const { collections, category } = data
       return collections[category]
     },
 
-    categoryArticlesByAlphabet: function(data) {
+    categoryArticlesByAlphabet: function (data) {
       const { categoryArticles } = data
       return categoryArticles?.reduce?.((map, article) => {
         const { title } = article.data
@@ -61,9 +60,9 @@ module.exports = {
       }, {})
     },
 
-    firstLettersOfArticles: function(data) {
+    firstLettersOfArticles: function (data) {
       const { categoryArticlesByAlphabet = {} } = data
       return Object.keys(categoryArticlesByAlphabet).sort()
-    }
-  }
+    },
+  },
 }

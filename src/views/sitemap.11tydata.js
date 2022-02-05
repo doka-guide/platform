@@ -6,22 +6,19 @@ module.exports = {
   eleventyExcludeFromCollections: true,
 
   eleventyComputed: {
-    pages: function(data) {
+    pages: function (data) {
       const { collections } = data
 
-      const collectionsItems = [
-        ...collections['pages'],
-        ...collections['docs'],
-      ].map(item => {
+      const collectionsItems = [...collections['pages'], ...collections['docs']].map((item) => {
         const pathName = item.filePathStem.replace('index', '')
         const url = `${baseUrl}${pathName}`
 
         const dateField = item.data.updatedAt || item.data.createdAt
-        const date = dateField ? new Date(dateField) : (item.data.page.date || new Date())
+        const date = dateField ? new Date(dateField) : item.data.page.date || new Date()
 
         return {
           url,
-          date
+          date,
         }
       })
 
@@ -29,19 +26,16 @@ module.exports = {
         // главная страница
         {
           url: `${baseUrl}/`,
-          date: new Date()
+          date: new Date(),
         },
         // страница с индексами категорий
-        ...mainSections.map(section => ({
+        ...mainSections.map((section) => ({
           url: `${baseUrl}/${section}/`,
-          date: new Date()
-        }))
+          date: new Date(),
+        })),
       ]
 
-      return [
-        ...standalonePages,
-        ...collectionsItems
-      ]
-    }
+      return [...standalonePages, ...collectionsItems]
+    },
   },
 }
