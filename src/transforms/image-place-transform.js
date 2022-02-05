@@ -37,15 +37,12 @@ module.exports = function (window) {
 
       const figCaption = window.document.createElement('figcaption')
       figCaption.innerHTML = fragments
-        .map(fragment => fragment.nodeType === Node.TEXT_NODE
-          ? fragment.textContent
-          : fragment.outerHTML
-        )
+        .map((fragment) => (fragment.nodeType === Node.TEXT_NODE ? fragment.textContent : fragment.outerHTML))
         .join('')
 
       figure.appendChild(figCaption)
       element.replaceWith(figure)
-  })
+    })
 
   articleContent.querySelectorAll('figure').forEach((figureElement) => {
     figureElement.classList.add('figure')
