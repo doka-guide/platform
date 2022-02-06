@@ -1,5 +1,5 @@
 function breakify(content) {
-  const symbols = ['.', ',', '-', '_', '=', ';', ':', '~', '/', '\\', '?', '#', '%', '(', ')', '[', ']']
+  const symbols = ['.', ',', '-', '_', '=', ':', '~', '/', '\\', '?', '#', '%', '(', ')', '[', ']']
 
   for (const symbol of symbols) {
     content = content.replaceAll(symbol, (match) => `<wbr>${match}<wbr>`)
