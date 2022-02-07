@@ -2,9 +2,9 @@ const fs = require('fs')
 const path = require('path')
 const readline = require('readline')
 
-const { defaultPathToContent, contentRepFolders } = require("./config/constants.js")
+const { defaultPathToContent, contentRepFolders } = require('./config/constants.js')
 
-const SYMLINKS_DEST = contentRepFolders.map(folder => path.join('src', folder))
+const SYMLINKS_DEST = contentRepFolders.map((folder) => path.join('src', folder))
 
 const existingSymlinks = SYMLINKS_DEST.filter((dest) => {
   try {
@@ -44,15 +44,18 @@ if (process.argv[2] === '--default') {
 } else {
   const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
   })
 
-  rl.question(`Укажите путь к репозиторию с контентом (нажмите Enter, если это '${defaultPathToContent}'):`, (answer) => {
-    contentPath = answer.trim() || defaultPathToContent
-    if (!path.isAbsolute(contentPath)) {
-      contentPath = path.relative('src', contentPath)
+  rl.question(
+    `Укажите путь к репозиторию с контентом (нажмите Enter, если это '${defaultPathToContent}'):`,
+    (answer) => {
+      contentPath = answer.trim() || defaultPathToContent
+      if (!path.isAbsolute(contentPath)) {
+        contentPath = path.relative('src', contentPath)
+      }
+      createLinks(contentPath)
+      rl.close()
     }
-    createLinks(contentPath)
-    rl.close()
-  })
+  )
 }

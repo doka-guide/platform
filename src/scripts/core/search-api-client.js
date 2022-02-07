@@ -8,17 +8,13 @@ class SearchAPIClient {
       analytics: true,
       enableABTest: false,
       hitsPerPage: HIT_COUNT,
-      attributesToRetrieve: "*",
-      attributesToSnippet: "*:20",
+      attributesToRetrieve: '*',
+      attributesToSnippet: '*:20',
       snippetEllipsisText: DELIMITER,
-      responseFields: "*",
-      explain: "*",
+      responseFields: '*',
+      explain: '*',
       maxValuesPerFacet: MAX_VALUES_PER_FACET,
-      facets: [
-        "*",
-        "category",
-        "tags"
-      ],
+      facets: ['*', 'category', 'tags'],
     }
   }
 

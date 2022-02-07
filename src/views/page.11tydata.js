@@ -7,17 +7,17 @@ module.exports = {
     alias: 'pageObject',
   },
 
-  permalink: "{{ (pageObject.data.location or pageObject.fileSlug) | slugify }}/index.html",
+  permalink: '{{ (pageObject.data.location or pageObject.fileSlug) | slugify }}/index.html',
 
   eleventyComputed: {
-    title: function(data) {
+    title: function (data) {
       const { pageObject } = data
       return pageObject.data.title
     },
 
-    description: function(data) {
+    description: function (data) {
       const { pageObject } = data
       return pageObject.data.description
-    }
-  }
+    },
+  },
 }

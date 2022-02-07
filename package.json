@@ -30,12 +30,12 @@
     "eslint": "eslint '**/*.js'",
     "test": "npm run editorconfig && npm run stylelint && npm run eslint"
   },
-  "lint-staged": {
+  "nano-staged": {
     "*.js": "eslint --cache --fix",
     "*.css": "stylelint --fix"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged",
+    "pre-commit": "npx nano-staged",
     "preserveUnused": true
   },
   "devDependencies": {
@@ -49,6 +49,8 @@
     "emoji-regex": "^10.0.0",
     "esbuild": "^0.14.11",
     "eslint": "^8.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "gray-matter": "^4.0.3",
     "gulp": "^4.0.2",
     "gulp-esbuild": "^0.10.0",
@@ -59,11 +61,12 @@
     "gulp-shell": "^0.8.0",
     "htmlnano": "^1.1.1",
     "linkedom": "^0.13.0",
-    "lint-staged": "^11.2.3",
     "markdown-it": "^12.2.0",
+    "nano-staged": "^0.5.0",
     "postcss": "^8.3.9",
     "postcss-csso": "^6.0.0",
     "postcss-import": "^14.0.2",
+    "prettier": "^2.5.1",
     "prismjs": "^1.25.0",
     "puppeteer": "^13.0.1",
     "sharp": "^0.29.3",

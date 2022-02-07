@@ -58,17 +58,15 @@ export const SEARCHABLE_SHORT_WORDS = new Set([
 ])
 
 export function processHits(searchObject) {
-  return searchObject.hits
-    .map(articleObject => {
-      const { title, content } = articleObject._snippetResult
-      return {
-        title: title.value,
-        summary: content
-          .filter(item => item.matchLevel !== 'none')
-          .map(item => item.value),
-        url: `/${articleObject.objectID}`,
-        category: articleObject.category,
-        tags: articleObject.tags
-      }
-    })
+  return searchObject.hits.map((articleObject) => {
+    const { title, content } = articleObject._snippetResult
+    return {
+      originalTitle: articleObject.title,
+      title: title.value,
+      summary: content.filter((item) => item.matchLevel !== 'none').map((item) => item.value),
+      url: `/${articleObject.objectID}`,
+      category: articleObject.category,
+      tags: articleObject.tags,
+    }
+  })
 }

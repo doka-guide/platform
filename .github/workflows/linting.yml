@@ -15,6 +15,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
+      - name: Установка необходимых зависимостей
+        run: npm install --save-dev eslint-config-prettier eslint-plugin-prettier prettier
+
       - name: Проверка линтером JS
         run: npx eslint '*.js'
   css:

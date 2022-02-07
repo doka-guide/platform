@@ -9,43 +9,43 @@ module.exports = {
   featuredArticlesMaxCount: 12,
 
   eleventyComputed: {
-    documentTitle: function(data) {
+    documentTitle: function (data) {
       return titleFormatter([data.title, 'Дока'])
     },
 
-    socialTitle: function(data) {
+    socialTitle: function (data) {
       const { documentTitle } = data
       return documentTitle
     },
 
-    documentDescription: function(data) {
+    documentDescription: function (data) {
       const { documentDescription, description } = data
       return documentDescription || description
     },
 
-    hasCategory: function(data) {
-      return !!(data.categoryName)
+    hasCategory: function (data) {
+      return !!data.categoryName
     },
 
     baseUrl,
 
-    pageUrl: function(data) {
+    pageUrl: function (data) {
       return data.page.url
     },
 
-    fullPageUrl: function(data) {
+    fullPageUrl: function (data) {
       return data.baseUrl + data.pageUrl
     },
 
-    defaultOpenGraphPath: function(data) {
+    defaultOpenGraphPath: function (data) {
       return data.fullPageUrl + 'images/covers/og.png'
     },
 
-    defaultTwitterPath: function(data) {
+    defaultTwitterPath: function (data) {
       return data.fullPageUrl + 'images/covers/twitter.png'
     },
 
-    featuredArticles: async function(data) {
+    featuredArticles: async function (data) {
       const { featuredArticlesMaxCount } = data
       const { docsById } = data.collections
 
@@ -55,7 +55,7 @@ module.exports = {
 
       const pathToFeaturedSettingsFile = path.join('src', 'settings', 'featured.md')
       const fileContent = await fsp.readFile(pathToFeaturedSettingsFile, {
-        encoding: 'utf-8'
+        encoding: 'utf-8',
       })
       const frontMatterInfo = frontMatter(fileContent)
       const featuredArticlesIds = frontMatterInfo?.data?.active
@@ -66,8 +66,8 @@ module.exports = {
 
       return featuredArticlesIds
         .slice(0, featuredArticlesMaxCount)
-        .map(id => docsById[id])
-        .map(article => {
+        .map((id) => docsById[id])
+        .map((article) => {
           const section = article.filePathStem.split('/')[1]
 
           return {
@@ -84,9 +84,9 @@ module.exports = {
         })
     },
 
-    themeColor: function(data) {
+    themeColor: function (data) {
       const { category } = data
       return categoryColors[category || 'default']
-    }
+    },
   },
 }

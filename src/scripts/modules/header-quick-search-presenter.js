@@ -34,9 +34,10 @@ async function init() {
 
     quickSearch.openSuggestion()
 
-    searchClient.search(queryText)
+    searchClient
+      .search(queryText)
       .then((searchObject) => {
-        const processedHits = processHits(searchObject).map(hitObject => ({
+        const processedHits = processHits(searchObject).map((hitObject) => ({
           ...hitObject,
           title: escape(hitObject.title),
         }))

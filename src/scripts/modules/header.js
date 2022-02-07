@@ -20,13 +20,13 @@ class Header extends BaseComponent {
       headerHeight: null,
       fixedHeaderHeight: null,
       lastScroll: 0,
-      getScrollThreshold: window.innerHeight
+      getScrollThreshold: window.innerHeight,
     }
 
     const scrollThresholdConditions = [
       {
         condition: () => !!document.querySelector('.article'),
-        getter: () => this.state.headerHeight + document.querySelector('.article__header').offsetHeight
+        getter: () => this.state.headerHeight + document.querySelector('.article__header').offsetHeight,
       },
       {
         condition: () => !!document.querySelector('.index-block'),
@@ -35,16 +35,16 @@ class Header extends BaseComponent {
             ? 0
             : document.querySelector('.index-block__header').offsetHeight
           return this.state.headerHeight + additionalHeight
-        }
+        },
       },
       {
         condition: () => !!document.querySelector('.standalone-page'),
-        getter: () => this.state.headerHeight + document.querySelector('.standalone-page__header').offsetHeight
+        getter: () => this.state.headerHeight + document.querySelector('.standalone-page__header').offsetHeight,
       },
       {
         condition: () => true,
-        getter: () => window.innerHeight
-      }
+        getter: () => window.innerHeight,
+      },
     ]
 
     for (const { condition, getter } of scrollThresholdConditions) {
@@ -54,17 +54,11 @@ class Header extends BaseComponent {
       }
     }
 
-    [
-      'openOnKeyUp',
-      'closeOnKeyUp',
-      'closeOnClickOutSide',
-      'openMenu',
-      'closeMenu',
-      'fixHeader',
-      'checkFixed'
-    ].forEach(method => {
-      this[method] = this[method].bind(this)
-    })
+    ;['openOnKeyUp', 'closeOnKeyUp', 'closeOnClickOutSide', 'openMenu', 'closeMenu', 'fixHeader', 'checkFixed'].forEach(
+      (method) => {
+        this[method] = this[method].bind(this)
+      }
+    )
 
     const resizeCallback = () => {
       this.calculateHeaderHeight()
@@ -78,7 +72,7 @@ class Header extends BaseComponent {
     resizeCallback()
 
     if (this.isClosableHeader) {
-      this.refs.toggleButtons.forEach(button => {
+      this.refs.toggleButtons.forEach((button) => {
         button.addEventListener('click', () => {
           this.isMenuOpen ? this.closeMenu() : this.openMenu()
         })
@@ -98,10 +92,9 @@ class Header extends BaseComponent {
   get isClosableHeader() {
     const header = this.refs.rootElement
 
-    return [
-      !header.classList.contains('header--static'),
-      !header.classList.contains('search-page__header')
-    ].every(Boolean)
+    return [!header.classList.contains('header--static'), !header.classList.contains('search-page__header')].every(
+      Boolean
+    )
   }
 
   get isMenuOpen() {
@@ -166,7 +159,6 @@ class Header extends BaseComponent {
     document.addEventListener('keyup', this.openOnKeyUp)
 
     this.emit('menu.close')
-
   }
 
   // методы для плавного появления/скрытия шапки
@@ -174,12 +166,16 @@ class Header extends BaseComponent {
     const { rootElement: header } = this.refs
     const classes = ['header--animating', 'header--fixed-show']
 
-    header.addEventListener('animationend', event => {
-      if (event.animationName !== headerAnimationName) {
-        return
-      }
-      header.classList.remove(...classes)
-    }, { once: true })
+    header.addEventListener(
+      'animationend',
+      (event) => {
+        if (event.animationName !== headerAnimationName) {
+          return
+        }
+        header.classList.remove(...classes)
+      },
+      { once: true }
+    )
 
     this.fixHeader(true)
     header.classList.add(...classes)
@@ -190,13 +186,17 @@ class Header extends BaseComponent {
     const { rootElement: header } = this.refs
     const classes = ['header--animating', 'header--fixed-hide']
 
-    header.addEventListener('animationend', event => {
-      if (event.animationName !== headerAnimationName) {
-        return
-      }
-      this.fixHeader(false)
-      header.classList.remove(...classes)
-    }, { once: true })
+    header.addEventListener(
+      'animationend',
+      (event) => {
+        if (event.animationName !== headerAnimationName) {
+          return
+        }
+        this.fixHeader(false)
+        header.classList.remove(...classes)
+      },
+      { once: true }
+    )
 
     header.classList.add(...classes)
     this.emit('unfixed')
@@ -242,5 +242,5 @@ class Header extends BaseComponent {
 }
 
 export default new Header({
-  rootElement: document.querySelector('.header')
+  rootElement: document.querySelector('.header'),
 })
