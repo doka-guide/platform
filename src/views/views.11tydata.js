@@ -88,5 +88,16 @@ module.exports = {
       const { category } = data
       return categoryColors[category || 'default']
     },
+
+    logoLetters: function (data) {
+      const { pageUrl } = data
+
+      switch (pageUrl) {
+        case '/licenses/':
+          return 'U©ᴥ©U'
+        default:
+          return null
+      }
+    },
   },
 }
