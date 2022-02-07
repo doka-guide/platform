@@ -122,6 +122,7 @@ module.exports = function (config) {
 
         const allArticlesIds = categoryArticles.map?.((article) => article.fileSlug)
         const indexArticlesIds = groups.flatMap?.((group) => group.items)
+        // статьи для блока "остальное" (не попали в индекс)
         const restArticles = allArticlesIds?.filter((articleId) => !indexArticlesIds.includes(articleId))
 
         const allGroups = [
