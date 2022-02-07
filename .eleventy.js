@@ -110,6 +110,7 @@ module.exports = function (config) {
 
     const orderedArticleIndexes = visualOrder.map((sectionId) => indexesMap[sectionId])
 
+    // добавляем как дополнительное свойство к коллекции, чтобы не создавать новую и не дублировать логику получения данных
     Object.defineProperty(orderedArticleIndexes, 'allGroupsByCategory', {
       value: {},
       enumerable: false,
@@ -152,7 +153,6 @@ module.exports = function (config) {
         return accumulator
       }, {})
 
-    // добавляем как дополнительное свойство к коллекции, чтобы не создавать новую и не дублировать логику получения данных
     Object.defineProperty(orderedArticleIndexes, 'linkedArticles', {
       value: linkedArticles,
       enumerable: false,
