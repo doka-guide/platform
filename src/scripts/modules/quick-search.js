@@ -206,15 +206,15 @@ class QuickSearch extends BaseComponent {
         ? `Ничего не найдено`
         : hitObjectList
             .map((hitObject) => {
-              const title = hitObject.title.replace(
+              const title = hitObject.originalTitle.replace(
                 /`(.*?)`/g,
                 '<code class="suggestion-list__code font-theme font-theme--code">$1</code>'
               )
               return `
-            <li class="suggestion-list__item" style="--accent-color: var(--color-${hitObject.category});">
-              <a class="suggestion-list__link link" href="${hitObject.url}">${title}</a>
-            </li>
-          `
+                <li class="suggestion-list__item" style="--accent-color: var(--color-${hitObject.category});">
+                  <a class="suggestion-list__link link" href="${hitObject.url}">${title}</a>
+                </li>
+              `
             })
             .join('')
 
