@@ -74,6 +74,7 @@
   letter-spacing: var(--logo-letter-spacing);
   text-decoration: none;
   transition: opacity 0.2s;
+  transform: translateZ(0); /* для устранения скачков в Safari */
 }
 
 .logo__symbols--main {
