@@ -12,21 +12,76 @@
 }
 
 .logo__image {
+  --is-animation: 0;
   align-self: center;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
   box-sizing: border-box;
   padding: var(--image-padding);
   display: inline-grid;
   place-items: center;
   background-color: var(--logo-background-color);
   border-radius: 2em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.logo__image::before {
+  --colors:
+    var(--color-html),
+    var(--color-html),
+    var(--color-css),
+    var(--color-js),
+    var(--color-svg),
+    var(--color-tools),
+    var(--color-html),
+    var(--color-html);
+  --parts: 7;
+  content: '';
+  opacity: var(--is-animation);
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(var(--parts) * 100%);
+  background-image: linear-gradient(var(--colors));
+  transition: opacity 0.5s;
+}
+
+.logo__image--animation {
+  --is-animation: 1;
+}
+
+@keyframes logoAnimation {
+  to {
+    transform:
+      translateY(-100%)
+      translateY(calc(100% / (var(--parts) - 1)));
+  }
+}
+
+.logo__image--animation::before {
+  animation: logoAnimation 1.75s linear infinite both;
 }
 
 .logo__symbols {
+  grid-area: 1 / 1 / -1 / -1;
   margin-right: calc(var(--logo-letter-spacing) * -1);
   font-size: var(--image-font-size);
   line-height: 1;
   letter-spacing: var(--logo-letter-spacing);
   text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.logo__symbols--main {
+  opacity: calc(1 - var(--is-animation));
+}
+
+.logo__symbols--search {
+  opacity: var(--is-animation);
 }
 
 .logo__eye {

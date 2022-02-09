@@ -2,6 +2,7 @@ import debounce from '../libs/debounce.js'
 import searchClient from '../core/search-api-client.js'
 import BaseComponent from '../core/base-component.js'
 import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
+import logo from '../modules/logo.js'
 
 class Filter extends BaseComponent {
   constructor({ form }) {
@@ -208,6 +209,8 @@ function init() {
 
   function makeSearchEffect(queryText, filters) {
     if (queryText.length >= MIN_SEARCH_SYMBOLS || SEARCHABLE_SHORT_WORDS.has(queryText)) {
+      logo.startAnimation()
+
       searchClient
         .search(queryText, {
           facetFilters: filters,
@@ -224,6 +227,9 @@ function init() {
         })
         .catch((error) => {
           console.error(error)
+        })
+        .finally(() => {
+          logo.endAnimation()
         })
     } else {
       searchResultOutput.clear()
