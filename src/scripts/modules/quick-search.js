@@ -41,7 +41,7 @@ class QuickSearch extends BaseComponent {
         event.preventDefault()
       }
 
-      if (this.state.highlightedIndex >= 0) {
+      if (this.state.highlightedIndex >= 0 && this.isSuggestionOpen) {
         event.preventDefault()
       }
     })
