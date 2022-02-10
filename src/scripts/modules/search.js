@@ -105,13 +105,10 @@ class SearchResultOutput extends BaseComponent {
       hit: (hitObject) => {
         const editIcon = SearchResultOutput.isPlaceholder(hitObject) ? SearchResultOutput.templates.placeholderIcon : ''
         const title = SearchResultOutput.replaceBackticks(hitObject.title, SearchResultOutput.templates.titleCode)
-        const summary = SearchResultOutput.replaceBackticks(
-          hitObject.summary
-            .slice(0, SearchResultOutput.matchedItems)
-            .map((item) => SearchResultOutput.templates.summaryItem(item))
-            .join(''),
-          SearchResultOutput.templates.textCode
-        )
+        const summary = hitObject.summary
+          .slice(0, SearchResultOutput.matchedItems)
+          .map((item) => SearchResultOutput.templates.summaryItem(item))
+          .join('')
 
         return `
           <article class="search-hit" style="--accent-color: var(--color-base-${hitObject.category})">
