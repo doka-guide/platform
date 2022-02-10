@@ -8,6 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PATH_TO_CONTENT: ./content
     steps:
       - name: Загрузка платформы
         uses: actions/checkout@v2
@@ -40,7 +43,6 @@ jobs:
         run: npm ci
       - name: Сборка сайта
         run: |
-          node make-links.js --default
           npm run build
       - name: Генерация карточек для социальных сетей
         run: npx gulp socialCards
