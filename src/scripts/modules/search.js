@@ -1,8 +1,7 @@
-import { escape } from '/html-escaper/esm/index.js'
 import debounce from '../libs/debounce.js'
 import searchClient from '../core/search-api-client.js'
 import BaseComponent from '../core/base-component.js'
-import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, DELIMITER, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
+import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
 
 class Filter extends BaseComponent {
   constructor({ form }) {
@@ -11,8 +10,8 @@ class Filter extends BaseComponent {
     this.refs = { form }
 
     Array.from(form.elements)
-      .filter(element => !!element.name)
-      .forEach(element => {
+      .filter((element) => !!element.name)
+      .forEach((element) => {
         element.addEventListener('input', this)
       })
 
@@ -54,7 +53,7 @@ class Filter extends BaseComponent {
         case 'tag':
         case 'category': {
           const elements = Array.from(form.elements[name])
-          const element = elements.find(element => element.value === value)
+          const element = elements.find((element) => element.value === value)
           element.checked = true
           break
         }
@@ -81,6 +80,10 @@ class Filter extends BaseComponent {
 }
 
 class SearchResultOutput extends BaseComponent {
+  static get matchedItems() {
+    return 3
+  }
+
   static isPlaceholder(hitObject) {
     return hitObject.tags.includes('placeholder')
   }
@@ -89,66 +92,26 @@ class SearchResultOutput extends BaseComponent {
     return text.replace(/`(.*?)`/g, replaceTemplate)
   }
 
-  static markQuery(text, query) {
-    const searchRegEx = new RegExp(query, 'gi')
-    return text.replace(searchRegEx, match => SearchResultOutput.templates.mark(match))
-  }
-
-  static adjustTextMatch(text, index, query, limit) {
-    if ((index - query.length / 2 > limit / 2) && (text.length - index + query.length / 2 <= limit / 2)) {
-      return `${DELIMITER}${text.substring(index - limit / 2 - query.length / 2, text.length).trim()}`
-    } else if ((index - query.length / 2 <= limit / 2) && (text.length - index + query.length / 2 > limit / 2)) {
-      return `${text.substring(0, index + query.length / 2 + limit / 2).trim()}${DELIMITER}`
-    } else {
-      return `${DELIMITER}${text.substring(index - limit / 2 - query.length / 2, index + limit / 2 + query.length / 2).trim()}${DELIMITER}`
-    }
-  }
-
-  static adjustTextSize(text, query, limit) {
-    if (text.length <= limit) {
-      return text
-    } else {
-      const searchRegEx = new RegExp(query, 'gi')
-      const result = text.matchAll(searchRegEx)
-      if (result && result.length === 1) {
-          return SearchResultOutput.adjustTextMatch(text, result.index, result[0], limit)
-      } else if (result && result.length > 1) {
-        let output = SearchResultOutput.adjustTextMatch(text, result[0].index, result[0], limit)
-        for (let i = 1; i < result.length; i++) {
-          const t = text.substring(result[i - 1].index, result[i - 1].index + limit + result[i].length)
-          output += `${DELIMITER}${SearchResultOutput.adjustTextMatch(t, result[i].index, result[i], limit)}`
-        }
-        return output
-      } else {
-        return `${text.substring(0, limit).trim()}${DELIMITER}`
-      }
-    }
-  }
-
   static get templates() {
     return {
-      mark: (match) => `<mark class="search-hit__marked">${match}</mark>`,
+      summaryItem: (item) => `<p class="search-hit__summary-item">${item}</p>`,
 
-      hit: (hitObject, query, limit) => {
-        const editIcon = SearchResultOutput.isPlaceholder(hitObject)
-          ? '<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>'
-          : ''
-        const title =
-        SearchResultOutput.replaceBackticks(
-          SearchResultOutput.markQuery(
-              escape(hitObject.title),
-              query
-            ),
-            '<code class="search-hit__link-code code-fix font-theme font-theme--code">$1</code>'
-          )
-        const summary =
-        SearchResultOutput.replaceBackticks(
-          SearchResultOutput.markQuery(
-              escape(SearchResultOutput.adjustTextSize(hitObject.summary, query, limit)),
-              query
-            ),
-            '<code class="search-hit__text-code code-fix font-theme font-theme--code">$1</code>'
-          )
+      titleCode: `<code class="search-hit__link-code code-fix font-theme font-theme--code">$1</code>`,
+
+      textCode: `<code class="search-hit__text-code code-fix font-theme font-theme--code">$1</code>`,
+
+      placeholderIcon: `<span class="search-hit__edit font-theme font-theme--code" aria-hidden="true"></span>`,
+
+      hit: (hitObject) => {
+        const editIcon = SearchResultOutput.isPlaceholder(hitObject) ? SearchResultOutput.templates.placeholderIcon : ''
+        const title = SearchResultOutput.replaceBackticks(hitObject.title, SearchResultOutput.templates.titleCode)
+        const summary = SearchResultOutput.replaceBackticks(
+          hitObject.summary
+            .slice(0, SearchResultOutput.matchedItems)
+            .map((item) => SearchResultOutput.templates.summaryItem(item))
+            .join(''),
+          SearchResultOutput.templates.textCode
+        )
 
         return `
           <article class="search-hit" style="--accent-color: var(--color-base-${hitObject.category})">
@@ -164,16 +127,17 @@ class SearchResultOutput extends BaseComponent {
         `
       },
 
-      hits: (list, query, limit) => `
+      hits: (list) => `
         <ol class="search-result-list base-list">
-          ${
-            list.map(hitObject => `
+          ${list
+            .map(
+              (hitObject) => `
               <li class="search-result-list__item">
-                ${SearchResultOutput.templates.hit(hitObject, query, limit)}
+                ${SearchResultOutput.templates.hit(hitObject)}
               </li>
-            `)
-            .join('')
-          }
+            `
+            )
+            .join('')}
         </ol>
       `,
 
@@ -186,16 +150,17 @@ class SearchResultOutput extends BaseComponent {
   constructor({ element }) {
     super()
     this.refs = {
-      element
+      element,
     }
   }
 
   renderHits(hitObjectList, queryText, SYMBOL_LIMIT) {
     const { element } = this.refs
 
-    const result = (!hitObjectList || hitObjectList.length === 0)
-      ? SearchResultOutput.templates.emptyResults()
-      : SearchResultOutput.templates.hits(hitObjectList, queryText, SYMBOL_LIMIT)
+    const result =
+      !hitObjectList || hitObjectList.length === 0
+        ? SearchResultOutput.templates.emptyResults()
+        : SearchResultOutput.templates.hits(hitObjectList, queryText, SYMBOL_LIMIT)
 
     element.innerHTML = result
   }
@@ -216,19 +181,19 @@ function init() {
   const searchHits = document.querySelector(SEARCH_HITS_SELECTOR)
 
   const filter = new Filter({
-    form: searchForm
+    form: searchForm,
   })
   filter.state = new URLSearchParams(location.search)
 
   const searchResultOutput = new SearchResultOutput({
-    element: searchHits
+    element: searchHits,
   })
 
   // преобразует состояние фильтров в понятный для Algolia формат
   function prepareFilters(filtersState) {
     const result = [
-      [...filtersState.getAll('category')].map(value => `category:${value}`),
-      [...filtersState.getAll('tag')].map(value => `tags:${value}`)
+      [...filtersState.getAll('category')].map((value) => `category:${value}`),
+      [...filtersState.getAll('tag')].map((value) => `tags:${value}`),
     ]
 
     return result
@@ -236,23 +201,30 @@ function init() {
 
   // сериализует состояние фильтров в формат Search Params
   function filtersToSearchParams(filtersState, fallbackPath) {
-    let searchString = (new URLSearchParams(filtersState)).toString()
-    searchString = searchString ? ('?' + searchString) : fallbackPath
+    let searchString = new URLSearchParams(filtersState).toString()
+    searchString = searchString ? '?' + searchString : fallbackPath
     return searchString
   }
 
   function makeSearchEffect(queryText, filters) {
     if (queryText.length >= MIN_SEARCH_SYMBOLS || SEARCHABLE_SHORT_WORDS.has(queryText)) {
-      searchClient.search(queryText, {
-        facetFilters: filters
-      })
-      .then(function(searchObject) {
-        const processedHits = processHits(searchObject)
-        searchResultOutput.renderHits(processedHits, queryText, SYMBOL_LIMIT)
-      })
-      .catch(error => {
-        console.error(error)
-      })
+      searchClient
+        .search(queryText, {
+          facetFilters: filters,
+          attributesToSnippet: [
+            'title:100', // делаем большое количество слов, чтобы весь заголовок поместился в сниппет
+            'content:20',
+          ],
+          highlightPreTag: '<mark class="search-hit__marked">',
+          highlightPostTag: '</mark>',
+        })
+        .then(function (searchObject) {
+          const processedHits = processHits(searchObject)
+          searchResultOutput.renderHits(processedHits, queryText, SYMBOL_LIMIT)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     } else {
       searchResultOutput.clear()
     }
@@ -277,7 +249,7 @@ function init() {
   function assignSearchField() {
     searchField.focus()
 
-    searchForm.addEventListener('submit', event => {
+    searchForm.addEventListener('submit', (event) => {
       event.preventDefault()
     })
 

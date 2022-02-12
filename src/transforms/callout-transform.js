@@ -10,11 +10,11 @@ const calloutTemplate = (icon, content) => `
 /**
  * @param {Window} window
  */
-module.exports = function(window) {
+module.exports = function (window) {
   window.document
     .querySelector('.article__content-inner')
     ?.querySelectorAll('aside:not([class])')
-    ?.forEach(asideElement => {
+    ?.forEach((asideElement) => {
       let icon
       let textContent = asideElement.textContent.trim()
       let innerHTML = asideElement.innerHTML

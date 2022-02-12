@@ -9,52 +9,50 @@ const { getAuthorsContributionWithCache } = require('../libs/github-contribution
 const { contentRepLink } = require('../../config/constants')
 
 function isExternalURL(url) {
-  return url.startsWith('http://')
-    || url.startsWith('https://')
-    || url.startsWith('//')
+  return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')
 }
 
 module.exports = {
   featuredArticlesMaxCount: 12,
 
   eleventyComputed: {
-    documentTitle: function(data) {
+    documentTitle: function (data) {
       return titleFormatter([data.title, 'Дока'])
     },
 
-    socialTitle: function(data) {
+    socialTitle: function (data) {
       const { documentTitle } = data
       return documentTitle
     },
 
-    documentDescription: function(data) {
+    documentDescription: function (data) {
       const { documentDescription, description } = data
       return documentDescription || description
     },
 
-    hasCategory: function(data) {
-      return !!(data.categoryName)
+    hasCategory: function (data) {
+      return !!data.categoryName
     },
 
     baseUrl,
 
-    pageUrl: function(data) {
+    pageUrl: function (data) {
       return data.page.url
     },
 
-    fullPageUrl: function(data) {
+    fullPageUrl: function (data) {
       return data.baseUrl + data.pageUrl
     },
 
-    defaultOpenGraphPath: function(data) {
+    defaultOpenGraphPath: function (data) {
       return data.fullPageUrl + 'images/covers/og.png'
     },
 
-    defaultTwitterPath: function(data) {
+    defaultTwitterPath: function (data) {
       return data.fullPageUrl + 'images/covers/twitter.png'
     },
 
-    featuredArticles: async function(data) {
+    featuredArticles: async function (data) {
       const { featuredArticlesMaxCount } = data
       const { docsById } = data.collections
 
@@ -64,7 +62,7 @@ module.exports = {
 
       const pathToFeaturedSettingsFile = path.join('src', 'settings', 'featured.md')
       const fileContent = await fsp.readFile(pathToFeaturedSettingsFile, {
-        encoding: 'utf-8'
+        encoding: 'utf-8',
       })
       const frontMatterInfo = frontMatter(fileContent)
       const featuredArticlesIds = frontMatterInfo?.data?.active
@@ -75,8 +73,8 @@ module.exports = {
 
       return featuredArticlesIds
         .slice(0, featuredArticlesMaxCount)
-        .map(id => docsById[id])
-        .map(article => {
+        .map((id) => docsById[id])
+        .map((article) => {
           const section = article.filePathStem.split('/')[1]
 
           return {
@@ -93,7 +91,7 @@ module.exports = {
         })
     },
 
-    themeColor: function(data) {
+    themeColor: function (data) {
       const { category } = data
       return categoryColors[category || 'default']
     },
@@ -113,15 +111,11 @@ module.exports = {
       const { collections } = data
 
       const docsByPerson = {}
-      const personFields = [
-        'authors',
-        'contributors',
-        'editors'
-      ]
+      const personFields = ['authors', 'contributors', 'editors']
       const fieldNameMap = {
-        'authors': 'Автор',
-        'contributors': 'Контрибьютор',
-        'editors': 'Редактор',
+        authors: 'Автор',
+        contributors: 'Контрибьютор',
+        editors: 'Редактор',
       }
 
       for (const categoryId of mainSections) {
@@ -150,7 +144,7 @@ module.exports = {
       return docsByPerson
     },
 
-    peopleData: async function(data) {
+    peopleData: async function (data) {
       const { collections, docsByPerson } = data
       const { people } = collections
 
@@ -158,58 +152,50 @@ module.exports = {
         return null
       }
 
-      const filteredAuthors = people.filter(person => {
+      const filteredAuthors = people.filter((person) => {
         const personId = person.fileSlug
         return !!docsByPerson[personId]
       })
 
-      const authorsNames = filteredAuthors.map(author => author.fileSlug)
+      const authorsNames = filteredAuthors.map((author) => author.fileSlug)
       const contributionStat = await getAuthorsContributionWithCache({
         authors: authorsNames,
         // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
-        repo: (new URL(contentRepLink)).pathname.replace(/^\//, '')
+        repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
       })
 
       return filteredAuthors
-        .map(person => {
+        .map((person) => {
           const personId = person.fileSlug
           const personData = docsByPerson[personId]
           const { name, photo } = person.data
 
-          const photoURL = photo
-            ? isExternalURL(photo)
-              ? photo
-              : `/people/${photo}/`
-            : null
+          const photoURL = photo ? (isExternalURL(photo) ? photo : `/people/${photo}/`) : null
 
           const pageLink = `/people/${personId}/`
 
-          const statEntries = Object.entries(personData)
-            .map(([category, articlesByRole]) => [
-              category,
-              Object.values(articlesByRole).reduce((acc, articles) => {
-                acc += articles.length
-                return acc
-              }, 0)
-            ])
+          const statEntries = Object.entries(personData).map(([category, articlesByRole]) => [
+            category,
+            Object.values(articlesByRole).reduce((acc, articles) => {
+              acc += articles.length
+              return acc
+            }, 0),
+          ])
 
-          const mostContribution = statEntries
-            .reduce((acc, currentItem) => {
-              return currentItem[1] > acc[1] ? currentItem : acc
-            })
+          const mostContribution = statEntries.reduce((acc, currentItem) => {
+            return currentItem[1] > acc[1] ? currentItem : acc
+          })
 
           let [mostContributedCategory, mostContributedCount] = mostContribution
 
           // если пользователь сделал вклад по одной статье в нескольких категориях, то оценить наибольший вклад сложно, поэтому присваиваем `null`, чтобы в UI можно было сделать альтернативное нейтральное отображение
-          mostContributedCategory = (mostContributedCount === 1 && statEntries.length > 1)
-            ? null
-            : mostContributedCategory
+          mostContributedCategory =
+            mostContributedCount === 1 && statEntries.length > 1 ? null : mostContributedCategory
 
-          const totalArticles = statEntries
-            .reduce((acc, currentItem) => {
-              acc += currentItem[1]
-              return acc
-            }, 0)
+          const totalArticles = statEntries.reduce((acc, currentItem) => {
+            acc += currentItem[1]
+            return acc
+          }, 0)
 
           const stat = Object.fromEntries(statEntries)
 
@@ -221,7 +207,7 @@ module.exports = {
             stat,
             mostContributedCategory,
             totalArticles,
-            contributionStat: contributionStat[personId]
+            contributionStat: contributionStat[personId],
           }
         })
         .sort((person1, person2) => person2.totalArticles - person1.totalArticles)
@@ -234,6 +220,17 @@ module.exports = {
         map[section.fileSlug] = section
         return map
       }, {})
-    }
-  }
+    },
+
+    logoLetters: function (data) {
+      const { pageUrl } = data
+
+      switch (pageUrl) {
+        case '/licenses/':
+          return 'U©ᴥ©U'
+        default:
+          return null
+      }
+    },
+  },
 }

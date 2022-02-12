@@ -27,12 +27,12 @@ function init() {
 
   function setURLSearchParams(currentView) {
     const params = new URLSearchParams({
-      [PARAM_NAME]: currentView
+      [PARAM_NAME]: currentView,
     })
     history.replaceState(null, null, `?${params}`)
   }
 
-  filter.addEventListener('change', event => {
+  filter.addEventListener('change', (event) => {
     const { value: view } = event.target
 
     if (!view) {

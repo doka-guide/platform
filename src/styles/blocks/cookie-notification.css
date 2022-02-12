@@ -1,7 +1,9 @@
 .cookie-notification {
-  position: sticky;
+  position: fixed;
   z-index: 2;
   bottom: 0;
+  left: 0;
+  right: 0;
   animation: showCookieBanner 0.6s cubic-bezier(0.65, 0.05, 0.36, 1) both;
 }
 

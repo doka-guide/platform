@@ -24,7 +24,7 @@ class Item {
       id: this.id,
       content: this.content,
       level: this.level,
-      children: this.children
+      children: this.children,
     }
   }
 }
@@ -41,7 +41,6 @@ function getParent(prev, current) {
     return getParent(prev.parent, current)
   }
 }
-
 
 function createHierarchy(headings) {
   const rootItem = new Item()
@@ -71,18 +70,16 @@ function renderHead(item) {
 function renderChildren(children) {
   return `
     <ol class="toc__list base-list">
-      ${children.map(child => renderItem(child)).join('')}
+      ${children.map((child) => renderItem(child)).join('')}
     </ol>
   `
 }
 
 function renderItem(item) {
-  const wrapper = item.level > 0
-    ? content => `<li class="toc__item">${content}</li>`
-    : content => content
+  const wrapper = item.level > 0 ? (content) => `<li class="toc__item">${content}</li>` : (content) => content
 
   return wrapper(`
-    ${(item.id && item.content) ? renderHead(item) : ''}
+    ${item.id && item.content ? renderHead(item) : ''}
     ${item.children?.length > 0 ? renderChildren(item.children) : ''}
   `)
 }

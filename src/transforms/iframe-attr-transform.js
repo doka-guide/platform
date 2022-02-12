@@ -6,12 +6,10 @@ const attrs = {
 /**
  * @param {Window} window
  */
-module.exports = function(window) {
-  const iframes = window.document
-    .querySelector('.content')
-    ?.querySelectorAll('iframe')
+module.exports = function (window) {
+  const iframes = window.document.querySelector('.content')?.querySelectorAll('iframe')
 
-  iframes?.forEach(iframe => {
+  iframes?.forEach((iframe) => {
     for (const [attributeName, attributeValue] of Object.entries(attrs)) {
       if (!iframe.hasAttribute(attributeName)) {
         iframe.setAttribute(attributeName, attributeValue)

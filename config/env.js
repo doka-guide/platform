@@ -8,5 +8,5 @@ const isDevEnv = !isProdEnv
 
 module.exports = Object.freeze({
   isProdEnv,
-  isDevEnv
+  isDevEnv,
 })

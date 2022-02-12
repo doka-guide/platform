@@ -12,7 +12,7 @@ function init() {
     nav.classList.toggle('article-nav--open')
   })
 
-  content.addEventListener('click', event => {
+  content.addEventListener('click', (event) => {
     const link = event.target.closest('a')
 
     if (link) {

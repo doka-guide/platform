@@ -14,16 +14,20 @@ function init() {
     if (isCookieAccepted) {
       return
     }
-  } catch(error) {
+  } catch (error) {
     console.error(error)
   }
 
   banner.hidden = false
 
-  button.addEventListener('click', () => {
-    banner.hidden = true
-    localStorage.setItem(storageKey, true)
-  }, { once: true })
+  button.addEventListener(
+    'click',
+    () => {
+      banner.hidden = true
+      localStorage.setItem(storageKey, true)
+    },
+    { once: true }
+  )
 }
 
 init()

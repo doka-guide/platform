@@ -4,7 +4,7 @@
   <span class="header__divider {% if isLarge %}header__divider--large{% endif %} font-theme font-theme--code" aria-hidden="true"></span>
 {% endmacro %}
 
-{% macro header(pageCategoryId, category, title, link, isStatic, isLogoContrastColor, hasAccentColor) %}
+{% macro header(pageCategoryId, category, title, link, isStatic, isLogoContrastColor, hasAccentColor, isLogoImageHidden = false) %}
   {% set articleIndexes = collections.articleIndexes %}
   <header
     class="
@@ -18,7 +18,7 @@
       <div class="header__inner header__inner--main font-theme font-theme--code">
         <ul class="header__breadcrumbs breadcrumbs base-list">
           <li class="breadcrumbs__item">
-            {{ logo(class="header__logo", isLink=true, isContrastColor=isLogoContrastColor) }}
+            {{ logo(class="header__logo", isLink=true, isContrastColor=isLogoContrastColor, isImageHidden=isLogoImageHidden, letters=logoLetters) }}
             {{ divider() }}
           </li>
 
