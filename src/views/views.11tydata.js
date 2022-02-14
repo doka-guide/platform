@@ -74,7 +74,7 @@ module.exports = {
             title: article.data.title,
             cover: article.data.cover,
             get imageLink() {
-              return `${this.link}/${this.cover.mobile}`
+              return `${this.link}${this.cover.mobile}`
             },
             description: article.data.description,
             link: `/${section}/${article.fileSlug}/`,
