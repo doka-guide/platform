@@ -94,6 +94,10 @@ module.exports = function (config) {
     return collectionApi.getFilteredByGlob('src/pages/**/index.md')
   })
 
+  config.addCollection('specials', (collectionApi) => {
+    return collectionApi.getFilteredByGlob('src/specials/**/index.md')
+  })
+
   config.addCollection('articleIndexes', (collectionApi) => {
     const articleIndexes = collectionApi.getFilteredByGlob(`src/{${mainSections.join(',')}}/index.md`)
     const existIds = articleIndexes.map((section) => section.fileSlug)

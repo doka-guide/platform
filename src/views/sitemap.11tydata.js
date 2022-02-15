@@ -9,18 +9,20 @@ module.exports = {
     pages: function (data) {
       const { collections } = data
 
-      const collectionsItems = [...collections['pages'], ...collections['docs']].map((item) => {
-        const pathName = item.filePathStem.replace('index', '')
-        const url = `${baseUrl}${pathName}`
+      const collectionsItems = [...collections['pages'], ...collections['docs'], ...collections['specials']].map(
+        (item) => {
+          const pathName = item.filePathStem.replace('index', '')
+          const url = `${baseUrl}${pathName}`
 
-        const dateField = item.data.updatedAt || item.data.createdAt
-        const date = dateField ? new Date(dateField) : item.data.page.date || new Date()
+          const dateField = item.data.updatedAt || item.data.createdAt
+          const date = dateField ? new Date(dateField) : item.data.page.date || new Date()
 
-        return {
-          url,
-          date,
+          return {
+            url,
+            date,
+          }
         }
-      })
+      )
 
       const standalonePages = [
         // главная страница
