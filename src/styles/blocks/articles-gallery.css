@@ -3,6 +3,14 @@
   padding-bottom: clamp(20px, 7.3%, 120px);
 }
 
+.articles-gallery__title {
+  margin-top: 0;
+  margin-bottom: 0.75em;
+  font-weight: normal;
+  font-size: var(--font-size-xl);
+  line-height: var(--font-line-height-xl);
+}
+
 .articles-gallery__more-button {
   --button-gutter: 20px;
   margin: var(--button-gutter) auto;

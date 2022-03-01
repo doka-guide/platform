@@ -38,11 +38,6 @@ module.exports = {
       return `/${category}/`
     },
 
-    groups: function (data) {
-      const { articleIndex } = data
-      return articleIndex.data.groups
-    },
-
     categoryArticles: function (data) {
       const { collections, category } = data
       return collections[category]
@@ -80,25 +75,12 @@ module.exports = {
       return Object.keys(categoryArticlesByAlphabet).sort()
     },
 
-    // статьи для блока "остальное" (не попали в индекс)
-    restArticles: function (data) {
-      const { categoryArticles, groups } = data
-
-      const allArticlesIds = categoryArticles.map?.((article) => article.fileSlug)
-      const indexArticlesIds = groups.flatMap?.((group) => group.items)
-
-      return allArticlesIds?.filter((articleId) => !indexArticlesIds.includes(articleId))
-    },
-
     allGroups: function (data) {
-      const { groups, restArticles } = data
-      return [
-        ...groups,
-        {
-          name: 'Остальные',
-          items: restArticles,
-        },
-      ].filter((group) => group.items.length > 0)
+      const { collections, category } = data
+      const { articleIndexes } = collections
+      const { allGroupsByCategory } = articleIndexes
+
+      return allGroupsByCategory?.[category]
     },
   },
 }
