@@ -1,4 +1,4 @@
-{% macro logo(isLink, isContrastColor, class, isImageHidden=false) %}
+{% macro logo(isLink, isContrastColor, class, letters, isImageHidden=false) %}
   {% set logoWrapper = linkLogo if isLink else simpleLogo %}
   {% set tag = 'a' if isLink else 'div' %}
   {% set attrs = 'href=/' if isLink %}
@@ -10,11 +10,16 @@
     {{ class if class }}
   {% endset %}
 
+  {% set defaultLetters %}
+    U<span class="logo__eye">·</span>ᴥ<span class="logo__eye">·</span>U
+  {% endset %}
+  {% set letters = letters if letters else defaultLetters %}
+
   <{{tag}} class="{{ classes }}" {{ attrs }}>
     {% if (not isImageHidden) %}
       <div class="logo__image" aria-hidden="true">
         <div class="logo__symbols">
-          U<span class="logo__eye">·</span>ᴥ<span class="logo__eye">·</span>U
+          {{ letters | safe }}
         </div>
       </div>
     {% endif %}

@@ -1,0 +1,17 @@
+.related-articles-list {}
+
+.related-articles-list__item {
+  display: block;
+  overflow: hidden;
+}
+
+.related-articles-list__item::before {
+  content: '';
+  display: table;
+  float: left;
+  padding-top: 100%;
+}
+
+.related-articles-list__article {
+  min-height: 100%;
+}

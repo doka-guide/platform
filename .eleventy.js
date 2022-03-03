@@ -21,6 +21,30 @@ const imagePlaceTransform = require('./src/transforms/image-place-transform')
 const detailsTransform = require('./src/transforms/details-transform')
 const calloutTransform = require('./src/transforms/callout-transform')
 
+function getAllDocsByCategory(collectionAPI, category) {
+  return (
+    collectionAPI
+      .getFilteredByGlob(`src/${category}/*/**/index.md`)
+      // По умолчанию eleventy использует сортировку по датам создания файлов и полным путям.
+      // Необходимо сортировать по названиям статей, чтобы гарантировать одинаковый порядок вывода при пересборках.
+      .sort((item1, item2) => {
+        const [title1, title2] = [item1.data.title, item2.data.title]
+          .map((title) => title.toLowerCase())
+          // учитываем только буквы
+          .map((title) => title.replace(/[^a-zа-яё]/gi, ''))
+
+        switch (true) {
+          case title1 > title2:
+            return 1
+          case title1 < title2:
+            return -1
+          default:
+            return 0
+        }
+      })
+  )
+}
+
 module.exports = function (config) {
   config.setDataDeepMerge(true)
 
@@ -34,27 +58,7 @@ module.exports = function (config) {
 
   // Add all Tags
   mainSections.forEach((section) => {
-    config.addCollection(section, (collectionApi) =>
-      collectionApi
-        .getFilteredByGlob(`src/${section}/*/**/index.md`)
-        // По умолчанию eleventy использует сортировку по датам создания файлов и полным путям.
-        // Необходимо сортировать по названиям статей, чтобы гарантировать одинаковый порядок вывода при пересборках.
-        .sort((item1, item2) => {
-          const [title1, title2] = [item1.data.title, item2.data.title]
-            .map((title) => title.toLowerCase())
-            // учитываем только буквы
-            .map((title) => title.replace(/[^a-zа-яё]/gi, ''))
-
-          switch (true) {
-            case title1 > title2:
-              return 1
-            case title1 < title2:
-              return -1
-            default:
-              return 0
-          }
-        })
-    )
+    config.addCollection(section, (collectionApi) => getAllDocsByCategory(collectionApi, section))
   })
 
   config.addCollection('docs', (collectionApi) => {
@@ -94,6 +98,10 @@ module.exports = function (config) {
     return collectionApi.getFilteredByGlob('src/pages/**/index.md')
   })
 
+  config.addCollection('specials', (collectionApi) => {
+    return collectionApi.getFilteredByGlob('src/specials/**/index.md')
+  })
+
   config.addCollection('articleIndexes', (collectionApi) => {
     const articleIndexes = collectionApi.getFilteredByGlob(`src/{${mainSections.join(',')}}/index.md`)
     const existIds = articleIndexes.map((section) => section.fileSlug)
@@ -104,7 +112,57 @@ module.exports = function (config) {
       return map
     }, {})
 
-    return visualOrder.map((sectionId) => indexesMap[sectionId])
+    const orderedArticleIndexes = visualOrder.map((sectionId) => indexesMap[sectionId])
+
+    // добавляем как дополнительное свойство к коллекции, чтобы не создавать новую и не дублировать логику получения данных
+    Object.defineProperty(orderedArticleIndexes, 'allGroupsByCategory', {
+      value: {},
+      enumerable: false,
+    })
+
+    const linkedArticles = visualOrder
+      .flatMap((category) => {
+        const groups = indexesMap[category].data.groups
+        const categoryArticles = getAllDocsByCategory(collectionApi, category)
+
+        const allArticlesIds = categoryArticles.map?.((article) => article.fileSlug)
+        const indexArticlesIds = groups.flatMap?.((group) => group.items)
+        // статьи для блока "остальное" (не попали в индекс)
+        const restArticles = allArticlesIds?.filter((articleId) => !indexArticlesIds.includes(articleId))
+
+        const allGroups = [
+          ...groups,
+          {
+            name: 'Остальные',
+            items: restArticles,
+          },
+        ].filter((group) => group.items.length > 0)
+
+        orderedArticleIndexes.allGroupsByCategory[category] = allGroups
+
+        return allGroups
+          .flatMap((group) => group.items)
+          .map((articleSlug) => ({
+            id: category + '/' + articleSlug,
+          }))
+      })
+      .reduce((accumulator, articleObject, index, array) => {
+        Object.assign(articleObject, {
+          previous: array.at((index - 1) % array.length),
+          next: array.at((index + 1) % array.length),
+        })
+
+        accumulator[articleObject.id] = articleObject
+
+        return accumulator
+      }, {})
+
+    Object.defineProperty(orderedArticleIndexes, 'linkedArticles', {
+      value: linkedArticles,
+      enumerable: false,
+    })
+
+    return orderedArticleIndexes
   })
 
   // Настраивает markdown-it

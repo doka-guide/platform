@@ -31,6 +31,23 @@ function hasTag(tags, tag) {
   return (tags || []).includes(tag)
 }
 
+// TODO: вынести эту функцию в отдельный файл и переиспользовать в `views.11tydata.js`
+function transformArticleData(article) {
+  const section = article.filePathStem.split('/')[1]
+
+  return {
+    title: article.data.title,
+    cover: article.data.cover,
+    get imageLink() {
+      return `${this.link}/${this.cover.mobile}`
+    },
+    description: article.data.description,
+    link: `/${section}/${article.fileSlug}/`,
+    linkTitle: article.data.title.replace(/`/g, ''),
+    section,
+  }
+}
+
 module.exports = {
   layout: 'base.njk',
 
@@ -110,6 +127,12 @@ module.exports = {
       return collections.articleIndexes.find((section) => section.fileSlug === category)?.data.name
     },
 
+    docId: function (data) {
+      const { category, doc } = data
+      const { fileSlug } = doc
+      return `${category}/${fileSlug}`
+    },
+
     type: function (data) {
       const { doc } = data
       return hasTag(doc.data.tags, 'article') ? 'article' : 'doka'
@@ -166,6 +189,37 @@ module.exports = {
     articleTag: function (data) {
       const { doc } = data
       return doc.data.tags[0]
+    },
+
+    nextArticle: function (data) {
+      const { collections, docId } = data
+      const { docsById, articleIndexes } = collections
+      const { linkedArticles } = articleIndexes
+
+      const articleId = linkedArticles?.[docId]?.next?.id
+      const articleData = docsById[articleId]
+      return articleData && transformArticleData(articleData)
+    },
+
+    previousArticle: function (data) {
+      const { collections, docId } = data
+      const { docsById, articleIndexes } = collections
+      const { linkedArticles } = articleIndexes
+
+      const articleId = linkedArticles?.[docId]?.previous?.id
+      const articleData = docsById[articleId]
+      return articleData && transformArticleData(articleData)
+    },
+
+    relatedArticles: function (data) {
+      const { collections, doc } = data
+      const { docsById } = collections
+      const { related } = doc.data
+
+      return related
+        ?.slice(0, 3)
+        ?.map((articleId) => docsById[articleId])
+        ?.map((articleData) => transformArticleData(articleData))
     },
   },
 }

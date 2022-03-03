@@ -75,7 +75,7 @@ module.exports = {
             title: article.data.title,
             cover: article.data.cover,
             get imageLink() {
-              return `${this.link}/${this.cover.mobile}`
+              return `${this.link}${this.cover.mobile}`
             },
             description: article.data.description,
             link: `/${section}/${article.fileSlug}/`,
@@ -88,6 +88,17 @@ module.exports = {
     themeColor: function (data) {
       const { category } = data
       return categoryColors[category || 'default']
+    },
+
+    logoLetters: function (data) {
+      const { pageUrl } = data
+
+      switch (pageUrl) {
+        case '/licenses/':
+          return 'U©ᴥ©U'
+        default:
+          return null
+      }
     },
   },
 }
