@@ -3,6 +3,7 @@ import debounce from '../libs/debounce.js'
 import searchClient from '../core/search-api-client.js'
 import { MIN_SEARCH_SYMBOLS, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
 import headerComponent from './header.js'
+import logo from '../modules/logo.js'
 
 async function getQuickSearchInstance() {
   const moduleExports = await import('./quick-search.js')
@@ -33,6 +34,7 @@ async function init() {
     }
 
     quickSearch.openSuggestion()
+    logo.startAnimation()
 
     searchClient
       .search(queryText)
@@ -44,6 +46,9 @@ async function init() {
         quickSearch.renderResults(processedHits)
       })
       .catch(console.error)
+      .finally(() => {
+        logo.endAnimation()
+      })
   }
 
   headerComponent.on('menu.close', () => {
