@@ -7,7 +7,19 @@
   flex-direction: column;
   box-sizing: border-box;
   min-height: 330px;
+}
+
+.featured-article::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
   background-color: var(--accent-color, hsl(0 0% 90%));
+  transition: opacity 0.2s;
+}
+
+.featured-article:hover::before {
+  opacity: 0.84;
 }
 
 .featured-article__image-wrapper {
