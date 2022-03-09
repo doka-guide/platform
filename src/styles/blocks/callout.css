@@ -2,6 +2,7 @@
   --padding: 10px;
   --code-lines-background: var(--color-fade);
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 10px;
   box-sizing: border-box;
@@ -17,7 +18,7 @@
 
 .callout__content {
   --background-code-color: hsl(0 0% calc(var(--is-light-theme-on) * 100%));
-  flex: 1 1 auto;
+  flex: 1 1 320px;
 }
 
 .callout__content > * {
