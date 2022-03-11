@@ -81,13 +81,16 @@ function init() {
     )
   }
 
+  function saveHistory(hash) {
+    history.pushState(null, null, hash)
+  }
+
   function scrollToTitle(hash) {
     const title = getTitleFromHash(hash)
     window.scrollTo({
       top: getTitleScrollPosition(title),
       behavior: 'smooth',
     })
-    history.pushState(null, null, hash)
   }
 
   links.forEach((link) => {
@@ -144,10 +147,6 @@ function init() {
     if (nearestTitle) {
       setActiveTitle(nearestTitle)
     }
-
-    if (window.location.hash) {
-      scrollToTitle(window.location.hash)
-    }
   })
 
   document.querySelector(TOC_CONTAINER_SELECTOR)?.addEventListener('click', (event) => {
@@ -159,6 +158,7 @@ function init() {
 
     event.preventDefault()
     scrollToTitle(link.hash)
+    saveHistory(link.hash)
   })
 }
 
