@@ -2,9 +2,9 @@ require('dotenv').config({ path: '.env' })
 
 const DEFAULT_ENVS = {
   BASE_URL: 'https://doka.guide',
-  SECTIONS: 'html, css, js, tools',
+  SECTIONS: 'html, css, js, tools, recipes',
   CONTENT_REP_GITHUB: 'https://github.com/doka-guide/content.git',
-  CONTENT_REP_FOLDERS: 'html, css, js, tools, people, pages, settings',
+  CONTENT_REP_FOLDERS: 'html, css, js, tools, recipes, people, pages, settings',
   PATH_TO_CONTENT: '../content',
   DOKA_ORG: 'DOKA_ORG',
   PLATFORM_REP_GITHUB_URL: 'https://github.com/doka-guide/platform',
