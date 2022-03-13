@@ -16,3 +16,5 @@ settings
 specials
 
 .eslintcache
+
+.env

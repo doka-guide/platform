@@ -67,6 +67,7 @@ module.exports = {
       return featuredArticlesIds
         .slice(0, featuredArticlesMaxCount)
         .map((id) => docsById[id])
+        .filter(Boolean)
         .map((article) => {
           const section = article.filePathStem.split('/')[1]
 

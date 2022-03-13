@@ -10,6 +10,8 @@ jobs:
     env:
       DEPLOY_DOMAIN: 'https://${{ github.repository_owner }}-platform-pr-${{ github.event.number }}.surge.sh'
       SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PATH_TO_CONTENT: ./content
     steps:
       - name: Загрузка платформы
         uses: actions/checkout@v2
@@ -55,7 +57,6 @@ jobs:
         id: surge
         continue-on-error: true
         run: |
-          node make-links.js --default
           npm run preview
           if ! [[ ${{ env.SURGE_TOKEN == '' }} ]]; then
             npx surge ./dist ${{ env.DEPLOY_DOMAIN }} --token ${{ env.SURGE_TOKEN }}
