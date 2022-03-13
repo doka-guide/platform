@@ -6,7 +6,7 @@ on:
 jobs:
   preview:
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.draft == false }}
+    # if: ${{ github.event.pull_request.draft == false }}
     env:
       DEPLOY_DOMAIN: 'https://${{ github.repository_owner }}-platform-pr-${{ github.event.number }}.surge.sh'
       SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
@@ -19,6 +19,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: doka-guide/content
+          ref: cookbook
           path: content
       - uses: actions/setup-node@v2
         with:
