@@ -36,15 +36,16 @@ jobs:
       - name: Установка ключа для пользователя
         run: |
           set -eu
-          mkdir "$HOME/.ssh"
-          echo "${{ secrets.DEPLOY_KEY }}" > "$HOME/.ssh/doka_deploy"
-          chmod 600 "$HOME/.ssh/doka_deploy"
+          mkdir "~/.ssh"
+          echo "${{ secrets.DEPLOY_KEY }}" > "~/.ssh/doka_deploy"
+          chmod 600 "~/.ssh/doka_deploy"
       - name: Установка модулей
         run: npm ci
       - name: Сборка сайта
-        run: |
-          npm run build
+        run: npm run build
       - name: Генерация карточек для социальных сетей
         run: npx gulp socialCards
       - name: Публикация сайта
-        run: npm run deploy
+        run: |
+          cp .env.example .env
+          npm run deploy
