@@ -57,6 +57,7 @@ jobs:
         id: surge
         continue-on-error: true
         run: |
+          cp .env.example .env
           npm run preview
           if ! [[ ${{ env.SURGE_TOKEN == '' }} ]]; then
             npx surge ./dist ${{ env.DEPLOY_DOMAIN }} --token ${{ env.SURGE_TOKEN }}
