@@ -1,5 +1,14 @@
 .index-block {
   --offset: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (min-width: 1366px) {
+  .index-block {
+    min-height: calc(100vh - var(--font-line-height-l) - 3 * var(--offset));
+  }
 }
 
 .index-block__header {
@@ -40,6 +49,8 @@
 @media not all and (min-width: 1366px) {
   .index-block__inner {
     display: grid;
+    grid-template-rows: min-content auto min-content;
+    min-height: calc(100vh - var(--font-line-height-m) - 3 * var(--offset));
   }
 
   .index-block__header {
@@ -99,6 +110,7 @@
     padding-right: 0;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: end;
     gap: 4px;
   }
 
