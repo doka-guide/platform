@@ -15,6 +15,10 @@ module.exports = {
     light: 'hsl(122 78% 58%)',
     dark: 'hsl(122 56% 23%)',
   },
+  recipes: {
+    light: 'hsl(276, 100%, 72%)',
+    dark: 'hsl(276, 39%, 32%)',
+  },
   default: {
     light: 'hsl(0 0% 100%)',
     dark: 'hsl(0 0% 0%)',
