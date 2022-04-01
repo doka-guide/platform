@@ -4,6 +4,7 @@ const DEFAULT_ENVS = {
   BASE_URL: 'https://doka.guide',
   SECTIONS: 'html, css, js, tools, recipes',
   CONTENT_REP_GITHUB: 'https://github.com/doka-guide/content.git',
+  CONTENT_HOT_BACKLOG: 'https://github.com/doka-guide/content/milestone/22',
   CONTENT_REP_FOLDERS: 'html, css, js, tools, recipes, people, pages, settings',
   PATH_TO_CONTENT: '../content',
   DOKA_ORG: 'DOKA_ORG',
@@ -24,4 +25,5 @@ module.exports = {
   dokaOrgLink: getEnv('DOKA_ORG'),
   platformRepLink: getEnv('PLATFORM_REP_GITHUB_URL'),
   contentRepLink: getEnv('CONTENT_REP_GITHUB_URL'),
+  contentHotBacklogLink: getEnv('CONTENT_HOT_BACKLOG'),
 }
