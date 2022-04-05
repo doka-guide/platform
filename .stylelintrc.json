@@ -4,6 +4,19 @@
   "rules": {
     "block-no-empty": null,
     "custom-property-empty-line-before": null,
+    "selector-class-pattern": null,
+    "hue-degree-notation": null,
+    "string-quotes": null,
+    "property-no-vendor-prefix": null,
+    "alpha-value-notation": null,
+    "value-keyword-case": null,
+    "selector-no-vendor-prefix": null,
+    "max-line-length": null,
+    "custom-property-no-missing-var-function": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "keyframes-name-pattern": null,
+    "font-family-name-quotes": null,
+    "color-function-notation": null,
     "declaration-empty-line-before": null
   }
 }
