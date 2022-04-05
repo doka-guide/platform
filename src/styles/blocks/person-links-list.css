@@ -29,6 +29,14 @@
   margin-right: 5px;
 }
 
+.person-links-list__icon .twitter-icon {
+  fill: #1d9bf0;
+}
+
+.person-links-list__icon--own:nth-of-type(1) {
+  margin-right: 3px;
+}
+
 @media (min-width: 1024px) {
   .person-links-list {
     border: none;
