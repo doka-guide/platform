@@ -194,7 +194,8 @@ module.exports = function (config) {
   })
 
   config.addFilter('ruDate', (value) => {
-    return value
+    let v = typeof value === 'string' ? new Date(value) : value
+    return v
       .toLocaleString('ru', {
         year: 'numeric',
         month: 'long',
@@ -213,7 +214,8 @@ module.exports = function (config) {
   })
 
   config.addFilter('isoDate', (value) => {
-    return value.toISOString()
+    let v = typeof value === 'string' ? new Date(value) : value
+    return v.toISOString()
   })
 
   config.addFilter('fullDateString', (value) => {
