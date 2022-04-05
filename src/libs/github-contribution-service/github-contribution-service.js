@@ -7,7 +7,7 @@ Cache.concurrency = os.cpus().length
 const { GITHUB_TOKEN } = process.env
 
 const octokit = new Octokit({
-  auth: GITHUB_TOKEN
+  auth: GITHUB_TOKEN,
 })
 
 const CACHE_KEY = 'GITHUB_AUTHORS_CONTRIBUTION'
@@ -38,9 +38,7 @@ function buildQueryForAuthor({ author, repo, type }) {
 }
 
 function buildQueryForAuthors({ authors, repo, type }) {
-  return authors
-    .map(author => buildQueryForAuthor({ author, repo, type }))
-    .join('')
+  return authors.map((author) => buildQueryForAuthor({ author, repo, type })).join('')
 }
 
 function getData(query) {
@@ -80,5 +78,5 @@ async function getAuthorsContributionWithCache({ authors, repo }) {
 }
 
 module.exports = {
-  getAuthorsContributionWithCache
+  getAuthorsContributionWithCache,
 }
