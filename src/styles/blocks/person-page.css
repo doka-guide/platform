@@ -38,7 +38,7 @@
 }
 
 .person-page__header {
-  margin-bottom: 14px;
+  margin-bottom: 47px;
   grid-area: header;
 }
 
@@ -51,7 +51,7 @@
 }
 
 .person-page__description {
-  margin-top: 5px;
+  margin-top: 20px;
 }
 
 .person-page__articles {
@@ -77,9 +77,17 @@
     --offset: 20px;
   }
 
+  .person-page__header {
+    margin-bottom: 24px;
+  }
+
   .person-page__title {
     font-size: var(--font-size-xxl);
     line-height: var(--font-line-height-xxl);
+  }
+
+  .person-page__description {
+    margin-top: 5px;
   }
 }
 
