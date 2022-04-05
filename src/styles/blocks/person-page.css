@@ -14,9 +14,10 @@
   display: grid;
   grid-template-columns: var(--sidebar-size) minmax(0, var(--content-max-size)) var(--sidebar-size-end);
   grid-template-areas:
-    'avatar   meta     meta'
+    'avatar   avatar   avatar'
     'header   header   header'
     'articles articles articles'
+    'meta     meta     meta'
     'footer   footer   footer';
 }
 
@@ -34,6 +35,7 @@
 .person-page__meta {
   grid-area: meta;
   align-self: center;
+  margin-bottom: 30px;
   background-color: hsl(var(--color-base-background) / 0.9);
 }
 
@@ -106,6 +108,7 @@
   .person-page__meta {
     align-self: end;
     position: sticky;
+    margin: 0;
     bottom: 0;
   }
 
