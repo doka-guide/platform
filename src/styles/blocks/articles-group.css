@@ -15,7 +15,8 @@
   will-change: top;
 }
 
-.articles-group__sub-title {
+.articles-group__sub-title,
+.articles-group__date {
   margin-top: calc(14 / 15 * 1em);
   margin-bottom: calc(17 / 15 * 1em);
   font-weight: normal;
