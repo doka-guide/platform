@@ -74,6 +74,7 @@ module.exports = {
       return featuredArticlesIds
         .slice(0, featuredArticlesMaxCount)
         .map((id) => docsById[id])
+        .filter(Boolean)
         .map((article) => {
           const section = article.filePathStem.split('/')[1]
 
@@ -81,7 +82,7 @@ module.exports = {
             title: article.data.title,
             cover: article.data.cover,
             get imageLink() {
-              return `${this.link}/${this.cover.mobile}`
+              return `${this.link}${this.cover.mobile}`
             },
             description: article.data.description,
             link: `/${section}/${article.fileSlug}/`,

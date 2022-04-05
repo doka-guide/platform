@@ -1,0 +1,16 @@
+{% from "blocks/featured-article.njk" import featuredArticle %}
+
+{% if (relatedArticles and relatedArticles.length > 0) %}
+  <section class="articles-gallery">
+    <h2 class="articles-gallery__title">Читайте также</h2>
+
+    <ul class="related-articles-list featured-artices-list base-list">
+      {% for article in relatedArticles %}
+        <li class="related-articles-list__item featured-artices-list__item">
+          {{ featuredArticle(article=article, class="related-articles-list__article") }}
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
+

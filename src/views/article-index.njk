@@ -51,13 +51,16 @@
             </h3>
             <ul class="articles-group__list base-list">
               {% for articleId in group.items %}
-                {% set isPlaceholder = categoryArticlesBySlug[articleId].data.tags | hasTag('placeholder') %}
-                <li>
-                  <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
-                    {% if isPlaceholder %}{{ iconEditPlaceholder | safe }}{% endif -%}
-                    {{- categoryArticlesBySlug[articleId].data.title | descriptionMarkdown | safe }}
-                  </a>
-                </li>
+                {% set article = categoryArticlesBySlug[articleId] %}
+                {% if article %}
+                  {% set isPlaceholder = article.data.tags | hasTag('placeholder') %}
+                  <li>
+                    <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
+                      {% if isPlaceholder %}{{ iconEditPlaceholder | safe }}{% endif -%}
+                      {{- article.data.title | descriptionMarkdown | safe }}
+                    </a>
+                  </li>
+                {% endif %}
               {% endfor %}
             </ul>
           </section>
@@ -73,13 +76,16 @@
             </h3>
             <ul class="articles-group__list base-list">
               {% for articleId in categoryArticlesByAlphabet[letter] %}
-                {% set isPlaceholder = categoryArticlesBySlug[articleId].data.tags | hasTag('placeholder') %}
-                <li>
-                  <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
-                    {% if isPlaceholder %}{{ iconEditPlaceholder | safe }}{% endif -%}
-                    {{- categoryArticlesBySlug[articleId].data.title | descriptionMarkdown | safe }}
-                  </a>
-                </li>
+                {% set article = categoryArticlesBySlug[articleId] %}
+                {% if article %}
+                  {% set isPlaceholder = article.data.tags | hasTag('placeholder') %}
+                  <li>
+                    <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
+                      {% if isPlaceholder %}{{ iconEditPlaceholder | safe }}{% endif -%}
+                      {{- article.data.title | descriptionMarkdown | safe }}
+                    </a>
+                  </li>
+                {% endif %}
               {% endfor %}
             </ul>
           </section>

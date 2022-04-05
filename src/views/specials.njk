@@ -1,0 +1,29 @@
+{% from "blocks/header.njk" import header with context %}
+{% from "blocks/footer.njk" import footer with context %}
+
+{% set isLogoContrastColor = hasCategory %}
+
+{{ header(
+  title=title,
+  isLogoContrastColor=isLogoContrastColor
+) }}
+
+<main class="standalone-page">
+  <div class="standalone-page__header">
+    <div class="standalone-page__wrapper">
+      <h1 class="standalone-page__title">
+        {{ title }}
+      </h1>
+      {% if description %}
+        <p class="standalone-page__description">
+          {{ description }}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="standalone-page__content standalone-page__wrapper content">
+    {{ pageObject.templateContent | safe }}
+  </div>
+</main>
+
+{{ footer() }}

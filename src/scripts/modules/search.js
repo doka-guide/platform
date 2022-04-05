@@ -2,6 +2,7 @@ import debounce from '../libs/debounce.js'
 import searchClient from '../core/search-api-client.js'
 import BaseComponent from '../core/base-component.js'
 import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
+import logo from '../modules/logo.js'
 
 class Filter extends BaseComponent {
   constructor({ form }) {
@@ -105,13 +106,10 @@ class SearchResultOutput extends BaseComponent {
       hit: (hitObject) => {
         const editIcon = SearchResultOutput.isPlaceholder(hitObject) ? SearchResultOutput.templates.placeholderIcon : ''
         const title = SearchResultOutput.replaceBackticks(hitObject.title, SearchResultOutput.templates.titleCode)
-        const summary = SearchResultOutput.replaceBackticks(
-          hitObject.summary
-            .slice(0, SearchResultOutput.matchedItems)
-            .map((item) => SearchResultOutput.templates.summaryItem(item))
-            .join(''),
-          SearchResultOutput.templates.textCode
-        )
+        const summary = hitObject.summary
+          .slice(0, SearchResultOutput.matchedItems)
+          .map((item) => SearchResultOutput.templates.summaryItem(item))
+          .join('')
 
         return `
           <article class="search-hit" style="--accent-color: var(--color-base-${hitObject.category})">
@@ -208,6 +206,8 @@ function init() {
 
   function makeSearchEffect(queryText, filters) {
     if (queryText.length >= MIN_SEARCH_SYMBOLS || SEARCHABLE_SHORT_WORDS.has(queryText)) {
+      logo.startAnimation()
+
       searchClient
         .search(queryText, {
           facetFilters: filters,
@@ -224,6 +224,9 @@ function init() {
         })
         .catch((error) => {
           console.error(error)
+        })
+        .finally(() => {
+          logo.endAnimation()
         })
     } else {
       searchResultOutput.clear()

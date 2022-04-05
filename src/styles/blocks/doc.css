@@ -39,6 +39,33 @@
   max-width: 100%;
 }
 
+.doc__linked-articles {
+  margin-block-start: 102px;
+  margin-block-start: min(102px, 26%);
+  display: flex;
+  gap: var(--offset, 20px);
+}
+
+.doc__related-articles {
+  overflow: hidden;
+  padding-inline: 0;
+  padding-block-start: 65px;
+  padding-block-start: min(65px, 18%);
+}
+
+@media not all and (min-width: 768px) {
+  .doc__linked-articles {
+    flex-direction: column;
+    gap: 13px;
+  }
+}
+
+@media not all and (min-width: 1024px) {
+  .doc__linked-articles {
+    padding-inline: inherit;
+  }
+}
+
 @media (min-width: 1024px) {
   .doc {
     --offset: 20px;

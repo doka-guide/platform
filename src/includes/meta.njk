@@ -135,3 +135,13 @@
   <meta property="article:section" content="Technology">
   <meta property="article:opinion" content="{{ containsPractice }}">
 {% endif %}
+
+{% if pageType === 'Article' %}
+  {% if previousArticle %}
+    <link rel="prev" href="{{ baseUrl }}{{ previousArticle.link }}">
+  {% endif %}
+
+  {% if nextArticle %}
+    <link rel="next" href="{{ baseUrl }}{{ nextArticle.link }}">
+  {% endif %}
+{% endif %}

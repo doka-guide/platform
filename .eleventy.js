@@ -100,6 +100,10 @@ module.exports = function (config) {
     return collectionApi.getFilteredByGlob('src/pages/**/index.md')
   })
 
+  config.addCollection('specials', (collectionApi) => {
+    return collectionApi.getFilteredByGlob('src/specials/**/index.md')
+  })
+
   config.addCollection('articleIndexes', (collectionApi) => {
     const articleIndexes = collectionApi.getFilteredByGlob(`src/{${mainSections.join(',')}}/index.md`)
     const existIds = articleIndexes.map((section) => section.fileSlug)
@@ -110,7 +114,57 @@ module.exports = function (config) {
       return map
     }, {})
 
-    return visualOrder.map((sectionId) => indexesMap[sectionId])
+    const orderedArticleIndexes = visualOrder.map((sectionId) => indexesMap[sectionId])
+
+    // добавляем как дополнительное свойство к коллекции, чтобы не создавать новую и не дублировать логику получения данных
+    Object.defineProperty(orderedArticleIndexes, 'allGroupsByCategory', {
+      value: {},
+      enumerable: false,
+    })
+
+    const linkedArticles = visualOrder
+      .flatMap((category) => {
+        const groups = indexesMap[category].data.groups
+        const categoryArticles = getAllDocsByCategory(collectionApi, category)
+
+        const allArticlesIds = categoryArticles.map?.((article) => article.fileSlug)
+        const indexArticlesIds = groups.flatMap?.((group) => group.items)
+        // статьи для блока "остальное" (не попали в индекс)
+        const restArticles = allArticlesIds?.filter((articleId) => !indexArticlesIds.includes(articleId))
+
+        const allGroups = [
+          ...groups,
+          {
+            name: 'Остальные',
+            items: restArticles,
+          },
+        ].filter((group) => group.items.length > 0)
+
+        orderedArticleIndexes.allGroupsByCategory[category] = allGroups
+
+        return allGroups
+          .flatMap((group) => group.items)
+          .map((articleSlug) => ({
+            id: category + '/' + articleSlug,
+          }))
+      })
+      .reduce((accumulator, articleObject, index, array) => {
+        Object.assign(articleObject, {
+          previous: array.at((index - 1) % array.length),
+          next: array.at((index + 1) % array.length),
+        })
+
+        accumulator[articleObject.id] = articleObject
+
+        return accumulator
+      }, {})
+
+    Object.defineProperty(orderedArticleIndexes, 'linkedArticles', {
+      value: linkedArticles,
+      enumerable: false,
+    })
+
+    return orderedArticleIndexes
   })
 
   // Настраивает markdown-it
@@ -282,7 +336,7 @@ module.exports = function (config) {
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
   config.addPassthroughCopy('src/images')
-  config.addPassthroughCopy('src/(css|html|js|tools)/**/!(*11tydata*)*.!(md)')
+  config.addPassthroughCopy('src/(css|html|js|tools|recipes)/**/!(*11tydata*)*.!(md)')
 
   return {
     dir: {

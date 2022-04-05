@@ -1,0 +1,17 @@
+{% macro linkedArticle(article, type = 'previous') %}
+  {% set icon = '←' if type === 'previous' else '→' %}
+
+  <aside class="linked-article linked-article--{{ type }}" style="--accent-color: var(--color-{{ article.section }})">
+    <div class="linked-article__icon font-theme font-theme--code" aria-hidden="true">
+      {{ icon }}
+    </div>
+    <div class="linked-article__main">
+      <a class="linked-article__link link" href="{{ article.link }}">
+        {{ article.title | descriptionMarkdown | safe }}
+      </a>
+      <div class="linked-article__hotkeys font-theme font-theme--code">
+        <kbd class="linked-article__hotkey hotkey">alt</kbd><span class="linked-article__hotkey hotkey linked-article__plus"> + </span><kbd class="linked-article__hotkey hotkey">{{ icon }}</kbd>
+      </div>
+    </div>
+  </aside>
+{% endmacro %}

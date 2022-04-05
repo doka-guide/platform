@@ -16,4 +16,6 @@
   --color-css: hsl(var(--color-blue));
   --color-js: hsl(var(--color-yellow));
   --color-tools: hsl(var(--color-green));
+  --color-recipes: hsl(var(--color-violet));
+  --color-svg: hsl(var(--color-pink));
 }
