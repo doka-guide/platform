@@ -112,18 +112,19 @@ module.exports = {
       const { collections } = data
 
       const docsByPerson = {}
-      const personFields = ['authors', 'contributors', 'editors']
+      const personFields = ['authors', 'contributors', 'editors', 'coverAuthors']
       const fieldNameMap = {
         authors: 'Автор',
         contributors: 'Контрибьютор',
         editors: 'Редактор',
+        coverAuthors: 'Иллюстратор',
       }
 
       for (const categoryId of mainSections) {
         const docsByCategory = collections[categoryId]
         docsByCategory.reduce((accumulator, doc) => {
           for (const field of personFields) {
-            const personsIds = doc?.data?.[field]
+            const personsIds = field !== 'coverAuthors' ? doc?.data?.[field] : [doc?.data?.cover?.author]
 
             if (!personsIds) {
               continue
