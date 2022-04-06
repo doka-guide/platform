@@ -1,5 +1,5 @@
 module.exports = {
   layout: 'base.njk',
-  title: 'Авторы',
+  title: 'Участники',
   permalink: '/people/',
 }

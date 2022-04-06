@@ -6,59 +6,59 @@ module.exports = {
   pagination: {
     data: 'collections.people',
     size: 1,
-    alias: 'person'
+    alias: 'person',
   },
 
   permalink: '/people/{{ person.fileSlug }}/',
 
-  categoryName: 'Авторы',
+  categoryName: 'Участники',
 
   eleventyComputed: {
-    personId: function(data) {
+    personId: function (data) {
       const { person } = data
       return person.fileSlug
     },
 
-    pageLink: function(data) {
+    pageLink: function (data) {
       const { personId } = data
       return `/people/${personId}`
     },
 
-    name: function(data) {
+    name: function (data) {
       const { person } = data
       return person.data.name
     },
 
-    url: function(data) {
+    url: function (data) {
       const { person } = data
       return person.data.url
     },
 
-    photo: function(data) {
+    photo: function (data) {
       const { person } = data
       return person.data.photo
     },
 
-    title: function(data) {
+    title: function (data) {
       return data.name
     },
 
-    articlesIndex: function(data) {
+    articlesIndex: function (data) {
       const { personId, docsByPerson } = data
       return docsByPerson[personId]
     },
 
-    authorData: function(data) {
+    authorData: function (data) {
       const { peopleData, personId } = data
 
       if (!peopleData) {
         return null
       }
 
-      return peopleData.find(person => person.id === personId)
+      return peopleData.find((person) => person.id === personId)
     },
 
-    mostContributedCategory: function(data) {
+    mostContributedCategory: function (data) {
       const { authorData } = data
 
       if (!authorData) {
@@ -68,7 +68,7 @@ module.exports = {
       return authorData?.mostContributedCategory
     },
 
-    contributionStat: function(data) {
+    contributionStat: function (data) {
       const { authorData } = data
 
       if (!authorData) {
@@ -78,22 +78,22 @@ module.exports = {
       return authorData?.contributionStat
     },
 
-    issuesLink: function(data) {
+    issuesLink: function (data) {
       const { personId } = data
       const pathname = contentRepLink + '/issues'
       const searchParams = new URLSearchParams({
-        q: `is:issue author:${personId}`
+        q: `is:issue author:${personId}`,
       })
       return pathname + '?' + searchParams
     },
 
-    pullRequestsLink: function(data) {
+    pullRequestsLink: function (data) {
       const { personId } = data
       const pathname = contentRepLink + '/pulls'
       const searchParams = new URLSearchParams({
-        q: `is:pr author:${personId}`
+        q: `is:pr author:${personId}`,
       })
       return pathname + '?' + searchParams
-    }
-  }
+    },
+  },
 }
