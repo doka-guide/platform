@@ -1,6 +1,12 @@
 const fs = require('fs')
 const path = require('path')
 const readline = require('readline')
+const util = require('util')
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+})
+const question = util.promisify(rl.question).bind(rl)
 
 const { defaultPathToContent, contentRepFolders } = require('./config/constants.js')
 
@@ -14,7 +20,7 @@ const existingSymlinks = SYMLINKS_DEST.filter((dest) => {
   }
 })
 
-const createLinks = (contentPath) => {
+const createLinks = (contentPath, link) => {
   console.log(`Проверяю, установлены ли символические ссылки к ${SYMLINKS_DEST.join(', ')}`)
 
   existingSymlinks.forEach((dest) => {
@@ -27,30 +33,64 @@ const createLinks = (contentPath) => {
   if (!path.isAbsolute(contentPath)) {
     contentPath = path.relative('src', contentPath)
   }
-  SYMLINKS_DEST.forEach((dest, i) => {
-    const source = path.join(contentPath, contentRepFolders[i])
-    console.log(`${dest} → ${source}`)
-    fs.symlinkSync(source, dest, 'junction')
-  })
+
+  if (link) {
+    fs.symlinkSync(path.join(contentPath, 'settings'), path.join('src', 'settings'), 'junction')
+    console.log(`${contentPath}/settings → src/settings`)
+
+    const categoryPath = path.join('src', link.split('/')[0])
+    if (!fs.existsSync(categoryPath)) {
+      fs.mkdirSync(categoryPath)
+    }
+    fs.symlinkSync(path.join(`../${contentPath}`, link), path.join('src', link), 'junction')
+    console.log(`${contentPath}/${link} → src/${link}`)
+  } else {
+    SYMLINKS_DEST.forEach((dest, i) => {
+      const source = path.join(contentPath, contentRepFolders[i])
+      console.log(`${dest} → ${source}`)
+      fs.symlinkSync(source, dest, 'junction')
+    })
+  }
 
   console.log('✅ Готово')
 }
 
-if (process.env.PATH_TO_CONTENT) {
-  console.log('Использую настройки из .env')
-  createLinks(process.env.PATH_TO_CONTENT)
-} else {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  })
-
-  rl.question(
-    `Укажите путь к репозиторию с контентом (нажмите Enter, если это '${defaultPathToContent}'):`,
-    (answer) => {
-      const contentPath = answer.trim() || defaultPathToContent
-      createLinks(contentPath)
-      rl.close()
-    }
-  )
+const pathRequest = async () => {
+  try {
+    const answer = await question(
+      `Укажите путь к репозиторию с контентом (нажмите Enter, если это '${defaultPathToContent}'): `
+    )
+    return answer.trim() || defaultPathToContent
+  } catch (err) {
+    console.error('Ошибка: вопрос отклонен', err)
+  }
 }
+
+const buildTypeRequest = async () => {
+  try {
+    const answer = await question(
+      `Укажите относительный путь к материалу в формате 'раздел/папка' (нажмите Enter, если хотите собрать сайт со всеми материалами): `
+    )
+    return answer.trim()
+  } catch (err) {
+    console.error('Ошибка: вопрос отклонен', err)
+  }
+}
+
+const create = async () => {
+  if (process.env.PATH_TO_CONTENT) {
+    console.log('Использую настройки из .env')
+    createLinks(process.env.PATH_TO_CONTENT)
+  } else {
+    const contentPath = await pathRequest()
+    const materialPath = await buildTypeRequest()
+    if (materialPath) {
+      createLinks(contentPath, materialPath)
+    } else {
+      createLinks(contentPath)
+    }
+  }
+  rl.close()
+}
+
+create()
