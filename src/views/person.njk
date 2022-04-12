@@ -120,19 +120,6 @@
                     <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/">
                       {{ article.data.title | descriptionMarkdown | safe }}
                     </a>
-                    {% if article.data.updatedAt %}
-                      <span class="articles-group__date">
-                        <time data-relative-time datetime="{{ article.data.updatedAt | isoDate }}">
-                          , ✎ {{ article.data.updatedAt | ruDate }}
-                        </time>
-                      </span>
-                    {% elif article.data.createdAt %}
-                      <span class="articles-group__date">
-                        <time data-relative-time datetime="{{ article.data.createdAt | isoDate }}">
-                          , {{ article.data.createdAt | ruDate }}
-                        </time>
-                      </span>
-                    {% endif %}
                   </li>
                 {% endfor %}
               </ul>
