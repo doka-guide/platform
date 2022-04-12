@@ -16,7 +16,10 @@
 {% endmacro %}
 
 <div class="people-page">
-  {{ header(category=title) }}
+  {{ header(
+    category=title,
+    title=title
+  ) }}
 
   <main class="people-page__main">
     <form class="people-page__filter filter-panel" autocomplete="off">
