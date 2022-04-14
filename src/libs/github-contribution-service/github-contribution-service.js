@@ -50,6 +50,9 @@ function getData(query) {
 }
 
 async function getAuthorsContribution({ authors, repo }) {
+  if (GITHUB_TOKEN === '') {
+    return []
+  }
   const [issueResponse, prResponse] = await Promise.all([
     getData(buildQueryForAuthors({ authors, repo, type: 'issue' })),
     getData(buildQueryForAuthors({ authors, repo, type: 'pr' })),
