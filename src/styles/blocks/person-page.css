@@ -117,6 +117,7 @@
       'avatar header   header'
       'meta   articles articles'
       '.      footer   footer';
+    grid-template-rows: min-content auto min-content;
   }
 }
 
