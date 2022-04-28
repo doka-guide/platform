@@ -20,12 +20,25 @@ const existingSymlinks = SYMLINKS_DEST.filter((dest) => {
   }
 })
 
+const existingFolders = SYMLINKS_DEST.filter((dest) => {
+  try {
+    return fs.readdirSync(dest)
+  } catch (e) {
+    return false
+  }
+})
+
 const createLinks = (contentPath, link) => {
   console.log(`Проверяю, установлены ли символические ссылки к ${SYMLINKS_DEST.join(', ')}`)
 
   existingSymlinks.forEach((dest) => {
     console.log(`Удаляю старую ссылку ${dest}`)
     fs.unlinkSync(dest)
+  })
+
+  existingFolders.forEach((dest) => {
+    console.log(`Удаляю старый каталог ${dest}`)
+    fs.rmSync(dest, { recursive: true, force: true })
   })
 
   console.log('Создаю симлинки:')
@@ -44,6 +57,7 @@ const createLinks = (contentPath, link) => {
     }
     fs.symlinkSync(path.join(`../${contentPath}`, link), path.join('src', link), 'junction')
     console.log(`${contentPath}/${link} → src/${link}`)
+    console.log(`При настройках по умолчанию материал доступен по ссылке: http://localhost:8080/${link}`)
   } else {
     SYMLINKS_DEST.forEach((dest, i) => {
       const source = path.join(contentPath, contentRepFolders[i])
