@@ -225,6 +225,7 @@
   .search-page__aside {
     position: sticky;
     top: calc(var(--header-height, 0) * 1px);
+    height: calc(100vh - var(--header-height, 0) * 1px);
     grid-row-end: span 2;
     display: grid;
   }
