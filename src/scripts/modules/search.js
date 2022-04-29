@@ -190,7 +190,7 @@ function init() {
     element: searchHits,
   })
 
-  // преобразует состояние фильтров в понятный для Algolia формат
+  // преобразует состояние фильтров в понятный серверу формат
   function prepareFilters(filtersState) {
     const result = [
       ...[...filtersState.getAll('category')].map((value) => `category=${value}`),
