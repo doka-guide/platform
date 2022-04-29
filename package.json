@@ -77,7 +77,6 @@
     "transliteration": "^2.2.0"
   },
   "dependencies": {
-    "algoliasearch": "^4.13.0",
     "html-escaper": "^3.0.3"
   }
 }
