@@ -21,7 +21,6 @@ class SearchAPIClient {
     filters.forEach((o) => {
       queryString += `&${o}`
     })
-    console.log(queryString)
     return fetch(`${this.url}/?${queryString}`, {
       method: 'POST',
       headers: {
