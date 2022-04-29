@@ -16,7 +16,7 @@ class SearchAPIClient {
     this.url = url
   }
 
-  search(query, filters = {}) {
+  search(query, filters = []) {
     let queryString = `search=${query.replaceAll('+', '%2B').replaceAll('-', '%2D')}`
     filters.forEach((o) => {
       queryString += `&${o}`
