@@ -25,7 +25,6 @@ class SearchAPIClient {
     return fetch(`${this.url}/?${queryString}`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         Accept: 'application/json',
         Origin: 'https://doka.guide',
       },
