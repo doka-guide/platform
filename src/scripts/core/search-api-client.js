@@ -24,7 +24,6 @@ class SearchAPIClient {
     filters.forEach((f) => {
       params.append(f.key, f.val)
     })
-    console.log(url.toString(), params.toString())
     return fetch(url.toString() + '?' + params.toString(), {
       method: 'POST',
       headers: {
