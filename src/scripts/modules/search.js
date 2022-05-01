@@ -193,13 +193,13 @@ function init() {
   // преобразует состояние фильтров в понятный серверу формат
   function prepareFilters(filtersState) {
     const result = [
-      ...[...filtersState.getAll('category')].map((v) => {
+      [...filtersState.getAll('category')].map((v) => {
         return { key: 'category', val: v }
       }),
-      ...[...filtersState.getAll('tag')].map((v) => {
+      [...filtersState.getAll('tag')].map((v) => {
         return { key: 'tags', val: v }
       }),
-    ]
+    ].flat()
 
     return result
   }
