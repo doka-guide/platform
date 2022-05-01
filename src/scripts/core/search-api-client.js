@@ -16,13 +16,16 @@ class SearchAPIClient {
     this.url = url
   }
 
-  // формирования корректного для системы поискового запроса
+  // формирование корректного для системы поискового запроса
   search(query, filters = []) {
-    let queryString = `search=${query.replaceAll('+', '%2B').replaceAll('-', '%2D')}`
-    filters.forEach((o) => {
-      queryString += `&${o}`
+    let url = new URL(this.url)
+    let params = new URLSearchParams(url.search)
+    params.append('search', query.replaceAll('+', '%2B').replaceAll('-', '%2D'))
+    filters.forEach((f) => {
+      params.append(f.key, f.val)
     })
-    return fetch(`${this.url}/?${queryString}`, {
+    console.log(url.toString(), params.toString())
+    return fetch(url.toString() + '?' + params.toString(), {
       method: 'POST',
       headers: {
         Accept: 'application/json',
