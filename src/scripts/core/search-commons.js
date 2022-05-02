@@ -40,6 +40,7 @@ export const SEARCHABLE_SHORT_WORDS = new Set([
   'ex',
   'ic',
   'in',
+  'is',
   'lh',
   'mm',
   'ms',
@@ -49,6 +50,9 @@ export const SEARCHABLE_SHORT_WORDS = new Set([
   's',
   'vh',
   'vw',
+  // JS
+  'if',
+  'of',
 ])
 
 export function processHits(searchObject) {
