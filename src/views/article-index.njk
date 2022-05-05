@@ -78,11 +78,13 @@
                 {% set article = categoryArticlesBySlug[articleId] %}
                 {% if article %}
                   {% set isPlaceholder = article.data.tags | hasTag('placeholder') %}
+                  {% set hasGroups = groupsBySlug[articleId] %}
                   <li>
                     <a class="articles-group__link link" href="/{{ category }}/{{ articleId }}/">
                       {% if isPlaceholder %}{{ iconEditPlaceholder | safe }}{% endif -%}
-                      {{- article.data.title | descriptionMarkdown | safe }}
+                      {{- article.data.title | descriptionMarkdown | safe }},
                     </a>
+                    {% if hasGroups %} из разделов {{ groupsBySlug[articleId] | join(", ") | descriptionMarkdown | safe }} {% endif -%}
                   </li>
                 {% endif %}
               {% endfor %}
