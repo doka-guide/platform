@@ -45,6 +45,14 @@
   font-size: var(--font-size-m);
 }
 
+.article-group__label {
+  padding: 5px;
+  font-size: var(--font-size-s);
+  line-height: var(--font-line-height-s);
+  white-space: nowrap;
+  background-color: var(--color-fade);
+}
+
 @media (min-width: 768px) {
   .articles-group__list {
     grid-gap: 12px;
