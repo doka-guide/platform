@@ -111,7 +111,7 @@
           <h2 class="articles-group__title">
             {{ articleIndexesMap[category].data.name }}
           </h2>
-          {% for personRole, articles in articlesByRole %}
+          {% for personRole, articles in articlesByRole | dictsort %}
             <section class="articles-group__section">
               <h3 class="articles-group__sub-title font-theme font-theme--code">{{ personRole }}</h3>
               <ul class="articles-group__list base-list">
