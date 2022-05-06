@@ -64,7 +64,7 @@
 }
 
 @media (min-width: 1024px) {
-  .search__output:not(:empty) {
+  .search__output:not(:empty) > .search-result-list {
     width: 809px;
   }
 }
