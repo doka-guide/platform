@@ -8,7 +8,8 @@
 {{ header(
   pageCategoryId=category,
   category=categoryName,
-  isLogoContrastColor=isLogoContrastColor
+  isLogoContrastColor=isLogoContrastColor,
+  hasAccentColor=(not (not categoryName))
 ) }}
 
 <div class="index-block">

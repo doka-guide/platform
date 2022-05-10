@@ -20,7 +20,7 @@
         <h3 class="practices__author">
           {{ practiceAuthorName(
             name=(practiceAuthor.data.name or practice.fileSlug),
-            url=practiceAuthor.data.url
+            url='/people/' + practiceAuthor.fileSlug + '/'
           ) }}
         </h3>
         <div class="content">

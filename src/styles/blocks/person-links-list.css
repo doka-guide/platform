@@ -1,0 +1,45 @@
+.person-links-list {
+  display: grid;
+  grid-gap: 10px;
+  font-size: var(--font-size-s);
+  line-height: 1.47;
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-spacing);
+  border-bottom: 1px solid var(--color-text);
+  border-top: 1px solid var(--color-text);
+  padding: 20px 0;
+}
+
+.person-links-list__link {
+  display: inline-flex;
+  align-items: baseline;
+  vertical-align: top;
+  text-decoration: none;
+  background-repeat: repeat-x;
+  background-image: linear-gradient(90deg, hsl(var(--color-base-text) / var(--stroke-opacity)), hsl(var(--color-base-text) / var(--stroke-opacity)));
+  background-size: 100% var(--stroke-width, 1px);
+  background-position: 0 100%;
+}
+
+.person-links-list__icon:nth-of-type(1) {
+  margin-right: 12px;
+}
+
+.person-links-list__icon:nth-of-type(2) {
+  margin-right: 5px;
+}
+
+.person-links-list__link--own .person-links-list__icon:nth-of-type(1) {
+  margin-right: 3px;
+}
+
+.person-links-list__icon .twitter-icon {
+  fill: #1d9bf0;
+}
+
+@media (min-width: 1024px) {
+  .person-links-list {
+    border: none;
+    padding: 0;
+  }
+}

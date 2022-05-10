@@ -1,0 +1,18 @@
+{% macro personAvatar(photoURL, name, category, class) %}
+  {% if (category) %}
+    {% set inlineStyles %}
+      --accent-color: var(--color-{{ category }})
+    {% endset %}
+  {% endif %}
+
+  <div
+    class="person-avatar {{ class if class }}"
+    {% if inlineStyles %}style="{{ inlineStyles }}"{% endif %}
+  >
+    {% if photoURL %}
+      <img class="person-avatar__item person-avatar__image person__avatar" src="{{ photoURL }}" alt="Изображение автора '{{ name }}'">
+    {% else %}
+      <div class="person-avatar__item person-avatar__placeholder font-theme font-theme--code" aria-hidden="true">ᴥ</div>
+    {% endif %}
+  </div>
+{% endmacro %}

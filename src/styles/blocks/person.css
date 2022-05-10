@@ -1,0 +1,60 @@
+.person {
+  display: flex;
+  gap: 0.33em;
+  align-items: flex-start;
+  font-size: var(--font-size-l);
+}
+
+.person__avatar {
+  --avatar-size: calc(41 / 30 * 1em);
+  flex: 0 0 auto;
+}
+
+.person__main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2em;
+  align-items: baseline;
+}
+
+.person__name {
+  flex: 0 1 auto;
+  line-height: calc(4 / 3);
+}
+
+.person__name::after {
+  content: ',';
+  margin-left: 0.15em;
+  font-size: 0.77em;
+}
+
+.person__link {
+  text-underline-offset: 0.2em;
+}
+
+.person__stat {
+  flex: 0 0 auto;
+  font-size: var(--font-size-m);
+}
+
+.person__indicators {
+  position: relative;
+  top: 0.06em;
+  display: flex;
+  align-items: center;
+}
+
+.person__indicator {
+  --border-size: 2px;
+  flex: 0 0 auto;
+  width: 0.3em;
+  height: 0.3em;
+  border-radius: 50%;
+  border: var(--border-size) solid var(--color-background);
+  background-color: var(--accent-color);
+}
+
+.person__indicator:not(:first-child) {
+  margin-left: calc(var(--border-size) * -3);
+}

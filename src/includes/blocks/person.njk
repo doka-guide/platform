@@ -1,0 +1,27 @@
+{% from "blocks/person-avatar.njk" import personAvatar %}
+
+{% macro person(data) %}
+  <div class="person">
+    {{ personAvatar(
+      class = 'person__avatar',
+      photoURL = data.photoURL,
+      name = data.name,
+      category = data.mostContributedCategory
+    ) }}
+
+    <div class="person__main">
+      <div class="person__name"><a class="person__link link" href="{{ data.pageLink }}">{{- data.name -}}</a></div>
+
+      <span class="person__stat">
+        {{ data.totalArticles }}
+        {{ data.totalArticles | declension('статья', 'статьи', 'статей') }}
+      </span>
+
+      <span class="person__indicators">
+        {% for category, count in data.stat %}
+          <span class="person__indicator" style="--accent-color: var(--color-{{ category }})" data-count="{{ count }}"></span>
+        {% endfor %}
+      </span>
+    </div>
+  </div>
+{% endmacro %}

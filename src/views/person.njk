@@ -1,0 +1,136 @@
+{% from "blocks/header.njk" import header with context %}
+{% from "blocks/footer.njk" import footer with context %}
+{% from "blocks/person-avatar.njk" import personAvatar %}
+
+{% set behanceRegEx = r/behance.net/g %}
+{% set githubRegEx = r/github.com/g %}
+{% set twitterRegEx = r/twitter.com/g %}
+
+{% set behanceIcon %}
+<svg class="person-links-list__icon" width="13" height="9" viewBox="0 0 13 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5.24652 3.6808C5.24652 3.6808 6.47677 3.58947 6.47677 2.14683C6.47677 0.704085 5.47027 0 4.19533 0H0V8.06226H4.19533C4.19533 8.06226 6.75643 8.14316 6.75643 5.68265C6.75643 5.68267 6.86809 3.6808 5.24652 3.6808V3.6808ZM3.89336 1.43298H4.19533C4.19533 1.43298 4.7656 1.43297 4.7656 2.27182C4.7656 3.11056 4.43022 3.23216 4.04981 3.23216H1.84852V1.43298H3.89336V1.43298ZM4.07678 6.62933H1.84852V4.47479H4.19533C4.19533 4.47479 5.04529 4.46365 5.04529 5.58201C5.04529 6.52503 4.41045 6.62221 4.07678 6.62933V6.62933ZM10.1721 2.05128C7.07161 2.05128 7.07436 5.14904 7.07436 5.14904C7.07436 5.14904 6.86163 8.2309 10.1721 8.2309C10.1721 8.2309 12.9308 8.3885 12.9308 6.08702H11.512C11.512 6.08702 11.5594 6.95372 10.2194 6.95372C10.2194 6.95372 8.80043 7.04882 8.80043 5.55107H12.9781C12.9781 5.55104 13.4352 2.05128 10.1721 2.05128ZM8.78484 4.47479C8.78484 4.47479 8.95808 3.23214 10.2036 3.23214C11.4489 3.23214 11.4333 4.47479 11.4333 4.47479H8.78484ZM11.7638 1.46778H8.4375V0.47497H11.7638V1.46778Z" fill="black"/>
+</svg>
+{% endset %}
+
+{% set githubIcon %}
+<svg class="person-links-list__icon" width="11" height="11" viewBox="0 0 11 11" fill="currentColor">
+  <path d="M5.5 0C2.461 0 0 2.523 0 5.638c0 2.492 1.577 4.604 3.761 5.351.274.052.375-.12.375-.273l-.007-.959c-1.53.34-1.853-.754-1.853-.754-.25-.651-.611-.828-.611-.828-.5-.35.037-.342.037-.342.55.041.844.581.844.581.49.862 1.286.613 1.6.468.05-.364.193-.613.348-.755-1.219-.138-2.502-.623-2.502-2.783 0-.616.213-1.118.567-1.512-.057-.146-.246-.717.05-1.492 0 0 .463-.152 1.513.578a5.214 5.214 0 0 1 1.378-.19c.466.003.939.065 1.378.19 1.05-.73 1.512-.578 1.512-.578.3.775.112 1.35.054 1.492.351.394.564.896.564 1.512 0 2.167-1.286 2.641-2.512 2.783.196.173.375.52.375 1.045 0 .755-.007 1.36-.007 1.547 0 .153.098.326.378.27C9.427 10.242 11 8.13 11 5.642 11 2.523 8.539 0 5.5 0Z" />
+</svg>
+{% endset %}
+
+{% set twitterIcon %}
+<svg class="person-links-list__icon" width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M11.6691 2.62971C11.677 2.74432 11.677 2.85892 11.677 2.97459C11.677 6.49882 8.99411 10.5633 4.08828 10.5633V10.5612C2.63908 10.5633 1.21999 10.1482 0 9.36553C0.210725 9.39088 0.422507 9.40355 0.634816 9.40408C1.83579 9.40514 3.00244 9.00217 3.94727 8.26014C2.80597 8.23849 1.80516 7.49435 1.45554 6.40798C1.85533 6.48509 2.26728 6.46924 2.65968 6.36203C1.4154 6.11064 0.520211 5.0174 0.520211 3.74777C0.520211 3.73615 0.520211 3.72506 0.520211 3.71397C0.890961 3.92047 1.30607 4.03508 1.73069 4.04775C0.558765 3.26453 0.197522 1.70548 0.90522 0.486549C2.25935 2.15281 4.25728 3.16577 6.40203 3.27298C6.18708 2.34663 6.48072 1.37593 7.17363 0.724737C8.24786 -0.285053 9.93736 -0.233296 10.9471 0.840399C11.5445 0.722625 12.117 0.50345 12.6409 0.192907C12.4418 0.810295 12.0251 1.33473 11.4684 1.66798C11.9971 1.60566 12.5136 1.46412 13 1.24812C12.6419 1.7847 12.1909 2.2521 11.6691 2.62971Z" fill="#1D9BF0"/>
+</svg>
+{% endset %}
+
+{% set issuesIcon %}
+<svg class="person-links-list__icon" width="10" height="10" viewBox="0 0 10 10">
+  <circle cx="5" cy="5" r="4.5" stroke="currentColor" fill="none"/>
+  <circle cx="5" cy="5" r="1" fill="currentColor"/>
+</svg>
+{% endset %}
+
+{% set prIcon %}
+<svg class="person-links-list__icon" width="10" height="11" viewBox="0 0 10 11" fill="none" stroke="currentColor">
+  <circle cx="1.875" cy="2.875" r="1.375" />
+  <circle cx="1.875" cy="9.125" r="1.375" />
+  <circle cx="8.125" cy="9.125" r="1.375" />
+  <path d="M5 2.563h2.125a1 1 0 0 1 1 1v4.312"/>
+  <path d="M6.25 1 4.687 2.563 6.25 4.125M1.875 4.125v3.75"/>
+</svg>
+{% endset %}
+
+<div class="person-page">
+  {{ header(
+    category=categoryName,
+    pageCategoryId='people',
+    title=name
+  ) }}
+
+  <main class="person-page__main">
+    <div class="person-page__avatar">
+      {{ personAvatar(
+        photoURL = photo,
+        name = name,
+        category = mostContributedCategory
+      ) }}
+    </div>
+
+    <div class="person-page__meta">
+      <ul class="base-list person-links-list font-theme font-theme--code">
+        {% if url %}
+          <li class="person-links-list__item">
+            <a class="person-links-list__link person-links-list__link--own link" href="{{ url }}">
+              {% if twitterRegEx.test(url) %}
+                {{ twitterIcon | safe }}
+              {% elif githubRegEx.test(url) %}
+                {{ githubIcon | safe }}
+              {% elif behanceRegEx.test(url) %}
+                {{ behanceIcon | safe }}
+              {% endif %}
+              <span>{{ personId }}</span>
+            </a>
+          </li>
+        {% endif %}
+        {% if contributionStat.issues > 0 %}
+          <li class="person-links-list__item">
+            <a class="person-links-list__link link" href="{{ issuesLink }}">
+              {{ githubIcon | safe }}
+              {{ issuesIcon | safe }}
+              <span>{{ contributionStat.issues }} {{ contributionStat.issues | pluralize('issue', 'issues') }}</span>
+            </a>
+          </li>
+        {% endif %}
+        {% if contributionStat.pr > 0 %}
+          <li class="person-links-list__item">
+            <a class="person-links-list__link link" href="{{ pullRequestsLink }}">
+              {{ githubIcon | safe }}
+              {{ prIcon | safe }}
+              <span>{{ contributionStat.pr }} {{ contributionStat.pr | pluralize('pull request', 'pull requests') }}</span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <div class="person-page__header">
+      <h1 class="person-page__title">
+        {{ name }}
+      </h1>
+      {% if person.templateContent %}
+        <div class="person-page__description content">
+          {{ person.templateContent | safe }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="person-page__articles">
+      {% for category, articlesByRole in articlesIndex %}
+        <section class="person-page__group articles-group articles-group--accent articles-group--title-static" style="--accent-color: var(--color-{{ category }})">
+          <h2 class="articles-group__title">
+            {{ articleIndexesMap[category].data.name }}
+          </h2>
+          {% for personRole, articles in articlesByRole | dictsort %}
+            <section class="articles-group__section">
+              <h3 class="articles-group__sub-title font-theme font-theme--code">{{ personRole }}</h3>
+              <ul class="articles-group__list base-list">
+                {% for article in articles %}
+                  <li>
+                    <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/">
+                      {{ article.data.title | descriptionMarkdown | safe }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </section>
+          {% endfor %}
+        </section>
+      {% endfor %}
+    </div>
+
+    {{ footer(class="person-page__footer") }}
+  </main>
+
+</div>
+
