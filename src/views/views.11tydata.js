@@ -172,7 +172,7 @@ module.exports = {
           const personData = docsByPerson[personId]
           const { name, photo } = person.data
 
-          const photoURL = photo ? (isExternalURL(photo) ? photo : `/people/${photo}/`) : null
+          const photoURL = photo ? (isExternalURL(photo) ? photo : `/people/${personId}/${photo}`) : null
 
           const pageLink = `/people/${personId}/`
 
