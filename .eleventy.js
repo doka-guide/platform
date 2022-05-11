@@ -338,7 +338,7 @@ module.exports = function (config) {
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
   config.addPassthroughCopy('src/images')
-  config.addPassthroughCopy('src/(css|html|js|tools|recipes)/**/!(*11tydata*)*.!(md)')
+  config.addPassthroughCopy('src/(css|html|js|tools|recipes|people)/**/!(*11tydata*)*.!(md)')
 
   return {
     dir: {
