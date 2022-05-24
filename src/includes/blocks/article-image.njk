@@ -26,6 +26,6 @@
 {% macro authorsList(authors) %}
   {% set joinSymbol = joiner() %}
   {% for author in authors -%}
-    {{ joinSymbol() }} {{ articleAuthor(name=author.data.name, url=author.data.url) }}
+    {{ joinSymbol() }} {{ articleAuthor(name=author.data.name, url='/people/' + author.fileSlug + '/') }}
   {%- endfor %}
 {% endmacro %}

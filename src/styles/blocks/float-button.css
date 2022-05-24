@@ -1,0 +1,47 @@
+.float-button {
+  appearance: none;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 48px;
+  min-height: 48px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.float-button__icons {
+  visibility: visible;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 30px;
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: var(--color-text);
+  background-color: hsl(0 0% var(--lightness));
+  box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+}
+
+.float-button__icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(calc(var(--on) + var(--off) * 1.5));
+  opacity: var(--on);
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.float-button__icon--close {
+  --on: var(--is-filter-open);
+  --off: calc(1 - var(--is-filter-open));
+}
+
+.float-button__icon--open {
+  --on: calc(1 - var(--is-filter-open));
+  --off: var(--is-filter-open);
+}

@@ -21,6 +21,12 @@ const imagePlaceTransform = require('./src/transforms/image-place-transform')
 const detailsTransform = require('./src/transforms/details-transform')
 const calloutTransform = require('./src/transforms/callout-transform')
 
+function getAllDocs(collectionAPI) {
+  const dokas = collectionAPI.getFilteredByTag('doka')
+  const articles = collectionAPI.getFilteredByTag('article')
+  return [].concat(dokas, articles)
+}
+
 function getAllDocsByCategory(collectionAPI, category) {
   return (
     collectionAPI
@@ -62,15 +68,11 @@ module.exports = function (config) {
   })
 
   config.addCollection('docs', (collectionApi) => {
-    const dokas = collectionApi.getFilteredByTag('doka')
-    const articles = collectionApi.getFilteredByTag('article')
-    return [].concat(dokas, articles)
+    return getAllDocs(collectionApi)
   })
 
   config.addCollection('docsById', (collectionApi) => {
-    const dokas = collectionApi.getFilteredByTag('doka')
-    const articles = collectionApi.getFilteredByTag('article')
-    const docs = [].concat(dokas, articles)
+    const docs = getAllDocs(collectionApi)
     return docs.reduce((map, doc) => {
       const category = doc.filePathStem.split('/')[1]
       const id = category + '/' + doc.fileSlug
@@ -214,7 +216,8 @@ module.exports = function (config) {
   })
 
   config.addFilter('ruDate', (value) => {
-    return value
+    let v = typeof value === 'string' ? new Date(value) : value
+    return v
       .toLocaleString('ru', {
         year: 'numeric',
         month: 'long',
@@ -233,7 +236,8 @@ module.exports = function (config) {
   })
 
   config.addFilter('isoDate', (value) => {
-    return value.toISOString()
+    let v = typeof value === 'string' ? new Date(value) : value
+    return v.toISOString()
   })
 
   config.addFilter('fullDateString', (value) => {
@@ -247,6 +251,27 @@ module.exports = function (config) {
 
   config.addFilter('slugify', (content) => {
     return slugify(content)
+  })
+
+  config.addFilter('declension', (content, one, two, five) => {
+    let n = Math.abs(content)
+    n %= 100
+    if (n >= 5 && n <= 20) {
+      return five
+    }
+    n %= 10
+    if (n === 1) {
+      return one
+    }
+    if (n >= 2 && n <= 4) {
+      return two
+    }
+    return five
+  })
+
+  config.addFilter('pluralize', (content, one, many) => {
+    const number = parseInt(content)
+    return number === 1 ? one : many
   })
 
   {
@@ -335,7 +360,7 @@ module.exports = function (config) {
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
   config.addPassthroughCopy('src/images')
-  config.addPassthroughCopy('src/(css|html|js|tools|recipes)/**/!(*11tydata*)*.!(md)')
+  config.addPassthroughCopy('src/(css|html|js|tools|recipes|people)/**/!(*11tydata*)*.!(md)')
 
   return {
     dir: {

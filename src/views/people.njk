@@ -1,0 +1,91 @@
+{% from "blocks/header.njk" import header with context %}
+{% from "blocks/footer.njk" import footer with context %}
+{% from "blocks/person.njk" import person %}
+
+{% macro peopleGridItem(data) %}
+  {%- set dataCategories -%}
+    {% set joinSymbol = joiner() %}
+    {% for category, count in data.stat -%}
+      {{ joinSymbol() }}{{ category }}
+    {%- endfor %}
+  {%- endset -%}
+
+  <li class="person-grid__item" data-categories="{{ dataCategories }}">
+    {{ person(data) }}
+  </li>
+{% endmacro %}
+
+<div class="people-page">
+  {{ header(
+    category=title,
+    title=title
+  ) }}
+
+  <main class="people-page__main">
+    <form class="people-page__filter filter-panel" autocomplete="off">
+      <fieldset class="filter-panel__inner">
+        <legend class="visually-hidden">Фильтровать по:</legend>
+
+        <div class="filter-group">
+          <label class="tag-filter tag-filter--contrast">
+            <input class="tag-filter__control" type="checkbox" name="category" value="" checked>
+            <span class="tag-filter__text">
+              Все
+            </span>
+          </label>
+          {% for category in collections.articleIndexes %}
+            <label class="tag-filter" style="--accent-color: var(--color-{{ category.fileSlug }})">
+              <input class="tag-filter__control" type="checkbox" name="category" value="{{ category.fileSlug }}">
+              <span class="tag-filter__text">
+                {{ category.data.name }}
+              </span>
+            </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <button class="filter-panel__button float-button" type="button">
+        <span class="visually-hidden">Показать/скрыть фильтр</span>
+        <div class="float-button__icons" aria-hidden="true">
+          <svg class="float-button__icon float-button__icon--close" width="48" height="48" fill="currentColor" viewBox="0 0 48 48">
+            <path d="M31.27 32.88l-7.3-7.3-7.24 7.24c-.43.43-.8.58-1.15.58a.94.94 0 01-.71-.26.94.94 0 01-.27-.72c0-.34.15-.72.58-1.15l7.24-7.24-7.24-7.23c-.43-.43-.58-.81-.58-1.16 0-.32.1-.54.27-.7a.94.94 0 01.7-.28c.35 0 .73.16 1.16.59l7.24 7.23 7.3-7.3c.44-.44.8-.58 1.09-.58.15 0 .36.07.62.37.28.3.36.55.36.73 0 .3-.14.65-.52 1.03l-7.3 7.3 7.3 7.3c.44.44.58.8.58 1.1 0 .15-.07.36-.37.62-.3.27-.55.35-.73.35-.3 0-.65-.13-1.03-.52z"></path>
+          </svg>
+          <svg class="float-button__icon float-button__icon--open" width="48" height="48" viewBox="0 0 48 48" stroke-width="1.3">
+            <g stroke="currentColor" stroke-linecap="round" fill="none">
+              <path d="M13.65 30.35h21.7"></path>
+              <path d="M13.65 23.35h21.7"></path>
+              <path d="M13.65 16.35h21.7"></path>
+            </g>
+            <g fill="#fff" stroke="currentColor">
+              <circle cx="24.5" cy="30.5" r="1.85"></circle>
+              <circle cx="17.5" cy="23.5" r="1.85"></circle>
+              <circle cx="31.5" cy="16.5" r="1.85"></circle>
+            </g>
+          </svg>
+        </div>
+      </button>
+    </form>
+
+    <style>
+      {% set filterSelector %}
+        {% set comma = joiner() %}
+        {% for index in collections.articleIndexes %}
+          {{ comma() }}
+          [data-filters*='{{ index.fileSlug }}'] > *:not([data-categories*='{{ index.fileSlug }}'])
+        {% endfor %}
+      {% endset %}
+      {{ filterSelector | safe }} {
+        display: none;
+      }
+    </style>
+
+    <ol class="people-page__list person-grid base-list">
+      {% for personDataItem in peopleData %}
+        {{ peopleGridItem(personDataItem) }}
+      {% endfor %}
+    </ol>
+  </main>
+
+  {{ footer(class="people-page__footer") }}
+</div>
+
