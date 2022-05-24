@@ -85,7 +85,7 @@
                       {{- article.data.title | descriptionMarkdown | safe }}</a>
                     {% if hasGroups %}
                       <span class="visually-hidden">
-                      Относится к {{ "темам" if hasGroups | length >= 2 else "теме" }}:
+                      Относится к {{ "темам" if hasGroups | length > 1 else "теме" }}:
                       </span>
                       {% for group in groupsBySlug[articleId] %}
                         <span class="article-group__label">{{ group | descriptionMarkdown | safe }}</span>
