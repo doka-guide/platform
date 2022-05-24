@@ -122,6 +122,28 @@ module.exports = function (config) {
       enumerable: false,
     })
 
+    const groupsByArticle = visualOrder
+      .map((category) => {
+        const groups = indexesMap[category].data.groups ?? []
+        return groups.map(({ name, items }) => {
+          return items.map((item) => ({ name, item }))
+        })
+      })
+      .flat(2)
+      .reduce((map, { name, item }) => {
+        if (!(item in map)) {
+          map[item] = []
+        }
+        map[item].push(name)
+        return map
+      }, {})
+
+    // к каким подкатегориям принадлежит статья
+    Object.defineProperty(orderedArticleIndexes, 'groupsByArticle', {
+      value: groupsByArticle,
+      enumerable: false,
+    })
+
     const linkedArticles = visualOrder
       .flatMap((category) => {
         const groups = indexesMap[category].data.groups
@@ -174,7 +196,7 @@ module.exports = function (config) {
     linkify: true,
     highlight: function (str, lang) {
       const content = markdownLibrary.utils.escapeHtml(str)
-      return lang ? `<pre data-lang="${lang}"><code>${content}</code></pre>` : `<pre>${content}</pre>`
+      return lang ? `<pre data-lang='${lang}'><code>${content}</code></pre>` : `<pre>${content}</pre>`
     },
   })
 

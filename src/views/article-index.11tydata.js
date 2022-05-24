@@ -82,5 +82,12 @@ module.exports = {
 
       return allGroupsByCategory?.[category]
     },
+
+    groupsBySlug: function (data) {
+      const { collections } = data
+      const { articleIndexes } = collections
+
+      return articleIndexes.groupsByArticle
+    },
   },
 }
