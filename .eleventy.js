@@ -18,6 +18,7 @@ const iframeAttrTransform = require('./src/transforms/iframe-attr-transform')
 const tableTransform = require('./src/transforms/table-transform')
 const demoExternalLinkTransform = require('./src/transforms/demo-external-link-transform')
 const imagePlaceTransform = require('./src/transforms/image-place-transform')
+const videoPlaceTransform = require('./src/transforms/video-place-transform')
 const detailsTransform = require('./src/transforms/details-transform')
 const calloutTransform = require('./src/transforms/callout-transform')
 
@@ -291,6 +292,7 @@ module.exports = function (config) {
       demoLinkTransform,
       isProdEnv && imageTransform,
       imagePlaceTransform,
+      videoPlaceTransform,
       headingsIdTransform,
       tocTransform,
       headingsAnchorTransform,
