@@ -28,6 +28,10 @@
   height: auto;
 }
 
+.content video {
+  margin: 0 auto;
+}
+
 .content iframe {
   display: block;
   width: 100%;
