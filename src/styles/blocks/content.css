@@ -29,7 +29,7 @@
 }
 
 .content video {
-  margin: 0 auto;
+  margin-inline: auto;
 }
 
 .content iframe {
