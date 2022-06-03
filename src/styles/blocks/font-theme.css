@@ -18,6 +18,21 @@
 
   --font-size-xxl: 50px;
   --font-line-height-xxl: 54px;
+
+  --font-size-headline-1: var(--font-size-xxl);
+  --font-line-height-headline-1: var(--font-line-height-xxl);
+
+  --font-size-headline-2: var(--font-size-xl);
+  --font-line-height-headline-2: var(--font-line-height-xl);
+
+  --font-size-headline-3: var(--font-size-l);
+  --font-line-height-headline-3: var(--font-line-height-l);
+
+  --font-size-headline-4: 22px;
+  --font-line-height-headline-4: 26px;
+
+  --font-size-headline-5: 19px;
+  --font-line-height-headline-5: 19px;
 }
 
 .font-theme--code {
@@ -58,6 +73,12 @@
 
     --font-size-xxl: 50px;
     --font-line-height-xxl: 54px;
+
+    --font-size-headline-4: 24px;
+    --font-line-height-headline-4: 24px;
+
+    --font-size-headline-5: 20px;
+    --font-line-height-headline-5: 20px;
   }
 
   .font-theme--code {
@@ -95,6 +116,12 @@
 
     --font-size-xxl: 50px;
     --font-line-height-xxl: 54px;
+
+    --font-size-headline-4: 26px;
+    --font-line-height-headline-4: 32px;
+
+    --font-size-headline-5: 22px;
+    --font-line-height-headline-5: 26px;
   }
 
   .font-theme--code {
@@ -132,6 +159,12 @@
 
     --font-size-xxl: 60px;
     --font-line-height-xxl: 60px;
+
+    --font-size-headline-4: 32px;
+    --font-line-height-headline-4: 38px;
+
+    --font-size-headline-5: 26px;
+    --font-line-height-headline-5: 32px;
   }
 
   .font-theme--code {

@@ -37,26 +37,32 @@
 
 .article-heading--level-1,
 .article-heading--level-1 > * {
-  --font-size: var(--font-size-xxl);
-  --line-height: var(--font-line-height-xxl);
+  --font-size: var(--font-size-headline-1);
+  --line-height: var(--font-line-height-headline-1);
 }
 
 .article-heading--level-2,
 .article-heading--level-2 > * {
-  --font-size: var(--font-size-xl);
-  --line-height: var(--font-line-height-xl);
+  --font-size: var(--font-size-headline-2);
+  --line-height: var(--font-line-height-headline-2);
 }
 
 .article-heading--level-3,
 .article-heading--level-3 > * {
-  --font-size: var(--font-size-l);
-  --line-height: var(--font-line-height-l);
+  --font-size: var(--font-size-headline-3);
+  --line-height: var(--font-line-height-headline-3);
 }
 
 .article-heading--level-4,
 .article-heading--level-4 > * {
-  --font-size: var(--font-size-m);
-  --line-height: var(--font-line-height-m);
+  --font-size: var(--font-size-headline-4);
+  --line-height: var(--font-line-height-headline-4);
+}
+
+.article-heading--level-5,
+.article-heading--level-5 > * {
+  --font-size: var(--font-size-headline-5);
+  --line-height: var(--font-line-height-headline-5);
 }
 
 .article-heading--level-2 {
@@ -65,7 +71,8 @@
 }
 
 .article-heading--level-3,
-.article-heading--level-4 {
+.article-heading--level-4,
+.article-heading--level-5 {
   margin-top: 20px;
   margin-bottom: 10px;
 }
@@ -81,7 +88,8 @@
   }
 
   .article-heading--level-3,
-  .article-heading--level-4 {
+  .article-heading--level-4,
+  .article-heading--level-5 {
     margin-top: 24px;
     margin-bottom: 16px;
   }
@@ -94,7 +102,8 @@
   }
 
   .article-heading--level-3,
-  .article-heading--level-4 {
+  .article-heading--level-4,
+  .article-heading--level-5 {
     margin-top: 40px;
     margin-bottom: 20px;
   }
