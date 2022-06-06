@@ -212,7 +212,7 @@ class QuickSearch extends BaseComponent {
               )
               return `
                 <li class="suggestion-list__item" style="--accent-color: var(--color-${hitObject.category});">
-                  <a class="suggestion-list__link link" href="${hitObject.url}">${title}</a>
+                  <a class="suggestion-list__link link" href="${hitObject.url}">${title.replace(/<[/]*mark>/gi, '')}</a>
                 </li>
               `
             })

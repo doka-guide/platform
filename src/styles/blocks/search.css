@@ -63,6 +63,12 @@
   display: none;
 }
 
+@media (min-width: 1024px) {
+  .search__output:not(:empty) > .search-result-list {
+    width: 809px;
+  }
+}
+
 .search__suggestion {
   --lightness: calc(100% - var(--is-dark-theme-on) * 80%);
   --background-opacity: 0.96;

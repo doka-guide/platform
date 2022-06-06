@@ -74,11 +74,6 @@
   --off: var(--is-filter-open);
 }
 
-.search-page__algolia {
-  margin-top: auto;
-  padding: var(--offset);
-}
-
 .search-page__main {
   padding: var(--offset);
   max-width: 809px;
@@ -206,12 +201,6 @@
     visibility: hidden;
     transition-delay: 0.5s;
   }
-
-  .search-page__algolia {
-    display: inline-block;
-    vertical-align: top;
-    text-align: left;
-  }
 }
 
 @media (min-width: 768px) {
@@ -244,7 +233,7 @@
   .search-page__aside-inner {
     display: flex;
     flex-direction: column;
-    min-height: 100%;
+    justify-content: space-between;
   }
 
   .search-page__main {
@@ -254,9 +243,5 @@
   .search-page__footer {
     grid-column-start: 2;
     grid-column-end: -1;
-  }
-
-  .search-page__algolia {
-    align-self: start;
   }
 }
