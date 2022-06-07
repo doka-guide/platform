@@ -11,6 +11,10 @@ module.exports = {
     light: 'hsl(49 100% 58%)',
     dark: 'hsl(49 74% 23%)',
   },
+  python: {
+    light: 'hsl(49 100% 58%)',
+    dark: 'hsl(49 74% 23%)',
+  },
   tools: {
     light: 'hsl(122 78% 58%)',
     dark: 'hsl(122 56% 23%)',
