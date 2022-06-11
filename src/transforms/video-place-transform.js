@@ -1,3 +1,4 @@
+const { Node } = require('linkedom')
 const MarkdownIt = require('markdown-it')
 const md = new MarkdownIt()
 
@@ -16,14 +17,31 @@ module.exports = function (window) {
   Array.from(articleContent.querySelectorAll('video'))
     .filter((element) => !element.matches('figure video'))
     .forEach((element) => {
-      const caption = element.nextSibling
-      const hasCaption = caption?.nodeName === '#text' && caption.nodeValue.trim() !== ''
+      let caption = element.nextSibling
+      const hasCaption = caption?.nodeType === Node.TEXT_NODE && caption.nodeValue.trim() !== ''
 
       if (!hasCaption) {
         return
       }
 
-      let result = md.render(caption.toString().trim())
+      const captionChunks = []
+      let shouldStop = false
+      while (!shouldStop) {
+        // подпись у видео содержит перенос строки "\n" в начале и конце
+        shouldStop = caption.textContent.endsWith('\n')
+        captionChunks.push(caption)
+        caption = caption.nextSibling
+      }
+
+      let result = md.render(
+        captionChunks
+          .map((chunk) => {
+            chunk.remove()
+            return chunk.nodeType === Node.TEXT_NODE ? chunk.textContent : chunk.outerHTML
+          })
+          .join('')
+          .trim()
+      )
 
       const figure = window.document.createElement('figure')
       figure.innerHTML = element.outerHTML
@@ -32,7 +50,6 @@ module.exports = function (window) {
         const figCaption = window.document.createElement('figcaption')
         figCaption.innerHTML = result
         figure.appendChild(figCaption)
-        caption.remove()
       }
 
       element.replaceWith(figure)
