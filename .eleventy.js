@@ -4,6 +4,7 @@ const markdownIt = require('markdown-it')
 const { parseHTML } = require('linkedom')
 const { isProdEnv } = require('./config/env')
 const { mainSections } = require('./config/constants.js')
+const initMarkdownLibrary = require('./src/markdown-it')
 const demoLinkTransform = require('./src/transforms/demo-link-transform')
 const imageTransform = require('./src/transforms/image-transform')
 const headingsIdTransform = require('./src/transforms/headings-id-transform')
@@ -18,7 +19,6 @@ const iframeAttrTransform = require('./src/transforms/iframe-attr-transform')
 const tableTransform = require('./src/transforms/table-transform')
 const demoExternalLinkTransform = require('./src/transforms/demo-external-link-transform')
 const imagePlaceTransform = require('./src/transforms/image-place-transform')
-const videoPlaceTransform = require('./src/transforms/video-place-transform')
 const detailsTransform = require('./src/transforms/details-transform')
 const calloutTransform = require('./src/transforms/callout-transform')
 
@@ -190,18 +190,7 @@ module.exports = function (config) {
     return orderedArticleIndexes
   })
 
-  // Настраивает markdown-it
-  let markdownLibrary = markdownIt({
-    html: true,
-    breaks: true,
-    linkify: true,
-    highlight: function (str, lang) {
-      const content = markdownLibrary.utils.escapeHtml(str)
-      return lang ? `<pre data-lang='${lang}'><code>${content}</code></pre>` : `<pre>${content}</pre>`
-    },
-  })
-
-  config.setLibrary('md', markdownLibrary)
+  config.setLibrary('md', initMarkdownLibrary())
 
   config.addNunjucksShortcode('readingTime', (text) => {
     let textLength = text.split(' ').length
@@ -292,7 +281,6 @@ module.exports = function (config) {
       demoLinkTransform,
       isProdEnv && imageTransform,
       imagePlaceTransform,
-      videoPlaceTransform,
       headingsIdTransform,
       tocTransform,
       headingsAnchorTransform,
