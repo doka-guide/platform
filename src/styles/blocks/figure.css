@@ -13,6 +13,7 @@
   padding: 1em;
   font-size: var(--font-size-s);
   line-height: var(--font-line-height-s);
+  text-align: center;
 }
 
 .figure__caption-code {
