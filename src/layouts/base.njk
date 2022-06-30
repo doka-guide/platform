@@ -19,8 +19,8 @@
   </head>
   <body class="base__body {{ bodyClass }}">
     {% if env.isProdEnv %}
-      {% include "analytics/metrika.njk" %}
-      {% include "analytics/google.njk" %}
+      {# {% include "analytics/metrika.njk" %} #}
+      {# {% include "analytics/google.njk" %} #}
     {% endif %}
 
     {{ content | safe }}
