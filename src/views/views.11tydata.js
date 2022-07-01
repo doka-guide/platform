@@ -100,6 +100,37 @@ module.exports = {
     /* создаёт структуру вида:
     {
       [personId]: {
+        [categoryId]: [articles]
+      }
+    }
+    */
+    practicesByPerson: function (data) {
+      const { collections } = data
+
+      const practicesByPerson = {}
+      collections.practice.forEach((practice) => {
+        const personId = practice.fileSlug
+        if (!practicesByPerson[personId]) {
+          practicesByPerson[personId] = {}
+        }
+        const practiceObject = practice.filePathStem.split('/')
+        const category = practiceObject[1]
+        const articleId = practiceObject[2]
+        if (!practicesByPerson[personId][category]) {
+          practicesByPerson[personId][category] = []
+        }
+        practicesByPerson[personId][category].push(
+          collections[category].filter((article) => {
+            return article.filePathStem === `/${category}/${articleId}/index`
+          })[0]
+        )
+      })
+      return practicesByPerson
+    },
+
+    /* создаёт структуру вида:
+    {
+      [personId]: {
         [categoryId]: {
           author: [articles],
           contributor: [articles],
