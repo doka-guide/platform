@@ -43,6 +43,11 @@ module.exports = {
       return data.name
     },
 
+    practicesIndex: function (data) {
+      const { personId, practicesByPerson } = data
+      return practicesByPerson[personId]
+    },
+
     articlesIndex: function (data) {
       const { personId, docsByPerson } = data
       return docsByPerson[personId]
