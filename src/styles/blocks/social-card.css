@@ -7,7 +7,7 @@
   --site-font-size-proportion: 0.0358;
   --border-radius-proportion: 0.1883;
   --logo-font-size-proportion: 0.0696;
-  --face-font-size-proportion: 0.0974;
+  --face-font-size-proportion: 0.0938;
   --title-font-size-proportion: 0.0572; /* 06461232604 */
   --logo-letter-spacing: -0.24em;
   display: grid;
@@ -90,31 +90,16 @@
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
-  padding: 0 1em;
   display: inline-grid;
   place-items: center;
-  border-radius: calc(100vw * var(--border-radius-proportion));
-  background-color: #fff;
   pointer-events: none;
   user-select: none;
 }
 
 .social-card__logo {
-  grid-area: 1 / 1 / -1 / -1;
-  margin-right: calc(var(--logo-letter-spacing) * -1);
-  font-family: Spot Mono, monospace;
-  font-size: calc(100vw * var(--logo-font-size-proportion));
-  font-weight: 300;
-  line-height: calc(100vw * var(--logo-font-size-proportion));
-  text-align: left;
-  letter-spacing: var(--logo-letter-spacing);
-  text-decoration: none;
+  width: max(27vw, 140px);
 }
 
-.social-card__face {
-  position: relative;
-  margin-right: calc(var(--logo-letter-spacing) * -0.5);
-  font-size: calc(100vw * var(--face-font-size-proportion));
-  font-weight: 700;
-  letter-spacing: calc(var(--logo-letter-spacing) * 1.25);
+.social-card__logo svg {
+  width: 100%;
 }
