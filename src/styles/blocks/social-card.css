@@ -1,63 +1,116 @@
 .social-card {
-  --offset: 30px;
-  background-color: var(--accent-color);
-  height: 100vh;
+  --horizontal-proportion: 0.5427;
+  --padding-proportion: 0.0338;
+  --site-block-height-proportion: 0.0835;
+  --slogan-font-size-proportion: 0.0318; /* 03817097416 */
+  --site-font-size-proportion: 0.0358;
+  --border-radius-proportion: 0.1883;
+  --logo-font-size-proportion: 0.0696;
+  --face-font-size-proportion: 0.0974;
+  --title-font-size-proportion: 0.0572; /* 06461232604 */
+  --logo-letter-spacing: -0.24em;
+  display: grid;
+  width: 100vw;
+  height: calc(100vw * var(--horizontal-proportion));
+  grid-template-columns: auto calc(100vw * var(--horizontal-proportion));
+  grid-template-rows: auto calc(100vw * var(--site-block-height-proportion));
 }
 
-.social-card__header {
+.social-card__slogan {
+  grid-row-start: 1;
+  grid-row-end: 2;
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  padding: calc(100vw * var(--padding-proportion));
+  font-size: calc(100vw * var(--slogan-font-size-proportion));
+  line-height: calc(100vw * var(--slogan-font-size-proportion));
+  color: #fff;
+  background-color: #000;
 }
 
-.social-card__header-inner {
-  padding: 20px 30px 0;
-  background-color: var(--accent-color);
+.social-card__slogan-wrapper {
+  display: grid;
+  grid-gap: 6px;
+  justify-items: end;
 }
 
 .social-card__title {
-  box-sizing: border-box;
-  padding-top: clamp(20px, 8%, 130px);
-  margin: 0;
-  font-size: calc(var(--font-size-xl) * 2);
-  line-height: calc(var(--font-line-height-xl) * 2);
-  font-weight: normal;
+  --stroke-width: 2px;
+  font-family: 'Spot Mono', monospace;
+  font-size: calc(100vw * var(--title-font-size-proportion));
 }
 
-.social-card__title-code {
-  font-size: calc(var(--font-size-xl) * 2);
-  line-height: calc(var(--font-line-height-xl) * 2);
-  font-family: var(--font-family);
-  letter-spacing: var(--letter-spacing);
+.social-card__title::first-letter {
+  font-feature-settings: 'ss01' on;
 }
 
-.social-card__category {
-  margin-top: 0;
-  margin-bottom: 6px;
+.social-card__moto {
+  text-align: right;
+}
+
+.social-card__site {
+  grid-row-start: -2;
+  grid-row-end: -1;
   display: flex;
-  gap: 4px;
-  font-family: var(--font-family);
-  font-size: 20px;
-  line-height: 22px;
-  letter-spacing: var(--letter-spacing);
+  align-items: center;
+  justify-content: end;
+  height: 42px;
+  padding: 0 calc(100vw * var(--padding-proportion));
+  font-size: calc(100vw * var(--site-font-size-proportion));
+  line-height: calc(100vw * var(--site-font-size-proportion));
+  color: #000;
+  background-color: #fff;
 }
 
-.social-card__category-divider {
-  opacity: 0.6;
+.social-card__base-url {
 }
 
-@media (min-width: 768px) {
-  .social-card__category {
-    display: none;
-  }
+.social-card__cover {
+  grid-row-start: 1;
+  grid-row-end: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--accent-color);
 }
 
-.social-card__description {
-  margin-top: 10px;
-  margin-bottom: 0;
-  font-size: calc(var(--font-size-m, 100%) * 1.75);
-  line-height: calc(var(--font-line-height-m, 1.15) * 2);
+.social-card__cover-wrapper {
 }
 
-.social-card__read-time {
-  margin-top: 1.5em;
-  margin-bottom: 1em;
-  font-size: 1.12em;
+.social-card__image {
+}
+
+.social-card__placeholder {
+  align-self: center;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 0 1em;
+  display: inline-grid;
+  place-items: center;
+  border-radius: calc(100vw * var(--border-radius-proportion));
+  background-color: #fff;
+  pointer-events: none;
+  user-select: none;
+}
+
+.social-card__logo {
+  grid-area: 1 / 1 / -1 / -1;
+  margin-right: calc(var(--logo-letter-spacing) * -1);
+  font-family: Spot Mono, monospace;
+  font-size: calc(100vw * var(--logo-font-size-proportion));
+  font-weight: 300;
+  line-height: calc(100vw * var(--logo-font-size-proportion));
+  text-align: left;
+  letter-spacing: var(--logo-letter-spacing);
+  text-decoration: none;
+}
+
+.social-card__face {
+  position: relative;
+  margin-right: calc(var(--logo-letter-spacing) * -0.5);
+  font-size: calc(100vw * var(--face-font-size-proportion));
+  font-weight: 700;
+  letter-spacing: calc(var(--logo-letter-spacing) * 1.25);
 }
