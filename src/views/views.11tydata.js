@@ -2,7 +2,7 @@ const path = require('path')
 const fsp = require('fs/promises')
 const { URL } = require('url')
 const frontMatter = require('gray-matter')
-const { baseUrl, mainSections } = require('../../config/constants')
+const { baseUrl, mainSections, contentPersonRoles } = require('../../config/constants')
 const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 const { getAuthorsContributionWithCache } = require('../libs/github-contribution-service/github-contribution-service')
@@ -145,10 +145,10 @@ module.exports = {
       const docsByPerson = {}
       const personFields = ['authors', 'contributors', 'editors', 'coverAuthors']
       const fieldNameMap = {
-        authors: 'Автор',
-        contributors: 'Контрибьютор',
-        editors: 'Редактор',
-        coverAuthors: 'Иллюстратор',
+        authors: contentPersonRoles[0],
+        contributors: contentPersonRoles[1],
+        editors: contentPersonRoles[2],
+        coverAuthors: contentPersonRoles[3],
       }
 
       for (const categoryId of mainSections) {

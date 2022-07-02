@@ -127,7 +127,7 @@
           {% endfor %}
           {% if practicesIndex[category].length > 0 %}
             <section class="articles-group__section">
-              <h3 class="articles-group__sub-title font-theme font-theme--code">Автор совета</h3>
+              <h3 class="articles-group__sub-title font-theme font-theme--code">{{ practicesPersonRole }}</h3>
               <ul class="articles-group__list base-list">
                 {% for practice in practicesIndex[category] %}
                   <li>
