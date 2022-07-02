@@ -1,6 +1,7 @@
 .social-card {
   --horizontal-proportion: 0.5427;
   --padding-proportion: 0.0338;
+  --image-padding-proportion: 0.0577;
   --site-block-height-proportion: 0.0835;
   --slogan-font-size-proportion: 0.0318; /* 03817097416 */
   --site-font-size-proportion: 0.0358;
@@ -76,9 +77,12 @@
 }
 
 .social-card__cover-wrapper {
+  padding: calc(100vw * var(--image-padding-proportion));
 }
 
 .social-card__image {
+  height: calc(100vw * var(--horizontal-proportion) - 2 * 100vw * var(--image-padding-proportion));
+  width: auto;
 }
 
 .social-card__placeholder {
