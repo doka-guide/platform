@@ -120,9 +120,7 @@ module.exports = {
           practicesByPerson[personId][category] = []
         }
         practicesByPerson[personId][category].push(
-          collections[category].find((article) => 
-            article.filePathStem === `/${category}/${articleId}/index`
-          )
+          collections[category].find((article) => article.filePathStem === `/${category}/${articleId}/index`)
         )
       })
       return practicesByPerson
