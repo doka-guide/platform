@@ -1,4 +1,4 @@
-const { contentRepLink, contentPersonRoles } = require('../../config/constants')
+const { contentRepLink } = require('../../config/constants')
 
 module.exports = {
   layout: 'base.njk',
@@ -44,7 +44,7 @@ module.exports = {
     },
 
     practicesPersonRole: function () {
-      return contentPersonRoles[4]
+      return 'Автор совета'
     },
 
     practicesIndex: function (data) {
