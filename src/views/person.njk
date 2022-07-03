@@ -106,51 +106,50 @@
     </div>
 
     <div class="person-page__articles">
-      {% if articlesIndex.length > 0 %}
-        {% for category, practicesByRole in articlesIndex %}
-          <section class="person-page__group articles-group articles-group--accent articles-group--title-static" style="--accent-color: var(--color-{{ category }})">
-            <h2 class="articles-group__title">
-              {{ articleIndexesMap[category].data.name }}
-            </h2>
-            {% for personRole, articles in practicesByRole | dictsort %}
-              <section class="articles-group__section">
-                <h3 class="articles-group__sub-title font-theme font-theme--code">{{ personRole }}</h3>
-                <ul class="articles-group__list base-list">
-                  {% for article in articles %}
-                    <li>
-                      <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/">
-                        {{ article.data.title | descriptionMarkdown | safe }}
-                      </a>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </section>
-            {% endfor %}
-            {% if practicesIndex[category].length > 0 %}
-              <section class="articles-group__section">
-                <h3 class="articles-group__sub-title font-theme font-theme--code">{{ practicesPersonRole }}</h3>
-                <ul class="articles-group__list base-list">
-                  {% for practice in practicesIndex[category] %}
-                    <li>
-                      <a class="articles-group__link link" href="/{{ category }}/{{ practice.fileSlug }}/#na-praktike">
-                        {{ practice.data.title | descriptionMarkdown | safe }}
-                      </a>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </section>
-            {% endif %}
-          </section>
-        {% endfor %}
-      {% else %}
+      {% for category, practicesByRole in articlesIndex %}
+        <section class="person-page__group articles-group articles-group--accent articles-group--title-static" style="--accent-color: var(--color-{{ category }})">
+          <h2 class="articles-group__title">
+            {{ articleIndexesMap[category].data.name }}
+          </h2>
+          {% for personRole, articles in practicesByRole | dictsort %}
+            <section class="articles-group__section">
+              <h3 class="articles-group__sub-title font-theme font-theme--code">{{ personRole }}</h3>
+              <ul class="articles-group__list base-list">
+                {% for article in articles %}
+                  <li>
+                    <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/">
+                      {{ article.data.title | descriptionMarkdown | safe }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </section>
+          {% endfor %}
+          {% if practicesIndex[category] | length %}
+            <section class="articles-group__section">
+              <h3 class="articles-group__sub-title font-theme font-theme--code">{{ practicesPersonRole }}</h3>
+              <ul class="articles-group__list base-list">
+                {% for practice in practicesIndex[category] %}
+                  <li>
+                    <a class="articles-group__link link" href="/{{ category }}/{{ practice.fileSlug }}/#na-praktike">
+                      {{ practice.data.title | descriptionMarkdown | safe }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </section>
+          {% endif %}
+        </section>
+      {% endfor %}
+      {% if isOnlyWithPractice %}
         {% for category, practicesByCategory in practicesIndex %}
           <section class="person-page__group articles-group articles-group--accent articles-group--title-static" style="--accent-color: var(--color-{{ category }})">
             <h2 class="articles-group__title">
               {{ articleIndexesMap[category].data.name }}
             </h2>
+            <h3 class="articles-group__sub-title font-theme font-theme--code">{{ practicesPersonRole }}</h3>
             {% for practice in practicesByCategory | sort %}
               <section class="articles-group__section">
-                <h3 class="articles-group__sub-title font-theme font-theme--code">{{ practicesPersonRole }}</h3>
                 <ul class="articles-group__list base-list">
                   <li>
                     <a class="articles-group__link link" href="/{{ category }}/{{ practice.fileSlug }}/#na-praktike">
