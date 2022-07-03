@@ -237,11 +237,18 @@
   }
 
   .search-page__main {
+    grid-column: 2/-1;
     justify-self: center;
   }
 
   .search-page__footer {
     grid-column-start: 2;
     grid-column-end: -1;
+  }
+}
+
+@media (min-width: 1240px) {
+  .search-page__main {
+    grid-column: auto;
   }
 }
