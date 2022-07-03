@@ -56,7 +56,7 @@
   display: flex;
   align-items: center;
   justify-content: end;
-  height: 42px;
+  height: calc(100vw * var(--site-block-height-proportion));
   padding: 0 calc(100vw * var(--padding-proportion));
   font-size: calc(100vw * var(--site-font-size-proportion));
   line-height: calc(100vw * var(--site-font-size-proportion));
@@ -65,6 +65,7 @@
 }
 
 .social-card__base-url {
+  margin: 0;
 }
 
 .social-card__cover {
