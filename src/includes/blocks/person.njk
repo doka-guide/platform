@@ -13,14 +13,25 @@
       <div class="person__name"><a class="person__link link" href="{{ data.pageLink }}">{{- data.name -}}</a></div>
 
       <span class="person__stat">
-        {{ data.totalArticles }}
-        {{ data.totalArticles | declension('статья', 'статьи', 'статей') }}
+        {% if data.totalArticles > 0 %}
+          {{ data.totalArticles }}
+          {{ data.totalArticles | declension('статья', 'статьи', 'статей') }}
+        {% elif data.totalPractices > 0 %}
+          {{ data.totalPractices }}
+          {{ data.totalPractices | declension('совет', 'совета', 'советов') }}
+        {% endif %}
       </span>
 
       <span class="person__indicators">
-        {% for category, count in data.stat %}
-          <span class="person__indicator" style="--accent-color: var(--color-{{ category }})" data-count="{{ count }}"></span>
-        {% endfor %}
+        {% if data.stat | length %}
+          {% for category, count in data.stat %}
+            <span class="person__indicator" style="--accent-color: var(--color-{{ category }})" data-count="{{ count }}"></span>
+          {% endfor %}
+        {% elif data.practices | length %}
+          {% for category, count in data.practices %}
+            <span class="person__indicator" style="--accent-color: var(--color-{{ category }})" data-count="{{ count }}"></span>
+          {% endfor %}
+        {% endif %}
       </span>
     </div>
   </div>

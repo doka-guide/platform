@@ -178,7 +178,7 @@ module.exports = {
     },
 
     peopleData: async function (data) {
-      const { collections, docsByPerson } = data
+      const { collections, practicesByPerson, docsByPerson } = data
       const { people } = collections
 
       if (!people || people.length === 0) {
@@ -187,7 +187,7 @@ module.exports = {
 
       const filteredAuthors = people.filter((person) => {
         const personId = person.fileSlug
-        return !!docsByPerson[personId]
+        return !!docsByPerson[personId] || !!practicesByPerson[personId]
       })
 
       const authorsNames = filteredAuthors.map((author) => author.fileSlug)
@@ -201,23 +201,33 @@ module.exports = {
         .map((person) => {
           const personId = person.fileSlug
           const personData = docsByPerson[personId]
+          const personPractices = practicesByPerson[personId]
           const { name, photo } = person.data
 
           const photoURL = photo ? (isExternalURL(photo) ? photo : `/people/${personId}/${photo}`) : null
 
           const pageLink = `/people/${personId}/`
 
-          const statEntries = Object.entries(personData).map(([category, articlesByRole]) => [
-            category,
-            Object.values(articlesByRole).reduce((acc, articles) => {
-              acc += articles.length
-              return acc
-            }, 0),
-          ])
+          const statEntries = personData
+            ? Object.entries(personData).map(([category, articlesByRole]) => [
+                category,
+                Object.values(articlesByRole).reduce((acc, articles) => {
+                  acc += articles.length
+                  return acc
+                }, 0),
+              ])
+            : []
+
+          const practiceEntries = personPractices
+            ? Object.entries(personPractices).map(([category, practicesByCategory]) => [
+                category,
+                practicesByCategory.length,
+              ])
+            : []
 
           const mostContribution = statEntries.reduce((acc, currentItem) => {
             return currentItem[1] > acc[1] ? currentItem : acc
-          })
+          }, [])
 
           let [mostContributedCategory, mostContributedCount] = mostContribution
 
@@ -230,7 +240,13 @@ module.exports = {
             return acc
           }, 0)
 
-          const stat = Object.fromEntries(statEntries)
+          const totalPractices = practiceEntries.reduce((acc, currentItem) => {
+            acc += currentItem[1]
+            return acc
+          }, 0)
+
+          const stat = statEntries ? Object.fromEntries(statEntries) : {}
+          const practices = practiceEntries ? Object.fromEntries(practiceEntries) : {}
 
           return {
             id: personId,
@@ -238,8 +254,10 @@ module.exports = {
             photoURL,
             pageLink,
             stat,
+            practices,
             mostContributedCategory,
             totalArticles,
+            totalPractices,
             contributionStat: contributionStat[personId],
           }
         })
