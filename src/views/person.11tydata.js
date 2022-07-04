@@ -43,6 +43,20 @@ module.exports = {
       return data.name
     },
 
+    practicesPersonRole: function () {
+      return 'Автор совета'
+    },
+
+    practicesIndex: function (data) {
+      const { personId, practicesByPerson } = data
+      return practicesByPerson[personId]
+    },
+
+    isOnlyWithPractice: function (data) {
+      const { personId, docsByPerson } = data
+      return !docsByPerson[personId]
+    },
+
     articlesIndex: function (data) {
       const { personId, docsByPerson } = data
       return docsByPerson[personId]
