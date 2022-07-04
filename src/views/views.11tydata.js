@@ -223,9 +223,14 @@ module.exports = {
               ])
             : []
 
-          const mostContribution = statEntries.reduce((acc, currentItem) => {
-            return currentItem[1] > acc[1] ? currentItem : acc
-          }, [])
+          const mostContribution =
+            statEntries.length > 0
+              ? statEntries.reduce((acc, currentItem) => {
+                  return currentItem[1] > acc[1] ? currentItem : acc
+                })
+              : practiceEntries.reduce((acc, currentItem) => {
+                  return currentItem[1] > acc[1] ? currentItem : acc
+                })
 
           let [mostContributedCategory, mostContributedCount] = mostContribution
 
@@ -233,18 +238,24 @@ module.exports = {
           mostContributedCategory =
             mostContributedCount === 1 && statEntries.length > 1 ? null : mostContributedCategory
 
-          const totalArticles = statEntries.reduce((acc, currentItem) => {
-            acc += currentItem[1]
-            return acc
-          }, 0)
+          console.log(mostContributedCategory, mostContributedCount, mostContribution)
 
-          const totalPractices = practiceEntries.reduce((acc, currentItem) => {
-            acc += currentItem[1]
-            return acc
-          }, 0)
+          const totalArticles = statEntries
+            ? statEntries.reduce((acc, currentItem) => {
+                acc += currentItem[1]
+                return acc
+              }, 0)
+            : 0
 
-          const stat = statEntries ? Object.fromEntries(statEntries) : {}
-          const practices = practiceEntries ? Object.fromEntries(practiceEntries) : {}
+          const totalPractices = practiceEntries
+            ? practiceEntries.reduce((acc, currentItem) => {
+                acc += currentItem[1]
+                return acc
+              }, 0)
+            : 0
+
+          const stat = Object.fromEntries(statEntries)
+          const practices = Object.fromEntries(practiceEntries)
 
           return {
             id: personId,
