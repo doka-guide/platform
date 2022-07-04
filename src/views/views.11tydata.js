@@ -238,8 +238,6 @@ module.exports = {
           mostContributedCategory =
             mostContributedCount === 1 && statEntries.length > 1 ? null : mostContributedCategory
 
-          console.log(mostContributedCategory, mostContributedCount, mostContribution)
-
           const totalArticles = statEntries
             ? statEntries.reduce((acc, currentItem) => {
                 acc += currentItem[1]
