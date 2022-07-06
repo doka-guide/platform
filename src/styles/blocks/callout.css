@@ -17,7 +17,7 @@
 }
 
 .callout__content {
-  --background-code-color: hsl(0 0% calc(var(--is-light-theme-on) * 100%));
+  --background-code-color: hsl(var(--color-base-background));
   flex: 1 1 320px;
 }
 
