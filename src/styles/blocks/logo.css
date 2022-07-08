@@ -21,11 +21,14 @@
   padding: var(--image-padding);
   display: inline-grid;
   place-items: center;
-  border: 1px var(--logo-border-color) solid;
   background-color: var(--color-background);
   border-radius: 2em;
   pointer-events: none;
   user-select: none;
+}
+
+.logo__image--contrast {
+  border: 1px var(--logo-border-color) solid;
 }
 
 .logo__image::before {
@@ -107,10 +110,13 @@
   margin-left: 5px;
   padding: 0 calc(var(--logo-letter-spacing) * -15 / 7);
   background-color: var(--color-background);
-  border: 1px var(--logo-border-color) solid;
   border-radius: 2em;
   text-decoration: none;
   line-height: calc(var(--image-font-size) * 7 / 10 + var(--logo-letter-spacing) * -22 / 7);
+}
+
+.logo__text--contrast {
+  border: 1px var(--logo-border-color) solid;
 }
 
 .logo__text::first-letter {
