@@ -1,6 +1,7 @@
 {% from "blocks/header.njk" import header with context %}
 {% from "blocks/footer.njk" import footer with context %}
 {% from "blocks/person.njk" import person %}
+{% set exeptionURL = "/people/" %}
 
 {% macro peopleGridItem(data) %}
   {%- set dataCategories -%}
@@ -19,11 +20,18 @@
 {% endmacro %}
 
 <div class="people-page">
+  {% if page.url == exeptionURL %}
+  {{ header(
+    category=title,
+    pageCategoryId='people'
+  ) }}
+  {% else %}
   {{ header(
     category=title,
     pageCategoryId='people',
     title=title
   ) }}
+  {% endif %}
 
   <main class="people-page__main">
     <form class="people-page__filter filter-panel" autocomplete="off">
