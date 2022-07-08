@@ -11,7 +11,7 @@
   {% endset %}
 
   {% set defaultLetters %}
-    U<span class="logo__eye">·</span>ᴥ<span class="logo__eye">·</span>U
+    U<span class="logo__eye">•</span><span class="logo__nose">ᴥ</span><span class="logo__eye">•</span>U
   {% endset %}
   {% set letters = letters if letters else defaultLetters %}
 
@@ -22,7 +22,7 @@
           {{ letters | safe }}
         </div>
         <div class="logo__symbols logo__symbols--search">
-          UˇᴥˇU
+          U<span class="logo__eye">ˇ</span><span class="logo__nose">ᴥ</span><span class="logo__eye">ˇ</span>U
         </div>
       </div>
     {% endif %}

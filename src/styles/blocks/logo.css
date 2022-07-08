@@ -1,6 +1,6 @@
 .logo {
   --ligthness: calc(var(--is-light-theme-on) * 90% + var(--is-dark-theme-on) * 25%);
-  --logo-background-color: hsl(0 0% var(--ligthness));
+  --logo-border-color: hsla(0 0% calc(0% + var(--is-dark-theme-on) * 100%) / 0.33);
   --image-font-size: 0.9375em;
   --logo-letter-spacing: -0.14em;
   --image-padding: calc(2 / 18.75 * 1em) calc(6 / 18.75 * 1em) 0;
@@ -21,7 +21,8 @@
   padding: var(--image-padding);
   display: inline-grid;
   place-items: center;
-  background-color: var(--logo-background-color);
+  border: 1px var(--logo-border-color) solid;
+  background-color: var(--color-background);
   border-radius: 2em;
   pointer-events: none;
   user-select: none;
@@ -87,14 +88,29 @@
 
 .logo__eye {
   position: relative;
-  top: -0.05em;
+  top: -0.08em;
+}
+
+.logo__eye:first-child {
+  letter-spacing: calc(var(--logo-letter-spacing) * 2);
+}
+
+.logo__nose {
+  position: relative;
+  font-size: calc(var(--image-font-size) * 10 / 7);
+  line-height: calc(var(--image-font-size) * 7 / 10);
+  top: -0.015em;
+  letter-spacing: calc(var(--logo-letter-spacing) * 1.5);
 }
 
 .logo__text {
-  --stroke-width: 2px;
-  margin-left: 6px;
-  align-self: baseline;
-  text-underline-offset: 0.2em;
+  margin-left: 5px;
+  padding: 0 calc(var(--logo-letter-spacing) * -15 / 7);
+  background-color: var(--color-background);
+  border: 1px var(--logo-border-color) solid;
+  border-radius: 2em;
+  text-decoration: none;
+  line-height: calc(var(--image-font-size) * 7 / 10 + var(--logo-letter-spacing) * -22 / 7);
 }
 
 .logo__text::first-letter {
