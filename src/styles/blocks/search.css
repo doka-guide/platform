@@ -2,8 +2,8 @@
   position: relative;
   display: grid;
   font-family: var(--font-family);
-  font-size: var(--font-size-l);
-  line-height: var(--font-line-height-l);
+  font-size: calc(var(--font-size-xl) * 0.85);
+  line-height: calc(var(--font-line-height-xl) * 0.85);
   letter-spacing: var(--letter-spacing);
 }
 
@@ -24,8 +24,12 @@
   font: inherit;
   letter-spacing: inherit;
   color: inherit;
-  border-radius: 6px;
-  background-color: hsl(0 0% 77% / 0.33);
+  outline: none;
+  border-bottom: 2px solid hsl(0 0% 70%);
+}
+
+.search__input:focus {
+  border-bottom-color: hsl(0 0% 0%);
 }
 
 .search__control {
