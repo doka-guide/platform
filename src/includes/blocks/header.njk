@@ -4,65 +4,62 @@
   <span class="header__divider {% if isLarge %}header__divider--large{% endif %} font-theme font-theme--code" aria-hidden="true"></span>
 {% endmacro %}
 
-{% macro header(pageCategoryId, category, title, link, isStatic, isLogoContrastColor, hasAccentColor, isLogoImageHidden = false) %}
+{% macro header(pageCategoryId, category, title, link, isLogoContrastColor, hasAccentColor, isLogoImageHidden = false) %}
   {% set articleIndexes = collections.articleIndexes %}
   <header
     class="
       header
       {% if isMainPage %}header--open{% endif %}
-      {% if isStatic %}header--static{% endif %}
       {% if not hasAccentColor %}header--simple{% endif %}
     "
   >
-    {% if not isStatic %}
-      <div class="header__inner header__inner--main font-theme font-theme--code">
-        <ul class="header__breadcrumbs breadcrumbs base-list">
-          <li class="breadcrumbs__item">
-            {{ logo(isLink=true, isContrastColor=isLogoContrastColor, isImageHidden=isLogoImageHidden, letters=logoLetters) }}
-            {{ divider() }}
-          </li>
+    <div class="header__inner header__inner--main font-theme font-theme--code">
+      <ul class="header__breadcrumbs breadcrumbs base-list">
+        <li class="breadcrumbs__item">
+          {{ logo(isLink=true, isContrastColor=isLogoContrastColor, isImageHidden=isLogoImageHidden, letters=logoLetters) }}
+          {{ divider() }}
+        </li>
 
-          {% if category %}
-            {% if title %}
-              <li class="breadcrumbs__item header__category">
-                <a class="breadcrumbs__text link" href="/{{ pageCategoryId }}/">
-                  {{ category }}
-                </a>
-                {{ divider() }}
-              </li>
-            {% else %}
-              <li class="breadcrumbs__item header__category header__category--standalone">
-                <span class="breadcrumbs__text">
-                  {{ category }}
-                </span>
-              </li>
-            {% endif %}
-          {% endif %}
-
+        {% if category %}
           {% if title %}
-            <li class="breadcrumbs__item breadcrumbs__item--shrink header__title">
-              <span class="breadcrumbs__text" title="{{ title | replace('`', '') }}">
-                {{ title | descriptionMarkdown | safe }}
+            <li class="breadcrumbs__item header__category">
+              <a class="breadcrumbs__text link" href="/{{ pageCategoryId }}/">
+                {{ category }}
+              </a>
+              {{ divider() }}
+            </li>
+          {% else %}
+            <li class="breadcrumbs__item header__category header__category--standalone">
+              <span class="breadcrumbs__text">
+                {{ category }}
               </span>
             </li>
           {% endif %}
-        </ul>
+        {% endif %}
 
-        <div class="header__toggle">
-          <button class="menu-toggle" type="button">
-            <span class="visually-hidden">Открыть меню</span>
-            <span class="menu-toggle__inner menu-toggle__inner--open">
-              <kbd class="hotkey font-theme font-theme--code">/</kbd>
-              <span class="menu-toggle__icon menu-toggle__icon--open">
-                <span class="menu-toggle__dot"></span>
-                <span class="menu-toggle__dot"></span>
-                <span class="menu-toggle__dot"></span>
-              </span>
+        {% if title %}
+          <li class="breadcrumbs__item breadcrumbs__item--shrink header__title">
+            <span class="breadcrumbs__text" title="{{ title | replace('`', '') }}">
+              {{ title | descriptionMarkdown | safe }}
             </span>
-          </button>
-        </div>
+          </li>
+        {% endif %}
+      </ul>
+
+      <div class="header__toggle">
+        <button class="menu-toggle" type="button">
+          <span class="visually-hidden">Открыть меню</span>
+          <span class="menu-toggle__inner menu-toggle__inner--open">
+            <kbd class="hotkey font-theme font-theme--code">/</kbd>
+            <span class="menu-toggle__icon menu-toggle__icon--open">
+              <span class="menu-toggle__dot"></span>
+              <span class="menu-toggle__dot"></span>
+              <span class="menu-toggle__dot"></span>
+            </span>
+          </span>
+        </button>
       </div>
-    {% endif %}
+    </div>
 
     <div class="header__inner header__inner--menu">
       <div class="header__logo">
@@ -73,20 +70,18 @@
       {% include "blocks/search.njk" %}
       {% include "blocks/nav-list.njk" %}
 
-      {% if not isStatic %}
-        <div class="header__toggle">
-          <button class="menu-toggle" type="button">
-            <span class="visually-hidden">Закрыть меню</span>
-            <span class="menu-toggle__inner menu-toggle__inner--close">
-              <kbd class="hotkey font-theme font-theme--code">esc</kbd>
-              <svg class="menu-toggle__icon menu-toggle__icon--close" width="45" height="45" viewBox="0 0 45 45">
-                <circle cx="22.5" cy="22.5" r="22.5" fill="var(--color-text)" />
-                <path fill="var(--color-background)" d="M30.3 32.1c-.5 0-1-.2-1.4-.6l-6.5-6.6-6.5 6.5c-.5.5-1 .7-1.5.7-.4 0-.8-.1-1-.4-.3-.3-.5-.6-.5-1 0-.6.3-1.1.7-1.6l6.5-6.5-6.5-6.4c-.4-.5-.7-1-.7-1.5s.2-.8.4-1.1c.3-.3.7-.4 1.1-.4.5 0 1 .2 1.5.7l6.5 6.5 6.5-6.6c.5-.5 1-.7 1.5-.7.3 0 .7.2 1 .5.3.4.5.8.5 1.1 0 .5-.2 1-.7 1.4l-6.5 6.5 6.5 6.6c.5.5.7 1 .7 1.4 0 .4-.1.7-.5 1-.4.4-.7.5-1 .5z"/>
-              </svg>
-            </span>
-          </button>
-        </div>
-      {% endif %}
+      <div class="header__toggle">
+        <button class="menu-toggle" type="button">
+          <span class="visually-hidden">Закрыть меню</span>
+          <span class="menu-toggle__inner menu-toggle__inner--close">
+            <kbd class="hotkey font-theme font-theme--code">esc</kbd>
+            <svg class="menu-toggle__icon menu-toggle__icon--close" width="45" height="45" viewBox="0 0 45 45">
+              <circle cx="22.5" cy="22.5" r="22.5" fill="var(--color-text)" />
+              <path fill="var(--color-background)" d="M30.3 32.1c-.5 0-1-.2-1.4-.6l-6.5-6.6-6.5 6.5c-.5.5-1 .7-1.5.7-.4 0-.8-.1-1-.4-.3-.3-.5-.6-.5-1 0-.6.3-1.1.7-1.6l6.5-6.5-6.5-6.4c-.4-.5-.7-1-.7-1.5s.2-.8.4-1.1c.3-.3.7-.4 1.1-.4.5 0 1 .2 1.5.7l6.5 6.5 6.5-6.6c.5-.5 1-.7 1.5-.7.3 0 .7.2 1 .5.3.4.5.8.5 1.1 0 .5-.2 1-.7 1.4l-6.5 6.5 6.5 6.6c.5.5.7 1 .7 1.4 0 .4-.1.7-.5 1-.4.4-.7.5-1 .5z"/>
+            </svg>
+          </span>
+        </button>
+      </div>
     </div>
   </header>
 {% endmacro %}
