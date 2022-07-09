@@ -43,7 +43,7 @@
 }
 
 .search__input::placeholder {
-  opacity: 0.6;
+  opacity: 0.7;
   font: inherit;
   letter-spacing: inherit;
   color: inherit;
