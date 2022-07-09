@@ -15,7 +15,7 @@
   >
     <div class="header__inner header__inner--main font-theme font-theme--code">
       <ul class="header__breadcrumbs breadcrumbs base-list">
-        <li class="breadcrumbs__item">
+        <li class="breadcrumbs__item header__logo">
           {{ logo(isLink=true, isContrastColor=isLogoContrastColor, isImageHidden=isLogoImageHidden, letters=logoLetters) }}
           {% if title %}{{ divider() }}{% endif %}
         </li>
@@ -63,7 +63,10 @@
 
     <div class="header__inner header__inner--menu">
       <div class="header__logo">
-        {{ logo(isLink=true) }}
+        {{ logo(
+          isLink=true,
+          letters='U<span class="logo__eye">&gt;</span><span class="logo__nose">ᴥ</span><span class="logo__eye">&lt;</span>U'
+        ) }}
         {{ divider(isLarge=true) }}
       </div>
 

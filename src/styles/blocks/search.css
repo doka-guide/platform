@@ -1,4 +1,5 @@
 .search {
+  --search-input-height: calc(var(--font-size-xl) * 1.25);
   position: relative;
   display: grid;
   font-family: var(--font-family);
@@ -18,7 +19,7 @@
   display: block;
   box-sizing: border-box;
   width: 100%;
-  height: var(--search-input-height, 1.25em);
+  height: var(--search-input-height, 45px);
   border: 0;
   padding: 0 10px;
   font: inherit;

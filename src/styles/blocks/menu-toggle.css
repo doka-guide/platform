@@ -22,6 +22,10 @@
   align-items: center;
 }
 
+.menu-toggle__inner--close {
+  flex-direction: column-reverse;
+}
+
 .menu-toggle__icon {
   transition: opacity 0.2s;
 }
