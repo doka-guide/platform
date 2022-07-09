@@ -17,7 +17,7 @@
       <ul class="header__breadcrumbs breadcrumbs base-list">
         <li class="breadcrumbs__item">
           {{ logo(isLink=true, isContrastColor=isLogoContrastColor, isImageHidden=isLogoImageHidden, letters=logoLetters) }}
-          {{ divider() }}
+          {% if title %}{{ divider() }}{% endif %}
         </li>
 
         {% if category %}
