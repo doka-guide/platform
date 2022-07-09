@@ -1,6 +1,6 @@
 .header {
   --header-bg-color: var(--accent-color, var(--color-background));
-  --search-input-height: 1.1em;
+  --search-input-height: 1.5em;
   --header-animation-time: 0.6s;
   position: relative;
   z-index: 1;
@@ -301,7 +301,7 @@
       '.    search-output   .'
       '.    list   .';
     grid-auto-columns: auto 1fr auto;
-    grid-template-rows: 45px auto;
+    grid-template-rows: var(--search-input-height) auto;
   }
 
   .header__inner--menu .header__search {
