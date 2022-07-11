@@ -281,10 +281,6 @@
     margin-top: 10px;
     align-self: flex-start;
   }
-
-  .header:not(.header--fixed) .header__inner--main .header__logo {
-    /* font-size: 1.2em; */
-  }
 }
 
 @media (min-width: 768px) {
