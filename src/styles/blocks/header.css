@@ -124,7 +124,7 @@
 
 .header__logo {
   display: flex;
-  align-self: flex-start;
+  align-self: center;
   align-items: center;
 }
 
@@ -254,6 +254,10 @@
 }
 
 @media not all and (min-width: 1366px) {
+  .header__category--standalone {
+    height: 1.25em;
+  }
+
   .header:not(.header--fixed) .header__category--standalone {
     display: none;
   }
