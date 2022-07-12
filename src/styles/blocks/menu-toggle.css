@@ -22,8 +22,10 @@
   align-items: center;
 }
 
-.menu-toggle__inner--close {
-  flex-direction: column-reverse;
+@media all and (min-width: 1024px) {
+  .menu-toggle__inner--close {
+    flex-direction: column-reverse;
+  }
 }
 
 .menu-toggle__icon {
