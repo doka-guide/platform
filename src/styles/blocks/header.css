@@ -65,6 +65,29 @@
   background-color: var(--header-bg-color);
 }
 
+.header.header--main:not(.header--open) {
+  background: none;
+}
+
+.header.header--main:not(.header--open)::after {
+  margin-top: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      hsla(0 0% 100% / 0.59),
+      hsla(0 0% 100% / 0)
+    );
+}
+
+.header.header--main:not(.header--open) .header__inner {
+  background:
+    linear-gradient(
+      to bottom,
+      hsla(0 0% 100% / 0.75),
+      hsla(0 0% 100% / 0.59)
+    );
+}
+
 .header__inner--main {
   font-size: var(--font-size-l);
   letter-spacing: -0.06em;
@@ -224,7 +247,7 @@
   display: none;
 }
 
-.header--simple.header--fixed::after {
+.header--simple:not(.header--main).header--fixed::after {
   border-top: 1px solid;
 }
 
