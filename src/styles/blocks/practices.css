@@ -1,0 +1,8 @@
+.practices__author-name > * {
+  font-family: 'Spot Mono', monospace;
+  font-weight: 300;
+  font-size: var(--font-size-l);
+  line-height: var(--font-line-height-l);
+  letter-spacing: -0.05em;
+  text-align: left;
+}

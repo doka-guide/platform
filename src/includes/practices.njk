@@ -1,8 +1,8 @@
 {% macro practiceAuthorName(name, url) %}
   {% if url %}
-    <a class="link" href="{{ url }}">{{ name }}</a>
+    <a class="link font-theme--code" href="{{ url }}">{{ name }}</a>
   {% else %}
-    {{ name }}
+    <span class="font-theme--code">{{ name }}</span>
   {% endif %}
 {% endmacro %}
 
@@ -18,10 +18,13 @@
 
       <article id="practices-{{ practice.fileSlug }}">
         <h3 class="practices__author">
-          {{ practiceAuthorName(
-            name=(practiceAuthor.data.name or practice.fileSlug),
-            url='/people/' + practiceAuthor.fileSlug + '/'
-          ) }}
+          <span class="practices__author-name">
+            {{ practiceAuthorName(
+              name=(practiceAuthor.data.name or practice.fileSlug),
+              url='/people/' + practiceAuthor.fileSlug + '/'
+            ) }}
+          </span>
+          советует
         </h3>
         <div class="content">
           {{ practice.templateContent | safe }}
