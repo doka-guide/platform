@@ -278,6 +278,12 @@
   }
 }
 
+@media all and (min-width: 414px) {
+  .header__category.header__category--visible {
+    display: flex;
+  }
+}
+
 @media (min-width: 768px) {
   .header__breadcrumbs {
     font-size: var(--font-size-l);
