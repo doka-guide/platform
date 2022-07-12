@@ -124,6 +124,12 @@
     visibility 0s;
 }
 
+@media (min-width: 1024px) {
+  .header__inner--menu {
+    padding-top: 7px;
+  }
+}
+
 .header__breadcrumbs {
   min-width: 0;
   line-height: 1.25;
