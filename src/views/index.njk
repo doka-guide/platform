@@ -4,11 +4,12 @@
 {% set isLogoContrastColor = hasCategory %}
 
 {{ header(
-  isLogoContrastColor=isLogoContrastColor
+  isLogoContrastColor=isLogoContrastColor,
+  isMainPage=true
 ) }}
 
 <main>
-  <div class="container" style="margin-top: calc({{ collections.articleIndexes.length }} * var(--font-size-xxl));">
+  <div class="container" style="margin-top: calc({{ collections.articleIndexes.length }} * var(--font-size-xxl) * 1.25);">
     <div class="intro">
       <h1 class="visually-hidden">Дока</h1>
       <p class="intro__description">Документация для разработчиков на человеческом языке</p>

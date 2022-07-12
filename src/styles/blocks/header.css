@@ -8,7 +8,7 @@
 }
 
 /* фон при открытом меню */
-.header::before {
+.header::before:not(.header--open) {
   content: '';
   position: fixed;
   z-index: 1;
