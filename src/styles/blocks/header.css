@@ -276,11 +276,6 @@
     margin-top: 10px;
     flex-basis: 100%;
   }
-
-  .header__inner--main .header__toggle {
-    margin-top: 10px;
-    align-self: flex-start;
-  }
 }
 
 @media (min-width: 768px) {
