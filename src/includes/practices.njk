@@ -26,9 +26,12 @@
           </span>
           советует
         </h3>
-        <div class="content">
+        <details class="practices__content content">
+          <summary class="practices__summary">
+            {{ practice.summary }}
+          </summary>
           {{ practice.templateContent | safe }}
-        </div>
+        </details>
       </article>
     {% endfor %}
 

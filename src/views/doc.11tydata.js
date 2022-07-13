@@ -144,9 +144,15 @@ module.exports = {
       const allPractices = data.collections.practice
       const { docPath } = data
 
-      return allPractices.filter((practice) => {
-        return practice.filePathStem.startsWith(`${docPath}/practice`)
-      })
+      return allPractices
+        ?.filter((practice) => {
+          return practice.filePathStem.startsWith(`${docPath}/practice`)
+        })
+        ?.map((practice) => {
+          const slices = practice.template.inputContent.split('\n')
+          practice['summary'] = slices[0] + '\n'
+          return practice
+        })
     },
 
     containsPractice: function (data) {

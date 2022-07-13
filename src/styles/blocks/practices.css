@@ -6,3 +6,56 @@
   letter-spacing: -0.05em;
   text-align: left;
 }
+
+.practices__content {
+
+}
+
+.practices__content > .details__summary {
+  display: grid;
+  background-color: var(--color-background);
+  grid-gap: var(--font-size-l);
+  grid-template-rows: 30px calc(var(--font-size) * 2) auto;
+}
+
+.practices__content > .details__summary::marker {
+  content: '';
+}
+
+.practices__content > .details__summary::before {
+  grid-row-start: 1;
+  content: '1';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--color-text);
+  font-family: 'Spot Mono', monospace;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.practices__content > .details__summary::after {
+  grid-row-start: 3;
+  display: block;
+  justify-self: start;
+  content: "+ Развернуть";
+  left: 0;
+  padding: 4px 11px 4px 15px;
+  box-shadow: 0 0 10px 5px #e9e9e9;
+  border-radius: 5px;
+  background-color: var(--color-background);
+  z-index: 1;
+}
+
+.practices__content[open] > .details__summary::after {
+  grid-row-start: 1;
+  content: "– Свернуть";
+  justify-self: end;
+}
+
+.practices__content > .details__content {
+  display: block;
+}
