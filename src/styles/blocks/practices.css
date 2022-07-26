@@ -1,3 +1,12 @@
+.practices > article {
+  display: grid;
+  grid-gap: 1em;
+}
+
+.practices > article > .article-heading {
+  margin-bottom: 0;
+}
+
 .practices__author-name > * {
   font-family: 'Spot Mono', monospace;
   font-weight: 300;
@@ -8,23 +17,40 @@
 }
 
 .practices__content {
+  counter-increment: practices__content;
+}
 
+.practices__content::after {
+  content: ' ';
+  display: block;
+  position: relative;
+  height: 100px;
+  background: linear-gradient(180deg, hsla(var(--color-base-background) / 0) 0%, hsla(var(--color-base-background) / 0.67) 100%);
+  border-radius: 8px;
+  z-index: 0;
 }
 
 .practices__content > .details__summary {
+  grid-row-start: 2;
+  grid-row-end: 4;
   display: grid;
-  background-color: var(--color-background);
   grid-gap: var(--font-size-l);
-  grid-template-rows: 30px calc(var(--font-size) * 2) auto;
+  grid-template-rows: 30px calc(var(--font-size) * 2) var(--font-size);
+  height: 110px;
+  background-color: var(--color-background);
 }
 
 .practices__content > .details__summary::marker {
   content: '';
 }
 
+.practices__content > .details__summary::-webkit-details-marker {
+  display: none;
+}
+
 .practices__content > .details__summary::before {
   grid-row-start: 1;
-  content: '1';
+  content: counter(practices__content);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,20 +66,32 @@
 .practices__content > .details__summary::after {
   grid-row-start: 3;
   display: block;
+  position: absolute;
+  margin-top: calc(210px - 30px);
   justify-self: start;
   content: "+ Развернуть";
-  left: 0;
-  padding: 4px 11px 4px 15px;
+  padding: 4px 15px;
   box-shadow: 0 0 10px 5px #e9e9e9;
   border-radius: 5px;
   background-color: var(--color-background);
   z-index: 1;
 }
 
+.practices__content[open]::after {
+  display: none;
+}
+
+.practices__content[open] > .details__summary {
+  height: auto;
+  grid-template-rows: unset;
+}
+
 .practices__content[open] > .details__summary::after {
-  grid-row-start: 1;
+  position: sticky;
   content: "– Свернуть";
-  justify-self: end;
+  grid-row-start: unset;
+  bottom: 1em;
+  margin-top: unset;
 }
 
 .practices__content > .details__content {

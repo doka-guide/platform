@@ -28,9 +28,8 @@
         </h3>
         <details class="practices__content content">
           <summary class="practices__summary">
-            {{ practice.summary }}
+            {{ practice.templateContent | safe }}
           </summary>
-          {{ practice.templateContent | safe }}
         </details>
       </article>
     {% endfor %}
