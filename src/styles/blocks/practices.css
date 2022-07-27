@@ -17,6 +17,7 @@
 }
 
 .practices__content {
+  position: relative;
   counter-increment: practices__content;
 }
 
@@ -67,7 +68,8 @@
   grid-row-start: 3;
   display: block;
   position: absolute;
-  margin-top: calc(210px - 30px);
+  bottom: 30px;
+  left: 20px;
   justify-self: start;
   content: "+ Развернуть";
   padding: 4px 15px;

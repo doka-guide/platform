@@ -4,6 +4,10 @@
   border-radius: 6px;
 }
 
+.details[open] {
+  overflow: unset;
+}
+
 .details__summary {
   padding: var(--offset);
   background-color: var(--color-fade);
