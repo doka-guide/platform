@@ -74,8 +74,8 @@
   background:
     linear-gradient(
       to bottom,
-      hsla(0 0% 100% / 0.59),
-      hsla(0 0% 100% / 0)
+      hsla(var(--color-base-background) / 0.59),
+      hsla(var(--color-base-background) / 0)
     );
 }
 
@@ -83,8 +83,8 @@
   background:
     linear-gradient(
       to bottom,
-      hsla(0 0% 100% / 0.75),
-      hsla(0 0% 100% / 0.59)
+      hsla(var(--color-base-background) / 0.75),
+      hsla(var(--color-base-background) / 0.59)
     );
 }
 
