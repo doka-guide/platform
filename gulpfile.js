@@ -126,8 +126,8 @@ const socialCards = async () => {
         await page.goto('file://' + file.path)
 
         await page.setViewport({
-          width: 1200,
-          height: 630,
+          width: 503,
+          height: 273,
           deviceScaleFactor: 1,
         })
 
