@@ -16,7 +16,7 @@
   <section class="social-card__cover" style="--accent-color: var(--color-{{ category }});">
     <div class="social-card__cover-wrapper">
       {% if cover %}
-        <img class="social-card__image" src="{{ docPath + cover.mobile }}" alt="{{ cover.alt }}">
+        <img class="social-card__image" src="{{ cover.mobile }}" alt="{{ cover.alt }}">
       {% else %}
         <div class="social-card__placeholder" aria-hidden="true">
           <div class="social-card__logo">
