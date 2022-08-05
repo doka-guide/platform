@@ -96,7 +96,3 @@
   bottom: 1em;
   margin-top: unset;
 }
-
-.practices__content > .practices__content {
-  display: block;
-}
