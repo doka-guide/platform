@@ -19,6 +19,9 @@
 .practices__content {
   position: relative;
   counter-increment: practices__content;
+  overflow: hidden;
+  border: 1px solid var(--color-fade);
+  border-radius: 6px;
 }
 
 .practices__content::after {
@@ -31,25 +34,18 @@
   z-index: 0;
 }
 
-.practices__content > .details__summary {
+.practices__content > .practices__summary {
   grid-row-start: 2;
   grid-row-end: 4;
   display: grid;
   grid-gap: var(--font-size-l);
   grid-template-rows: 30px calc(var(--font-size) * 2) var(--font-size);
   height: 110px;
+  padding: var(--offset);
   background-color: var(--color-background);
 }
 
-.practices__content > .details__summary::marker {
-  content: '';
-}
-
-.practices__content > .details__summary::-webkit-details-marker {
-  display: none;
-}
-
-.practices__content > .details__summary::before {
+.practices__content > .practices__summary::before {
   grid-row-start: 1;
   content: counter(practices__content);
   display: flex;
@@ -64,38 +60,43 @@
   font-weight: 400;
 }
 
-.practices__content > .details__summary::after {
-  grid-row-start: 3;
+.practices__content .practices__toggler {
+  appearance: none;
   display: block;
   position: absolute;
-  bottom: 30px;
-  left: 20px;
+  margin-top: 170px;
   justify-self: start;
-  content: "+ Развернуть";
+  font-size: var(--font-size-m, 100%);
   padding: 4px 15px;
   box-shadow: 0 0 10px 5px #e9e9e9;
+  border: none;
   border-radius: 5px;
   background-color: var(--color-background);
   z-index: 1;
+  cursor: pointer;
 }
 
-.practices__content[open]::after {
+.practices__content--open {
+  overflow: unset;
+}
+
+.practices__content--open::after {
   display: none;
 }
 
-.practices__content[open] > .details__summary {
+.practices__content--open > .practices__summary {
   height: auto;
   grid-template-rows: unset;
+  overflow: unset;
 }
 
-.practices__content[open] > .details__summary::after {
+.practices__content--open .practices__toggler {
   position: sticky;
-  content: "– Свернуть";
   grid-row-start: unset;
   bottom: 1em;
   margin-top: unset;
 }
 
-.practices__content > .details__content {
+.practices__content > .practices__content {
   display: block;
 }

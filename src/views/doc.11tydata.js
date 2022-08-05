@@ -149,8 +149,7 @@ module.exports = {
           return practice.filePathStem.startsWith(`${docPath}/practice`)
         })
         ?.map((practice) => {
-          const slices = practice.template.inputContent.split('\n')
-          practice['summary'] = slices[0] + '\n'
+          practice['isLong'] = practice.template.inputContent.split('\n').length > 2
           return practice
         })
     },

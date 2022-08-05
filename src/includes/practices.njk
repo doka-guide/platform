@@ -26,11 +26,16 @@
           </span>
           советует
         </h3>
-        <details class="practices__content content">
-          <summary class="practices__summary">
+        <div class="practices__content content">
+          <div class="practices__summary">
             {{ practice.templateContent | safe }}
-          </summary>
-        </details>
+            {% if practice.isLong %}
+              <button class="practices__toggler" type="button" aria-label="Развернуть / Свернуть совет" aria-pressed>
+                + Развернуть
+              </button>
+            {% endif %}
+          </div>
+        </div>
       </article>
     {% endfor %}
 
