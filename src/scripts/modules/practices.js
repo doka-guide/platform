@@ -26,7 +26,6 @@ function togglePractice(event) {
   if (isPressed) {
     element.innerHTML = '+ Развернуть'
     toggleTabIndex(summaryContainer, '-1')
-    console.log(contentContainer.offsetTop)
     window.scrollTo(0, contentContainer.offsetTop - 150)
   } else {
     element.innerHTML = '+ Свернуть'
