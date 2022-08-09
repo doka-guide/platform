@@ -39,4 +39,18 @@ window.addEventListener('load', () => {
     item.onclick = togglePractice
     toggleTabIndex(item.parentNode, '-1')
   }
+  const anchor = document.URL.split('#')[1]
+  if (anchor) {
+    const header = document.getElementById(anchor)
+    const summary = header.parentNode
+    if (summary.classList.contains('practices__summary')) {
+      const toggler = summary.getElementsByClassName('practices__toggler')[0]
+      toggler.setAttribute('aria-pressed', true)
+      const contentContainer = summary.parentNode
+      contentContainer.classList.toggle('practices__content--open')
+      toggler.innerHTML = '+ Свернуть'
+      toggleTabIndex(summary, '0')
+      window.scrollTo(0, contentContainer.offsetTop + header.offsetTop - 150)
+    }
+  }
 })
