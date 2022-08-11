@@ -27,10 +27,11 @@
   color: inherit;
   outline: none;
   border-bottom: 2px solid hsl(0 0% 70%);
+  background-color: transparent;
 }
 
 .search__input:focus {
-  border-bottom-color: hsl(0 0% 0%);
+  border-bottom-color: var(--color-text);
 }
 
 .search__control {
