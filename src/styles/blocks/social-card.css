@@ -21,8 +21,8 @@
   grid-row-start: 1;
   grid-row-end: 2;
   display: flex;
-  justify-content: end;
-  align-items: end;
+  justify-content: flex-end;
+  align-items: flex-end;
   padding: calc(100vw * var(--padding-proportion));
   font-size: calc(100vw * var(--slogan-font-size-proportion));
   line-height: calc(100vw * var(--slogan-font-size-proportion));
@@ -55,7 +55,7 @@
   grid-row-end: -1;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   height: calc(100vw * var(--site-block-height-proportion));
   padding: 0 calc(100vw * var(--padding-proportion));
   font-size: calc(100vw * var(--site-font-size-proportion));
