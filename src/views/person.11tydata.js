@@ -36,13 +36,13 @@ module.exports = {
 
     behanceId: function (data) {
       const { person } = data
-      const pattern = new RegExp('^(http|https)://[w.]*behance.net/')
+      const pattern = new RegExp('^(http|https)://(www.)?behance.net/')
       return person.data.url.replace(pattern, '')
     },
 
     twitterId: function (data) {
       const { person } = data
-      const pattern = new RegExp('^(http|https)://[w.]*twitter.com/')
+      const pattern = new RegExp('^(http|https)://(www.)?twitter.com/')
       return person.data.url.replace(pattern, '')
     },
 
