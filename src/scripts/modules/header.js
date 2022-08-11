@@ -89,6 +89,10 @@ class Header extends BaseComponent {
     return this.refs.rootElement.classList.contains('header--fixed')
   }
 
+  get isMainPage() {
+    return this.refs.rootElement.classList.contains('header--main')
+  }
+
   get isClosableHeader() {
     const header = this.refs.rootElement
 
@@ -212,7 +216,16 @@ class Header extends BaseComponent {
     const currentScroll = window.scrollY
     const isScrollingDown = currentScroll > lastScroll
     const isHeaderOnTop = currentScroll === 0
+    const mainPageMenuOffset = 30
     this.state.lastScroll = currentScroll
+
+    if (this.isMainPage) {
+      if (this.isMenuOpen && isScrollingDown && currentScroll >= mainPageMenuOffset) {
+        this.closeMenu()
+      } else if (!isScrollingDown && currentScroll < mainPageMenuOffset) {
+        this.openMenu()
+      }
+    }
 
     if (isHeaderOnTop) {
       if (this.isFixed) {
