@@ -34,6 +34,18 @@ module.exports = {
       return person.data.url
     },
 
+    behanceId: function (data) {
+      const { person } = data
+      const pattern = new RegExp('^(http|https)://(www.)?behance.net/')
+      return person.data.url.replace(pattern, '')
+    },
+
+    twitterId: function (data) {
+      const { person } = data
+      const pattern = new RegExp('^(http|https)://(www.)?twitter.com/')
+      return person.data.url.replace(pattern, '')
+    },
+
     photo: function (data) {
       const { person } = data
       return person.data.photo
