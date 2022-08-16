@@ -64,12 +64,14 @@
             <a class="person-links-list__link person-links-list__link--own link" href="{{ url }}">
               {% if twitterRegEx.test(url) %}
                 {{ twitterIcon | safe }}
+                <span>{{ twitterId }}</span>
               {% elif githubRegEx.test(url) %}
                 {{ githubIcon | safe }}
+                <span>{{ personId }}</span>
               {% elif behanceRegEx.test(url) %}
                 {{ behanceIcon | safe }}
+                <span>{{ behanceId }}</span>
               {% endif %}
-              <span>{{ personId }}</span>
             </a>
           </li>
         {% endif %}
