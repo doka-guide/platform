@@ -56,6 +56,8 @@
   font-size: var(--font-size);
   line-height: var(--line-height);
   font-weight: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .featured-article__code {
