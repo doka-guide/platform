@@ -1,7 +1,13 @@
 .question-form {
+  --lightness: calc(var(--is-light-theme-on) * 97% + var(--is-dark-theme-on) * 20%);
   text-align: center;
   font-size: var(--font-size-s);
   line-height: var(--font-line-height-s);
+  padding: 4.5% 4.5% 6%;
+  background-color: hsl(0 0% var(--lightness));
+  border-radius: 6px;
+  margin: 40px 0 0;
+  border: 0;
 }
 
 .question-form__header {
@@ -12,15 +18,16 @@
   letter-spacing: var(--letter-spacing);
 }
 
-.question-form__title {}
+.question-form__header > .article-heading--level-4 {
+  margin-top: 0;
+}
+
+.question-form__title {
+  font-size: var(--font-size-headline-4);
+}
 
 .question-form__fieldset {
-  --lightness: calc(var(--is-light-theme-on) * 97% + var(--is-dark-theme-on) * 20%);
-  padding: 4.5% 4.5% 6%;
-  background-color: hsl(0 0% var(--lightness));
-  border-radius: 6px;
-  margin: 0;
-  border: 0;
+  border: none;
 }
 
 .question-form__fieldset::after {
@@ -51,19 +58,25 @@
 
 .question-form__text > .text-control {
   display: grid;
-  grid-template-columns: auto 220px;
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, 1fr);
 }
 
-.question-form__text > .text-control > .text-control__item {
+.question-form__text .text-control__label {
   grid-column-start: 1;
-  height: 44px;
-  font-size: 24px;
+  font-size: var(--font-size-m);
+  text-align: start;
 }
 
-.question-form__text > .text-control > .text-control__button {
-  grid-column-start: 2;
-  grid-row-start: -2;
+.question-form__text .text-control__button {
+  height: 44px;
+  margin-top: -10px;
+  font-size: var(--font-size-m);
+  justify-self: center;
+}
+
+.question-form__text .text-control__label-text {
+  font-size: var(--font-size-s);
 }
 
 .question-form__description {
@@ -82,6 +95,17 @@
 }
 
 @media (min-width: 768px) {
+  .question-form__text > .text-control {
+    grid-template-columns: auto 220px;
+    grid-template-rows: repeat(2, 1fr);
+  }
+
+  .question-form__text .text-control__button {
+    grid-column-start: 2;
+    grid-row-start: -2;
+    justify-self: stretch;
+  }
+
   .question-form__header {
     font-size: var(--font-size-m);
     line-height: var(--font-line-height-m);
@@ -96,7 +120,7 @@
 @media (min-width: 1024px) {
   .question-form__reason-button {
     padding: 3px 19px;
-    line-height: calc(16 / 12);
+    line-height: 1.33;
   }
 }
 
