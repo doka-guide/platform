@@ -4,7 +4,7 @@
 
 1. Запросите список IP-адресов серверов, на которых крутится зеркало сайта через `nslookup doka.guide`.
 2. Проверьте скорость и доступность IP-адресов из пункта 1 — `ping ip-адрес`.
-3. Откройте специальный файл с правами администратора — **c:\windows\system32\drivers\etc\hosts** или **\etc\hosts**. 
+3. Откройте специальный файл с правами администратора — **c:\windows\system32\drivers\etc\hosts** или **/etc/hosts**.
 4. Добавьте самый быстрый из IP-адресов в конец файла — `ip-адрес doka.guide www.doka.guide`.
 5. Сохраните файл.
 
@@ -39,7 +39,6 @@ ping 123.123.123.123
 Список таких «связок» прописывается в специальном файле. Местоположение для разных операционных систем отличается:
 
 - Windows NT, 2000, XP, 2003, Vista, 7, 8, 10, 11 — **c:\windows\system32\drivers\etc\hosts**;
-- Windows 95, 98, Me — **c:\windows\hosts**;
 - Linux, Unix, BSD — **/etc/hosts**;
 - macOS — **/private/etc/hosts** или **/etc/hosts**
 
