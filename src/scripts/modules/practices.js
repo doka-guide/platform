@@ -28,7 +28,7 @@ function togglePractice(event) {
     toggleTabIndex(summaryContainer, '-1')
     window.scrollTo(0, contentContainer.offsetTop - 150)
   } else {
-    element.innerHTML = '+ Свернуть'
+    element.innerHTML = '– Свернуть'
     toggleTabIndex(summaryContainer, '0')
   }
 }
