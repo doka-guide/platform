@@ -3,7 +3,7 @@
   --logo-border-color: hsla(0 0% calc(0% + var(--is-dark-theme-on) * 100%) / 0.33);
   --image-font-size: 0.85em;
   --logo-letter-spacing: -0.14em;
-  --image-padding: calc(1 / 15 * 1em) calc(4 / 15 * 1em) 0;
+  --image-padding: calc(1 / 15 * 1em) calc(5 / 15 * 1em) 0;
   display: inline-flex;
   white-space: nowrap;
   text-decoration: none;
