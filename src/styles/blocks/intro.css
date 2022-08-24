@@ -1,14 +1,23 @@
 .intro {
+  --gutter: 10px;
   padding-top: 40px;
   padding-bottom: 40px;
   padding-bottom: clamp(40px, 4.8%, 80px);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px;
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .intro {
+    --gutter: 20px;
+    grid-template-rows: unset;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .intro__description {
+  display: block;
   margin: 0;
 }
 
@@ -20,5 +29,42 @@
 
 .intro__icon {
   width: 0.968em;
-  height: 0.92em;
+  height: 0.968em;
+}
+
+.intro__icon--invertible {
+  filter: invert(var(--is-dark-theme-on));
+}
+
+.intro__pitch {
+  display: grid;
+  grid-template-rows: calc(1.5 * var(--font-size-l)) auto min-content;
+  gap: calc(2 * var(--gutter));
+  padding: var(--gutter);
+  background-color: var(--color-fade);
+}
+
+.intro__pitch--partner {
+  background-color: transparent;
+}
+
+.intro__moto {
+  align-self: center;
+  font-family: var(--font-family);
+  font-size: var(--font-size-l);
+  margin: 0;
+}
+
+.intro__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--font-size-m);
+}
+
+.intro__logo {
+  height: calc(2 * var(--gutter));
+}
+
+.intro__logo--invertible {
+  filter: invert(var(--is-dark-theme-on));
 }
