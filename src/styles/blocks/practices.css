@@ -67,6 +67,7 @@
   margin-top: 170px;
   justify-self: start;
   font-size: var(--font-size-m, 100%);
+  font-family: var(--font-family);
   padding: 4px 15px;
   box-shadow: 0 0 10px 5px var(--color-fade);
   border: none;
