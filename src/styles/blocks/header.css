@@ -263,10 +263,6 @@
   display: none;
 }
 
-.header--simple:not(.header--main).header--fixed::after {
-  border-top: 1px solid;
-}
-
 .header--open {
   z-index: 2;
   animation: none;
