@@ -53,6 +53,7 @@
   align-self: center;
   font-family: var(--font-family);
   font-size: var(--font-size-l);
+  font-weight: 300;
   margin: 0;
 }
 
