@@ -1,4 +1,4 @@
-const pieceToSeconds = {
+const piecesToSeconds = {
   day: 86400,
   hour: 3600,
   minute: 60,
@@ -19,7 +19,7 @@ function formatRelativeDate(date, currentTime = new Date()) {
   })
 
   const [piece, seconds] = Object
-    .entries(pieceToSeconds)
+    .entries(piecesToSeconds)
     .find(([piece, seconds]) => timeDiff >= seconds)
 
   timeDiff = Math.round(timeDiff / seconds)
@@ -33,7 +33,7 @@ document.querySelectorAll('[data-relative-time]').forEach((element) => {
     const date = new Date(isoDateString)
     const currentTime = new Date()
     const diff = Math.abs(getTimeDiff(date, currentTime))
-    if (diff > pieceToSeconds['day']) {
+    if (diff > piecesToSeconds['day']) {
       return
     }
     const relativeDate = formatRelativeDate(date, currentTime)
