@@ -42,6 +42,7 @@
   gap: calc(2 * var(--gutter));
   padding: var(--gutter);
   background-color: var(--color-fade);
+  border-radius: 6px;
 }
 
 .intro__pitch--partner {
