@@ -20,6 +20,7 @@ function formatRelativeDate(date, currentTime = new Date()) {
 
   const [piece, seconds] = Object
     .entries(piecesToSeconds)
+    .sort(([, less], [, greater]) => greater - less) // Сортировка по убыванию 
     .find(([piece, seconds]) => timeDiff >= seconds)
 
   timeDiff = Math.round(timeDiff / seconds)
