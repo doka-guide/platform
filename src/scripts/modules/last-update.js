@@ -1,4 +1,4 @@
-const timeMeasurementsToSeconds = {
+const pieceToSeconds = {
   day: 86400,
   hour: 3600,
   minute: 60,
@@ -11,7 +11,6 @@ function getTimeDiff(date, currentTime) {
 
 function formatRelativeDate(date, currentTime = new Date()) {
   let timeDiff = getTimeDiff(date, currentTime)
-  let timeMeasurementName
 
   const rtf = new Intl.RelativeTimeFormat('ru', {
     localeMatcher: 'best fit',
@@ -19,16 +18,13 @@ function formatRelativeDate(date, currentTime = new Date()) {
     style: 'long',
   })
 
-  Object.entries(timeMeasurementsToSeconds).find(([key, value]) => {
-    if (timeDiff >= value) {
-      timeMeasurementName = key
-      return true
-    }
-  })
+  const [piece, seconds] = Object
+    .entries(pieceToSeconds)
+    .find(([piece, seconds]) => timeDiff >= seconds)
 
-  timeDiff = Math.round(timeDiff / timeMeasurementsToSeconds[timeMeasurementName])
+  timeDiff = Math.round(timeDiff / seconds)
 
-  return rtf.format(-timeDiff, timeMeasurementName)
+  return rtf.format(-timeDiff, piece)
 }
 
 document.querySelectorAll('[data-relative-time]').forEach((element) => {
@@ -37,7 +33,7 @@ document.querySelectorAll('[data-relative-time]').forEach((element) => {
     const date = new Date(isoDateString)
     const currentTime = new Date()
     const diff = Math.abs(getTimeDiff(date, currentTime))
-    if (diff > timeMeasurementsToSeconds['day']) {
+    if (diff > pieceToSeconds['day']) {
       return
     }
     const relativeDate = formatRelativeDate(date, currentTime)
