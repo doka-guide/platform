@@ -52,3 +52,9 @@
   opacity: 1;
   background-color: var(--color-background);
 }
+
+.theme-toggle__control:focus-visible {
+  outline: auto 2px Highlight;
+  outline: auto 2px -webkit-focus-ring-color;
+  border-radius: 2em;
+}
