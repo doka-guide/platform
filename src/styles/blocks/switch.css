@@ -71,3 +71,10 @@
       var(--is-dark-theme-on) * 0.12
     );
 }
+
+.switch:focus-within {
+  outline: auto 2px Highlight;
+  outline: auto 2px -webkit-focus-ring-color;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
