@@ -21,12 +21,12 @@
 }
 
 .tag-filter__text {
-  box-shadow: 0 0 1px 1px var(--tag-filter-color);
   position: relative;
   z-index: 0;
   display: block;
   overflow: hidden;
-  padding: 2px 8px;
+  padding: 4px 10px;
+  box-shadow: inset 0 0 0 2px var(--tag-filter-color);
   line-height: 1;
   text-align: center;
   border-radius: 2em;
