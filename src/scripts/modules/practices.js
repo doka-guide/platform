@@ -18,8 +18,8 @@ function toggleTabIndex(container, newValue) {
 
 function togglePractice(event) {
   const element = event.target
-  element.toggleAttribute('aria-pressed')
-  const isPressed = element.getAttribute('aria-pressed') === ''
+  element.toggleAttribute('data-collapsed')
+  const isPressed = element.getAttribute('data-collapsed') === ''
   const summaryContainer = element.parentNode
   const contentContainer = summaryContainer.parentNode
   contentContainer.classList.toggle('practices__content--open')
@@ -45,7 +45,7 @@ window.addEventListener('load', () => {
     const summary = header.parentNode
     if (summary.classList.contains('practices__summary')) {
       const toggler = summary.getElementsByClassName('practices__toggler')[0]
-      toggler.setAttribute('aria-pressed', true)
+      toggler.setAttribute('data-collapsed', true)
       const contentContainer = summary.parentNode
       contentContainer.classList.toggle('practices__content--open')
       toggler.innerHTML = '+ Свернуть'
