@@ -162,6 +162,7 @@
   font-size: calc(var(--font-size-xl) * 0.85);
   line-height: calc(var(--font-line-height-xl) * 0.85);
   letter-spacing: -0.08em;
+  margin-top: var(--gap, 16px);
 }
 
 @media (min-width: 1024px) {
