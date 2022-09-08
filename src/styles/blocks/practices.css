@@ -69,7 +69,7 @@
   font-size: var(--font-size-m, 100%);
   font-family: var(--font-family);
   padding: 4px 15px;
-  box-shadow: 0 0 10px 5px var(--color-fade);
+  box-shadow: 0 0 10px 5px rgb(0 0 0 / 0.1);
   border: none;
   border-radius: 5px;
   background-color: var(--color-background);
