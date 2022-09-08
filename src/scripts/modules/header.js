@@ -216,13 +216,13 @@ class Header extends BaseComponent {
     const currentScroll = window.scrollY
     const isScrollingDown = currentScroll > lastScroll
     const isHeaderOnTop = currentScroll === 0
-    const mainPageMenuOffset = 30
+    const mainPageMenuOffset = 100
     this.state.lastScroll = currentScroll
 
     if (this.isMainPage) {
       if (this.isMenuOpen && isScrollingDown && currentScroll >= mainPageMenuOffset) {
         this.closeMenu()
-      } else if (!isScrollingDown && currentScroll < mainPageMenuOffset) {
+      } else if (!isScrollingDown && currentScroll < mainPageMenuOffset / 2) {
         this.openMenu()
       }
     }
