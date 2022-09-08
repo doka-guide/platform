@@ -13,9 +13,20 @@ class Logo {
     this.refs = {
       rootElement,
       image: rootElement.querySelector('.logo__image'),
+      symbols: rootElement.querySelector('.logo__symbols'),
     }
 
     this._isAnimation = false
+  }
+
+  setFocusOnElement() {
+    this.refs.symbols.innerHTML =
+      'U<span class="logo__eye">&gt;</span><span class="logo__nose">ᴥ</span><span class="logo__eye">&lt;</span>U'
+  }
+
+  unsetFocusOnElement() {
+    this.refs.symbols.innerHTML =
+      'U<span class="logo__eye">•</span><span class="logo__nose">ᴥ</span><span class="logo__eye">•</span>U'
   }
 
   startAnimation() {
