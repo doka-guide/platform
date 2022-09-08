@@ -26,7 +26,7 @@
           </span>
           советует
         </h3>
-        <div class="practices__content content">
+        <div class="practices__content content" {% if not practice.isLong %}style="height: auto;"{% endif %}>
           <div class="practices__summary">
             {{ practice.templateContent | safe }}
             {% if practice.isLong %}
