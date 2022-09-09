@@ -1,9 +1,9 @@
 .logo {
   --ligthness: calc(var(--is-light-theme-on) * 90% + var(--is-dark-theme-on) * 25%);
-  --logo-background-color: hsl(0 0% var(--ligthness));
-  --image-font-size: 0.9375em;
+  --logo-border-color: hsla(0 0% calc(0% + var(--is-dark-theme-on) * 100%) / 0.33);
+  --image-font-size: 0.85em;
   --logo-letter-spacing: -0.14em;
-  --image-padding: calc(2 / 18.75 * 1em) calc(6 / 18.75 * 1em) 0;
+  --image-padding: calc(1 / 15 * 1em) calc(5 / 15 * 1em) 0;
   display: inline-flex;
   white-space: nowrap;
   text-decoration: none;
@@ -21,10 +21,15 @@
   padding: var(--image-padding);
   display: inline-grid;
   place-items: center;
-  background-color: var(--logo-background-color);
+  background-color: var(--color-background);
+  border: 1px transparent solid;
   border-radius: 2em;
   pointer-events: none;
   user-select: none;
+}
+
+.logo__image--contrast {
+  border: 1px var(--logo-border-color) solid;
 }
 
 .logo__image::before {
@@ -87,14 +92,37 @@
 
 .logo__eye {
   position: relative;
-  top: -0.05em;
+  top: -0.08em;
+}
+
+.logo__eye:first-child {
+  letter-spacing: calc(var(--logo-letter-spacing) * 2);
+}
+
+.logo__nose {
+  position: relative;
+  font-size: calc(var(--image-font-size) * 10 / 7);
+  line-height: calc(var(--image-font-size) * 7 / 10);
+  top: -0.015em;
+  letter-spacing: calc(var(--logo-letter-spacing) * 1.5);
 }
 
 .logo__text {
-  --stroke-width: 2px;
-  margin-left: 6px;
-  align-self: baseline;
-  text-underline-offset: 0.2em;
+  margin-left: 5px;
+  padding: var(--image-padding);
+  padding-top: calc(2 / 15 * 1em);
+  padding-bottom: calc(1 / 10 * 1em);
+  background-color: var(--color-background);
+  border-radius: 2em;
+  border: 1px transparent solid;
+  text-decoration: none;
+  font-size: var(--image-font-size);
+  line-height: var(--image-font-size);
+}
+
+.logo__text--contrast {
+  border: 1px var(--logo-border-color) solid;
+  padding-bottom: 0;
 }
 
 .logo__text::first-letter {

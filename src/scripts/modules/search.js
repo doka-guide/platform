@@ -4,6 +4,14 @@ import BaseComponent from '../core/base-component.js'
 import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
 import logo from '../modules/logo.js'
 
+function onFocus() {
+  logo.setFocusOnElement()
+}
+
+function onBlur() {
+  logo.unsetFocusOnElement()
+}
+
 class Filter extends BaseComponent {
   constructor({ form }) {
     super()
@@ -248,6 +256,8 @@ function init() {
   const debouncedOnFilterChange = debounce(onFilterChange, 150)
 
   function assignSearchField() {
+    searchField.addEventListener('focus', onFocus, true)
+    searchField.addEventListener('blur', onBlur, true)
     searchField.focus()
 
     searchForm.addEventListener('submit', (event) => {

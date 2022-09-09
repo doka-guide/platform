@@ -44,6 +44,7 @@
 .nav-list__link-text {
   position: relative;
   display: block;
+  letter-spacing: var(--letter-spacing);
 }
 
 .nav-list__link-text::after {

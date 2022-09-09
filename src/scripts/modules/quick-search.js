@@ -1,4 +1,5 @@
 import BaseComponent from '../core/base-component.js'
+import logo from '../modules/logo.js'
 
 function getBox(element) {
   return element.getBoundingClientRect()
@@ -6,6 +7,14 @@ function getBox(element) {
 
 function clamp(min, value, max) {
   return Math.max(min, Math.min(value, max))
+}
+
+function onFocus() {
+  logo.setFocusOnElement()
+}
+
+function onBlur() {
+  logo.unsetFocusOnElement()
 }
 
 class QuickSearch extends BaseComponent {
@@ -46,6 +55,8 @@ class QuickSearch extends BaseComponent {
       }
     })
     this.refs.input.addEventListener('input', this.onSearch)
+    this.refs.input.addEventListener('focus', onFocus, true)
+    this.refs.input.addEventListener('blur', onBlur, true)
 
     document.addEventListener('keydown', (event) => {
       // Firefox при нажатии Slash открывает свой поиск по странице

@@ -285,7 +285,7 @@ module.exports = {
 
       switch (pageUrl) {
         case '/licenses/':
-          return 'U©ᴥ©U'
+          return 'U<span class="logo__eye">©</span><span class="logo__nose">ᴥ</span><span class="logo__eye">©</span>U'
         default:
           return null
       }

@@ -7,7 +7,6 @@
   --search-input-height: 1.285em;
   position: sticky;
   top: 0;
-  border-bottom: 1px solid;
 }
 
 .search-page__header-inner {
