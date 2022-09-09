@@ -97,3 +97,11 @@
   bottom: 1em;
   margin-top: unset;
 }
+
+.practices__content--short > .practices__summary {
+  height: auto;
+}
+
+.practices__content--short::after {
+  height: unset;
+}
