@@ -1,0 +1,49 @@
+{% macro answerorName(name, url) %}
+  {% if url %}
+    <a class="link font-theme--code" href="{{ url }}">{{ name }}</a>
+  {% else %}
+    <span class="font-theme--code">{{ name }}</span>
+  {% endif %}
+{% endmacro %}
+
+{% if questions.length > 0 %}
+  <section class="questions" id="questions">
+    {{ questionsAuthors.length }}
+    <h2 class="questions__title">
+      На собесе
+    </h2>
+
+    {% for question in questions %}
+      <div class="question__request">
+        {{ question.templateContent | safe }}
+      </div>
+
+      {% for answer in answers %}
+        {% set answerAuthor = collections.peopleById[answer.fileSlug] %}
+
+        <article class="question__answer" id="question-{{ question.fileSlug }}-answer-{{ answer.fileSlug }}">
+          <h3 class="answer__author">
+            <span class="answer__author-name">
+              {{ answerorName(
+                name=(answerAuthor.data.name or answer.fileSlug),
+                url='/people/' + answerAuthor.fileSlug + '/'
+              ) }}
+            </span>
+            отвечает
+          </h3>
+          <div class="answer__content {% if not answer.isLong %}answer__content--short{% endif %} content">
+            <div class="answer__summary content">
+              {{ answer.templateContent | safe }}
+              {% if answer.isLong %}
+                <button class="answer__toggler" type="button" aria-live="polite" data-collapsed>
+                  + Развернуть
+                </button>
+              {% endif %}
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    {% endfor %}
+
+  </section>
+{% endif %}
