@@ -12,6 +12,24 @@ function isExternalURL(url) {
   return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')
 }
 
+function articlePathsToObject(pathList, collections) {
+  const object = {}
+  if (Array.isArray(pathList)) {
+    pathList.forEach((path) => {
+      const pathObject = path.split('/')
+      const category = pathObject[0]
+      const articleId = pathObject[1]
+      if (!object[category]) {
+        object[category] = []
+      }
+      object[category].push(
+        collections[category].find((article) => article.filePathStem === `/${category}/${articleId}/index`)
+      )
+    })
+  }
+  return object
+}
+
 module.exports = {
   featuredArticlesMaxCount: 12,
 
@@ -124,6 +142,54 @@ module.exports = {
         )
       })
       return practicesByPerson
+    },
+
+    /* создаёт структуру вида:
+    {
+      [questionId]: {
+        [personId]: {
+          [categoryId]: [articles]
+        }
+      }
+    }
+    */
+    answersByPerson: function (data) {
+      const { collections } = data
+
+      const answersByPerson = {}
+      collections.answer.forEach((answer) => {
+        const answerObject = answer.filePathStem.split('/')
+        const questionId = answerObject[2]
+        if (!answersByPerson[questionId]) {
+          answersByPerson[questionId] = {}
+        }
+        const personId = answer.fileSlug
+        if (!answersByPerson[questionId][personId]) {
+          if (answer.data.included) {
+            answersByPerson[questionId][personId] = articlePathsToObject(answer.data.included, collections)
+          } else if (answer.data.excluded) {
+            const articlePathList = collections.question.filter((question) => {
+              return question.fileSlug === questionId
+            })[0].data.related
+            articlePathList.filter((questionPath) => {
+              return (
+                answer.data.excluded.filter((answerPath) => {
+                  return answerPath === questionPath
+                }).length > 0
+              )
+            })
+            answersByPerson[questionId][personId] = articlePathsToObject(articlePathList, collections)
+          } else {
+            answersByPerson[questionId][personId] = articlePathsToObject(
+              collections.question.filter((question) => {
+                return question.fileSlug === questionId
+              })[0].data.related,
+              collections
+            )
+          }
+        }
+      })
+      return answersByPerson
     },
 
     /* создаёт структуру вида:

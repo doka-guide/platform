@@ -159,6 +159,39 @@ module.exports = {
       return practices.length > 0 ? 'true' : 'false'
     },
 
+    questions: function (data) {
+      const allQuestions = data.collections.question
+      const { docPath } = data
+
+      return allQuestions?.filter((question) => {
+        return question.data.related.find((path) => {
+          return docPath === `/${path}`
+        })
+      })
+    },
+
+    containsQuestions: function (data) {
+      const { questions } = data
+      return questions.length > 0 ? 'true' : 'false'
+    },
+
+    answers: function (data) {
+      const allAnswers = data.collections.answer
+      const { questions } = data
+      const questionList = Object.keys(questions)
+
+      return allAnswers
+        ?.filter((answer, key) => {
+          return questionList.filter((question) => {
+            return question === key
+          })
+        })
+        ?.map((answer) => {
+          answer['isLong'] = answer.template.inputContent.split('\n').length > 2
+          return answer
+        })
+    },
+
     createdAt: function (data) {
       const { doc } = data
       return doc.data.createdAt ? new Date(doc.data.createdAt) : null

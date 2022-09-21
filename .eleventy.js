@@ -97,6 +97,14 @@ module.exports = function (config) {
     return collectionApi.getFilteredByGlob('src/**/practice/*.md')
   })
 
+  config.addCollection('answer', (collectionApi) => {
+    return collectionApi.getFilteredByGlob('src/interviews/**/answers/**/*.md')
+  })
+
+  config.addCollection('question', (collectionApi) => {
+    return collectionApi.getFilteredByGlob('src/interviews/*/*.md')
+  })
+
   config.addCollection('pages', (collectionApi) => {
     return collectionApi.getFilteredByGlob('src/pages/**/index.md')
   })
