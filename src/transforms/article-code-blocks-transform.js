@@ -16,7 +16,13 @@ function renderOriginalLine(line) {
 }
 
 function highlightCode(source, language) {
-  return Prism.highlight(source, Prism.languages[language], language)
+  const highlightResult = Prism.highlight(source, Prism.languages[language], language)
+
+  if (language === 'http') {
+    return highlightResult.replaceAll('header', 'http')
+  }
+
+  return highlightResult
 }
 
 // подсветка синтаксиса,
