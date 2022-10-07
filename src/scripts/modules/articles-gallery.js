@@ -11,14 +11,14 @@ function init() {
     return
   }
 
-  const list = gallery.querySelector('.featured-artices-list')
-  const items = Array.from(list?.querySelectorAll('.featured-artices-list__item') || [])
+  const list = gallery.querySelector('.featured-articles-list')
+  const items = Array.from(list?.querySelectorAll('.featured-articles-list__item') || [])
 
   if (items.length === 0) {
     return
   }
 
-  const activeClass = 'featured-artices-list__item--active'
+  const activeClass = 'featured-articles-list__item--active'
 
   const pageSize = parseInt(getComputedStyle(list).getPropertyValue('--page-size'), 10) || 1
   let lastItemIndex = pageSize
