@@ -1,0 +1,97 @@
+.person-badges {
+  --col-count: 7;
+  grid-area: badges;
+  display: grid;
+  grid-template-columns: repeat(var(--col-count), 1fr);
+  margin-bottom: 1em;
+}
+
+.person-badges__sign {
+  --start-col: 1;
+  --start-row: -1;
+  grid-row-start: var(--start-row);
+}
+
+.person-badges__sign--col-1 {
+  grid-column-start: var(--start-col);
+  grid-column-end: calc(var(--start-col) + 1);
+}
+
+.person-badges__sign--col-2 {
+  grid-column-start: var(--start-col);
+  grid-column-end: calc(var(--start-col) + 2);
+}
+
+.person-badges__sign--col-3 {
+  grid-column-start: var(--start-col);
+  grid-column-end: calc(var(--start-col) + 3);
+}
+
+.person-badges__sign--col-4 {
+  grid-column-start: var(--start-col);
+  grid-column-end: calc(var(--start-col) + 4);
+}
+
+.person-badges__sign--row-1 {
+  grid-row-start: var(--start-row);
+  grid-row-end: calc(var(--start-row) + 1);
+}
+
+.person-badges__sign--row-2 {
+  grid-row-start: var(--start-row);
+  grid-row-end: calc(var(--start-row) + 2);
+}
+
+.person-badges__sign--row-3 {
+  grid-row-start: var(--start-row);
+  grid-row-end: calc(var(--start-row) + 3);
+}
+
+.person-badges__sign--row-4 {
+  grid-row-start: var(--start-row);
+  grid-row-end: calc(var(--start-row) + 4);
+}
+
+.person-badges__shape {
+  width: 100%;
+}
+
+.person-badges__default-image {
+  width: 100%;
+}
+
+.person-badges__pop-up {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 25%;
+  padding: 30px;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-fade);
+}
+
+.person-badges__shape:hover + .person-badges__pop-up {
+  display: grid;
+}
+
+.person-badges__pop-up-figure {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.person-badges__pop-up-image {
+  align-self: center;
+  justify-self: center;
+  padding: 30px 0;
+}
+
+.person-badges__pop-up-header {
+  width: max-content;
+  font-family: var(--font-family);
+}
+
+.person-badges__pop-up-description {
+  font-family: var(--font-family);
+}
