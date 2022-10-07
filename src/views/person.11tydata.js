@@ -1,4 +1,5 @@
 const { contentRepLink } = require('../../config/constants')
+const { getBadge } = require('../libs/badge-constructor/badge-constructor')
 
 module.exports = {
   layout: 'base.njk',
@@ -44,6 +45,11 @@ module.exports = {
       const { person } = data
       const pattern = new RegExp('^(http|https)://(www.)?twitter.com/')
       return person.data.url.replace(pattern, '')
+    },
+
+    badges: function (data) {
+      const { person } = data
+      return person.data.badges.map((badge) => getBadge(badge))
     },
 
     photo: function (data) {

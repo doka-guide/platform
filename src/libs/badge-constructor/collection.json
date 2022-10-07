@@ -1,0 +1,182 @@
+{
+  "doka-dog-help-5": {
+    "shape": "square",
+    "angle": "0",
+    "field": {
+      "height": 2,
+      "width": 2
+    },
+    "src": "/images/badges/doka-dog-help-5.svg",
+    "alt": "Значок за то, что пять раз помогли Дока Догу",
+    "title": "Пять раз помогли Дока Догу",
+    "description": "Можно получить, если поможете Дока Догу дописать пять материалов"
+  },
+  "doka-dog-help-10": {
+    "shape": "square",
+    "angle": "0",
+    "field": {
+      "height": 2,
+      "width": 2
+    },
+    "src": "/images/badges/doka-dog-help-10.svg",
+    "alt": "Значок за то, что десять раз помогли Дока Догу",
+    "title": "Десять раз помогли Дока Догу",
+    "description": "Можно получить, если поможете Дока Догу дописать десять материалов"
+  },
+  "doka-dog-help-50": {
+    "shape": "square",
+    "angle": "0",
+    "field": {
+      "height": 2,
+      "width": 2
+    },
+    "src": "/images/badges/doka-dog-help-50.svg",
+    "alt": "Значок за то, что пятьдесят раз помогли Дока Догу",
+    "title": "Пятьдесят раз помогли Дока Догу",
+    "description": "Можно получить, если поможете Дока Догу дописать пятьдесят материалов"
+  },
+  "doka-dog-help-100": {
+    "shape": "square",
+    "angle": "0",
+    "field": {
+      "height": 2,
+      "width": 2
+    },
+    "src": "/images/badges/doka-dog-help-100.svg",
+    "alt": "Значок за то, что сто раз помогли Дока Догу",
+    "title": "Сто раз помогли Дока Догу",
+    "description": "Можно получить, если поможете Дока Догу дописать сто материалов"
+  },
+  "first-contribution-small": {
+    "shape": "short-line",
+    "angle": "90",
+    "field": {
+      "height": 1,
+      "width": 2
+    },
+    "src": "/images/badges/first-contribution-small.svg",
+    "alt": "Значок за первый вклад в Доку",
+    "title": "Первый вклад в Доку",
+    "description": "Можно получить, написав материал или внеся существенные правки"
+  },
+  "merged-pr-5": {
+    "shape": "line",
+    "angle": "90",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/merged-pr-5.svg",
+    "alt": "Значок пять пул реквестов в Доке",
+    "title": "Пять пул реквестов в Доке",
+    "description": "Можно получить, если пять пул реквестов попадут в основную ветку"
+  },
+  "merged-pr-10": {
+    "shape": "line",
+    "angle": "90",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/merged-pr-10.svg",
+    "alt": "Значок десять пул реквестов в Доке",
+    "title": "Десять пул реквестов в Доке",
+    "description": "Можно получить, если десять пул реквестов попадут в основную ветку"
+  },
+  "merged-pr-50": {
+    "shape": "line",
+    "angle": "90",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/merged-pr-50.svg",
+    "alt": "Значок пятьдесят пул реквестов в Доке",
+    "title": "Пятьдесят пул реквестов в Доке",
+    "description": "Можно получить, если пятьдесят пул реквестов попадут в основную ветку"
+  },
+  "merged-pr-100": {
+    "shape": "line",
+    "angle": "90",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/merged-pr-100.svg",
+    "alt": "Значок сто пул реквестов в Доке",
+    "title": "Сто пул реквестов в Доке",
+    "description": "Можно получить, если сто пул реквестов попадут в основную ветку"
+  },
+  "most-viewed-week-line": {
+    "shape": "line",
+    "angle": "90",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/most-viewed-week-line.svg",
+    "alt": "Значок за самый просматриваемый материал за неделю",
+    "title": "Самый просматриваемый материал за неделю",
+    "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за неделю"
+  },
+  "most-viewed-week-zigzag": {
+    "shape": "zigzag-right",
+    "angle": "0",
+    "field": {
+      "height": 3,
+      "width": 2
+    },
+    "src": "/images/badges/most-viewed-week-zigzag.svg",
+    "alt": "Значок за самый просматриваемый материал за неделю",
+    "title": "Самый просматриваемый материал за неделю",
+    "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за неделю"
+  },
+  "most-viewed-month-line": {
+    "shape": "line",
+    "angle": "90",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/most-viewed-month-line.svg",
+    "alt": "Значок за самый просматриваемый материал за месяц",
+    "title": "Самый просматриваемый материал за месяц",
+    "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за месяц"
+  },
+  "most-viewed-month-zigzag": {
+    "shape": "zigzag-right",
+    "angle": "0",
+    "field": {
+      "height": 3,
+      "width": 2
+    },
+    "src": "/images/badges/most-viewed-month-zigzag.svg",
+    "alt": "Значок за самый просматриваемый материал за месяц",
+    "title": "Самый просматриваемый материал за месяц",
+    "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за месяц"
+  },
+  "most-viewed-year-line": {
+    "shape": "line",
+    "angle": "90",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/most-viewed-year-line.svg",
+    "alt": "Значок за самый просматриваемый материал за год",
+    "title": "Самый просматриваемый материал за год",
+    "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за год"
+  },
+  "most-viewed-year-zigzag": {
+    "shape": "zigzag-right",
+    "angle": "0",
+    "field": {
+      "height": 3,
+      "width": 2
+    },
+    "src": "/images/badges/most-viewed-year-zigzag.svg",
+    "alt": "Значок за самый просматриваемый материал за год",
+    "title": "Самый просматриваемый материал за год",
+    "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за год"
+  }
+}
