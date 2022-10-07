@@ -1,6 +1,7 @@
 {% from "blocks/header.njk" import header with context %}
 {% from "blocks/footer.njk" import footer with context %}
 {% from "blocks/person-avatar.njk" import personAvatar %}
+{% from "blocks/person-badges.njk" import personBadges %}
 
 {% set behanceRegEx = r/behance.net/g %}
 {% set githubRegEx = r/github.com/g %}
@@ -59,6 +60,9 @@
     </div>
 
     <div class="person-page__meta">
+      <div class="person-page__badges">
+        {{ personBadges(badges) }}
+      </div>
       <ul class="base-list person-links-list font-theme font-theme--code">
         {% if url %}
           <li class="person-links-list__item">
