@@ -5,6 +5,7 @@
   height: 10px;
   margin: var(--color-picker-margin);
   background-color: var(--color-picker);
+  line-height: 0;
 }
 
 .color-picker__internal {
