@@ -142,6 +142,11 @@ pre[class*="language-"] {
   color: hsl(187, 47%, 55%);
 }
 
+/* Color-picker */
+.token.color::before {
+  border: 1px solid #fff;
+}
+
 /* HTML overrides */
 .token.attr-value > .token.punctuation.attr-equals,
 .token.special-attr > .token.attr-value > .token.value.css {
