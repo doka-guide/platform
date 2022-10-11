@@ -17,6 +17,7 @@ function breakify(content) {
         break
     }
   }
+
   // Расстановка переносов по спецсимволам
   for (const symbol of symbols) {
     const startsWithSymbol = new RegExp(`^[\\${symbol}]`, '')
