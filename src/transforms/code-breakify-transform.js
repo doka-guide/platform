@@ -1,6 +1,7 @@
 function breakify(content) {
   const symbols = ['.', ',', '-', '_', '=', ':', '~', '/', '\\', '?', '#', '%', '(', ')', '[', ']']
 
+  // Расстановка переносов между частями слова
   if (/[A-Z]/g.test(content)) {
     switch (true) {
       case /^[^A-Z]/.test(content):
@@ -16,9 +17,17 @@ function breakify(content) {
         break
     }
   }
-
+  // Расстановка переносов по спецсимволам
   for (const symbol of symbols) {
-    content = content.replaceAll(symbol, (match) => `<wbr>${match}<wbr>`)
+    const startsWithSymbol = new RegExp(`^[\\${symbol}]`, '')
+    const firstSymbolWithinTags = new RegExp(`^(<wbr>)[\\${symbol}](<wbr>)`, '')
+
+    if (!startsWithSymbol.test(content)) {
+      content = content.replaceAll(symbol, `<wbr>${symbol}<wbr>`)
+    } else {
+      // Исключение для переносов первого спецсимвола в слове
+      content = content.replaceAll(symbol, `<wbr>${symbol}<wbr>`).replace(firstSymbolWithinTags, `${symbol}`)
+    }
   }
 
   return content
