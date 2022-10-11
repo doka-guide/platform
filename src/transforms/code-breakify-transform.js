@@ -20,14 +20,13 @@ function breakify(content) {
 
   // Расстановка переносов по спецсимволам
   for (const symbol of symbols) {
-    const startsWithSymbol = new RegExp(`^[\\${symbol}]`, '')
     const firstSymbolWithinTags = new RegExp(`^(<wbr>)[\\${symbol}](<wbr>)`, '')
 
-    if (!startsWithSymbol.test(content)) {
-      content = content.replaceAll(symbol, `<wbr>${symbol}<wbr>`)
-    } else {
-      // Исключение для переносов первого спецсимвола в слове
-      content = content.replaceAll(symbol, `<wbr>${symbol}<wbr>`).replace(firstSymbolWithinTags, `${symbol}`)
+    content = content.replaceAll(symbol, `<wbr>${symbol}<wbr>`)
+
+    // Исключение для переносов первого спецсимвола в слове
+    if (firstSymbolWithinTags.test(content)) {
+      content = content.replace(firstSymbolWithinTags, `${symbol}`)
     }
   }
 
