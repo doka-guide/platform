@@ -6,11 +6,6 @@ loadLanguages()
 
 const endOfLine = '\n'
 
-const LANG_ALIASES = {
-  js: 'javascript',
-  nginxconf: 'nginx',
-}
-
 function renderOriginalLine(line) {
   return `<span class="block-code__original-line">${escape(line)}</span>`
 }
@@ -31,7 +26,6 @@ module.exports = function (window) {
     const codeElement = preElement.querySelector('code')
 
     let language = (preElement.getAttribute('data-lang') || '').trim().toLowerCase()
-    language = LANG_ALIASES[language] || language
 
     const originalContent = codeElement.textContent
     const highlightedContent = language ? highlightCode(originalContent, language) : originalContent
