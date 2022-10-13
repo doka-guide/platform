@@ -46,6 +46,12 @@ module.exports = {
       return person.data.url.replace(pattern, '')
     },
 
+    telegramId: function (data) {
+      const { person } = data
+      const pattern = new RegExp('^(http|https)://(www.)?t.me/')
+      return person.data.url.replace(pattern, '')
+    },
+
     photo: function (data) {
       const { person } = data
       return person.data.photo
