@@ -3,15 +3,15 @@
   display: inline-block;
   width: 10px;
   height: 10px;
-  margin: var(--color-picker-margin);
+  margin: var(--indent);
   background-color: var(--color-picker);
   line-height: 0;
 }
 
-.color-picker__internal {
-  --color-picker-margin: 0 2px;
+.indent {
+  --indent: 0 2px 0 0;
 }
 
-.color-picker__external {
-  --color-picker-margin: 0 2px 0 0;
+.parenthesis-indent {
+  margin-right: 2px;
 }
