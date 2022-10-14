@@ -3,14 +3,14 @@
     "title": "Редакция",
     "url": "https://doka.guide/about/#kto-my",
     "color": "black",
-    "bg-color": "white",
+    "bgColor": "white",
     "border": "black"
   },
   "praktikum-mentor": {
     "title": "наставник Практикума",
     "url": "https://practicum.yandex.ru/catalog/programming/",
     "color": "white",
-    "bg-color": "black",
+    "bgColor": "black",
     "border": "black"
   }
 }
