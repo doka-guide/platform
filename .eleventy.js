@@ -11,6 +11,7 @@ const headingsIdTransform = require('./src/transforms/headings-id-transform')
 const headingsAnchorTransform = require('./src/transforms/headings-anchor-transform')
 const articleCodeBlocksTransform = require('./src/transforms/article-code-blocks-transform')
 const articleInlineCodeTransform = require('./src/transforms/article-inline-code-transform')
+const colorPickerTransform = require('./src/transforms/color-picker-transform')
 const codeClassesTransform = require('./src/transforms/code-classes-transform')
 const codeBreakifyTransform = require('./src/transforms/code-breakify-transform')
 const tocTransform = require('./src/transforms/toc-transform')
@@ -295,6 +296,7 @@ module.exports = function (config) {
       linkTransform,
       articleCodeBlocksTransform,
       articleInlineCodeTransform,
+      colorPickerTransform,
       codeClassesTransform,
       codeBreakifyTransform,
       iframeAttrTransform,
