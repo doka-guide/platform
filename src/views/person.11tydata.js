@@ -49,7 +49,7 @@ module.exports = {
 
     badges: function (data) {
       const { person } = data
-      return person.data.badges.map((badge) => getBadge(badge))
+      return person.data.badges.map(getBadge)
     },
 
     photo: function (data) {
