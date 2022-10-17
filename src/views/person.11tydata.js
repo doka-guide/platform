@@ -55,9 +55,7 @@ module.exports = {
 
     roles: function (data) {
       const { person } = data
-      return person.data.roles?.map((role) => {
-        return getRole(role)
-      })
+      return person.data.roles?.map(getRole)
     },
 
     photo: function (data) {
