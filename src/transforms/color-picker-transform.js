@@ -11,10 +11,10 @@ module.exports = function (window) {
     }
 
     item.style.setProperty('--color-picker', ` ${item.textContent}`)
-    item.classList.add('indent')
+    item.classList.add('color-picker__inline')
 
     if (/[(]/.test(item.previousElementSibling.textContent)) {
-      item.previousElementSibling.classList.add('parenthesis-indent') // Добавляет дополнительный margin скобке, если затем следует токен цвета
+      item.previousElementSibling.classList.add('color-picker__grouped') // Добавляет дополнительный margin скобке, если затем следует токен цвета
     }
   })
 }
