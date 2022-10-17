@@ -59,7 +59,9 @@
 }
 
 .person-page__roles-link {
-  padding: 4px 10px;
+  font-size: 15px;
+  line-height: 20px;
+  padding: 4px 18px;
   text-decoration: none;
   width: max-content;
   border-width: 1px;
