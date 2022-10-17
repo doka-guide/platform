@@ -1,4 +1,5 @@
 const { contentRepLink } = require('../../config/constants')
+const { getRole } = require('../libs/role-constructor/role-constructor')
 
 module.exports = {
   layout: 'base.njk',
@@ -50,6 +51,11 @@ module.exports = {
       const { person } = data
       const pattern = new RegExp('^(http|https)://(www.)?t.me/')
       return person.data.url.replace(pattern, '')
+    },
+
+    roles: function (data) {
+      const { person } = data
+      return person.data.roles?.map(getRole)
     },
 
     photo: function (data) {
