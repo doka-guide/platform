@@ -181,14 +181,14 @@ module.exports = {
     answers: function (data) {
       const allAnswers = data.collections.answer
       const { questions } = data
-      const questionList = Object.keys(questions)
+      const questionList = Array.isArray(questions)
+        ? questions.map((q) => {
+            return q.fileSlug
+          })
+        : []
 
       return allAnswers
-        ?.filter((answer, key) => {
-          return questionList.filter((question) => {
-            return question === key
-          })
-        })
+        ?.filter((answer) => questionList.filter((question) => answer.filePathStem.includes(question)).length > 0)
         ?.map((answer) => {
           answer['isLong'] = answer.template.inputContent.split('\n').length > 2
           return answer
