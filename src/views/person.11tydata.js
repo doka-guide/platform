@@ -48,14 +48,15 @@ module.exports = {
       return person.data.url.replace(pattern, '')
     },
 
-    badges: function (data) {
-      const { person } = data
-      return person.data.badges.map(getBadge)
-
     telegramId: function (data) {
       const { person } = data
       const pattern = new RegExp('^(http|https)://(www.)?t.me/')
       return person.data.url.replace(pattern, '')
+    },
+
+    badges: function (data) {
+      const { person } = data
+      return person.data.badges?.map(getBadge)
     },
 
     roles: function (data) {
