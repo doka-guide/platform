@@ -6,24 +6,24 @@
   {% endif %}
 {% endmacro %}
 
-{% macro roleLabel(role, collection) %}
-  {% set roleUrl = collection[role].url %}
+{% macro roleLabel(role) %}
+  {% set roleUrl = allRoles[role].url %}
   {% if role.url %}
     {% set roleUrl = role.url %}
   {% endif %}
-  {% set roleTitle = collection[role].title %}
+  {% set roleTitle = allRoles[role].title %}
   {% if role.title %}
     {% set roleTitle = role.title %}
   {% endif %}
-  {% set roleColor = collection[role].color %}
+  {% set roleColor = allRoles[role].color %}
   {% if role.color %}
     {% set roleColor = role.color %}
   {% endif %}
-  {% set roleBackground = collection[role].bgColor %}
+  {% set roleBackground = allRoles[role].bgColor %}
   {% if role.bgColor %}
     {% set roleBackground = role.bgColor %}
   {% endif %}
-  {% set roleBorder = collection[role].border %}
+  {% set roleBorder = allRoles[role].border %}
   {% if role.border %}
     {% set roleBorder = role.border %}
   {% endif %}
@@ -56,8 +56,7 @@
             <span class="answer__author-roles">
               {% for roleKey in answerAuthor.data.roles %}
                 {{ roleLabel(
-                  role=roleKey,
-                  collection=collections.roles
+                  role=roleKey
                 ) }}
               {% endfor %}
             </span>

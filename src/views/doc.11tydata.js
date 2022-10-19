@@ -1,5 +1,6 @@
 const { baseUrl } = require('../../config/constants')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
+const roleCollection = require('../libs/role-constructor/collection.json')
 
 function getPersons(personGetter) {
   return function (data) {
@@ -60,6 +61,8 @@ module.exports = {
   permalink: '/{{doc.filePathStem}}.html',
 
   pageType: 'Article',
+
+  allRoles: roleCollection,
 
   eleventyComputed: {
     title: function (data) {

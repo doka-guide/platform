@@ -4,7 +4,6 @@ const markdownIt = require('markdown-it')
 const { parseHTML } = require('linkedom')
 const { isProdEnv } = require('./config/env')
 const { mainSections } = require('./config/constants.js')
-const roleCollection = require('./src/libs/role-constructor/collection.json')
 const initMarkdownLibrary = require('./src/markdown-it')
 const demoLinkTransform = require('./src/transforms/demo-link-transform')
 const imageTransform = require('./src/transforms/image-transform')
@@ -68,10 +67,6 @@ module.exports = function (config) {
   // Add all Tags
   mainSections.forEach((section) => {
     config.addCollection(section, (collectionApi) => getAllDocsByCategory(collectionApi, section))
-  })
-
-  config.addCollection('roles', () => {
-    return roleCollection
   })
 
   config.addCollection('docs', (collectionApi) => {
