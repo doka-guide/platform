@@ -6,12 +6,15 @@ module.exports = function (window) {
   const color = content?.querySelectorAll('.token.color')
 
   color?.forEach(function (item) {
+    if (/(transparent)/.test(item.textContent)) {
+      return item.classList.replace('color', 'color-transparent') // Выключает color-picker для цвета transparent
+    }
+
     item.style.setProperty('--color-picker', ` ${item.textContent}`)
+    item.classList.add('color-picker__inline')
 
     if (/[(]/.test(item.previousElementSibling.textContent)) {
-      item.classList.add('color-picker__internal') // Добавляет дополнительный margin слева, если токен цвета внутри скобок
-    } else {
-      item.classList.add('color-picker__external')
+      item.previousElementSibling.classList.add('color-picker__grouped') // Добавляет дополнительный margin скобке, если затем следует токен цвета
     }
   })
 }

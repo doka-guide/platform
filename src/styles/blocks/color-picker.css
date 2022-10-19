@@ -8,10 +8,10 @@
   line-height: 0;
 }
 
-.color-picker__internal {
-  --color-picker-margin: 0 2px;
+.color-picker__inline {
+  --color-picker-margin: 0 2px 0 0;
 }
 
-.color-picker__external {
-  --color-picker-margin: 0 2px 0 0;
+.color-picker__grouped {
+  margin-right: 2px;
 }
