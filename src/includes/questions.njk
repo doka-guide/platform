@@ -1,9 +1,35 @@
-{% macro answerorName(name, url) %}
+{% macro answerOrName(name, url) %}
   {% if url %}
     <a class="link font-theme--code" href="{{ url }}">{{ name }}</a>
   {% else %}
     <span class="font-theme--code">{{ name }}</span>
   {% endif %}
+{% endmacro %}
+
+{% macro roleLabel(role, collection) %}
+  {% set roleUrl = collection[role].url %}
+  {% if role.url %}
+    {% set roleUrl = role.url %}
+  {% endif %}
+  {% set roleTitle = collection[role].title %}
+  {% if role.title %}
+    {% set roleTitle = role.title %}
+  {% endif %}
+  {% set roleColor = collection[role].color %}
+  {% if role.color %}
+    {% set roleColor = role.color %}
+  {% endif %}
+  {% set roleBackground = collection[role].bgColor %}
+  {% if role.bgColor %}
+    {% set roleBackground = role.bgColor %}
+  {% endif %}
+  {% set roleBorder = collection[role].border %}
+  {% if role.border %}
+    {% set roleBorder = role.border %}
+  {% endif %}
+  <a href="{{ roleUrl }}" class="answer__author-roles-link" style="color: {{ roleColor }}; background-color: {{ roleBackground }}; border-color: {{ roleBorder }}">
+    {{ roleTitle }}
+  </a>
 {% endmacro %}
 
 {% if questions.length > 0 %}
@@ -23,8 +49,16 @@
 
         <article class="question__answer" id="question-{{ question.fileSlug }}-answer-{{ answer.fileSlug }}">
           <h3 class="answer__author">
+            <span class="answer__author-roles">
+              {% for roleKey in answerAuthor.data.roles %}
+                {{ roleLabel(
+                  role=roleKey,
+                  collection=collections.roles
+                ) }}
+              {% endfor %}
+            </span>
             <span class="answer__author-name">
-              {{ answerorName(
+              {{ answerOrName(
                 name=(answerAuthor.data.name or answer.fileSlug),
                 url='/people/' + answerAuthor.fileSlug + '/'
               ) }}

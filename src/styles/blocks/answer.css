@@ -7,6 +7,31 @@
   margin-bottom: 0;
 }
 
+.answer__author {
+  display: flex;
+  gap: 20px;
+}
+
+.answer__author-roles {
+  align-self: center;
+  display: flex;
+  gap: 20px;
+}
+
+.answer__author-roles-link {
+  font-size: calc(var(--font-size-s) * 1.25);
+  line-height: var(--font-line-height-s);
+  padding: 4px 18px;
+  text-decoration: none;
+  width: max-content;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.answer__author-roles-link:hover {
+  text-decoration: underline;
+}
+
 .answer__author-name > * {
   font-family: 'Spot Mono', monospace;
   font-weight: 300;
