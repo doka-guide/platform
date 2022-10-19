@@ -12,7 +12,7 @@
   --color-green: 122 78% 58%;
   --color-pink: 346 81% 78%;
   --color-violet: 276 100% 72%;
-  --color-aquamarine: 162, 90%, 51%;
+  --color-aquamarine: 162 90% 51%;
 
   --color-base-html: hsl(var(--color-orange));
   --color-base-css: hsl(var(--color-blue));
