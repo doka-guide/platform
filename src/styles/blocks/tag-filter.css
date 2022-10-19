@@ -30,7 +30,10 @@
   line-height: 1;
   text-align: center;
   border-radius: 2em;
-  transition: background-color 125ms;
+  transition: all 125ms;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
 }
 
 .tag-filter__text::before {
