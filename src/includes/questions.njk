@@ -39,6 +39,10 @@
       На собеседовании
     </h2>
 
+    <p class="questions__description">
+      Это партёрская рубрика. Выпускаем её совместно с сервисом онлайн-образования <a href="https://practicum.yandex.ru/catalog/programming/" title="Каталог курсов по программированию от Яндекс Практикума">Яндекс Практикум</a>. Наставники Практикума описывают здесь, как знания технинологий веб-платформы проверяют на техническом собеседовании. Сообщество тоже может предложить свой ответ на вопросы собеседования через <a href="https://github.com/doka-guide/content/blob/main/docs/contributing.md" title="Общая инструкция по написанию новых материалов для Доки">pull request на GitHub</a>. Или принести вопрос, на который не знаете ответа в <a href="https://github.com/doka-guide/content/issues?q=is%3Aopen+is%3Aissue+label%3Aсобеседование" title="Все ишью для контента Доки, отфильтрованные по лейблу «собеседование»">issue</a>, мы разложим всё по полочкам и опубликует.
+    </p>
+
     {% for question in questions %}
       <div class="question__request">
         {{ question.templateContent | safe }}
