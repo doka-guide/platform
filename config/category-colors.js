@@ -19,6 +19,10 @@ module.exports = {
     light: 'hsl(276, 100%, 72%)',
     dark: 'hsl(276, 39%, 32%)',
   },
+  a11y: {
+    light: 'hsl(162, 90%, 51%)',
+    dark: 'hsl(162, 95%, 15%)',
+  },
   default: {
     light: 'hsl(0 0% 100%)',
     dark: 'hsl(0 0% 0%)',
