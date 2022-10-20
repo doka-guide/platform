@@ -2,7 +2,7 @@
   <div class="person-badges {{ class if class }}">
     {% for badge in badges %}
       <div class="person-badges__sign person-badges__sign--col-{{ badge.field.width }} person-badges__sign--row-{{ badge.field.height }}">
-        <div class="person-badges__shape person-badges__shape--{{ badge.shape }} person-badges__shape--angle-{{ badge.angle }}">
+        <div class="person-badges__shape person-badges__shape--{{ badge.shape }} person-badges__shape--height-{{ badge.field.height }} person-badges__shape--width-{{ badge.field.width }} person-badges__shape--angle-{{ badge.angle }}">
           <img class="person-badges__default-image" src="{{ badge.src }}" alt="{{ badge.alt }}">
         </div>
         <div class="person-badges__pop-up">
