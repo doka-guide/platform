@@ -52,6 +52,26 @@
   font-weight: normal;
 }
 
+.person-page__roles {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.person-page__roles-link {
+  font-size: 15px;
+  line-height: 20px;
+  padding: 4px 18px;
+  text-decoration: none;
+  width: max-content;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.person-page__roles-link:hover {
+  text-decoration: underline;
+}
+
 .person-page__description {
   margin-top: 20px;
 }
