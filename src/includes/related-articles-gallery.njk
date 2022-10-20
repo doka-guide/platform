@@ -4,9 +4,9 @@
   <section class="articles-gallery">
     <h2 class="articles-gallery__title">Читайте также</h2>
 
-    <ul class="related-articles-list featured-artices-list base-list">
+    <ul class="related-articles-list featured-articles-list base-list">
       {% for article in relatedArticles %}
-        <li class="related-articles-list__item featured-artices-list__item">
+        <li class="related-articles-list__item featured-articles-list__item">
           {{ featuredArticle(article=article, class="related-articles-list__article") }}
         </li>
       {% endfor %}

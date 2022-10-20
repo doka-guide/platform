@@ -4,6 +4,14 @@ import BaseComponent from '../core/base-component.js'
 import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
 import logo from '../modules/logo.js'
 
+function onFocus() {
+  logo.setFocusOnElement()
+}
+
+function onBlur() {
+  logo.unsetFocusOnElement()
+}
+
 class Filter extends BaseComponent {
   constructor({ form }) {
     super()
@@ -95,7 +103,8 @@ class SearchResultOutput extends BaseComponent {
 
   static get templates() {
     return {
-      summaryItem: (item) => `<p class="search-hit__summary-item">${item}</p>`,
+      summaryItem: (item) =>
+        `<p class="search-hit__summary-item">${item.replaceAll('<mark>', '<mark class="search-hit__marked">')}</p>`,
 
       titleCode: `<code class="search-hit__link-code code-fix font-theme font-theme--code">$1</code>`,
 
@@ -105,7 +114,10 @@ class SearchResultOutput extends BaseComponent {
 
       hit: (hitObject) => {
         const editIcon = SearchResultOutput.isPlaceholder(hitObject) ? SearchResultOutput.templates.placeholderIcon : ''
-        const title = SearchResultOutput.replaceBackticks(hitObject.title, SearchResultOutput.templates.titleCode)
+        const title = SearchResultOutput.replaceBackticks(
+          hitObject.title.replaceAll('<mark>', '<mark class="search-hit__marked">'),
+          SearchResultOutput.templates.titleCode
+        )
         const summary = hitObject.summary
           .slice(0, SearchResultOutput.matchedItems)
           .map((item) => SearchResultOutput.templates.summaryItem(item))
@@ -182,17 +194,20 @@ function init() {
     form: searchForm,
   })
   filter.state = new URLSearchParams(location.search)
-
   const searchResultOutput = new SearchResultOutput({
     element: searchHits,
   })
 
-  // преобразует состояние фильтров в понятный для Algolia формат
+  // преобразует состояние фильтров в понятный серверу формат
   function prepareFilters(filtersState) {
     const result = [
-      [...filtersState.getAll('category')].map((value) => `category:${value}`),
-      [...filtersState.getAll('tag')].map((value) => `tags:${value}`),
-    ]
+      [...filtersState.getAll('category')].map((v) => {
+        return { key: 'category', val: v }
+      }),
+      [...filtersState.getAll('tag')].map((v) => {
+        return { key: 'tags', val: v }
+      }),
+    ].flat()
 
     return result
   }
@@ -207,17 +222,8 @@ function init() {
   function makeSearchEffect(queryText, filters) {
     if (queryText.length >= MIN_SEARCH_SYMBOLS || SEARCHABLE_SHORT_WORDS.has(queryText)) {
       logo.startAnimation()
-
       searchClient
-        .search(queryText, {
-          facetFilters: filters,
-          attributesToSnippet: [
-            'title:100', // делаем большое количество слов, чтобы весь заголовок поместился в сниппет
-            'content:20',
-          ],
-          highlightPreTag: '<mark class="search-hit__marked">',
-          highlightPostTag: '</mark>',
-        })
+        .search(queryText, filters)
         .then(function (searchObject) {
           const processedHits = processHits(searchObject)
           searchResultOutput.renderHits(processedHits, queryText, SYMBOL_LIMIT)
@@ -250,6 +256,8 @@ function init() {
   const debouncedOnFilterChange = debounce(onFilterChange, 150)
 
   function assignSearchField() {
+    searchField.addEventListener('focus', onFocus, true)
+    searchField.addEventListener('blur', onBlur, true)
     searchField.focus()
 
     searchForm.addEventListener('submit', (event) => {

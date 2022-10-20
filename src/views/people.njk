@@ -8,6 +8,9 @@
     {% for category, count in data.stat -%}
       {{ joinSymbol() }}{{ category }}
     {%- endfor %}
+    {% for category, count in data.practices -%}
+      {{ joinSymbol() }}{{ category }}
+    {%- endfor %}
   {%- endset -%}
 
   <li class="person-grid__item" data-categories="{{ dataCategories }}">
@@ -17,8 +20,9 @@
 
 <div class="people-page">
   {{ header(
+    pageCategoryId='people',
     category=title,
-    title=title
+    isCategoryVisible=true
   ) }}
 
   <main class="people-page__main">

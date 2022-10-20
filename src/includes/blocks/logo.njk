@@ -11,21 +11,21 @@
   {% endset %}
 
   {% set defaultLetters %}
-    U<span class="logo__eye">·</span>ᴥ<span class="logo__eye">·</span>U
+    U<span class="logo__eye">•</span><span class="logo__nose">ᴥ</span><span class="logo__eye">•</span>U
   {% endset %}
   {% set letters = letters if letters else defaultLetters %}
 
   <{{tag}} class="{{ classes }}" {{ attrs }}>
     {% if (not isImageHidden) %}
-      <div class="logo__image" aria-hidden="true">
+      <div class="logo__image {{ 'logo__image--contrast' if not isContrastColor else '' }}" aria-hidden="true">
         <div class="logo__symbols logo__symbols--main">
           {{ letters | safe }}
         </div>
         <div class="logo__symbols logo__symbols--search">
-          UˇᴥˇU
+          U<span class="logo__eye">ˇ</span><span class="logo__nose">ᴥ</span><span class="logo__eye">ˇ</span>U
         </div>
       </div>
     {% endif %}
-    <div class="logo__text {{ 'link' if isLink else '' }}">Дока</div>
+    <div class="logo__text {{ 'link' if isLink else '' }} {{ 'logo__text--contrast' if not isContrastColor else '' }}">Дока</div>
   </{{tag}}>
 {% endmacro %}

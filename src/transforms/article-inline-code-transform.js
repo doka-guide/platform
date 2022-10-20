@@ -5,7 +5,7 @@
 module.exports = function (window) {
   const articleContent = window.document.querySelector('.article__content-inner')
 
-  articleContent?.querySelectorAll('p code, ul code, ol code, table code')?.forEach((codeElement) => {
+  articleContent?.querySelectorAll('p code, ul code, ol code, table code, figcaption code')?.forEach((codeElement) => {
     codeElement.classList.add('inline-code', 'code-fix', 'font-theme', 'font-theme--code')
   })
 }

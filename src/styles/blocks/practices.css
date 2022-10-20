@@ -1,0 +1,107 @@
+.practices > article {
+  display: grid;
+  grid-gap: 1em;
+}
+
+.practices > article > .article-heading {
+  margin-bottom: 0;
+}
+
+.practices__author-name > * {
+  font-family: 'Spot Mono', monospace;
+  font-weight: 300;
+  font-size: var(--font-size-l);
+  line-height: var(--font-line-height-l);
+  letter-spacing: -0.05em;
+  text-align: left;
+}
+
+.practices__content {
+  position: relative;
+  counter-increment: practices__content;
+  overflow: hidden;
+  border: 1px solid var(--color-fade);
+  border-radius: 6px;
+}
+
+.practices__content::after {
+  content: ' ';
+  display: block;
+  position: relative;
+  height: 100px;
+  background: linear-gradient(180deg, hsla(var(--color-base-background) / 0) 0%, hsla(var(--color-base-background) / 0.67) 100%);
+  border-radius: 8px;
+  z-index: 0;
+}
+
+.practices__content > .practices__summary {
+  grid-row-start: 2;
+  grid-row-end: 4;
+  display: grid;
+  grid-gap: var(--font-size-l);
+  grid-template-rows: 30px calc(var(--font-size) * 2) var(--font-size);
+  height: 110px;
+  padding: var(--offset);
+  background-color: var(--color-background);
+}
+
+.practices__content > .practices__summary::before {
+  grid-row-start: 1;
+  content: counter(practices__content);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--color-text);
+  font-family: 'Spot Mono', monospace;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.practices__content .practices__toggler {
+  appearance: none;
+  display: block;
+  position: absolute;
+  margin-top: 170px;
+  justify-self: start;
+  font-size: var(--font-size-m, 100%);
+  font-family: var(--font-family);
+  padding: 4px 15px;
+  box-shadow: 0 0 10px 5px rgb(0 0 0 / 0.1);
+  border: none;
+  border-radius: 5px;
+  background-color: var(--color-background);
+  z-index: 1;
+  cursor: pointer;
+}
+
+.practices__content--open {
+  overflow: unset;
+}
+
+.practices__content--open::after {
+  display: none;
+}
+
+.practices__content--open > .practices__summary {
+  height: auto;
+  grid-template-rows: unset;
+  overflow: unset;
+}
+
+.practices__content--open .practices__toggler {
+  position: sticky;
+  grid-row-start: unset;
+  bottom: 1em;
+  margin-top: unset;
+}
+
+.practices__content--short > .practices__summary {
+  height: auto;
+}
+
+.practices__content--short::after {
+  height: unset;
+}

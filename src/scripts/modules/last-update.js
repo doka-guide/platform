@@ -1,6 +1,16 @@
+const piecesToSeconds = {
+  day: 86400,
+  hour: 3600,
+  minute: 60,
+  second: 1,
+}
+
+function getTimeDiff(date, currentTime) {
+  return (currentTime - date) / 1000
+}
+
 function formatRelativeDate(date, currentTime = new Date()) {
-  let timeDiff = (currentTime - date) / 1000
-  let piece
+  let timeDiff = getTimeDiff(date, currentTime)
 
   const rtf = new Intl.RelativeTimeFormat('ru', {
     localeMatcher: 'best fit',
@@ -8,19 +18,12 @@ function formatRelativeDate(date, currentTime = new Date()) {
     style: 'long',
   })
 
-  if (timeDiff >= 86400) {
-    timeDiff = Math.round(timeDiff / 86400)
-    piece = 'day'
-  } else if (timeDiff >= 3600) {
-    timeDiff = Math.round(timeDiff / 3600)
-    piece = 'hour'
-  } else if (timeDiff >= 60) {
-    timeDiff = Math.round(timeDiff / 60)
-    piece = 'minute'
-  } else {
-    timeDiff = Math.round(timeDiff)
-    piece = 'second'
-  }
+  const [piece, seconds] = Object
+    .entries(piecesToSeconds)
+    .sort(([, less], [, greater]) => greater - less) // Сортировка по убыванию 
+    .find(([piece, seconds]) => timeDiff >= seconds)
+
+  timeDiff = Math.round(timeDiff / seconds)
 
   return rtf.format(-timeDiff, piece)
 }
@@ -30,8 +33,8 @@ document.querySelectorAll('[data-relative-time]').forEach((element) => {
     const isoDateString = element.dateTime
     const date = new Date(isoDateString)
     const currentTime = new Date()
-    const diff = Math.abs((currentTime - date) / 1000)
-    if (diff > 60 * 60 * 24) {
+    const diff = Math.abs(getTimeDiff(date, currentTime))
+    if (diff > piecesToSeconds['day']) {
       return
     }
     const relativeDate = formatRelativeDate(date, currentTime)

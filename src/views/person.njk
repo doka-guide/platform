@@ -5,6 +5,7 @@
 {% set behanceRegEx = r/behance.net/g %}
 {% set githubRegEx = r/github.com/g %}
 {% set twitterRegEx = r/twitter.com/g %}
+{% set telegramRegEx = r/t.me/g %}
 
 {% set behanceIcon %}
 <svg class="person-links-list__icon" width="13" height="9" viewBox="0 0 13 9" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -21,6 +22,13 @@
 {% set twitterIcon %}
 <svg class="person-links-list__icon" width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M11.6691 2.62971C11.677 2.74432 11.677 2.85892 11.677 2.97459C11.677 6.49882 8.99411 10.5633 4.08828 10.5633V10.5612C2.63908 10.5633 1.21999 10.1482 0 9.36553C0.210725 9.39088 0.422507 9.40355 0.634816 9.40408C1.83579 9.40514 3.00244 9.00217 3.94727 8.26014C2.80597 8.23849 1.80516 7.49435 1.45554 6.40798C1.85533 6.48509 2.26728 6.46924 2.65968 6.36203C1.4154 6.11064 0.520211 5.0174 0.520211 3.74777C0.520211 3.73615 0.520211 3.72506 0.520211 3.71397C0.890961 3.92047 1.30607 4.03508 1.73069 4.04775C0.558765 3.26453 0.197522 1.70548 0.90522 0.486549C2.25935 2.15281 4.25728 3.16577 6.40203 3.27298C6.18708 2.34663 6.48072 1.37593 7.17363 0.724737C8.24786 -0.285053 9.93736 -0.233296 10.9471 0.840399C11.5445 0.722625 12.117 0.50345 12.6409 0.192907C12.4418 0.810295 12.0251 1.33473 11.4684 1.66798C11.9971 1.60566 12.5136 1.46412 13 1.24812C12.6419 1.7847 12.1909 2.2521 11.6691 2.62971Z" fill="#1D9BF0"/>
+</svg>
+{% endset %}
+
+{% set telegramIcon %}
+<svg class="person-links-list__icon" width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle fill="#2AABEE" cx="5.5" cy="5.5" r="5.5"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M2.48961 5.44194C4.09297 4.74338 5.16213 4.28285 5.69709 4.06034C7.2245 3.42504 7.54188 3.31468 7.74875 3.31104C7.79424 3.31024 7.89597 3.32151 7.96187 3.37498C8.01751 3.42013 8.03282 3.48112 8.04015 3.52393C8.04747 3.56674 8.0566 3.66425 8.04935 3.74045C7.96657 4.61013 7.60843 6.72061 7.42622 7.69467C7.34912 8.10683 7.19732 8.24502 7.05035 8.25855C6.73095 8.28794 6.48842 8.04747 6.17907 7.84469C5.695 7.52737 5.42153 7.32984 4.95165 7.0202C4.40863 6.66236 4.76065 6.46568 5.07011 6.14425C5.1511 6.06014 6.55837 4.78012 6.5856 4.664C6.58901 4.64948 6.59217 4.59535 6.56001 4.56676C6.52785 4.53818 6.48039 4.54796 6.44614 4.55573C6.39759 4.56675 5.62428 5.07788 4.12621 6.08912C3.9067 6.23985 3.70789 6.31328 3.52975 6.30944C3.33337 6.30519 2.95562 6.1984 2.6748 6.10712C2.33036 5.99515 2.05661 5.93596 2.08045 5.74581C2.09286 5.64677 2.22925 5.54548 2.48961 5.44194Z" fill="#FFF"/>
 </svg>
 {% endset %}
 
@@ -43,9 +51,10 @@
 
 <div class="person-page">
   {{ header(
-    category=categoryName,
     pageCategoryId='people',
-    title=name
+    category=categoryName,
+    title=name,
+    isCategoryVisible=true
   ) }}
 
   <main class="person-page__main">
@@ -64,12 +73,17 @@
             <a class="person-links-list__link person-links-list__link--own link" href="{{ url }}">
               {% if twitterRegEx.test(url) %}
                 {{ twitterIcon | safe }}
+                <span>{{ twitterId }}</span>
               {% elif githubRegEx.test(url) %}
                 {{ githubIcon | safe }}
+                <span>{{ personId }}</span>
               {% elif behanceRegEx.test(url) %}
                 {{ behanceIcon | safe }}
+                <span>{{ behanceId }}</span>
+              {% elif telegramRegEx.test(url) %}
+                {{ telegramIcon | safe }}
+                <span>{{ telegramId }}</span>
               {% endif %}
-              <span>{{ personId }}</span>
             </a>
           </li>
         {% endif %}
@@ -98,6 +112,15 @@
       <h1 class="person-page__title">
         {{ name }}
       </h1>
+      {% if roles %}
+        <div class="person-page__roles">
+          {% for role in roles %}
+            <a href="{{ role.url }}" class="person-page__roles-link" style="color: {{ role.color }}; background-color: {{ role.bgColor }}; border-color: {{ role.border }}">
+              {{ role.title }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
       {% if person.templateContent %}
         <div class="person-page__description content">
           {{ person.templateContent | safe }}
@@ -106,12 +129,12 @@
     </div>
 
     <div class="person-page__articles">
-      {% for category, articlesByRole in articlesIndex %}
+      {% for category, practicesByRole in articlesIndex %}
         <section class="person-page__group articles-group articles-group--accent articles-group--title-static" style="--accent-color: var(--color-{{ category }})">
           <h2 class="articles-group__title">
             {{ articleIndexesMap[category].data.name }}
           </h2>
-          {% for personRole, articles in articlesByRole | dictsort %}
+          {% for personRole, articles in practicesByRole | dictsort %}
             <section class="articles-group__section">
               <h3 class="articles-group__sub-title font-theme font-theme--code">{{ personRole }}</h3>
               <ul class="articles-group__list base-list">
@@ -125,8 +148,43 @@
               </ul>
             </section>
           {% endfor %}
+          {% if practicesIndex[category] | length %}
+            <section class="articles-group__section">
+              <h3 class="articles-group__sub-title font-theme font-theme--code">{{ practicesPersonRole }}</h3>
+              <ul class="articles-group__list base-list">
+                {% for practice in practicesIndex[category] %}
+                  <li>
+                    <a class="articles-group__link link" href="/{{ category }}/{{ practice.fileSlug }}/#na-praktike">
+                      {{ practice.data.title | descriptionMarkdown | safe }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </section>
+          {% endif %}
         </section>
       {% endfor %}
+      {% if isOnlyWithPractice %}
+        {% for category, practicesByCategory in practicesIndex %}
+          <section class="person-page__group articles-group articles-group--accent articles-group--title-static" style="--accent-color: var(--color-{{ category }})">
+            <h2 class="articles-group__title">
+              {{ articleIndexesMap[category].data.name }}
+            </h2>
+            <h3 class="articles-group__sub-title font-theme font-theme--code">{{ practicesPersonRole }}</h3>
+            {% for practice in practicesByCategory | sort %}
+              <section class="articles-group__section">
+                <ul class="articles-group__list base-list">
+                  <li>
+                    <a class="articles-group__link link" href="/{{ category }}/{{ practice.fileSlug }}/#na-praktike">
+                      {{ practice.data.title | descriptionMarkdown | safe }}
+                    </a>
+                  </li>
+                </ul>
+              </section>
+            {% endfor %}
+          </section>
+        {% endfor %}
+      {% endif %}
     </div>
 
     {{ footer(class="person-page__footer") }}

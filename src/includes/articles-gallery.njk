@@ -6,10 +6,10 @@
   <section class="articles-gallery">
     <h2 class="visually-hidden">Избранные статьи</h2>
 
-    <ul class="featured-artices-list base-list">
+    <ul class="featured-articles-list base-list">
       {% for article in featuredArticles %}
         {% set isLazyLoading = loop.index > lazyLoadingIndexThreshold %}
-        <li class="featured-artices-list__item">
+        <li class="featured-articles-list__item">
           {{ featuredArticle(article=article, isLazyLoading=isLazyLoading) }}
         </li>
       {% endfor %}

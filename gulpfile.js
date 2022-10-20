@@ -126,8 +126,8 @@ const socialCards = async () => {
         await page.goto('file://' + file.path)
 
         await page.setViewport({
-          width: 1200,
-          height: 630,
+          width: 503,
+          height: 273,
           deviceScaleFactor: 1,
         })
 
@@ -137,25 +137,8 @@ const socialCards = async () => {
           clip: {
             x: 0,
             y: 0,
-            width: 1200,
-            height: 630,
-          },
-        })
-
-        await page.setViewport({
-          width: 1024,
-          height: 1024,
-          deviceScaleFactor: 1,
-        })
-
-        await page.screenshot({
-          path: path.join(imagePath, 'twitter.png'),
-          type: 'png',
-          clip: {
-            x: 0,
-            y: 0,
-            width: 1024,
-            height: 1024,
+            width: 503,
+            height: 273,
           },
         })
 

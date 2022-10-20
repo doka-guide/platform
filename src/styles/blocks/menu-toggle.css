@@ -22,6 +22,12 @@
   align-items: center;
 }
 
+@media all and (min-width: 1024px) {
+  .menu-toggle__inner--close {
+    flex-direction: column-reverse;
+  }
+}
+
 .menu-toggle__icon {
   transition: opacity 0.2s;
 }

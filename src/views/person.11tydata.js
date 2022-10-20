@@ -1,4 +1,5 @@
 const { contentRepLink } = require('../../config/constants')
+const { getRole } = require('../libs/role-constructor/role-constructor')
 
 module.exports = {
   layout: 'base.njk',
@@ -34,6 +35,29 @@ module.exports = {
       return person.data.url
     },
 
+    behanceId: function (data) {
+      const { person } = data
+      const pattern = new RegExp('^(http|https)://(www.)?behance.net/')
+      return person.data.url.replace(pattern, '')
+    },
+
+    twitterId: function (data) {
+      const { person } = data
+      const pattern = new RegExp('^(http|https)://(www.)?twitter.com/')
+      return person.data.url.replace(pattern, '')
+    },
+
+    telegramId: function (data) {
+      const { person } = data
+      const pattern = new RegExp('^(http|https)://(www.)?t.me/')
+      return person.data.url.replace(pattern, '')
+    },
+
+    roles: function (data) {
+      const { person } = data
+      return person.data.roles?.map(getRole)
+    },
+
     photo: function (data) {
       const { person } = data
       return person.data.photo
@@ -41,6 +65,20 @@ module.exports = {
 
     title: function (data) {
       return data.name
+    },
+
+    practicesPersonRole: function () {
+      return 'Автор совета'
+    },
+
+    practicesIndex: function (data) {
+      const { personId, practicesByPerson } = data
+      return practicesByPerson[personId]
+    },
+
+    isOnlyWithPractice: function (data) {
+      const { personId, docsByPerson } = data
+      return !docsByPerson[personId]
     },
 
     articlesIndex: function (data) {

@@ -9,7 +9,7 @@
 .article-indexes-list__item {
   overflow: hidden;
   display: block;
-  padding-bottom: var(--column-offset);
+  padding: 5px 0 var(--column-offset) 5px;
   page-break-inside: avoid;
   break-inside: avoid;
 }
