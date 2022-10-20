@@ -25,7 +25,7 @@
 @import 'blocks/snow.css';
 @import 'blocks/intro.css';
 @import 'blocks/featured-article.css';
-@import 'blocks/featured-artices-list.css';
+@import 'blocks/featured-articles-list.css';
 @import 'blocks/articles-gallery.css';
 @import 'blocks/index-group-list.css';
 @import 'blocks/article-indexes-list.css';
@@ -82,3 +82,4 @@
 @import 'blocks/linked-article.css';
 @import 'blocks/related-articles-list.css';
 @import 'blocks/code-fix.css';
+@import 'blocks/color-picker.css';

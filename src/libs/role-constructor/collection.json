@@ -1,0 +1,16 @@
+{
+  "doka-core-team": {
+    "title": "Редакция",
+    "url": "https://doka.guide/about/#kto-my",
+    "color": "black",
+    "bgColor": "white",
+    "border": "black"
+  },
+  "praktikum-mentor": {
+    "title": "Наставник Практикума",
+    "url": "https://practicum.yandex.ru/catalog/programming/",
+    "color": "white",
+    "bgColor": "black",
+    "border": "black"
+  }
+}

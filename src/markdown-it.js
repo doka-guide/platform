@@ -8,6 +8,15 @@ module.exports = () => {
     linkify: true,
     highlight: function (str, lang) {
       const content = md.utils.escapeHtml(str)
+      const LANG_ALIASES = {
+        javascript: 'js',
+        nginxconf: 'nginx',
+      }
+
+      if (lang in LANG_ALIASES) {
+        lang = LANG_ALIASES[lang]
+      }
+
       return lang ? `<pre data-lang='${lang}'><code>${content}</code></pre>` : `<pre>${content}</pre>`
     },
   })

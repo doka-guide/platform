@@ -1,0 +1,17 @@
+.token.color::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: var(--color-picker-margin);
+  background-color: var(--color-picker);
+  line-height: 0;
+}
+
+.color-picker__inline {
+  --color-picker-margin: 0 2px 0 0;
+}
+
+.color-picker__grouped {
+  margin-right: 2px;
+}
