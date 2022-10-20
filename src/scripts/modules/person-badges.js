@@ -161,7 +161,6 @@ function arrangeBadges(badges) {
     addBadgeToMap(b, map, nextCoordinate.x, nextCoordinate.y)
   })
   map = removeFreeLines(map)
-  console.log(map)
   const badgeCoordinates = {}
   map.forEach((mapRow, rowIndex) => {
     for (let colIndex = 0; colIndex < mapRow.length; colIndex++) {
@@ -181,7 +180,6 @@ function arrangeBadges(badges) {
       }
     }
   })
-  console.log(badgeCoordinates)
   return badgeCoordinates
 }
 
