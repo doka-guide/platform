@@ -281,7 +281,7 @@ module.exports = {
     },
 
     peopleData: async function (data) {
-      const { collections, practicesByPerson, answersByQuestion, docsByPerson } = data
+      const { collections, practicesByPerson, answersByPerson, docsByPerson } = data
       const { people } = collections
 
       if (!people || people.length === 0) {
@@ -290,7 +290,7 @@ module.exports = {
 
       const filteredAuthors = people.filter((person) => {
         const personId = person.fileSlug
-        return !!docsByPerson[personId] || !!practicesByPerson[personId] || !!answersByQuestion[personId]
+        return !!docsByPerson[personId] || !!practicesByPerson[personId] || !!answersByPerson[personId]
       })
 
       const authorsNames = filteredAuthors.map((author) => author.fileSlug)
@@ -305,10 +305,8 @@ module.exports = {
           const personId = person.fileSlug
           const personData = docsByPerson[personId]
           const personPractices = practicesByPerson[personId]
-          const personAnswers = answersByQuestion[personId]
+          const personAnswers = answersByPerson[personId]
           const { name, photo } = person.data
-
-          if (personAnswers) console.log(personAnswers)
 
           const photoURL = photo ? (isExternalURL(photo) ? photo : `/people/${personId}/${photo}`) : null
 
