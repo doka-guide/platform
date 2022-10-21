@@ -153,20 +153,20 @@ module.exports = {
       }
     }
     */
-    answersByPerson: function (data) {
+    answersByQuestion: function (data) {
       const { collections } = data
 
-      const answersByPerson = {}
+      const answersByQuestion = {}
       collections.answer.forEach((answer) => {
         const answerObject = answer.filePathStem.split('/')
         const questionId = answerObject[2]
-        if (!answersByPerson[questionId]) {
-          answersByPerson[questionId] = {}
+        if (!answersByQuestion[questionId]) {
+          answersByQuestion[questionId] = {}
         }
         const personId = answer.fileSlug
-        if (!answersByPerson[questionId][personId]) {
+        if (!answersByQuestion[questionId][personId]) {
           if (answer.data.included) {
-            answersByPerson[questionId][personId] = articlePathsToObject(answer.data.included, collections)
+            answersByQuestion[questionId][personId] = articlePathsToObject(answer.data.included, collections)
           } else if (answer.data.excluded) {
             const articlePathList = collections.question.filter((question) => {
               return question.fileSlug === questionId
@@ -178,9 +178,9 @@ module.exports = {
                 }).length > 0
               )
             })
-            answersByPerson[questionId][personId] = articlePathsToObject(articlePathList, collections)
+            answersByQuestion[questionId][personId] = articlePathsToObject(articlePathList, collections)
           } else {
-            answersByPerson[questionId][personId] = articlePathsToObject(
+            answersByQuestion[questionId][personId] = articlePathsToObject(
               collections.question.filter((question) => {
                 return question.fileSlug === questionId
               })[0].data.related,
@@ -189,7 +189,7 @@ module.exports = {
           }
         }
       })
-      return answersByPerson
+      return answersByQuestion
     },
 
     /* создаёт структуру вида:
@@ -242,7 +242,7 @@ module.exports = {
     },
 
     peopleData: async function (data) {
-      const { collections, practicesByPerson, answersByPerson, docsByPerson } = data
+      const { collections, practicesByPerson, answersByQuestion, docsByPerson } = data
       const { people } = collections
 
       if (!people || people.length === 0) {
@@ -251,7 +251,7 @@ module.exports = {
 
       const filteredAuthors = people.filter((person) => {
         const personId = person.fileSlug
-        return !!docsByPerson[personId] || !!practicesByPerson[personId] || !!answersByPerson[personId]
+        return !!docsByPerson[personId] || !!practicesByPerson[personId] || !!answersByQuestion[personId]
       })
 
       const authorsNames = filteredAuthors.map((author) => author.fileSlug)
@@ -266,8 +266,10 @@ module.exports = {
           const personId = person.fileSlug
           const personData = docsByPerson[personId]
           const personPractices = practicesByPerson[personId]
-          const personAnswers = answersByPerson[personId]
+          const personAnswers = answersByQuestion[personId]
           const { name, photo } = person.data
+
+          if (personAnswers) console.log(personAnswers)
 
           const photoURL = photo ? (isExternalURL(photo) ? photo : `/people/${personId}/${photo}`) : null
 

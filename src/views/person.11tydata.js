@@ -81,18 +81,18 @@ module.exports = {
     },
 
     answersInArticles: function (data) {
-      const { personId, answersByPerson } = data
+      const { personId, answersByQuestion } = data
       const answersInArticles = {}
-      for (const questionKey in answersByPerson) {
-        if (Object.hasOwnProperty.call(answersByPerson, questionKey)) {
-          for (const personKey in answersByPerson[questionKey]) {
-            if (personKey === personId && Object.hasOwnProperty.call(answersByPerson[questionKey], personKey)) {
-              for (const categoryKey in answersByPerson[questionKey][personKey]) {
-                if (Object.hasOwnProperty.call(answersByPerson[questionKey][personKey], categoryKey)) {
+      for (const questionKey in answersByQuestion) {
+        if (Object.hasOwnProperty.call(answersByQuestion, questionKey)) {
+          for (const personKey in answersByQuestion[questionKey]) {
+            if (personKey === personId && Object.hasOwnProperty.call(answersByQuestion[questionKey], personKey)) {
+              for (const categoryKey in answersByQuestion[questionKey][personKey]) {
+                if (Object.hasOwnProperty.call(answersByQuestion[questionKey][personKey], categoryKey)) {
                   if (!answersInArticles[categoryKey]) {
                     answersInArticles[categoryKey] = new Set([])
                   }
-                  answersInArticles[categoryKey].add(answersByPerson[questionKey][personKey][categoryKey])
+                  answersInArticles[categoryKey].add(answersByQuestion[questionKey][personKey][categoryKey])
                 }
               }
             }
@@ -102,7 +102,6 @@ module.exports = {
       for (const category in answersInArticles) {
         answersInArticles[category] = [...answersInArticles[category]]
       }
-      console.log(answersInArticles)
       return answersInArticles
     },
 
