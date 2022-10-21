@@ -47,46 +47,50 @@
       Это партёрская рубрика, мы выпускаем её совместно с сервисом онлайн-образования <a href="https://practicum.yandex.ru/catalog/programming/" title="Каталог курсов по программированию от Яндекс Практикума">Яндекс Практикум</a>. Приносите вопрос, на который не знаете ответа, в <a href="https://github.com/doka-guide/content/issues?q=is%3Aopen+is%3Aissue+label%3Aсобеседование" title="Все ишью для контента Доки, отфильтрованные по лейблу «собеседование»">issue</a>, мы разложим всё по полочкам и опубликуем. Если знаете ответ, присылайте <a href="https://github.com/doka-guide/content/blob/main/docs/contributing.md" title="Общая инструкция по написанию новых материалов для Доки">pull request на GitHub</a>.
     </p>
 
-    {% for question in questions %}
-      <div class="question__request">
-        {{ question.templateContent | safe }}
-      </div>
+    <div class="questions__list">
 
-      <div class="question__response">
-        {% for answer in answers %}
-          {% set answerAuthor = collections.peopleById[answer.fileSlug] %}
+      {% for question in questions %}
+        <div class="question__request">
+          {{ question.templateContent | safe }}
+        </div>
 
-          <article class="question__answer answer" id="question-{{ question.fileSlug }}-answer-{{ answer.fileSlug }}">
-            <h3 class="answer__author">
-              <span class="answer__author-roles">
-                {% for roleKey in answerAuthor.data.roles %}
-                  {{ roleLabel(
-                    role=roleKey
+        <div class="question__response">
+          {% for answer in answers[question.fileSlug] %}
+            {% set answerAuthor = collections.peopleById[answer.fileSlug] %}
+
+            <article class="question__answer answer" id="question-{{ question.fileSlug }}-answer-{{ answer.fileSlug }}">
+              <h3 class="answer__author">
+                <span class="answer__author-roles">
+                  {% for roleKey in answerAuthor.data.roles %}
+                    {{ roleLabel(
+                      role=roleKey
+                    ) }}
+                  {% endfor %}
+                </span>
+                <span class="answer__author-name">
+                  {{ answerOrName(
+                    name=(answerAuthor.data.name or answer.fileSlug),
+                    url='/people/' + answerAuthor.fileSlug + '/'
                   ) }}
-                {% endfor %}
-              </span>
-              <span class="answer__author-name">
-                {{ answerOrName(
-                  name=(answerAuthor.data.name or answer.fileSlug),
-                  url='/people/' + answerAuthor.fileSlug + '/'
-                ) }}
-              </span>
-              отвечает
-            </h3>
-            <div class="answer__content {% if not answer.isLong %}answer__content--short{% endif %} content">
-              <div class="answer__summary content">
-                {{ answer.templateContent | safe }}
-                {% if answer.isLong %}
-                  <button class="answer__toggler" type="button" aria-live="polite" data-collapsed>
-                    + Развернуть
-                  </button>
-                {% endif %}
+                </span>
+                отвечает
+              </h3>
+              <div class="answer__content {% if not answer.isLong %}answer__content--short{% endif %} content">
+                <div class="answer__summary content">
+                  {{ answer.templateContent | safe }}
+                  {% if answer.isLong %}
+                    <button class="answer__toggler" type="button" aria-live="polite" data-collapsed>
+                      + Развернуть
+                    </button>
+                  {% endif %}
+                </div>
               </div>
-            </div>
-          </article>
-        {% endfor %}
-      </div>
-    {% endfor %}
+            </article>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+    </div>
 
   </section>
 {% endif %}

@@ -1,6 +1,10 @@
 .questions__description {
   font-style: italic;
-  padding: 30px 0;
+  padding: 30px 0 50px;
+}
+
+.question__request:not(:first-child) {
+  margin-top: 50px;
 }
 
 .question__request h3::before {
