@@ -21,7 +21,7 @@
 .answer__author-roles-link {
   --role-color: 0 0% 0%;
   --role-bg-color: 0 0% 100%;
-  --role-hover-color: 0 0% 100% / 0.06;
+  --role-hover-color: 0 0% 0% / 0.06;
   --role-border-color: 0 0% 0%;
   font-size: calc(var(--font-size-s) * 1.25);
   line-height: var(--font-line-height-s);
