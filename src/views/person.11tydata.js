@@ -76,6 +76,35 @@ module.exports = {
       return practicesByPerson[personId]
     },
 
+    answersPersonRole: function () {
+      return 'Автор ответа'
+    },
+
+    answersIndex: function (data) {
+      const { personId, answersByPerson } = data
+      const answersInArticles = {}
+      for (const questionKey in answersByPerson) {
+        if (Object.hasOwnProperty.call(answersByPerson, questionKey)) {
+          for (const personKey in answersByPerson[questionKey]) {
+            if (personKey === personId && Object.hasOwnProperty.call(answersByPerson[questionKey], personKey)) {
+              for (const categoryKey in answersByPerson[questionKey][personKey]) {
+                if (Object.hasOwnProperty.call(answersByPerson[questionKey][personKey], categoryKey)) {
+                  if (!answersInArticles[categoryKey]) {
+                    answersInArticles[categoryKey] = new Set([])
+                  }
+                  answersInArticles[categoryKey].add(answersByPerson[questionKey][personKey][categoryKey])
+                }
+              }
+            }
+          }
+        }
+      }
+      for (const category in answersInArticles) {
+        answersInArticles[category] = [...answersInArticles[category]]
+      }
+      return answersInArticles
+    },
+
     isOnlyWithPractice: function (data) {
       const { personId, docsByPerson } = data
       return !docsByPerson[personId]
