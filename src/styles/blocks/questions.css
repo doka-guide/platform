@@ -2,3 +2,7 @@
   font-style: italic;
   padding: 30px 0;
 }
+
+.question__request h3::before {
+  content: '❓';
+}
