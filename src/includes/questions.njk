@@ -23,11 +23,15 @@
   {% if role.bgColor %}
     {% set roleBackground = role.bgColor %}
   {% endif %}
+  {% set roleHover = allRoles[role].hoverColor %}
+  {% if role.hoverColor %}
+    {% set roleHover = role.hoverColor %}
+  {% endif %}
   {% set roleBorder = allRoles[role].border %}
   {% if role.border %}
     {% set roleBorder = role.border %}
   {% endif %}
-  <a href="{{ roleUrl }}" class="answer__author-roles-link" style="--role-color: {{ roleColor }}; --role-bg-color: {{ roleBackground }}; --role-hover-color: {{ role.hoverColor }}; --role-border-color: {{ roleBorder }}">
+  <a href="{{ roleUrl }}" class="answer__author-roles-link" style="--role-color: {{ roleColor }}; --role-bg-color: {{ roleBackground }}; --role-hover-color: {{ roleHover }}; --role-border-color: {{ roleBorder }}">
     {{ roleTitle }}
   </a>
 {% endmacro %}
