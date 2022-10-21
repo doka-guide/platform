@@ -76,6 +76,7 @@
 
 .person-page__roles-link:hover {
   background-color: hsla(var(--role-bg-color) / 0.7);
+  border-color: hsla(var(--role-border-color) / 0.7);
 }
 
 .person-page__description {

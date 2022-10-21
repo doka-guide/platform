@@ -36,6 +36,7 @@
 
 .answer__author-roles-link:hover {
   background-color: hsla(var(--role-bg-color) / 0.7);
+  border-color: hsla(var(--role-border-color) / 0.7);
 }
 
 .answer__author-name > * {
