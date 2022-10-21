@@ -1,10 +1,5 @@
-.answer > article {
-  display: grid;
-  grid-gap: 1em;
-}
-
-.answer > article > .article-heading {
-  margin-bottom: 0;
+.answer {
+  counter-increment: answer;
 }
 
 .answer__author {
@@ -50,7 +45,6 @@
 
 .answer__content {
   position: relative;
-  counter-increment: answer__content;
   overflow: hidden;
   border: 1px solid var(--color-fade);
   border-radius: 6px;
@@ -79,7 +73,7 @@
 
 .answer__content > .answer__summary::before {
   grid-row-start: 1;
-  content: counter(answer__content);
+  content: counter(answer);
   display: flex;
   justify-content: center;
   align-items: center;

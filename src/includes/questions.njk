@@ -52,38 +52,40 @@
         {{ question.templateContent | safe }}
       </div>
 
-      {% for answer in answers %}
-        {% set answerAuthor = collections.peopleById[answer.fileSlug] %}
+      <div class="question__response">
+        {% for answer in answers %}
+          {% set answerAuthor = collections.peopleById[answer.fileSlug] %}
 
-        <article class="question__answer" id="question-{{ question.fileSlug }}-answer-{{ answer.fileSlug }}">
-          <h3 class="answer__author">
-            <span class="answer__author-roles">
-              {% for roleKey in answerAuthor.data.roles %}
-                {{ roleLabel(
-                  role=roleKey
+          <article class="question__answer answer" id="question-{{ question.fileSlug }}-answer-{{ answer.fileSlug }}">
+            <h3 class="answer__author">
+              <span class="answer__author-roles">
+                {% for roleKey in answerAuthor.data.roles %}
+                  {{ roleLabel(
+                    role=roleKey
+                  ) }}
+                {% endfor %}
+              </span>
+              <span class="answer__author-name">
+                {{ answerOrName(
+                  name=(answerAuthor.data.name or answer.fileSlug),
+                  url='/people/' + answerAuthor.fileSlug + '/'
                 ) }}
-              {% endfor %}
-            </span>
-            <span class="answer__author-name">
-              {{ answerOrName(
-                name=(answerAuthor.data.name or answer.fileSlug),
-                url='/people/' + answerAuthor.fileSlug + '/'
-              ) }}
-            </span>
-            отвечает
-          </h3>
-          <div class="answer__content {% if not answer.isLong %}answer__content--short{% endif %} content">
-            <div class="answer__summary content">
-              {{ answer.templateContent | safe }}
-              {% if answer.isLong %}
-                <button class="answer__toggler" type="button" aria-live="polite" data-collapsed>
-                  + Развернуть
-                </button>
-              {% endif %}
+              </span>
+              отвечает
+            </h3>
+            <div class="answer__content {% if not answer.isLong %}answer__content--short{% endif %} content">
+              <div class="answer__summary content">
+                {{ answer.templateContent | safe }}
+                {% if answer.isLong %}
+                  <button class="answer__toggler" type="button" aria-live="polite" data-collapsed>
+                    + Развернуть
+                  </button>
+                {% endif %}
+              </div>
             </div>
-          </div>
-        </article>
-      {% endfor %}
+          </article>
+        {% endfor %}
+      </div>
     {% endfor %}
 
   </section>
