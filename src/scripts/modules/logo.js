@@ -38,6 +38,15 @@ class Logo {
   }
 
   endAnimation() {
+    const firstResultColor = document?.querySelector('.suggestion-list__item')?.getAttribute('style')
+    const logoImage = document.querySelectorAll('.logo__image')[1]
+
+    if (firstResultColor) {
+      logoImage.setAttribute('style', `${firstResultColor}`)
+    } else {
+      logoImage.removeAttribute('style')
+    }
+
     this.refs.image.addEventListener(
       'animationiteration',
       (event) => {
