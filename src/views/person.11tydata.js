@@ -80,7 +80,7 @@ module.exports = {
       return 'Автор ответа'
     },
 
-    answersIndex: function (data) {
+    answersInArticles: function (data) {
       const { personId, answersByPerson } = data
       const answersInArticles = {}
       for (const questionKey in answersByPerson) {
@@ -102,6 +102,7 @@ module.exports = {
       for (const category in answersInArticles) {
         answersInArticles[category] = [...answersInArticles[category]]
       }
+      console.log(answersInArticles)
       return answersInArticles
     },
 
