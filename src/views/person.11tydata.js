@@ -81,28 +81,8 @@ module.exports = {
     },
 
     answersInArticles: function (data) {
-      const { personId, answersByQuestion } = data
-      const answersInArticles = {}
-      for (const questionKey in answersByQuestion) {
-        if (Object.hasOwnProperty.call(answersByQuestion, questionKey)) {
-          for (const personKey in answersByQuestion[questionKey]) {
-            if (personKey === personId && Object.hasOwnProperty.call(answersByQuestion[questionKey], personKey)) {
-              for (const categoryKey in answersByQuestion[questionKey][personKey]) {
-                if (Object.hasOwnProperty.call(answersByQuestion[questionKey][personKey], categoryKey)) {
-                  if (!answersInArticles[categoryKey]) {
-                    answersInArticles[categoryKey] = new Set([])
-                  }
-                  answersInArticles[categoryKey].add(answersByQuestion[questionKey][personKey][categoryKey])
-                }
-              }
-            }
-          }
-        }
-      }
-      for (const category in answersInArticles) {
-        answersInArticles[category] = [...answersInArticles[category]]
-      }
-      return answersInArticles
+      const { personId, answersByPerson } = data
+      return answersByPerson[personId]
     },
 
     isOnlyWithPractice: function (data) {

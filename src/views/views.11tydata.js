@@ -195,6 +195,45 @@ module.exports = {
     /* создаёт структуру вида:
     {
       [personId]: {
+        [categoryId]: [articles]
+      }
+    }
+    */
+    answersByPerson: function (data) {
+      const { answersByQuestion } = data
+      const answersByPerson = {}
+      for (const questionKey in answersByQuestion) {
+        if (Object.hasOwnProperty.call(answersByQuestion, questionKey)) {
+          for (const personKey in answersByQuestion[questionKey]) {
+            if (!answersByPerson[personKey]) {
+              answersByPerson[personKey] = {}
+            }
+            if (Object.hasOwnProperty.call(answersByQuestion[questionKey], personKey)) {
+              for (const categoryKey in answersByQuestion[questionKey][personKey]) {
+                if (Object.hasOwnProperty.call(answersByQuestion[questionKey][personKey], categoryKey)) {
+                  if (!answersByPerson[personKey][categoryKey]) {
+                    answersByPerson[personKey][categoryKey] = new Set([])
+                  }
+                  answersByPerson[personKey][categoryKey].add(answersByQuestion[questionKey][personKey][categoryKey])
+                }
+              }
+            }
+          }
+        }
+      }
+      for (const personKey in answersByPerson) {
+        for (const category in answersByPerson[personKey]) {
+          if (answersByPerson[personKey]) {
+            answersByPerson[personKey][category] = [...answersByPerson[personKey][category]]
+          }
+        }
+      }
+      return answersByPerson
+    },
+
+    /* создаёт структуру вида:
+    {
+      [personId]: {
         [categoryId]: {
           author: [articles],
           contributor: [articles],
