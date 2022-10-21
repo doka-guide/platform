@@ -162,6 +162,26 @@
               </ul>
             </section>
           {% endif %}
+          {% if answersIndex[category] | length %}
+            <section class="articles-group__section">
+              <h3 class="articles-group__sub-title font-theme font-theme--code">{{ answersPersonRole }}</h3>
+              <ul class="articles-group__list base-list">
+                {% for articleList in answersIndex[category] %}
+                  <section class="articles-group__section">
+                    <ul class="articles-group__list base-list">
+                      {% for article in articleList | sort %}
+                        <li>
+                          <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
+                            {{ article.data.title | descriptionMarkdown | safe }}
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </section>
+                {% endfor %}
+              </ul>
+            </section>
+          {% endif %}
         </section>
       {% endfor %}
       {% if isOnlyWithPractice %}
@@ -185,27 +205,29 @@
           </section>
         {% endfor %}
       {% endif %}
-      {% for category, articleListByCategory in answersIndex %}
-        <section class="person-page__group articles-group articles-group--accent articles-group--title-static" style="--accent-color: var(--color-{{ category }})">
-          <h2 class="articles-group__title">
-            {{ articleIndexesMap[category].data.name }}
-          </h2>
-          <h3 class="articles-group__sub-title font-theme font-theme--code">{{ answersPersonRole }}</h3>
-          {% for articleList in articleListByCategory %}
-            <section class="articles-group__section">
-              <ul class="articles-group__list base-list">
-                {% for article in articleList | sort %}
-                  <li>
-                    <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
-                      {{ article.data.title | descriptionMarkdown | safe }}
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            </section>
-          {% endfor %}
-        </section>
-      {% endfor %}
+      {% if isOnlyWithAnswer %}
+        {% for category, articleListByCategory in answersIndex %}
+          <section class="person-page__group articles-group articles-group--accent articles-group--title-static" style="--accent-color: var(--color-{{ category }})">
+            <h2 class="articles-group__title">
+              {{ articleIndexesMap[category].data.name }}
+            </h2>
+            <h3 class="articles-group__sub-title font-theme font-theme--code">{{ answersPersonRole }}</h3>
+            {% for articleList in articleListByCategory %}
+              <section class="articles-group__section">
+                <ul class="articles-group__list base-list">
+                  {% for article in articleList | sort %}
+                    <li>
+                      <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
+                        {{ article.data.title | descriptionMarkdown | safe }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </section>
+            {% endfor %}
+          </section>
+        {% endfor %}
+      {% endif %}
     </div>
 
     {{ footer(class="person-page__footer") }}

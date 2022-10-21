@@ -110,6 +110,11 @@ module.exports = {
       return !docsByPerson[personId]
     },
 
+    isOnlyWithAnswer: function (data) {
+      const { personId, docsByPerson } = data
+      return !docsByPerson[personId]
+    },
+
     articlesIndex: function (data) {
       const { personId, docsByPerson } = data
       return docsByPerson[personId]
