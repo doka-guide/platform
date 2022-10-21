@@ -27,7 +27,7 @@
   {% if role.border %}
     {% set roleBorder = role.border %}
   {% endif %}
-  <a href="{{ roleUrl }}" class="answer__author-roles-link" style="color: {{ roleColor }}; background-color: {{ roleBackground }}; border-color: {{ roleBorder }}">
+  <a href="{{ roleUrl }}" class="answer__author-roles-link" style="--role-color: {{ roleColor }}; --role-bg-color: {{ roleBackground }}; --role-border-color: {{ roleBorder }}">
     {{ roleTitle }}
   </a>
 {% endmacro %}

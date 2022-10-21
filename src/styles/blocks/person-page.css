@@ -59,6 +59,9 @@
 }
 
 .person-page__roles-link {
+  --role-color: 0 0% 0%;
+  --role-bg-color: 0 0% 100%;
+  --role-border-color: 0 0% 0%;
   font-size: calc(var(--font-size-s) * 1.25);
   line-height: var(--font-line-height-s);
   padding: 4px 18px;
@@ -66,10 +69,13 @@
   width: max-content;
   border-width: 1px;
   border-style: solid;
+  color: hsl(var(--role-color));
+  background-color: hsl(var(--role-bg-color));
+  border-color: hsl(var(--role-border-color));
 }
 
 .person-page__roles-link:hover {
-  text-decoration: underline;
+  background-color: hsla(var(--role-bg-color) / 0.7);
 }
 
 .person-page__description {
