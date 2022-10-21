@@ -115,7 +115,7 @@
       {% if roles %}
         <div class="person-page__roles">
           {% for role in roles %}
-            <a href="{{ role.url }}" class="person-page__roles-link" style="--role-color: {{ role.color }}; --role-bg-color: {{ role.bgColor }}; --role-border-color: {{ role.border }};">
+            <a href="{{ role.url }}" class="person-page__roles-link" style="--role-color: {{ role.color }}; --role-bg-color: {{ role.bgColor }}; --role-hover-color: {{ role.hoverColor }}; --role-border-color: {{ role.border }};">
               {{ role.title }}
             </a>
           {% endfor %}

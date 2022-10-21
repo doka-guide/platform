@@ -61,6 +61,7 @@
 .person-page__roles-link {
   --role-color: 0 0% 0%;
   --role-bg-color: 0 0% 100%;
+  --role-hover-color: 0 0% 0% / 0.06;
   --role-border-color: 0 0% 0%;
   font-size: calc(var(--font-size-s) * 1.25);
   line-height: var(--font-line-height-s);
@@ -75,8 +76,7 @@
 }
 
 .person-page__roles-link:hover {
-  background-color: hsla(var(--role-bg-color) / 0.7);
-  border-color: hsla(var(--role-border-color) / 0.7);
+  background-color: hsla(var(--role-hover-color));
 }
 
 .person-page__description {
