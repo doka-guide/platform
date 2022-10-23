@@ -9,6 +9,10 @@ const SHAPES = {
     height: 3,
     width: 2,
   },
+  theta: {
+    height: 2,
+    width: 3,
+  },
   line: {
     height: 4,
     width: 1,
@@ -21,11 +25,11 @@ const SHAPES = {
     height: 2,
     width: 2,
   },
-  'zigzag-left': {
+  'zeta-right': {
     height: 3,
     width: 2,
   },
-  'zigzag-right': {
+  'zeta-left': {
     height: 3,
     width: 2,
   },

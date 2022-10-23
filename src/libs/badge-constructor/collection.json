@@ -120,7 +120,7 @@
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за неделю"
   },
   "most-viewed-week-zigzag": {
-    "shape": "zigzag-right",
+    "shape": "zeta-left",
     "angle": "0",
     "field": {
       "height": 3,
@@ -144,7 +144,7 @@
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за месяц"
   },
   "most-viewed-month-zigzag": {
-    "shape": "zigzag-right",
+    "shape": "zeta-left",
     "angle": "0",
     "field": {
       "height": 3,
@@ -168,7 +168,7 @@
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за год"
   },
   "most-viewed-year-zigzag": {
-    "shape": "zigzag-right",
+    "shape": "zeta-left",
     "angle": "0",
     "field": {
       "height": 3,

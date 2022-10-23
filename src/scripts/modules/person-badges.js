@@ -6,10 +6,12 @@ function setValue(shape, value, x, y) {
       return x === 1 && (y === 1 || y === 2) ? -1 : value
     case 'gamma-right':
       return x === 2 && (y === 1 || y === 2) ? -1 : value
-    case 'zigzag-left':
+    case 'zeta-right':
       return (x === 1 && y === 0) || (x === 0 && y === 2) ? -1 : value
-    case 'zigzag-right':
+    case 'zeta-left':
       return (x === 0 && y === 0) || (x === 1 && y === 2) ? -1 : value
+    case 'theta':
+      return (x === 0 && y === 1) || (x === 2 && y === 1) ? -1 : value
     default:
       return value
   }
