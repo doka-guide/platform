@@ -91,6 +91,7 @@
 
 .person-badges__pop-up-header {
   width: max-content;
+  max-width: 290px;
   font-family: var(--font-family);
 }
 
