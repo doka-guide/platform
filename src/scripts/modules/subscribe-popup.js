@@ -7,5 +7,5 @@ subscribePopupForm.addEventListener('submit', (event) => {
   event.preventDefault()
   subscribePopupForm.classList.toggle(successClass)
   subscribePopupSuccessText.classList.toggle(successClass)
-  userEmail.textContent = subscribePopupForm.querySelector('input').value
+  userEmail.textContent = subscribePopupForm.querySelector('input[type="email"]').value
 })
