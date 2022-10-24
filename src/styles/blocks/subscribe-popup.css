@@ -73,13 +73,16 @@
 
 .subscribe-popup__success-text {
   display: none;
-  flex-direction: column;
-  gap: var(--gap);
   color: hsl(var(--color-green));
 }
 
+.subscribe-popup__emoji {
+  display: block;
+  margin-block-end: var(--gap);
+}
+
 .subscribe-popup__success-text.success {
-  display: flex;
+  display: block;
 }
 
 .subscribe-popup__close-form {
