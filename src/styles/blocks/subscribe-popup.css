@@ -1,0 +1,109 @@
+:root {
+  --gap: 20px;
+}
+
+.subscribe-popup {
+  position: fixed;
+  inset-inline-start: 0;
+  inset-block-end: var(--gap);
+  box-sizing: border-box;
+  width: 100%;
+  inline-size: 100%;
+  max-width: 580px;
+  max-inline-size: 580px;
+  margin: 0;
+  padding: var(--gap);
+  border: none;
+  font-size: 24px;
+  transition: inset 0.5s ease-out;
+}
+
+.subscribe-popup:not([open]) {
+  inset-inline-start: -100%;
+}
+
+.subscribe-popup__container.success {
+  display: none;
+}
+
+/* Класс на время обработки формы */
+.subscribe-popup__container.process {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.subscribe-popup__text,
+.subscribe-popup__success-text {
+  margin: 0;
+}
+
+.subscribe-popup__text {
+  padding-inline-end: var(--gap);
+  margin-block-end: var(--gap);
+}
+
+.subscribe-popup__email-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  width: 100%;
+  inline-size: 100%;
+  gap: var(--gap);
+}
+
+.subscribe-popup__label {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.subscribe-popup__input {
+  inline-size: 100%;
+  padding-block: 7px;
+  border: none;
+  border-block-end: 1px solid currentColor;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+}
+
+.subscribe-popup__hint {
+  font-size: 15px;
+}
+
+.subscribe-popup__success-text {
+  display: none;
+  flex-direction: column;
+  gap: var(--gap);
+  color: hsl(var(--color-green));
+}
+
+.subscribe-popup__success-text.success {
+  display: flex;
+}
+
+.subscribe-popup__close-form {
+  position: absolute;
+  inset-inline-end: var(--gap);
+  inset-block-start: var(--gap);
+}
+
+.subscribe-popup__close-button {
+  padding: 0;
+  border: none;
+  font-size: 30px;
+  line-height: 1;
+  color: currentColor;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --gap: 10px;
+  }
+
+  .subscribe-popup {
+    font-size: 17px;
+  }
+}
