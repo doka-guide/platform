@@ -1,0 +1,96 @@
+{% from "blocks/header.njk" import header with context %}
+{% from "blocks/footer.njk" import footer with context %}
+
+{{ header(
+  title=title,
+  isLogoContrastColor=isLogoContrastColor
+) }}
+
+<main class="standalone-page">
+  <div class="standalone-page__header">
+    <div class="standalone-page__wrapper">
+      <h1 class="standalone-page__title">
+        Рассылка от Доки
+      </h1>
+    </div>
+  </div>
+  <div class="standalone-page__content standalone-page__wrapper content">
+    <p>Дока — это гид по веб-платформе. В справочнике вы можете найти ответы на повседневные вопросы, а в рассылках мы собираем тематические подборки, советы от экспертов, авторские и партнёрские колонки.</p>
+    <p>Здесь вы можете подписаться и сразу рассказать немного о себе, чтобы мы настроили рассылку под ваши интересы.</p>
+
+    <form class="subscribe-settings" action="">
+      <div class="subscribe-settings__row">
+        <label class="subscribe-settings__label" for="email">
+          Нам обязательно нужна ваша почта
+        </label>
+        <input class="subscribe-settings__input" type="email" placeholder="dog@doka.guide" inputmode="email" id="email">
+        <span class="subscribe-settings__hint">Ваш e-mail</span>
+      </div>
+      <div class="subscribe-settings__row">
+        <fieldset class="subscribe-settings__fieldset">
+          <span class="subscribe-settings__label">Как вы связаны с веб-разработкой?</span>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="noob" id="noob">
+            никак, просто интересуюсь
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="cross" id="cross">
+            работаю в смежной области
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="junior" id="junior">
+            начинающий веб-разработчик
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="middle" id="middle" checked>
+            говорят, я миддл-разработчик
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="sinior" id="sinior">
+            я синьор-разработчк
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="teamlead" id="teamlead">
+            я тимлид
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="architect" id="architect">
+            архитектор систем
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="nobody" id="nobody">
+            совсем другое, вы не угадали
+          </label>
+        </fieldset>
+      </div>
+      <div class="subscribe-settings__row">
+        <fieldset class="subscribe-settings__fieldset">
+          <span  class="subscribe-settings__label">Мне интересно читать:</span>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="checkbox" name="interest" value="html-css" id="html-css" checked>
+            Про HTML и CSS — обновления стандартов, лайфхаки
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="checkbox" name="interest" value="js" id="js" checked>
+            Про JavaScript — задачи, нестандартные решения
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="checkbox" name="interest" value="frameworks" id="frameworks" checked>
+            Про фреймворки — экспертные статьи и how to
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="checkbox" name="interest" value="tools" id="tools" checked>
+            Про инфраструктуру — опыт разработчиков из сообщества
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="checkbox" name="interest" value="community" id="community" checked>
+            Про сообщество — события, мнения, тренды
+          </label>
+        </fieldset>
+      </div>
+      <button class="subscribe-settings__button text-control__button button button--invert">Подписаться</button>
+    </form>
+  </div>
+</main>
+
+{{ footer() }}
