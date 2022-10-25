@@ -1,4 +1,4 @@
-{% macro personBadges(badges) %}
+{% macro personBadges(badges, fields) %}
   <div class="person-badges {{ class if class }}">
     {% for badge in badges %}
       <div class="person-badges__sign person-badges__sign--col-{{ badge.field.width }} person-badges__sign--row-{{ badge.field.height }}">
@@ -10,7 +10,7 @@
             <img  class="person-badges__pop-up-image" src="{{ badge.src }}" alt="{{ badge.alt }}">
             <figcaption>
               <h3 class="person-badges__pop-up-header font-theme font-theme--text">{{ badge.title }}</h3>
-              <p class="person-badges__pop-up-description font-theme font-theme--code">{{ badge.description }}</p>
+              <p class="person-badges__pop-up-description font-theme font-theme--code">{% parseAndInsert badge.description, fields %}</p>
             </figcaption>
           </figure>
         </div>

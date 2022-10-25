@@ -122,6 +122,30 @@ module.exports = {
       return authorData?.contributionStat
     },
 
+    badgesFields: function (data) {
+      const { authorData } = data
+
+      if (!authorData) {
+        return null
+      }
+
+      const nodes = authorData?.contributionActions?.people?.target?.history?.nodes
+      // TODO: Решить вопрос с датой для участников: Игорь Коровченко, Ольга Алексашенко
+      const githubFirstContribution = new Date(
+        nodes && nodes.length > 0 ? nodes[nodes.length - 1]?.pushedDate : '2021-10-12T00:00:00Z'
+      )
+        .toLocaleString('ru', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+        .replace(' г.', '')
+
+      return {
+        githubFirstContribution,
+      }
+    },
+
     issuesLink: function (data) {
       const { personId } = data
       const pathname = contentRepLink + '/issues'

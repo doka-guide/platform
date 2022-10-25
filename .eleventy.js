@@ -206,6 +206,21 @@ module.exports = function (config) {
     }
   })
 
+  config.addNunjucksShortcode('parseAndInsert', (text, data) => {
+    if (data) {
+      const regexp = /{{.+}}/g
+      const values = [...text.matchAll(regexp)]
+      values.forEach((v) => {
+        const key = v[0].replace('{{', '').replace('}}', '').trim()
+        if (data[key]) {
+          const replacingText = data[key]
+          text = text.split(v[0]).join(replacingText)
+        }
+      })
+    }
+    return text
+  })
+
   config.addFilter('ruDate', (value) => {
     let v = typeof value === 'string' ? new Date(value) : value
     return v

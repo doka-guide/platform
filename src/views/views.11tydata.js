@@ -5,7 +5,12 @@ const frontMatter = require('gray-matter')
 const { baseUrl, mainSections } = require('../../config/constants')
 const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
-const { getAuthorsContributionWithCache } = require('../libs/github-contribution-service/github-contribution-service')
+const {
+  getAuthorsContributionWithCache,
+  getAuthorsExistsWithCache,
+  getAuthorsIDsWithCache,
+  getActionsInRepoWithCache,
+} = require('../libs/github-contribution-service/github-contribution-service')
 const { contentRepLink } = require('../../config/constants')
 
 function isExternalURL(url) {
@@ -194,6 +199,20 @@ module.exports = {
         // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
         repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
       })
+      const contributorExists = await getAuthorsExistsWithCache({
+        authors: authorsNames,
+      })
+      const contributorIDs = await getAuthorsIDsWithCache({
+        authors: authorsNames.filter((a) => contributorExists[a].userCount > 0),
+        // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
+        repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
+      })
+      const contributionActions = await getActionsInRepoWithCache({
+        authors: authorsNames,
+        authorIDs: contributorIDs,
+        // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
+        repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
+      })
 
       return filteredAuthors
         .map((person) => {
@@ -266,6 +285,7 @@ module.exports = {
             totalArticles,
             totalPractices,
             contributionStat: contributionStat[personId],
+            contributionActions: contributionActions[personId],
           }
         })
         .sort((person1, person2) => person2.totalArticles - person1.totalArticles)

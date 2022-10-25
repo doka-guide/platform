@@ -57,7 +57,7 @@
     "src": "/images/badges/first-contribution-small.svg",
     "alt": "Значок за первый вклад в Доку",
     "title": "Первый вклад в Доку",
-    "description": "Можно получить, написав материал или внеся существенные правки"
+    "description": "Дата первого пул реквеста: {{ githubFirstContribution }}. Можно получить, написав материал или внеся существенные правки"
   },
   "merged-pr-5": {
     "shape": "line",
