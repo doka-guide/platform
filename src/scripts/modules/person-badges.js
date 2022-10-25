@@ -183,7 +183,7 @@ function arrangeBadges(badges) {
       }
     }
   })
-  return badgeCoordinates
+  return { coords: badgeCoordinates, rowCount: map.length }
 }
 
 function arrangeShapes(badges, coords) {
@@ -207,5 +207,6 @@ window.addEventListener('load', () => {
   })
 
   const arrangement = arrangeBadges(badgeMatrices)
-  arrangeShapes(badgeShapes, arrangement)
+  badgeGrid.style = `--row-count: ${arrangement.rowCount}`
+  arrangeShapes(badgeShapes, arrangement.coords)
 })
