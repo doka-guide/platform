@@ -119,14 +119,14 @@
     "title": "Самый просматриваемый материал за неделю",
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за неделю"
   },
-  "most-viewed-week-zigzag": {
+  "most-viewed-week-zeta": {
     "shape": "zeta-left",
     "angle": "0",
     "field": {
       "height": 3,
       "width": 2
     },
-    "src": "/images/badges/most-viewed-week-zigzag.svg",
+    "src": "/images/badges/most-viewed-week-zeta.svg",
     "alt": "Значок за самый просматриваемый материал за неделю",
     "title": "Самый просматриваемый материал за неделю",
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за неделю"
@@ -143,14 +143,14 @@
     "title": "Самый просматриваемый материал за месяц",
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за месяц"
   },
-  "most-viewed-month-zigzag": {
+  "most-viewed-month-zeta": {
     "shape": "zeta-left",
     "angle": "0",
     "field": {
       "height": 3,
       "width": 2
     },
-    "src": "/images/badges/most-viewed-month-zigzag.svg",
+    "src": "/images/badges/most-viewed-month-zeta.svg",
     "alt": "Значок за самый просматриваемый материал за месяц",
     "title": "Самый просматриваемый материал за месяц",
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за месяц"
@@ -167,14 +167,14 @@
     "title": "Самый просматриваемый материал за год",
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за год"
   },
-  "most-viewed-year-zigzag": {
+  "most-viewed-year-zeta": {
     "shape": "zeta-left",
     "angle": "0",
     "field": {
       "height": 3,
       "width": 2
     },
-    "src": "/images/badges/most-viewed-year-zigzag.svg",
+    "src": "/images/badges/most-viewed-year-zeta.svg",
     "alt": "Значок за самый просматриваемый материал за год",
     "title": "Самый просматриваемый материал за год",
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за год"
