@@ -49,7 +49,7 @@
   },
   "first-contribution-small": {
     "shape": "short-line",
-    "angle": "90",
+    "angle": "0",
     "field": {
       "height": 1,
       "width": 2
@@ -61,7 +61,7 @@
   },
   "merged-pr-5": {
     "shape": "line",
-    "angle": "90",
+    "angle": "0",
     "field": {
       "height": 1,
       "width": 4
@@ -73,7 +73,7 @@
   },
   "merged-pr-10": {
     "shape": "line",
-    "angle": "90",
+    "angle": "0",
     "field": {
       "height": 1,
       "width": 4
@@ -85,7 +85,7 @@
   },
   "merged-pr-50": {
     "shape": "line",
-    "angle": "90",
+    "angle": "0",
     "field": {
       "height": 1,
       "width": 4
@@ -97,7 +97,7 @@
   },
   "merged-pr-100": {
     "shape": "line",
-    "angle": "90",
+    "angle": "0",
     "field": {
       "height": 1,
       "width": 4
@@ -109,7 +109,7 @@
   },
   "most-viewed-week-line": {
     "shape": "line",
-    "angle": "90",
+    "angle": "0",
     "field": {
       "height": 1,
       "width": 4
@@ -133,7 +133,7 @@
   },
   "most-viewed-month-line": {
     "shape": "line",
-    "angle": "90",
+    "angle": "0",
     "field": {
       "height": 1,
       "width": 4
@@ -157,7 +157,7 @@
   },
   "most-viewed-year-line": {
     "shape": "line",
-    "angle": "90",
+    "angle": "0",
     "field": {
       "height": 1,
       "width": 4
