@@ -102,21 +102,16 @@ function addBadgeToMap(badge, map, x, y) {
     for (let i = 0; i < badge.length; i++) {
       const badgeRow = badge[i]
       for (let j = 0; j < badgeRow.length; j++) {
-        map[i + y][j + x] = badgeRow[j]
+        if (map[i + y][j + x] < 0) {
+          map[i + y][j + x] = badgeRow[j]
+        }
       }
     }
-    return true
   }
-  return false
 }
 
 function testNextBadgePlace(badge, map, x, y) {
   let isValidPlace = true
-  if (y + badge.length > map.length) {
-    map.reverse()
-    addMapRows(map, y + badge.length - map.length)
-    map.reverse()
-  }
   for (let i = 0; i < badge.length; i++) {
     const badgeRow = badge[i]
     for (let j = 0; j < badgeRow.length; j++) {
@@ -138,11 +133,17 @@ function getNextBadgeCoordinate(badge, map) {
   const badgeWidth = badge[0].length
   for (let i = map.length - 1; i >= 0; i--) {
     for (let j = 0; j < mapWidth - badgeWidth; j++) {
+      if (i + badge.length > map.length) {
+        map.reverse()
+        addMapRows(map, i + badge.length - map.length + 1)
+        map.reverse()
+      }
       if (testNextBadgePlace(badge, map, j, i)) {
         return { x: j, y: i }
       }
     }
   }
+  return { x: 0, y: 0 }
 }
 
 function removeFreeLines(map) {
@@ -176,7 +177,7 @@ function arrangeBadges(badges) {
             }
           })
         }
-        if (!badgeCoordinates[mapRow[colIndex]]) {
+        if (!badgeCoordinates[value]) {
           badgeCoordinates[value] = { x: colIndex - emptyValueCounter, y: rowIndex }
         }
       }
