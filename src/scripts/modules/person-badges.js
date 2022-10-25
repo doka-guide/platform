@@ -132,12 +132,12 @@ function getNextBadgeCoordinate(badge, map) {
   const mapWidth = map[0].length
   const badgeWidth = badge[0].length
   for (let i = map.length - 1; i >= 0; i--) {
+    if (i + badge.length > map.length) {
+      map.reverse()
+      addMapRows(map, i + badge.length - map.length + 1)
+      map.reverse()
+    }
     for (let j = 0; j < mapWidth - badgeWidth; j++) {
-      if (i + badge.length > map.length) {
-        map.reverse()
-        addMapRows(map, i + badge.length - map.length + 1)
-        map.reverse()
-      }
       if (testNextBadgePlace(badge, map, j, i)) {
         return { x: j, y: i }
       }
