@@ -51,7 +51,11 @@
 
       {% for question in questions %}
         <div class="question__request">
-          {{ question.templateContent | safe }}
+          <aside class="callout">
+            <div class="callout__content">
+              {{ question.templateContent | safe }}
+            </div>
+          </aside>
         </div>
 
         <div class="question__response">
