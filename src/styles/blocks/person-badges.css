@@ -70,8 +70,8 @@
 .person-badges__pop-up {
   display: none;
   position: absolute;
-  bottom: 100%;
-  left: 25%;
+  bottom: 25%;
+  left: 90%;
   padding: 30px;
   background-color: var(--color-background);
   border: 1px solid var(--color-fade);
@@ -92,6 +92,7 @@
   align-self: center;
   justify-self: center;
   padding: 30px 0;
+  width: 100%;
 }
 
 .person-badges__pop-up-header {
