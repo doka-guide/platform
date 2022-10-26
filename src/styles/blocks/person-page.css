@@ -16,8 +16,8 @@
   grid-template-areas:
     'avatar   avatar   avatar'
     'header   header   header'
-    'articles articles articles'
     'meta     meta     meta'
+    'articles articles articles'
     'footer   footer   footer';
 }
 
