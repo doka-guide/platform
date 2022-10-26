@@ -1,5 +1,6 @@
 {
   "doka-dog-help-5": {
+    "id": "doka-dog-help-5",
     "shape": "square",
     "angle": "0",
     "field": {
@@ -12,6 +13,7 @@
     "description": "Можно получить, если поможете Дока Догу дописать пять материалов"
   },
   "doka-dog-help-10": {
+    "id": "doka-dog-help-10",
     "shape": "square",
     "angle": "0",
     "field": {
@@ -24,6 +26,7 @@
     "description": "Можно получить, если поможете Дока Догу дописать десять материалов"
   },
   "doka-dog-help-50": {
+    "id": "doka-dog-help-50",
     "shape": "square",
     "angle": "0",
     "field": {
@@ -36,6 +39,7 @@
     "description": "Можно получить, если поможете Дока Догу дописать пятьдесят материалов"
   },
   "doka-dog-help-100": {
+    "id": "doka-dog-help-100",
     "shape": "square",
     "angle": "0",
     "field": {
@@ -48,6 +52,7 @@
     "description": "Можно получить, если поможете Дока Догу дописать сто материалов"
   },
   "first-contribution-small": {
+    "id": "first-contribution-small",
     "shape": "short-line",
     "angle": "0",
     "field": {
@@ -60,6 +65,7 @@
     "description": "Дата первого пул реквеста: {{ githubFirstContribution }}. Можно получить, написав материал или внеся существенные правки"
   },
   "merged-pr-5": {
+    "id": "merged-pr-5",
     "shape": "line",
     "angle": "0",
     "field": {
@@ -72,6 +78,7 @@
     "description": "Можно получить, если пять пул реквестов попадут в основную ветку"
   },
   "merged-pr-10": {
+    "id": "merged-pr-10",
     "shape": "line",
     "angle": "0",
     "field": {
@@ -84,6 +91,7 @@
     "description": "Можно получить, если десять пул реквестов попадут в основную ветку"
   },
   "merged-pr-50": {
+    "id": "merged-pr-50",
     "shape": "line",
     "angle": "0",
     "field": {
@@ -96,6 +104,7 @@
     "description": "Можно получить, если пятьдесят пул реквестов попадут в основную ветку"
   },
   "merged-pr-100": {
+    "id": "merged-pr-100",
     "shape": "line",
     "angle": "0",
     "field": {
@@ -108,6 +117,7 @@
     "description": "Можно получить, если сто пул реквестов попадут в основную ветку"
   },
   "most-viewed-week-line": {
+    "id": "most-viewed-week-line",
     "shape": "line",
     "angle": "0",
     "field": {
@@ -120,6 +130,7 @@
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за неделю"
   },
   "most-viewed-week-zeta": {
+    "id": "most-viewed-week-zeta",
     "shape": "zeta-left",
     "angle": "0",
     "field": {
@@ -132,6 +143,7 @@
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за неделю"
   },
   "most-viewed-month-line": {
+    "id": "most-viewed-month-line",
     "shape": "line",
     "angle": "0",
     "field": {
@@ -144,6 +156,7 @@
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за месяц"
   },
   "most-viewed-month-zeta": {
+    "id": "most-viewed-month-zeta",
     "shape": "zeta-left",
     "angle": "0",
     "field": {
@@ -156,6 +169,7 @@
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за месяц"
   },
   "most-viewed-year-line": {
+    "id": "most-viewed-year-line",
     "shape": "line",
     "angle": "0",
     "field": {
@@ -168,6 +182,7 @@
     "description": "Добавляется автоматически, если по статистике материал будет самым просматриваемым за год"
   },
   "most-viewed-year-zeta": {
+    "id": "most-viewed-year-zeta",
     "shape": "zeta-left",
     "angle": "0",
     "field": {
