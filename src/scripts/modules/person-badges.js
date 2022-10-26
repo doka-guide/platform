@@ -1,46 +1,71 @@
 const MAP_WIDTH = 7
 
-function setValue(shape, value, x, y) {
+function setValue(shape, angle, value, x, y) {
   switch (shape) {
     case 'gamma-left':
-      return x === 1 && (y === 1 || y === 2) ? -1 : value
+      if (angle === 0) {
+        return x === 1 && (y === 1 || y === 2) ? -1 : value
+      } else if (angle === 90) {
+        return y === 1 && (x === 0 || x === 1) ? -1 : value
+      } else if (angle === 180) {
+        return x === 0 && (y === 0 || y === 1) ? -1 : value
+      } else {
+        return y === 0 && (x === 1 || x === 2) ? -1 : value
+      }
     case 'gamma-right':
-      return x === 2 && (y === 1 || y === 2) ? -1 : value
+      if (angle === 0) {
+        return x === 0 && (y === 1 || y === 2) ? -1 : value
+      } else if (angle === 90) {
+        return y === 0 && (x === 0 || x === 1) ? -1 : value
+      } else if (angle === 180) {
+        return x === 1 && (y === 0 || y === 1) ? -1 : value
+      } else {
+        return y === 1 && (x === 1 || x === 2) ? -1 : value
+      }
     case 'zeta-right':
-      return (x === 1 && y === 0) || (x === 0 && y === 2) ? -1 : value
+      if (angle === 0 || angle === 180) {
+        return (x === 1 && y === 0) || (x === 0 && y === 2) ? -1 : value
+      } else {
+        return (x === 0 && y === 0) || (x === 2 && y === 1) ? -1 : value
+      }
     case 'zeta-left':
-      return (x === 0 && y === 0) || (x === 1 && y === 2) ? -1 : value
+      if (angle === 0 || angle === 180) {
+        return (x === 0 && y === 0) || (x === 1 && y === 2) ? -1 : value
+      } else {
+        return (x === 2 && y === 0) || (x === 0 && y === 1) ? -1 : value
+      }
     case 'theta':
-      return (x === 0 && y === 1) || (x === 2 && y === 1) ? -1 : value
+      if (angle === 0) {
+        return y === 1 && (x === 0 || x === 2) ? -1 : value
+      } else if (angle === 90) {
+        return x === 0 && (y === 0 || y === 1) ? -1 : value
+      } else if (angle === 180) {
+        return y === 0 && (x === 0 || x === 2) ? -1 : value
+      } else {
+        return x === 0 && (y === 0 || y === 2) ? -1 : value
+      }
     default:
       return value
   }
 }
 
-function getShapeMatrix(shape, height, width, index) {
-  const matrix = []
-  for (let i = 0; i < height; i++) {
-    const row = []
-    for (let j = 0; j < width; j++) {
-      row.push(setValue(shape, index, j, i))
-    }
-    matrix.push(row)
-  }
-  return matrix
-}
-
 function rotateClockwise(matrix) {
-  const n = matrix.length
+  const mart = matrix
+  const n = mart.length
+  const m = mart[0].length
+  if (m > n) {
+    addRowsOnTop(mart, mart.length - (m - n))
+  }
   for (let i = 0; i < n / 2; i++) {
     for (let j = i; j < n - i - 1; j++) {
-      const tmp = matrix[i][j]
-      matrix[i][j] = matrix[n - j - 1][i]
-      matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1]
-      matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1]
-      matrix[j][n - i - 1] = tmp
+      const tmp = mart[i][j]
+      mart[i][j] = mart[n - j - 1][i]
+      mart[n - j - 1][i] = mart[n - i - 1][n - j - 1]
+      mart[n - i - 1][n - j - 1] = mart[j][n - i - 1]
+      mart[j][n - i - 1] = tmp
     }
   }
-  return matrix
+  return mart
 }
 
 function rotateShape(matrix, angle) {
@@ -60,6 +85,45 @@ function rotateShape(matrix, angle) {
   }
 }
 
+function getShapeMatrix(shape, height, width, angle, index) {
+  const matrix = []
+  for (let i = 0; i < height; i++) {
+    const row = []
+    for (let j = 0; j < width; j++) {
+      row.push(setValue(shape, angle, index, j, i))
+    }
+    matrix.push(row)
+  }
+  switch (shape) {
+    case 'gamma-left':
+    case 'gamma-right':
+    case 'zeta-right':
+    case 'zeta-left':
+    case 'theta':
+      return rotateShape(matrix, angle)
+    default:
+      return matrix
+  }
+}
+
+function addMapRows(matrix, count = 1) {
+  for (let j = 0; j < count; j++) {
+    const row = []
+    for (let i = 0; i < matrix[0].length; i++) {
+      row.push(-1)
+    }
+    matrix.push(row)
+  }
+}
+
+function addRowsOnTop(matrix, count = 1) {
+  if (count > matrix.length) {
+    matrix.reverse()
+    addMapRows(matrix, count - matrix.length + 1)
+    matrix.reverse()
+  }
+}
+
 function extractShape(shapeElement, index) {
   let angle = 0
   let shape = ''
@@ -76,7 +140,8 @@ function extractShape(shapeElement, index) {
       shape = c.replace('person-badges__shape--', '')
     }
   })
-  return rotateShape(getShapeMatrix(shape, height, width, index), angle)
+  const shapeMatrix = getShapeMatrix(shape, height, width, angle, index)
+  return shapeMatrix
 }
 
 function initMap(maxWidth) {
@@ -85,16 +150,6 @@ function initMap(maxWidth) {
     map[0].push(-1)
   }
   return map
-}
-
-function addMapRows(map, count = 1) {
-  for (let j = 0; j < count; j++) {
-    const row = []
-    for (let i = 0; i < map[0].length; i++) {
-      row.push(-1)
-    }
-    map.push(row)
-  }
 }
 
 function addBadgeToMap(badge, map, x, y) {
@@ -132,11 +187,7 @@ function getNextBadgeCoordinate(badge, map) {
   const mapWidth = map[0].length
   const badgeWidth = badge[0].length
   for (let i = map.length - 1; i >= 0; i--) {
-    if (i + badge.length > map.length) {
-      map.reverse()
-      addMapRows(map, i + badge.length - map.length + 1)
-      map.reverse()
-    }
+    addRowsOnTop(map, i + badge.length)
     for (let j = 0; j < mapWidth - badgeWidth; j++) {
       if (testNextBadgePlace(badge, map, j, i)) {
         return { x: j, y: i }

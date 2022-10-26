@@ -66,6 +66,38 @@
   cursor: pointer;
 }
 
+.person-badges__shape--angle-90 {
+  transform: scale(2, 2) rotate(90deg) translateX(30%);
+}
+
+.person-badges__shape--angle-270 {
+  transform: scale(2, 2) rotate(270deg) translateX(-30%);
+}
+
+.person-badges__shape--height-3.person-badges__shape--angle-90 {
+  transform: rotate(90deg) translateX(22%) translateY(-13%);
+}
+
+.person-badges__shape--height-3.person-badges__shape--angle-180 {
+  transform: rotate(180deg) translateY(5%);
+}
+
+.person-badges__shape--height-3.person-badges__shape--angle-270 {
+  transform: rotate(270deg) translateX(30%) translateY(20%);
+}
+
+.person-badges__shape--height-4.person-badges__shape--angle-90 {
+  transform: scale(4, 4) rotate(90deg) translateX(40%) translateY(-14%);
+}
+
+.person-badges__shape--height-4.person-badges__shape--angle-180 {
+  transform: scale(4, 4) rotate(180deg) translateX(-38%) translateY(-17%);
+}
+
+.person-badges__shape--height-4.person-badges__shape--angle-270 {
+  transform: scale(4, 4) rotate(270deg) translateX(-40%) translateY(-14%);
+}
+
 .person-badges__default-image {
   width: 100%;
 }
