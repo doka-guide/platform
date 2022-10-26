@@ -94,12 +94,12 @@
               </div>
             </article>
           {% endfor %}
+        {% else %}
+          <p>Это вопрос без ответа. Вы можете помочь! Почитайте о том, как <a href="https://github.com/doka-guide/content/blob/main/docs/contributing.md">контрибьютить в Доку</a>.</p>
+        {% endif %}
         </div>
       {% endfor %}
     </div>
-    {% else %}
-      <p>Это вопрос без ответа. Вы можете помочь! Почитайте о том, как <a href="https://github.com/doka-guide/content/blob/main/docs/contributing.md">контрибьютить в Доку</a>.</p>
-    {% endif %}
 
   </section>
 {% endif %}
