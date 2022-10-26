@@ -44,7 +44,7 @@
     </h2>
 
     <p class="questions__description">
-      Это партёрская рубрика, мы выпускаем её совместно с сервисом онлайн-образования <a href="https://practicum.yandex.ru/catalog/programming/" title="Каталог курсов по программированию от Яндекс Практикума">Яндекс Практикум</a>. Приносите вопрос, на который не знаете ответа, в <a href="https://github.com/doka-guide/content/issues?q=is%3Aopen+is%3Aissue+label%3Aсобеседование" title="Все ишью для контента Доки, отфильтрованные по лейблу «собеседование»">issue</a>, мы разложим всё по полочкам и опубликуем. Если знаете ответ, присылайте <a href="https://github.com/doka-guide/content/blob/main/docs/contributing.md" title="Общая инструкция по написанию новых материалов для Доки">pull request на GitHub</a>.
+      Это партёрская рубрика, мы выпускаем её совместно с сервисом онлайн-образования <a href="https://practicum.yandex.ru/programming-upskilling/?utm_source=pr&utm_medium=content&utm_campaign=pr_content_programming-upskilling_doka?utm_content=na-sobese" title="Каталог курсов по программированию от Яндекс Практикума">Яндекс Практикум</a>. Приносите вопрос, на который не знаете ответа, в <a href="https://github.com/doka-guide/content/issues?q=is%3Aopen+is%3Aissue+label%3Aсобеседование" title="Все задачи для контента Доки, отфильтрованные по лейблу «собеседование»">задачи</a>, мы разложим всё по полочкам и опубликуем. Если знаете ответ, присылайте <a href="https://github.com/doka-guide/content/blob/main/docs/contributing.md" title="Общая инструкция по написанию новых материалов для Доки">пулреквест на GitHub</a>.
     </p>
 
     <div class="questions__list">
@@ -53,12 +53,13 @@
         <div class="question__request">
           <aside class="callout">
             <div class="callout__content">
-              {{ question.templateContent | safe }}
+              <span aria-hidden="true">❓</span> {{ question.templateContent | safe }}
             </div>
           </aside>
         </div>
 
-        <div class="question__response">
+        {% if answers[question.fileSlug].length > 0 %}
+          <div class="question__response">
           {% for answer in answers[question.fileSlug] %}
             {% set answerAuthor = collections.peopleById[answer.fileSlug] %}
 
@@ -71,13 +72,15 @@
                     ) }}
                   {% endfor %}
                 </span>
-                <span class="answer__author-name">
-                  {{ answerOrName(
-                    name=(answerAuthor.data.name or answer.fileSlug),
-                    url='/people/' + answerAuthor.fileSlug + '/'
-                  ) }}
-                </span>
-                отвечает
+                <div>
+                  <span class="answer__author-name">
+                    {{ answerOrName(
+                      name=(answerAuthor.data.name or answer.fileSlug),
+                      url='/people/' + answerAuthor.fileSlug + '/'
+                    ) }}
+                  </span>
+                  &nbsp;отвечает
+                </div>
               </h3>
               <div class="answer__content {% if not answer.isLong %}answer__content--short{% endif %} content">
                 <div class="answer__summary content">
@@ -93,8 +96,10 @@
           {% endfor %}
         </div>
       {% endfor %}
-
     </div>
+    {% else %}
+      <p>Это вопрос без ответа. Вы можете помочь! Почитайте о том, как <a href="https://github.com/doka-guide/content/blob/main/docs/contributing.md">контрибьютить в Доку</a>.</p>
+    {% endif %}
 
   </section>
 {% endif %}
