@@ -6,7 +6,3 @@
 .question__request:not(:first-child) {
   margin-top: 50px;
 }
-
-.question__request h3::before {
-  content: '❓';
-}
