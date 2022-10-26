@@ -203,7 +203,7 @@ module.exports = {
         authors: authorsNames,
       })
       const contributorIDs = await getAuthorsIDsWithCache({
-        authors: authorsNames.filter((a) => contributorExists[a].userCount > 0),
+        authors: authorsNames.filter((a) => (contributorExists[a] ? contributorExists[a].userCount > 0 : false)),
         // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
         repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
       })
