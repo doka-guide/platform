@@ -100,6 +100,7 @@
 
 .person-badges__default-image {
   width: 100%;
+  height: auto;
 }
 
 .person-badges__pop-up {

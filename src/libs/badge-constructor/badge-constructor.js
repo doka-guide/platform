@@ -9,21 +9,21 @@ const SHAPES = {
     height: 3,
     width: 2,
   },
-  theta: {
-    height: 2,
-    width: 3,
-  },
   line: {
-    height: 4,
-    width: 1,
+    height: 1,
+    width: 4,
   },
   'short-line': {
-    height: 2,
-    width: 1,
+    height: 1,
+    width: 2,
   },
   square: {
     height: 2,
     width: 2,
+  },
+  theta: {
+    height: 2,
+    width: 3,
   },
   'zeta-right': {
     height: 3,
@@ -74,32 +74,37 @@ function getBadge(assignedBadge) {
   let badge = {}
   if (typeof assignedBadge === 'object') {
     const type = Object.keys(assignedBadge)[0]
-    const typicalBadge = collection[type]
-    const badgeFields = new Set(Object.keys(typicalBadge))
-    badgeFields.add(...Object.keys(assignedBadge[type]))
-    badgeFields.forEach((field) => {
-      if (assignedBadge[type][field]) {
-        badge[field] = assignedBadge[type][field]
-      } else {
-        badge[field] = typicalBadge[field]
-      }
-    })
+    let predefinedBadge = collection[type]
+    if (!predefinedBadge) {
+      badge = assignedBadge[type]
+      badge['shape'] = type
+    } else {
+      const badgeFields = new Set(Object.keys(predefinedBadge))
+      badgeFields.add(...Object.keys(assignedBadge[type]))
+      badgeFields.forEach((field) => {
+        if (assignedBadge[type][field]) {
+          badge[field] = assignedBadge[type][field]
+        } else {
+          badge[field] = predefinedBadge[field]
+        }
+      })
+    }
   } else {
     badge = collection[assignedBadge]
   }
-  if (!badge['angle']) {
+  if (!badge['angle'] && badge['angle'] !== 0) {
     badge['angle'] = getRandRotationAngle()
   }
-  if (badge['angle'] === 90 || badge['angle'] === 270) {
-    if (!badge['field']) {
-      badge['field'] = {}
-      badge['field']['height'] = SHAPES[badge.shape].width
-      badge['field']['width'] = SHAPES[badge.shape].height
-    } else {
-      badge['field'] = SHAPES[badge.shape]
-    }
+  if (!badge['field']) {
+    badge['field'] = {}
   }
-  if (!badge['src'] && !badge['color']) {
+  if (badge['angle'] === 90 || badge['angle'] === 270) {
+    badge['field']['height'] = SHAPES[badge.shape].width
+    badge['field']['width'] = SHAPES[badge.shape].height
+  } else {
+    badge['field'] = SHAPES[badge.shape]
+  }
+  if (!badge['color']) {
     badge['color'] = getRandColor()
   }
   return badge
