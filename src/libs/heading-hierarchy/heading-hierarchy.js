@@ -16,6 +16,9 @@ class Item {
   }
 
   get level() {
+    if (this.element?.tagName === 'P') {
+      return 3
+    }
     return parseInt(this.element?.tagName.slice(1) ?? 0)
   }
 
