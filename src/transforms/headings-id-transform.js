@@ -8,7 +8,7 @@ module.exports = function (window) {
   const content = window.document.querySelector('.content')
 
   if (content) {
-    let headings = content.querySelectorAll('h2, h3, h4, h5, h6')
+    let headings = content.querySelectorAll('h2, h3, h4, h5, h6, .question__request p:last-child')
 
     const headingHashMap = {}
 
