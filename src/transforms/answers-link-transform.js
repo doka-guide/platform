@@ -10,7 +10,7 @@ module.exports = function (window) {
   if (questionsSection) {
     const answers = questionsSection.querySelectorAll('.question__answer')
     for (const answer of answers) {
-      const path = `/interviews/${answer.id.split('-answers-').join('/answers/')}/`
+      const path = `/interviews/${answer.id.split('-answers-').join('/answers/')}`
       const mediaElements = answer.querySelectorAll('img, iframe')
       for (const element of mediaElements) {
         const oldLink = element.getAttribute('src')
