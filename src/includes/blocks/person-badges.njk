@@ -154,7 +154,7 @@
       <div class="person-badges__sign person-badges__sign--col-{{ badge.field.width }} person-badges__sign--row-{{ badge.field.height }}">
         <div class="person-badges__shape person-badges__shape--{{ badge.shape }} person-badges__shape--height-{{ badge.field.height }} person-badges__shape--width-{{ badge.field.width }} person-badges__shape--angle-{{ badge.angle }}">
           {% if badge.src %}
-            <img tabindex="0" aria-describedby="{{ badge.id1 badge.id2 }}" class="person-badges__default-image" src="{{ badge.src }}" alt="{{ badge.alt }}">
+            <img tabindex="0" aria-describedby="{{ badge.id }}-title {{ badge.id }}-description" class="person-badges__default-image" src="{{ badge.src }}" alt="{{ badge.alt }}">
           {% elif badge.text %}
             {{ badgeWithText(badge) }}
           {% endif %}
@@ -167,8 +167,8 @@
               {{ badgeWithText(badge) }}
             {% endif %}
             <div class="person-badges__pop-up-content">
-              <span class="person-badges__pop-up-title">{{ badge.title }}</span>
-              <p id="{{ badge.id2 }}" class="person-badges__pop-up-description font-theme font-theme--code">{% parseAndInsert badge.description, fields %}</p>
+              <span id="{{ badge.id }}-title" class="person-badges__pop-up-title">{{ badge.title }}</span>
+              <p id="{{ badge.id }}-description" class="person-badges__pop-up-description font-theme font-theme--code">{% parseAndInsert badge.description, fields %}</p>
             </div>
           </div>
         {% endif %}
