@@ -6,3 +6,22 @@
 .question__request:not(:first-child) {
   margin-top: 50px;
 }
+
+.content p.question__response-placeholder {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .content p.question__response-placeholder {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .content p.question__response-placeholder {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}

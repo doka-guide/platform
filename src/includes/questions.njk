@@ -95,7 +95,11 @@
             </article>
           {% endfor %}
         {% else %}
-          <p>Это вопрос без ответа. Вы можете помочь! Почитайте о том, как <a href="https://github.com/doka-guide/content/blob/main/docs/contributing.md">контрибьютить в Доку</a>.</p>
+          <div class="question__response">
+            <p class="question__response-placeholder">
+              Это вопрос без ответа. Вы можете помочь! Почитайте о том, как <a href="https://github.com/doka-guide/content/blob/main/docs/contributing.md">контрибьютить в Доку</a>.
+            </p>
+          </div>
         {% endif %}
         </div>
       {% endfor %}
