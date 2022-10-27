@@ -56,10 +56,8 @@ function getRandomInt(max) {
 }
 
 function getRandValue(array) {
-  const valueArray = Object.keys(array)
-  const valueIndex = getRandomInt(valueArray.length)
-  const value = valueArray[valueIndex]
-  return array[value]
+  const values = Object.values(array)
+  return values[getRandomInt(values.length)]
 }
 
 function getRandColor() {
