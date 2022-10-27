@@ -4,7 +4,7 @@
     "url": "https://doka.guide/about/#kto-my",
     "color": "hsl(0 0% 0%)",
     "bgColor": "hsl(0 0% 100%)",
-    "hoverColor": "hsla(0 0% 0% / 0.06)",
+    "hoverColor": "hsl(0 0% 94%)",
     "border": "hsl(0 0% 0%)"
   },
   "praktikum-mentor": {
@@ -12,7 +12,7 @@
     "url": "https://practicum.yandex.ru/catalog/programming/",
     "color": "hsl(0 0% 100%)",
     "bgColor": "hsl(0 0% 0%)",
-    "hoverColor": "hsla(0 0% 0% / 0.7)",
+    "hoverColor": "hsl(0 0% 30%)",
     "border": "hsl(0 0% 0%)"
   }
 }

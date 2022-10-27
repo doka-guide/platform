@@ -12,15 +12,15 @@
 }
 
 .answer__author-roles {
+  --role-color: hsl(0 0% 0%);
+  --role-bg-color: hsl(0 0% 100%);
+  --role-hover-color: hsl(0 0% 94%);
+  --role-border-color: hsl(0 0% 0%);
   align-self: center;
   display: flex;
 }
 
 .answer__author-roles-link {
-  --role-color: hsl(0 0% 0%);
-  --role-bg-color: hsl(0 0% 100%);
-  --role-hover-color: hsla(0 0% 0% / 0.06);
-  --role-border-color: hsl(0 0% 0%);
   font-size: calc(var(--font-size-s) * 1.25);
   line-height: var(--font-line-height-s);
   padding: 4px 18px;
