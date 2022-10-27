@@ -65,7 +65,10 @@ module.exports = function (window, content, outputPath) {
 }
 
 async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
-  const originalLink = path.join(imagesSourcePath, image.src)
+  // Исключение interviews для картинок из рубрики «На собеседовании»
+  const originalLink = image.src.match('/interviews/')
+    ? path.join('src', image.src)
+    : path.join(imagesSourcePath, image.src)
 
   try {
     await fsp.stat(originalLink)
@@ -81,9 +84,14 @@ async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
 
   const { width: originalWidth } = await sharp(originalLink).metadata()
 
+  // Исключение interviews для картинок из рубрики «На собеседовании»
+  const targetLink = image.src.match('/interviews/')
+    ? path.join('dist', image.src)
+    : path.join(imagesOutputPath, image.src)
+
   const options = {
     urlPath: 'images/',
-    outputDir: imagesOutputPath,
+    outputDir: targetLink,
     widths: [...baseConfig.widths, originalWidth],
     formats: [...baseConfig.formats, ext],
     filenameFormat: baseConfig.filenameFormat,
