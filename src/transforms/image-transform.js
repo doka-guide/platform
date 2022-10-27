@@ -86,11 +86,11 @@ async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
 
   // Исключение interviews для картинок из рубрики «На собеседовании»
   const targetLink = image.src.match('/interviews/')
-    ? path.join('dist', image.src)
-    : path.join(imagesOutputPath, image.src)
+    ? path.join('dist', image.src.replace(/images\/.+$/, 'images/'))
+    : imagesOutputPath
 
   const options = {
-    urlPath: 'images/',
+    urlPath: image.src.match('/interviews/') ? image.src.replace(/images\/.+$/, 'images/') : 'images/',
     outputDir: targetLink,
     widths: [...baseConfig.widths, originalWidth],
     formats: [...baseConfig.formats, ext],
