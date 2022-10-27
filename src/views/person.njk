@@ -67,6 +67,26 @@
       ) }}
     </div>
 
+    <div class="person-page__header">
+      <h1 class="person-page__title">
+        {{ name }}
+      </h1>
+      {% if roles %}
+        <div class="person-page__roles">
+          {% for role in roles %}
+            <a href="{{ role.url }}" class="person-page__roles-link" style="color: {{ role.color }}; background-color: {{ role.bgColor }}; border-color: {{ role.border }}">
+              {{ role.title }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% if person.templateContent %}
+        <div class="person-page__description content">
+          {{ person.templateContent | safe }}
+        </div>
+      {% endif %}
+    </div>
+
     <div class="person-page__meta">
       <div class="person-page__badges">
         {{ personBadges(badges, badgesFields) }}
@@ -110,26 +130,6 @@
           </li>
         {% endif %}
       </ul>
-    </div>
-
-    <div class="person-page__header">
-      <h1 class="person-page__title">
-        {{ name }}
-      </h1>
-      {% if roles %}
-        <div class="person-page__roles">
-          {% for role in roles %}
-            <a href="{{ role.url }}" class="person-page__roles-link" style="color: {{ role.color }}; background-color: {{ role.bgColor }}; border-color: {{ role.border }}">
-              {{ role.title }}
-            </a>
-          {% endfor %}
-        </div>
-      {% endif %}
-      {% if person.templateContent %}
-        <div class="person-page__description content">
-          {{ person.templateContent | safe }}
-        </div>
-      {% endif %}
     </div>
 
     <div class="person-page__articles">

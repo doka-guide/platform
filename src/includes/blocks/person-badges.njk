@@ -166,10 +166,10 @@
             {% elif badge.text %}
               {{ badgeWithText(badge) }}
             {% endif %}
-            <span class="person-badges__pop-up-content" id="{{ badge.id }}">
-              <span person-badges__pop-up-title>{{ badge.title }}</span>
+            <div class="person-badges__pop-up-content" id="{{ badge.id }}">
+              <span class="person-badges__pop-up-title">{{ badge.title }}</span>
               <p class="person-badges__pop-up-description font-theme font-theme--code">{% parseAndInsert badge.description, fields %}</p>
-            </span>
+            </div>
           </div>
         {% endif %}
       </div>

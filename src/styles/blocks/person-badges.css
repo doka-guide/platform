@@ -99,6 +99,7 @@
 }
 
 .person-badges__default-image {
+  display: block;
   width: 100%;
   height: auto;
 }
@@ -122,6 +123,10 @@
   }
 }
 
+.person-badges__shape:focus-visible + .person-badges__pop-up {
+  display: grid;
+}
+
 .person-badges__pop-up-figure {
   display: grid;
   width: 100%;
@@ -138,9 +143,9 @@
   object-fit: contain;
 }
 
-.person-badges__pop-up-header {
-  margin-block-start: 55px;
-  margin-block-end: 10px;
+.person-badges__pop-up-title {
+  display: block;
+  margin-block: 10px;
   font-family: var(--font-family);
 }
 

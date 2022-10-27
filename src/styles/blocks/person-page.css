@@ -15,8 +15,7 @@
   grid-template-columns: var(--sidebar-size) minmax(0, var(--content-max-size)) var(--sidebar-size-end);
   grid-template-areas:
     'avatar   avatar   avatar'
-    'header   header   header'
-    'meta     meta     meta'
+    'header   header   meta'
     'articles articles articles'
     'footer   footer   footer';
 }
