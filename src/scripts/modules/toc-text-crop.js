@@ -12,7 +12,6 @@ tocLinks.forEach((link) => {
     for (let i in stringArray) {
       if (tmpString.length <= strLength) {
         tmpString += stringArray[i] + ' '
-        console.log(i)
       } else {
         return
       }
