@@ -5,6 +5,7 @@ dist
 .vscode
 
 # симлинки на данные репозитория контента
+a11y
 html
 css
 js
@@ -15,6 +16,7 @@ about
 pages
 settings
 specials
+interviews
 
 .eslintcache
 

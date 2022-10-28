@@ -38,6 +38,24 @@ class Logo {
   }
 
   endAnimation() {
+    const isSearchPage = window.location.pathname.indexOf('/search/') > -1
+    let logoImage
+    let firstResultColor
+
+    if (isSearchPage) {
+      logoImage = document.querySelector('.logo__image')
+      firstResultColor = document?.querySelector('.search-hit')?.getAttribute('style')
+    } else {
+      logoImage = document.querySelectorAll('.logo__image')[1]
+      firstResultColor = document?.querySelector('.suggestion-list__item')?.getAttribute('style')
+    }
+
+    if (firstResultColor) {
+      logoImage.setAttribute('style', `${firstResultColor}`)
+    } else {
+      logoImage.removeAttribute('style')
+    }
+
     this.refs.image.addEventListener(
       'animationiteration',
       (event) => {

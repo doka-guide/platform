@@ -74,7 +74,7 @@
       {% if roles %}
         <div class="person-page__roles">
           {% for role in roles %}
-            <a href="{{ role.url }}" class="person-page__roles-link" style="color: {{ role.color }}; background-color: {{ role.bgColor }}; border-color: {{ role.border }}">
+            <a href="{{ role.url }}" class="person-page__roles-link" style="--role-color: {{ role.color }}; --role-bg-color: {{ role.bgColor }}; --role-hover-color: {{ role.hoverColor }}; --role-border-color: {{ role.border }};">
               {{ role.title }}
             </a>
           {% endfor %}
@@ -166,6 +166,26 @@
               </ul>
             </section>
           {% endif %}
+          {% if answersInArticles[category] | length %}
+            <section class="articles-group__section">
+              <h3 class="articles-group__sub-title font-theme font-theme--code">{{ answersPersonRole }}</h3>
+              <ul class="articles-group__list base-list">
+                {% for articleList in answersInArticles[category] %}
+                  <section class="articles-group__section">
+                    <ul class="articles-group__list base-list">
+                      {% for article in articleList | sort %}
+                        <li>
+                          <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
+                            {{ article.data.title | descriptionMarkdown | safe }}
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </section>
+                {% endfor %}
+              </ul>
+            </section>
+          {% endif %}
         </section>
       {% endfor %}
       {% if isOnlyWithPractice %}
@@ -183,6 +203,29 @@
                       {{ practice.data.title | descriptionMarkdown | safe }}
                     </a>
                   </li>
+                </ul>
+              </section>
+            {% endfor %}
+          </section>
+        {% endfor %}
+      {% endif %}
+      {% if isOnlyWithAnswer %}
+        {% for category, articleListByCategory in answersInArticles %}
+          <section class="person-page__group articles-group articles-group--accent articles-group--title-static" style="--accent-color: var(--color-{{ category }})">
+            <h2 class="articles-group__title">
+              {{ articleIndexesMap[category].data.name }}
+            </h2>
+            <h3 class="articles-group__sub-title font-theme font-theme--code">{{ answersPersonRole }}</h3>
+            {% for articleList in articleListByCategory %}
+              <section class="articles-group__section">
+                <ul class="articles-group__list base-list">
+                  {% for article in articleList | sort %}
+                    <li>
+                      <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
+                        {{ article.data.title | descriptionMarkdown | safe }}
+                      </a>
+                    </li>
+                  {% endfor %}
                 </ul>
               </section>
             {% endfor %}

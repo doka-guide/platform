@@ -13,6 +13,7 @@
 
 .logo__image {
   --is-animation: 0;
+  --accent-color: var(--color-html);
   align-self: center;
   position: relative;
   z-index: 0;
@@ -34,15 +35,16 @@
 
 .logo__image::before {
   --colors:
-    var(--color-html),
-    var(--color-html),
+    var(--accent-color),
+    var(--accent-color),
     var(--color-css),
     var(--color-js),
-    var(--color-svg),
     var(--color-tools),
-    var(--color-html),
-    var(--color-html);
-  --parts: 7;
+    var(--color-recipes),
+    var(--color-a11y),
+    var(--accent-color),
+    var(--accent-color);
+  --parts: 8;
   content: '';
   opacity: var(--is-animation);
   position: absolute;
@@ -68,7 +70,7 @@
 }
 
 .logo__image--animation::before {
-  animation: logoAnimation 1.75s linear infinite both;
+  animation: logoAnimation 0.75s ease-out infinite both;
 }
 
 .logo__symbols {

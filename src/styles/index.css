@@ -36,6 +36,8 @@
 @import 'blocks/article.css';
 @import 'blocks/doc.css';
 @import 'blocks/practices.css';
+@import 'blocks/answer.css';
+@import 'blocks/questions.css';
 @import 'blocks/persons-list.css';
 @import 'blocks/toc.css';
 @import 'blocks/block-code.css';

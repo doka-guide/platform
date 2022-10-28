@@ -1,4 +1,7 @@
 .article-heading {
+  display: flex;
+  gap: 20px;
+  align-items: center;
   font-size: var(--font-size);
   line-height: var(--line-height);
   scroll-margin: calc((var(--fixed-header-height, 0) * 1px) + 1rem);

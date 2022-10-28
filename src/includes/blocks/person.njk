@@ -19,6 +19,9 @@
         {% elif data.totalPractices > 0 %}
           {{ data.totalPractices }}
           {{ data.totalPractices | declension('совет', 'совета', 'советов') }}
+        {% elif data.totalAnswers > 0 %}
+          {{ data.totalAnswers }}
+          {{ data.totalAnswers | declension('ответ', 'ответа', 'ответов') }}
         {% endif %}
       </span>
 
@@ -29,6 +32,10 @@
           {% endfor %}
         {% elif data.practices | length %}
           {% for category, count in data.practices %}
+            <span class="person__indicator" style="--accent-color: var(--color-{{ category }})" data-count="{{ count }}"></span>
+          {% endfor %}
+        {% elif data.answers | length %}
+          {% for category, count in data.answers %}
             <span class="person__indicator" style="--accent-color: var(--color-{{ category }})" data-count="{{ count }}"></span>
           {% endfor %}
         {% endif %}
