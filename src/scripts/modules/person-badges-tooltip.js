@@ -1,7 +1,7 @@
 // Слушаем события с тултипами
 function initTooltip(tooltipContainer) {
   const trigger = tooltipContainer.querySelector('.person-badges__default-image')
-  const tooltip = tooltipContainer.querySelector('.person-badges__pop-up')
+  const tooltip = tooltipContainer.querySelector('.person-badges__pop-up-container')
 
   // Показываем тултип при наведении курсора и при фокусе
   tooltipContainer.addEventListener('mouseenter', () => {
@@ -28,7 +28,7 @@ function initTooltip(tooltipContainer) {
 }
 
 function showTooltip(tooltip) {
-  tooltip.style.display = 'block'
+  tooltip.style.display = 'grid'
 }
 
 function hideTooltip(tooltip) {
