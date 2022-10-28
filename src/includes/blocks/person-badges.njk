@@ -160,15 +160,17 @@
           {% endif %}
         </div>
         {% if badge.description and badge.title %}
-          <div class="person-badges__pop-up">
-            {% if badge.src %}
-              <img class="person-badges__pop-up-image" src="{{ badge.src }}" alt="">
-            {% elif badge.text %}
-              {{ badgeWithText(badge) }}
-            {% endif %}
-            <div class="person-badges__pop-up-content">
-              <span id="{{ badge.id }}-title" class="person-badges__pop-up-title">{{ badge.title }}</span>
-              <p id="{{ badge.id }}-description" class="person-badges__pop-up-description font-theme font-theme--code">{% parseAndInsert badge.description, fields %}</p>
+          <div class="person-badges__pop-up-container">
+            <div class="person-badges__pop-up">
+              {% if badge.src %}
+                <img class="person-badges__pop-up-image" src="{{ badge.src }}" alt="">
+              {% elif badge.text %}
+                {{ badgeWithText(badge) }}
+              {% endif %}
+              <div class="person-badges__pop-up-content">
+                <span id="{{ badge.id }}-title" class="person-badges__pop-up-title">{{ badge.title }}</span>
+                <p id="{{ badge.id }}-description" class="person-badges__pop-up-description font-theme font-theme--code">{% parseAndInsert badge.description, fields %}</p>
+              </div>
             </div>
           </div>
         {% endif %}

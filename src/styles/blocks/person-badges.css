@@ -104,17 +104,24 @@
   height: auto;
 }
 
-.person-badges__pop-up {
+.person-badges__pop-up-container {
   display: none;
   position: absolute;
   bottom: 50%;
   left: 50%;
-  width: clamp(180px, 20vw, 280px);
+  z-index: 10;
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+
+.person-badges__pop-up {
+  display: grid;
+  box-sizing: border-box;
+  width: clamp(280px, 20vw, 340px);
+  height: max-content;
   padding: 30px;
   background-color: var(--color-background);
   border: 1px solid var(--color-fade);
-  z-index: 10;
-  pointer-events: none;
 }
 
 @media (any-hover: hover) {
@@ -152,4 +159,14 @@
 .person-badges__pop-up-description {
   margin: 0;
   font-family: var(--font-family);
+}
+
+@media (max-width: 1023px) {
+  .person-badges__pop-up-container {
+    position: fixed;
+    inset: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: hsl(0 0% 0% / 0.3);
+  }
 }
