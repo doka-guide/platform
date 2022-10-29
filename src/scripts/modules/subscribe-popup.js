@@ -205,7 +205,7 @@ function init() {
     setTimeout(() => {})
   })
 
-  popup.triggerListenerStart(5000)
+  popup.triggerListenerStart()
 
   form.addEventListener('submit', (event) => {
     if (Object.is(event.target, popupForm)) {
