@@ -157,7 +157,7 @@ function init() {
       data: JSON.stringify(formData),
       author_id: 1,
     })
-    const url = 'http://localhost:8080/subscription'
+    const url = 'https://api.doka.guide/subscription'
 
     return getToken()
       .then((token) => {
