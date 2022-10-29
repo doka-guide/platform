@@ -200,31 +200,39 @@ module.exports = {
     }
     */
     answersByPerson: function (data) {
-      const { answersByQuestion } = data
+      const { answersByQuestion, collections } = data
+      const allAnswers = collections.answer
       const answersByPerson = {}
       for (const questionKey in answersByQuestion) {
-        if (Object.hasOwnProperty.call(answersByQuestion, questionKey)) {
-          for (const personKey in answersByQuestion[questionKey]) {
-            if (!answersByPerson[personKey]) {
-              answersByPerson[personKey] = {}
+        for (const personKey in answersByQuestion[questionKey]) {
+          const answersOfPersonByQuestion = allAnswers.filter((a) => {
+            return a.filePathStem.startsWith(`/interviews/${questionKey}/answers/${personKey}`)
+          })
+          answersByPerson[personKey] = {}
+          for (const categoryKey in answersByQuestion[questionKey][personKey]) {
+            if (!answersByPerson[personKey][categoryKey]) {
+              answersByPerson[personKey][categoryKey] = []
             }
-            if (Object.hasOwnProperty.call(answersByQuestion[questionKey], personKey)) {
-              for (const categoryKey in answersByQuestion[questionKey][personKey]) {
-                if (Object.hasOwnProperty.call(answersByQuestion[questionKey][personKey], categoryKey)) {
-                  if (!answersByPerson[personKey][categoryKey]) {
-                    answersByPerson[personKey][categoryKey] = new Set([])
+            answersByPerson[personKey][categoryKey].push(
+              answersByQuestion[questionKey][personKey][categoryKey].filter((article) => {
+                for (let i = 0; i < answersOfPersonByQuestion.length; i++) {
+                  const a = answersOfPersonByQuestion[i]
+                  const articleFilePath = article.filePathStem.replace(/^\//, '').replace(/\/index$/, '')
+                  if (a.data.excluded?.includes(articleFilePath)) {
+                    return false
                   }
-                  answersByPerson[personKey][categoryKey].add(answersByQuestion[questionKey][personKey][categoryKey])
+                  if (a.data.included) {
+                    for (let i = 0; i < a.data.included.length; i++) {
+                      if (a.data.included[i] === articleFilePath) {
+                        return true
+                      }
+                    }
+                    return false
+                  }
+                  return true
                 }
-              }
-            }
-          }
-        }
-      }
-      for (const personKey in answersByPerson) {
-        for (const category in answersByPerson[personKey]) {
-          if (answersByPerson[personKey]) {
-            answersByPerson[personKey][category] = [...answersByPerson[personKey][category]]
+              })
+            )
           }
         }
       }
