@@ -18,7 +18,9 @@
 
 .callout__content {
   --background-code-color: hsl(var(--color-base-background));
+  display: flex;
   flex: 1 1 320px;
+  gap: 5px;
 }
 
 .callout__content > * {

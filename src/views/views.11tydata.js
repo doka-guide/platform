@@ -12,6 +12,24 @@ function isExternalURL(url) {
   return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')
 }
 
+function articlePathsToObject(pathList, collections) {
+  const object = {}
+  if (Array.isArray(pathList)) {
+    pathList.forEach((path) => {
+      const pathObject = path.split('/')
+      const category = pathObject[0]
+      const articleId = pathObject[1]
+      if (!object[category]) {
+        object[category] = []
+      }
+      object[category].push(
+        collections[category].find((article) => article.filePathStem === `/${category}/${articleId}/index`)
+      )
+    })
+  }
+  return object
+}
+
 module.exports = {
   featuredArticlesMaxCount: 12,
 
@@ -128,6 +146,93 @@ module.exports = {
 
     /* создаёт структуру вида:
     {
+      [questionId]: {
+        [personId]: {
+          [categoryId]: [articles]
+        }
+      }
+    }
+    */
+    answersByQuestion: function (data) {
+      const { collections } = data
+
+      const answersByQuestion = {}
+      collections.answer.forEach((answer) => {
+        const answerObject = answer.filePathStem.split('/')
+        const questionId = answerObject[2]
+        if (!answersByQuestion[questionId]) {
+          answersByQuestion[questionId] = {}
+        }
+        const personId = answer.fileSlug
+        if (!answersByQuestion[questionId][personId]) {
+          if (answer.data.included) {
+            answersByQuestion[questionId][personId] = articlePathsToObject(answer.data.included, collections)
+          } else if (answer.data.excluded) {
+            const articlePathList = collections.question.filter((question) => {
+              return question.fileSlug === questionId
+            })[0].data.related
+            articlePathList.filter((questionPath) => {
+              return (
+                answer.data.excluded.filter((answerPath) => {
+                  return answerPath === questionPath
+                }).length > 0
+              )
+            })
+            answersByQuestion[questionId][personId] = articlePathsToObject(articlePathList, collections)
+          } else {
+            answersByQuestion[questionId][personId] = articlePathsToObject(
+              collections.question.filter((question) => {
+                return question.fileSlug === questionId
+              })[0].data.related,
+              collections
+            )
+          }
+        }
+      })
+      return answersByQuestion
+    },
+
+    /* создаёт структуру вида:
+    {
+      [personId]: {
+        [categoryId]: [articles]
+      }
+    }
+    */
+    answersByPerson: function (data) {
+      const { answersByQuestion } = data
+      const answersByPerson = {}
+      for (const questionKey in answersByQuestion) {
+        if (Object.hasOwnProperty.call(answersByQuestion, questionKey)) {
+          for (const personKey in answersByQuestion[questionKey]) {
+            if (!answersByPerson[personKey]) {
+              answersByPerson[personKey] = {}
+            }
+            if (Object.hasOwnProperty.call(answersByQuestion[questionKey], personKey)) {
+              for (const categoryKey in answersByQuestion[questionKey][personKey]) {
+                if (Object.hasOwnProperty.call(answersByQuestion[questionKey][personKey], categoryKey)) {
+                  if (!answersByPerson[personKey][categoryKey]) {
+                    answersByPerson[personKey][categoryKey] = new Set([])
+                  }
+                  answersByPerson[personKey][categoryKey].add(answersByQuestion[questionKey][personKey][categoryKey])
+                }
+              }
+            }
+          }
+        }
+      }
+      for (const personKey in answersByPerson) {
+        for (const category in answersByPerson[personKey]) {
+          if (answersByPerson[personKey]) {
+            answersByPerson[personKey][category] = [...answersByPerson[personKey][category]]
+          }
+        }
+      }
+      return answersByPerson
+    },
+
+    /* создаёт структуру вида:
+    {
       [personId]: {
         [categoryId]: {
           author: [articles],
@@ -176,7 +281,7 @@ module.exports = {
     },
 
     peopleData: async function (data) {
-      const { collections, practicesByPerson, docsByPerson } = data
+      const { collections, practicesByPerson, answersByPerson, docsByPerson } = data
       const { people } = collections
 
       if (!people || people.length === 0) {
@@ -185,7 +290,7 @@ module.exports = {
 
       const filteredAuthors = people.filter((person) => {
         const personId = person.fileSlug
-        return !!docsByPerson[personId] || !!practicesByPerson[personId]
+        return !!docsByPerson[personId] || !!practicesByPerson[personId] || !!answersByPerson[personId]
       })
 
       const authorsNames = filteredAuthors.map((author) => author.fileSlug)
@@ -200,6 +305,7 @@ module.exports = {
           const personId = person.fileSlug
           const personData = docsByPerson[personId]
           const personPractices = practicesByPerson[personId]
+          const personAnswers = answersByPerson[personId]
           const { name, photo } = person.data
 
           const photoURL = photo ? (isExternalURL(photo) ? photo : `/people/${personId}/${photo}`) : null
@@ -223,14 +329,24 @@ module.exports = {
               ])
             : []
 
-          const mostContribution =
-            statEntries.length > 0
-              ? statEntries.reduce((acc, currentItem) => {
-                  return currentItem[1] > acc[1] ? currentItem : acc
-                })
-              : practiceEntries.reduce((acc, currentItem) => {
-                  return currentItem[1] > acc[1] ? currentItem : acc
-                })
+          const answerEntries = personAnswers
+            ? Object.entries(personAnswers).map(([category, answersByCategory]) => [category, answersByCategory.length])
+            : []
+
+          let mostContribution = null
+          if (statEntries.length > 0) {
+            mostContribution = statEntries.reduce((acc, currentItem) => {
+              return currentItem[1] > acc[1] ? currentItem : acc
+            })
+          } else if (practiceEntries.length > 0) {
+            mostContribution = practiceEntries.reduce((acc, currentItem) => {
+              return currentItem[1] > acc[1] ? currentItem : acc
+            })
+          } else if (answerEntries.length > 0) {
+            mostContribution = answerEntries.reduce((acc, currentItem) => {
+              return currentItem[1] > acc[1] ? currentItem : acc
+            })
+          }
 
           let [mostContributedCategory, mostContributedCount] = mostContribution
 
@@ -252,8 +368,16 @@ module.exports = {
               }, 0)
             : 0
 
+          const totalAnswers = answerEntries
+            ? answerEntries.reduce((acc, currentItem) => {
+                acc += currentItem[1]
+                return acc
+              }, 0)
+            : 0
+
           const stat = Object.fromEntries(statEntries)
           const practices = Object.fromEntries(practiceEntries)
+          const answers = Object.fromEntries(answerEntries)
 
           return {
             id: personId,
@@ -262,9 +386,11 @@ module.exports = {
             pageLink,
             stat,
             practices,
+            answers,
             mostContributedCategory,
             totalArticles,
             totalPractices,
+            totalAnswers,
             contributionStat: contributionStat[personId],
           }
         })

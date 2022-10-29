@@ -1,5 +1,6 @@
 const { baseUrl } = require('../../config/constants')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
+const roleCollection = require('../libs/role-constructor/collection.json')
 
 function getPersons(personGetter) {
   return function (data) {
@@ -60,6 +61,8 @@ module.exports = {
   permalink: '/{{doc.filePathStem}}.html',
 
   pageType: 'Article',
+
+  allRoles: roleCollection,
 
   eleventyComputed: {
     title: function (data) {
@@ -157,6 +160,63 @@ module.exports = {
     containsPractice: function (data) {
       const { practices } = data
       return practices.length > 0 ? 'true' : 'false'
+    },
+
+    questions: function (data) {
+      const allQuestions = data.collections.question
+      const { docPath } = data
+
+      return allQuestions?.filter((question) => {
+        return question.data.related.find((path) => {
+          return docPath === `/${path}`
+        })
+      })
+    },
+
+    containsQuestions: function (data) {
+      const { questions } = data
+      return questions.length > 0 ? 'true' : 'false'
+    },
+
+    answers: function (data) {
+      const allAnswers = data.collections.answer
+      const { questions, docId } = data
+      const questionList = Array.isArray(questions)
+        ? questions.map((q) => {
+            return q.fileSlug
+          })
+        : []
+
+      const filteredAnswersByQuestion = {}
+      questionList.forEach((q) => {
+        const filteredAnswersForQuestion = allAnswers.filter((a) => {
+          return a.filePathStem.startsWith(`/interviews/${q}`)
+        })
+        filteredAnswersByQuestion[q] = []
+        filteredAnswersByQuestion[q].push(
+          ...filteredAnswersForQuestion
+            .filter((a) => {
+              if (a.data.excluded?.includes(docId)) {
+                return false
+              }
+              if (a.data.included) {
+                for (let i = 0; i < a.data.included.length; i++) {
+                  if (a.data.included[i] === docId) {
+                    return true
+                  }
+                }
+                return false
+              }
+              return true
+            })
+            .map((a) => {
+              a['isLong'] = a.template.inputContent.split('\n').length > 2
+              return a
+            })
+        )
+      })
+
+      return filteredAnswersByQuestion
     },
 
     createdAt: function (data) {

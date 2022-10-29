@@ -2,15 +2,17 @@
   "doka-core-team": {
     "title": "Редакция",
     "url": "https://doka.guide/about/#kto-my",
-    "color": "black",
-    "bgColor": "white",
-    "border": "black"
+    "color": "hsl(0 0% 0%)",
+    "bgColor": "hsl(0 0% 100%)",
+    "hoverColor": "hsl(0 0% 94%)",
+    "border": "hsl(0 0% 0%)"
   },
   "praktikum-mentor": {
     "title": "Наставник Практикума",
     "url": "https://practicum.yandex.ru/catalog/programming/",
-    "color": "white",
-    "bgColor": "black",
-    "border": "black"
+    "color": "hsl(0 0% 100%)",
+    "bgColor": "hsl(0 0% 0%)",
+    "hoverColor": "hsl(0 0% 30%)",
+    "border": "hsl(0 0% 0%)"
   }
 }
