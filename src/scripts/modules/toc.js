@@ -81,8 +81,14 @@ function init() {
     )
   }
 
-  function saveHistory(hash) {
-    history.pushState(null, null, hash)
+  function saveLink(link) {
+    try {
+      navigator.clipboard
+        .writeText(link)
+        .catch((error) => console.log(`Ошибка при копировании ссылки: ${error.message}`))
+    } catch (error) {
+      console.log(`Возможно, соединение незащищенное. Ошибка: ${error.message}`) // доступ к clipboard работает только под https
+    }
   }
 
   function scrollToTitle(hash) {
@@ -158,8 +164,20 @@ function init() {
 
     event.preventDefault()
     scrollToTitle(link.hash)
-    saveHistory(link.hash)
   })
+
+  document.querySelectorAll(HEADING_LINK_SELECTOR)?.forEach((item) =>
+    item.addEventListener('click', (event) => {
+      const link = event.target.closest(HEADING_LINK_SELECTOR)
+
+      if (!link) {
+        return
+      }
+
+      event.preventDefault()
+      saveLink(link.href)
+    })
+  )
 }
 
 init()
