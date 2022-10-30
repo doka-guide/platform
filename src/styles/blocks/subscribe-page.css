@@ -11,6 +11,10 @@
   background-color: var(--color-fade);
 }
 
+.subscribe-settings__row--hidden {
+  display: none;
+}
+
 .subscribe-settings__fieldset {
   display: grid;
   gap: 12px;
@@ -68,6 +72,10 @@
   margin-block-start: calc(var(--gap) * 2);
   padding: var(--gap);
   background-color: var(--color-fade);
+}
+
+.unsubscribe-section--hidden {
+  display: none;
 }
 
 .unsubscribe__form {

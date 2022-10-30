@@ -6,7 +6,7 @@
   isLogoContrastColor=isLogoContrastColor
 ) }}
 
-<main class="standalone-page">
+<main class="subscribe-page standalone-page">
   <div class="standalone-page__header">
     <div class="standalone-page__wrapper">
       <h1 class="standalone-page__title">
@@ -18,12 +18,16 @@
     <p>Дока — это гид по веб-платформе. В справочнике вы можете найти ответы на повседневные вопросы, а в рассылках мы собираем тематические подборки, советы от экспертов, авторские и партнёрские колонки.</p>
     <p>Здесь вы можете подписаться и сразу рассказать немного о себе, чтобы мы настроили рассылку под ваши интересы.</p>
 
-    <form class="subscribe-settings" action="">
+    <form class="subscribe-page__subscribe subscribe-settings" action="">
       <div class="subscribe-settings__row">
         <label class="subscribe-settings__label" for="email">
           Нам обязательно нужна ваша почта
         </label>
-        <input class="subscribe-settings__input" type="email" placeholder="dog@doka.guide" inputmode="email" id="email">
+        <input type="hidden" name="active" value="true">
+        <input type="hidden" name="hash" value="true">
+        <input type="hidden" name="id" value="0">
+        <input type="hidden" name="unsubscribed" value="false">
+        <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email">
         <span class="subscribe-settings__hint">Ваш e-mail</span>
       </div>
       <div class="subscribe-settings__row">
@@ -42,7 +46,7 @@
             начинающий веб-разработчик
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="middle" id="middle" checked>
+            <input class="subscribe-settings__control" type="radio" name="who" value="middle" id="middle">
             говорят, я миддл-разработчик
           </label>
           <label class="subscribe-settings__control-label">
@@ -95,7 +99,7 @@
       <p>Здесь можно отписаться от рассылки U×ᴥ×U</p>
       <form class="subscribe-page__unsubscribe unsubscribe__form" action="">
         <label class="unsubscribe__label">
-          <input type="text" class="unsubscribe__input subscribe-settings__input" placeholder="Слишком часто приходят письма">
+          <input type="text" name="reason" class="unsubscribe__input subscribe-settings__input" placeholder="Слишком часто приходят письма">
           <span class="unsubscribe__hint subscribe-settings__hint">Расскажете что не понравилось?</span>
         </label>
         <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Отписаться</button>
