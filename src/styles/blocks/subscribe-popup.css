@@ -76,6 +76,11 @@
   color: hsl(var(--color-green));
 }
 
+.subscribe-popup__error-text {
+  display: none;
+  color: hsl(var(--color-red));
+}
+
 .subscribe-popup__emoji {
   display: block;
   margin-block-end: var(--gap);
