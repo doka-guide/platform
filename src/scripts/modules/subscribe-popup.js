@@ -68,7 +68,7 @@ class Popup extends BaseComponent {
 
   show() {
     this.status = Popup.STATUS_STATE['shown']
-    this.popup.showModal()
+    this.popup.show()
     clearInterval(this.timer)
   }
 
