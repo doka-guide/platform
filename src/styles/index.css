@@ -80,6 +80,7 @@
 @import 'blocks/person-grid.css';
 @import 'blocks/people-page.css';
 @import 'blocks/person-page.css';
+@import 'blocks/person-badges.css';
 @import 'blocks/linked-article.css';
 @import 'blocks/related-articles-list.css';
 @import 'blocks/code-fix.css';
