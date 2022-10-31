@@ -32,6 +32,10 @@
   height: auto;
 }
 
+.article-heading__icon:active {
+  width: 0.6em;
+}
+
 .article-heading__code {
   font-size: 1.2em;
   font-family: var(--font-family);
