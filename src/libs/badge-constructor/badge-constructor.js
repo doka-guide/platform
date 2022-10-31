@@ -75,7 +75,6 @@ function getBadge(assignedBadge) {
     let predefinedBadge = collection[type]
     if (!predefinedBadge) {
       badge = assignedBadge[type]
-      console.log(type, assignedBadge, badge)
     } else {
       const badgeFields = new Set(Object.keys(predefinedBadge))
       badgeFields.add(...Object.keys(assignedBadge[type]))
