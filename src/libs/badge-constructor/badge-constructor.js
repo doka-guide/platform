@@ -75,7 +75,7 @@ function getBadge(assignedBadge) {
     let predefinedBadge = collection[type]
     if (!predefinedBadge) {
       badge = assignedBadge[type]
-      badge['shape'] = type
+      console.log(type, assignedBadge, badge)
     } else {
       const badgeFields = new Set(Object.keys(predefinedBadge))
       badgeFields.add(...Object.keys(assignedBadge[type]))
@@ -90,20 +90,20 @@ function getBadge(assignedBadge) {
   } else {
     badge = collection[assignedBadge]
   }
-  if (!badge['angle'] && badge['angle'] !== 0) {
-    badge['angle'] = getRandRotationAngle()
+  if (!badge.angle && badge.angle !== 0) {
+    badge.angle = getRandRotationAngle()
   }
-  if (!badge['field']) {
-    badge['field'] = {}
+  if (!badge.field) {
+    badge.field = {}
   }
-  if (badge['angle'] === 90 || badge['angle'] === 270) {
-    badge['field']['height'] = SHAPES[badge.shape].width
-    badge['field']['width'] = SHAPES[badge.shape].height
+  if (badge.angle === 90 || badge.angle === 270) {
+    badge.field['height'] = SHAPES[badge.shape].width
+    badge.field['width'] = SHAPES[badge.shape].height
   } else {
-    badge['field'] = SHAPES[badge.shape]
+    badge.field = SHAPES[badge.shape]
   }
-  if (!badge['color']) {
-    badge['color'] = getRandColor()
+  if (!badge.color) {
+    badge.color = getRandColor()
   }
   return badge
 }
