@@ -24,16 +24,21 @@ class Popup extends BaseComponent {
     return statusStates
   }
 
+  static get ERROR_CLASS() {
+    return 'error'
+  }
+
   static get SUCCESS_CLASS() {
     return 'success'
   }
 
-  constructor({ rootElement, containerSelector, successTextSelector, emailTextSelector }) {
+  constructor({ rootElement, containerSelector, successTextSelector, errorTextSelector, emailTextSelector }) {
     super()
     this.popup = rootElement.parentElement
 
     this.container = rootElement.parentElement.querySelector(containerSelector)
     this.successText = rootElement.parentElement.querySelector(successTextSelector)
+    this.errorText = rootElement.parentElement.querySelector(errorTextSelector)
     this.email = rootElement.parentElement.querySelector(emailTextSelector)
 
     this.popup.addEventListener('close', () => {
@@ -72,8 +77,11 @@ class Popup extends BaseComponent {
     clearInterval(this.timer)
   }
 
-  error() {
+  error(email) {
     this.status = Popup.STATUS_STATE['error']
+    this.successText.classList.toggle(Popup.ERROR_CLASS)
+    this.container.classList.toggle(Popup.ERROR_CLASS)
+    this.email.innerText = email
   }
 
   success(email) {
@@ -184,6 +192,7 @@ function init() {
     rootElement: popupForm,
     containerSelector: '.subscribe-popup__container',
     successTextSelector: '.subscribe-popup__success-text',
+    errorTextSelector: '.subscribe-popup__error-text',
     emailTextSelector: '.subscribe-popup__email',
   })
 
@@ -235,7 +244,7 @@ function init() {
       })
       .catch((error) => {
         console.error(error)
-        popup.error()
+        popup.error(email)
       })
       .finally(() => {
         isSending = false
