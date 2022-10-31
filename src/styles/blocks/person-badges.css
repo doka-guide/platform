@@ -9,7 +9,7 @@
 
 @media (min-width: 1024px) {
   .person-badges {
-    grid-template-rows: repeat(var(--row-count), 30px);
+    grid-template-rows: repeat(var(--row-count), 1fr);
   }
 }
 
