@@ -135,7 +135,7 @@ class Unsubscribe extends BaseComponent {
 }
 
 async function init() {
-  const baseUrl = 'http://localhost:8080'
+  const baseUrl = 'https://api.doka.guide'
   const hash = window.location.search
     ? window.location.search
         .replace('?', '')
