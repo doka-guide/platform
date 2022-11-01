@@ -45,9 +45,14 @@ module.exports = function (window) {
     })
 
   articleContent.querySelectorAll('figure').forEach((figureElement) => {
+    const PICTURE_TAG_NAME = 'picture'
+    const figureFirstChild = figureElement.firstElementChild
+
     figureElement.classList.add('figure')
     figureElement.querySelector('figcaption')?.classList.add('figure__caption')
-    figureElement.firstElementChild?.classList.add('figure__content')
+    if (figureFirstChild?.tagName.toLowerCase() === PICTURE_TAG_NAME) {
+      figureFirstChild.classList.add('figure__picture')
+    }
   })
 
   // достаём изображения из параграфов
