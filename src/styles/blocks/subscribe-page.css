@@ -11,8 +11,27 @@
   background-color: var(--color-fade);
 }
 
+/* Отдельный класс для форм со статусами состояния */
+.form-with-status {
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Класс на время обработки */
+.form-with-status.progress {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Класс на случай успеха — progress */
+
+/* Класс на случай провала — error */
+
 .subscribe-settings__row--hidden {
   display: none;
+}
+
+.subscribe-settings__row:has(.subscribe-settings__button) {
+  text-align: center;
 }
 
 .subscribe-settings__fieldset {
@@ -23,7 +42,12 @@
   padding: 0;
 }
 
-.subscribe-settings__fieldset + p {
+.subscribe-settings__note {
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+.subscribe-settings__fieldset + .subscribe-settings__note {
   margin-block-start: 1em;
 }
 
@@ -66,13 +90,67 @@
   font-size: inherit;
 }
 
-.subscribe-settings__note {
-  font-size: 0.8em;
-  font-style: italic;
+.subscribe-settings__button {
+  position: relative;
+  justify-self: center;
+  transition: color 0.2s ease-out;
 }
 
-.subscribe-settings__button {
-  justify-self: center;
+.form-with-status .text-control__button::after {
+  content: "";
+  position: absolute;
+  inset: 50%;
+  translate: -50% -50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  inline-size: 30px;
+  height: 30px;
+  block-size: 30px;
+}
+
+.progress .text-control__button {
+  color: currentColor;
+}
+
+.progress .text-control__button::after {
+  content: "";
+  border: 2px dashed white;
+  border-radius: 50%;
+  animation: progress-wheel 6s infinite linear;
+}
+
+.success .text-control__button {
+  color: currentColor;
+}
+
+.success .text-control__button::after {
+  content: "✅";
+}
+
+.error .text-control__button {
+  color: currentColor;
+}
+
+.error .text-control__button::after {
+  content: "❌";
+}
+
+.form-with-status__status {
+  display: block;
+  margin-block: 0.5em;
+  font-size: 0.8em;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-in;
+}
+
+.progress .form-with-status__status,
+.success .form-with-status__status,
+.error .form-with-status__status {
+  visibility: visible;
+  opacity: 1;
 }
 
 .unsubscribe-section {
@@ -92,6 +170,12 @@
   justify-content: space-between;
   align-items: start;
   gap: 20px;
+}
+
+.unsubscribe__row {
+  width: 20%;
+  inline-size: 20%;
+  text-align: center;
 }
 
 .unsubscribe__label {
@@ -121,5 +205,24 @@
     inline-size: 20px;
     height: 20px;
     block-size: 20px;
+  }
+
+  .unsubscribe__form {
+    flex-wrap: wrap;
+  }
+
+  .unsubscribe__row {
+    width: 100%;
+    inline-size: 100%;
+  }
+}
+
+@keyframes progress-wheel {
+  from {
+    rotate: 0turn;
+  }
+
+  to {
+    rotate: 1turn;
   }
 }

@@ -18,7 +18,7 @@
     <p>Дока — это гид по веб-платформе. В справочнике вы можете найти ответы на повседневные вопросы, а в рассылках мы собираем тематические подборки, советы от экспертов, авторские и партнёрские колонки.</p>
     <p>Здесь вы можете подписаться и сразу рассказать немного о себе, чтобы мы настроили рассылку под ваши интересы.</p>
 
-    <form class="subscribe-page__subscribe subscribe-settings" action="">
+    <form class="subscribe-page__subscribe subscribe-settings form-with-status error" action="">
       <div class="subscribe-settings__row">
         <label class="subscribe-settings__label" for="email">
           Нам обязательно нужна ваша почта
@@ -134,17 +134,25 @@
         </fieldset>
         <p class="subscribe-settings__note">Мы готовим новые тематические рассылки. Со временем они дополнят этот список, и вы сможете выбрать, что читать. Об обновлениях будем сообщать в Дайджесте.</p>
       </div>
-      <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Подписаться</button>
+      <div class="subscribe-settings__row">
+        {# В спане ниже меняем сообщения под статус #}
+        <span class="form-with-status__status">Обрабатываем запрос</span>
+        <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Подписаться</button>
+      </div>
     </form>
 
     <section class="unsubscribe-section subscribe-settings">
       <p>Здесь можно отписаться от рассылки U×ᴥ×U</p>
-      <form class="subscribe-page__unsubscribe unsubscribe__form" action="">
+      <form class="subscribe-page__unsubscribe unsubscribe__form form-with-status" action="">
         <label class="unsubscribe__label">
           <input type="text" name="reason" class="unsubscribe__input subscribe-settings__input" placeholder="Слишком часто приходят письма">
           <span class="unsubscribe__hint subscribe-settings__hint">Расскажете что не понравилось?</span>
         </label>
-        <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Отписаться</button>
+        <div class="unsubscribe__row">
+          <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Отписаться</button>
+          {# В спане ниже меняем сообщения под статус #}
+          <span class="form-with-status__status">Обрабатываем запрос</span>
+        </div>
       </form>
     </section>
   </div>
