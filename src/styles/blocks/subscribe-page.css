@@ -23,6 +23,10 @@
   padding: 0;
 }
 
+.subscribe-settings__fieldset + p {
+  margin-block-start: 1em;
+}
+
 .subscribe-settings__label {
   display: block;
   margin-block-end: 30px;
@@ -60,6 +64,11 @@
 
 .subscribe-settings__control-label {
   font-size: inherit;
+}
+
+.subscribe-settings__note {
+  font-size: 0.8em;
+  font-style: italic;
 }
 
 .subscribe-settings__button {
