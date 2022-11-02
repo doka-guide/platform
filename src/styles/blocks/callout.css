@@ -19,6 +19,7 @@
 .callout__content {
   --background-code-color: hsl(var(--color-base-background));
   display: flex;
+  flex-direction: column;
   flex: 1 1 320px;
   gap: 5px;
 }
