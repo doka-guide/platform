@@ -14,5 +14,13 @@
     "bgColor": "hsl(0 0% 0%)",
     "hoverColor": "hsl(0 0% 30%)",
     "border": "hsl(0 0% 0%)"
+  },
+  "practicum-contributor": {
+    "title": "Контрибьютор Практикума",
+    "url": "https://practicum.yandex.ru/catalog/programming/",
+    "color": "hsl(0 0% 100%)",
+    "bgColor": "hsl(0 0% 0%)",
+    "hoverColor": "hsl(0 0% 30%)",
+    "border": "hsl(0 0% 0%)"
   }
 }
