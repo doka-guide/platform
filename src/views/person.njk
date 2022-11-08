@@ -1,6 +1,7 @@
 {% from "blocks/header.njk" import header with context %}
 {% from "blocks/footer.njk" import footer with context %}
 {% from "blocks/person-avatar.njk" import personAvatar %}
+{% from "blocks/person-badges.njk" import personBadges %}
 
 {% set behanceRegEx = r/behance.net/g %}
 {% set githubRegEx = r/github.com/g %}
@@ -66,7 +67,30 @@
       ) }}
     </div>
 
+    <div class="person-page__header">
+      <h1 class="person-page__title">
+        {{ name }}
+      </h1>
+      {% if roles %}
+        <div class="person-page__roles">
+          {% for role in roles %}
+            <a href="{{ role.url }}" class="person-page__roles-link" style="--role-color: {{ role.color }}; --role-bg-color: {{ role.bgColor }}; --role-hover-color: {{ role.hoverColor }}; --role-border-color: {{ role.border }};">
+              {{ role.title }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% if person.templateContent %}
+        <div class="person-page__description content">
+          {{ person.templateContent | safe }}
+        </div>
+      {% endif %}
+    </div>
+
     <div class="person-page__meta">
+      <div class="person-page__badges">
+        {{ personBadges(badges, badgesFields) }}
+      </div>
       <ul class="base-list person-links-list font-theme font-theme--code">
         {% if url %}
           <li class="person-links-list__item">
@@ -106,26 +130,6 @@
           </li>
         {% endif %}
       </ul>
-    </div>
-
-    <div class="person-page__header">
-      <h1 class="person-page__title">
-        {{ name }}
-      </h1>
-      {% if roles %}
-        <div class="person-page__roles">
-          {% for role in roles %}
-            <a href="{{ role.url }}" class="person-page__roles-link" style="--role-color: {{ role.color }}; --role-bg-color: {{ role.bgColor }}; --role-hover-color: {{ role.hoverColor }}; --role-border-color: {{ role.border }};">
-              {{ role.title }}
-            </a>
-          {% endfor %}
-        </div>
-      {% endif %}
-      {% if person.templateContent %}
-        <div class="person-page__description content">
-          {{ person.templateContent | safe }}
-        </div>
-      {% endif %}
     </div>
 
     <div class="person-page__articles">

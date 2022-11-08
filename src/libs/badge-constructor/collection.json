@@ -1,0 +1,210 @@
+{
+  "doka-dog-help-5": {
+    "id": "doka-dog-help-5",
+    "shape": "square",
+    "angle": "0",
+    "field": {
+      "height": 2,
+      "width": 2
+    },
+    "src": "/images/badges/doka-dog-help-5.svg",
+    "alt": "Дока Дог держит в лапах цифру пять. Его глаза выражают умиление.",
+    "title": "Пять раз помог Дока Догу",
+    "description": "Можно получить, если поможешь Дока Догу дописать пять материалов"
+  },
+  "doka-dog-help-10": {
+    "id": "doka-dog-help-10",
+    "shape": "square",
+    "angle": "0",
+    "field": {
+      "height": 2,
+      "width": 2
+    },
+    "src": "/images/badges/doka-dog-help-10.svg",
+    "alt": "Дока Дог держит в лапах цифру десять. Его глаза закрыты от радости.",
+    "title": "Десять раз помог Дока Догу",
+    "description": "Можно получить, если поможешь Дока Догу дописать десять материалов"
+  },
+  "doka-dog-help-50": {
+    "id": "doka-dog-help-50",
+    "shape": "square",
+    "angle": "0",
+    "field": {
+      "height": 2,
+      "width": 2
+    },
+    "src": "/images/badges/doka-dog-help-50.svg",
+    "alt": "Дока Дог держит в лапах цифру 50. Его глаза выглядят так, как будто он еле сдерживает радость и восхищение.",
+    "title": "Пятьдесят раз помог Дока Догу",
+    "description": "Можно получить, если поможешь Дока Догу дописать пятьдесят материалов"
+  },
+  "doka-dog-help-100": {
+    "id": "doka-dog-help-100",
+    "shape": "square",
+    "angle": "0",
+    "field": {
+      "height": 2,
+      "width": 2
+    },
+    "src": "/images/badges/doka-dog-help-100.svg",
+    "alt": "Дока Дог держит в лапах цифру 100. Его глаза расширены, он выглядит так, будто удивлён и одновременно восхищён.",
+    "title": "Сто раз помог Дока Догу",
+    "description": "Можно получить, если поможешь Дока Догу дописать сто материалов"
+  },
+  "first-contribution-small": {
+    "id": "first-contribution-small",
+    "shape": "short-line",
+    "angle": "0",
+    "field": {
+      "height": 1,
+      "width": 2
+    },
+    "src": "/images/badges/first-contribution-small.svg",
+    "alt": "Дока Док с глазами, в которых вместо зрачков расположена цифра один.",
+    "title": "Первый вклад в Доку",
+    "description": "Дата первого пул реквеста: {{ githubFirstContribution }}. Можно получить, написав материал или внеся существенные правки"
+  },
+  "merged-pr-5": {
+    "id": "merged-pr-5",
+    "shape": "line",
+    "angle": "0",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/merged-pr-5.svg",
+    "alt": "Дока Дог с глазами в форме звёзд. Он машет лапой в сторону цифры пять.",
+    "title": "Пять пулреквестов в Доке",
+    "description": "Можно получить, если пять твоих пулреквестов слиты в основную ветку"
+  },
+  "merged-pr-10": {
+    "id": "merged-pr-10",
+    "shape": "line",
+    "angle": "0",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/merged-pr-10.svg",
+    "alt": "Дока Дог с глазами в форме звёзд. Он машет лапой в сторону цифры десять.",
+    "title": "Десять пулреквестов в Доке",
+    "description": "Можно получить, если десять твоих пулреквестов слиты в основную ветку"
+  },
+  "merged-pr-50": {
+    "id": "merged-pr-50",
+    "shape": "line",
+    "angle": "0",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/merged-pr-50.svg",
+    "alt": "Дока Дог с глазами в форме звёзд. Он машет лапой в сторону цифры 50.",
+    "title": "Пятьдесят пулреквестов в Доке",
+    "description": "Можно получить, если пятьдесят твоих пулреквестов слиты в основную ветку"
+  },
+  "merged-pr-100": {
+    "id": "merged-pr-100",
+    "shape": "line",
+    "angle": "0",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/merged-pr-100.svg",
+    "alt": "Дока Дог с глазами в форме звёзд. Он машет лапой в сторону цифры 100.",
+    "title": "Сто пулреквестов в Доке",
+    "description": "Можно получить, если сто твоих пулреквестов слиты в основную ветку"
+  },
+  "most-viewed-week-line": {
+    "id": "most-viewed-week-line",
+    "shape": "line",
+    "angle": "0",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/most-viewed-week-line.svg",
+    "alt": "Человечек с глазами в виде сердечек сидит за открытым ноутбуком и улыбается.",
+    "title": "Самый просматриваемый материал за неделю",
+    "description": "По статистике твой материал — самый просматриваемый за неделю"
+  },
+  "most-viewed-week-zeta": {
+    "id": "most-viewed-week-zeta",
+    "shape": "zeta-left",
+    "angle": "0",
+    "field": {
+      "height": 3,
+      "width": 2
+    },
+    "src": "/images/badges/most-viewed-week-zeta.svg",
+    "alt": "Улыбающийся человечек поднял одну руку вверх, другую опустил вниз и на что-то показывает. Его глаза расширены от удивления.",
+    "title": "Самый просматриваемый материал за неделю",
+    "description": "По статистике твой материал — самый просматриваемый за неделю"
+  },
+  "most-viewed-month-line": {
+    "id": "most-viewed-month-line",
+    "shape": "line",
+    "angle": "0",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/most-viewed-month-line.svg",
+    "alt": "Человечек сидит за открытым ноутбуком и улыбается.",
+    "title": "Самый просматриваемый материал за месяц",
+    "description": "По статистике твой материал — самый просматриваемый за месяц"
+  },
+  "most-viewed-month-zeta": {
+    "id": "most-viewed-month-zeta",
+    "shape": "zeta-left",
+    "angle": "0",
+    "field": {
+      "height": 3,
+      "width": 2
+    },
+    "src": "/images/badges/most-viewed-month-zeta.svg",
+    "alt": "Улыбающийся человечек поднял одну руку вверх, другую опустил вниз и на что-то показывает.",
+    "title": "Самый просматриваемый материал за месяц",
+    "description": "По статистике твой материал — самый просматриваемый за месяц"
+  },
+  "most-viewed-year-line": {
+    "id": "most-viewed-year-line",
+    "shape": "line",
+    "angle": "0",
+    "field": {
+      "height": 1,
+      "width": 4
+    },
+    "src": "/images/badges/most-viewed-year-line.svg",
+    "alt": "Человечек машет руками в сторону открытого ноутбука и кричит от радости и удивления.",
+    "title": "Самый просматриваемый материал за год",
+    "description": "По статистике твой материал — самый просматриваемый за год"
+  },
+  "most-viewed-year-zeta": {
+    "id": "most-viewed-year-zeta",
+    "shape": "zeta-left",
+    "angle": "0",
+    "field": {
+      "height": 3,
+      "width": 2
+    },
+    "src": "/images/badges/most-viewed-year-zeta.svg",
+    "alt": "Человечек поднял одну руку вверх, другую опустил вниз и на что-то показывает. Его глаза расширены, он кричит от удовольствия и удивления.",
+    "title": "Самый просматриваемый материал за год",
+    "description": "По статистике твой материал — самый просматриваемый за год"
+  },
+  "hackathon-practicum": {
+    "id": "hackathon-practicum",
+    "shape": "theta",
+    "angle": "0",
+    "field": {
+      "height": 2,
+      "width": 3
+    },
+    "src": "/images/badges/hackathon-practicum.svg",
+    "alt": "Надпись «Хакер», под ней звёздочка и треугольник, которые похожи на праздничный колпак",
+    "title": "Участник хакатона",
+    "description": "За участие в хакатоне Доки и Практикума"
+  }
+}

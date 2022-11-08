@@ -5,7 +5,12 @@ const frontMatter = require('gray-matter')
 const { baseUrl, mainSections } = require('../../config/constants')
 const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
-const { getAuthorsContributionWithCache } = require('../libs/github-contribution-service/github-contribution-service')
+const {
+  getAuthorsContributionWithCache,
+  getAuthorsExistsWithCache,
+  getAuthorsIDsWithCache,
+  getActionsInRepoWithCache,
+} = require('../libs/github-contribution-service/github-contribution-service')
 const { contentRepLink } = require('../../config/constants')
 
 function isExternalURL(url) {
@@ -200,31 +205,39 @@ module.exports = {
     }
     */
     answersByPerson: function (data) {
-      const { answersByQuestion } = data
+      const { answersByQuestion, collections } = data
+      const allAnswers = collections.answer
       const answersByPerson = {}
       for (const questionKey in answersByQuestion) {
-        if (Object.hasOwnProperty.call(answersByQuestion, questionKey)) {
-          for (const personKey in answersByQuestion[questionKey]) {
-            if (!answersByPerson[personKey]) {
-              answersByPerson[personKey] = {}
+        for (const personKey in answersByQuestion[questionKey]) {
+          const answersOfPersonByQuestion = allAnswers.filter((a) => {
+            return a.filePathStem.startsWith(`/interviews/${questionKey}/answers/${personKey}`)
+          })
+          answersByPerson[personKey] = {}
+          for (const categoryKey in answersByQuestion[questionKey][personKey]) {
+            if (!answersByPerson[personKey][categoryKey]) {
+              answersByPerson[personKey][categoryKey] = []
             }
-            if (Object.hasOwnProperty.call(answersByQuestion[questionKey], personKey)) {
-              for (const categoryKey in answersByQuestion[questionKey][personKey]) {
-                if (Object.hasOwnProperty.call(answersByQuestion[questionKey][personKey], categoryKey)) {
-                  if (!answersByPerson[personKey][categoryKey]) {
-                    answersByPerson[personKey][categoryKey] = new Set([])
+            answersByPerson[personKey][categoryKey].push(
+              answersByQuestion[questionKey][personKey][categoryKey].filter((article) => {
+                for (let i = 0; i < answersOfPersonByQuestion.length; i++) {
+                  const a = answersOfPersonByQuestion[i]
+                  const articleFilePath = article.filePathStem.replace(/^\//, '').replace(/\/index$/, '')
+                  if (a.data.excluded?.includes(articleFilePath)) {
+                    return false
                   }
-                  answersByPerson[personKey][categoryKey].add(answersByQuestion[questionKey][personKey][categoryKey])
+                  if (a.data.included) {
+                    for (let i = 0; i < a.data.included.length; i++) {
+                      if (a.data.included[i] === articleFilePath) {
+                        return true
+                      }
+                    }
+                    return false
+                  }
+                  return true
                 }
-              }
-            }
-          }
-        }
-      }
-      for (const personKey in answersByPerson) {
-        for (const category in answersByPerson[personKey]) {
-          if (answersByPerson[personKey]) {
-            answersByPerson[personKey][category] = [...answersByPerson[personKey][category]]
+              })
+            )
           }
         }
       }
@@ -296,6 +309,20 @@ module.exports = {
       const authorsNames = filteredAuthors.map((author) => author.fileSlug)
       const contributionStat = await getAuthorsContributionWithCache({
         authors: authorsNames,
+        // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
+        repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
+      })
+      const contributorExists = await getAuthorsExistsWithCache({
+        authors: authorsNames,
+      })
+      const contributorIDs = await getAuthorsIDsWithCache({
+        authors: authorsNames.filter((a) => (contributorExists[a] ? contributorExists[a].userCount > 0 : false)),
+        // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
+        repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
+      })
+      const contributionActions = await getActionsInRepoWithCache({
+        authors: authorsNames,
+        authorIDs: contributorIDs,
         // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
         repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
       })
@@ -392,6 +419,7 @@ module.exports = {
             totalPractices,
             totalAnswers,
             contributionStat: contributionStat[personId],
+            contributionActions: contributionActions[personId],
           }
         })
         .sort((person1, person2) => person2.totalArticles - person1.totalArticles)
