@@ -33,6 +33,19 @@ class Settings extends BaseComponent {
     this.interests = rootElement.querySelectorAll(interestFieldSelector)
     this.status = rootElement
 
+    if (
+      this.title ||
+      this.button ||
+      this.active ||
+      this.email ||
+      this.who ||
+      this.grade ||
+      this.interests ||
+      this.status
+    ) {
+      return
+    }
+
     if (hash && hash !== '') {
       const data = JSON.parse(inflation.profile.data)
       this.email.value = inflation.profile.email
@@ -68,11 +81,7 @@ class Settings extends BaseComponent {
       }
       if (data.interest) {
         this.interests.forEach((i) => {
-          if (data.interest.includes(i.value)) {
-            i.checked = true
-          } else {
-            i.checked = false
-          }
+          i.checked = !!data.interest.includes(i.value)
         })
       }
     }
@@ -134,6 +143,10 @@ class Unsubscribe extends BaseComponent {
     this.button = rootElement.querySelector('button')
     this.section = rootElement.parentElement
     this.status = rootElement
+
+    if (this.input || this.button || this.section || this.status) {
+      return
+    }
 
     if (isHidden) {
       this.section.classList.add('unsubscribe-section--hidden')
