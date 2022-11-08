@@ -11,27 +11,33 @@ class Settings extends BaseComponent {
     return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   }
 
-  constructor({ rootElement, title, emailFieldSelector, whoFieldSelector, interestFieldSelector, inflation, hash }) {
+  constructor({
+    rootElement,
+    title,
+    activeFieldSelector,
+    emailFieldSelector,
+    whoFieldSelector,
+    gradeFieldSelector,
+    interestFieldSelector,
+    inflation,
+    hash,
+  }) {
     super()
 
     this.title = document.querySelector(title)
     this.button = rootElement.querySelector('button')
+    this.active = rootElement.querySelector(activeFieldSelector)
     this.email = rootElement.querySelector(emailFieldSelector)
-    this.hash = rootElement.querySelector('input[name=hash]')
-    this.active = rootElement.querySelector('input[name=active]')
-    this.id = rootElement.querySelector('input[name=id]')
-    this.unsubscribed = rootElement.querySelector('input[name=unsubscribed]')
     this.who = rootElement.querySelectorAll(whoFieldSelector)
+    this.grade = rootElement.querySelectorAll(gradeFieldSelector)
     this.interests = rootElement.querySelectorAll(interestFieldSelector)
+    this.status = rootElement
 
-    this.hash.value = hash
     if (hash && hash !== '') {
       const data = JSON.parse(inflation.profile.data)
       this.email.value = inflation.profile.email
       this.email.parentElement.classList.add('subscribe-settings__row--hidden')
       this.active.value = data.active
-      this.id.value = inflation.profile.id
-      this.unsubscribed.value = !!data.reason
       if (data.active) {
         this.button.innerHTML = 'Сохранить'
         this.title.innerHTML = 'Настройка рассылки'
@@ -45,6 +51,15 @@ class Settings extends BaseComponent {
       if (data.who) {
         this.who.forEach((w) => {
           if (data.who === w.value) {
+            w.checked = true
+          } else {
+            w.checked = false
+          }
+        })
+      }
+      if (data.grade) {
+        this.grade.forEach((w) => {
+          if (data.grade === w.value) {
             w.checked = true
           } else {
             w.checked = false
@@ -75,12 +90,25 @@ class Settings extends BaseComponent {
     })
   }
 
+  clearStatus() {
+    this.status.classList.remove('progress')
+    this.status.classList.remove('success')
+    this.status.classList.remove('error')
+  }
+
+  progress() {
+    this.clearStatus()
+    this.status.classList.toggle('progress')
+  }
+
   success() {
-    console.log('Форма отравлена')
+    this.clearStatus()
+    this.status.classList.toggle('success')
   }
 
   error() {
-    console.log('Возникли ошибки')
+    this.clearStatus()
+    this.status.classList.toggle('error')
   }
 
   focus() {
@@ -105,6 +133,7 @@ class Unsubscribe extends BaseComponent {
     this.input = rootElement.querySelector('input')
     this.button = rootElement.querySelector('button')
     this.section = rootElement.parentElement
+    this.status = rootElement
 
     if (isHidden) {
       this.section.classList.add('unsubscribe-section--hidden')
@@ -121,12 +150,25 @@ class Unsubscribe extends BaseComponent {
     })
   }
 
+  clearStatus() {
+    this.status.classList.remove('progress')
+    this.status.classList.remove('success')
+    this.status.classList.remove('error')
+  }
+
+  progress() {
+    this.clearStatus()
+    this.status.classList.toggle('progress')
+  }
+
   success() {
-    console.log('Форма отравлена')
+    this.clearStatus()
+    this.status.classList.toggle('success')
   }
 
   error() {
-    console.log('Возникли ошибки')
+    this.clearStatus()
+    this.status.classList.toggle('error')
   }
 
   focus() {
@@ -136,13 +178,8 @@ class Unsubscribe extends BaseComponent {
 
 async function init() {
   const baseUrl = 'https://api.doka.guide'
-  const hash = window.location.search
-    ? window.location.search
-        .replace('?', '')
-        .split('&')
-        .filter((p) => p.startsWith('hash='))[0]
-        .replace('hash=', '')
-    : null
+  const params = window.location.search.replace('?', '').split('&')
+  const hash = params.length > 0 ? params.filter((p) => p.startsWith('hash='))[0]?.replace('hash=', '') : null
   const form = document.querySelector('.subscribe-page')
 
   if (!form) {
@@ -237,13 +274,17 @@ async function init() {
     return formData
   }
 
+  const inflation = hash ? await inflateForm(hash) : null
+
   const settings = new Settings({
     rootElement: settingsForm,
     title: '.subscribe-page .standalone-page__title',
+    activeFieldSelector: 'input[name=active]',
     emailFieldSelector: 'input[name=email]',
     whoFieldSelector: 'input[name=who]',
+    gradeFieldSelector: 'input[name=grade]',
     interestFieldSelector: 'input[name=interest]',
-    inflation: hash ? await inflateForm(hash) : null,
+    inflation: inflation,
     hash: hash,
   })
 
@@ -260,24 +301,13 @@ async function init() {
     if (email) {
       delete formData.email
     }
-    if (formData.hash) {
-      delete formData.hash
-    }
-    const id = formData.id
-    if (id) {
-      delete formData.id
-    }
 
-    if (formData.active || !formData.active) {
-      formData.active = true
-    }
-    if (typeof formData.unsubscribed !== 'undefined') {
-      delete formData.unsubscribed
-    }
+    formData.active = true
 
     isSending = true
+    settings.progress()
 
-    sendForm(email, formData, hash ? 'PUT' : 'POST', id)
+    sendForm(email, formData, hash ? 'PUT' : 'POST', hash ? inflation.profile.id : '')
       .then(() => {
         settings.success()
       })
@@ -293,6 +323,7 @@ async function init() {
   const formData = prepareFormData(settingsForm)
   const unsubscribe = new Unsubscribe({
     rootElement: unsubscribeForm,
+    statusSelector: '.unsubscribe__form.form-with-status',
     isHidden: !!formData.unsubscribed || !formData.active,
   })
 
@@ -305,21 +336,14 @@ async function init() {
 
     const formData = prepareFormData(settingsForm)
 
-    const unsubscribeFormData = Array.from(new FormData(unsubscribeForm)).reduce((result, field) => {
-      return {
-        ...result,
-        [field[0]]: field[1],
-      }
-    }, {})
+    const unsubscribeFormData = prepareFormData(unsubscribeForm)
     const updatedFormData = { ...formData, ...unsubscribeFormData }
     updatedFormData.active = false
-    if (updatedFormData.unsubscribed) {
-      delete updatedFormData.unsubscribed
-    }
 
     isSending = true
+    unsubscribe.progress()
 
-    sendForm(updatedFormData.email, updatedFormData, 'PUT', updatedFormData.id)
+    sendForm(updatedFormData.email, updatedFormData, 'PUT', inflation.profile.id)
       .then(() => {
         unsubscribe.success()
       })

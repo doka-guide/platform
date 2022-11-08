@@ -18,15 +18,12 @@
     <p>Дока — это гид по веб-платформе. В справочнике вы можете найти ответы на повседневные вопросы, а в рассылках мы собираем тематические подборки, советы от экспертов, авторские и партнёрские колонки.</p>
     <p>Здесь вы можете подписаться и сразу рассказать немного о себе, чтобы мы настроили рассылку под ваши интересы.</p>
 
-    <form class="subscribe-page__subscribe subscribe-settings form-with-status error" action="">
+    <form class="subscribe-page__subscribe subscribe-settings form-with-status" action="">
       <div class="subscribe-settings__row">
         <label class="subscribe-settings__label" for="email">
           Нам обязательно нужна ваша почта
         </label>
-        <input type="hidden" name="active" value="true">
-        <input type="hidden" name="hash" value="true">
-        <input type="hidden" name="id" value="0">
-        <input type="hidden" name="unsubscribed" value="false">
+        <input type="hidden" name="active" value="false">
         <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email">
         <span class="subscribe-settings__hint">Ваш e-mail</span>
       </div>
@@ -99,27 +96,27 @@
         <fieldset class="subscribe-settings__fieldset">
           <legend class="subscribe-settings__label">Ваш грейд</legend>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="student" id="noob">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="student" id="noob">
             только учусь
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="intern" id="cross">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="intern" id="cross">
             стажёр
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="back" id="cross">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="junior" id="cross">
             начинающий специалист
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="back" id="cross">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="middle" id="cross">
             специалист
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="back" id="cross">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="senior" id="cross">
             опытный специалист
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="back" id="cross">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="master" id="cross">
             высший пилотаж
           </label>
         </fieldset>
