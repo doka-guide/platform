@@ -47,6 +47,18 @@ const styles = () => {
 
 // Scripts
 
+const sw = () => {
+  return gulp
+    .src('src/sw.js')
+    .pipe(
+      esbuild({
+        target: 'es2015',
+        minify: true,
+      })
+    )
+    .pipe(gulp.dest('dist/'))
+}
+
 const scripts = () => {
   return gulp
     .src('src/scripts/index.js')
@@ -78,14 +90,14 @@ const scripts = () => {
 // Clean
 
 const clean = () => {
-  return del(['dist/styles', 'dist/scripts'])
+  return del(['dist/styles', 'dist/scripts', 'dist/sw.js'])
 }
 
 // Cache
 
 const cacheHash = () => {
   return gulp
-    .src('dist/**/*.{css,js}')
+    .src('dist/**/*.{css,js}, dist/sw.js')
     .pipe(rev())
     .pipe(gulp.dest('dist'))
     .pipe(rev.manifest('rev-manifset.json'))
@@ -158,4 +170,4 @@ const socialCards = async () => {
 exports.socialCards = socialCards
 
 // Default
-exports.default = gulp.series(clean, styles, scripts, cache)
+exports.default = gulp.series(clean, styles, scripts, sw, cache)
