@@ -102,13 +102,6 @@ async function putResInCache(cacheKey, path) {
     case '.webp':
       putInCache(cacheKey, request, new Response(await response.blob(), { headers: { 'Content-Type': 'image/webp' } }))
       break
-    case '.woff':
-      putInCache(
-        cacheKey,
-        request,
-        new Response(await response.blob(), { headers: { 'Content-Type': 'application/font-woff' } })
-      )
-      break
     case '.woff2':
       putInCache(
         cacheKey,
