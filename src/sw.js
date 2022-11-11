@@ -127,9 +127,39 @@ async function putResInCache(cacheKey, path) {
   return response
 }
 
-async function putResourcesInCache(cacheKey, pages) {
+async function putResourcesInCache(cacheKey, paths) {
+  for (let i = 0; i < paths.length; i++) {
+    await putResInCache(cacheKey, paths[i])
+  }
+}
+
+async function putPageInCache(cacheKey, page, loadRelated = true) {
+  await putResInCache(cacheKey, page)
+  if (typeof page === 'string' && page.match(/^\/(a11y|css|html|js|tools|recipes)\/.+\//)) {
+    const pageJson = await fetch(`${page}index.json`)
+    const response = await putResInCache(cacheKey, pageJson.images)
+    if (pageJson.cover) {
+      await putResInCache(cacheKey, pageJson.cover.desktop)
+      await putResInCache(cacheKey, pageJson.cover.mobile)
+    }
+    await putResInCache(cacheKey, pageJson.people.authors)
+    await putResInCache(cacheKey, pageJson.people.contributors)
+    await putResInCache(cacheKey, pageJson.people.editors)
+    await putResInCache(cacheKey, pageJson.people.coverAuthors)
+    if (loadRelated) {
+      await putPageInCache(cacheKey, pageJson.links.nextArticle, false)
+      await putPageInCache(cacheKey, pageJson.links.previousArticle, false)
+      await putPagesInCache(cacheKey, pageJson.links.relatedArticles, false)
+      await putPagesInCache(cacheKey, pageJson.links.inArticle, false)
+    }
+    return response
+  }
+  return new Response()
+}
+
+async function putPagesInCache(cacheKey, pages) {
   for (let i = 0; i < pages.length; i++) {
-    await putResInCache(cacheKey, pages[i])
+    await putPageInCache(cacheKey, pages[i])
   }
 }
 
