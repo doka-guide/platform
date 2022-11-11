@@ -55,6 +55,7 @@ const cacheSettings = {
   '.css': { dataType: 'text', headers: { 'Content-Type': 'text/css; charset=UTF-8' } },
   '.gif': { dataType: 'blob', headers: { 'Content-Type': 'image/gif' } },
   '.html': { dataType: 'text', headers: { 'Content-Type': 'text/html; charset=UTF-8' } },
+  '.ico': { dataType: 'blob', headers: { 'Content-Type': 'image/x-icon' } },
   '.jpg': { dataType: 'blob', headers: { 'Content-Type': 'image/jpeg' } },
   '.jpeg': { dataType: 'blob', headers: { 'Content-Type': 'image/jpeg' } },
   '.js': { dataType: 'text', headers: { 'Content-Type': 'application/javascript; charset=UTF-8' } },
