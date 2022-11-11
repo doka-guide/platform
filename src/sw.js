@@ -96,16 +96,16 @@ async function putInCache(cacheKey, request, response) {
 async function putInCacheWithSettings(cacheKey, request, response, extension, settings) {
   switch (settings[extension].dataType) {
     case 'blob':
-      putInCache(cacheKey, request, new Response(await response.blob(), { headers: settings[extension].headers }))
+      await putInCache(cacheKey, request, new Response(await response.blob(), { headers: settings[extension].headers }))
       break
     case 'json':
-      putInCache(cacheKey, request, new Response(await response.json(), { headers: settings[extension].headers }))
+      await putInCache(cacheKey, request, new Response(await response.json(), { headers: settings[extension].headers }))
       break
     case 'text':
-      putInCache(cacheKey, request, new Response(await response.text(), { headers: settings[extension].headers }))
+      await putInCache(cacheKey, request, new Response(await response.text(), { headers: settings[extension].headers }))
       break
     default:
-      putInCache(
+      await putInCache(
         cacheKey,
         request,
         new Response(await response.text(), { headers: { 'Content-Type': 'text/plain; charset=UTF-8' } })
