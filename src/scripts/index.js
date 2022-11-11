@@ -22,15 +22,4 @@ import './modules/practices.js'
 import './modules/person-badges.js'
 import './modules/person-badges-tooltip.js'
 import './modules/answer.js'
-
-window.addEventListener('load', async () => {
-  if (navigator.serviceWorker) {
-    try {
-      await navigator.serviceWorker.register('/sw.js', {
-        scope: '/',
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  }
-})
+import './modules/pwa.js'
