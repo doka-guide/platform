@@ -138,27 +138,32 @@ async function putResourcesInCache(cacheKey, pages) {
 async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fallbackUrl }) {
   // Игнорирует запросы на другие домены
   if (!request.url.startsWith(self.location.origin)) {
-    return
+    return new Response()
   }
 
   // Игнорирует запросы browser-sync в режиме отладки
   if (request.url.indexOf('browser-sync') > -1) {
-    return
+    return new Response()
+  }
+
+  // Игнорирует кеширование манифеста
+  if (request.url.endsWith('manifest.json')) {
+    return new Response()
   }
 
   // Игнорирует кеширование страниц, если адрес заканчивается на 'index.html'
   if (request.url.endsWith('index.html')) {
-    return
+    return new Response()
   }
 
   // Игнорирует кеширование страниц с параметрами GET запроса
   if (request.url.indexOf('.html?') > -1 || request.url.indexOf('.js?') > -1) {
-    return
+    return new Response()
   }
 
   // Игнорирует кеширование страниц с якорями
   if (request.url.indexOf('#') > -1) {
-    return
+    return new Response()
   }
 
   // Игнорирует кеширование запросов методом POST
