@@ -10,8 +10,9 @@ const dynamicCacheName = 'doka-dynamic-' + salt(CACHE_PERIOD)
 const offlinePageUrl = '/offline/'
 
 const assetsResources = [
-  '/featured.json',
+  '/fonts/graphik/graphik-medium.woff2',
   '/fonts/graphik/graphik-regular.woff2',
+  '/fonts/graphik/graphik-regular-italic.woff2',
   '/fonts/spot-mono/spot-mono-light.woff2',
   '/scripts/index.js',
   '/styles/index.css',
