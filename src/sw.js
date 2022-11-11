@@ -77,6 +77,12 @@ const cacheSettings = {
 
 // Вспомогательные функции
 
+async function enableNavigationPreload() {
+  if (self.registration.navigationPreload) {
+    await self.registration.navigationPreload.enable()
+  }
+}
+
 function getMimeType(path) {
   const extension = path.match(/\..+$/)
   return extension ? extension[0].match(/^\.[a-z0-9]{2,5}/)[0] : '.html'
@@ -85,12 +91,6 @@ function getMimeType(path) {
 async function putInCache(cacheKey, request, response) {
   const cache = await caches.open(cacheKey)
   await cache.put(request, response)
-}
-
-async function enableNavigationPreload() {
-  if (self.registration.navigationPreload) {
-    await self.registration.navigationPreload.enable()
-  }
 }
 
 async function putInCacheWithSettings(cacheKey, request, response, extension, settings) {
