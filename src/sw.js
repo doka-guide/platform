@@ -206,8 +206,8 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
 // Слушатели
 
 self.addEventListener('install', async () => {
-  putResourcesInCache(assetsCacheName, assetsResources)
-  putResourcesInCache(staticCacheName, staticPages)
+  await putResourcesInCache(assetsCacheName, assetsResources)
+  await putResourcesInCache(staticCacheName, staticPages)
 })
 
 self.addEventListener('activate', async () => {
