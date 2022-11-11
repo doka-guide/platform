@@ -98,6 +98,13 @@ async function putResInCache(cacheKey, path) {
         new Response(await response.text(), { headers: { 'Content-Type': 'application/javascript; charset=UTF-8' } })
       )
       break
+    case '.json':
+      putInCache(
+        cacheKey,
+        request,
+        new Response(await response.text(), { headers: { 'Content-Type': 'application/json; charset=UTF-8' } })
+      )
+      break
     case '.mpeg':
       putInCache(cacheKey, request, new Response(await response.blob(), { headers: { 'Content-Type': 'video/mpeg' } }))
       break
