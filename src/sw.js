@@ -49,6 +49,25 @@ const staticPages = [
   '/ylf/',
 ]
 
+const cacheSettings = {
+  '.avif': { dataType: 'blob', headers: { 'Content-Type': 'image/avif' } },
+  '.bmp': { dataType: 'blob', headers: { 'Content-Type': 'image/bmp' } },
+  '.css': { dataType: 'text', headers: { 'Content-Type': 'text/css; charset=UTF-8' } },
+  '.gif': { dataType: 'blob', headers: { 'Content-Type': 'image/gif' } },
+  '.html': { dataType: 'text', headers: { 'Content-Type': 'text/html; charset=UTF-8' } },
+  '.jpg': { dataType: 'blob', headers: { 'Content-Type': 'image/jpeg' } },
+  '.jpeg': { dataType: 'blob', headers: { 'Content-Type': 'image/jpeg' } },
+  '.js': { dataType: 'text', headers: { 'Content-Type': 'application/javascript; charset=UTF-8' } },
+  '.json': { dataType: 'json', headers: { 'Content-Type': 'application/json; charset=UTF-8' } },
+  '.mpeg': { dataType: 'blob', headers: { 'Content-Type': 'video/mpeg' } },
+  '.mp4': { dataType: 'blob', headers: { 'Content-Type': 'video/mp4' } },
+  '.png': { dataType: 'blob', headers: { 'Content-Type': 'image/png' } },
+  '.svg': { dataType: 'text', headers: { 'Content-Type': 'image/svg+xml; charset=UTF-8' } },
+  '.tiff': { dataType: 'blob', headers: { 'Content-Type': 'image/tiff' } },
+  '.webp': { dataType: 'blob', headers: { 'Content-Type': 'image/webp' } },
+  '.woff2': { dataType: 'blob', headers: { 'Content-Type': 'application/font-woff2' } },
+}
+
 // Вспомогательные функции
 
 function getMimeType(path) {
@@ -67,81 +86,26 @@ async function enableNavigationPreload() {
   }
 }
 
+async function getCacheSettings(cacheKey, request, response, extension, settings) {
+  let resp
+  switch (settings[extension].dataType) {
+    case 'blob':
+      resp = new Response(await response.text(), { headers: settings[extension].headers })
+      break
+    case 'json':
+      resp = new Response(await response.text(), { headers: settings[extension].headers })
+      break
+    case 'text':
+      resp = new Response(await response.json(), { headers: settings[extension].headers })
+      break
+  }
+  putInCache(cacheKey, request, resp)
+}
+
 async function putResInCache(cacheKey, path) {
   const request = new Request(path)
   const response = await fetch(request)
-  switch (getMimeType(path)) {
-    case '.avif':
-      putInCache(cacheKey, request, new Response(await response.blob(), { headers: { 'Content-Type': 'image/avif' } }))
-      break
-    case '.bmp':
-      putInCache(cacheKey, request, new Response(await response.blob(), { headers: { 'Content-Type': 'image/bmp' } }))
-      break
-    case '.css':
-      putInCache(
-        cacheKey,
-        request,
-        new Response(await response.text(), { headers: { 'Content-Type': 'text/css; charset=UTF-8' } })
-      )
-      break
-    case '.gif':
-      putInCache(cacheKey, request, new Response(await response.blob(), { headers: { 'Content-Type': 'image/gif' } }))
-      break
-    case '.jpg':
-    case '.jpeg':
-      putInCache(cacheKey, request, new Response(await response.blob(), { headers: { 'Content-Type': 'image/jpeg' } }))
-      break
-    case '.js':
-      putInCache(
-        cacheKey,
-        request,
-        new Response(await response.text(), { headers: { 'Content-Type': 'application/javascript; charset=UTF-8' } })
-      )
-      break
-    case '.json':
-      putInCache(
-        cacheKey,
-        request,
-        new Response(await response.text(), { headers: { 'Content-Type': 'application/json; charset=UTF-8' } })
-      )
-      break
-    case '.mpeg':
-      putInCache(cacheKey, request, new Response(await response.blob(), { headers: { 'Content-Type': 'video/mpeg' } }))
-      break
-    case '.mp4':
-      putInCache(cacheKey, request, new Response(await response.blob(), { headers: { 'Content-Type': 'video/mp4' } }))
-      break
-    case '.png':
-      putInCache(cacheKey, request, new Response(await response.blob(), { headers: { 'Content-Type': 'image/png' } }))
-      break
-    case '.svg':
-      putInCache(
-        cacheKey,
-        request,
-        new Response(await response.text(), { headers: { 'Content-Type': 'image/svg+xml; charset=UTF-8' } })
-      )
-      break
-    case '.tiff':
-      putInCache(cacheKey, request, new Response(await response.blob(), { headers: { 'Content-Type': 'image/tiff' } }))
-      break
-    case '.webp':
-      putInCache(cacheKey, request, new Response(await response.blob(), { headers: { 'Content-Type': 'image/webp' } }))
-      break
-    case '.woff2':
-      putInCache(
-        cacheKey,
-        request,
-        new Response(await response.blob(), { headers: { 'Content-Type': 'application/font-woff2' } })
-      )
-      break
-    default:
-      putInCache(
-        cacheKey,
-        request,
-        new Response(await response.text(), { headers: { 'Content-Type': 'text/html; charset=UTF-8' } })
-      )
-      break
-  }
+  await getCacheSettings(cacheKey, request, response, getMimeType(path), cacheSettings)
   return response
 }
 
