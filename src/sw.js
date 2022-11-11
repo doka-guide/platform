@@ -1,6 +1,11 @@
-const assetsCacheName = 'doka-assets-v1'
-const staticCacheName = 'doka-static-v1'
-const dynamicCacheName = 'doka-dynamic-v1'
+// Кеш сохраняется раз в два дня
+const CACHE_PERIOD = 2
+const salt = (cachePeriod) => {
+  return new Date().getUTCDate() % cachePeriod >= cachePeriod / 2 ? 'even' : 'odd'
+}
+const assetsCacheName = 'doka-assets-' + salt(CACHE_PERIOD)
+const staticCacheName = 'doka-static-' + salt(CACHE_PERIOD)
+const dynamicCacheName = 'doka-dynamic-' + salt(CACHE_PERIOD)
 
 const offlinePageUrl = '/offline/'
 
