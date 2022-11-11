@@ -87,26 +87,37 @@ async function enableNavigationPreload() {
   }
 }
 
-async function getCacheSettings(cacheKey, request, response, extension, settings) {
-  let resp
+async function putInCacheWithSettings(cacheKey, request, response, extension, settings) {
   switch (settings[extension].dataType) {
     case 'blob':
-      resp = new Response(await response.text(), { headers: settings[extension].headers })
+      putInCache(cacheKey, request, new Response(await response.blob(), { headers: settings[extension].headers }))
       break
     case 'json':
-      resp = new Response(await response.text(), { headers: settings[extension].headers })
+      putInCache(cacheKey, request, new Response(await response.json(), { headers: settings[extension].headers }))
       break
     case 'text':
-      resp = new Response(await response.json(), { headers: settings[extension].headers })
+      putInCache(cacheKey, request, new Response(await response.text(), { headers: settings[extension].headers }))
+      break
+    default:
+      putInCache(
+        cacheKey,
+        request,
+        new Response(await response.text(), { headers: { 'Content-Type': 'text/plain; charset=UTF-8' } })
+      )
       break
   }
-  putInCache(cacheKey, request, resp)
+}
+
+async function cloneResponseInCache(cacheKey, path, preloadResponse) {
+  const request = new Request(path)
+  const response = preloadResponse.clone()
+  await putInCacheWithSettings(cacheKey, request, response, getMimeType(path), cacheSettings)
 }
 
 async function putResInCache(cacheKey, path) {
   const request = new Request(path)
   const response = await fetch(request)
-  await getCacheSettings(cacheKey, request, response, getMimeType(path), cacheSettings)
+  await putInCacheWithSettings(cacheKey, request, response, getMimeType(path), cacheSettings)
   return response
 }
 
@@ -135,7 +146,7 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
     // Пробует воспользоваться предварительно загруженным ресурсом, если не получилось загрузить из кеша
     const preloadResponse = await preloadResponsePromise
     if (preloadResponse) {
-      putInCache(cacheKey, request, preloadResponse.clone())
+      cloneResponseInCache(cacheKey, request.url, preloadResponse)
       return preloadResponse
     }
 
