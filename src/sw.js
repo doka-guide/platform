@@ -84,7 +84,7 @@ async function enableNavigationPreload() {
 }
 
 function getMimeType(path) {
-  const extension = path.match(/\..+$/)
+  const extension = typeof path === 'string' ? path.match(/\..+$/) : undefined
   return extension ? extension[0].match(/^\.[a-z0-9]{2,5}/)[0] : '.html'
 }
 
