@@ -20,6 +20,10 @@
   transition: 0.2s;
 }
 
+.offline .article-heading__link::after {
+  display: none;
+}
+
 @media (hover: hover) {
   .article-heading:not(:hover) .article-heading__link:not(:focus) {
     opacity: 0;
