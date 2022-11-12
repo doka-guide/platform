@@ -157,14 +157,18 @@ module.exports = {
             .split(randomString)
         })
         .flat()
-      const links = sources.filter((l) => /^\[/.test(l)).map((l) => l.replace(/\[.*\]\(/, '').replace(/\)$/, ''))
-      const images = sources.filter((i) => /^!\[/.test(i)).map((i) => i.replace(/!\[.*\]\(/, '').replace(/\)$/, ''))
+      const links = sources
+        .filter((link) => /^\[/.test(link))
+        .map((link) => link.replace(/\[.*\]\(/, '').replace(/\)$/, ''))
+      const images = sources
+        .filter((img) => /^!\[/.test(img))
+        .map((img) => img.replace(/!\[.*\]\(/, '').replace(/\)$/, ''))
       return {
         links: {
-          inside: links.filter((l) => l.match(/^\//)),
-          outside: links.filter((l) => l.match(/^http/)),
+          inside: links.filter((link) => link.match(/^\//)),
+          outside: links.filter((link) => link.match(/^http/)),
         },
-        images: images,
+        images: images.map((img) => `${data.docPath}${img}`),
       }
     },
 
