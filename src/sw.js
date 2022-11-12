@@ -86,7 +86,12 @@ async function enableNavigationPreload() {
 
 function getMimeType(path) {
   const extension = typeof path === 'string' ? path.match(/\..+$/) : undefined
-  return extension ? extension[0].match(/^\.[a-z0-9]{2,5}/)[0] : '.html'
+  if (extension && Array.isArray(extension) && typeof extension[0] === 'string') {
+    const matches = extension[0].match(/^\.[a-z0-9]{2,5}/)
+    return matches ? matches[0] : ''
+  } else {
+    return '.html'
+  }
 }
 
 async function putInCache(cacheKey, request, response) {
