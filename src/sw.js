@@ -184,9 +184,13 @@ async function putPageInCache(cacheKey, page, loadRelated = true) {
   return response
 }
 
-async function putPagesInCache(cacheKey, pages) {
-  for (let i = 0; i < pages.length; i++) {
-    await putPageInCache(cacheKey, pages[i])
+async function putPagesInCache(cacheKey, pages, loadRelated = true) {
+  if (Array.isArray(pages)) {
+    for (let i = 0; i < pages.length; i++) {
+      if (!(await caches.match(new Request(pages[i])))) {
+        await putPageInCache(cacheKey, pages[i], loadRelated)
+      }
+    }
   }
 }
 
