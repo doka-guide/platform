@@ -6,6 +6,7 @@ const salt = (cachePeriod) => {
 const assetsCacheName = 'doka-assets-' + salt(CACHE_PERIOD)
 const staticCacheName = 'doka-static-' + salt(CACHE_PERIOD)
 const dynamicCacheName = 'doka-dynamic-' + salt(CACHE_PERIOD)
+const syncFeaturedCacheName = 'doka-sync-featured-' + salt(CACHE_PERIOD)
 
 const offlinePageUrl = '/offline/'
 
@@ -261,6 +262,21 @@ self.addEventListener('activate', async () => {
       .filter((name) => name !== dynamicCacheName)
       .map((name) => caches.delete(name))
   )
+})
+
+self.addEventListener('sync', async (event) => {
+  const cacheNames = await caches.keys()
+
+  if (event.tag === syncFeaturedCacheName && !cacheNames.includes(syncFeaturedCacheName)) {
+    const response = await fetch('/featured.json')
+    const featured = await response.json()
+
+    await putPagesInCache(
+      syncFeaturedCacheName,
+      featured.map((f) => f.link),
+      false
+    )
+  }
 })
 
 self.addEventListener('fetch', async (event) => {
