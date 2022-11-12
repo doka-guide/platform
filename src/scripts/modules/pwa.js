@@ -39,6 +39,9 @@ window.addEventListener('load', async () => {
       navigator.serviceWorker.ready.then((registration) => {
         requestBackgroundSync(syncFeaturedCacheName, registration)
       })
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.active.postMessage(window.location.pathname)
+      })
     } catch (error) {
       console.error(error)
     }

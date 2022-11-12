@@ -304,6 +304,10 @@ self.addEventListener('sync', async (event) => {
   }
 })
 
+self.addEventListener('message', async (event) => {
+  await putPageInCache(dynamicCacheName, event.data)
+})
+
 self.addEventListener('fetch', async (event) => {
   event.respondWith(
     cacheStrategyImpl({
