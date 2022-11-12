@@ -100,23 +100,37 @@ async function putInCache(cacheKey, request, response) {
 }
 
 async function putInCacheWithSettings(cacheKey, request, response, extension, settings) {
-  switch (settings[extension].dataType) {
-    case 'blob':
-      await putInCache(cacheKey, request, new Response(await response.blob(), { headers: settings[extension].headers }))
-      break
-    case 'json':
-      await putInCache(cacheKey, request, new Response(await response.json(), { headers: settings[extension].headers }))
-      break
-    case 'text':
-      await putInCache(cacheKey, request, new Response(await response.text(), { headers: settings[extension].headers }))
-      break
-    default:
-      await putInCache(
-        cacheKey,
-        request,
-        new Response(await response.text(), { headers: { 'Content-Type': 'text/plain; charset=UTF-8' } })
-      )
-      break
+  if (settings && settings[extension] && settings[extension].dataType) {
+    switch (settings[extension].dataType) {
+      case 'blob':
+        await putInCache(
+          cacheKey,
+          request,
+          new Response(await response.blob(), { headers: settings[extension].headers })
+        )
+        break
+      case 'json':
+        await putInCache(
+          cacheKey,
+          request,
+          new Response(await response.json(), { headers: settings[extension].headers })
+        )
+        break
+      case 'text':
+        await putInCache(
+          cacheKey,
+          request,
+          new Response(await response.text(), { headers: settings[extension].headers })
+        )
+        break
+      default:
+        await putInCache(
+          cacheKey,
+          request,
+          new Response(await response.text(), { headers: { 'Content-Type': 'text/plain; charset=UTF-8' } })
+        )
+        break
+    }
   }
 }
 
