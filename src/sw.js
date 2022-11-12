@@ -145,16 +145,20 @@ async function putPageInCache(cacheKey, page, loadRelated = true) {
       await putResInCache(cacheKey, pageJson.cover.mobile)
     }
     if (pageJson.people) {
-      await putPagesInCache(cacheKey, pageJson.people.authors)
-      await putPagesInCache(cacheKey, pageJson.people.contributors)
-      await putPagesInCache(cacheKey, pageJson.people.editors)
-      await putPagesInCache(cacheKey, pageJson.people.coverAuthors)
+      await putResInCache(cacheKey, pageJson.people.authors)
+      await putResInCache(cacheKey, pageJson.people.contributors)
+      await putResInCache(cacheKey, pageJson.people.editors)
+      await putResInCache(cacheKey, pageJson.people.coverAuthors)
     }
-    if (loadRelated) {
+    if (loadRelated && pageJson.links) {
+      await putPagesInCache(
+        cacheKey,
+        pageJson.links.inArticle.inside.filter((l) => !l.match('#')),
+        false
+      )
       await putPageInCache(cacheKey, pageJson.links.nextArticle, false)
       await putPageInCache(cacheKey, pageJson.links.previousArticle, false)
       await putPagesInCache(cacheKey, pageJson.links.relatedArticles, false)
-      await putPagesInCache(cacheKey, pageJson.links.inArticle.inside, false)
     }
   }
   return response
