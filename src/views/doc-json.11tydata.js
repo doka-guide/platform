@@ -49,10 +49,10 @@ module.exports = {
       const { doc } = data
       const cover = doc.data.cover
       if (cover && cover.mobile) {
-        cover['mobile'] = `${data.docPath.replace(/\/$/, '')}cover.mobile`
+        cover['mobile'] = `${data.docPath}${cover.mobile}`
       }
       if (cover && cover.desktop) {
-        cover['desktop'] = `${data.docPath.replace(/\/$/, '')}cover.desktop`
+        cover['desktop'] = `${data.docPath}${cover.desktop}`
       }
       return cover
     },
