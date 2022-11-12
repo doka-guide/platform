@@ -38,15 +38,23 @@
   filter: invert(calc(var(--is-dark-theme-on) * 1));
 }
 
-.link--cached::after {
+.online .link--cached::after {
+  display: none;
+}
+
+.offline .link--cached::after {
   background-image: url('/images/assets/cached-link.svg');
 }
 
-.link--non-cached {
+.online .link--non-cached::after {
+  display: none;
+}
+
+.offline .link--non-cached {
   color: hsla(var(--color-base-text) / var(--cached-opacity));
 }
 
-.link--non-cached::after {
+.offline .link--non-cached::after {
   background-image: url('/images/assets/non-cached-link.svg');
   opacity: var(--cached-opacity);
 }
