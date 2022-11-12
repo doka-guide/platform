@@ -8,6 +8,7 @@
   --stroke-opacity: 0.3;
   --text-color: hsl(var(--color-base-text));
   --stroke-color: hsl(var(--color-base-text) / var(--stroke-opacity));
+  --cached-opacity: 0.6;
 
   color: var(--text-color);
   text-decoration-line: underline;
@@ -20,4 +21,32 @@
 
 .link:hover {
   --stroke-opacity: 0.1;
+}
+
+.online .link::after {
+  display: none;
+}
+
+.offline .link::after {
+  content: ' ';
+  display: inline-block;
+  height: 0.9em;
+  width: 0.9em;
+  background-size: 0.9em;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: invert(calc(var(--is-dark-theme-on) * 1));
+}
+
+.link--cached::after {
+  background-image: url('/images/assets/cached-link.svg');
+}
+
+.link--non-cached {
+  color: hsla(var(--color-base-text) / var(--cached-opacity));
+}
+
+.link--non-cached::after {
+  background-image: url('/images/assets/non-cached-link.svg');
+  opacity: var(--cached-opacity);
 }
