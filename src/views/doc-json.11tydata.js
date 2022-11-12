@@ -20,6 +20,16 @@ function transformArticleData(article) {
   return `/${section}/${article.fileSlug}/`
 }
 
+function getRandomString(length) {
+  let result = ''
+  let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let charactersLength = characters.length
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
+  }
+  return result
+}
+
 module.exports = {
   pagination: {
     data: 'collections.docs',
@@ -134,7 +144,8 @@ module.exports = {
 
     linksAndImages: function (data) {
       const { doc } = data
-      const pattern = /(!|)\[.+\]\([A-Za-zА-Яа-я0-9_/.:#?&-]+\)/g
+      const randomString = getRandomString(20)
+      const pattern = /(!|)\[.*\]\([A-Za-zА-Яа-я0-9_/.:#?&-]+\)/g
       const sources = doc.template.inputContent
         .split('\n')
         .filter((string) => pattern.test(string))
@@ -142,12 +153,12 @@ module.exports = {
           return string
             .match(pattern)[0]
             .split(/\).+\[/)
-            .join('),[')
-            .split(',')
+            .join(`)${randomString}[`)
+            .split(randomString)
         })
         .flat()
-      const links = sources.filter((l) => /^\[/.test(l)).map((l) => l.replace(/\[.+\]\(/, '').replace(/\)$/, ''))
-      const images = sources.filter((i) => /^!\[/.test(i)).map((i) => i.replace(/!\[.+\]\(/, '').replace(/\)$/, ''))
+      const links = sources.filter((l) => /^\[/.test(l)).map((l) => l.replace(/\[.*\]\(/, '').replace(/\)$/, ''))
+      const images = sources.filter((i) => /^!\[/.test(i)).map((i) => i.replace(/!\[.*\]\(/, '').replace(/\)$/, ''))
       return {
         links: {
           inside: links.filter((l) => l.match(/^\//)),
