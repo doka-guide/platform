@@ -18,6 +18,8 @@ const assetsResources = [
   '/scripts/index.js',
   '/styles/index.css',
   '/styles/dark-theme.css',
+  '/images/assets/cached-link.svg',
+  '/images/assets/non-cached-link.svg',
   '/images/logo/logo-offline.svg',
   '/images/partners/practicum.svg',
   '/images/partners/practicum-icon.svg',
