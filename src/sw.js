@@ -179,6 +179,11 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
     return new Response()
   }
 
+  // Игнорирует кеширование Service Worker
+  if (request.url.endsWith('sw.js')) {
+    return new Response()
+  }
+
   // Игнорирует кеширование манифеста
   if (request.url.endsWith('manifest.json')) {
     return new Response()
