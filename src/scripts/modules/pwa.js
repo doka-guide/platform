@@ -4,6 +4,25 @@ const salt = (cachePeriod) => {
 }
 const syncFeaturedCacheName = 'doka-sync-featured-' + salt(CACHE_PERIOD)
 
+const ONLINE_STATE_CLASS = 'online'
+const OFFLINE_STATE_CLASS = 'offline'
+const CACHED_LINK_CLASS = 'link--cached'
+const NON_CACHED_LINK_CLASS = 'link--non-cached'
+
+function setLinksMarked() {
+  document.querySelector('body').classList.add(ONLINE_STATE_CLASS)
+  const links = document.querySelectorAll('a')
+  links.forEach(async (l) => {
+    const request = new Request(l.href)
+    const isCached = await caches.match(request)
+    if (isCached) {
+      l.classList.add(CACHED_LINK_CLASS)
+    } else {
+      l.classList.add(NON_CACHED_LINK_CLASS)
+    }
+  })
+}
+
 async function requestBackgroundSync(cacheKey, registration) {
   if (registration.sync) {
     const registration = await navigator.serviceWorker.ready
@@ -24,4 +43,15 @@ window.addEventListener('load', async () => {
       console.error(error)
     }
   }
+  setLinksMarked()
+})
+
+window.addEventListener('online', async () => {
+  document.querySelector('body').classList.add(ONLINE_STATE_CLASS)
+  document.querySelector('body').classList.remove(OFFLINE_STATE_CLASS)
+})
+
+window.addEventListener('offline', async () => {
+  document.querySelector('body').classList.add(OFFLINE_STATE_CLASS)
+  document.querySelector('body').classList.remove(ONLINE_STATE_CLASS)
 })
