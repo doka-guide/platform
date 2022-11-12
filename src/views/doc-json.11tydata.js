@@ -47,7 +47,14 @@ module.exports = {
 
     cover: function (data) {
       const { doc } = data
-      return doc.data.cover
+      const cover = doc.data.cover
+      if (cover && cover.mobile) {
+        cover['mobile'] = `${data.docPath.replace(/\/$/, '')}cover.mobile`
+      }
+      if (cover && cover.desktop) {
+        cover['desktop'] = `${data.docPath.replace(/\/$/, '')}cover.desktop`
+      }
+      return cover
     },
 
     description: function (data) {
