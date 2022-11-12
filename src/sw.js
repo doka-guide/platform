@@ -134,27 +134,30 @@ async function putResourcesInCache(cacheKey, paths) {
 }
 
 async function putPageInCache(cacheKey, page, loadRelated = true) {
-  await putResInCache(cacheKey, page)
+  const response = await putResInCache(cacheKey, page)
   if (typeof page === 'string' && page.match(/^\/(a11y|css|html|js|tools|recipes)\/.+\//)) {
-    const pageJson = await fetch(`${page}index.json`)
-    const response = await putResInCache(cacheKey, pageJson.images)
+    const pageJson = await (await fetch(`${page}index.json`)).json()
+    if (pageJson.images) {
+      await putResourcesInCache(cacheKey, pageJson.images)
+    }
     if (pageJson.cover) {
       await putResInCache(cacheKey, pageJson.cover.desktop)
       await putResInCache(cacheKey, pageJson.cover.mobile)
     }
-    await putResInCache(cacheKey, pageJson.people.authors)
-    await putResInCache(cacheKey, pageJson.people.contributors)
-    await putResInCache(cacheKey, pageJson.people.editors)
-    await putResInCache(cacheKey, pageJson.people.coverAuthors)
+    if (pageJson.people) {
+      await putPagesInCache(cacheKey, pageJson.people.authors)
+      await putPagesInCache(cacheKey, pageJson.people.contributors)
+      await putPagesInCache(cacheKey, pageJson.people.editors)
+      await putPagesInCache(cacheKey, pageJson.people.coverAuthors)
+    }
     if (loadRelated) {
       await putPageInCache(cacheKey, pageJson.links.nextArticle, false)
       await putPageInCache(cacheKey, pageJson.links.previousArticle, false)
       await putPagesInCache(cacheKey, pageJson.links.relatedArticles, false)
-      await putPagesInCache(cacheKey, pageJson.links.inArticle, false)
+      await putPagesInCache(cacheKey, pageJson.links.inArticle.inside, false)
     }
-    return response
   }
-  return new Response()
+  return response
 }
 
 async function putPagesInCache(cacheKey, pages) {
