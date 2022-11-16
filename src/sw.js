@@ -222,11 +222,6 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
     return new Response()
   }
 
-  // Игнорирует кеширование страниц, если адрес заканчивается на 'index.html'
-  if (request.url.endsWith('index.html')) {
-    return new Response()
-  }
-
   // Игнорирует кеширование страниц с параметрами GET запроса
   if (request.url.indexOf('.html?') > -1 || request.url.indexOf('.js?') > -1) {
     return new Response()
@@ -248,17 +243,24 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
     return responseFromCache
   }
 
+  let requestUrl = request.url
+
+  // Обрабатывает URL для кеширование страниц, если адрес заканчивается на 'index.html'
+  if (request.url.endsWith('index.html')) {
+    requestUrl = requestUrl.replace('index.html', '')
+  }
+
   // Пробует получить ресурс из сети, если не получилось загрузить из кеша
   try {
     // Пробует воспользоваться предварительно загруженным ресурсом, если не получилось загрузить из кеша
     const preloadResponse = await preloadResponsePromise
     if (preloadResponse) {
-      cloneResponseInCache(cacheKey, request.url, preloadResponse)
+      cloneResponseInCache(cacheKey, requestUrl, preloadResponse)
       return preloadResponse
     }
 
     // Запрашиваемый пользователем ресурс загружается и помещается в кеш
-    return putResInCache(cacheKey, request.url)
+    return putResInCache(cacheKey, requestUrl)
   } catch (error) {
     // Если ресурс загрузить не получилось, показывается страница с уведомлением об отсутствии сети
     const fallbackResponse = await caches.match(fallbackUrl)
