@@ -97,7 +97,7 @@ const clean = () => {
 
 const cacheHash = () => {
   return gulp
-    .src('dist/**/*.{css,js}, dist/sw.js')
+    .src('dist/**/*.{css,js}')
     .pipe(rev())
     .pipe(gulp.dest('dist'))
     .pipe(rev.manifest('rev-manifset.json'))
