@@ -162,6 +162,9 @@ async function putPageInCache(cacheKey, page, loadRelated = true) {
     if (pageJson.images) {
       await putResourcesInCache(cacheKey, pageJson.images)
     }
+    if (pageJson.demos) {
+      await putPagesInCache(cacheKey, pageJson.demos, false)
+    }
     if (pageJson.cover) {
       await putResInCache(cacheKey, pageJson.cover.desktop)
       await putResInCache(cacheKey, pageJson.cover.mobile)

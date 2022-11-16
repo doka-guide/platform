@@ -179,6 +179,17 @@ module.exports = {
       }
     },
 
+    demos: function (data) {
+      const { doc } = data
+      const matches = doc.template.inputContent.match(/<iframe.+<\/iframe>/g)
+      return matches
+        ? matches.map((iframe) => {
+            const src = iframe.match(/src=".+" /)
+            return src ? src[0].replace('src="', '').replace('" ', '') : [...[]]
+          })
+        : []
+    },
+
     docJson: function (data) {
       return {
         name: data.title,
@@ -201,6 +212,7 @@ module.exports = {
           coverAuthors: data.coverAuthors,
         },
         images: data.linksAndImages.images,
+        demos: data.demos,
         links: {
           inArticle: data.linksAndImages.links,
           nextArticle: data.nextArticle,
