@@ -2,25 +2,18 @@
  * Скрипт для обрезки длины заголовка секции в боковой навигации
  */
 
-const tocLinks = Array.from(document.querySelectorAll('.toc__link'))
-const strLength = 80
+const tocLinks = document.querySelectorAll('.toc__link')
+const MAX_LENGTH = 10
 
-const clipContent = (linksArray, finalLength) => {
+const clipContent = (linksArray, maxLength) => {
   linksArray.forEach((link) => {
-    let tmpString = ''
-    if (link.textContent.length > finalLength) {
-      let stringArray = link.textContent.trim().replace(/\s+/g, ' ').split(' ')
-      for (let i in stringArray) {
-        if (tmpString.length <= finalLength) {
-          tmpString += stringArray[i] + ' '
-        } else {
-          break
-        }
-      }
+    let wordsArray = link.textContent.trim().replace(/\s+/g, ' ').split(' ')
 
-      link.textContent = `${tmpString.trim()}…`
+    if (wordsArray.length > maxLength) {
+      const croppedString = wordsArray.slice(0, maxLength).join(' ')
+      link.textContent = `${croppedString}…`
     }
   })
 }
 
-clipContent(tocLinks, strLength)
+clipContent(tocLinks, MAX_LENGTH)
