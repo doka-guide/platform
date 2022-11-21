@@ -3,15 +3,20 @@
  */
 
 const tocLinks = document.querySelectorAll('.toc__link')
-const MAX_LENGTH = 10
+const MAX_LENGTH = 90
 
 const clipContent = (linksArray, maxLength) => {
   linksArray.forEach((link) => {
-    let wordsArray = link.textContent.trim().replace(/\s+/g, ' ').split(' ')
+    const linkText = link.textContent.trim().replace(/\s+/g, ' ')
 
-    if (wordsArray.length > maxLength) {
-      const croppedString = wordsArray.slice(0, maxLength).join(' ')
-      link.textContent = `${croppedString}…`
+    if (linkText.length > maxLength) {
+      let linkTextArr = linkText.split(' ')
+
+      while (linkTextArr.join(' ').length > maxLength) {
+        linkTextArr.pop()
+      }
+
+      link.textContent = `${linkTextArr.join(' ')}…`
     }
   })
 }
