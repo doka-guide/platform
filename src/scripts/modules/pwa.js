@@ -30,7 +30,23 @@ async function requestBackgroundSync(cacheKey, registration) {
   }
 }
 
+function setNetworkStatus() {
+  document.querySelector('body').classList.add(ONLINE_STATE_CLASS)
+
+  window.addEventListener('online', async () => {
+    document.querySelector('body').classList.add(ONLINE_STATE_CLASS)
+    document.querySelector('body').classList.remove(OFFLINE_STATE_CLASS)
+  })
+
+  window.addEventListener('offline', async () => {
+    document.querySelector('body').classList.add(OFFLINE_STATE_CLASS)
+    document.querySelector('body').classList.remove(ONLINE_STATE_CLASS)
+  })
+}
+
 window.addEventListener('load', async () => {
+  setNetworkStatus()
+
   if (navigator.serviceWorker) {
     try {
       await navigator.serviceWorker.register('/sw.js', {
@@ -47,14 +63,4 @@ window.addEventListener('load', async () => {
     }
   }
   setLinksMarked()
-})
-
-window.addEventListener('online', async () => {
-  document.querySelector('body').classList.add(ONLINE_STATE_CLASS)
-  document.querySelector('body').classList.remove(OFFLINE_STATE_CLASS)
-})
-
-window.addEventListener('offline', async () => {
-  document.querySelector('body').classList.add(OFFLINE_STATE_CLASS)
-  document.querySelector('body').classList.remove(ONLINE_STATE_CLASS)
 })
