@@ -48,7 +48,10 @@ window.addEventListener('load', async () => {
   setNetworkStatus()
   setLinksMarked()
 
-  if (navigator.serviceWorker) {
+  if (
+    (!window.location.origin.startsWith('http://localhost') || localStorage.getItem('DOKA_MODE') === 'DEBUG') &&
+    navigator.serviceWorker
+  ) {
     try {
       await navigator.serviceWorker.register('/sw.js', {
         scope: '/',
