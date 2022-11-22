@@ -23,13 +23,6 @@ function setLinksMarked() {
   })
 }
 
-async function requestBackgroundSync(cacheKey, registration) {
-  if (registration.sync) {
-    const registration = await navigator.serviceWorker.ready
-    await registration.sync.register(cacheKey)
-  }
-}
-
 function setNetworkStatus() {
   document.querySelector('body').classList.add(ONLINE_STATE_CLASS)
 
@@ -44,8 +37,16 @@ function setNetworkStatus() {
   })
 }
 
+async function requestBackgroundSync(cacheKey, registration) {
+  if (registration.sync) {
+    const registration = await navigator.serviceWorker.ready
+    await registration.sync.register(cacheKey)
+  }
+}
+
 window.addEventListener('load', async () => {
   setNetworkStatus()
+  setLinksMarked()
 
   if (navigator.serviceWorker) {
     try {
@@ -62,5 +63,4 @@ window.addEventListener('load', async () => {
       console.error(error)
     }
   }
-  setLinksMarked()
 })
