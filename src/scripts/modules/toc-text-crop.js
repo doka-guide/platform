@@ -22,3 +22,8 @@ const clipContent = (linksArray, maxLength) => {
 }
 
 clipContent(tocLinks, MAX_LENGTH)
+
+module.exports = {
+  MAX_LENGTH,
+  clipContent,
+}
