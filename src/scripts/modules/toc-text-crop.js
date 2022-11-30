@@ -10,13 +10,11 @@ const clipContent = (linksArray, maxLength) => {
     const linkText = link.textContent.trim().replace(/\s+/g, ' ')
 
     if (linkText.length > maxLength) {
-      let linkTextArr = linkText.split(' ')
+      const linkTextCropped = linkText.substr(0, maxLength)
+      const indexOfLastSpace = linkTextCropped.lastIndexOf(' ')
+      const resultText = linkTextCropped.slice(0, indexOfLastSpace)
 
-      while (linkTextArr.join(' ').length > maxLength) {
-        linkTextArr.pop()
-      }
-
-      link.textContent = `${linkTextArr.join(' ')}…`
+      link.textContent = `${resultText}…`
     }
   })
 }
