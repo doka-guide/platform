@@ -20,4 +20,7 @@
   --color-tools: hsl(122 56% 23%);
   --color-recipes: hsl(276 39% 32%);
   --color-a11y: hsl(162 95% 15%);
+
+  --color-green: 124, 46%, 29%;
+  --color-red: 360 100% 28%;
 }

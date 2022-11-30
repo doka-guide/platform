@@ -1,0 +1,158 @@
+{% from "blocks/header.njk" import header with context %}
+{% from "blocks/footer.njk" import footer with context %}
+
+{{ header(
+  title=title,
+  isLogoContrastColor=isLogoContrastColor
+) }}
+
+<main class="subscribe-page standalone-page">
+  <div class="standalone-page__header">
+    <div class="standalone-page__wrapper">
+      <h1 class="standalone-page__title">
+        Рассылка от Доки
+      </h1>
+    </div>
+  </div>
+  <div class="standalone-page__content standalone-page__wrapper content">
+    <p>Дока — это гид по веб-платформе. В справочнике вы можете найти ответы на повседневные вопросы, а в рассылках мы собираем тематические подборки, советы от экспертов, авторские и партнёрские колонки.</p>
+    <p>Здесь вы можете подписаться и сразу рассказать немного о себе, чтобы мы настроили рассылку под ваши интересы.</p>
+
+    <form class="subscribe-page__subscribe subscribe-settings form-with-status" action="">
+      <div class="subscribe-settings__row">
+        <label class="subscribe-settings__label" for="email">
+          Нам обязательно нужна ваша почта
+        </label>
+        <input type="hidden" name="active" value="false">
+        <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email">
+        <span class="subscribe-settings__hint">Ваш e-mail</span>
+      </div>
+      <div class="subscribe-settings__row">
+        <fieldset class="subscribe-settings__fieldset">
+          <legend class="subscribe-settings__label">Как вы связаны с веб-разработкой?</legend>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="front" id="noob">
+            фронтенд-разработчик
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="back" id="cross">
+            бэкенд-разработчик
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="full" id="junior">
+            фуллстек-разработчик
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="designer" id="middle">
+            дизайнер
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="qa" id="sinior">
+            QA
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="devops" id="teamlead">
+            DevOps
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="devrel" id="architect">
+            DevRel
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="teamlead" id="nobody">
+            тимлид
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="manager" id="nobody">
+            менеджер продукта или проектов
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="engineer" id="nobody">
+            engineering manager
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="analysis" id="nobody">
+            аналитик
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="data" id="nobody">
+            Data Science и ML
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="hr" id="nobody">
+            HR
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="not-it" id="nobody">
+            я не из IT
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="who" value="sometingelse" id="nobody">
+            совсем другое
+          </label>
+        </fieldset>
+      </div>
+      <div class="subscribe-settings__row">
+        <fieldset class="subscribe-settings__fieldset">
+          <legend class="subscribe-settings__label">Ваш грейд</legend>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="student" id="noob">
+            только учусь
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="intern" id="cross">
+            стажёр
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="junior" id="cross">
+            начинающий специалист
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="middle" id="cross">
+            специалист
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="senior" id="cross">
+            опытный специалист
+          </label>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="master" id="cross">
+            высший пилотаж
+          </label>
+        </fieldset>
+      </div>
+      <div class="subscribe-settings__row">
+        <fieldset class="subscribe-settings__fieldset">
+          <legend class="subscribe-settings__label">Мне интересно читать:</legend>
+          <label class="subscribe-settings__control-label">
+            <input class="subscribe-settings__control" type="checkbox" name="interest" value="digest" id="html-css" checked>
+            Дайджест Доки (1 раз в месяц)
+          </label>
+        </fieldset>
+        <p class="subscribe-settings__note">Мы готовим новые тематические рассылки. Со временем они дополнят этот список, и вы сможете выбрать, что читать. Об обновлениях будем сообщать в Дайджесте.</p>
+      </div>
+      <div class="subscribe-settings__row">
+        {# В спане ниже меняем сообщения под статус #}
+        <span class="form-with-status__status">Обрабатываем запрос</span>
+        <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Подписаться</button>
+      </div>
+    </form>
+
+    <section class="unsubscribe-section subscribe-settings">
+      <p>Здесь можно отписаться от рассылки U×ᴥ×U</p>
+      <form class="subscribe-page__unsubscribe unsubscribe__form form-with-status" action="">
+        <label class="unsubscribe__label">
+          <input type="text" name="reason" class="unsubscribe__input subscribe-settings__input" placeholder="Слишком часто приходят письма">
+          <span class="unsubscribe__hint subscribe-settings__hint">Расскажете что не понравилось?</span>
+        </label>
+        <div class="unsubscribe__row">
+          <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Отписаться</button>
+          {# В спане ниже меняем сообщения под статус #}
+          <span class="form-with-status__status">Обрабатываем запрос</span>
+        </div>
+      </form>
+    </section>
+  </div>
+</main>
+
+{{ footer() }}
