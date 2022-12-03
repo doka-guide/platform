@@ -1,4 +1,4 @@
-name: Surge Preview
+name: PR Preview
 
 on:
   pull_request
@@ -8,8 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.draft == false }}
     env:
-      DEPLOY_DOMAIN: 'https://${{ github.repository_owner }}-platform-pr-${{ github.event.number }}.surge.sh'
-      SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      DEPLOY_DOMAIN: https://platform-${{ github.event.pull_request.number }}.dev.doka.guide
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       PATH_TO_CONTENT: ./content
     steps:
@@ -45,44 +44,47 @@ jobs:
         run: npm ci
       - name: Сообщение о начале публикации превью
         uses: hasura/comment-progress@v2.1.0
-        if: ${{ env.SURGE_TOKEN != '' }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-          number: ${{ github.event.number }}
-          id: surge-progress-${{ github.event.number }}
-          message: 'Идёт сборка и публикация превью... [Подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)'
+          number: ${{ github.event.pull_request.number }}
+          id: preview-${{ github.event.pull_request.number }}
+          message: "Идёт сборка и публикация превью... [Подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)"
           recreate: true
+      - name: Установка ключа для пользователя
+        run: |
+          set -eu
+          mkdir "$HOME/.ssh"
+          echo "${{ secrets.DEPLOY_KEY }}" > "$HOME/.ssh/doka_deploy"
+          chmod 600 "$HOME/.ssh/doka_deploy"
       - name: Сборка и публикация сайта
-        id: surge
+        id: build-preview
         continue-on-error: true
         run: |
           cp .env.example .env
           npm run preview
-          if ! [[ ${{ env.SURGE_TOKEN == '' }} ]]; then
-            npx surge ./dist ${{ env.DEPLOY_DOMAIN }} --token ${{ env.SURGE_TOKEN }}
-          else
-            echo 'Публикация для форка репозитория'
-            npx surge ./dist ${{ env.DEPLOY_DOMAIN }} --token '6973bdb764f0d5fd07c910de27e2d7d0'
-          fi
-          echo 'Ссылка на превью — ${{ env.DEPLOY_DOMAIN }}'
-      - name: Сообщение об успехе публикации превью
-        uses: hasura/comment-progress@v2.1.0
-        if: ${{ env.SURGE_TOKEN != '' && steps.surge.conclusion == 'success' }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          number: ${{ github.event.number }}
-          id: surge-progress-${{ github.event.number }}
-          message: '[Превью контента](${{ env.DEPLOY_DOMAIN }}) из ${{ github.event.pull_request.head.sha }} опубликовано.'
-          recreate: true
+          ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no deploy@dev.doka.guide mkdir -p /web/sites/dev.doka.guide/platform/${{ github.event.pull_request.number }}
+          cd dist && rsync -e "ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no" --archive --progress --compress --delete . deploy@dev.doka.guide:/web/sites/dev.doka.guide/platform/${{ github.event.pull_request.number }}
+          echo "Ссылка на превью — ${{ env.DEPLOY_DOMAIN }}"
+          echo -e "${{ steps.links.outputs.list }}"
       - name: Сообщение о неудаче публикации превью
         uses: hasura/comment-progress@v2.1.0
-        if: ${{ env.SURGE_TOKEN != '' && steps.surge.conclusion != 'success' }}
+        if: failure()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-          number: ${{ github.event.number }}
-          id: surge-progress-${{ github.event.number }}
-          message: 'Превью контента из ${{ github.event.pull_request.head.sha }} не опубликовано. Ошибка сборки или публикации. [Подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)'
+          number: ${{ github.event.pull_request.number }}
+          id: preview-${{ github.event.pull_request.number }}
+          message: "Превью контента из ${{ github.event.after }} не опубликовано. Ошибка сборки или публикации. [Подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)"
           fail: true
+          recreate: true
+      - name: Сообщение об успехе публикации превью
+        uses: hasura/comment-progress@v2.1.0
+        if: success()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          number: ${{ github.event.pull_request.number }}
+          id: preview-${{ github.event.pull_request.number }}
+          message: '<a href="${{ env.DEPLOY_DOMAIN }}">Превью контента</a> из ${{ github.event.after }} опубликовано.'
+          recreate: true
