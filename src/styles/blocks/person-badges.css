@@ -7,6 +7,12 @@
   margin-bottom: 1em;
 }
 
+@media (min-width: 320px) {
+  .person-badges {
+    max-width: 250px;
+  }
+}
+
 @media (min-width: 1024px) {
   .person-badges {
     grid-template-rows: repeat(var(--row-count), 1fr);

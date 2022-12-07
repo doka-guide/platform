@@ -100,6 +100,22 @@
   align-self: end;
 }
 
+@media (max-width: 686px) {
+  .person-page {
+    grid-template-columns: 100%;
+  }
+
+  .person-page__main {
+    grid-template-columns: 100%;
+    grid-template-areas:
+      'avatar'
+      'header'
+      'meta'
+      'articles'
+      'footer';
+  }
+}
+
 @media (min-width: 768px) {
   .person-page {
     --offset: 20px;
