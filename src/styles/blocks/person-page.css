@@ -103,15 +103,19 @@
   align-self: end;
 }
 
-@media (min-width: 320px) {
+@media (max-width: 686px) {
+  .person-page {
+    grid-template-columns: 100%;
+  }
+
   .person-page__main {
     grid-template-columns: 100%;
     grid-template-areas:
-      'avatar   . .'
-      'header   . .'
-      'articles . .'
-      'meta     . .'
-      'footer   . .';
+      'avatar'
+      'header'
+      'meta'
+      'articles'
+      'footer';
   }
 }
 
