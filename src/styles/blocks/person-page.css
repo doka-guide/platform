@@ -103,7 +103,7 @@
   align-self: end;
 }
 
-@media (max-width: 686px) {
+@media (max-width: 450px) {
   .person-page {
     grid-template-columns: 100%;
   }
