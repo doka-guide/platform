@@ -84,7 +84,26 @@ function init() {
   function saveLink(link) {
     try {
       navigator.clipboard
-        .writeText(link)
+        .writeText(link.href)
+        .then(() => {
+          try {
+            const icon = link.firstElementChild
+
+            icon.outerHTML = `
+            <svg class="article-heading__icon" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d="m8.77,19.52l-6.97,-7.11l1.38,-1.43l5.6,5.71l12.04,-12.25l1.38,1.43l-13.41,13.65l-0.02,0z">
+            </svg>
+            `
+            link.classList.add('article-heading__link_disabled')
+
+            setTimeout(() => {
+              link.firstElementChild.outerHTML = icon.outerHTML
+              link.classList.remove('article-heading__link_disabled')
+            }, 1800)
+          } catch (error) {
+            console.log(`Ошибка с подсказкой об успешном копировании ссылки: ${error.message}`)
+          }
+        })
         .catch((error) => console.log(`Ошибка при копировании ссылки: ${error.message}`))
     } catch (error) {
       console.log(`Возможно, соединение незащищенное. Ошибка: ${error.message}`) // доступ к clipboard работает только под https
@@ -175,7 +194,7 @@ function init() {
       }
 
       event.preventDefault()
-      saveLink(link.href)
+      saveLink(link)
     })
   )
 }

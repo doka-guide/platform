@@ -31,6 +31,7 @@ module.exports = function (window) {
       const id = clonedHeading.getAttribute('id')
 
       const linkHTML = createLinkMarkup(id, headingText)
+      const tooltipHTML = '<span class="article-heading__tooltip" role="tooltip">Скопировано</span>'
 
       clonedHeading.classList.add('article-heading__title')
       clonedHeading.removeAttribute('id')
@@ -40,7 +41,8 @@ module.exports = function (window) {
       headingWrapper.setAttribute('tabindex', -1)
       headingWrapper.setAttribute('id', id)
       headingWrapper.classList.add('article-heading', 'article-heading--level-' + level)
-      headingWrapper.innerHTML = clonedHeading.outerHTML + linkHTML
+      headingWrapper.innerHTML = clonedHeading.outerHTML + linkHTML + tooltipHTML
+      headingWrapper.innerHTML = headingWrapper.innerHTML.replace(/>\s+</, '>&nbsp;<')
 
       heading.replaceWith(headingWrapper)
     }
