@@ -94,6 +94,10 @@
   padding: var(--gutter);
 }
 
+.featured-article__description .featured-article__code {
+  font-size: var(--font-size-m);
+}
+
 @media (min-width: 768px) {
   .featured-article {
     min-height: 402px;
