@@ -318,7 +318,7 @@
   }
 }
 
-@media all and (min-width: 414px) {
+@media all and (min-width: 430px) {
   .header__category.header__category--visible {
     display: flex;
   }
