@@ -7,16 +7,17 @@
   min-height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr;
+  grid-template-columns: 100%;
 }
 
 .person-page__main {
   padding-top: clamp(var(--offset), 8%, 130px);
   display: grid;
-  grid-template-columns: var(--sidebar-size) minmax(0, var(--content-max-size)) var(--sidebar-size-end);
   grid-template-areas:
     'avatar   avatar   avatar'
-    'header   header   meta'
+    'header   header   header'
     'articles articles articles'
+    'meta     .        .'
     'footer   footer   footer';
 }
 
@@ -36,6 +37,7 @@
   align-self: center;
   margin-bottom: 30px;
   background-color: hsl(var(--color-base-background) / 0.9);
+  max-width: 245px;
 }
 
 .person-page__header {
@@ -55,6 +57,7 @@
   display: flex;
   gap: 20px;
   margin: 20px 0;
+  flex-wrap: wrap;
 }
 
 .person-page__roles-link {
@@ -100,9 +103,25 @@
   align-self: end;
 }
 
+@media (min-width: 320px) {
+  .person-page__main {
+    grid-template-columns: 100%;
+    grid-template-areas:
+      'avatar   . .'
+      'header   . .'
+      'articles . .'
+      'meta     . .'
+      'footer   . .';
+  }
+}
+
 @media (min-width: 768px) {
   .person-page {
     --offset: 20px;
+  }
+
+  .person-page__main {
+    grid-template-columns: var(--sidebar-size) minmax(0, var(--content-max-size)) var(--sidebar-size-end);
   }
 
   .person-page__header {
