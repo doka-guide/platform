@@ -197,6 +197,29 @@ function init() {
       saveLink(link)
     })
   )
+
+  function headingsScaler() {
+    const articleHeadings = document.querySelectorAll(HEADING_SELECTOR)
+
+    for (const heading of articleHeadings) {
+      const linkIcon = heading.querySelector(HEADING_LINK_SELECTOR)
+      const copyTooltipWidth = linkIcon.nextElementSibling.offsetWidth
+
+      const headingPosition = heading.getBoundingClientRect()
+      const linkIconPosition = linkIcon.getBoundingClientRect()
+
+      const linkIconRelativePositionLeft = Math.abs(linkIconPosition.left - headingPosition.left)
+      const linkIconRelativePositionRight = Math.abs(linkIconPosition.right - headingPosition.right)
+
+      if (linkIconRelativePositionLeft === 0 || linkIconRelativePositionRight < copyTooltipWidth) {
+        const scaledHeadingWidth = heading.offsetWidth - linkIcon.offsetWidth - copyTooltipWidth
+
+        heading.style.width = `${scaledHeadingWidth}px`
+      }
+    }
+  }
+
+  headingsScaler()
 }
 
 init()

@@ -42,7 +42,6 @@ module.exports = function (window) {
       headingWrapper.setAttribute('id', id)
       headingWrapper.classList.add('article-heading', 'article-heading--level-' + level)
       headingWrapper.innerHTML = clonedHeading.outerHTML + linkHTML + tooltipHTML
-      headingWrapper.innerHTML = headingWrapper.innerHTML.replace(/>\s+</, '>&nbsp;<')
 
       heading.replaceWith(headingWrapper)
     }

@@ -2,7 +2,6 @@
   font-size: var(--font-size);
   line-height: var(--line-height);
   scroll-margin: calc((var(--fixed-header-height, 0) * 1px) + 1rem);
-  white-space: nowrap;
 }
 
 .article-heading__title {
@@ -10,7 +9,6 @@
   margin-bottom: 0;
   display: inline;
   font: inherit;
-  white-space: normal;
 }
 
 .article-heading__link {
