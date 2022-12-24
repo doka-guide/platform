@@ -211,10 +211,10 @@ function init() {
       const linkIconRelativePositionLeft = Math.abs(linkIconPosition.left - headingPosition.left)
       const linkIconRelativePositionRight = Math.abs(linkIconPosition.right - headingPosition.right)
 
-      if (linkIconRelativePositionLeft === 0 || linkIconRelativePositionRight < copyTooltipWidth) {
-        const scaledHeadingWidth = heading.offsetWidth - linkIcon.offsetWidth - copyTooltipWidth
-
-        heading.style.width = `${scaledHeadingWidth}px`
+      if (linkIconRelativePositionLeft === 0) {
+        heading.style.width = `${heading.offsetWidth - 1}px`
+      } else if (linkIconRelativePositionRight < copyTooltipWidth) {
+        heading.style.width = `${heading.offsetWidth - linkIconRelativePositionRight - linkIcon.offsetWidth * 2}px`
       }
     }
   }
