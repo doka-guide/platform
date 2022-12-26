@@ -18,24 +18,25 @@ function isExternalURL(url) {
 }
 
 function articlePathsToObject(pathList, collections) {
-  const object = {}
-  if (Array.isArray(pathList)) {
-    pathList.forEach((path) => {
-      const pathObject = path.split('/')
-      const category = pathObject[0]
-      const articleId = pathObject[1]
-      if (!object[category]) {
-        object[category] = []
-      }
-      object[category].push(
-        collections[category].find((article) => article.filePathStem === `/${category}/${articleId}/index`)
-      )
-    })
+  if (!Array.isArray(pathList)) {
+    return {}
   }
-  return object
+  return pathList.reduce((acc, path) => {
+    const [category, articleId] = path.split('/')
+    const specialCategory = collections[category]
+    if (!specialCategory) {
+      console.warn(`No such category in collections: ${category}`)
+      return acc
+    }
+    if (!acc[category]) acc[category] = []
+    const article = specialCategory.find(({ filePathStem }) => filePathStem === `/${category}/${articleId}/index`)
+    acc[category].push(article)
+    return acc
+  }, {})
 }
 
 module.exports = {
+  articlePathsToObject,
   featuredArticlesMaxCount: 12,
 
   eleventyComputed: {
