@@ -88,7 +88,7 @@ function init() {
         .then(() => {
           try {
             const icon = link.firstElementChild
-            const tooltip = link.nextElementSibling
+            const status = link.nextElementSibling
 
             icon.outerHTML = `
             <svg class="article-heading__icon" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -96,14 +96,14 @@ function init() {
             </svg>
             `
             link.classList.add('article-heading__link_disabled')
-            tooltip.classList.add('article-heading__tooltip_visible')
-            tooltip.hidden = false
+            status.classList.add('article-heading__status_visible')
+            status.hidden = false
 
             setTimeout(() => {
               link.firstElementChild.outerHTML = icon.outerHTML
               link.classList.remove('article-heading__link_disabled')
-              tooltip.classList.remove('article-heading__tooltip_visible')
-              tooltip.hidden = true
+              status.classList.remove('article-heading__status_visible')
+              status.hidden = true
             }, 1800)
           } catch (error) {
             console.log(`Ошибка с подсказкой об успешном копировании ссылки: ${error.message}`)
@@ -207,24 +207,24 @@ function init() {
     const articleHeadings = document.querySelectorAll(HEADING_SELECTOR)
 
     for (const heading of articleHeadings) {
-      const linkIcon = heading.querySelector(HEADING_LINK_SELECTOR)
-      const copyTooltip = linkIcon.nextElementSibling
+      const link = heading.querySelector(HEADING_LINK_SELECTOR)
+      const status = link.nextElementSibling
 
-      copyTooltip.hidden = false
+      status.hidden = false
 
       const headingPosition = heading.getBoundingClientRect()
-      const linkIconPosition = linkIcon.getBoundingClientRect()
+      const linkPosition = link.getBoundingClientRect()
 
-      const linkIconRelativePositionLeft = Math.abs(linkIconPosition.left - headingPosition.left)
-      const linkIconRelativePositionRight = Math.abs(linkIconPosition.right - headingPosition.right)
+      const linkRelativePositionLeft = Math.abs(linkPosition.left - headingPosition.left)
+      const linkRelativePositionRight = Math.abs(linkPosition.right - headingPosition.right)
 
-      if (linkIconRelativePositionLeft === 0) {
+      if (linkRelativePositionLeft === 0) {
         heading.style.width = `${heading.offsetWidth - 1}px`
-      } else if (linkIconRelativePositionRight < copyTooltip.offsetWidth) {
-        heading.style.width = `${heading.offsetWidth - linkIconRelativePositionRight - linkIcon.offsetWidth * 2}px`
+      } else if (linkRelativePositionRight < status.offsetWidth) {
+        heading.style.width = `${heading.offsetWidth - linkRelativePositionRight - link.offsetWidth * 2}px`
       }
 
-      copyTooltip.hidden = true
+      status.hidden = true
     }
   }
 
