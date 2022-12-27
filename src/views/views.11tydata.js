@@ -12,6 +12,7 @@ const {
   getActionsInRepoWithCache,
 } = require('../libs/github-contribution-service/github-contribution-service')
 const { contentRepLink } = require('../../config/constants')
+const { setPath } = require('../libs/collection-helpers/set-path')
 
 function isExternalURL(url) {
   return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')
@@ -161,37 +162,37 @@ module.exports = {
     */
     answersByQuestion: function (data) {
       const { collections } = data
-
       const answersByQuestion = {}
+
       collections.answer.forEach((answer) => {
-        const answerObject = answer.filePathStem.split('/')
-        const questionId = answerObject[2]
-        if (!answersByQuestion[questionId]) {
-          answersByQuestion[questionId] = {}
-        }
+        const questionId = answer.filePathStem.split('/')[2]
         const personId = answer.fileSlug
-        if (!answersByQuestion[questionId][personId]) {
-          if (answer.data.included) {
-            answersByQuestion[questionId][personId] = articlePathsToObject(answer.data.included, collections)
-          } else if (answer.data.excluded) {
-            const articlePathList = collections.question.filter((question) => {
-              return question.fileSlug === questionId
-            })[0].data.related
-            articlePathList.filter((questionPath) => {
-              return (
-                answer.data.excluded.filter((answerPath) => {
-                  return answerPath === questionPath
-                }).length > 0
-              )
-            })
-            answersByQuestion[questionId][personId] = articlePathsToObject(articlePathList, collections)
-          } else {
-            answersByQuestion[questionId][personId] = articlePathsToObject(
-              collections.question.filter((question) => {
-                return question.fileSlug === questionId
-              })[0].data.related,
-              collections
+
+        if (answer.data.included) {
+          setPath([questionId, personId], articlePathsToObject(answer.data.included, collections), answersByQuestion)
+        } else if (answer.data.excluded) {
+          const articlePathList = collections.question.filter(({ fileSlug }) => {
+            return fileSlug === questionId
+          })[0].data.related
+
+          articlePathList.filter((questionPath) => {
+            return (
+              answer.data.excluded.filter((answerPath) => {
+                return answerPath === questionPath
+              }).length > 0
             )
+          })
+          setPath([questionId, personId], articlePathsToObject(articlePathList, collections), answersByQuestion)
+        } else {
+          const related = articlePathsToObject(
+            collections.question.filter((question) => {
+              return question.fileSlug === questionId
+            })[0].data.related,
+            collections
+          )
+
+          if (related) {
+            setPath([questionId, personId], related, answersByQuestion)
           }
         }
       })
@@ -211,9 +212,10 @@ module.exports = {
       const answersByPerson = {}
       for (const questionKey in answersByQuestion) {
         for (const personKey in answersByQuestion[questionKey]) {
-          const answersOfPersonByQuestion = allAnswers.filter((a) => {
-            return a.filePathStem.startsWith(`/interviews/${questionKey}/answers/${personKey}`)
-          })
+          const answersOfPersonByQuestion = allAnswers.filter((a) =>
+            a.filePathStem.startsWith(`/interviews/${questionKey}/answers/${personKey}`)
+          )
+
           answersByPerson[personKey] = {}
           for (const categoryKey in answersByQuestion[questionKey][personKey]) {
             if (!answersByPerson[personKey][categoryKey]) {
