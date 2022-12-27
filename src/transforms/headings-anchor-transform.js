@@ -5,7 +5,7 @@
 
 function createLinkMarkup(id, headingText) {
   return `
-    <a class="article-heading__link" href="#${id}">
+    <a class="article-heading__link" href="#${id}" aria-describedby="tooltip">
       <svg class="article-heading__icon" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
@@ -31,7 +31,7 @@ module.exports = function (window) {
       const id = clonedHeading.getAttribute('id')
 
       const linkHTML = createLinkMarkup(id, headingText)
-      const tooltipHTML = '<span class="article-heading__tooltip" role="tooltip">Скопировано</span>'
+      const tooltipHTML = '<span id="tooltip" class="article-heading__tooltip" role="status" hidden>Скопировано</span>'
 
       clonedHeading.classList.add('article-heading__title')
       clonedHeading.removeAttribute('id')

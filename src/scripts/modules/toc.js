@@ -88,6 +88,7 @@ function init() {
         .then(() => {
           try {
             const icon = link.firstElementChild
+            const tooltip = link.nextElementSibling
 
             icon.outerHTML = `
             <svg class="article-heading__icon" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -95,10 +96,14 @@ function init() {
             </svg>
             `
             link.classList.add('article-heading__link_disabled')
+            tooltip.classList.add('article-heading__tooltip_visible')
+            tooltip.hidden = false
 
             setTimeout(() => {
               link.firstElementChild.outerHTML = icon.outerHTML
               link.classList.remove('article-heading__link_disabled')
+              tooltip.classList.remove('article-heading__tooltip_visible')
+              tooltip.hidden = true
             }, 1800)
           } catch (error) {
             console.log(`Ошибка с подсказкой об успешном копировании ссылки: ${error.message}`)
@@ -203,7 +208,9 @@ function init() {
 
     for (const heading of articleHeadings) {
       const linkIcon = heading.querySelector(HEADING_LINK_SELECTOR)
-      const copyTooltipWidth = linkIcon.nextElementSibling.offsetWidth
+      const copyTooltip = linkIcon.nextElementSibling
+
+      copyTooltip.hidden = false
 
       const headingPosition = heading.getBoundingClientRect()
       const linkIconPosition = linkIcon.getBoundingClientRect()
@@ -213,9 +220,11 @@ function init() {
 
       if (linkIconRelativePositionLeft === 0) {
         heading.style.width = `${heading.offsetWidth - 1}px`
-      } else if (linkIconRelativePositionRight < copyTooltipWidth) {
+      } else if (linkIconRelativePositionRight < copyTooltip.offsetWidth) {
         heading.style.width = `${heading.offsetWidth - linkIconRelativePositionRight - linkIcon.offsetWidth * 2}px`
       }
+
+      copyTooltip.hidden = true
     }
   }
 

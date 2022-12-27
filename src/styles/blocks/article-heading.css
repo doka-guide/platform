@@ -49,7 +49,7 @@
   user-select: none;
 }
 
-.article-heading__link_disabled + .article-heading__tooltip {
+.article-heading__tooltip_visible {
   visibility: visible;
 }
 
