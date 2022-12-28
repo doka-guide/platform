@@ -97,12 +97,14 @@ function init() {
             `
             link.classList.add('article-heading__link_disabled')
             status.classList.add('article-heading__status_visible')
+            status.textContent = 'Скопировано'
             status.hidden = false
 
             setTimeout(() => {
               link.firstElementChild.outerHTML = icon.outerHTML
               link.classList.remove('article-heading__link_disabled')
               status.classList.remove('article-heading__status_visible')
+              status.textContent = ''
               status.hidden = true
             }, 1800)
           } catch (error) {
@@ -225,6 +227,7 @@ function init() {
       }
 
       status.hidden = true
+      status.textContent = '' // Статус должен быть пустым, чтобы его гарантированно не читали скринридеры. Вызвано особенностью работы скринридеров с атрибутом `aria-describedby`.
     }
   }
 
