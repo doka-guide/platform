@@ -49,7 +49,7 @@ describe('articlePathsToObject', () => {
     expect(result.js.length).toEqual(0)
   })
 
-  it('works is there is no such category in collection', () => {
+  it('works if there is no such category in collection', () => {
     const paths = ['js/a', 'js/b', 'css/c']
     const collections = {
       js: [
