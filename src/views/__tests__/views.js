@@ -31,6 +31,24 @@ describe('articlePathsToObject', () => {
     })
   })
 
+  it('returns empty array in there is no correspondent articles', () => {
+    const paths = ['js/fp']
+    // there is no 'js/fp' in collection
+    const collections = {
+      js: [
+        {
+          filePathStem: '/js/a/index',
+        },
+        {
+          filePathStem: '/js/b/index',
+        },
+      ],
+    }
+
+    const result = articlePathsToObject(paths, collections)
+    expect(result.js.length).toEqual(0)
+  })
+
   it('works is there is no such category in collection', () => {
     const paths = ['js/a', 'js/b', 'css/c']
     const collections = {

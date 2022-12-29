@@ -31,7 +31,10 @@ function articlePathsToObject(pathList, collections) {
     }
     if (!acc[category]) acc[category] = []
     const article = specialCategory.find(({ filePathStem }) => filePathStem === `/${category}/${articleId}/index`)
-    acc[category].push(article)
+
+    if (article) {
+      acc[category].push(article)
+    }
     return acc
   }, {})
 }
