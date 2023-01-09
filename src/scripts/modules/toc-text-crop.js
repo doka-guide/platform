@@ -20,3 +20,5 @@ const clipContent = (linksArray, maxLength) => {
 }
 
 clipContent(tocLinks, MAX_LENGTH)
+
+export default { clipContent, MAX_LENGTH }
