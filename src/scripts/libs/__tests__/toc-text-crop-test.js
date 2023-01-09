@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-// const { MAX_LENGTH, clipContent } = require('../../modules/toc-text-crop.js')
 import { MAX_LENGTH, clipContent } from '../../modules/toc-text-crop.js'
 
 const headersTemplate = [
