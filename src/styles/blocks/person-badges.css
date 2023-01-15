@@ -4,13 +4,8 @@
   grid-area: badges;
   display: grid;
   grid-template-columns: repeat(var(--col-count), 1fr);
+  grid-template-rows: repeat(var(--row-count), 1fr);
   margin-bottom: 1em;
-}
-
-@media (min-width: 1024px) {
-  .person-badges {
-    grid-template-rows: repeat(var(--row-count), 1fr);
-  }
 }
 
 .person-badges__sign {
