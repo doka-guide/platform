@@ -208,7 +208,19 @@ async function getActionsInRepo({ authors, authorIDs, repo }) {
     return []
   }
 
-  const [authorActions] = await Promise.all([getData(buildQueryForAuthorActions({ authors, authorIDs, repo }))])
+  let authorActions = {}
+
+  const chunkSize = 10
+  for (let i = 0; i < authors.length; i += chunkSize) {
+    const chunk = authors.slice(i, i + chunkSize)
+    const [chunkAuthorActions] = await Promise.all([
+      getData(buildQueryForAuthorActions({ authors: chunk, authorIDs, repo })),
+    ])
+    authorActions = {
+      ...authorActions,
+      ...chunkAuthorActions,
+    }
+  }
 
   return authors.reduce((usersData, author) => {
     const escapedName = escape(author)
