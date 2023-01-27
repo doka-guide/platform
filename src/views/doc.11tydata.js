@@ -284,6 +284,7 @@ module.exports = {
       return related
         ?.slice(0, 3)
         ?.map((articleId) => docsById[articleId])
+        ?.filter(Boolean)
         ?.map((articleData) => transformArticleData(articleData))
     },
   },
