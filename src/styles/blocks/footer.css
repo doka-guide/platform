@@ -8,11 +8,14 @@
 }
 
 .footer__theme-toggle {
+  padding: 0;
+  margin: 0;
   display: flex;
   align-items: baseline;
   gap: 0.5em;
   font-size: var(--font-size-s);
   line-height: var(--font-line-height-s);
+  border: 0;
 }
 
 .footer__list {
