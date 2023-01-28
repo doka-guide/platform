@@ -21,6 +21,7 @@
     "url": "https://github.com/doka-guide/platform"
   },
   "scripts": {
+    "debug": "cross-env-shell NODE_ENV=development \"npm run make-links && node --inspect-brk node_modules/@11ty/eleventy/cmd.js --serve --quiet\"",
     "start": "cross-env-shell NODE_ENV=development \"npm run make-links && eleventy --serve --quiet\"",
     "build": "cross-env-shell NODE_ENV=production \"npm run make-links && eleventy --quiet && npx gulp\"",
     "preview": "cross-env-shell NODE_ENV=development \"npm run make-links && eleventy --quiet && npx gulp\"",

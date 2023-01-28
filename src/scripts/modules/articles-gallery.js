@@ -19,13 +19,18 @@ function init() {
   }
 
   const activeClass = 'featured-articles-list__item--active'
+  const linkClass = '.featured-article__link'
 
   const pageSize = parseInt(getComputedStyle(list).getPropertyValue('--page-size'), 10) || 1
   let lastItemIndex = pageSize
 
   function loadItems() {
-    items.slice(lastItemIndex, lastItemIndex + pageSize).forEach((item) => {
+    items.slice(lastItemIndex, lastItemIndex + pageSize).forEach((item, index) => {
       item.classList.add(activeClass)
+
+      if (index === 0) {
+        item.querySelector(linkClass).focus()
+      }
     })
 
     lastItemIndex += pageSize
