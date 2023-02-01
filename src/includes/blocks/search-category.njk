@@ -1,6 +1,6 @@
 <fieldset class="search-category">
-  <legend class="visually-hidden" aria-hidden="true">Фильтровать по:</legend>
-  <div class="search-category__legend">Фильтровать по:</div>
+  <legend class="visually-hidden">Фильтровать по:</legend>
+  <div class="search-category__legend" aria-hidden="true">Фильтровать по:</div>
 
   {% for category in collections.articleIndexes %}
     <label class="search-category__item tag-filter" style="--accent-color: var(--color-{{ category.fileSlug }})">
