@@ -190,7 +190,11 @@ function init() {
   document.querySelectorAll(HEADING_COPY_BUTTON_SELECTOR)?.forEach((item) =>
     item.addEventListener('click', (event) => {
       const button = event.target
-      const link = document.location.href + '/' + button.dataset.anchor
+      let link = document.location.href + button.dataset.anchor
+
+      if (document.location.hash) {
+        link = link.replace(document.location.hash, '')
+      }
 
       event.preventDefault()
       saveLink(link, button)
