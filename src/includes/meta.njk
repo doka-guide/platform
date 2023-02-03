@@ -136,6 +136,8 @@
 {% endif %}
 
 {% if pageType === 'Article' %}
+  <link rel="prefetch" href="{{ baseUrl }}/images/actions/done.svg" as="image">
+
   {% if previousArticle %}
     <link rel="prev" href="{{ baseUrl }}{{ previousArticle.link }}">
   {% endif %}

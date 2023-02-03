@@ -11,7 +11,7 @@ function init() {
   const TOC_CONTAINER_SELECTOR = '.toc'
   const TOC_LINK_SELECTOR = '.toc__link'
   const HEADING_SELECTOR = '.article-heading'
-  const HEADING_LINK_SELECTOR = '.article-heading__link'
+  const HEADING_COPY_BUTTON_SELECTOR = '.article-heading__copy-button'
 
   const links = Array.from(document.querySelectorAll(TOC_LINK_SELECTOR))
   const titles = Array.from(document.querySelectorAll(HEADING_SELECTOR)).filter((title) => !title.closest('details'))
@@ -81,28 +81,23 @@ function init() {
     )
   }
 
-  function saveLink(link) {
+  function saveLink(link, button) {
     try {
       navigator.clipboard
-        .writeText(link.href)
+        .writeText(link)
         .then(() => {
           try {
-            const icon = link.firstElementChild
-            const status = link.nextElementSibling
+            const status = button.nextElementSibling
 
-            icon.outerHTML = `
-            <svg class="article-heading__icon" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-              <path d="m8.77,19.52l-6.97,-7.11l1.38,-1.43l5.6,5.71l12.04,-12.25l1.38,1.43l-13.41,13.65l-0.02,0z">
-            </svg>
-            `
-            link.classList.add('article-heading__link_disabled')
+            button.classList.add('article-heading__copy-button_done')
+            button.disabled = true
             status.classList.add('article-heading__status_visible')
             status.textContent = 'Скопировано'
             status.hidden = false
 
             setTimeout(() => {
-              link.firstElementChild.outerHTML = icon.outerHTML
-              link.classList.remove('article-heading__link_disabled')
+              button.classList.remove('article-heading__copy-button_done')
+              button.disabled = false
               status.classList.remove('article-heading__status_visible')
               status.textContent = ''
               status.hidden = true
@@ -113,7 +108,7 @@ function init() {
         })
         .catch((error) => console.log(`Ошибка при копировании ссылки: ${error.message}`))
     } catch (error) {
-      console.log(`Возможно, соединение незащищенное. Ошибка: ${error.message}`) // доступ к clipboard работает только под https
+      console.log(`Возможно, соединение незащищенное. Ошибка: ${error.message}`) // доступ к clipboard работает только с https
     }
   }
 
@@ -182,7 +177,7 @@ function init() {
   })
 
   document.querySelector(TOC_CONTAINER_SELECTOR)?.addEventListener('click', (event) => {
-    const link = event.target.closest(`${TOC_LINK_SELECTOR}, ${HEADING_LINK_SELECTOR}`)
+    const link = event.target.closest(`${TOC_LINK_SELECTOR}, ${HEADING_COPY_BUTTON_SELECTOR}`)
 
     if (!link) {
       return
@@ -192,16 +187,13 @@ function init() {
     scrollToTitle(link.hash)
   })
 
-  document.querySelectorAll(HEADING_LINK_SELECTOR)?.forEach((item) =>
+  document.querySelectorAll(HEADING_COPY_BUTTON_SELECTOR)?.forEach((item) =>
     item.addEventListener('click', (event) => {
-      const link = event.target.closest(HEADING_LINK_SELECTOR)
-
-      if (!link) {
-        return
-      }
+      const button = event.target
+      const link = document.location.href + '/' + button.dataset.anchor
 
       event.preventDefault()
-      saveLink(link)
+      saveLink(link, button)
     })
   )
 
@@ -209,21 +201,15 @@ function init() {
     const articleHeadings = document.querySelectorAll(HEADING_SELECTOR)
 
     for (const heading of articleHeadings) {
-      const link = heading.querySelector(HEADING_LINK_SELECTOR)
-      const status = link.nextElementSibling
-
-      status.hidden = false
+      const copierWrapper = heading.querySelector('.article-heading__copier')
+      const status = copierWrapper.querySelector('.article-heading__status')
 
       const headingPosition = heading.getBoundingClientRect()
-      const linkPosition = link.getBoundingClientRect()
+      const copierWrapperPosition = copierWrapper.getBoundingClientRect()
+      const copierWrapperRelativePosition = Math.abs(headingPosition.left - copierWrapperPosition.left)
 
-      const linkRelativePositionLeft = Math.abs(linkPosition.left - headingPosition.left)
-      const linkRelativePositionRight = Math.abs(linkPosition.right - headingPosition.right)
-
-      if (linkRelativePositionLeft === 0) {
-        heading.style.width = `${heading.offsetWidth - 1}px`
-      } else if (linkRelativePositionRight < status.offsetWidth) {
-        heading.style.width = `${heading.offsetWidth - linkRelativePositionRight - link.offsetWidth * 2}px`
+      if (copierWrapperRelativePosition === 0) {
+        heading.style.width = `${heading.offsetWidth - copierWrapper.offsetWidth}px`
       }
 
       status.hidden = true
