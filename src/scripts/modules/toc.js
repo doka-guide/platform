@@ -224,9 +224,8 @@ function init() {
 
       const headingPosition = heading.getBoundingClientRect()
       const copierPosition = copier.getBoundingClientRect()
-      const copierRelativePosition = Math.abs(headingPosition.left - copierPosition.left)
 
-      if (copierRelativePosition === 0) {
+      if (headingPosition.left === copierPosition.left) {
         heading.style.width = `${heading.offsetWidth - copier.offsetWidth * 1.1}px`
       }
 
