@@ -90,7 +90,7 @@
   grid-area: articles;
   display: grid;
   gap: var(--offset);
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  grid-template-columns: minmax(min(100%, 320px), 1fr);
   max-width: 960px;
 }
 
@@ -118,6 +118,10 @@
 @media (min-width: 768px) {
   .person-page {
     --offset: 20px;
+  }
+
+  .person-page__articles {
+    grid-template-columns: repeat(2, minmax(min(100%, 320px), 1fr));
   }
 
   .person-page__main {
@@ -169,13 +173,6 @@
 @media (min-width: 1440px) {
   .person-page {
     --sidebar-size-end: 1fr;
-  }
-
-  .person-page__main {
-    grid-template-areas:
-      'avatar header   .'
-      'meta   articles .'
-      '.      footer   footer';
   }
 }
 
