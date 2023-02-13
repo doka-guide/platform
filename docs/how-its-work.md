@@ -13,13 +13,13 @@
 
 **Платформа** основана на генераторе статических сайтов [11ty](https://www.11ty.dev). Страницы сайта свёрстаны в виде шаблонов в формате [Nunjucks](https://mozilla.github.io/nunjucks/).
 
-**Бекенд** — классический REST API, который реализован на языке Go. API позволяет сохранять заполненные пользователями формы и реакции на статьи, а также является платформой для организации рассылок по электронной почте.
+**Бекенд** — это REST API, который реализован на языке Go. API позволяет сохранять заполненные пользователями формы и реакции на статьи, а также является платформой для организации рассылок по электронной почте.
 
 **Поиск** содержит движок, который позволяет искать по заранее подготовленному инвертированному индексу. Индекс готовится заранее и формируется во время развёртывания сайта из основной ветки.
 
 Репозитории Контент и Платформа используются для сборки статического сайта, Бекенд и Поиск — для интерактивности сайта.
 
-Все репозитории открытые, мы всегда ждём новых контрибьюторов. Работа в репозиториях организована по схеме GitHub Flow: есть основная ветка `main`, в которой хранится текущая версия продукта, и другие ветки с изменениями, которые проходят ревью в пул реквестах.
+Все репозитории открытые, мы всегда ждём новых контрибьюторов. Работа в репозиториях организована по схеме GitHub Flow: есть основная ветка `main`, в которой хранится текущая версия продукта, и другие ветки с изменениями, которые проходят ревью в пулреквестах.
 
 ## Платформа
 
@@ -40,11 +40,24 @@
 - `SERVER_PATH` — абсолютный путь до папки на сервере с текущей сборкой;
 - `GITHUB_TOKEN` — токен для работы с GraphQL GitHub. [Инструкция по генерации персонального токена](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
-Если оставить поле `GITHUB_TOKEN` пустым, на страницах участников не будет отображаться информация об активности на GitHub в репозитории с контентом.
+Папка _settings_ из списка `CONTENT_REP_FOLDERS` является обязательной для сборки. Если оставить поле `GITHUB_TOKEN` пустым, на страницах участников не будет отображаться информация об их активности на GitHub в репозитории с контентом.
 
-Список разделов Доки, которые попадают в сборку сайта, задаётся переменной `SECTIONS` в файлах [_.env.example_](https://github.com/doka-guide/platform/blob/main/.env.example), где задаются переменные окружения, и [_constants.js_](https://github.com/doka-guide/platform/blob/main/config/constants.js), в котором указываются значения по умолчанию, если они не заданы в файле с переменными окружения.
+Список разделов Доки, которые попадают в сборку сайта, задаётся переменной `SECTIONS` в файлах [_.env.example_](https://github.com/doka-guide/platform/blob/main/.env.example), где задаются переменные окружения, и [_constants.js_](https://github.com/doka-guide/platform/blob/main/config/constants.js), в котором указываются значения по умолчанию, если они не заданы в файле с переменными окружения. Папки с материалами разделов могут быть пустыми или вообще отсутствовать. Сборка будет учитывать только те материалы, которые есть в указанных папках. Структура папок с материалами должна быть следующей:
 
-Цвета разделов определяются в файлах: 
+```bash
+section                         # Папка раздела
+  └── doka-or-article           # Папка для материала
+      ├── demos                 # Папка для демок
+      │    └── first-demo       # Папка демки
+      │         └── index.html  # Страница с демкой (загружается в <iframe>)
+      ├── images                # Папка для картинок
+      │    └── picture.png      # Файлы картинок
+      ├── practice              # Папка для рубрики «На практике»
+      │    └── author.md        # Текст для раздела «На практике» от конкретного автора
+      └── index.md              # Текст материала (дока / статья)
+```
+
+Цвета разделов определяются в файлах:
 - [_category-colors.js_](https://github.com/doka-guide/platform/blob/main/config/category-colors.js);
 - [_base-colors.css_](https://github.com/doka-guide/platform/blob/main/src/styles/base-colors.css) — базовые цвета;
 - [_light-theme.css_](https://github.com/doka-guide/platform/blob/main/src/styles/light-theme.css) — для светлой темы;
@@ -89,25 +102,25 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 
 Сборка сайта осуществляется в следующем порядке:
 
-1. Поиск файлов с вёрсткой и контентом в репозитории по указанным путям (в Доке это файлы формата _*.njk_ и _*.md_ соответственно).
-1. Проход по всем найденным файлам:
+1. Поиск файлов с вёрсткой (шаблонов) и контентом в репозитории по указанным путям.
+2. Проход по всем найденным файлам:
    - Формирование списка всех файлов, которые не являются файлами с контентом (в Доке это шрифты, стили, клиентские скрипты, иконки, фото, видео и пр.).
    - Предварительная обработка шаблонов и подготовка контента для шаблонов.
-1. Асинхронное копирование всех файлов, которые не являются файлами с контентом. Копирование проходит параллельно предварительным стадиям.
-1. Формирование данных (содержаться в файлах _*.11tydata.js_) и вычисляемых значений для сборки (для заполнения готовых шаблонов контентом).
-1. Формирование графа зависимостей в следующем порядке:
+3. Асинхронное копирование всех файлов, которые не являются файлами с контентом. Копирование проходит параллельно предварительным стадиям.
+4. Формирование данных и вычисляемых значений для сборки (для заполнения готовых шаблонов контентом).
+5. Формирование графа зависимостей в следующем порядке:
    - обработка шаблонов, которые не содержат зависимостей;
    - обработка шаблонов, которые используют теги (встроенное поле в мете файлов с контентом);
    - обработка шаблонов, которые используют пагинацию и любые другие коллекции;
    - обработка шаблонов, которые используют пагинацию и Configuration API для добавления коллекций;
    - обработка шаблонов, которые используют пагинацию и готовят локальные объекты с коллекциями `collection`;
    - обработка шаблонов, которые используют пагинацию и готовят глобальный объект с коллекциями `collection.all`.
-1. Формирование коллекций в правильном порядке для графа зависимостей.
-1. Формирование дополнительного графа зависимостей для формирования вычисляемых данных, пермалинков и путей исходных файлов с контентом.
-1. Обработка шаблонов без формирования разметки страниц.
-1. Проверка на дубликаты.
-1. Обработка шаблонов с окончательной разметкой страниц.
-1. Применение трансформаций.
+6. Формирование коллекций в правильном порядке для графа зависимостей.
+7. Формирование дополнительного графа зависимостей для формирования вычисляемых данных, пермалинков и путей исходных файлов с контентом.
+8. Обработка шаблонов без формирования разметки страниц.
+9. Проверка на дубликаты.
+10. Обработка шаблонов с окончательной разметкой страниц.
+11. Применение трансформаций.
 
 В файле конфигурации настраиваются папки, в которых хранятся разные типы сущностей. В Доке папки используются следующим образом:
 
@@ -169,15 +182,15 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 - _[404.njk](https://github.com/doka-guide/platform/blob/main/src/views/404.njk)_ — страница, которая показывается, если по указанному адресу страницы нет;
 - _[all.njk](https://github.com/doka-guide/platform/blob/main/src/views/all.njk)_ — страница с индексом по всем материалам (докам, статьям);
 - _[article-index.njk](https://github.com/doka-guide/platform/blob/main/src/views/article-index.njk)_ — страницы с индексом материалов по каждому разделу;
-- _[doc.njk](https://github.com/doka-guide/platform/blob/main/src/views/doc.njk)_ — страницы с материалами (доки, статьи);
+- _[doc.njk](https://github.com/doka-guide/platform/blob/main/src/views/doc.njk)_ — страницы с материалами;
 - _[feed.njk](https://github.com/doka-guide/platform/blob/main/src/views/feed.njk)_ — XML-документ для организации фида для RSS;
 - _[index.njk](https://github.com/doka-guide/platform/blob/main/src/views/index.njk)_ — главная страница сайта;
-- _[page.njk](https://github.com/doka-guide/platform/blob/main/src/views/page.njk)_ — страницы с текстами, которые не являются материалами (доками, статьями);
+- _[page.njk](https://github.com/doka-guide/platform/blob/main/src/views/page.njk)_ — страницы с текстами, которые не являются материалами;
 - _[people.njk](https://github.com/doka-guide/platform/blob/main/src/views/people.njk)_ — страница со списком участников (контрибьюторов);
-- _[person-json.njk](https://github.com/doka-guide/platform/blob/main/src/views/person-json.njk)_ — информация об участнике (контрибьюторе) проекта в формате JSON;
-- _[person.njk](https://github.com/doka-guide/platform/blob/main/src/views/person.njk)_ — персональные страницы участников (контрибьюторов);
+- _[person-json.njk](https://github.com/doka-guide/platform/blob/main/src/views/person-json.njk)_ — информация об участнике проекта в формате JSON;
+- _[person.njk](https://github.com/doka-guide/platform/blob/main/src/views/person.njk)_ — персональные страницы участников;
 - _[sc-index.njk](https://github.com/doka-guide/platform/blob/main/src/views/sc-index.njk)_ — карточки для социальных сетей (нужны для формирования картинки для социальных сетей) в формате HTML для разделов;
-- _[sc.njk](https://github.com/doka-guide/platform/blob/main/src/views/sc.njk)_ — карточки для социальных сетей (нужны для формирования картинки для социальных сетей) в формате HTML для материалов (док, статей);
+- _[sc.njk](https://github.com/doka-guide/platform/blob/main/src/views/sc.njk)_ — карточки для социальных сетей (нужны для формирования картинки для социальных сетей) в формате HTML для материалов;
 - _[search.njk](https://github.com/doka-guide/platform/blob/main/src/views/search.njk)_ — страница поиска;
 - _[sitemap.njk](https://github.com/doka-guide/platform/blob/main/src/views/sitemap.njk)_ — XML-документ с картой сайта;
 - _[specials.njk](https://github.com/doka-guide/platform/blob/main/src/views/specials.njk)_ — страницы специальных проектов;
@@ -187,7 +200,7 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 
 - _[analytics/google.njk](https://github.com/doka-guide/platform/blob/main/src/includes/analytics/google.njk)_ — подключение Google Analytics на сайт;
 - _[analytics/metrika.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/article-image.njk)_ — подключение Яндекс.Метрики на сайт;
-- _[blocks/article-image.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/article-image.njk)_ — иллюстрации материалов (док, статей);
+- _[blocks/article-image.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/article-image.njk)_ — иллюстрации материалов;
 - ~~_[blocks/aside.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/aside.njk)_ — вёрстка страниц с боковой навигацией (пока не используется)~~;
 - _[blocks/cookie-notification.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/cookie-notification.njk)_ — попап с информацией об использовании кук;
 - _[blocks/featured-article.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/featured-article.njk)_ — блок показа одного материала для фичеринга на главной странице сайта;
@@ -196,22 +209,22 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 - _[blocks/linked-article.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/linked-article.njk)_ — кнопки для перехода на предыдущий или следующий материал раздела;
 - _[blocks/logo.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/logo.njk)_ — вёрстка для логотипа;
 - _[blocks/nav-list.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/nav-list.njk)_ — меню со списком разделов сайта;
-- _[blocks/person-avatar.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/person-avatar.njk)_ — аватар участника (контрибьютора);
-- _[blocks/person-badges.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/person-badges.njk)_ — набор значков участника (контрибьютора);
-- _[blocks/person.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/person.njk)_ — представление краткой информации об участнике (контрибьюторе) на странице со списком участников;
+- _[blocks/person-avatar.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/person-avatar.njk)_ — аватар участника;
+- _[blocks/person-badges.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/person-badges.njk)_ — набор значков участника;
+- _[blocks/person.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/person.njk)_ — представление краткой информации об участнике на странице со списком участников;
 - _[blocks/search-category.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/search-category.njk)_ — фильтр по категориям для страницы поиска;
 - _[blocks/search-hits.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/search-hits.njk)_ — один результат поиска с краткой информацией о материале;
 - _[blocks/search-tags.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/search-tags.njk)_ — фильтр по типу материала для страницы поиска;
 - _[blocks/search.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/search.njk)_ — блок поиска в основном меню;
 - _[blocks/snow-toggle.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/snow-toggle.njk)_ — переключатель для падающего снега (запускается в новогодние праздники);
 - _[blocks/snow.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/snow.njk)_ — блок, реализующий падающий снег (запускается в новогодние праздники);
-- _[blocks/social-card.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/social-card.njk)_ — карточка для социальных сетей (нужна для формирования картинки для социальных сетей);
+- _[blocks/social-card.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/social-card.njk)_ — карточка для социальных сетей;
 - _[blocks/theme-toggle.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/theme-toggle.njk)_ — переключатель темы на сайте;
 - _[articles-gallery.njk](https://github.com/doka-guide/platform/blob/main/src/includes/articles-gallery.njk)_ — блок со всеми материалами на главной странице, которые были выбраны для фичеринга (список материалов обновляется каждую неделю);
-- _[contributors.njk](https://github.com/doka-guide/platform/blob/main/src/includes/contributors.njk)_ — блок для материалов, в котором показаны все участники (авторы, редакторы, контрибьюторы)
-- _[feedback-form.njk](https://github.com/doka-guide/platform/blob/main/src/includes/feedback-form.njk)_ — форма для отправки обратной связи для материалов (док, статей);
+- _[contributors.njk](https://github.com/doka-guide/platform/blob/main/src/includes/contributors.njk)_ — блок для материалов, в котором показаны все участники;
+- _[feedback-form.njk](https://github.com/doka-guide/platform/blob/main/src/includes/feedback-form.njk)_ — форма для отправки обратной связи для материалов;
 - _[meta.njk](https://github.com/doka-guide/platform/blob/main/src/includes/meta.njk)_ — подключение иконок, манифеста, шрифтов и стилей, настройки доступных тем, формирование метатегов и микроразметки страниц;
-- _[practices.njk](https://github.com/doka-guide/platform/blob/main/src/includes/practices.njk)_ — блок рубрики «На практике» в материалах (доках, статьях);
-- _[questions.njk](https://github.com/doka-guide/platform/blob/main/src/includes/questions.njk)_ — блок рубрики «На собеседовании» в материалах (доках, статьях);
+- _[practices.njk](https://github.com/doka-guide/platform/blob/main/src/includes/practices.njk)_ — блок рубрики «На практике» в материалах;
+- _[questions.njk](https://github.com/doka-guide/platform/blob/main/src/includes/questions.njk)_ — блок рубрики «На собеседовании» в материалах;
 - _[related-articles-gallery.njk](https://github.com/doka-guide/platform/blob/main/src/includes/related-articles-gallery.njk)_ — блок для представления связанных док и статей с текущим материалом;
 - _[subscribe-popup.njk](https://github.com/doka-guide/platform/blob/main/src/includes/subscribe-popup.njk)_ — попап для отправки электронной почты, чтобы подписаться на рассылку.
