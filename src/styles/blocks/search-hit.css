@@ -60,7 +60,9 @@
   content: '✎';
 }
 
-.search-hit__summary {}
+.search-hit__summary {
+  overflow-wrap: anywhere;
+}
 
 .search-hit__marked {
   background-color: hsl(44deg 100% 59%);
