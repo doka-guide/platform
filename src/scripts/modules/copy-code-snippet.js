@@ -33,11 +33,18 @@ function init() {
     }
 
     copyButton.disabled = true
+    let isTabPressed
 
     navigator.clipboard
       .writeText(contentElement.textContent)
       .then(() => {
         copyButton.dataset.state = STATES.SUCCESS
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Tab') {
+            isTabPressed = true
+          }
+        })
       })
       .catch(() => {
         copyButton.dataset.state = STATES.ERROR
@@ -46,6 +53,10 @@ function init() {
         setTimeout(() => {
           copyButton.dataset.state = STATES.IDLE
           copyButton.disabled = false
+
+          if (!isTabPressed) {
+            copyButton.focus()
+          }
         }, MESSAGE_TIMEOUT)
       })
   })
