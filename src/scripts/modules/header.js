@@ -89,9 +89,9 @@ class Header extends BaseComponent {
     return this.refs.rootElement.classList.contains('header--fixed')
   }
 
-  // get isMainPage() {
-  //   return this.refs.rootElement.classList.contains('header--main')
-  // }
+  get isMainPage() {
+    return this.refs.rootElement.classList.contains('header--main')
+  }
 
   get isClosableHeader() {
     const header = this.refs.rootElement
@@ -247,7 +247,7 @@ class Header extends BaseComponent {
         this.hideHeader()
       }
     } else {
-      if (!this.isFixed) {
+      if (!this.isFixed && !this.isMainPage) {
         this.showHeader()
       }
     }
