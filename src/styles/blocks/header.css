@@ -133,6 +133,11 @@
   visibility: hidden;
 }
 
+/* скрываем первое меню на главной */
+.header--main.header--open > .header__inner--main {
+  display: none;
+}
+
 .header--main.header--open > .header__inner--menu {
   position: relative;
 }
