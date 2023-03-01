@@ -9,7 +9,7 @@ function init() {
   }
 
   function goToArticle(event) {
-    if (!event.ctrlKey) {
+    if (!(event.ctrlKey && event.altKey)) {
       return
     }
 
