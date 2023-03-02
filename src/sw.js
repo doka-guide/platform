@@ -45,6 +45,7 @@ const staticPages = [
   offlinePageUrl,
   '/',
   '/404/',
+  '/about/',
   '/a11y/',
   '/all/',
   '/css/',
