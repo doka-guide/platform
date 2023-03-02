@@ -1,45 +1,42 @@
-const piecesToSeconds = {
-  day: 86400,
-  hour: 3600,
-  minute: 60,
-  second: 1,
-}
+function init() {
+  const DAY_DURATION = 86400
+  const time = document.querySelector('[data-relative-time]')
 
-function getTimeDiff(date, currentTime) {
-  return (currentTime - date) / 1000
-}
-
-function formatRelativeDate(date, currentTime = new Date()) {
-  let timeDiff = getTimeDiff(date, currentTime)
-
-  const rtf = new Intl.RelativeTimeFormat('ru', {
-    localeMatcher: 'best fit',
-    numeric: 'always',
-    style: 'long',
-  })
-
-  const [piece, seconds] = Object
-    .entries(piecesToSeconds)
-    .sort(([, less], [, greater]) => greater - less) // Сортировка по убыванию 
-    .find(([piece, seconds]) => timeDiff >= seconds)
-
-  timeDiff = Math.round(timeDiff / seconds)
-
-  return rtf.format(-timeDiff, piece)
-}
-
-document.querySelectorAll('[data-relative-time]').forEach((element) => {
-  try {
-    const isoDateString = element.dateTime
-    const date = new Date(isoDateString)
-    const currentTime = new Date()
-    const diff = Math.abs(getTimeDiff(date, currentTime))
-    if (diff > piecesToSeconds['day']) {
-      return
-    }
-    const relativeDate = formatRelativeDate(date, currentTime)
-    element.textContent = relativeDate
-  } catch (error) {
-    console.error(error)
+  if (!time) {
+    return
   }
-})
+
+  function getPassedTime(postTime) {
+    return Math.abs((new Date() - postTime) / 1000) // Вычисляет, сколько прошло времени с момента публикации в секундах
+  }
+
+  function timeFormatter(passedTime) {
+    const converter = [
+      ['hour', 3600],
+      ['minute', 60],
+      ['second', 1],
+    ]
+    const timeTemplate = new Intl.RelativeTimeFormat('ru', {
+      localeMatcher: 'best fit',
+      numeric: 'always',
+      style: 'long',
+    })
+    const [unit, seconds] = converter.find(([, seconds]) => seconds <= passedTime)
+    const convertedTime = Math.round(passedTime / seconds)
+
+    return timeTemplate.format(-convertedTime, unit)
+  }
+
+  const postTime = new Date(time.dateTime)
+  const passedTime = getPassedTime(postTime)
+
+  if (passedTime < DAY_DURATION) {
+    time.textContent = timeFormatter(passedTime) // Преобразует прошедшее время с момента публикации в секундах в языковую запись
+  }
+}
+
+try {
+  init()
+} catch (error) {
+  console.error(`Не удалось вычислить, сколько прошло времени с момента публикации: ${error}`)
+}

@@ -4,6 +4,7 @@
   grid-area: badges;
   display: grid;
   grid-template-columns: repeat(var(--col-count), 1fr);
+  grid-template-rows: repeat(var(--row-count), 1fr);
   margin-bottom: 1em;
 }
 

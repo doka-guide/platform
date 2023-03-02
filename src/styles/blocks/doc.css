@@ -18,6 +18,35 @@
 
 .doc__article {}
 
+.doc__popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  top: -100%;
+  width: 100%;
+  height: 60px;
+  color: hsl(var(--color-blue));
+  background-color: var(--color-background);
+  box-shadow: 0 12px 10px 0 rgb(0 0 0 / 10%);
+  z-index: 2;
+  transition: top 0.5s;
+}
+
+.doc__popup:not([hidden]) {
+  top: 0;
+}
+
+.doc__popup-icon {
+  width: calc(var(--font-size-m) * 1.27);
+}
+
+.doc__popup-text {
+  color: currentColor;
+  font-size: calc(var(--font-size-m) * 1.07);
+}
+
 .doc__feedback-form {
   order: 2;
   z-index: 0;

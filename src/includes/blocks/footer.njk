@@ -1,9 +1,10 @@
 {% macro footer(class, tag = 'footer') %}
   <footer class="footer {{ class if class }}">
-    <div class="footer__theme-toggle">
-      <span class="footer__theme-toggle-label">Тема:</span>
+    <fieldset class="footer__theme-toggle">
+      <legend class="visually-hidden">Тема:</legend>
+      <span class="footer__theme-toggle-label" aria-hidden="true">Тема:</span>
       {% include "blocks/theme-toggle.njk" %}
-    </div>
+    </fieldset>
     <ul class="footer__list footer-list font-theme font-theme--code base-list">
       <li class="footer-list__item">
         <a class="footer-list__link link" href="{{ constants.dokaOrgLink }}">GitHub</a>

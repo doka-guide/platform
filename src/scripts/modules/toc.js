@@ -11,7 +11,7 @@ function init() {
   const TOC_CONTAINER_SELECTOR = '.toc'
   const TOC_LINK_SELECTOR = '.toc__link'
   const HEADING_SELECTOR = '.article-heading'
-  const HEADING_LINK_SELECTOR = '.article-heading__link'
+  const HEADING_COPY_BUTTON_SELECTOR = '.article-heading__copy-button'
 
   const links = Array.from(document.querySelectorAll(TOC_LINK_SELECTOR))
   const titles = Array.from(document.querySelectorAll(HEADING_SELECTOR)).filter((title) => !title.closest('details'))
@@ -81,13 +81,48 @@ function init() {
     )
   }
 
-  function saveLink(link) {
+  function saveLink(link, button) {
     try {
       navigator.clipboard
         .writeText(link)
+        .then(() => {
+          try {
+            if (window.matchMedia('(max-width: 720px)').matches) {
+              const popup = document.querySelector('.doc__popup')
+
+              popup.hidden = false
+
+              setTimeout(() => {
+                popup.hidden = true
+              }, 2000)
+            } else {
+              const icon = button.firstElementChild
+              const status = button.nextElementSibling
+
+              button.disabled = true
+              icon.outerHTML = `
+              <svg class="article-heading__icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="m8.77,19.52l-6.97,-7.11l1.38,-1.43l5.6,5.71l12.04,-12.25l1.38,1.43l-13.41,13.65l-0.02,0z"></path>
+              </svg>
+              `
+              status.textContent = 'Скопировано'
+              status.hidden = false
+
+              setTimeout(() => {
+                button.disabled = false
+                button.firstElementChild.outerHTML = icon.outerHTML
+                button.focus()
+                status.textContent = undefined
+                status.hidden = true
+              }, 1800)
+            }
+          } catch (error) {
+            console.log(`Ошибка с подсказкой об успешном копировании ссылки: ${error.message}`)
+          }
+        })
         .catch((error) => console.log(`Ошибка при копировании ссылки: ${error.message}`))
     } catch (error) {
-      console.log(`Возможно, соединение незащищенное. Ошибка: ${error.message}`) // доступ к clipboard работает только под https
+      console.log(`Возможно, соединение незащищенное. Ошибка: ${error.message}`) // доступ к clipboard работает только с https
     }
   }
 
@@ -156,7 +191,7 @@ function init() {
   })
 
   document.querySelector(TOC_CONTAINER_SELECTOR)?.addEventListener('click', (event) => {
-    const link = event.target.closest(`${TOC_LINK_SELECTOR}, ${HEADING_LINK_SELECTOR}`)
+    const link = event.target.closest(`${TOC_LINK_SELECTOR}, ${HEADING_COPY_BUTTON_SELECTOR}`)
 
     if (!link) {
       return
@@ -166,18 +201,40 @@ function init() {
     scrollToTitle(link.hash)
   })
 
-  document.querySelectorAll(HEADING_LINK_SELECTOR)?.forEach((item) =>
+  document.querySelectorAll(HEADING_COPY_BUTTON_SELECTOR)?.forEach((item) =>
     item.addEventListener('click', (event) => {
-      const link = event.target.closest(HEADING_LINK_SELECTOR)
+      const button = event.target.closest(HEADING_COPY_BUTTON_SELECTOR)
+      let link = document.location.href + button.dataset.anchor
 
-      if (!link) {
-        return
+      if (document.location.hash) {
+        link = link.replace(document.location.hash, '')
       }
 
       event.preventDefault()
-      saveLink(link.href)
+      saveLink(link, button)
     })
   )
+
+  function headingsScaler() {
+    const articleHeadings = document.querySelectorAll(HEADING_SELECTOR)
+
+    for (const heading of articleHeadings) {
+      const copier = heading.querySelector('.article-heading__copier')
+      const status = copier.querySelector('.article-heading__status')
+
+      const headingPosition = heading.getBoundingClientRect()
+      const copierPosition = copier.getBoundingClientRect()
+
+      if (headingPosition.left === copierPosition.left) {
+        heading.style.width = `${heading.offsetWidth - copier.offsetWidth * 1.1}px`
+      }
+
+      status.hidden = true
+      status.textContent = '' // Статус должен быть пустым, чтобы его гарантированно не читали скринридеры. Вызвано особенностью работы скринридеров с атрибутом `aria-describedby`.
+    }
+  }
+
+  headingsScaler()
 }
 
 init()

@@ -3,9 +3,9 @@
  */
 
 const tocLinks = document.querySelectorAll('.toc__link')
-const MAX_LENGTH = 90
+export const MAX_LENGTH = 90
 
-const clipContent = (linksArray, maxLength) => {
+export const clipContent = (linksArray, maxLength) => {
   linksArray.forEach((link) => {
     const linkText = link.textContent.trim().replace(/\s+/g, ' ')
 
@@ -20,8 +20,3 @@ const clipContent = (linksArray, maxLength) => {
 }
 
 clipContent(tocLinks, MAX_LENGTH)
-
-module.exports = {
-  MAX_LENGTH,
-  clipContent,
-}
