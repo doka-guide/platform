@@ -17,16 +17,23 @@ function setTrigger() {
 const pagesAmountEnoughTrigger = 'pages-amount-enough'
 const averageDurationEnoughTrigger = 'average-duration-enough'
 const maxScrollDeepnessEnoughTrigger = 'max-scroll-deepness-enough'
+const pageFromTheListTrigger = 'page-from-the-list'
 
 const reactionsObject = {}
 reactionsObject[pagesAmountEnoughTrigger] = () => setTrigger()
 reactionsObject[averageDurationEnoughTrigger] = () => setTrigger()
 reactionsObject[maxScrollDeepnessEnoughTrigger] = () => setTrigger()
+reactionsObject[pageFromTheListTrigger] = () => setTrigger()
+
+const triggerPageList = ['/about/', '/people/', '/manifesto/']
 
 function createTrigger(sessionObject) {
   const visited = sessionObject.visited
   if (visited) {
     const pages = Object.keys(visited)
+    for (let i = 0; i < pages.length; i++) {
+      triggerPageList.includes(pages[i])
+    }
     if (pages.length > 5) {
       return pagesAmountEnoughTrigger
     }
