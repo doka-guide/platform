@@ -1,6 +1,6 @@
 const visitedPagesKey = 'pages-list'
 
-const updatePeriod = 10000
+const updatingPeriod = 10000
 const sessionObject = {}
 
 let interval = null
@@ -33,7 +33,7 @@ function createTrigger(sessionObject) {
       const pageInfo = visited[key]
       averageDuration += pageInfo.duration
     }
-    if (averageDuration / pages.length > updatePeriod * 4.5) {
+    if (averageDuration / pages.length > updatingPeriod * 4.5) {
       return averageDurationEnoughTrigger
     }
   }
@@ -64,7 +64,7 @@ function init() {
 
       sessionObject['visited'] = visitedPages ? JSON.parse(visitedPages) : {}
       if (Object.keys(sessionObject.visited).includes(currentPage)) {
-        updatePageInfo(sessionObject.visited, currentPage, 'duration', updatePeriod, (from, to) => from + to)
+        updatePageInfo(sessionObject.visited, currentPage, 'duration', updatingPeriod, (from, to) => from + to)
         updatePageInfo(sessionObject.visited, currentPage, 'loaded', currentTime, (from, to) => to)
         updatePageInfo(sessionObject.visited, currentPage, 'scrollDeepness', scrollDeepness, (from, to) =>
           to > from ? to : from
@@ -82,7 +82,7 @@ function init() {
         chooseReaction(trigger, sessionObject)
       }
       localStorage.setItem(visitedPagesKey, JSON.stringify(sessionObject.visited))
-    }, updatePeriod)
+    }, updatingPeriod)
   }
 }
 
