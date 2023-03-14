@@ -1,6 +1,6 @@
 const visitedPagesKey = 'pages-list'
 
-const sessionSavingsInterval = 10000
+const updatePeriod = 10000
 const sessionObject = {}
 
 let interval = null
@@ -37,6 +37,8 @@ function updatePageInfo(object, page, key, to, action) {
   const from = object[page][key]
   if (from) {
     object[page][key] = action(from, to)
+  } else {
+    object[page][key] = to
   }
 }
 
@@ -46,32 +48,20 @@ function init() {
       const visitedPages = localStorage.getItem(visitedPagesKey)
       const currentPage = window.location.pathname
       const currentTime = Date.now()
+      const scrollDeepness = window.scrollY / document.getElementsByTagName('body')[0].clientHeight
 
       sessionObject['visited'] = visitedPages ? JSON.parse(visitedPages) : {}
       if (Object.keys(sessionObject.visited).includes(currentPage)) {
-        const lastLoaded = sessionObject['visited'][currentPage].loaded
-          ? sessionObject['visited'][currentPage].loaded
-          : 0
-        updatePageInfo(
-          sessionObject.visited,
-          currentPage,
-          'duration',
-          currentTime - lastLoaded,
-          (from, to) => from + to
-        )
+        updatePageInfo(sessionObject.visited, currentPage, 'duration', updatePeriod, (from, to) => from + to)
         updatePageInfo(sessionObject.visited, currentPage, 'loaded', currentTime, (from, to) => to)
-        updatePageInfo(
-          sessionObject.visited,
-          currentPage,
-          'maxScroll',
-          window.scrollY / window.innerHeight,
-          (from, to) => (to > from ? to : from)
+        updatePageInfo(sessionObject.visited, currentPage, 'scrollDeepness', scrollDeepness, (from, to) =>
+          to > from ? to : from
         )
       } else {
         sessionObject['visited'][currentPage] = {
           duration: 0,
           loaded: currentTime,
-          maxScroll: window.scrollY / window.innerHeight,
+          scrollDeepness: scrollDeepness,
         }
       }
 
@@ -80,7 +70,7 @@ function init() {
         chooseReaction(trigger, sessionObject)
       }
       localStorage.setItem(visitedPagesKey, JSON.stringify(sessionObject.visited))
-    }, sessionSavingsInterval)
+    }, updatePeriod)
   }
 }
 
