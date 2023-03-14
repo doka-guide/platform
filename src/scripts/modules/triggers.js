@@ -15,9 +15,11 @@ function setTrigger() {
 }
 
 const pagesAmountEnoughTrigger = 'pages-amount-enough'
+const averageDurationEnoughTrigger = 'average-duration-enough'
 
 const reactionsObject = {}
 reactionsObject[pagesAmountEnoughTrigger] = () => setTrigger()
+reactionsObject[averageDurationEnoughTrigger] = () => setTrigger()
 
 function createTrigger(sessionObject) {
   const visited = sessionObject.visited
@@ -26,11 +28,21 @@ function createTrigger(sessionObject) {
     if (pages.length > 5) {
       return pagesAmountEnoughTrigger
     }
+    let averageDuration = 0
+    for (const key in visited) {
+      const pageInfo = visited[key]
+      averageDuration += pageInfo.duration
+    }
+    if (averageDuration / pages.length > updatePeriod * 4.5) {
+      return averageDurationEnoughTrigger
+    }
   }
 }
 
 function chooseReaction(trigger, sessionObject) {
-  reactionsObject[trigger](sessionObject)
+  if (reactionsObject[trigger]) {
+    reactionsObject[trigger](sessionObject)
+  }
 }
 
 function updatePageInfo(object, page, key, to, action) {
