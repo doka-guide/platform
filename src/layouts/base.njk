@@ -21,7 +21,6 @@
 
     {{ content | safe }}
 
-    {% include "subscribe-popup.njk" %}
     {% include "blocks/cookie-notification.njk" %}
 
     <script src="/scripts/index.js" {% if env.isDevEnv %}type="module"{% endif %}></script>
