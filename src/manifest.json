@@ -7,7 +7,7 @@
   "lang": "ru",
   "dir": "ltr",
   "id": "/",
-  "start_url": ".",
+  "start_url": "/",
   "theme_color": "#1a1a1a",
   "background_color": "#ffffff",
   "display": "standalone",
