@@ -16,10 +16,12 @@ function setTrigger() {
 
 const pagesAmountEnoughTrigger = 'pages-amount-enough'
 const averageDurationEnoughTrigger = 'average-duration-enough'
+const maxScrollDeepnessEnoughTrigger = 'max-scroll-deepness-enough'
 
 const reactionsObject = {}
 reactionsObject[pagesAmountEnoughTrigger] = () => setTrigger()
 reactionsObject[averageDurationEnoughTrigger] = () => setTrigger()
+reactionsObject[maxScrollDeepnessEnoughTrigger] = () => setTrigger()
 
 function createTrigger(sessionObject) {
   const visited = sessionObject.visited
@@ -29,12 +31,19 @@ function createTrigger(sessionObject) {
       return pagesAmountEnoughTrigger
     }
     let averageDuration = 0
+    let maxScrollDeepness = 0
     for (const key in visited) {
       const pageInfo = visited[key]
       averageDuration += pageInfo.duration
+      if (pageInfo.scrollDeepness > maxScrollDeepness) {
+        maxScrollDeepness = pageInfo.scrollDeepness
+      }
     }
     if (averageDuration / pages.length > updatingPeriod * 4.5) {
       return averageDurationEnoughTrigger
+    }
+    if (maxScrollDeepness > 0.5) {
+      return maxScrollDeepnessEnoughTrigger
     }
   }
 }
