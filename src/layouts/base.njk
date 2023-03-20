@@ -3,6 +3,11 @@
     --accent-color: var(--color-{{ category }});
     --accent-base-color: var(--color-base-{{ category }});
   {% endset %}
+{% else %}
+  {% set rootStyles %}
+    --accent-color: var(--color-dream-job);
+    --accent-base-color: var(--color-base-dream-job);
+  {% endset %}
 {% endif %}
 
 <!DOCTYPE html>

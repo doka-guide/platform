@@ -1,0 +1,144 @@
+.article__header {
+  padding-block-start: 330px;
+  padding-block-end: 20px;
+  text-align: center;
+  background-image: url('/images/background.svg');
+  background-position: center top;
+  background-size: auto 330px;
+  background-repeat: no-repeat;
+}
+
+.article__header-inner {
+  padding: 0;
+}
+
+.article__title {
+  margin-block-end: 12px;
+  font-size: var(--title-size);
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.article__description {
+  font-size: clamp(32px, 2.9vw, 40px);
+}
+
+.article__starter {
+  max-inline-size: clamp(355px, 56.7vw, 775px);
+  margin-block-start: 150px;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+  font-size: clamp(17px, 1.75vw, 24px);
+  text-align: start;
+}
+
+.landing__inner {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  row-gap: 80px;
+}
+
+.preview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto;
+  gap: 20px;
+}
+
+.preview__title {
+  margin: 0;
+  font-size: var(--title-size);
+  line-height: 0.9;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.preview__img-block {
+  background-color: var(--accent-color);
+}
+
+#market .preview__title {
+  grid-column: 2 / 4;
+  grid-row: 1 / 3;
+  text-align: right;
+}
+
+#market .preview__img-block {
+  grid-column: 4 / 5;
+  grid-row: 2 / 3;
+}
+
+#market .preview__description {
+  grid-column: 4 / 5;
+  grid-row: 1 / 2;
+}
+
+#steps .preview__title {
+  grid-column: 1 / 3;
+  grid-row: 1 / 3;
+  text-align: right;
+}
+
+#steps .preview__img-block {
+  grid-row: 1 / 3;
+}
+
+#steps .preview__description {
+  grid-row: 1 / 3;
+}
+
+#cv .preview__img-block {
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+}
+
+#cv .preview__title {
+  grid-column: 3 / 5;
+  grid-row: 1 / 2;
+}
+
+#cv .preview__description {
+  grid-column: 3 / 5;
+  grid-row: 2 / 3;
+}
+
+#portfolio .preview__img-block {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+}
+
+#portfolio .preview__title {
+  grid-column: 2 / 5;
+  grid-row: 1 / 2;
+}
+
+#portfolio .preview__description {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+
+#letter .preview__title {
+  grid-column: span 4;
+  grid-row: span 2;
+}
+
+#letter :where(.preview__img-block, .preview__description) {
+  display: none;
+}
+
+#interview .preview__title {
+  grid-column: 1 / 4;
+  grid-row: 1 / 3;
+  text-align: right;
+  hyphens: auto;
+}
+
+#interview .preview__img-block {
+  grid-column: 4 / 5;
+  grid-row: 2 / 3;
+}
+
+#interview .preview__description {
+  grid-column: 4 / 5;
+  grid-row: 1 / 2;
+}
