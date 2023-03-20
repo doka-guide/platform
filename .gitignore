@@ -5,18 +5,10 @@ dist
 .vscode
 
 # симлинки на данные репозитория контента
-a11y
-html
-css
-js
-tools
-recipes
+dream-job
 people
-about
 pages
 settings
-specials
-interviews
 
 .eslintcache
 
