@@ -32,7 +32,7 @@ const makeLinks = shell.task(`node make-links.js --default`, {
 
 const styles = () => {
   return gulp
-    .src('src/styles/{index.css,index.sc.css,dark-theme.css}')
+    .src('src/styles/{index.css,index.sc.css,dark-theme.css,landing.css}')
     .pipe(
       postcss([
         pimport,

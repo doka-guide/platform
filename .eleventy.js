@@ -116,9 +116,11 @@ module.exports = function (config) {
   })
 
   config.addCollection('articleIndexes', (collectionApi) => {
-    const articleIndexes = collectionApi.getFilteredByGlob(`src/{${mainSections.join(',')}}/index.md`)
+    const articleIndexes = collectionApi.getFilteredByGlob(`src/${mainSections.join(',')}/index.md`)
     const existIds = articleIndexes.map((section) => section.fileSlug)
     const visualOrder = mainSections.filter((sectionId) => existIds.includes(sectionId))
+
+    console.log(mainSections.join(','))
 
     const indexesMap = articleIndexes.reduce((map, section) => {
       map[section.fileSlug] = section
@@ -377,7 +379,7 @@ module.exports = function (config) {
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
   config.addPassthroughCopy('src/images')
-  config.addPassthroughCopy('src/(css|html|js|tools|recipes|a11y|people)/**/!(*11tydata*)*.!(md)')
+  config.addPassthroughCopy('src/(dream-job|people)/**/!(*11tydata*)*.!(md)')
 
   return {
     dir: {
