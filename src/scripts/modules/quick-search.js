@@ -233,6 +233,8 @@ class QuickSearch extends BaseComponent {
   }
 }
 
-export default new QuickSearch({
-  rootElement: document.querySelector('.search'),
-})
+export default document.querySelector('.search')
+  ? new QuickSearch({
+      rootElement: document.querySelector('.search'),
+    })
+  : null
