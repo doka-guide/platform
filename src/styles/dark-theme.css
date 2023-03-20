@@ -14,13 +14,5 @@
   --color-background: hsl(var(--color-dark));
   --color-fade: hsl(220 7% 25%);
 
-  --color-html: hsl(25 70% 24%);
-  --color-css: hsl(209 70% 24%);
-  --color-js: hsl(49 74% 23%);
-  --color-tools: hsl(122 56% 23%);
-  --color-recipes: hsl(276 39% 32%);
-  --color-a11y: hsl(162 95% 15%);
-
-  --color-green: 124, 46%, 29%;
-  --color-red: 360 100% 28%;
+  --color-dream-job: hsl(68 100% 24%);
 }

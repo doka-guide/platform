@@ -6,19 +6,7 @@
   --color-dark: 220 7% 17%;
   --color-black: 0 0% 0%;
 
-  --color-red: 360 100% 80%;
-  --color-orange: 25 100% 59%;
-  --color-blue: 209 100% 59%;
-  --color-yellow: 49 100% 58%;
-  --color-green: 122 78% 58%;
-  --color-pink: 346 81% 78%;
-  --color-violet: 276 100% 72%;
-  --color-aquamarine: 162 90% 51%;
+  --color-green: 68 100% 46%;
 
-  --color-base-html: hsl(var(--color-orange));
-  --color-base-css: hsl(var(--color-blue));
-  --color-base-js: hsl(var(--color-yellow));
-  --color-base-tools: hsl(var(--color-green));
-  --color-base-recipes: hsl(var(--color-violet));
-  --color-base-a11y: hsl(var(--color-aquamarine));
+  --color-base-dream-job: hsl(var(--color-green));
 }
