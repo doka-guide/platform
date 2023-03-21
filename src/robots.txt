@@ -1,17 +1,11 @@
 User-Agent: *
 Allow: /
-Disallow: /search
-Disallow: *demos/
 
 User-agent: GoogleBot
 Allow: /
-Disallow: /search
-Disallow: *demos/
 
 User-agent: Yandex
 Allow: /
-Disallow: /search
-Disallow: *demos/
 Clean-param: q
 
 Sitemap: https://doka.guide/sitemap.xml
