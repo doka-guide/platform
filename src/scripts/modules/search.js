@@ -275,6 +275,11 @@ function init() {
     searchField.addEventListener('focus', onFocus, true)
     searchField.addEventListener('blur', onBlur, true)
     searchField.focus()
+    searchField.addEventListener('input', () => {
+      if (!searchField.value) {
+        setLiveRegion(false, searchHits)
+      }
+    })
 
     searchForm.addEventListener('submit', (event) => {
       event.preventDefault()
