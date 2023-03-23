@@ -64,10 +64,11 @@ title: 'Поиск'
     </button>
   </aside>
 
-  <main class="search-page__main">
+  <main class="search-page__main" aria-labelledby="section-name">
+    <h1 class="visually-hidden" id="section-name">Результаты поиска</h1>
     {% include "blocks/search-hits.njk" %}
-    <div class="search__placeholder">
-      Введите что-нибудь в поле для начала поиска
+    <div class="search__placeholder" id="search-hint">
+      Введите что-нибудь в поле для начала поиска, после этого появится результат
     </div>
   </main>
 
