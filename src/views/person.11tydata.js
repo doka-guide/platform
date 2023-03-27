@@ -69,6 +69,11 @@ module.exports = {
       return person.data.photo
     },
 
+    photoAlt: function (data) {
+      const { person } = data
+      return person.data.photoAlt
+    },
+
     title: function (data) {
       return data.name
     },
