@@ -50,4 +50,5 @@ jobs:
       - name: Публикация сайта
         run: |
           cd dist
+          ls -al $HOME/.ssh/
           rsync -e 'ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no' --exclude 'api.json' --exclude 'mail' --archive --progress --compress --delete . deploy@dev.doka.guide:$(echo $(grep 'SERVER_PATH' ../.env | cut -d '=' -f2))
