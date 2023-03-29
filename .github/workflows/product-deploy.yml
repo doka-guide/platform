@@ -41,7 +41,7 @@ jobs:
           chmod 600 "$HOME/.ssh/doka_deploy"
           echo "${{ secrets.DEPLOY_CONFIG }}" > "$HOME/.ssh/config"
           chmod 600 "$HOME/.ssh/config"
-          echo
+          ssh -o StrictHostKeyChecking=no deploy@dev.doka.guide
       - name: Установка модулей
         run: npm ci
       - name: Сборка сайта
