@@ -53,4 +53,4 @@ jobs:
       - name: Публикация сайта
         run: |
           cd dist
-          rsync --exclude 'api.json' --exclude 'mail' --archive --progress --compress --delete . dev.doka.guide:$(echo $(grep 'SERVER_PATH' ../.env | cut -d '=' -f2))
+          rsync --exclude 'api.json' --exclude 'mail' --archive --progress --compress --delete . dev.doka.guide:/web/sites/doka.guide/www/
