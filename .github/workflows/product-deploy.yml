@@ -39,6 +39,9 @@ jobs:
           mkdir "$HOME/.ssh"
           echo "${{ secrets.DEPLOY_KEY }}" > "$HOME/.ssh/doka_deploy"
           chmod 600 "$HOME/.ssh/doka_deploy"
+          echo "${{ secrets.DEPLOY_CONFIG }}" > "$HOME/.ssh/config"
+          chmod 600 "$HOME/.ssh/config"
+          echo
       - name: Установка модулей
         run: npm ci
       - name: Сборка сайта
@@ -50,5 +53,4 @@ jobs:
       - name: Публикация сайта
         run: |
           cd dist
-          ls -al $HOME/.ssh/
-          rsync -e "ssh -i ~/.ssh/doka_deploy -o StrictHostKeyChecking=no" --exclude 'api.json' --exclude 'mail' --archive --progress --compress --delete . deploy@dev.doka.guide:$(echo $(grep 'SERVER_PATH' ../.env | cut -d '=' -f2))
+          rsync --exclude 'api.json' --exclude 'mail' --archive --progress --compress --delete . dev.doka.guide:$(echo $(grep 'SERVER_PATH' ../.env | cut -d '=' -f2))
