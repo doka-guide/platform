@@ -5,6 +5,7 @@ const sessionObject = {}
 
 let interval = null
 
+// Реакция на триггер по умолчанию
 function setTrigger() {
   const currentPopupStatus = localStorage.getItem('subscription-form-status')
   const currentCookieStatus = localStorage.getItem('cookie-notification')
@@ -14,16 +15,15 @@ function setTrigger() {
   }
 }
 
+// Триггеры
 const pagesAmountEnoughTrigger = 'pages-amount-enough'
 const averageDurationEnoughTrigger = 'average-duration-enough'
 const maxScrollDeepnessEnoughTrigger = 'max-scroll-deepness-enough'
-const pageFromTheListTrigger = 'page-from-the-list'
 
-const reactionsObject = {}
-reactionsObject[pagesAmountEnoughTrigger] = () => setTrigger()
-reactionsObject[averageDurationEnoughTrigger] = () => setTrigger()
-reactionsObject[maxScrollDeepnessEnoughTrigger] = () => setTrigger()
-reactionsObject[pageFromTheListTrigger] = () => setTrigger()
+const reactions = {}
+reactions[pagesAmountEnoughTrigger] = setTrigger
+reactions[averageDurationEnoughTrigger] = setTrigger
+reactions[maxScrollDeepnessEnoughTrigger] = setTrigger
 
 const triggerPageList = ['/about/', '/people/', '/manifesto/']
 
@@ -49,7 +49,7 @@ function createTrigger(sessionObject) {
 }
 
 function chooseReaction(trigger, sessionObject) {
-  reactionsObject[trigger]?.(sessionObject)
+  reactions[trigger]?.(sessionObject)
 }
 
 function updatePageInfo(object, page, key, to, action) {
