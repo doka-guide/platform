@@ -56,10 +56,6 @@ function createTrigger(sessionObject) {
 }
 
 function chooseReaction(trigger, sessionObject) { reactionsObject[trigger]?.(sessionObject) }
-  if (reactionsObject[trigger]) {
-    reactionsObject[trigger](sessionObject)
-  }
-}
 
 function updatePageInfo(object, page, key, to, action) {
   const from = object[page][key]
