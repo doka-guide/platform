@@ -37,25 +37,20 @@ function createTrigger(sessionObject) {
     if (pages.length > 5) {
       return pagesAmountEnoughTrigger
     }
-    let averageDuration = 0
-    let maxScrollDeepness = 0
-    for (const key of visited) {
-      const pageInfo = visited[key]
-      averageDuration += pageInfo.duration
-      if (pageInfo.scrollDeepness > maxScrollDeepness) {
-        maxScrollDeepness = pageInfo.scrollDeepness
-      }
-    }
-    if (averageDuration / pages.length > updatingPeriod * 4.5) {
+    const averageDuration = Object.values(visited).reduce((a, v) => a + v.duration, 0) / pages.length
+    if (averageDuration > updatingPeriod * 4.5) {
       return averageDurationEnoughTrigger
     }
+    const maxScrollDeepness = Math.max(...Object.values(visited).map((v) => v.scrollDeepness))
     if (maxScrollDeepness > 0.5) {
       return maxScrollDeepnessEnoughTrigger
     }
   }
 }
 
-function chooseReaction(trigger, sessionObject) { reactionsObject[trigger]?.(sessionObject) }
+function chooseReaction(trigger, sessionObject) {
+  reactionsObject[trigger]?.(sessionObject)
+}
 
 function updatePageInfo(object, page, key, to, action) {
   const from = object[page][key]
