@@ -16,11 +16,13 @@ function setTrigger() {
 }
 
 // Триггеры
+const pageFromTheListTrigger = 'page-from-the-list'
 const pagesAmountEnoughTrigger = 'pages-amount-enough'
 const averageDurationEnoughTrigger = 'average-duration-enough'
 const maxScrollDeepnessEnoughTrigger = 'max-scroll-deepness-enough'
 
 const reactions = {}
+reactions[pageFromTheListTrigger] = setTrigger
 reactions[pagesAmountEnoughTrigger] = setTrigger
 reactions[averageDurationEnoughTrigger] = setTrigger
 reactions[maxScrollDeepnessEnoughTrigger] = setTrigger
@@ -32,7 +34,9 @@ function createTrigger(sessionObject) {
   if (visited) {
     const pages = Object.keys(visited)
     for (let i = 0; i < pages.length; i++) {
-      triggerPageList.includes(pages[i])
+      if (triggerPageList.includes(pages[i])) {
+        return pageFromTheListTrigger
+      }
     }
     if (pages.length > 5) {
       return pagesAmountEnoughTrigger
