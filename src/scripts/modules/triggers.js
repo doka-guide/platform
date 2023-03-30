@@ -28,7 +28,7 @@ reactionsObject[pageFromTheListTrigger] = () => setTrigger()
 const triggerPageList = ['/about/', '/people/', '/manifesto/']
 
 function createTrigger(sessionObject) {
-  const visited = sessionObject.visited
+  const visited = sessionObject?.visited
   if (visited) {
     const pages = Object.keys(visited)
     for (let i = 0; i < pages.length; i++) {
@@ -39,7 +39,7 @@ function createTrigger(sessionObject) {
     }
     let averageDuration = 0
     let maxScrollDeepness = 0
-    for (const key in visited) {
+    for (const key of visited) {
       const pageInfo = visited[key]
       averageDuration += pageInfo.duration
       if (pageInfo.scrollDeepness > maxScrollDeepness) {
@@ -55,7 +55,7 @@ function createTrigger(sessionObject) {
   }
 }
 
-function chooseReaction(trigger, sessionObject) {
+function chooseReaction(trigger, sessionObject) { reactionsObject[trigger]?.(sessionObject) }
   if (reactionsObject[trigger]) {
     reactionsObject[trigger](sessionObject)
   }
