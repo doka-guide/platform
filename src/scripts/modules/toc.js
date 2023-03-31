@@ -111,7 +111,9 @@ function init() {
               setTimeout(() => {
                 button.disabled = false
                 button.firstElementChild.outerHTML = icon.outerHTML
-                button.focus()
+                if (document.activeElement === document.body || document.activeElement === button) {
+                  button.focus()
+                }
                 status.textContent = undefined
                 status.hidden = true
               }, 1800)
