@@ -3,8 +3,6 @@ const visitedPagesKey = 'pages-list'
 const updatingPeriod = 10000
 const sessionObject = {}
 
-let interval = null
-
 // Реакция на триггер по умолчанию
 function setTrigger() {
   const currentPopupStatus = localStorage.getItem('subscription-form-status')
@@ -65,36 +63,37 @@ function updatePageInfo(object, page, key, to, action) {
   }
 }
 
+const reset = init()
 function init() {
-  if (!interval) {
-    interval = setInterval(() => {
-      const visitedPages = localStorage.getItem(visitedPagesKey)
-      const currentPage = window.location.pathname
-      const currentTime = Date.now()
-      const scrollDeepness = window.scrollY / document.getElementsByTagName('body')[0].clientHeight
+  const interval = setInterval(() => {
+    const visitedPages = localStorage.getItem(visitedPagesKey)
+    const currentPage = window.location.pathname
+    const currentTime = Date.now()
+    const scrollDeepness = window.scrollY / document.getElementsByTagName('body')[0].clientHeight
 
-      sessionObject['visited'] = visitedPages ? JSON.parse(visitedPages) : {}
-      if (Object.keys(sessionObject.visited).includes(currentPage)) {
-        updatePageInfo(sessionObject.visited, currentPage, 'duration', updatingPeriod, (from, to) => from + to)
-        updatePageInfo(sessionObject.visited, currentPage, 'loaded', currentTime, (from, to) => to)
-        updatePageInfo(sessionObject.visited, currentPage, 'scrollDeepness', scrollDeepness, (from, to) =>
-          to > from ? to : from
-        )
-      } else {
-        sessionObject['visited'][currentPage] = {
-          duration: 0,
-          loaded: currentTime,
-          scrollDeepness: scrollDeepness,
-        }
+    sessionObject['visited'] = visitedPages ? JSON.parse(visitedPages) : {}
+    if (Object.keys(sessionObject.visited).includes(currentPage)) {
+      updatePageInfo(sessionObject.visited, currentPage, 'duration', updatingPeriod, (from, to) => from + to)
+      updatePageInfo(sessionObject.visited, currentPage, 'loaded', currentTime, (from, to) => to)
+      updatePageInfo(sessionObject.visited, currentPage, 'scrollDeepness', scrollDeepness, (from, to) =>
+        to > from ? to : from
+      )
+    } else {
+      sessionObject['visited'][currentPage] = {
+        duration: 0,
+        loaded: currentTime,
+        scrollDeepness: scrollDeepness,
       }
+    }
 
-      const trigger = createTrigger(sessionObject)
-      if (trigger) {
-        chooseReaction(trigger, sessionObject)
-      }
-      localStorage.setItem(visitedPagesKey, JSON.stringify(sessionObject.visited))
-    }, updatingPeriod)
-  }
+    const trigger = createTrigger(sessionObject)
+    if (trigger) {
+      chooseReaction(trigger, sessionObject)
+      reset()
+    }
+    localStorage.setItem(visitedPagesKey, JSON.stringify(sessionObject.visited))
+  }, updatingPeriod)
+  return () => clearInterval(interval)
 }
 
 try {
