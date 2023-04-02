@@ -15,7 +15,7 @@
       {% set category = sectionIndex.fileSlug %}
 
       <li class="article-indexes-list__item">
-        <h3 class="article-indexes-list__title" style="--accent-color: var(--color-base-{{ category }})">
+        <h3 class="article-indexes-list__title" style="--accent-color: var(--color-{{ category }})">
           <a class="article-indexes-list__link" href="/{{ category }}/">
             {{ sectionIndex.data.name }}
           </a>

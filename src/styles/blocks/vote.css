@@ -25,11 +25,11 @@
 }
 
 .vote--up {
-  --vote-color: hsl(122, 78%, 58%);
+  --vote-color: hsl(var(--color-green));
 }
 
 .vote--down {
-  --vote-color: hsl(346, 81%, 78%);
+  --vote-color: hsl(var(--color-pink));
 }
 
 .vote:disabled {

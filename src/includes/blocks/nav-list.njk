@@ -1,6 +1,6 @@
 <ul class="header__menu nav-list base-list">
   {% for sectionIndex in articleIndexes %}
-    <li class="nav-list__item" style="--accent-color: var(--color-base-{{ sectionIndex.fileSlug }})">
+    <li class="nav-list__item" style="--accent-color: var(--color-{{ sectionIndex.fileSlug }})">
       <a class="nav-list__link" href="/{{ sectionIndex.fileSlug }}/">
         <span class="nav-list__link-text">
           {{ sectionIndex.data.name }}
