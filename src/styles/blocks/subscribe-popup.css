@@ -73,12 +73,12 @@
 
 .subscribe-popup__success-text {
   display: none;
-  color: hsl(var(--color-green));
+  color: var(--color-subscribe-success);
 }
 
 .subscribe-popup__error-text {
   display: none;
-  color: hsl(var(--color-red));
+  color: var(--color-subscribe-error);
 }
 
 .subscribe-popup__emoji {
