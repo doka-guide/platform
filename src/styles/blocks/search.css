@@ -60,6 +60,7 @@
   visibility: hidden;
 }
 
+.search__input:placeholder-shown ~ .search__key--enter,
 .search__input:not(:focus) ~ .search__key--enter {
   visibility: hidden;
 }
