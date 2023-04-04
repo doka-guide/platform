@@ -36,6 +36,8 @@
   display: grid;
   grid-template-rows: repeat(6, 1fr);
   row-gap: 80px;
+  padding-top: clamp(40px, 11%, 180px);
+  padding-bottom: clamp(40px, 11%, 180px);
 }
 
 .preview {
@@ -43,18 +45,37 @@
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto auto;
   gap: 20px;
+  text-decoration: initial;
+  color: inherit;
 }
 
 .preview__title {
+  --stroke-width: 2px;
   margin: 0;
   font-size: var(--title-size);
-  line-height: 0.9;
+  line-height: 1;
   font-weight: 400;
   text-transform: uppercase;
 }
 
 .preview__img-block {
+  position: relative;
   background-color: var(--accent-color);
+}
+
+.disabled .preview__img-block::before {
+  content: "Скоро";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  padding: 5px 15px;
+  color: var(--color-background);
+  background-color: hsl(var(--color-base-text));
+  font-size: var(--font-size-l);
+  font-family: var(--font-family);
+  text-transform: uppercase;
 }
 
 #market .preview__title {
