@@ -124,10 +124,6 @@
     visibility 0s;
 }
 
-.header--static .header__inner--menu {
-  position: static;
-}
-
 /* удаляем первое меню, когда показывается второе */
 .header--open > .header__inner--main {
   visibility: hidden;
