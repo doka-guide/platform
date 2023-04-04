@@ -124,7 +124,7 @@ class SearchResultOutput extends BaseComponent {
           .join('')
 
         return `
-          <article class="search-hit" style="--accent-color: var(--color-${hitObject.category})">
+          <article class="search-hit" style="--accent-color: var(--color-base-${hitObject.category})">
             <h3 class="search-hit__title">
               <a class="search-hit__link link" href="${hitObject.url}">
                 ${editIcon}${title}

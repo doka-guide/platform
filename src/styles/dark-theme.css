@@ -21,8 +21,6 @@
   --color-recipes: hsl(276 39% 32%);
   --color-a11y: hsl(162 95% 15%);
 
-  --color-green: 124 46% 29%;
-  --color-pink: 345 40% 64%;
+  --color-green: 124, 46%, 29%;
   --color-red: 360 100% 28%;
-  --color-amber: 44 70% 49%;
 }

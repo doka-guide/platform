@@ -1,7 +1,6 @@
 .person-badges {
   --col-count: 7;
   --row-count: 1;
-  --badge-opacity: calc(1 - var(--is-dark-theme-on) * 0.2);
   grid-area: badges;
   display: grid;
   grid-template-columns: repeat(var(--col-count), 1fr);
@@ -104,7 +103,6 @@
   display: block;
   width: 100%;
   height: auto;
-  opacity: var(--badge-opacity);
 }
 
 .person-badges__pop-up-container {
@@ -150,7 +148,6 @@
   max-width: 190px;
   max-height: 120px;
   object-fit: contain;
-  opacity: var(--badge-opacity);
 }
 
 .person-badges__pop-up-title {

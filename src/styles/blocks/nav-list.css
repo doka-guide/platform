@@ -58,7 +58,7 @@
 }
 
 .nav-list__link:hover::after {
-  opacity: 1;
+  opacity: calc(1 - var(--is-dark-theme-on) * 0.6);
   visibility: visible;
 }
 

@@ -65,7 +65,7 @@
 }
 
 .search-hit__marked {
-  background-color: hsl(var(--color-amber));
+  background-color: hsl(44deg 100% 59%);
 }
 
 @media (min-width: 1024px) {
