@@ -20,7 +20,12 @@
           {{ divider() }}
         </li>
 
-        {% if isMainPage %}Спецпроекты{% endif %}
+        {% if isMainPage %}
+          <li class="breadcrumbs__item header__category">
+          Спецпроекты
+          {{ divider() }}
+          </li>
+        {% endif %}
 
         {% if category %}
           {% if title %}
