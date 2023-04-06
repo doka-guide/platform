@@ -52,9 +52,13 @@
   text-transform: uppercase;
 }
 
+.preview__description {
+  margin: 0;
+}
+
 .preview__img-block {
   position: relative;
-  min-height: 150px;
+  min-height: 100px;
   background-color: var(--accent-color);
 }
 
@@ -118,6 +122,7 @@
 .landing__row--market .preview__description {
   grid-column: 4 / 5;
   grid-row: 1 / 2;
+  align-self: center;
 }
 
 .landing__row--steps .preview__title {
@@ -188,6 +193,7 @@
 .landing__row--interview .preview__description {
   grid-column: 4 / 5;
   grid-row: 1 / 2;
+  align-self: center;
 }
 
 @media (max-width: 410px) {
@@ -229,6 +235,10 @@
     display: block;
   }
 
+  .preview__img-block {
+    min-height: 150px;
+  }
+
   .landing__inner {
     row-gap: 40px;
     padding-left: 10px;
@@ -236,8 +246,12 @@
   }
 
   .preview__title {
-    margin-bottom: 1rem;
+    margin-block-end: 1rem;
     text-align: right;
+  }
+
+  .preview__description {
+    margin-block-start: 0.5rem;
   }
 
   .landing__row--letter :where(.preview__img-block, .preview__description) {
