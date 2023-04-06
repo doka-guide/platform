@@ -183,6 +183,8 @@
 @media (max-width: 410px) {
   .article__header {
     padding-block-start: 130px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
     background-size: auto 130px;
   }
 }
