@@ -34,16 +34,6 @@
   text-align: start;
 }
 
-.landing__inner {
-  display: grid;
-  grid-template-rows: repeat(6, 1fr);
-  row-gap: 80px;
-  padding-top: clamp(40px, 11%, 180px);
-  padding-bottom: clamp(40px, 11%, 180px);
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
 .preview {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -85,6 +75,23 @@
   font-size: var(--font-size-l);
   font-family: var(--font-family);
   text-transform: uppercase;
+}
+
+.landing {
+  display: flex;
+  flex-direction: column;
+}
+
+.landing__inner {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  row-gap: 80px;
+  align-self: center;
+  max-width: 1680px;
+  padding-top: clamp(40px, 11%, 180px);
+  padding-bottom: clamp(40px, 11%, 180px);
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .landing__row--market .preview__title {
