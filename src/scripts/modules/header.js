@@ -136,13 +136,13 @@ class Header extends BaseComponent {
   }
 
   closeOnKeyUp(event) {
-    if (event.code === 'Escape') {
+    if (event.code === 'Escape' && !this.isMainPage) {
       this.closeMenu()
     }
   }
 
   closeOnClickOutSide(event) {
-    if (!event.target.closest('.header__inner')) {
+    if (!event.target.closest('.header__inner') && !this.isMainPage) {
       this.closeMenu()
     }
   }
@@ -216,16 +216,7 @@ class Header extends BaseComponent {
     const currentScroll = window.scrollY
     const isScrollingDown = currentScroll > lastScroll
     const isHeaderOnTop = currentScroll === 0
-    const mainPageMenuOffset = 100
     this.state.lastScroll = currentScroll
-
-    if (this.isMainPage) {
-      if (this.isMenuOpen && isScrollingDown && currentScroll >= mainPageMenuOffset) {
-        this.closeMenu()
-      } else if (!isScrollingDown && currentScroll < mainPageMenuOffset / 2) {
-        this.openMenu()
-      }
-    }
 
     if (isHeaderOnTop) {
       if (this.isFixed) {
@@ -247,7 +238,7 @@ class Header extends BaseComponent {
         this.hideHeader()
       }
     } else {
-      if (!this.isFixed) {
+      if (!this.isFixed && !this.isMainPage) {
         this.showHeader()
       }
     }

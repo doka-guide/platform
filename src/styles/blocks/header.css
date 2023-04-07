@@ -124,6 +124,20 @@
     visibility 0s;
 }
 
+/* удаляем первое меню, когда показывается второе */
+.header--open > .header__inner--main {
+  visibility: hidden;
+}
+
+/* скрываем первое меню на главной */
+.header--main.header--open > .header__inner--main {
+  display: none;
+}
+
+.header--main.header--open > .header__inner--menu {
+  position: relative;
+}
+
 .header__breadcrumbs {
   min-width: 0;
   line-height: 1.25;
@@ -276,10 +290,6 @@
 .header:not(.header--open)::before {
   opacity: 0;
   visibility: hidden;
-}
-
-.header--static .header__inner--menu {
-  position: static;
 }
 
 .header--static .header__toggle {
