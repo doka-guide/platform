@@ -12,6 +12,16 @@ function onBlur() {
   logo.unsetFocusOnElement()
 }
 
+function setLiveRegion(isLiveRegion, element) {
+  if (isLiveRegion) {
+    element.setAttribute('aria-live', 'assertive')
+    element.setAttribute('aria-atomic', 'true')
+  } else {
+    element.removeAttribute('aria-live')
+    element.removeAttribute('aria-atomic')
+  }
+}
+
 class Filter extends BaseComponent {
   constructor({ form }) {
     super()
@@ -125,7 +135,7 @@ class SearchResultOutput extends BaseComponent {
 
         return `
           <article class="search-hit" style="--accent-color: var(--color-base-${hitObject.category})">
-            <h3 class="search-hit__title">
+            <h2 class="search-hit__title">
               <a class="search-hit__link link" href="${hitObject.url}">
                 ${editIcon}${title}
               </a>
@@ -137,23 +147,29 @@ class SearchResultOutput extends BaseComponent {
         `
       },
 
-      hits: (list) => `
-        <ol class="search-result-list base-list">
-          ${list
-            .map(
-              (hitObject) => `
-              <li class="search-result-list__item">
-                ${SearchResultOutput.templates.hit(hitObject)}
-              </li>
-            `
-            )
-            .join('')}
-        </ol>
-      `,
+      hits: (element, list) => {
+        setLiveRegion(false, element)
+        return `
+          <ol class="search-result-list base-list">
+            ${list
+              .map(
+                (hitObject) => `
+                <li class="search-result-list__item">
+                  ${SearchResultOutput.templates.hit(hitObject)}
+                </li>
+              `
+              )
+              .join('')}
+          </ol>
+        `
+      },
 
-      emptyResults: () => `
-        <div class="search-page__empty">Ничего не найдено</div>
-      `,
+      emptyResults: (element) => {
+        setLiveRegion(true, element)
+        return `
+          <div class="search-page__empty">Ничего не найдено</div>
+        `
+      },
     }
   }
 
@@ -164,13 +180,13 @@ class SearchResultOutput extends BaseComponent {
     }
   }
 
-  renderHits(hitObjectList, queryText, SYMBOL_LIMIT) {
+  renderHits(hitObjectList, queryText, resultOutputContainer, SYMBOL_LIMIT) {
     const { element } = this.refs
 
     const result =
       !hitObjectList || hitObjectList.length === 0
-        ? SearchResultOutput.templates.emptyResults()
-        : SearchResultOutput.templates.hits(hitObjectList, queryText, SYMBOL_LIMIT)
+        ? SearchResultOutput.templates.emptyResults(resultOutputContainer)
+        : SearchResultOutput.templates.hits(resultOutputContainer, hitObjectList, queryText, SYMBOL_LIMIT)
 
     element.innerHTML = result
   }
@@ -226,7 +242,7 @@ function init() {
         .search(queryText, filters)
         .then(function (searchObject) {
           const processedHits = processHits(searchObject)
-          searchResultOutput.renderHits(processedHits, queryText, SYMBOL_LIMIT)
+          searchResultOutput.renderHits(processedHits, queryText, searchHits, SYMBOL_LIMIT)
         })
         .catch((error) => {
           console.error(error)
@@ -259,6 +275,11 @@ function init() {
     searchField.addEventListener('focus', onFocus, true)
     searchField.addEventListener('blur', onBlur, true)
     searchField.focus()
+    searchField.addEventListener('input', () => {
+      if (!searchField.value) {
+        setLiveRegion(false, searchHits)
+      }
+    })
 
     searchForm.addEventListener('submit', (event) => {
       event.preventDefault()
