@@ -3,7 +3,7 @@ name: Product Deploy
 on:
   push:
     branches:
-      - main
+      - landings-dream-job
 
 jobs:
   deploy:
