@@ -3,7 +3,7 @@
   padding: 30px 0 50px;
 }
 
-.question__request:not(:first-child) {
+.question__request {
   margin-top: 50px;
 }
 
