@@ -8,6 +8,10 @@ module.exports = {
   isMainPage: true,
 
   eleventyComputed: {
+    title: function () {
+      return 'Гайд по трудоустройству — Спецпроект — Дока'
+    },
+
     defaultOpenGraphPath: function (data) {
       return data.fullPageUrl + 'images/covers/og-landing.png'
     },
