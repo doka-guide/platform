@@ -36,7 +36,7 @@ function createTrigger(sessionObject) {
         return pageFromTheListTrigger
       }
     }
-    if (pages.length > 5) {
+    if (pages.length > 1) {
       return pagesAmountEnoughTrigger
     }
     const averageDuration = Object.values(visited).reduce((a, v) => a + v.duration, 0) / pages.length
