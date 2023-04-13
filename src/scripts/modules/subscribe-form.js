@@ -230,9 +230,9 @@ async function init() {
   }
 
   function sendForm(email, formData, method, id = '') {
+    formData['source'] = 'dream-job'
     const body = JSON.stringify({
       email,
-      source: 'dream-job',
       data: JSON.stringify(formData),
       author_id: 1,
     })

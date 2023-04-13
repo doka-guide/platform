@@ -160,6 +160,7 @@ function init() {
   }
 
   function sendForm(email, formData) {
+    formData['source'] = 'dream-job'
     const body = JSON.stringify({
       email,
       source: 'dream-job',
