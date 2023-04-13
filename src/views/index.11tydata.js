@@ -1,7 +1,7 @@
 module.exports = {
   layout: 'base.njk',
   permalink: '/',
-  documentTitle: 'Гайд по трудоустройству — Дока',
+  documentTitle: 'Гайд по трудоустройству',
   documentDescription:
     'Спецпроект «Гайд по трудоустройству» команды Доки — документации для разработчиков на человеческом языке',
   bodyClass: 'landing__body',
@@ -9,7 +9,7 @@ module.exports = {
 
   eleventyComputed: {
     title: function () {
-      return 'Гайд по трудоустройству — Дока'
+      return 'Гайд по трудоустройству'
     },
 
     defaultOpenGraphPath: function (data) {
