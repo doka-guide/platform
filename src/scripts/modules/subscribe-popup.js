@@ -9,7 +9,7 @@ class Popup extends BaseComponent {
   }
 
   static get LOCAL_STORAGE_KEY() {
-    return 'subscription-form-status'
+    return 'subscription-form-dream-job-status'
   }
 
   static get STATUS_STATE() {

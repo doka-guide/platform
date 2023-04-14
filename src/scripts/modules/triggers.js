@@ -9,7 +9,7 @@ function setTrigger() {
   const currentCookieStatus = localStorage.getItem('cookie-notification')
 
   if (currentPopupStatus && currentCookieStatus && currentPopupStatus === 'LOADED' && currentCookieStatus === 'true') {
-    localStorage.setItem('subscription-form-status', 'PENDING')
+    localStorage.setItem('subscription-form-dream-job-status', 'PENDING')
   }
 }
 
