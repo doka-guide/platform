@@ -5,7 +5,7 @@ const sessionObject = {}
 
 // Реакция на триггер по умолчанию
 function setTrigger() {
-  const currentPopupStatus = localStorage.getItem('subscription-form-status')
+  const currentPopupStatus = localStorage.getItem('subscription-form-dream-job-status')
   const currentCookieStatus = localStorage.getItem('cookie-notification')
 
   if (currentPopupStatus && currentCookieStatus && currentPopupStatus === 'LOADED' && currentCookieStatus === 'true') {
