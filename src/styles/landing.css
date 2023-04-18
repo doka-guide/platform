@@ -197,6 +197,24 @@
   align-self: center;
 }
 
+.landing__row--acclimate .preview__title {
+  grid-column: 2 / 5;
+  grid-row: 1 / 3;
+  hyphens: auto;
+  word-break: break-word;
+}
+
+.landing__row--acclimate .preview__img-block {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+.landing__row--acclimate .preview__description {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  align-self: center;
+}
+
 @media (max-width: 410px) {
   .article__header {
     padding-block-start: 130px;
