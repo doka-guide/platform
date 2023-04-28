@@ -2,6 +2,7 @@ require('dotenv').config({ path: '.env' })
 
 const DEFAULT_ENVS = {
   BASE_URL: 'https://dream-job.doka.guide',
+  DEFAULT_URL: 'https://doka.guide',
   SECTIONS: 'dream-job',
   CONTENT_REP_GITHUB: 'https://github.com/doka-guide/content.git',
   CONTENT_HOT_BACKLOG: 'https://github.com/doka-guide/content/milestone/22',
@@ -18,6 +19,7 @@ function getEnv(envKey) {
 
 module.exports = {
   baseUrl: getEnv('BASE_URL'),
+  defaultUrl: getEnv('DEFAULT_URL'),
   mainSections: getEnv('SECTIONS').split(', '),
   contentRepGithub: getEnv('CONTENT_REP_GITHUB'),
   contentRepFolders: getEnv('CONTENT_REP_FOLDERS').split(', '),
