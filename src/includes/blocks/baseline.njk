@@ -1,36 +1,32 @@
 <div class="wdi-browser-compat">
   <span class="wdi-browser-compat__label">Поддержка в браузерах</span>
   <ul class="wdi-browser-compat__items">
-    <li class="wdi-browser-compat__item">
-      <span class="wdi-browser-compat__icon" data-browser="chrome">
-        <span class="visually-hidden">Chrome 112, Поддерживается</span>
-      </span>
-      <span aria-label="Поддерживается" class="wdi-browser-compat__version" data-compat="yes" title="Поддерживается"> 112 </span>
-    </li>
-    <li class="wdi-browser-compat__item">
-      <span class="wdi-browser-compat__icon" data-browser="firefox">
-        <span class="visually-hidden">Firefox 104, За флагом</span>
-      </span>
-      <span aria-label="Behind a flag" title="За флагом" class="wdi-browser-compat__version" data-compat="flag">
-      </span>
-    </li>
-    <li class="wdi-browser-compat__item">
-      <span class="wdi-browser-compat__icon" data-browser="edge">
-        <span class="visually-hidden">Edge, Не поддерживается</span>
-      </span>
-      <span aria-label="Не поддерживается" title="Не поддерживается" class="wdi-browser-compat__version" data-compat="no">
-        <p></p>
-      </span>
-    </li>
-    <li class="wdi-browser-compat__item">
-      <span class="wdi-browser-compat__icon" data-browser="safari">
-        <span class="visually-hidden">Safari preview, Превью</span>
-      </span>
-      <span aria-label="Превью" class="wdi-browser-compat__version" data-compat="preview" title="Превью">
-        <p></p>
-        <p></p>
-      </span>
-    </li>
+    {% for browser in baseline.keys %}
+      <li class="wdi-browser-compat__item">
+        <span class="wdi-browser-compat__icon" data-browser="{{ browser }}">
+          {% if baseline.supported[browser] %}
+              <span class="visually-hidden">{{ baseline.names[browser] }} {{ baseline.versions[browser] }}, Поддерживается</span>
+            </span>
+            <span aria-label="Поддерживается" title="Поддерживается" class="wdi-browser-compat__version" data-compat="yes">{{ baseline.versions[browser] }}</span>
+          {% elif baseline.flagged[browser] %}
+            <span class="wdi-browser-compat__icon" data-browser="firefox">
+              <span class="visually-hidden">{{ baseline.names[browser] }} {{ baseline.versions[browser] }}, За флагом</span>
+            </span>
+            <span aria-label="За флагом" title="За флагом" class="wdi-browser-compat__version" data-compat="flag">
+            </span>
+          {% elif baseline.preview[browser] %}
+            <span class="wdi-browser-compat__icon" data-browser="safari">
+              <span class="visually-hidden">{{ baseline.names[browser] }}, Превью</span>
+            </span>
+            <span aria-label="Превью" title="Превью"> class="wdi-browser-compat__version" data-compat="preview"</span>
+          {% else %}
+            <span class="wdi-browser-compat__icon" data-browser="edge">
+              <span class="visually-hidden">{{ baseline.names[browser] }}, Не поддерживается</span>
+            </span>
+            <span aria-label="Не поддерживается" title="Не поддерживается" class="wdi-browser-compat__version" data-compat="no"></span>
+          {% endif %}
+      </li>
+    {% endfor %}
   </ul>
   <a class="wdi-browser-compat__link" href="https://web.dev/baseline/" target="_blank">О Baseline</a>
 </div>
