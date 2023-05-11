@@ -32,6 +32,13 @@ function hasTag(tags, tag) {
   return (tags || []).includes(tag)
 }
 
+function assignGreaterValue(map, item, key) {
+  if (!Number.isNaN(item[key]) && Number(item[key]) > map[key]) {
+    map[key] = Number(item[key])
+  }
+  return map
+}
+
 // TODO: вынести эту функцию в отдельный файл и переиспользовать в `views.11tydata.js`
 function transformArticleData(article) {
   const section = article.filePathStem.split('/')[1]
@@ -232,6 +239,58 @@ module.exports = {
     isPlaceholder: function (data) {
       const { doc } = data
       return hasTag(doc.data.tags, 'placeholder')
+    },
+
+    hasBaseline: function (data) {
+      const { doc } = data
+      return Object.keys(doc.data).includes('baseline')
+    },
+
+    baseline: function (data) {
+      const { doc, collections, hasBaseline } = data
+      const { webFeatures } = collections
+      if (hasBaseline) {
+        const keys = ['chrome', 'edge', 'firefox', 'safari']
+        const names = { chrome: 'Chrome', edge: 'Edge', firefox: 'Firefox', safari: 'Safari' }
+        const versions = doc.data.baseline
+          .filter((g) => Object.keys(webFeatures[g.group]).includes('status'))
+          .map((g) => {
+            return webFeatures[g.group].status.support
+          })
+          .reduce(
+            (map, item) => {
+              for (const key of keys) {
+                assignGreaterValue(map, item, key)
+              }
+              return map
+            },
+            { chrome: 0, edge: 0, firefox: 0, safari: 0 }
+          )
+        const supported = doc.data.baseline
+          .filter((g) => webFeatures[g.group].is_baseline)
+          .reduce(
+            (map, item) => {
+              for (const key of keys) {
+                if (!item[key]) {
+                  map[key] = false
+                }
+              }
+              return map
+            },
+            { chrome: true, edge: true, firefox: true, safari: true }
+          )
+        const flagged = { chrome: false, edge: false, firefox: false, safari: false }
+        const preview = { chrome: false, edge: false, firefox: false, safari: false }
+        return {
+          keys,
+          names,
+          versions,
+          flagged,
+          supported,
+          preview,
+        }
+      }
+      return {}
     },
 
     documentTitle: function (data) {
