@@ -234,6 +234,11 @@ module.exports = {
       return hasTag(doc.data.tags, 'placeholder')
     },
 
+    isBaseline: function (data) {
+      const { doc } = data
+      return hasTag(doc.data.tags, 'baseline')
+    },
+
     documentTitle: function (data) {
       // удаляем символы обратных кавычек html-тегов из markdown
       const title = data.title.replace(/`/g, '')
