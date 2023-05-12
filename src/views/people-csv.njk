@@ -1,0 +1,4 @@
+id,name,url,photo,page-link,most-contributed,articles,practices,answers,stat
+{% for person in json %}
+{{person.id}},{{person.name}},{{person.url}},{{person.photoURL}},{{person.pageLink}},{{person.mostContributedCategory}},{{person.totalArticles}},{{person.totalPractices}},{{person.totalAnswers}}{% for key, item in person.stat %},{{key}}:{{item}}{% endfor %}{% for key, item in person.practices %},{{key}}:{{item}}{% endfor %}{% for key, item in person.answers %},{{key}}:{{item}}{% endfor %};
+{% endfor %}
