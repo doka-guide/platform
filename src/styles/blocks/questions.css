@@ -12,10 +12,23 @@
   margin-bottom: 10px;
 }
 
+.questions__edit-button {
+  font-size: var(--font-size-s);
+  line-height: var(--font-line-height-s);
+}
+
+.question__request .questions__edit-button {
+  margin-top: 10px;
+}
+
 @media (min-width: 768px) {
   .content p.question__response-placeholder {
     margin-top: 16px;
     margin-bottom: 16px;
+  }
+
+  .question__request .questions__edit-button {
+    margin-top: 16px;
   }
 }
 
@@ -23,5 +36,9 @@
   .content p.question__response-placeholder {
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+
+  .question__request .questions__edit-button {
+    margin-top: 20px;
   }
 }

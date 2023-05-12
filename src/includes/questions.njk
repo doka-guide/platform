@@ -43,6 +43,10 @@
       На собеседовании
     </h2>
 
+    <a class="questions__edit-button button" href="" target="_blank" rel="noopener" rel="noreferrer">
+      {{ githubicon | safe }} Задать вопрос в рубрику
+    </a>
+
     <div class="questions__list">
 
       {% for question in questions %}
@@ -53,6 +57,11 @@
               {{ question.templateContent | safe }}
             </div>
           </aside>
+
+          <a class="questions__edit-button button" href="" target="_blank" rel="noopener" rel="noreferrer">
+            🤚 Я знаю ответ
+          </a>
+
         </div>
 
         <div class="question__response">
