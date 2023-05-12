@@ -67,7 +67,7 @@ class QuickSearch extends BaseComponent {
 
     document.addEventListener('keyup', (event) => {
       if (event.code === 'Slash') {
-        setTimeout(() => {
+        queueMicrotask(() => {
           this.enter()
         })
       }

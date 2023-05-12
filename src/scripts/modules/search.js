@@ -201,6 +201,7 @@ function init() {
   const SEARCH_FORM_SELECTOR = '.search'
   const SEARCH_FIELD_SELECTOR = '.search__input'
   const SEARCH_HITS_SELECTOR = '.search__output'
+  const SEARCH_HIT_LINK_SELECTOR = '.search-hit__link'
 
   const searchForm = document.querySelector(SEARCH_FORM_SELECTOR)
   const searchField = document.querySelector(SEARCH_FIELD_SELECTOR)
@@ -294,12 +295,21 @@ function init() {
 
     document.addEventListener('keyup', (event) => {
       if (event.code === 'Escape') {
-        searchForm.reset()
+        queueMicrotask(() => {
+          searchForm.reset()
+          searchField.focus()
+        })
       }
 
       if (event.code === 'Slash' && document.activeElement !== searchField) {
-        setTimeout(() => {
+        queueMicrotask(() => {
           searchField.focus()
+        })
+      }
+
+      if (event.code === 'Enter' && document.activeElement === searchField) {
+        queueMicrotask(() => {
+          document.querySelector(SEARCH_HIT_LINK_SELECTOR)?.focus()
         })
       }
     })
