@@ -1,3 +1,4 @@
+const fs = require('fs')
 const { baseUrl } = require('../../config/constants')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 const roleCollection = require('../libs/role-constructor/collection.json')
@@ -173,11 +174,20 @@ module.exports = {
       const allQuestions = data.collections.question
       const { docPath } = data
 
-      return allQuestions?.filter((question) => {
-        return question.data.related.find((path) => {
-          return docPath === `/${path}`
+      return allQuestions
+        ?.filter((question) => {
+          return question.data.related.find((path) => {
+            return docPath === `/${path}`
+          })
         })
-      })
+        .map((q) => {
+          const answerDirExists = fs.existsSync(q.inputPath.replace('index.md', 'answers/'))
+          q['addAnswer'] =
+            `https://github.com/doka-guide/content/tree/main${q.inputPath
+              .replace('./src', '')
+              .replace('index.md', '')}/` + (answerDirExists ? 'answers/' : '')
+          return q
+        })
     },
 
     containsQuestions: function (data) {
