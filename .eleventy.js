@@ -120,8 +120,6 @@ module.exports = function (config) {
     const existIds = articleIndexes.map((section) => section.fileSlug)
     const visualOrder = mainSections.filter((sectionId) => existIds.includes(sectionId))
 
-    console.log(mainSections.join(','))
-
     const indexesMap = articleIndexes.reduce((map, section) => {
       map[section.fileSlug] = section
       return map
