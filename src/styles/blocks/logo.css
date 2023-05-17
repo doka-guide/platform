@@ -124,7 +124,6 @@
 
 .logo__text--contrast {
   border: 1px var(--logo-border-color) solid;
-  padding-bottom: 0;
 }
 
 .logo__text::first-letter {
