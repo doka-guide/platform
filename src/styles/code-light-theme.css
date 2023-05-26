@@ -95,7 +95,7 @@ pre[class*="language-"] {
 .token.constant,
 .token.number,
 .token.atrule {
-  color: hsl(35, 99%, 36%);
+  color: hsl(35.06, 98.8%, 32.9%);
 }
 
 .token.keyword {
@@ -107,7 +107,7 @@ pre[class*="language-"] {
 .token.symbol,
 .token.deleted,
 .token.important {
-  color: hsl(5, 74%, 59%);
+  color: hsl(0, 100%, 35.1%);
 }
 
 .token.selector,
@@ -118,13 +118,13 @@ pre[class*="language-"] {
 .token.regex,
 .token.attr-value,
 .token.attr-value > .token.punctuation {
-  color: hsl(119, 34%, 47%);
+  color: hsl(133.04, 100%, 27.06%);
 }
 
 .token.variable,
 .token.operator,
 .token.function {
-  color: hsl(221, 87%, 60%);
+  color: hsl(208.9, 98.2%, 43.5%);
 }
 
 .token.url {
@@ -144,7 +144,7 @@ pre[class*="language-"] {
 
 /* CSS overrides */
 .language-css .token.selector {
-  color: hsl(5, 74%, 59%);
+  color: hsl(0, 100%, 35.1%);
 }
 
 .language-css .token.property {
@@ -157,7 +157,7 @@ pre[class*="language-"] {
 }
 
 .language-css .token.url > .token.string.url {
-  color: hsl(119, 34%, 47%);
+  color: hsl(133.04, 100%, 27.06%);
 }
 
 .language-css .token.important,
@@ -180,7 +180,7 @@ pre[class*="language-"] {
 }
 
 .language-json .token.null.keyword {
-  color: hsl(35, 99%, 36%);
+  color: hsl(35.06, 98.8%, 32.9%);
 }
 
 /* MD overrides */
@@ -191,7 +191,7 @@ pre[class*="language-"] {
 }
 
 .language-markdown .token.url > .token.content {
-  color: hsl(221, 87%, 60%);
+  color: hsl(208.9, 98.2%, 43.5%);
 }
 
 .language-markdown .token.url > .token.url,
@@ -205,11 +205,11 @@ pre[class*="language-"] {
 }
 
 .language-markdown .token.code-snippet {
-  color: hsl(119, 34%, 47%);
+  color: hsl(133.04, 100%, 27.06%);
 }
 
 .language-markdown .token.bold .token.content {
-  color: hsl(35, 99%, 36%);
+  color: hsl(35.06, 98.8%, 32.9%);
 }
 
 .language-markdown .token.italic .token.content {
@@ -220,7 +220,7 @@ pre[class*="language-"] {
 .language-markdown .token.strike .token.punctuation,
 .language-markdown .token.list.punctuation,
 .language-markdown .token.title.important > .token.punctuation {
-  color: hsl(5, 74%, 59%);
+  color: hsl(0, 100%, 35.1%);
 }
 
 /* General */
@@ -320,19 +320,19 @@ pre[id].linkable-line-numbers.linkable-line-numbers span.line-numbers-rows > spa
 .rainbow-braces .token.token.punctuation.brace-level-1,
 .rainbow-braces .token.token.punctuation.brace-level-5,
 .rainbow-braces .token.token.punctuation.brace-level-9 {
-  color: hsl(5, 74%, 59%);
+  color: hsl(0, 100%, 35.1%);
 }
 
 .rainbow-braces .token.token.punctuation.brace-level-2,
 .rainbow-braces .token.token.punctuation.brace-level-6,
 .rainbow-braces .token.token.punctuation.brace-level-10 {
-  color: hsl(119, 34%, 47%);
+  color: hsl(133.04, 100%, 27.06%);
 }
 
 .rainbow-braces .token.token.punctuation.brace-level-3,
 .rainbow-braces .token.token.punctuation.brace-level-7,
 .rainbow-braces .token.token.punctuation.brace-level-11 {
-  color: hsl(221, 87%, 60%);
+  color: hsl(208.9, 98.2%, 43.5%);
 }
 
 .rainbow-braces .token.token.punctuation.brace-level-4,
