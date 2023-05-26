@@ -108,7 +108,8 @@
             {% include "questions.njk" %}
           </div>
 
-          <aside class="doc__feedback-form">
+          <aside class="doc__feedback-form" aria-labelledby="feedback">
+            <span class="visually-hidden" id="feedback">Оценка материала</span>
             {% include "feedback-form.njk" %}
           </aside>
 
