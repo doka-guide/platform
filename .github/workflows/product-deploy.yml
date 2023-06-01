@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Загрузка платформы
         uses: actions/checkout@v2
+        with:
+          ref: landings-dream-job
       - name: Загрузка контента
         uses: actions/checkout@v2
         with:
