@@ -1,7 +1,8 @@
 {% macro linkedArticle(article, type = 'previous') %}
   {% set icon = '←' if type === 'previous' else '→' %}
 
-  <aside class="linked-article linked-article--{{ type }}" style="--accent-color: var(--color-{{ article.section }})">
+  <aside class="linked-article linked-article--{{ type }}" style="--accent-color: var(--color-{{ article.section }})" aria-labelledby="article-{{ type }}">
+    <span class="visually-hidden" id="article-{{ type }}">{% if type === 'next' %}Следующий{% else %}Предыдущий{% endif %} материал</span>
     <div class="linked-article__icon font-theme font-theme--code" aria-hidden="true">
       {{ icon }}
     </div>
