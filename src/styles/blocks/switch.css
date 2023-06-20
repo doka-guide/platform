@@ -38,7 +38,7 @@
   position: absolute;
   inset: -1px;
   background-color: currentColor;
-  transition: opacity 0.2;
+  transition: opacity 0.2s;
 }
 
 .switch__input:checked + .switch__label {
