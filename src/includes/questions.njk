@@ -43,9 +43,9 @@
       На собеседовании
     </h2>
 
-    <p class="questions__description">
-      Это партнёрская рубрика, мы выпускаем её совместно с сервисом онлайн-образования <a href="https://practicum.yandex.ru/programming-upskilling/?utm_source=pr&utm_medium=content&utm_campaign=pr_content_programming-upskilling_doka?utm_content=na-sobese" title="Каталог курсов по программированию от Яндекс Практикума">Яндекс Практикум</a>. Приносите вопрос, на который не знаете ответа, в <a href="https://github.com/doka-guide/content/issues?q=is%3Aopen+is%3Aissue+label%3Aсобеседование" title="Все задачи для контента Доки, отфильтрованные по лейблу «собеседование»">задачи</a>, мы разложим всё по полочкам и опубликуем. Если знаете ответ, присылайте <a href="https://github.com/doka-guide/content/blob/main/docs/interviews.md" title="Инструкция по созданию вопросов и ответов для рубрики">пулреквест на GitHub</a>.
-    </p>
+    <a class="questions__edit-button button" href="https://github.com/doka-guide/content/issues/new?assignees=&labels=&projects=&template=3_new_answer.yml&title=%D0%92%D0%BE%D0%BF%D1%80%D0%BE%D1%81+%D0%B4%D0%BB%D1%8F+%D1%81%D0%BE%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%3A+" target="_blank" rel="noopener" rel="noreferrer">
+      {{ githubicon | safe }} Задать вопрос в рубрику
+    </a>
 
     <div class="questions__list">
 
@@ -57,6 +57,11 @@
               {{ question.templateContent | safe }}
             </div>
           </aside>
+
+          <a class="questions__edit-button button" href="{{ question.addAnswer }}" target="_blank" rel="noopener" rel="noreferrer">
+            🤚 Я знаю ответ
+          </a>
+
         </div>
 
         <div class="question__response">

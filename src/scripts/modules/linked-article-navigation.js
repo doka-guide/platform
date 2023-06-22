@@ -1,33 +1,31 @@
 function init() {
-  const [
-    previous,
-    next
-  ] = [
+  const [previous, next] = [
     document.querySelector('.linked-article--previous .linked-article__link'),
     document.querySelector('.linked-article--next .linked-article__link'),
   ]
 
-  // продолжаем, если есть хотя бы одна ссылка
-  if (!(previous || next)) {
+  if (!(previous && next)) {
     return
   }
 
-  function goToArticle(linkElement) {
-    window.location = linkElement.href
-  }
-
-  document.addEventListener('keyup', event => {
-    if (!event.altKey) {
+  function goToArticle(event) {
+    if (!(event.ctrlKey && event.altKey)) {
       return
     }
 
-    const link = ({
-      'ArrowLeft': previous,
-      'ArrowRight': next
-    })[event.code]
+    const link = {
+      ArrowLeft: previous,
+      ArrowRight: next,
+    }[event.code]
 
-    link && goToArticle(link)
-  })
+    if (!link) {
+      return
+    }
+
+    window.location = link.href
+  }
+
+  document.addEventListener('keyup', goToArticle)
 }
 
 init()

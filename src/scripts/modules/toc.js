@@ -111,7 +111,16 @@ function init() {
               setTimeout(() => {
                 button.disabled = false
                 button.firstElementChild.outerHTML = icon.outerHTML
-                button.focus()
+
+                const isParallelCopying = document.querySelector(`${HEADING_COPY_BUTTON_SELECTOR}:disabled`)
+                  ? true
+                  : false
+
+                if (document.activeElement === document.body && !isParallelCopying) {
+                  // восстанавливаем фокус на последней нажатой кнопке
+                  button.focus()
+                }
+
                 status.textContent = undefined
                 status.hidden = true
               }, 1800)

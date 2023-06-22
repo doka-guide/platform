@@ -37,7 +37,7 @@
           {% if description %}
             <p class="article__description">
               {{ description | descriptionMarkdown | safe }}
-            </p]>
+            </p>
           {% endif %}
 
           <p class="article__read-time">
@@ -101,11 +101,15 @@
         <div class="article__content doc__wrapper">
           <div class="article__content-inner content">
             {{ doc.templateContent | safe }}
+            {% if hasBaseline %}
+              {% include "blocks/baseline.njk" %}
+            {% endif %}
             {% include "practices.njk" %}
             {% include "questions.njk" %}
           </div>
 
-          <aside class="doc__feedback-form">
+          <aside class="doc__feedback-form" aria-labelledby="feedback">
+            <span class="visually-hidden" id="feedback">Оценка материала</span>
             {% include "feedback-form.njk" %}
           </aside>
 
@@ -141,4 +145,5 @@
   <div class="doc__footer doc__wrapper">
     {{ footer() }}
   </div>
+  {% include "subscribe-popup.njk" %}
 </div>

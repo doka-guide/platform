@@ -1,4 +1,4 @@
-function init() {
+export function init() {
   const DAY_DURATION = 86400
   const time = document.querySelector('[data-relative-time]')
 

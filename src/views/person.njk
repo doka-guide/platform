@@ -62,6 +62,7 @@
     <div class="person-page__avatar">
       {{ personAvatar(
         photoURL = photo,
+        photoAlt = photoAlt,
         name = name,
         category = mostContributedCategory
       ) }}
@@ -235,6 +236,7 @@
     </div>
 
     {{ footer(class="person-page__footer") }}
+    {% include "subscribe-popup.njk" %}
   </main>
 
 </div>

@@ -59,6 +59,7 @@
   content: '✎';
   font-family: var(--font-family);
   font-size: var(--font-size-m);
+  letter-spacing: 0.2em;
 }
 
 .article-group__label {

@@ -91,7 +91,7 @@ pre[class*="language-"] {
 .token.comment,
 .token.prolog,
 .token.cdata {
-  color: hsl(220, 10%, 48%);
+  color: hsl(219, 18%, 59.2%);
 }
 
 .token.doctype,
@@ -118,7 +118,7 @@ pre[class*="language-"] {
 .token.symbol,
 .token.deleted,
 .token.important {
-  color: hsl(355, 65%, 65%);
+  color: hsl(0, 100%, 68.2%);
 }
 
 .token.selector,
@@ -155,7 +155,7 @@ pre[class*="language-"] {
 
 /* CSS overrides */
 .language-css .token.selector {
-  color: hsl(355, 65%, 65%);
+  color: hsl(0, 100%, 68.2%);
 }
 
 .language-css .token.property {
@@ -231,7 +231,7 @@ pre[class*="language-"] {
 .language-markdown .token.strike .token.punctuation,
 .language-markdown .token.list.punctuation,
 .language-markdown .token.title.important > .token.punctuation {
-  color: hsl(355, 65%, 65%);
+  color: hsl(0, 100%, 68.2%);
 }
 
 /* General */
@@ -332,7 +332,7 @@ pre[id].linkable-line-numbers.linkable-line-numbers span.line-numbers-rows > spa
 .rainbow-braces .token.token.punctuation.brace-level-1,
 .rainbow-braces .token.token.punctuation.brace-level-5,
 .rainbow-braces .token.token.punctuation.brace-level-9 {
-  color: hsl(355, 65%, 65%);
+  color: hsl(0, 100%, 68.2%);
 }
 
 .rainbow-braces .token.token.punctuation.brace-level-2,

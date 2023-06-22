@@ -128,7 +128,7 @@ const socialCards = async () => {
   const page = await browser.newPage()
 
   return pipeline(
-    gulp.src('dist/{css,html,js,tools,recipes, a11y}/**/index.sc.html'),
+    gulp.src('dist/{a11y,css,html,js,tools,recipes}/**/index.sc.html'),
     new Transform({
       objectMode: true,
       async transform(file, encoding, done) {
