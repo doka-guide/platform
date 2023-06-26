@@ -32,6 +32,8 @@
   display: inline-block;
   height: 0.9em;
   width: 0.9em;
+  margin-left: 0.3em;
+  vertical-align: middle;
   background-size: 0.9em;
   background-repeat: no-repeat;
   background-position: center;
