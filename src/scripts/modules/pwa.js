@@ -37,13 +37,6 @@ function setNetworkStatus() {
   })
 }
 
-async function requestBackgroundSync(cacheKey, registration) {
-  if (registration.sync) {
-    const registration = await navigator.serviceWorker.ready
-    await registration.sync.register(cacheKey)
-  }
-}
-
 window.addEventListener('load', async () => {
   setNetworkStatus()
   setLinksMarked()
@@ -56,8 +49,10 @@ window.addEventListener('load', async () => {
       await navigator.serviceWorker.register('/sw.js', {
         scope: '/',
       })
-      navigator.serviceWorker.ready.then((registration) => {
-        requestBackgroundSync(syncFeaturedCacheName, registration)
+      navigator.serviceWorker.ready.then(async (registration) => {
+        if (registration.sync) {
+          await registration.sync.register(syncFeaturedCacheName)
+        }
       })
       navigator.serviceWorker.ready.then((registration) => {
         registration.active.postMessage(window.location.pathname)
