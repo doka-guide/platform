@@ -10,8 +10,7 @@ const CACHED_LINK_CLASS = 'link--cached'
 const NON_CACHED_LINK_CLASS = 'link--non-cached'
 
 function setLinksMarked() {
-  document.querySelector('body').classList.add(ONLINE_STATE_CLASS)
-  const links = document.querySelectorAll('a')
+  const links = document.querySelectorAll('a:not(.toc__link)')
   links.forEach(async (l) => {
     const request = new Request(l.href)
     const isCached = await caches.match(request)
