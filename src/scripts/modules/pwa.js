@@ -23,7 +23,11 @@ function setLinksMarked() {
 }
 
 function setNetworkStatus() {
-  document.querySelector('body').classList.add(ONLINE_STATE_CLASS)
+  if (window.navigator.onLine) {
+    document.querySelector('body').classList.add(ONLINE_STATE_CLASS)
+  } else {
+    document.querySelector('body').classList.add(OFFLINE_STATE_CLASS)
+  }
 
   window.addEventListener('online', async () => {
     document.querySelector('body').classList.add(ONLINE_STATE_CLASS)
