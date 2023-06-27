@@ -37,12 +37,12 @@ export function setupDb(dbStoreName, dbVersion, fields) {
   }
 }
 
-export function saveToDb(dbStoreName, newTask) {
+export function saveToDb(dbStoreName, newRecord) {
   const store = getObjectStore(dbStoreName, 'readwrite')
   if (!store) {
     return
   }
-  const req = store.add(newTask)
+  const req = store.add(newRecord)
   req.onerror = () => {
     console.error(this.error)
   }
