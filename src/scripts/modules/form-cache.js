@@ -37,7 +37,7 @@ export function setupDb(dbStoreName, dbVersion, fields) {
   }
 }
 
-export function saveTaskEvent(dbStoreName, newTask) {
+export function saveToDb(dbStoreName, newTask) {
   const store = getObjectStore(dbStoreName, 'readwrite')
   if (!store) {
     return

@@ -1,5 +1,5 @@
 import BaseComponent from '../core/base-component.js'
-import { setupDb, saveTaskEvent } from './form-cache.js'
+import { setupDb, saveToDb } from './form-cache.js'
 
 class ButtonGroup extends BaseComponent {
   static get EVENTS() {
@@ -125,7 +125,7 @@ function init() {
           return response
         })
     } else {
-      saveTaskEvent(dbFeedbackStoreName, formData)
+      saveToDb(dbFeedbackStoreName, formData)
       return new Promise((resolve) => {
         resolve(new Response())
       })
