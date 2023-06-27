@@ -126,6 +126,7 @@ const debugScripts = [
   '/scripts/modules/copy-code-snippet.js',
   '/scripts/modules/feedback-form.js',
   '/scripts/modules/filter-panel.js',
+  '/scripts/modules/form-cache.js',
   '/scripts/modules/header-quick-search-presenter.js',
   '/scripts/modules/header.js',
   '/scripts/modules/last-update.js',
