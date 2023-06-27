@@ -1,4 +1,5 @@
 import BaseComponent from '../core/base-component.js'
+import { setupDb, saveTaskEvent } from './form-cache.js'
 
 class ButtonGroup extends BaseComponent {
   static get EVENTS() {
@@ -71,10 +72,15 @@ class DetailedAnswer extends BaseComponent {
 
 function init() {
   const form = document.querySelector('.feedback-form')
+  const dbFeedbackStoreName = 'feedback'
+  const dbFeedbackStoreVersion = 1
 
   if (!form) {
     return
   }
+
+  const formData = new FormData(form)
+  setupDb(dbFeedbackStoreName, dbFeedbackStoreVersion, Object.keys(formData))
 
   const voteDownButton = form.querySelector('.vote--down')
   const voteUpButton = form.querySelector('.vote--up')
@@ -92,32 +98,38 @@ function init() {
   }
 
   function sendForm(formData) {
-    const body = JSON.stringify({
-      type: 'feedback',
-      data: JSON.stringify(formData),
-      author_id: 1,
-    })
-    const url = 'https://api.doka.guide/form'
-
-    return getToken()
-      .then((token) => {
-        return fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: token,
-          },
-          body,
+    if (window.navigator.onLine) {
+      const body = JSON.stringify({
+        type: 'feedback',
+        data: JSON.stringify(formData),
+        author_id: 1,
+      })
+      const url = 'https://api.doka.guide/form'
+      return getToken()
+        .then((token) => {
+          return fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+              Authorization: token,
+            },
+            body,
+          })
         })
-      })
-      .then((response) => {
-        if (!response.ok) {
-          throw response
-        }
+        .then((response) => {
+          if (!response.ok) {
+            throw response
+          }
 
-        return response
+          return response
+        })
+    } else {
+      saveTaskEvent(dbFeedbackStoreName, formData)
+      return new Promise((resolve) => {
+        resolve(new Response())
       })
+    }
   }
 
   const detailedAnswer = new DetailedAnswer({
@@ -182,7 +194,6 @@ function init() {
       return
     }
 
-    const formData = new FormData(form)
     const answer = formData.get('answer') || event.submitter?.value
 
     if (!(answer && answer.length >= DetailedAnswer.TEXT_THRESHOLD)) {
