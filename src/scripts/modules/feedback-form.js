@@ -1,5 +1,5 @@
 import BaseComponent from '../core/base-component.js'
-import { setupDb, saveToDb } from './form-cache.js'
+import { setupDb, saveToDb, getFromDb } from './form-cache.js'
 
 class ButtonGroup extends BaseComponent {
   static get EVENTS() {
@@ -81,6 +81,9 @@ function init() {
 
   const formData = new FormData(form)
   setupDb(dbFeedbackStoreName, dbFeedbackStoreVersion, Object.keys(formData))
+  window.addEventListener('online', async () => {
+    getFromDb(dbFeedbackStoreName, saveToServer)
+  })
 
   const voteDownButton = form.querySelector('.vote--down')
   const voteUpButton = form.querySelector('.vote--up')
@@ -97,33 +100,37 @@ function init() {
       })
   }
 
+  function saveToServer(formData) {
+    const body = JSON.stringify({
+      type: 'feedback',
+      data: JSON.stringify(formData),
+      author_id: 1,
+    })
+    const url = 'https://api.doka.guide/form'
+    return getToken()
+      .then((token) => {
+        return fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: token,
+          },
+          body,
+        })
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw response
+        }
+
+        return response
+      })
+  }
+
   function sendForm(formData) {
     if (window.navigator.onLine) {
-      const body = JSON.stringify({
-        type: 'feedback',
-        data: JSON.stringify(formData),
-        author_id: 1,
-      })
-      const url = 'https://api.doka.guide/form'
-      return getToken()
-        .then((token) => {
-          return fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json',
-              Authorization: token,
-            },
-            body,
-          })
-        })
-        .then((response) => {
-          if (!response.ok) {
-            throw response
-          }
-
-          return response
-        })
+      return saveToServer(formData)
     } else {
       saveToDb(dbFeedbackStoreName, formData)
       return new Promise((resolve) => {

@@ -47,3 +47,19 @@ export function saveToDb(dbStoreName, newRecord) {
     console.error(this.error)
   }
 }
+
+export function getFromDb(dbStoreName, processData) {
+  const store = getObjectStore(dbStoreName, 'readwrite')
+  if (!store) {
+    return
+  }
+  const req = store.getAll()
+  req.onerror = () => {
+    console.error(this.error)
+  }
+  req.onsuccess = (event) => {
+    event.target.result.forEach(async (formData) => {
+      await processData(formData)
+    })
+  }
+}
