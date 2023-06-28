@@ -1,4 +1,5 @@
 import BaseComponent from '../core/base-component.js'
+import { setupDb, saveToDb, getFromDb } from './form-cache.js'
 
 class Popup extends BaseComponent {
   static get EVENTS() {
@@ -142,6 +143,9 @@ class Subscription extends BaseComponent {
 function init() {
   const form = document.querySelector('.subscribe-popup')
 
+  const dbSubscribePopupStoreName = 'subscribe-popup'
+  const dbSubscribePopupStoreVersion = 1
+
   if (!form) {
     return
   }
@@ -159,33 +163,46 @@ function init() {
       })
   }
 
-  function sendForm(email, formData) {
-    const body = JSON.stringify({
-      email,
-      data: JSON.stringify(formData),
-      author_id: 1,
-    })
-    const url = 'https://api.doka.guide/subscription'
-
-    return getToken()
-      .then((token) => {
-        return fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: token,
-          },
-          body,
+  function getPreparedSaveToServerFunction(email) {
+    return (formData) => {
+      const body = JSON.stringify({
+        email,
+        data: JSON.stringify(formData),
+        author_id: 1,
+      })
+      const url = 'https://api.doka.guide/subscription'
+      return getToken()
+        .then((token) => {
+          return fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+              Authorization: token,
+            },
+            body,
+          })
         })
-      })
-      .then((response) => {
-        if (!response.ok) {
-          throw response
-        }
+        .then((response) => {
+          if (!response.ok) {
+            throw response
+          }
 
-        return response
+          return response
+        })
+    }
+  }
+
+  function sendForm(email, formData) {
+    if (window.navigator.onLine) {
+      const saveToServer = getPreparedSaveToServerFunction(email)
+      return saveToServer(formData)
+    } else {
+      saveToDb(dbSubscribePopupStoreName, formData)
+      return new Promise((resolve) => {
+        resolve(new Response())
       })
+    }
   }
 
   const popup = new Popup({
@@ -233,6 +250,11 @@ function init() {
     if (!(email && Subscription.VALIDATION_REGEXP.test(email))) {
       return
     }
+    setupDb(dbSubscribePopupStoreName, dbSubscribePopupStoreVersion, Object.keys(formData))
+
+    window.addEventListener('online', async () => {
+      getFromDb(dbSubscribePopupStoreName, getPreparedSaveToServerFunction(email))
+    })
 
     isSending = true
 
