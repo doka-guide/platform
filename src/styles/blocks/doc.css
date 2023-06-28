@@ -59,7 +59,6 @@
 }
 
 .doc__linked-articles {
-  margin-block-end: 102px;
   margin-block-start: min(102px, 26%);
   margin-block-end: min(102px, 26%);
   display: flex;
