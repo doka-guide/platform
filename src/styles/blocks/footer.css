@@ -1,4 +1,5 @@
 .footer {
+  border-top: 1px solid hsl(var(--color-base-text) / 0.3);
   padding: 20px 10px;
   display: flex;
   gap: 30px;

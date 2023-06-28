@@ -59,8 +59,9 @@
 }
 
 .doc__linked-articles {
-  margin-block-start: 102px;
+  margin-block-end: 102px;
   margin-block-start: min(102px, 26%);
+  margin-block-end: min(102px, 26%);
   display: flex;
   gap: var(--offset, 20px);
 }
@@ -76,6 +77,8 @@
   .doc__linked-articles {
     flex-direction: column;
     gap: 13px;
+    margin-block-start: 30px;
+    margin-block-end: 0;
   }
 }
 
