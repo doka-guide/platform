@@ -8,6 +8,13 @@ function getObjectStore(dbStoreName, mode) {
   return tx.objectStore(dbStoreName)
 }
 
+export function closeAndDeleteDb(dbStoreName) {
+  db.close()
+
+  const indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB
+  indexedDB.deleteDatabase(dbStoreName)
+}
+
 export function setupDb(dbStoreName, dbVersion, fields) {
   const indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB
   const request = indexedDB.open(dbStoreName, dbVersion)

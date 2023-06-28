@@ -1,5 +1,5 @@
 import BaseComponent from '../core/base-component.js'
-import { setupDb, saveToDb, sendFromDb } from './form-cache.js'
+import { setupDb, saveToDb, sendFromDb, closeAndDeleteDb } from './form-cache.js'
 
 class Settings extends BaseComponent {
   static get EVENTS() {
@@ -399,6 +399,7 @@ async function init() {
       dbSubscribeStoreName,
       getPreparedSaveToServerFunction(email, hash ? 'PUT' : 'POST', hash ? inflation.profile.id : '')
     )
+    closeAndDeleteDb(dbSubscribeStoreName)
   })
 }
 
