@@ -118,9 +118,4 @@
     grid-column: 2;
     grid-row: 1;
   }
-
-  .index-block__footer {
-    grid-column: 2;
-    align-self: end;
-  }
 }
