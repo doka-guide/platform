@@ -1,5 +1,5 @@
 import BaseComponent from '../core/base-component.js'
-import { setupDb, saveToDb, getFromDb } from './form-cache.js'
+import { setupDb, saveToDb, sendFromDb } from './form-cache.js'
 
 class Popup extends BaseComponent {
   static get EVENTS() {
@@ -253,7 +253,7 @@ function init() {
     setupDb(dbSubscribePopupStoreName, dbSubscribePopupStoreVersion, Object.keys(formData))
 
     window.addEventListener('online', async () => {
-      getFromDb(dbSubscribePopupStoreName, getPreparedSaveToServerFunction(email))
+      sendFromDb(dbSubscribePopupStoreName, getPreparedSaveToServerFunction(email))
     })
 
     isSending = true

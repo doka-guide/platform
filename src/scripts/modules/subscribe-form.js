@@ -1,5 +1,5 @@
 import BaseComponent from '../core/base-component.js'
-import { setupDb, saveToDb, getFromDb } from './form-cache.js'
+import { setupDb, saveToDb, sendFromDb } from './form-cache.js'
 
 class Settings extends BaseComponent {
   static get EVENTS() {
@@ -395,7 +395,7 @@ async function init() {
   setupDb(dbSubscribeStoreName, dbSubscribeStoreVersion, Object.keys(formData))
 
   window.addEventListener('online', async () => {
-    getFromDb(
+    sendFromDb(
       dbSubscribeStoreName,
       getPreparedSaveToServerFunction(email, hash ? 'PUT' : 'POST', hash ? inflation.profile.id : '')
     )

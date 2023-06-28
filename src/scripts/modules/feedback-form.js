@@ -1,5 +1,5 @@
 import BaseComponent from '../core/base-component.js'
-import { setupDb, saveToDb, getFromDb } from './form-cache.js'
+import { setupDb, saveToDb, sendFromDb } from './form-cache.js'
 
 class ButtonGroup extends BaseComponent {
   static get EVENTS() {
@@ -82,7 +82,7 @@ function init() {
   const formData = new FormData(form)
   setupDb(dbFeedbackStoreName, dbFeedbackStoreVersion, Object.keys(formData))
   window.addEventListener('online', async () => {
-    getFromDb(dbFeedbackStoreName, saveToServer)
+    sendFromDb(dbFeedbackStoreName, saveToServer)
   })
 
   const voteDownButton = form.querySelector('.vote--down')

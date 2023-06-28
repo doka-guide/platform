@@ -48,7 +48,7 @@ export function saveToDb(dbStoreName, newRecord) {
   }
 }
 
-export function getFromDb(dbStoreName, processData) {
+export function sendFromDb(dbStoreName, sendData) {
   const store = getObjectStore(dbStoreName, 'readwrite')
   if (!store) {
     return
@@ -57,9 +57,10 @@ export function getFromDb(dbStoreName, processData) {
   req.onerror = () => {
     console.error(this.error)
   }
-  req.onsuccess = (event) => {
-    event.target.result.forEach(async (formData) => {
-      await processData(formData)
-    })
+  req.onsuccess = async (event) => {
+    for (let i = 0; i < event.target.result.length; i++) {
+      const formData = event.target.result[i]
+      await sendData(formData)
+    }
   }
 }
