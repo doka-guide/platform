@@ -3,10 +3,12 @@
   <section class="social-card__slogan">
     <section class="social-card__slogan-wrapper">
       <div class="social-card__title">Дока</div>
-      {% if category == "recipes" %}
+      {% if category == "a11y" %}
+        <div class="social-card__moto">гид по доступности</div>
+      {% elif category == "recipes" %}
         <div class="social-card__moto">гид по рецептам<br>веб-разработки</div>
       {% elif category == "tools" %}
-        <div class="social-card__moto">гид по инструментам</div>
+        <div class="social-card__moto">гид по веб-платформе</div>
       {% else %}
         <div class="social-card__moto">твой гид по {{ categoryName }}</div>
       {% endif %}
