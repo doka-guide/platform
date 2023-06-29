@@ -36,6 +36,19 @@
   letter-spacing: var(--letter-spacing);
 }
 
+.footer__list_social {
+  flex-direction: row;
+  gap: 15px;
+}
+
+.footer-list__icon {
+  vertical-align: middle;
+}
+
+.footer-list__icon--invertible {
+  filter: invert(var(--is-dark-theme-on));
+}
+
 @media (min-width: 1024px) {
   .footer {
     padding: 20px;
@@ -63,6 +76,12 @@
 
   .footer__theme-toggle {
     gap: 4px;
+    order: 1;
+  }
+
+  .footer__list_social {
+    flex-direction: row;
+    gap: 20px;
     order: 1;
   }
 }
