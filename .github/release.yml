@@ -1,0 +1,38 @@
+changelog:
+  categories:
+    - title: Автоматизация
+      labels:
+        - автоматизация
+    - title: Вопрос
+      labels:
+        - вопрос
+    - title: Вёрстка
+      labels:
+        - вёрстка
+    - title: Движок
+      labels:
+        - движок
+    - title: Дизайн
+      labels:
+        - дизайн
+    - title: Доступность
+      labels:
+        - доступность
+    - title: Кухня
+      labels:
+        - кухня
+    - title: Ошибка
+      labels:
+        - ошибка
+    - title: Поиск
+      labels:
+        - поиск
+    - title: Улучшение
+      labels:
+        - улучшение
+    - title: Хороший старт
+      labels:
+        - хороший старт
+    - title: Другие изменения
+      labels:
+        - "*"
