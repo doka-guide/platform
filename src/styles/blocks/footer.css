@@ -45,6 +45,10 @@
   vertical-align: middle;
 }
 
+.footer-list__link_social:hover {
+  opacity: 0.7;
+}
+
 .footer-list__icon--invertible {
   filter: invert(var(--is-dark-theme-on));
 }
