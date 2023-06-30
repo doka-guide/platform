@@ -64,7 +64,7 @@
     align-items: center;
     justify-content: center;
     gap: var(--offset, 20px);
-    border-top: 1px solid;
+    border-block-start: 1px solid hsl(var(--color-base-text) / 0.3);
     font-size: var(--font-size-m);
     line-height: var(--font-line-height-m);
   }
@@ -117,10 +117,5 @@
   .index-block__main {
     grid-column: 2;
     grid-row: 1;
-  }
-
-  .index-block__footer {
-    grid-column: 2;
-    align-self: end;
   }
 }
