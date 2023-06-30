@@ -59,6 +59,7 @@
   .footer {
     align-items: flex-start;
     flex-direction: column;
+    padding-block-start: 30px;
   }
 
   .footer__lists {
@@ -82,7 +83,6 @@
   .footer__list_social {
     flex-direction: row;
     gap: 20px;
-    order: 1;
   }
 }
 
