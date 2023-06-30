@@ -38,11 +38,15 @@
 
 .footer__list_social {
   flex-direction: row;
-  gap: 15px;
+  gap: 5px;
 }
 
 .footer-list__icon {
   vertical-align: middle;
+}
+
+.footer-list__link_social {
+  padding: 5px;
 }
 
 .footer-list__link_social:hover {
@@ -86,7 +90,7 @@
 
   .footer__list_social {
     flex-direction: row;
-    gap: 20px;
+    gap: 10px;
   }
 }
 
