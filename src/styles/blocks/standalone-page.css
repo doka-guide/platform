@@ -12,7 +12,7 @@
 .standalone-page__header {
   padding: var(--offset);
   padding-top: clamp(20px, 8%, 130px);
-  border-bottom: 1px solid;
+  border-bottom: 1px solid hsl(var(--color-base-text) / 0.3);
 }
 
 .standalone-page__title {

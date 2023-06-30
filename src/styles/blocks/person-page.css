@@ -98,11 +98,6 @@
   padding-bottom: 30px;
 }
 
-.person-page__footer {
-  grid-area: footer;
-  align-self: end;
-}
-
 @media (min-width: 320px) {
   .person-page__main {
     grid-template-columns: 100%;
