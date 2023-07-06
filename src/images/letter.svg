@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 316 224">
+  <path stroke="#000" stroke-linecap="round" stroke-width="1.5" d="m55 197 55.1-43.742M211 197l-55.107-43.742M55 103l78 55 78-55"/>
+  <path stroke="#000" stroke-linecap="round" stroke-width="1.5" d="M211.5 103H55v94.5h156.5V103Z"/>
+  <path stroke="#000" stroke-linecap="round" stroke-width="1.5" d="M144.5 91.5V24h117v173.5h-39M241 79h-69m18-12h-25m7-12h-7m25 0h-13m64 36h-76m76 12h-19m19 51h-19m19 12h-19"/>
+  <ellipse cx="228.422" cy="40.7934" fill="#CCED00" rx="4.74239" ry="6.74879" transform="rotate(-13.55 228.422 40.7934)"/>
+  <ellipse cx="239.887" cy="45.5957" fill="#CCED00" rx="4.34425" ry="5.89949" transform="rotate(10.24 239.887 45.5957)"/>
+  <ellipse cx="4.34425" cy="5.89949" fill="#CCED00" rx="4.34425" ry="5.89949" transform="matrix(-.6834 .73 .73 .6834 208.767 48.2574)"/>
+  <ellipse cx="9.48478" cy="10.944" fill="#CCED00" rx="9.48478" ry="10.944" transform="matrix(.3144 .9493 .9493 -.3144 214.438 53.6805)"/>
+  <ellipse cx="4.74239" cy="6.74879" fill="#CCED00" rx="4.74239" ry="6.74879" transform="matrix(-.9198 .3924 .3924 .9198 218.015 36.7398)"/>
+</svg>
