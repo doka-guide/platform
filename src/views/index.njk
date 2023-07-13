@@ -1,5 +1,6 @@
 {% from "blocks/header.njk" import header with context %}
 {% from "blocks/footer.njk" import footer with context %}
+{% from "blocks/promo.njk" import promo with context %}
 
 {% set isLogoContrastColor = hasCategory %}
 
@@ -12,8 +13,9 @@
   <div class="container">
     <div class="intro">
       <h1 class="visually-hidden">Дока</h1>
-      <div class="intro__pitch">
-        <h2 class="intro__moto font-theme--code">Друг для друга</h2>
+      {{ promo('68 100% 46%') }}
+      {# <div class="intro__pitch"> #}
+        {# <h2 class="intro__moto font-theme--code">Друг для друга</h2>
         <p class="intro__description">
           Дока — это документация для разработчиков на понятном языке. Её пишет сообщество, чтобы помогать друг другу. Ваши знания и опыт важны. Делитесь ими, мы поможем.
         </p>
@@ -32,8 +34,8 @@
             🔥
             <a class="link" href="{{ constants.contentHotBacklogLink }}">Горящий бэклог</a>
           </div>
-        </div>
-      </div>
+        </div> #}
+      {# </div> #}
       <div class="intro__pitch intro__pitch--partner">
         <a target="_blank" rel="nofollow" href="https://practicum.yandex.ru/programming-upskilling/?utm_source=pr&utm_medium=content&utm_campaign=pr_content_programming-upskilling_doka">
           <img class="intro__logo intro__logo--invertible" src="/images/partners/practicum.svg" alt="Практикум">
