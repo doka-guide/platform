@@ -4,7 +4,7 @@
 }
 
 .question__request {
-  margin-top: 50px;
+  margin-top: 40px;
 }
 
 .content p.question__response-placeholder {
@@ -28,17 +28,27 @@
   }
 
   .question__request .questions__edit-button {
-    margin-top: 16px;
+    margin-top: 14px;
   }
 }
 
 @media (min-width: 1024px) {
+  .question__request {
+    margin-top: 50px;
+  }
+
   .content p.question__response-placeholder {
     margin-top: 20px;
     margin-bottom: 20px;
   }
 
   .question__request .questions__edit-button {
-    margin-top: 20px;
+    margin-top: 16px;
+  }
+}
+
+@media (min-width: 1680px) {
+  .question__request {
+    margin-top: 60px;
   }
 }

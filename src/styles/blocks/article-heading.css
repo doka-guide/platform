@@ -121,14 +121,14 @@
 
 .article-heading--level-2 {
   margin-top: 40px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .article-heading--level-3,
 .article-heading--level-4,
 .article-heading--level-5 {
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .article-heading + .article-heading {
@@ -148,41 +148,41 @@
 @media (min-width: 768px) {
   .article-heading--level-2 {
     margin-top: 70px;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
   }
 
   .article-heading--level-3,
   .article-heading--level-4,
   .article-heading--level-5 {
     margin-top: 24px;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
   }
 }
 
 @media (min-width: 1024px) {
   .article-heading--level-2 {
     margin-top: 60px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
   .article-heading--level-3,
   .article-heading--level-4,
   .article-heading--level-5 {
     margin-top: 40px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 }
 
 @media (min-width: 1680px) {
   .article-heading--level-2 {
     margin-top: 70px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
   .article-heading--level-3,
   .article-heading--level-4,
   .article-heading--level-5 {
     margin-top: 50px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 }
