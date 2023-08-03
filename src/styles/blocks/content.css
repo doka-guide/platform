@@ -71,6 +71,10 @@
   background-color: var(--accent-color);
 }
 
+.content > blockquote > p + p {
+  margin-block-start: 5px;
+}
+
 .content > img,
 .content > video,
 .content > audio,
