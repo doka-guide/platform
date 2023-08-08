@@ -82,7 +82,8 @@
 }
 
 @media not all and (min-width: 1024px) {
-  .doc__linked-articles {
+  .doc__linked-articles,
+  .doc__related-articles {
     padding-inline: inherit;
   }
 }
