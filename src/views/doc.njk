@@ -108,8 +108,7 @@
             {% include "questions.njk" %}
           </div>
 
-          <aside class="doc__feedback-form" aria-labelledby="feedback">
-            <span class="visually-hidden" id="feedback">Оценка материала</span>
+          <aside class="doc__feedback-form" aria-label="Оценка материала">
             {% include "feedback-form.njk" %}
           </aside>
 
@@ -120,7 +119,7 @@
           {% endif %}
 
           {% if (previousArticle or nextArticle) %}
-            <div class="doc__linked-articles">
+            <aside class="doc__linked-articles" aria-label="Полезные материалы">
               {% if previousArticle %}
                 {{ linkedArticle(article=previousArticle, type="previous") }}
               {% endif %}
@@ -128,7 +127,7 @@
               {% if nextArticle %}
                 {{ linkedArticle(article=nextArticle, type="next") }}
               {% endif %}
-            </div>
+            </aside>
           {% endif %}
         </div>
       </div>
