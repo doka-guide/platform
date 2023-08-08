@@ -17,7 +17,7 @@
 <div class="doc">
   <main class="doc__main">
     <article class="doc__article article {% if cover %}article--with-cover{% endif %}">
-      <header class="article__header">
+      <header class="article__header" aria-label="Материал">
         <div class="article__header-inner doc__wrapper">
           {% if cover %}
             {{ articleImage(class="article__image", cover=cover, authors=populatedCoverAuthors) }}
@@ -72,7 +72,7 @@
             <div class="article-nav__content"></div>
           </div>
 
-          <footer class="article__meta">
+          <footer class="article__meta" aria-label="Авторы и дата публикации">
             <div class="article__persons">
               {% include "contributors.njk" %}
             </div>
