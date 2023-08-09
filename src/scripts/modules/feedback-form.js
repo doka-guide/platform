@@ -193,7 +193,7 @@ function init() {
     })
       .then(() => {
         form.dataset.state = 'success'
-        form.dataset.ariaDescribedby = 'success'
+        form.setAttribute('aria-describedby', 'success')
       })
       .catch((error) => {
         form.dataset.state = 'error'
