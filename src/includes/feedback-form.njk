@@ -1,11 +1,6 @@
-<form class="feedback-form" method="post" autocomplete="off" data-state="idle">
-  <div class="feedback-form__header font-theme font-theme--code">
-    <div class="feedback-form__title" data-state="idle">Статья была полезной?</div>
-    <div class="feedback-form__title feedback-form__title--success" data-state="success">Спасибо</div>
-    <div class="feedback-form__title feedback-form__title--error" data-state="error">Спасибо</div>
-  </div>
-
+<form class="feedback-form" method="post" autocomplete="off">
   <fieldset class="feedback-form__fieldset feedback-form__fieldset--vote font-theme font-theme--code">
+    <legend class="feedback-form__title font-theme font-theme--code">Статья была полезной?</legend>
     <button class="vote vote--up" name="answer" value="Понравилось" type="submit">
       <span class="visually-hidden">Понравилось</span>
       <span aria-hidden="true">^‿^</span>
@@ -57,7 +52,9 @@
     Если вы нашли ошибку, отправьте нам <a class="link" href="{{ constants.contentRepLink }}">пулреквест</a>!
   </p>
 
-  <p class="feedback-form__error" data-state="error">
-    Во время отправки формы что-то пошло не так. Попробуйте ещё раз?
+  <div role="status" class="feedback-form__success" id="success" data-state="success">Спасибо за оценку ❤️</div>
+
+  <p role="alert" class="feedback-form__error" id="error" data-state="error">
+    Во время отправки формы что-то пошло не так. Перезагрузите страницу и попробуйте оценить материал ещё раз.
   </p>
 </form>
