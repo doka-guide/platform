@@ -78,7 +78,7 @@
 .content > p > kbd,
 .content > ul > li > kbd,
 .content > ol > li > kbd {
-  font-family: var(--font-family, monospace);
+  font-family: 'Spot Mono', monospace;
 }
 
 .content > img,
