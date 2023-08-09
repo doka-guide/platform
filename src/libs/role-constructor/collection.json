@@ -9,7 +9,7 @@
   },
   "praktikum-mentor": {
     "title": "Наставник Практикума",
-    "url": "https://practicum.yandex.ru/catalog/programming/",
+    "url": "https://practicum.yandex.ru/catalog/programming/?utm_source=pr&utm_medium=content&utm_campaign=doka_content",
     "color": "hsl(0 0% 100%)",
     "bgColor": "hsl(0 0% 0%)",
     "hoverColor": "hsl(0 0% 30%)",
@@ -17,7 +17,7 @@
   },
   "practicum-contributor": {
     "title": "Контрибьютор Практикума",
-    "url": "https://practicum.yandex.ru/catalog/programming/",
+    "url": "https://practicum.yandex.ru/catalog/programming/?utm_source=pr&utm_medium=content&utm_campaign=doka_content",
     "color": "hsl(0 0% 100%)",
     "bgColor": "hsl(0 0% 0%)",
     "hoverColor": "hsl(0 0% 30%)",
