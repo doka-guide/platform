@@ -63,10 +63,6 @@ class DetailedAnswer extends BaseComponent {
       })
     })
   }
-
-  focus() {
-    this.textarea.focus()
-  }
 }
 
 function init() {
@@ -126,7 +122,7 @@ function init() {
 
   detailedAnswer.on(DetailedAnswer.EVENTS.ANSWER, () => {
     setTimeout(() => {
-      reasonFieldset.disabled = true
+      reasonFieldset.inert = true
       voteUpButton.disabled = true
     })
   })
@@ -142,7 +138,7 @@ function init() {
     () => {
       setTimeout(() => {
         voteDownButton.disabled = true
-        reasonFieldset.disabled = true
+        reasonFieldset.inert = true
       })
     },
     { once: true }
@@ -162,7 +158,7 @@ function init() {
     ButtonGroup.EVENTS.ANSWER,
     () => {
       setTimeout(() => {
-        reasonFieldset.disabled = true
+        reasonFieldset.inert = true
         voteUpButton.disabled = true
         textControl.hidden = true
       })
@@ -197,9 +193,11 @@ function init() {
     })
       .then(() => {
         form.dataset.state = 'success'
+        form.dataset.ariaDescribedby = 'success'
       })
       .catch((error) => {
         form.dataset.state = 'error'
+        form.setAttribute('aria-describedby', 'error')
         console.error(error)
       })
       .finally(() => {
