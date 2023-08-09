@@ -7,6 +7,43 @@
   margin-bottom: 0;
 }
 
+.practices__author {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 20px;
+}
+
+.practices__author-roles {
+  --role-color: hsl(0 0% 0%);
+  --role-bg-color: hsl(0 0% 100%);
+  --role-hover-color: hsl(0 0% 94%);
+  --role-border-color: hsl(0 0% 0%);
+  align-self: center;
+  display: flex;
+}
+
+.practices__author-roles:not(:has(.practices__author-roles-link)) {
+  display: none;
+}
+
+.practices__author-roles-link {
+  font-size: calc(var(--font-size-s) * 1.25);
+  line-height: var(--font-line-height-s);
+  padding: 4px 18px;
+  text-decoration: none;
+  width: max-content;
+  border-width: 1px;
+  border-style: solid;
+  color: var(--role-color);
+  background-color: var(--role-bg-color);
+  border-color: var(--role-border-color);
+}
+
+.practices__author-roles-link:hover {
+  background-color: var(--role-hover-color);
+}
+
 .practices__author-name > * {
   font-family: 'Spot Mono', monospace;
   font-weight: 300;

@@ -6,6 +6,44 @@
   {% endif %}
 {% endmacro %}
 
+{% macro answerOrName(name, url) %}
+  {% if url %}
+    <a class="link font-theme--code" href="{{ url }}">{{ name }}</a>
+  {% else %}
+    <span class="font-theme--code">{{ name }}</span>
+  {% endif %}
+{% endmacro %}
+
+{% macro roleLabel(role) %}
+  {% set roleUrl = allRoles[role].url %}
+  {% if role.url %}
+    {% set roleUrl = role.url %}
+  {% endif %}
+  {% set roleTitle = allRoles[role].title %}
+  {% if role.title %}
+    {% set roleTitle = role.title %}
+  {% endif %}
+  {% set roleColor = allRoles[role].color %}
+  {% if role.color %}
+    {% set roleColor = role.color %}
+  {% endif %}
+  {% set roleBackground = allRoles[role].bgColor %}
+  {% if role.bgColor %}
+    {% set roleBackground = role.bgColor %}
+  {% endif %}
+  {% set roleHover = allRoles[role].hoverColor %}
+  {% if role.hoverColor %}
+    {% set roleHover = role.hoverColor %}
+  {% endif %}
+  {% set roleBorder = allRoles[role].border %}
+  {% if role.border %}
+    {% set roleBorder = role.border %}
+  {% endif %}
+  <a href="{{ roleUrl }}" class="practices__author-roles-link" style="--role-color: {{ roleColor }}; --role-bg-color: {{ roleBackground }}; --role-hover-color: {{ roleHover }}; --role-border-color: {{ roleBorder }}">
+    {{ roleTitle }}
+  </a>
+{% endmacro %}
+
 {% if practices.length > 0 %}
   <section class="practices" id="practices">
     {{ practicesAuthors.length }}
@@ -18,13 +56,22 @@
 
       <article id="practices-{{ practice.fileSlug }}">
         <h3 class="practices__author">
-          <span class="practices__author-name">
-            {{ practiceAuthorName(
-              name=(practiceAuthor.data.name or practice.fileSlug),
-              url='/people/' + practiceAuthor.fileSlug + '/'
-            ) }}
+          <span class="practices__author-roles">
+            {% for roleKey in practiceAuthor.data.roles %}
+              {{ roleLabel(
+                role=roleKey
+              ) }}
+            {% endfor %}
           </span>
-          советует
+          <div>
+            <span class="practices__author-name">
+              {{ practiceAuthorName(
+                name=(practiceAuthor.data.name or practice.fileSlug),
+                url='/people/' + practiceAuthor.fileSlug + '/'
+              ) }}
+            </span>
+            &nbsp;советует
+          </div>
         </h3>
         <div class="practices__content {% if not practice.isLong %}practices__content--short{% endif %} content">
           <div class="practices__summary">
