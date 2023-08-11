@@ -1,23 +1,18 @@
 .wdi-browser-compat {
   max-width: 87.5%;
+  margin-block-start: 40px;
   align-items: center;
-  color: var(--wdi-text-color, #585b63);
+  color: var(--color-light);
   display: flex;
   flex-wrap: wrap;
 }
 
-.wdi-browser-compat__label {
-  color: var(--wdi-text-color, #585b63);
-  flex: 0 0 100%;
-  font-style: normal;
-  margin-right: 1rem;
-  width: 100%;
-}
-
 .wdi-browser-compat__items {
   display: flex;
-  margin: 1rem 1rem 1rem 0;
+  flex-wrap: wrap;
+  margin: 1rem 0;
   padding: 0;
+  gap: 24px;
   list-style: none;
 }
 
@@ -30,7 +25,6 @@
 .wdi-browser-compat__icon {
   display: inline-block;
   height: 24px;
-  margin-left: 24px;
   margin-right: 6px;
   width: 24px;
   background-repeat: no-repeat no-repeat;
@@ -112,5 +106,11 @@
   .wdi-browser-compat__link {
     flex: none;
     margin-left: auto;
+  }
+}
+
+@media (min-width: 600px) {
+  .wdi-browser-compat__label {
+    margin-right: 24px;
   }
 }
