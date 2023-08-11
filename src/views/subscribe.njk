@@ -15,17 +15,18 @@
     </div>
   </div>
   <div class="standalone-page__content standalone-page__wrapper content">
-    <p>Дока — это гид по веб-платформе. В справочнике вы можете найти ответы на повседневные вопросы, а в рассылках мы собираем тематические подборки, советы от экспертов, авторские и партнёрские колонки.</p>
-    <p>Здесь вы можете подписаться и сразу рассказать немного о себе, чтобы мы настроили рассылку под ваши интересы.</p>
+    <p>Дока — это гид по веб-платформе. В справочнике можете найти ответы на повседневные вопросы, а в рассылках мы собираем тематические подборки, советы от экспертов, авторские и партнёрские колонки.</p>
+    <p>Здесь можете подписаться и сразу рассказать немного о себе, чтобы мы настроили рассылку под ваши интересы.</p>
 
-    <form class="subscribe-page__subscribe subscribe-settings form-with-status" action="">
+    <form class="subscribe-page__subscribe subscribe-settings form-with-status" autocomplete="on" action="">
       <div class="subscribe-settings__row">
         <label class="subscribe-settings__label" for="email">
           Нам обязательно нужна ваша почта
         </label>
         <input type="hidden" name="active" value="false">
-        <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email">
+        <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email" aria-invalid="false" required>
         <span class="subscribe-settings__hint">Ваш e-mail</span>
+        <p class="error-email-text" id="empty-field">Пожалуйста, введите почту 🐶</p>
       </div>
       <div class="subscribe-settings__row">
         <fieldset class="subscribe-settings__fieldset">
@@ -126,7 +127,7 @@
           <legend class="subscribe-settings__label">Мне интересно читать:</legend>
           <label class="subscribe-settings__control-label">
             <input class="subscribe-settings__control" type="checkbox" name="interest" value="digest" id="interests" checked>
-            Дайджест Доки (1 раз в месяц)
+            Дайджест Доки (один раз в месяц)
           </label>
           <label class="subscribe-settings__control-label">
             <input class="subscribe-settings__control" type="checkbox" name="interest" value="dream-job" id="interests" checked>
@@ -136,23 +137,29 @@
         <p class="subscribe-settings__note">Мы готовим новые тематические рассылки. Со временем они дополнят этот список, и вы сможете выбрать, что читать. Об обновлениях будем сообщать в Дайджесте.</p>
       </div>
       <div class="subscribe-settings__row">
-        {# В спане ниже меняем сообщения под статус #}
-        <span class="form-with-status__status">Обрабатываем запрос</span>
         <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Подписаться</button>
+        {# Ниже меняем сообщения под статус #}
+        <p role="status" class="progress-text" id="subscribe-progress">Подписываем на рассылку ⌛</p>
+        <p role="status" class="success-text" id="subscribe-success">Вы подписались на рассылку, ура 🎉</p>
+        <p role="alert" class="error-text" data-state="error" id="subscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте подписаться ещё раз.</p>
       </div>
     </form>
 
     <section class="unsubscribe-section subscribe-settings">
-      <p>Здесь можно отписаться от рассылки U×ᴥ×U</p>
+      <p>Здесь можно отписаться от рассылки <span aria-hidden="true">U×ᴥ×U</span></p>
       <form class="subscribe-page__unsubscribe unsubscribe__form form-with-status" action="">
-        <label class="unsubscribe__label">
-          <input type="text" name="reason" class="unsubscribe__input subscribe-settings__input" placeholder="Слишком часто приходят письма">
-          <span class="unsubscribe__hint subscribe-settings__hint">Расскажете что не понравилось?</span>
-        </label>
         <div class="unsubscribe__row">
+          <label class="unsubscribe__label">
+            <input type="text" name="reason" class="unsubscribe__input subscribe-settings__input" placeholder="Например, слишком часто приходят письма">
+            <span class="unsubscribe__hint subscribe-settings__hint">Расскажете, что не понравилось?</span>
+          </label>
           <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Отписаться</button>
-          {# В спане ниже меняем сообщения под статус #}
-          <span class="form-with-status__status">Обрабатываем запрос</span>
+        </div>
+        {# Ниже меняем сообщения под статус #}
+        <div class="unsubscribe__status">
+          <p role="status" class="progress-text" id="usubscribe-progress">Отписываем от рассылки ⌛</p>
+          <p role="status" class="success-text" id="usubscribe-success">Вы отписались от рассылки ☹️</p>
+          <p role="alert" class="error-text" data-state="error" id="usubscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте отписаться ещё раз.</p>
         </div>
       </form>
     </section>
