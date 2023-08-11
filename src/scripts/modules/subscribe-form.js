@@ -108,16 +108,19 @@ class Settings extends BaseComponent {
   progress() {
     this.clearStatus()
     this.status.classList.toggle('progress')
+    this.status.setAttribute('aria-describedby', 'subscribe-progress')
   }
 
   success() {
     this.clearStatus()
     this.status.classList.toggle('success')
+    this.status.setAttribute('aria-describedby', 'subscribe-success')
   }
 
   error() {
     this.clearStatus()
     this.status.classList.toggle('error')
+    this.status.setAttribute('aria-describedby', 'subscribe-error')
   }
 
   focus() {
@@ -172,16 +175,19 @@ class Unsubscribe extends BaseComponent {
   progress() {
     this.clearStatus()
     this.status.classList.toggle('progress')
+    this.status.setAttribute('aria-describedby', 'usubscribe-progress')
   }
 
   success() {
     this.clearStatus()
     this.status.classList.toggle('success')
+    this.status.setAttribute('aria-describedby', 'usubscribe-success')
   }
 
   error() {
     this.clearStatus()
     this.status.classList.toggle('error')
+    this.status.setAttribute('aria-describedby', 'usubscribe-error')
   }
 
   focus() {
