@@ -96,6 +96,10 @@
   transition: color 0.2s ease-out;
 }
 
+.subscribe-settings__button:focus-visible {
+  outline-offset: 3px;
+}
+
 .form-with-status .text-control__button::after {
   content: "";
   position: absolute;
@@ -148,9 +152,31 @@
 
 .progress .form-with-status__status,
 .success .form-with-status__status,
-.error .form-with-status__status {
+.error .form-with-status__status,
+.error-email .form-with-status__status {
   visibility: visible;
   opacity: 1;
+}
+
+.error-text,
+.success-text,
+.progress-text,
+.error-email-text {
+  display: none;
+  padding-top: 15px;
+  font-size: 0.8em;
+}
+
+.error-text,
+.error-email-text {
+  color: hsl(0, 81%, 64%);
+}
+
+.progress .progress-text,
+.success .success-text,
+.error .error-text,
+.error-email .error-email-text {
+  display: block;
 }
 
 .unsubscribe-section {
@@ -167,15 +193,16 @@
 
 .unsubscribe__form {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: start;
-  gap: 20px;
 }
 
 .unsubscribe__row {
-  width: 20%;
-  inline-size: 20%;
-  text-align: center;
+  display: flex;
+  align-items: start;
+  width: 100%;
+  gap: 20px;
 }
 
 .unsubscribe__label {
@@ -214,6 +241,7 @@
   .unsubscribe__row {
     width: 100%;
     inline-size: 100%;
+    flex-wrap: wrap;
   }
 }
 
