@@ -20,6 +20,13 @@
           {% if not isMainPage %}{{ divider() }}{% endif %}
         </li>
 
+        {# <div class="header__logo">
+        {{ logo(
+          isLink=not isMainPage
+        ) }}
+        {{ divider(isLarge=true) }}
+      </div> #}
+
         {% if category %}
           {% if title %}
             <li class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% endif %}">
@@ -46,46 +53,41 @@
         {% endif %}
       </ul>
 
-      <div class="header__toggle">
-        <button class="menu-toggle" type="button">
-          <span class="visually-hidden">Открыть меню</span>
-          <span class="menu-toggle__inner menu-toggle__inner--open">
-            <kbd class="hotkey font-theme font-theme--code">/</kbd>
-            <span class="menu-toggle__icon menu-toggle__icon--open">
-              <span class="menu-toggle__dot"></span>
-              <span class="menu-toggle__dot"></span>
-              <span class="menu-toggle__dot"></span>
-            </span>
-          </span>
-        </button>
-      </div>
-    </div>
-
-    <div class="header__inner header__inner--menu">
-      <div class="header__logo">
-        {{ logo(
-          isLink=not isMainPage
-        ) }}
-        {{ divider(isLarge=true) }}
-      </div>
-
       {% include "blocks/search.njk" %}
-      {% include "blocks/nav-list.njk" %}
 
       {% if not isMainPage %}
         <div class="header__toggle">
-          <button class="menu-toggle" type="button">
-            <span class="visually-hidden">Закрыть меню</span>
-            <span class="menu-toggle__inner menu-toggle__inner--close">
-              <kbd class="hotkey font-theme font-theme--code">esc</kbd>
-              <svg class="menu-toggle__icon menu-toggle__icon--close" width="45" height="45" viewBox="0 0 45 45">
-                <circle cx="22.5" cy="22.5" r="22.5" fill="var(--color-text)" />
-                <path fill="var(--color-background)" d="M30.3 32.1c-.5 0-1-.2-1.4-.6l-6.5-6.6-6.5 6.5c-.5.5-1 .7-1.5.7-.4 0-.8-.1-1-.4-.3-.3-.5-.6-.5-1 0-.6.3-1.1.7-1.6l6.5-6.5-6.5-6.4c-.4-.5-.7-1-.7-1.5s.2-.8.4-1.1c.3-.3.7-.4 1.1-.4.5 0 1 .2 1.5.7l6.5 6.5 6.5-6.6c.5-.5 1-.7 1.5-.7.3 0 .7.2 1 .5.3.4.5.8.5 1.1 0 .5-.2 1-.7 1.4l-6.5 6.5 6.5 6.6c.5.5.7 1 .7 1.4 0 .4-.1.7-.5 1-.4.4-.7.5-1 .5z"/>
-              </svg>
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="inner-menu">
+            <span class="menu-toggle--open">
+              <span class="visually-hidden">Открыть меню</span>
+              <span class="menu-toggle__inner menu-toggle__inner--open">
+                <kbd class="hotkey font-theme font-theme--code">/</kbd>
+                <span class="menu-toggle__icon menu-toggle__icon--open">
+                  <span class="menu-toggle__dot"></span>
+                  <span class="menu-toggle__dot"></span>
+                  <span class="menu-toggle__dot"></span>
+                </span>
+              </span>
             </span>
-          </button>
+
+            <span class="menu-toggle--close">
+              <span class="visually-hidden">Закрыть меню</span>
+              <span class="menu-toggle__inner menu-toggle__inner--close">
+                <kbd class="hotkey font-theme font-theme--code">esc</kbd>
+                <svg class="menu-toggle__icon menu-toggle__icon--close" width="45" height="45" viewBox="0 0 45 45" aria-hidden="true">
+                  <circle cx="22.5" cy="22.5" r="22.5" fill="var(--color-text)"/>
+                  <path fill="var(--color-background)" d="M30.3 32.1c-.5 0-1-.2-1.4-.6l-6.5-6.6-6.5 6.5c-.5.5-1 .7-1.5.7-.4 0-.8-.1-1-.4-.3-.3-.5-.6-.5-1 0-.6.3-1.1.7-1.6l6.5-6.5-6.5-6.4c-.4-.5-.7-1-.7-1.5s.2-.8.4-1.1c.3-.3.7-.4 1.1-.4.5 0 1 .2 1.5.7l6.5 6.5 6.5-6.6c.5-.5 1-.7 1.5-.7.3 0 .7.2 1 .5.3.4.5.8.5 1.1 0 .5-.2 1-.7 1.4l-6.5 6.5 6.5 6.6c.5.5.7 1 .7 1.4 0 .4-.1.7-.5 1-.4.4-.7.5-1 .5z"/>
+                </svg>
+              </span>
+            </span>
+          </button>   
         </div>
       {% endif %}
+
+    </div>
+
+    <div class="header__inner--menu">
+      {% include "blocks/nav-list.njk" %}
     </div>
   </header>
 {% endmacro %}
