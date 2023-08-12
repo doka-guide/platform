@@ -26,7 +26,7 @@
         <input type="hidden" name="active" value="false">
         <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email" aria-invalid="false" required>
         <span class="subscribe-settings__hint">Ваш e-mail</span>
-        <p class="error-email-text" id="empty-field">Пожалуйста, введите почту 🐶</p>
+        <span class="error-email-text" id="empty-field">Пожалуйста, введите почту 🐶</span>
       </div>
       <div class="subscribe-settings__row">
         <fieldset class="subscribe-settings__fieldset">
@@ -139,9 +139,9 @@
       <div class="subscribe-settings__row">
         <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Подписаться</button>
         {# Ниже меняем сообщения под статус #}
-        <p role="status" class="progress-text" id="subscribe-progress">Подписываем на рассылку ⌛</p>
-        <p role="status" class="success-text" id="subscribe-success">Вы подписались на рассылку, ура 🎉</p>
-        <p role="alert" class="error-text" data-state="error" id="subscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте подписаться ещё раз.</p>
+        <span role="status" class="progress-text" id="subscribe-progress">Подписываем на рассылку ⌛</span>
+        <span role="status" class="success-text" id="subscribe-success">Вы подписались на рассылку, ура 🎉</span>
+        <span role="alert" class="error-text" data-state="error" id="subscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте подписаться ещё раз.</span>
       </div>
     </form>
 
@@ -157,9 +157,9 @@
         </div>
         {# Ниже меняем сообщения под статус #}
         <div class="unsubscribe__status">
-          <p role="status" class="progress-text" id="usubscribe-progress">Отписываем от рассылки ⌛</p>
-          <p role="status" class="success-text" id="usubscribe-success">Вы отписались от рассылки ☹️</p>
-          <p role="alert" class="error-text" data-state="error" id="usubscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте отписаться ещё раз.</p>
+          <span role="status" class="progress-text" id="usubscribe-progress">Отписываем от рассылки ⌛</span>
+          <span role="status" class="success-text" id="usubscribe-success">Вы отписались от рассылки ☹️</span>
+          <span role="alert" class="error-text" data-state="error" id="usubscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте отписаться ещё раз.</span>
         </div>
       </form>
     </section>
