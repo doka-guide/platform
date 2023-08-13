@@ -7,10 +7,6 @@ class Settings extends BaseComponent {
     }
   }
 
-  static get VALIDATION_REGEXP() {
-    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  }
-
   constructor({
     rootElement,
     title,
@@ -85,18 +81,6 @@ class Settings extends BaseComponent {
         })
       }
     }
-
-    this.button.addEventListener('click', () => {
-      const text = this.email.value.trim()
-      if (Settings.VALIDATION_REGEXP.test(text)) {
-        this.emit(Settings.EVENTS.EMAIL, text)
-      }
-    })
-    ;['keydown', 'keyup'].forEach((eventType) => {
-      this.email.addEventListener(eventType, (event) => {
-        event.stopPropagation()
-      })
-    })
   }
 
   clearStatus() {
@@ -121,14 +105,6 @@ class Settings extends BaseComponent {
     this.clearStatus()
     this.status.classList.toggle('error')
     this.status.setAttribute('aria-describedby', 'subscribe-error')
-  }
-
-  focus() {
-    if (this.email.value === '') {
-      this.email.focus()
-    } else {
-      this.who.focus()
-    }
   }
 }
 
@@ -308,6 +284,7 @@ async function init() {
   })
 
   settingsForm.addEventListener('submit', (event) => {
+    console.log('!!!!')
     event.preventDefault()
 
     if (isSending) {
@@ -315,6 +292,18 @@ async function init() {
     }
 
     const formData = prepareFormData(settingsForm)
+
+    // if (!Settings.VALIDATION_REGEXP.test(this.email.value.trim())) {
+    //   settings.errorInvalidField()
+    //   console.log('Invalid email')
+    //   return
+    // }
+
+    // if (this.email.value === '') {
+    //   this.errorEmptyField()
+    //   console.log('Empty email')
+    //   return
+    // }
 
     const email = formData.email
     if (email) {
@@ -332,6 +321,8 @@ async function init() {
       })
       .catch((error) => {
         settings.error()
+        settings.errorEmptyField()
+        settings.errorInvalidField()
         console.error(error)
       })
       .finally(() => {

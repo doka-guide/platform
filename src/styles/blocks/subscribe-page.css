@@ -156,22 +156,19 @@
 /* Стили для текстов статусов */
 .error-text,
 .success-text,
-.progress-text,
-.error-email-text {
+.progress-text {
   display: none;
   padding-top: 15px;
   font-size: 0.8em;
 }
 
-.error-text,
-.error-email-text {
+.error-text {
   color: hsl(0, 81%, 64%);
 }
 
 .progress .progress-text,
 .success .success-text,
-.error .error-text,
-.error-email .error-email-text {
+.error .error-text {
   display: block;
 }
 

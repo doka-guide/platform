@@ -24,9 +24,8 @@
           Нам обязательно нужна ваша почта
         </label>
         <input type="hidden" name="active" value="false">
-        <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email" aria-invalid="false" required>
+        <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email" aria-invalid="false" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
         <span class="subscribe-settings__hint">Ваш e-mail</span>
-        <span class="error-email-text" id="empty-field">Ой, вы забыли ввести почту 🐶</span>
       </div>
       <div class="subscribe-settings__row">
         <fieldset class="subscribe-settings__fieldset">
