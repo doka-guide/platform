@@ -148,9 +148,15 @@
 
 .progress .text-control__button::after {
   content: "";
-  border: 2px dashed white;
+  border: 2px dashed hsl(var(--color-dark));
   border-radius: 50%;
   animation: progress-wheel 6s infinite linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress .text-control__button::after {
+    animation: none;
+  }
 }
 
 /* Стили для текстов статусов */
