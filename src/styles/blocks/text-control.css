@@ -41,7 +41,7 @@
 }
 
 .button--active:focus-visible,
-.text-control__button {
+.text-control__button:focus-visible {
   outline-offset: 3px;
 }
 
