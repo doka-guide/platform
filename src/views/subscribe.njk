@@ -18,13 +18,13 @@
     <p>Дока — это гид по веб-платформе. В справочнике можете найти ответы на повседневные вопросы, а в рассылках мы собираем тематические подборки, советы от экспертов, авторские и партнёрские колонки.</p>
     <p>Здесь можете подписаться и сразу рассказать немного о себе, чтобы мы настроили рассылку под ваши интересы.</p>
 
-    <form class="subscribe-page__subscribe subscribe-settings form-with-status" autocomplete="email" action="">
+    <form class="subscribe-page__subscribe subscribe-settings form-with-status" action="">
       <div class="subscribe-settings__row">
         <label class="subscribe-settings__label" for="email">
           Нам обязательно нужна ваша почта
         </label>
         <input type="hidden" name="active" value="false">
-        <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
+        <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email" autocomplete="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
         <span class="subscribe-settings__hint">Ваш e-mail</span>
       </div>
       <div class="subscribe-settings__row">
