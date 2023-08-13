@@ -17,8 +17,6 @@
   --border-color-opacity: calc(1 - var(--is-dark-theme-on) * 0.6);
   flex: 1 1 auto;
   box-sizing: border-box;
-  padding-left: 0;
-  padding-right: 0;
   width: 100%;
   min-height: var(--input-height);
   height: var(--input-height);
@@ -40,6 +38,11 @@
 
 .text-control__button {
   flex: 0 0 auto;
+}
+
+.button--active:focus-visible,
+.text-control__button {
+  outline-offset: 3px;
 }
 
 @media not all and (min-width: 768px) {
