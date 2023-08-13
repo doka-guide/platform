@@ -2,6 +2,7 @@
   --gap: 50px;
 }
 
+/* Стили для формы подписки */
 .subscribe-settings {
   display: grid;
   gap: var(--gap);
@@ -11,26 +12,11 @@
   background-color: var(--color-fade);
 }
 
-/* Отдельный класс для форм со статусами состояния */
-.form-with-status {
-  transition: opacity 0.2s ease-in-out;
-}
-
-/* Класс на время обработки */
-.form-with-status.progress {
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-/* Класс на случай успеха — progress */
-
-/* Класс на случай провала — error */
-
 .subscribe-settings__row--hidden {
   display: none;
 }
 
-.subscribe-settings__row:has(.subscribe-settings__button) {
+.subscribe-settings__row--center {
   text-align: center;
 }
 
@@ -100,85 +86,7 @@
   outline-offset: 3px;
 }
 
-.form-with-status .text-control__button::after {
-  content: "";
-  position: absolute;
-  inset: 50%;
-  translate: -50% -50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  inline-size: 30px;
-  height: 30px;
-  block-size: 30px;
-}
-
-.progress .text-control__button {
-  color: currentColor;
-}
-
-.progress .text-control__button::after {
-  content: "";
-  border: 2px dashed white;
-  border-radius: 50%;
-  animation: progress-wheel 6s infinite linear;
-}
-
-.success .text-control__button {
-  color: currentColor;
-}
-
-.success .text-control__button::after {
-  content: "✅";
-}
-
-.error .text-control__button {
-  color: currentColor;
-}
-
-.error .text-control__button::after {
-  content: "❌";
-}
-
-.form-with-status__status {
-  display: block;
-  margin-block: 0.5em;
-  font-size: 0.8em;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.2s ease-in;
-}
-
-.progress .form-with-status__status,
-.success .form-with-status__status,
-.error .form-with-status__status,
-.error-email .form-with-status__status {
-  visibility: visible;
-  opacity: 1;
-}
-
-.error-text,
-.success-text,
-.progress-text,
-.error-email-text {
-  display: none;
-  padding-top: 15px;
-  font-size: 0.8em;
-}
-
-.error-text,
-.error-email-text {
-  color: hsl(0, 81%, 64%);
-}
-
-.progress .progress-text,
-.success .success-text,
-.error .error-text,
-.error-email .error-email-text {
-  display: block;
-}
-
+/* Стили для формы отписки */
 .unsubscribe-section {
   display: grid;
   gap: var(--gap);
@@ -207,6 +115,82 @@
 
 .unsubscribe__label {
   flex-grow: 1;
+}
+
+/* Отдельный класс для форм со статусами состояния */
+.form-with-status {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.form-with-status .text-control__button::after {
+  content: "";
+  position: absolute;
+  inset: 50%;
+  translate: -50% -50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  inline-size: 30px;
+  height: 30px;
+  block-size: 30px;
+}
+
+/* Класс на время обработки */
+.form-with-status.progress {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.progress .text-control__button {
+  color: currentColor;
+}
+
+.progress .text-control__button::after {
+  content: "";
+  border: 2px dashed white;
+  border-radius: 50%;
+  animation: progress-wheel 6s infinite linear;
+}
+
+/* Стили для текстов статусов */
+.error-text,
+.success-text,
+.progress-text,
+.error-email-text {
+  display: none;
+  padding-top: 15px;
+  font-size: 0.8em;
+}
+
+.error-text,
+.error-email-text {
+  color: hsl(0, 81%, 64%);
+}
+
+.progress .progress-text,
+.success .success-text,
+.error .error-text,
+.error-email .error-email-text {
+  display: block;
+}
+
+/* Класс на случай успеха — progress */
+.success .text-control__button {
+  color: currentColor;
+}
+
+.success .text-control__button::after {
+  content: "✅";
+}
+
+/* Класс на случай провала — error */
+.error .text-control__button {
+  color: currentColor;
+}
+
+.error .text-control__button::after {
+  content: "❌";
 }
 
 @media (max-width: 768px) {
