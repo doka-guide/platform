@@ -92,6 +92,11 @@ class Settings extends BaseComponent {
   progress() {
     this.clearStatus()
     this.status.classList.toggle('progress')
+    this.email.disabled = true
+    this.button.disabled = true
+    this.who.disabled = true
+    this.grade.disabled = true
+    this.interests.disabled = true
     this.status.setAttribute('aria-describedby', 'subscribe-progress')
   }
 
@@ -151,6 +156,8 @@ class Unsubscribe extends BaseComponent {
   progress() {
     this.clearStatus()
     this.status.classList.toggle('progress')
+    this.button.disabled = true
+    this.input.disabled = true
     this.status.setAttribute('aria-describedby', 'usubscribe-progress')
   }
 
@@ -164,10 +171,6 @@ class Unsubscribe extends BaseComponent {
     this.clearStatus()
     this.status.classList.toggle('error')
     this.status.setAttribute('aria-describedby', 'usubscribe-error')
-  }
-
-  focus() {
-    this.input.focus()
   }
 }
 
