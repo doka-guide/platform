@@ -284,7 +284,6 @@ async function init() {
   })
 
   settingsForm.addEventListener('submit', (event) => {
-    console.log('!!!!')
     event.preventDefault()
 
     if (isSending) {
@@ -292,18 +291,6 @@ async function init() {
     }
 
     const formData = prepareFormData(settingsForm)
-
-    // if (!Settings.VALIDATION_REGEXP.test(this.email.value.trim())) {
-    //   settings.errorInvalidField()
-    //   console.log('Invalid email')
-    //   return
-    // }
-
-    // if (this.email.value === '') {
-    //   this.errorEmptyField()
-    //   console.log('Empty email')
-    //   return
-    // }
 
     const email = formData.email
     if (email) {
@@ -321,8 +308,6 @@ async function init() {
       })
       .catch((error) => {
         settings.error()
-        settings.errorEmptyField()
-        settings.errorInvalidField()
         console.error(error)
       })
       .finally(() => {
