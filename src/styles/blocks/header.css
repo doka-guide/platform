@@ -10,7 +10,6 @@
 /* фон при открытом меню */
 .header::before:not(.header--open) {
   content: '';
-  position: fixed;
   z-index: 2;
   opacity: 0.3;
   top: 0;
@@ -59,17 +58,28 @@
 /* вложенный в меню контейнер с лого, крошками, поиском и кнопками */
 .header__inner:not(.menu--open) {
   position: relative;
-  padding: 10px;
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: var(--header-bg-color);
 }
 
+.header__inner--main {
+  font-size: var(--font-size-l);
+  letter-spacing: -0.06em;
+  line-height: var(--font-line-height-l);
+  font-family: var(--font-family);
+}
+
 /* фиксированное меню на всех страницах, кроме главной, когда меню открыто */
 .header--open:not(.header--main) .header__inner {
-  position: fixed;
+  /* position: fixed; */
   background-color: var(--color-background);
+}
+
+.header .header__search {
+  flex-grow: 1;
 }
 
 .menu--open .header__inner--main {
@@ -85,16 +95,11 @@
   right: 0;
   grid-template-rows: var(--search-input-height) auto;
   background-color: var(--header-bg-color);
-  font-size: var(--font-size-l);
-  letter-spacing: -0.06em;
-  line-height: var(--font-line-height-l);
-  font-family: var(--font-family);
 }
 
 @media (min-width: 1024px) {
   .header__inner {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 10px;
   }
 
   .menu--open .header__inner--main {
@@ -111,7 +116,6 @@
 .header__inner--menu {
   height: 0;
   z-index: 2;
-  padding-block-start: 46px;
   padding-inline-start: 229px;
   font-size: calc(var(--font-size-xl) * 0.95);
   line-height: calc(var(--font-line-height-xl) * 0.95);
@@ -128,7 +132,14 @@
   line-height: inherit;
 }
 
-.header--open .header__inner--menu {
+.header--main .header__inner--menu {
+  position: relative;
+  height: auto;
+}
+
+.header--open:not(.header--main) .header__inner--menu {
+  position: fixed;
+  width: 100%;
   height: auto;
 }
 
@@ -140,7 +151,8 @@
 
 /* список разделов */
 .header__menu {
-  margin-top: var(--gap, 16px);
+  /* margin-top: var(--gap, 16px); */
+  margin-top: 0;
   margin-bottom: 1.7%;
 }
 

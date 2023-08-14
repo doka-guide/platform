@@ -17,7 +17,7 @@
       <ul class="header__breadcrumbs breadcrumbs base-list">
         <li class="breadcrumbs__item header__logo">
           {{ logo(isLink=not isMainPage, isContrastColor=isLogoContrastColor, isImageHidden=isLogoImageHidden, letters=logoLetters) }}
-          {% if not isMainPage %}{{ divider() }}{% endif %}
+          {{ divider() }}
         </li>
 
         {# <div class="header__logo">
