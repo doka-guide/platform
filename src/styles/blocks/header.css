@@ -7,6 +7,21 @@
   background-color: var(--color-background);
 }
 
+/* открытое меню */
+.header--open {
+  z-index: 3;
+  animation: none;
+}
+
+.header--open::after {
+  display: none;
+}
+
+.header--open:not(.header--main) {
+  position: fixed;
+  width: 100%;
+}
+
 /* фон при открытом меню */
 .header::before:not(.header--open) {
   content: '';
@@ -55,7 +70,7 @@
   transition: opacity var(--header-animation-time);
 }
 
-/* вложенный в меню контейнер с лого, крошками, поиском и кнопками */
+/* всё меню без выпадающего списка по умолчанию */
 .header__inner:not(.menu--open) {
   position: relative;
   padding: 10px 20px;
@@ -65,17 +80,16 @@
   background-color: var(--header-bg-color);
 }
 
+/* фон всего меню, когда открыт выпадающий список */
+.header--open:not(.header--main) .header__inner {
+  background-color: var(--color-background);
+}
+
 .header__inner--main {
   font-size: var(--font-size-l);
   letter-spacing: -0.06em;
   line-height: var(--font-line-height-l);
   font-family: var(--font-family);
-}
-
-/* фиксированное меню на всех страницах, кроме главной, когда меню открыто */
-.header--open:not(.header--main) .header__inner {
-  /* position: fixed; */
-  background-color: var(--color-background);
 }
 
 .header .header__search {
@@ -112,7 +126,7 @@
   }
 }
 
-/* выпадающее меню */
+/* выпадающее меню со списком разделов */
 .header__inner--menu {
   height: 0;
   z-index: 2;
@@ -127,26 +141,28 @@
     visibility 0s;
 }
 
-.nav-list {
-  --block-padding: 6px;
-  line-height: inherit;
+@media (min-width: 1680px) {
+  .header__inner--menu {
+    padding-bottom: 20px;
+  }
 }
 
+/* выпадающее меню на главной, которое всегда открыто */
 .header--main .header__inner--menu {
   position: relative;
   height: auto;
 }
 
+/* выпадающее меню в открытом состоянии */
 .header--open:not(.header--main) .header__inner--menu {
   position: fixed;
   width: 100%;
   height: auto;
 }
 
-@media (min-width: 1680px) {
-  .header__inner--menu {
-    padding-bottom: 20px;
-  }
+.nav-list {
+  --block-padding: 6px;
+  line-height: inherit;
 }
 
 /* список разделов */
@@ -213,6 +229,7 @@
   font: inherit;
 }
 
+/* разделитель */
 .header__divider {
   opacity: 0.3;
   margin: 0 0.2em;
@@ -255,8 +272,7 @@
   display: block;
 }
 
-/* кнопка для закрытия/раскрытия меню */
-
+/* кнопки для закрытия/раскрытия меню */
 .header__toggle {
   margin-left: 20px;
   display: flex;
@@ -283,16 +299,6 @@
 }
 
 .header--open .header__category {
-  display: none;
-}
-
-/* открытое меню */
-.header--open {
-  z-index: 3;
-  animation: none;
-}
-
-.header--open::after {
   display: none;
 }
 
