@@ -74,6 +74,7 @@ function init() {
 
   const voteDownButton = form.querySelector('.vote--down')
   const voteUpButton = form.querySelector('.vote--up')
+  const reasonButton = form.querySelector('.button--another-reason')
   const reasonFieldset = form.querySelector('.feedback-form__fieldset--reason')
   const textControl = form.querySelector('.feedback-form__text')
 
@@ -145,6 +146,7 @@ function init() {
   )
 
   voteButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
+    voteDownButton.setAttribute('aria-expanded', 'true')
     reasonFieldset.hidden = false
   })
 
@@ -168,7 +170,7 @@ function init() {
 
   reasonsButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
     textControl.hidden = false
-    detailedAnswer.focus()
+    reasonButton.setAttribute('aria-expanded', 'true')
   })
 
   form.addEventListener('submit', (event) => {

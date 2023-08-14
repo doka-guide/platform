@@ -5,13 +5,13 @@
       <span class="visually-hidden">Понравилось</span>
       <span aria-hidden="true">^‿^</span>
     </button>
-    <button class="vote vote--down" type="button">
+    <button class="vote vote--down" type="button" aria-expanded="false" aria-controls="reason">
       <span class="visually-hidden">Не понравилось</span>
       <span aria-hidden="true">ˇ⌒ˇ</span>
     </button>
   </fieldset>
 
-  <fieldset class="feedback-form__fieldset feedback-form__fieldset--reason" hidden>
+  <fieldset class="feedback-form__fieldset feedback-form__fieldset--reason" id="reason" hidden>
     <legend class="feedback-form__legend">Расскажите, что не понравилось?</legend>
     <ul class="feedback-control-list base-list">
       <li class="feedback-control-list__item">
@@ -35,12 +35,12 @@
         </button>
       </li>
       <li class="feedback-control-list__item">
-        <button class="feedback-form__reason-button button button--round" name="answer" value="Что-то другое" type="button">
+        <button class="feedback-form__reason-button button button--round button--another-reason" name="answer" value="Что-то другое" type="button" aria-expanded="false" aria-controls="another-reason">
           Что-то другое
         </button>
       </li>
     </ul>
-    <div class="feedback-form__text" hidden>
+    <div class="feedback-form__text" id="another-reason" hidden>
       <div class="text-control">
         <textarea class="text-control__item text-control__input" name="answer" placeholder="Расскажите, пожалуйста, подробнее"></textarea>
         <button class="text-control__item text-control__button button button--invert" type="submit">Отправить</button>
