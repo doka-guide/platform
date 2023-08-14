@@ -138,9 +138,9 @@
       <div class="subscribe-settings__row subscribe-settings__row--center">
         <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Подписаться</button>
         {# Ниже меняем сообщения под статус #}
-        <span role="status" class="progress-text" id="subscribe-progress">Подписываем на рассылку ⌛</span>
-        <span role="status" class="success-text" id="subscribe-success">Вы подписались на рассылку, ура 🎉</span>
-        <span role="alert" class="error-text" data-state="error" id="subscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте подписаться ещё раз.</span>
+        <p aria-live="polite" class="progress-text" id="subscribe-progress">Подписываем на рассылку ⌛</p>
+        <p aria-live="polite" class="success-text" id="subscribe-success">Вы подписались на рассылку, ура 🎉</p>
+        <p aria-live="assertive" class="error-text" data-state="error" id="subscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте подписаться ещё раз.</p>
       </div>
     </form>
 
@@ -156,9 +156,9 @@
         </div>
         {# Ниже меняем сообщения под статус #}
         <div class="unsubscribe__status">
-          <span role="status" class="progress-text" id="usubscribe-progress">Отписываем от рассылки ⌛</span>
-          <span role="status" class="success-text" id="usubscribe-success">Вы отписались от рассылки ☹️</span>
-          <span role="alert" class="error-text" data-state="error" id="usubscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте отписаться ещё раз.</span>
+          <p aria-live="polite" class="progress-text" id="usubscribe-progress">Отписываем от рассылки ⌛</p>
+          <p aria-live="polite" class="success-text" id="usubscribe-success">Вы отписались от рассылки ☹️</p>
+          <p aria-live="assertive" class="error-text" data-state="error" id="usubscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте отписаться ещё раз.</p>
         </div>
       </form>
     </section>
