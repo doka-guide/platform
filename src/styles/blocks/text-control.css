@@ -5,6 +5,12 @@
   gap: 20px;
 }
 
+.text-control__row {
+  width: 100%;
+  flex-grow: 1;
+  text-align: left;
+}
+
 .text-control__item {
   box-sizing: border-box;
   padding-block: var(--padding-block);

@@ -42,7 +42,10 @@
     </ul>
     <div class="feedback-form__text" id="another-reason" hidden>
       <div class="text-control">
-        <textarea class="text-control__item text-control__input" name="answer" placeholder="Расскажите, пожалуйста, подробнее"></textarea>
+        <div class="text-control__row">
+          <textarea class="text-control__item text-control__input" name="answer" id="textarea" placeholder="Например, много ошибок"></textarea>
+          <label for="textarea">Другая причина</label>
+        </div> 
         <button class="text-control__item text-control__button button button--invert" type="submit">Отправить</button>
       </div>
     </div>
