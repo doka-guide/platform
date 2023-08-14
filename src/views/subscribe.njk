@@ -19,13 +19,11 @@
     <p>Здесь можете подписаться и сразу рассказать немного о себе, чтобы мы настроили рассылку под ваши интересы.</p>
 
     <form class="subscribe-page__subscribe subscribe-settings form-with-status" action="">
+      <p class="subscribe-settings__label">Настроить рассылку</p>
       <div class="subscribe-settings__row">
-        <label class="subscribe-settings__label" for="email">
-          Нам обязательно нужна ваша почта *
-        </label>
         <input type="hidden" name="active" value="false">
         <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email" inputmode="email" autocomplete="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
-        <span class="subscribe-settings__hint">Ваш e-mail</span>
+        <label for="email" class="subscribe-settings__hint">Ваш e-mail (обязательно)</label>
       </div>
       <div class="subscribe-settings__row">
         <fieldset class="subscribe-settings__fieldset">
@@ -48,15 +46,15 @@
           </label>
           <label class="subscribe-settings__control-label">
             <input class="subscribe-settings__control" type="radio" name="who" value="qa" id="tester">
-            QA
+            qa
           </label>
           <label class="subscribe-settings__control-label">
             <input class="subscribe-settings__control" type="radio" name="who" value="devops" id="devoops">
-            DevOps
+            девопс
           </label>
           <label class="subscribe-settings__control-label">
             <input class="subscribe-settings__control" type="radio" name="who" value="devrel" id="architect">
-            DevRel
+            деврел
           </label>
           <label class="subscribe-settings__control-label">
             <input class="subscribe-settings__control" type="radio" name="who" value="teamlead" id="lead">
@@ -76,11 +74,11 @@
           </label>
           <label class="subscribe-settings__control-label">
             <input class="subscribe-settings__control" type="radio" name="who" value="data" id="datascience">
-            Data Science и ML
+            data science и машинное обучение
           </label>
           <label class="subscribe-settings__control-label">
             <input class="subscribe-settings__control" type="radio" name="who" value="hr" id="hiremanager">
-            HR
+            эйчар
           </label>
           <label class="subscribe-settings__control-label">
             <input class="subscribe-settings__control" type="radio" name="who" value="not-it" id="notit">
@@ -148,10 +146,10 @@
       <p>Здесь можно отписаться от рассылки <span aria-hidden="true">U×ᴥ×U</span></p>
       <form class="subscribe-page__unsubscribe unsubscribe__form form-with-status" action="">
         <div class="unsubscribe__row">
-          <label class="unsubscribe__label">
-            <input type="text" name="reason" class="unsubscribe__input subscribe-settings__input" placeholder="Например, слишком часто приходят письма">
-            <span class="unsubscribe__hint subscribe-settings__hint">Расскажите, что не понравилось?</span>
-          </label>
+          <div class="unsubscribe__field">
+            <input type="text" name="reason" id="reason" class="unsubscribe__input subscribe-settings__input" placeholder="Например, слишком часто приходят письма">
+            <label for="reason" class="unsubscribe__hint subscribe-settings__hint">Расскажите, что не понравилось?</label>
+          </div>
           <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Отписаться</button>
         </div>
         {# Ниже меняем сообщения под статус #}
