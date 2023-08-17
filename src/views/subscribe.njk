@@ -18,8 +18,8 @@
     <p>Дока — это гид по веб-платформе. В справочнике можете найти ответы на повседневные вопросы, а в рассылках мы собираем тематические подборки, советы от экспертов, авторские и партнёрские колонки.</p>
     <p>Здесь можете подписаться и сразу рассказать немного о себе, чтобы мы настроили рассылку под ваши интересы.</p>
 
-    <form class="subscribe-page__subscribe subscribe-settings form-with-status" action="">
-      <p class="subscribe-settings__label">Настроить рассылку</p>
+    <form class="subscribe-page__subscribe subscribe-settings form-with-status" aria-labelledby="subscribe-label" action="">
+      <h2 class="subscribe-settings__title" id="subscribe-label">Настроить рассылку</h2>
       <div class="subscribe-settings__row">
         <input type="hidden" name="active" value="false">
         <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email" inputmode="email" autocomplete="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
@@ -123,12 +123,12 @@
         <fieldset class="subscribe-settings__fieldset">
           <legend class="subscribe-settings__label">Мне интересно читать:</legend>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="checkbox" name="interest" value="digest" id="base" checked>
+            <input class="subscribe-settings__control" type="checkbox" name="interests" value="digest" id="base" checked>
             Дайджест Доки (один раз в месяц)
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="checkbox" name="interest" value="dream-job" id="special" checked>
-            Спецпроект Доки «Трудоустройство» (по мере выхода глав)
+            <input class="subscribe-settings__control" type="checkbox" name="interests" value="dream-job" id="special" checked>
+            Спецпроект «Трудоустройство» (по выходу глав)
           </label>
         </fieldset>
         <p class="subscribe-settings__note">Мы готовим новые тематические рассылки. Со временем дополним список, и вы сможете выбрать не только <a href="https://dream-job.doka.guide">спецпроект про трудоустройство</a> и ежемесячный дайджест. Об обновлениях расскажем в дайджесте.</p>
@@ -136,15 +136,17 @@
       <div class="subscribe-settings__row subscribe-settings__row--center">
         <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Подписаться</button>
         {# Ниже меняем сообщения под статус #}
-        <p aria-live="polite" class="progress-text" id="subscribe-progress">Подписываем на рассылку ⌛</p>
-        <p aria-live="polite" class="success-text" id="subscribe-success">Вы подписались на рассылку, ура 🎉</p>
-        <p aria-live="assertive" class="error-text" data-state="error" id="subscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте подписаться ещё раз.</p>
+        <div class="subscribe__status">
+          <p aria-live="polite" class="progress-text" id="subscribe-progress">Подписываем на рассылку ⌛</p>
+          <p aria-live="polite" class="success-text" id="subscribe-success">Вы подписались на рассылку, ура 🎉</p>
+          <p aria-live="assertive" class="error-text" data-state="error" id="subscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте подписаться ещё раз.</p>
+        </div>
       </div>
     </form>
 
-    <section class="unsubscribe-section subscribe-settings">
-      <p>Здесь можно отписаться от рассылки <span aria-hidden="true">U×ᴥ×U</span></p>
-      <form class="subscribe-page__unsubscribe unsubscribe__form form-with-status" action="">
+    <section class="unsubscribe-section">
+      <form class="subscribe-page__unsubscribe subscribe-settings unsubscribe__form form-with-status" aria-labelledby="unsubscribe-label" action="">
+        <h2 class="subscribe-settings__title" id="unsubscribe-label">Отписаться от рассылки <span aria-hidden="true">U×ᴥ×U</span></h2>
         <div class="unsubscribe__row">
           <div class="unsubscribe__field">
             <input type="text" name="reason" id="reason" class="unsubscribe__input subscribe-settings__input" placeholder="Например, слишком часто приходят письма">
