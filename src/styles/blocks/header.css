@@ -1,9 +1,8 @@
 .header {
   position: relative;
-  width: 100%;
   --header-bg-color: var(--accent-color, var(--color-background));
-  --search-input-height: 0.7em;
-  --header-animation-time: 0.6s;
+  --search-input-height: 0.4em;
+  --header-animation-time: 0.5s;
   background-color: var(--color-background);
   z-index: 2;
 }
@@ -58,7 +57,6 @@
 
 /* открытое меню */
 .header--open {
-  width: 100%;
   z-index: 3;
   animation: none;
 }
@@ -66,6 +64,8 @@
 /* фиксируем меню на всех страницах, кроме главной */
 .header--open:not(.header--main) {
   position: fixed;
+  width: 100%;
+  max-width: 100%;
 }
 
 .header--open::after {
@@ -103,6 +103,7 @@
 .header__controls .header__search {
   display: none;
   grid-area: search;
+  transition: opacity var(--header-animation-time);
 }
 
 /* показываем поиск при открытом меню */
@@ -121,7 +122,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 11px 20px;
   }
 
   .header__controls .header__search {
@@ -140,14 +141,12 @@
   background-color: var(--color-background);
   transition:
     transform var(--header-animation-time) cubic-bezier(0.65, 0.05, 0.36, 1),
-    opacity 0s,
-    visibility 0s;
+    opacity 0s;
   z-index: 2;
 }
 
 @media (min-width: 1024px) {
   .header__menu {
-    width: inherit;
     padding: 0 20px 0 229px;
   }
 }
@@ -161,6 +160,7 @@
 /* выпадающее меню в открытом состоянии */
 .header--open:not(.header--main) .header__menu {
   position: fixed;
+  width: inherit;
   height: auto;
 }
 

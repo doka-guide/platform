@@ -3,8 +3,8 @@
   position: relative;
   display: grid;
   font-family: var(--font-family);
-  font-size: calc(var(--font-size-xl) * 0.85);
-  line-height: calc(var(--font-line-height-xl) * 0.85);
+  font-size: calc(var(--font-size-xl) * 0.75);
+  line-height: calc(var(--font-line-height-xl) * 1);
   letter-spacing: var(--letter-spacing);
 }
 
