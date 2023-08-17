@@ -13,19 +13,12 @@
       {% if not hasAccentColor %}header--simple{% endif %}
     "
   >
-    <div class="header__inner header__inner--main font-theme font-theme--code">
+    <div class="header__controls font-theme font-theme--code">
       <ul class="header__breadcrumbs breadcrumbs base-list">
         <li class="breadcrumbs__item header__logo">
           {{ logo(isLink=not isMainPage, isContrastColor=isLogoContrastColor, isImageHidden=isLogoImageHidden, letters=logoLetters) }}
           {{ divider() }}
         </li>
-
-        {# <div class="header__logo">
-        {{ logo(
-          isLink=not isMainPage
-        ) }}
-        {{ divider(isLarge=true) }}
-      </div> #}
 
         {% if category %}
           {% if title %}
@@ -86,7 +79,7 @@
 
     </div>
 
-    <div class="header__inner--menu">
+    <div class="header__menu">
       {% include "blocks/nav-list.njk" %}
     </div>
   </header>

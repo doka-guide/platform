@@ -1,28 +1,14 @@
 .header {
   position: relative;
+  width: 100%;
   --header-bg-color: var(--accent-color, var(--color-background));
   --search-input-height: 0.7em;
   --header-animation-time: 0.6s;
-  z-index: 2;
   background-color: var(--color-background);
+  z-index: 2;
 }
 
-/* открытое меню */
-.header--open {
-  z-index: 3;
-  animation: none;
-}
-
-.header--open::after {
-  display: none;
-}
-
-.header--open:not(.header--main) {
-  position: fixed;
-  width: 100%;
-}
-
-/* фон при открытом меню */
+/* фон с закрытым меню */
 .header::before:not(.header--open) {
   content: '';
   z-index: 2;
@@ -70,67 +56,84 @@
   transition: opacity var(--header-animation-time);
 }
 
+/* открытое меню */
+.header--open {
+  width: 100%;
+  z-index: 3;
+  animation: none;
+}
+
+/* фиксируем меню на всех страницах, кроме главной */
+.header--open:not(.header--main) {
+  position: fixed;
+}
+
+.header--open::after {
+  display: none;
+}
+
 /* всё меню без выпадающего списка по умолчанию */
-.header__inner:not(.menu--open) {
-  position: relative;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.header__controls {
+  display: grid;
+  align-content: start;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  grid-template-areas:
+    "logo button"
+    "search search-output";
+  grid-auto-columns: auto 1fr auto;
+  grid-template-rows: auto var(--search-input-height);
   background-color: var(--header-bg-color);
-}
-
-/* фон всего меню, когда открыт выпадающий список */
-.header--open:not(.header--main) .header__inner {
-  background-color: var(--color-background);
-}
-
-.header__inner--main {
   font-size: var(--font-size-l);
   letter-spacing: -0.06em;
   line-height: var(--font-line-height-l);
   font-family: var(--font-family);
+
+  /* z-index: 999; */
 }
 
-.header .header__search {
-  flex-grow: 1;
+/* фон всего меню, когда открыт выпадающий список (кроме главной) */
+.header--open:not(.header--main) .header__controls {
+  background-color: var(--color-background);
 }
 
-.menu--open .header__inner--main {
-  display: grid;
-  align-content: start;
-  grid-template-areas:
-    "logo search button"
-    ". search-output ."
-    ". list .";
-  grid-auto-columns: auto 1fr auto;
-  top: 0;
-  left: 0;
-  right: 0;
-  grid-template-rows: var(--search-input-height) auto;
-  background-color: var(--header-bg-color);
+/* поиск */
+.header__controls .header__search {
+  display: none;
+  grid-area: search;
 }
+
+/* показываем поиск при открытом меню */
+.header--open .header__search {
+  display: block;
+}
+
+/* @media (min-width: 1024px) {
+  .header__inner .header__search {
+    margin-top: -14px;
+  }
+} */
 
 @media (min-width: 1024px) {
-  .header__inner {
-    padding: 10px;
+  .header__controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
   }
 
-  .menu--open .header__inner--main {
-    grid-template-areas:
-      "logo search button"
-      ". search-output ."
-      ". list .";
-    grid-auto-columns: auto 1fr auto;
-    grid-template-rows: var(--search-input-height) auto;
+  .header__controls .header__search {
+    align-self: flex-start;
+    flex-grow: 1;
   }
 }
 
-/* выпадающее меню со списком разделов */
-.header__inner--menu {
+/* выпадающее меню со списком разделов по умолчанию */
+.header__menu {
   height: 0;
-  z-index: 2;
-  padding-inline-start: 229px;
+  padding: 0 10px;
   font-size: calc(var(--font-size-xl) * 0.95);
   line-height: calc(var(--font-line-height-xl) * 0.95);
   letter-spacing: -0.06em;
@@ -139,24 +142,25 @@
     transform var(--header-animation-time) cubic-bezier(0.65, 0.05, 0.36, 1),
     opacity 0s,
     visibility 0s;
+  z-index: 2;
 }
 
-@media (min-width: 1680px) {
-  .header__inner--menu {
-    padding-bottom: 20px;
+@media (min-width: 1024px) {
+  .header__menu {
+    width: inherit;
+    padding: 0 20px 0 229px;
   }
 }
 
 /* выпадающее меню на главной, которое всегда открыто */
-.header--main .header__inner--menu {
+.header--main .header__menu {
   position: relative;
   height: auto;
 }
 
 /* выпадающее меню в открытом состоянии */
-.header--open:not(.header--main) .header__inner--menu {
+.header--open:not(.header--main) .header__menu {
   position: fixed;
-  width: 100%;
   height: auto;
 }
 
@@ -166,44 +170,44 @@
 }
 
 /* список разделов */
-.header__menu {
+.header__menu-list {
   /* margin-top: var(--gap, 16px); */
   margin-top: 0;
   margin-bottom: 1.7%;
 }
 
 @media (min-width: 1024px) {
-  .header__menu {
+  .header__menu-list {
     margin-top: calc(4 * var(--gap, 16px));
   }
 }
 
 @media (min-width: 1366px) {
-  .header__menu {
+  .header__menu-list {
     margin-top: calc(6 * var(--gap, 16px));
   }
 }
 
 @media not all and (min-width: 768px) {
-  .header__menu {
+  .header__menu-list {
     --gap: 16px;
   }
 }
 
 @media (min-width: 768px) {
-  .header__menu {
+  .header__menu-list {
     --gap: 14px;
   }
 }
 
 @media (min-width: 1024px) {
-  .header__menu {
+  .header__menu-list {
     --gap: 6px;
   }
 }
 
 @media (min-width: 1680px) {
-  .header__menu {
+  .header__menu-list {
     --gap: 9px;
   }
 }
@@ -229,6 +233,12 @@
   font: inherit;
 }
 
+.header__logo {
+  display: flex;
+  align-self: center;
+  align-items: center;
+}
+
 /* разделитель */
 .header__divider {
   opacity: 0.3;
@@ -246,32 +256,6 @@
   line-height: var(--font-line-height-xl);
 }
 
-.header__logo {
-  display: flex;
-  align-self: center;
-  align-items: center;
-}
-
-.header__inner--main .header__search {
-  grid-area: search;
-  align-self: flex-start;
-  font-family: var(--font-family);
-  font-size: calc(var(--font-size-xl) * 0.85);
-  line-height: calc(var(--font-line-height-xl) * 0.85);
-  letter-spacing: -0.08em;
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .header__inner--menu .header__search {
-    margin-top: -14px;
-  }
-}
-
-.header--open .header__search {
-  display: block;
-}
-
 /* кнопки для закрытия/раскрытия меню */
 .header__toggle {
   margin-left: 20px;
@@ -280,9 +264,9 @@
   justify-content: flex-end;
 }
 
-.header__inner--menu .header__toggle {
+.header__controls .header__toggle {
   grid-area: button;
-  align-self: flex-start;
+  align-self: center;
   margin-left: 20px;
 }
 
@@ -298,7 +282,9 @@
   display: block;
 }
 
-.header--open .header__category {
+/* скпываем крошки, когда меню открыто */
+.header--open .header__category,
+.header--open .header__title {
   display: none;
 }
 
@@ -310,13 +296,6 @@
   right: 0;
 }
 
-.header--animating {
-  animation-name: fixedHeaderAnimation;
-  animation-duration: var(--header-animation-time);
-  animation-fill-mode: both;
-  animation-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
-}
-
 .header--fixed-show {
   animation-direction: normal;
 }
@@ -325,6 +304,13 @@
   animation-direction: reverse;
   animation-duration: 0.2s;
   animation-timing-function: ease;
+}
+
+.header--animating {
+  animation-name: fixedHeaderAnimation;
+  animation-duration: var(--header-animation-time);
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
 @keyframes fixedHeaderAnimation {
@@ -350,7 +336,7 @@
   display: none;
 }
 
-.header:not(.header--open):not(.header--static) .header__inner--menu {
+.header:not(.header--open):not(.header--static) .header__menu {
   transform: translateY(-100%);
   opacity: 0;
   visibility: hidden;
