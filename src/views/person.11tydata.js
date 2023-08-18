@@ -97,13 +97,25 @@ module.exports = {
     },
 
     isOnlyWithPractice: function (data) {
-      const { personId, docsByPerson } = data
-      return !docsByPerson[personId]
+      const { personId, practicesByPerson, docsByPerson } = data
+      if (docsByPerson[personId] && practicesByPerson[personId]) {
+        const docsCategories = Object.keys(docsByPerson[personId])
+        const answersCategories = Object.keys(practicesByPerson[personId])
+        return !!answersCategories.filter((a) => !docsCategories.includes(a)).length
+      } else {
+        return !docsByPerson[personId] && !!practicesByPerson[personId]
+      }
     },
 
     isOnlyWithAnswer: function (data) {
-      const { personId, docsByPerson } = data
-      return !docsByPerson[personId]
+      const { personId, answersByPerson, docsByPerson } = data
+      if (docsByPerson[personId] && answersByPerson[personId]) {
+        const docsCategories = Object.keys(docsByPerson[personId])
+        const answersCategories = Object.keys(answersByPerson[personId])
+        return !!answersCategories.filter((a) => !docsCategories.includes(a)).length
+      } else {
+        return !docsByPerson[personId] && !!answersByPerson[personId]
+      }
     },
 
     articlesIndex: function (data) {
