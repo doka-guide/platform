@@ -77,6 +77,7 @@ function init() {
   const reasonButton = form.querySelector('.button--another-reason')
   const reasonFieldset = form.querySelector('.feedback-form__fieldset--reason')
   const textControl = form.querySelector('.feedback-form__text')
+  const textControlInput = form.querySelector('.text-control__input')
 
   let isSending = false
 
@@ -171,6 +172,7 @@ function init() {
   reasonsButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
     textControl.hidden = false
     reasonButton.setAttribute('aria-expanded', 'true')
+    textControlInput.required = true
   })
 
   form.addEventListener('submit', (event) => {
