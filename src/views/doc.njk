@@ -17,7 +17,7 @@
 <div class="doc">
   <main class="doc__main">
     <article class="doc__article article {% if cover %}article--with-cover{% endif %}">
-      <header class="article__header">
+      <header class="article__header" aria-label="Материал">
         <div class="article__header-inner doc__wrapper">
           {% if cover %}
             {{ articleImage(class="article__image", cover=cover, authors=populatedCoverAuthors) }}
@@ -72,7 +72,7 @@
             <div class="article-nav__content"></div>
           </div>
 
-          <footer class="article__meta">
+          <footer class="article__meta" aria-label="Авторы и дата публикации">
             <div class="article__persons">
               {% include "contributors.njk" %}
             </div>
@@ -108,8 +108,7 @@
             {% include "questions.njk" %}
           </div>
 
-          <aside class="doc__feedback-form" aria-labelledby="feedback">
-            <span class="visually-hidden" id="feedback">Оценка материала</span>
+          <aside class="doc__feedback-form" aria-label="Оценка материала">
             {% include "feedback-form.njk" %}
           </aside>
 
@@ -120,7 +119,7 @@
           {% endif %}
 
           {% if (previousArticle or nextArticle) %}
-            <div class="doc__linked-articles">
+            <aside class="doc__linked-articles" aria-label="Полезные материалы">
               {% if previousArticle %}
                 {{ linkedArticle(article=previousArticle, type="previous") }}
               {% endif %}
@@ -128,7 +127,7 @@
               {% if nextArticle %}
                 {{ linkedArticle(article=nextArticle, type="next") }}
               {% endif %}
-            </div>
+            </aside>
           {% endif %}
         </div>
       </div>
