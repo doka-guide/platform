@@ -11,22 +11,19 @@ title: 'Поиск'
 
 <div class="search-page">
   <header class="header search-page__header">
-    <div class="header__inner header__inner--main font-theme font-theme--code search-page__header-inner">
+    <div class="header__controls font-theme font-theme--code">
       <div class="header__logo search-page__logo">
         {{ logo(isLink=true, isContrastColor=isLogoContrastColor) }}
         {{ divider() }}
       </div>
 
-      <div class="search-page__search">
-        {% include "blocks/search.njk" %}
-      </div>
+      {% include "blocks/search.njk" %}
 
       <div class="header__toggle search-page__toggle">
-        <button class="menu-toggle" type="reset" form="search-form" title="Очистить фильтры">
+        <button class="menu-toggle" type="reset" form="search-form">
           <span class="visually-hidden">Очистить фильтры</span>
           <span class="menu-toggle__inner menu-toggle__inner--close">
-            <kbd class="hotkey font-theme font-theme--code">esc</kbd>
-            <svg class="menu-toggle__icon menu-toggle__icon--close" width="45" height="45" viewBox="0 0 45 45">
+            <svg class="menu-toggle__icon menu-toggle__icon--close" width="45" height="45" viewBox="0 0 45 45" aria-hidden="true">
               <circle cx="22.5" cy="22.5" r="22.5" fill="var(--color-text)" />
               <path fill="var(--color-background)" d="M30.3 32.1c-.5 0-1-.2-1.4-.6l-6.5-6.6-6.5 6.5c-.5.5-1 .7-1.5.7-.4 0-.8-.1-1-.4-.3-.3-.5-.6-.5-1 0-.6.3-1.1.7-1.6l6.5-6.5-6.5-6.4c-.4-.5-.7-1-.7-1.5s.2-.8.4-1.1c.3-.3.7-.4 1.1-.4.5 0 1 .2 1.5.7l6.5 6.5 6.5-6.6c.5-.5 1-.7 1.5-.7.3 0 .7.2 1 .5.3.4.5.8.5 1.1 0 .5-.2 1-.7 1.4l-6.5 6.5 6.5 6.6c.5.5.7 1 .7 1.4 0 .4-.1.7-.5 1-.4.4-.7.5-1 .5z"/>
             </svg>
@@ -64,8 +61,8 @@ title: 'Поиск'
     </button>
   </aside>
 
-  <main class="search-page__main" aria-labelledby="section-name">
-    <h1 class="visually-hidden" id="section-name">Результаты поиска</h1>
+  <main class="search-page__main">
+    <h1 class="visually-hidden">Результаты поиска</h1>
     {% include "blocks/search-hits.njk" %}
     <div class="search__placeholder" id="search-hint">
       Введите текст в поле поиска, и появится список всего, что нашлось
