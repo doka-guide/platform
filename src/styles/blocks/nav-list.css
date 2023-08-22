@@ -67,10 +67,6 @@
   transition: var(--transition);
 }
 
-@media not all and (min-width: 768px) {
-  .nav-list {}
-}
-
 @media (min-width: 768px) {
   .nav-list {
     --block-padding: 1px;
@@ -80,8 +76,8 @@
 
 @media (min-width: 1024px) {
   .nav-list {
-    margin-top: 0;
     --block-padding: 6px;
+    margin-top: 0;
     line-height: inherit;
   }
 }
