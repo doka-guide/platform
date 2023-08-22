@@ -68,9 +68,6 @@
 .header__controls {
   display: grid;
   align-content: start;
-  top: 0;
-  left: 0;
-  right: 0;
   padding: 10px;
   grid-template-areas:
     "logo button"
