@@ -65,7 +65,6 @@
 .header--open:not(.header--main) {
   position: fixed;
   width: 100%;
-  max-width: 100%;
 }
 
 .header--open::after {
@@ -90,8 +89,6 @@
   letter-spacing: -0.06em;
   line-height: var(--font-line-height-l);
   font-family: var(--font-family);
-
-  /* z-index: 999; */
 }
 
 /* фон всего меню, когда открыт выпадающий список (кроме главной) */
@@ -159,6 +156,7 @@
 
 /* выпадающее меню в открытом состоянии */
 .header--open:not(.header--main) .header__menu {
+  box-sizing: border-box;
   position: fixed;
   width: inherit;
   height: auto;
