@@ -52,23 +52,21 @@
       hsl(var(--color-base-background)/0) 100%
     );
   pointer-events: none;
-  transition: opacity var(--header-animation-time);
+}
+
+.header--open::after {
+  display: none;
 }
 
 /* открытое меню */
 .header--open {
   z-index: 3;
-  animation: none;
 }
 
 /* фиксируем меню на всех страницах, кроме главной */
 .header--open:not(.header--main) {
   position: fixed;
   width: 100%;
-}
-
-.header--open::after {
-  display: none;
 }
 
 /* всё меню без выпадающего списка по умолчанию */
@@ -136,9 +134,7 @@
   line-height: calc(var(--font-line-height-xl) * 0.95);
   letter-spacing: -0.06em;
   background-color: var(--color-background);
-  transition:
-    transform var(--header-animation-time) cubic-bezier(0.65, 0.05, 0.36, 1),
-    opacity 0s;
+  transition: transform var(--header-animation-time) cubic-bezier(0.65, 0.05, 0.36, 1);
   z-index: -1;
 }
 
