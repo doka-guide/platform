@@ -83,7 +83,7 @@
   font-family: var(--font-family);
 }
 
-/* фон всего меню, когда открыт выпадающий список (кроме главной) */
+/* фон всего меню, когда открыт выпадающий список */
 .header--open:not(.header--main) .header__controls {
   background-color: var(--color-background);
 }
