@@ -54,14 +54,19 @@
   pointer-events: none;
 }
 
-.header--open::after {
-  display: none;
+/* всегда открытое меню */
+.header--main {
+  position: relative;
 }
 
-/* фиксируем меню на всех страницах, кроме главной */
-.header--open:not(.header--main) {
+/* фиксируем открытое меню */
+.header--open {
   position: fixed;
   width: 100%;
+}
+
+.header--open::after {
+  display: none;
 }
 
 /* всё меню без выпадающего списка по умолчанию */
@@ -80,7 +85,7 @@
 }
 
 /* фон всего меню, когда открыт выпадающий список */
-.header--open:not(.header--main) .header__controls {
+.header--open .header__controls {
   background-color: var(--color-background);
 }
 
@@ -92,14 +97,16 @@
   transition: opacity var(--header-animation-time);
 }
 
-/* показываем поиск при открытом меню */
-.header--open .header__search {
+/* показываем поиск при открытом меню и на главной */
+.header--open .header__search,
+.header--main .header__search {
   display: block;
   padding-top: var(--gap, 16px);
 }
 
 @media (min-width: 1024px) {
-  .header--open .header__search {
+  .header--open .header__search,
+  .header--main .header__search {
     padding-top: 0;
   }
 }
@@ -136,11 +143,18 @@
 }
 
 /* выпадающее меню в открытом состоянии на других страницах */
-.header--open:not(.header--main) .header__menu {
+.header--open .header__menu {
   box-sizing: border-box;
   position: fixed;
   width: inherit;
   height: auto;
+}
+
+.header:not(.header--open):not(.header--main) .header__menu {
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
 }
 
 /* список разделов */
@@ -296,13 +310,6 @@
 
 .header--static .header__toggle {
   display: none;
-}
-
-.header:not(.header--open):not(.header--static) .header__menu {
-  transform: translateY(-100%);
-  opacity: 0;
-  visibility: hidden;
-  transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
 }
 
 @media not all and (min-width: 1366px) {
