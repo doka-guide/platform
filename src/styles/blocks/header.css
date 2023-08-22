@@ -104,13 +104,14 @@
 /* показываем поиск при открытом меню */
 .header--open .header__search {
   display: block;
+  padding-top: var(--gap, 16px);
 }
 
-/* @media (min-width: 1024px) {
-  .header__inner .header__search {
-    margin-top: -14px;
+@media (min-width: 1024px) {
+  .header--open .header__search {
+    padding-top: 0;
   }
-} */
+}
 
 @media (min-width: 1024px) {
   .header__controls {
@@ -129,20 +130,12 @@
 /* выпадающее меню со списком разделов по умолчанию */
 .header__menu {
   height: 0;
-  padding: 0 10px;
-  gap: var(--gap);
   font-size: calc(var(--font-size-xl) * 0.95);
   line-height: calc(var(--font-line-height-xl) * 0.95);
   letter-spacing: -0.06em;
   background-color: var(--color-background);
   transition: transform var(--header-animation-time) cubic-bezier(0.65, 0.05, 0.36, 1);
   z-index: -1;
-}
-
-@media (min-width: 1024px) {
-  .header__menu {
-    padding: 0 20px 0 229px;
-  }
 }
 
 /* выпадающее меню на главной */
@@ -161,8 +154,8 @@
 
 /* список разделов */
 .header__menu-list {
-  margin-top: var(--gap, 16px);
-  margin-bottom: 1.7%;
+  padding: calc(4 * var(--gap, 16px)) 10px 1.7% 10px; /* padding-top: var(--gap, 16px); */
+  gap: var(--gap);
 }
 
 @media not all and (min-width: 768px) {
@@ -179,14 +172,8 @@
 
 @media (min-width: 1024px) {
   .header__menu-list {
-    margin-top: calc(4 * var(--gap, 16px));
+    padding: 2px 20px 1.7% 237px;
     --gap: 6px;
-  }
-}
-
-@media (min-width: 1366px) {
-  .header__menu-list {
-    margin-top: calc(6 * var(--gap, 16px));
   }
 }
 
