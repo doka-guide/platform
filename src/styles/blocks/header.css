@@ -58,11 +58,6 @@
   display: none;
 }
 
-/* открытое меню */
-.header--open {
-  z-index: 3;
-}
-
 /* фиксируем меню на всех страницах, кроме главной */
 .header--open:not(.header--main) {
   position: fixed;
@@ -80,8 +75,8 @@
   grid-template-areas:
     "logo button"
     "search search-output";
-  grid-auto-columns: auto 1fr auto;
-  grid-template-rows: auto var(--search-input-height);
+  grid-auto-columns: 1fr auto auto;
+  grid-auto-rows: auto;
   background-color: var(--header-bg-color);
   font-size: var(--font-size-l);
   letter-spacing: -0.06em;
@@ -154,7 +149,7 @@
 
 /* список разделов */
 .header__menu-list {
-  padding: calc(4 * var(--gap, 16px)) 10px 1.7% 10px; /* padding-top: var(--gap, 16px); */
+  padding: var(--gap, 16px) 10px 1.7% 10px;
   gap: var(--gap);
 }
 
