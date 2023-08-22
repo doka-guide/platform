@@ -75,8 +75,7 @@
   grid-template-areas:
     "logo button"
     "search search-output";
-  grid-auto-columns: 1fr auto auto;
-  grid-auto-rows: auto;
+  grid-template-columns: 1fr auto;
   background-color: var(--header-bg-color);
   font-size: var(--font-size-l);
   letter-spacing: -0.06em;
@@ -93,6 +92,7 @@
 .header__controls .header__search {
   display: none;
   grid-area: search;
+  grid-column-end: none;
   transition: opacity var(--header-animation-time);
 }
 
