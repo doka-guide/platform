@@ -67,7 +67,6 @@
 /* всё меню без выпадающего списка по умолчанию */
 .header__controls {
   display: grid;
-  align-content: start;
   padding: 10px;
   grid-template-areas:
     "logo button"
