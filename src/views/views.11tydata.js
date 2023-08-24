@@ -218,12 +218,14 @@ module.exports = {
           const answersOfPersonByQuestion = allAnswers.filter((a) =>
             a.filePathStem.startsWith(`/interviews/${questionKey}/answers/${personKey}`)
           )
-
-          answersByPerson[personKey] = {}
+          if (!answersByPerson[personKey]) {
+            answersByPerson[personKey] = {}
+          }
           for (const categoryKey in answersByQuestion[questionKey][personKey]) {
             if (!answersByPerson[personKey][categoryKey]) {
               answersByPerson[personKey][categoryKey] = []
             }
+
             answersByPerson[personKey][categoryKey].push(
               answersByQuestion[questionKey][personKey][categoryKey].filter((article) => {
                 for (let i = 0; i < answersOfPersonByQuestion.length; i++) {

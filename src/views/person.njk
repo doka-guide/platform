@@ -181,17 +181,15 @@
               <h3 class="articles-group__sub-title font-theme font-theme--code">{{ answersPersonRole }}</h3>
               <ul class="articles-group__list base-list">
                 {% for articleList in answersInArticles[category] %}
-                  <section class="articles-group__section">
-                    <ul class="articles-group__list base-list">
-                      {% for article in articleList | sort %}
-                        <li>
-                          <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
-                            {{ article.data.title | descriptionMarkdown | safe }}
-                          </a>
-                        </li>
-                      {% endfor %}
-                    </ul>
-                  </section>
+                  <ul class="articles-group__list base-list">
+                    {% for article in articleList | sort %}
+                      <li>
+                        <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
+                          {{ article.data.title | descriptionMarkdown | safe }}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
                 {% endfor %}
               </ul>
             </section>
@@ -199,45 +197,41 @@
         </section>
       {% endfor %}
       {% if isOnlyWithPractice %}
-        {% for category, practicesByCategory in practicesIndex %}
+        {% for category in categoriesOnlyWithPractice %}
           <section class="person-page__group articles-group articles-group--accent articles-group--title-static" style="--accent-color: var(--color-{{ category }})">
             <h2 class="articles-group__title">
               {{ articleIndexesMap[category].data.name }}
             </h2>
             <h3 class="articles-group__sub-title font-theme font-theme--code">{{ practicesPersonRole }}</h3>
-            {% for practice in practicesByCategory | sort %}
-              <section class="articles-group__section">
-                <ul class="articles-group__list base-list">
-                  <li>
-                    <a class="articles-group__link link" href="/{{ category }}/{{ practice.fileSlug }}/#na-praktike">
-                      {{ practice.data.title | descriptionMarkdown | safe }}
-                    </a>
-                  </li>
-                </ul>
-              </section>
+            {% for practice in practicesIndex[category] | sort %}
+              <ul class="articles-group__list base-list">
+                <li>
+                  <a class="articles-group__link link" href="/{{ category }}/{{ practice.fileSlug }}/#na-praktike">
+                    {{ practice.data.title | descriptionMarkdown | safe }}
+                  </a>
+                </li>
+              </ul>
             {% endfor %}
           </section>
         {% endfor %}
       {% endif %}
       {% if isOnlyWithAnswer %}
-        {% for category, articleListByCategory in answersInArticles %}
+        {% for category in categoriesOnlyWithAnswers %}
           <section class="person-page__group articles-group articles-group--accent articles-group--title-static" style="--accent-color: var(--color-{{ category }})">
             <h2 class="articles-group__title">
               {{ articleIndexesMap[category].data.name }}
             </h2>
             <h3 class="articles-group__sub-title font-theme font-theme--code">{{ answersPersonRole }}</h3>
-            {% for articleList in articleListByCategory %}
-              <section class="articles-group__section">
-                <ul class="articles-group__list base-list">
-                  {% for article in articleList | sort %}
-                    <li>
-                      <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
-                        {{ article.data.title | descriptionMarkdown | safe }}
-                      </a>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </section>
+            {% for articleList in answersInArticles[category] %}
+              <ul class="articles-group__list base-list">
+                {% for article in articleList | sort %}
+                  <li>
+                    <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
+                      {{ article.data.title | descriptionMarkdown | safe }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
             {% endfor %}
           </section>
         {% endfor %}

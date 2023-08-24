@@ -96,26 +96,36 @@ module.exports = {
       return answersByPerson[personId]
     },
 
-    isOnlyWithPractice: function (data) {
+    categoriesOnlyWithPractice: function (data) {
       const { personId, practicesByPerson, docsByPerson } = data
       if (docsByPerson[personId] && practicesByPerson[personId]) {
         const docsCategories = Object.keys(docsByPerson[personId])
         const answersCategories = Object.keys(practicesByPerson[personId])
-        return !!answersCategories.filter((a) => !docsCategories.includes(a)).length
+        return answersCategories.filter((a) => !docsCategories.includes(a))
       } else {
-        return !docsByPerson[personId] && !!practicesByPerson[personId]
+        return false
       }
     },
 
-    isOnlyWithAnswer: function (data) {
+    isOnlyWithPractice: function (data) {
+      const { categoriesOnlyWithPractice } = data
+      return !!categoriesOnlyWithPractice
+    },
+
+    categoriesOnlyWithAnswers: function (data) {
       const { personId, answersByPerson, docsByPerson } = data
       if (docsByPerson[personId] && answersByPerson[personId]) {
         const docsCategories = Object.keys(docsByPerson[personId])
         const answersCategories = Object.keys(answersByPerson[personId])
-        return !!answersCategories.filter((a) => !docsCategories.includes(a)).length
+        return answersCategories.filter((a) => !docsCategories.includes(a))
       } else {
-        return !docsByPerson[personId] && !!answersByPerson[personId]
+        return false
       }
+    },
+
+    isOnlyWithAnswer: function (data) {
+      const { categoriesOnlyWithAnswers } = data
+      return !!categoriesOnlyWithAnswers
     },
 
     articlesIndex: function (data) {
