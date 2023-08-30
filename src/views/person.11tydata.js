@@ -102,6 +102,8 @@ module.exports = {
         const docsCategories = Object.keys(docsByPerson[personId])
         const answersCategories = Object.keys(practicesByPerson[personId])
         return answersCategories.filter((a) => !docsCategories.includes(a))
+      } else if (!docsByPerson[personId] && practicesByPerson[personId]) {
+        return Object.keys(practicesByPerson[personId])
       } else {
         return false
       }
@@ -118,6 +120,8 @@ module.exports = {
         const docsCategories = Object.keys(docsByPerson[personId])
         const answersCategories = Object.keys(answersByPerson[personId])
         return answersCategories.filter((a) => !docsCategories.includes(a))
+      } else if (!docsByPerson[personId] && answersByPerson[personId]) {
+        return Object.keys(answersByPerson[personId])
       } else {
         return false
       }
