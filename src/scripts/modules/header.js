@@ -142,7 +142,7 @@ class Header extends BaseComponent {
   }
 
   closeOnClickOutSide(event) {
-    if (!event.target.closest('.header__inner') && !this.isMainPage) {
+    if (!event.target.closest('.header__controls') && !this.isMainPage) {
       this.closeMenu()
     }
   }
