@@ -6,7 +6,7 @@
   display: inline-flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 10px 20px;
+  gap: 10px 0.8em;
   font-size: var(--font-size-headline-3);
   line-height: var(--font-size-headline-3);
 }
@@ -39,6 +39,10 @@
 
 .answer__author-roles-link:hover {
   background-color: var(--role-hover-color);
+}
+
+.answer__author-name {
+  margin-inline-end: 0.5em;
 }
 
 .answer__author-name * {
