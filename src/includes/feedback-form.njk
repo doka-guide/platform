@@ -1,22 +1,17 @@
-<form class="feedback-form" method="post" autocomplete="off" data-state="idle">
-  <div class="feedback-form__header font-theme font-theme--code">
-    <div class="feedback-form__title" data-state="idle">Статья была полезной?</div>
-    <div class="feedback-form__title feedback-form__title--success" data-state="success">Спасибо</div>
-    <div class="feedback-form__title feedback-form__title--error" data-state="error">Спасибо</div>
-  </div>
-
+<form class="feedback-form" method="post" autocomplete="off">
   <fieldset class="feedback-form__fieldset feedback-form__fieldset--vote font-theme font-theme--code">
+    <legend class="feedback-form__title font-theme font-theme--code">Статья была полезной?</legend>
     <button class="vote vote--up" name="answer" value="Понравилось" type="submit">
       <span class="visually-hidden">Понравилось</span>
       <span aria-hidden="true">^‿^</span>
     </button>
-    <button class="vote vote--down" type="button">
+    <button class="vote vote--down" type="button" aria-expanded="false" aria-controls="reason">
       <span class="visually-hidden">Не понравилось</span>
       <span aria-hidden="true">ˇ⌒ˇ</span>
     </button>
   </fieldset>
 
-  <fieldset class="feedback-form__fieldset feedback-form__fieldset--reason" hidden>
+  <fieldset class="feedback-form__fieldset feedback-form__fieldset--reason" id="reason" hidden>
     <legend class="feedback-form__legend">Расскажите, что не понравилось?</legend>
     <ul class="feedback-control-list base-list">
       <li class="feedback-control-list__item">
@@ -40,14 +35,17 @@
         </button>
       </li>
       <li class="feedback-control-list__item">
-        <button class="feedback-form__reason-button button button--round" name="answer" value="Что-то другое" type="button">
+        <button class="feedback-form__reason-button button button--round button--another-reason" name="answer" value="Что-то другое" type="button" aria-expanded="false" aria-controls="another-reason">
           Что-то другое
         </button>
       </li>
     </ul>
-    <div class="feedback-form__text" hidden>
+    <div class="feedback-form__text" id="another-reason" hidden>
       <div class="text-control">
-        <textarea class="text-control__item text-control__input" name="answer" placeholder="Расскажите, пожалуйста, подробнее"></textarea>
+        <div class="text-control__row">
+          <textarea class="text-control__item text-control__input" name="answer" id="textarea" placeholder="Например, много ошибок"></textarea>
+          <label for="textarea">Другая причина</label>
+        </div> 
         <button class="text-control__item text-control__button button button--invert" type="submit">Отправить</button>
       </div>
     </div>
@@ -57,7 +55,9 @@
     Если вы нашли ошибку, отправьте нам <a class="link" href="{{ constants.contentRepLink }}">пулреквест</a>!
   </p>
 
-  <p class="feedback-form__error" data-state="error">
-    Во время отправки формы что-то пошло не так. Попробуйте ещё раз?
+  <p aria-live="polite" class="feedback-form__success" id="success" data-state="success">Спасибо за оценку ❤️</p>
+
+  <p aria-live="assertive" class="feedback-form__error" id="error" data-state="error">
+    Во время отправки формы что-то пошло не так. Перезагрузите страницу и попробуйте оценить материал ещё раз.
   </p>
 </form>
