@@ -1,7 +1,7 @@
 .header {
   --header-bg-color: var(--accent-color, var(--color-background));
   --search-input-height: 0.7em;
-  --header-animation-time: 0.6s;
+  --header-animation-time: 0.2s;
   position: relative;
   z-index: 2;
   background-color: var(--color-background);
