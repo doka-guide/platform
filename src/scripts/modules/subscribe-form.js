@@ -7,10 +7,6 @@ class Settings extends BaseComponent {
     }
   }
 
-  static get VALIDATION_REGEXP() {
-    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  }
-
   constructor({
     rootElement,
     title,
@@ -85,18 +81,6 @@ class Settings extends BaseComponent {
         })
       }
     }
-
-    this.button.addEventListener('click', () => {
-      const text = this.email.value.trim()
-      if (Settings.VALIDATION_REGEXP.test(text)) {
-        this.emit(Settings.EVENTS.EMAIL, text)
-      }
-    })
-    ;['keydown', 'keyup'].forEach((eventType) => {
-      this.email.addEventListener(eventType, (event) => {
-        event.stopPropagation()
-      })
-    })
   }
 
   clearStatus() {
@@ -108,24 +92,19 @@ class Settings extends BaseComponent {
   progress() {
     this.clearStatus()
     this.status.classList.toggle('progress')
+    this.status.setAttribute('aria-describedby', 'subscribe-progress')
   }
 
   success() {
     this.clearStatus()
     this.status.classList.toggle('success')
+    this.status.setAttribute('aria-describedby', 'subscribe-success')
   }
 
   error() {
     this.clearStatus()
     this.status.classList.toggle('error')
-  }
-
-  focus() {
-    if (this.email.value === '') {
-      this.email.focus()
-    } else {
-      this.who.focus()
-    }
+    this.status.setAttribute('aria-describedby', 'subscribe-error')
   }
 }
 
@@ -172,20 +151,19 @@ class Unsubscribe extends BaseComponent {
   progress() {
     this.clearStatus()
     this.status.classList.toggle('progress')
+    this.status.setAttribute('aria-describedby', 'usubscribe-progress')
   }
 
   success() {
     this.clearStatus()
     this.status.classList.toggle('success')
+    this.status.setAttribute('aria-describedby', 'usubscribe-success')
   }
 
   error() {
     this.clearStatus()
     this.status.classList.toggle('error')
-  }
-
-  focus() {
-    this.input.focus()
+    this.status.setAttribute('aria-describedby', 'usubscribe-error')
   }
 }
 
