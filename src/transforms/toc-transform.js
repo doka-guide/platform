@@ -1,4 +1,5 @@
 const HeadingHierarchy = require('../libs/heading-hierarchy/heading-hierarchy')
+const roles = require('../libs/role-constructor/collection.json')
 
 // генерация оглавления
 /**
@@ -19,6 +20,18 @@ module.exports = function (window) {
   )
     // не учитываем заголовки, которые лежат внутри тегов details, внутри советов и внутри ответов
     .filter((title) => !title.closest('details, .practices__content, .question__response'))
+    // исключаем роль из заголовка
+    .map((title) => {
+      for (let i = 0; i < Object.keys(roles).length; i++) {
+        const role = roles[Object.keys(roles)[i]].title
+        if (title.textContent.includes(role)) {
+          const titleWithoutRole = title.cloneNode(true)
+          titleWithoutRole.textContent = titleWithoutRole.textContent.replace(role, '')
+          return titleWithoutRole
+        }
+      }
+      return title
+    })
 
   const hierarchy = HeadingHierarchy.createHierarchy(headings)
   articleNavContent.innerHTML = HeadingHierarchy.render(hierarchy)
