@@ -1,12 +1,16 @@
-{% macro socialCard(category, categoryName, docPath, cover) %}
+{% macro socialCard(category, categoryName, cover, isIndex) %}
 <div class="social-card">
   <section class="social-card__slogan">
     <section class="social-card__slogan-wrapper">
       <div class="social-card__title">Дока</div>
-      {% if category == "recipes" %}
-        <div class="social-card__moto">гид по рецептам<br>веб-разработки</div>
+      {% if category == "a11y" %}
+        <div class="social-card__moto">твой гид по доступности</div>
+      {% elif category == "all" %}
+        <div class="social-card__moto">твой гид по<br>веб-разработке</div>
+      {% elif category == "recipes" %}
+        <div class="social-card__moto">твой гид по рецептам<br>веб-разработки</div>
       {% elif category == "tools" %}
-        <div class="social-card__moto">гид по инструментам</div>
+        <div class="social-card__moto">твой гид по<br>веб-платформе</div>
       {% else %}
         <div class="social-card__moto">твой гид по {{ categoryName }}</div>
       {% endif %}
@@ -28,6 +32,11 @@
         </div>
       {% endif %}
     </div>
+    {% if isIndex %}
+      <div class="social-card__index-title">
+        {{ categoryName }}
+      </div>
+    {% endif %}
   </section>
 
   <section class="social-card__site">
