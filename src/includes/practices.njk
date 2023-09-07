@@ -63,7 +63,7 @@
               ) }}
             {% endfor %}
           </span>
-          <div class="practices__author-introduction">
+          <span class="practices__author-introduction">
             <span class="practices__author-name">
               {{ practiceAuthorName(
                 name=(practiceAuthor.data.name or practice.fileSlug),
@@ -71,7 +71,7 @@
               ) }}
             </span>
             советует
-          </div>
+          </span>
         </h3>
         <div class="practices__content {% if not practice.isLong %}practices__content--short{% endif %} content">
           <div class="practices__summary">
