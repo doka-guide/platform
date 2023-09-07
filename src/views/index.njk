@@ -1,6 +1,7 @@
 {% from "blocks/header.njk" import header with context %}
 {% from "blocks/footer.njk" import footer with context %}
-{% from "blocks/promo.njk" import promo with context %}
+{% from "blocks/promo-stream.njk" import promoStream with context %}
+
 
 {% set isLogoContrastColor = hasCategory %}
 
@@ -13,7 +14,7 @@
   <div class="container">
     <div class="intro">
       <h1 class="visually-hidden">Дока</h1>
-      {{ promo("68 98% 47%") }}
+      {{ promoStream("0 100% 50%") }}
 
       {# <div class="intro__pitch"> #}
         {# <h2 class="intro__moto font-theme--code">Друг для друга</h2>
