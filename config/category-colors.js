@@ -23,6 +23,10 @@ module.exports = {
     light: 'hsl(162 90% 51%)',
     dark: 'hsl(162 95% 15%)',
   },
+  svg: {
+    light: 'hsl(162 90% 51%)',
+    dark: 'hsl(162 95% 15%)',
+  },
   default: {
     light: 'hsl(0 0% 100%)',
     dark: 'hsl(0 0% 0%)',

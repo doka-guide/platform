@@ -5,7 +5,7 @@ const DEFAULT_ENVS = {
   SECTIONS: 'html, css, js, recipes, a11y, tools',
   CONTENT_REP_GITHUB: 'https://github.com/doka-guide/content.git',
   CONTENT_HOT_BACKLOG: 'https://github.com/doka-guide/content/milestone/22',
-  CONTENT_REP_FOLDERS: 'html, css, js, recipes, a11y, tools, people, pages, settings, interviews',
+  CONTENT_REP_FOLDERS: 'html, css, js, recipes, a11y, tools, svg, people, pages, settings, interviews',
   PATH_TO_CONTENT: '../content',
   DOKA_ORG: 'DOKA_ORG',
   PLATFORM_REP_GITHUB_URL: 'https://github.com/doka-guide/platform',

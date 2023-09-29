@@ -21,4 +21,5 @@
   --color-base-tools: hsl(var(--color-green));
   --color-base-recipes: hsl(var(--color-violet));
   --color-base-a11y: hsl(var(--color-aquamarine));
+  --color-base-svg: hsl(var(--color-pink));
 }

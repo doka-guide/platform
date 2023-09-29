@@ -42,6 +42,7 @@
     var(--color-tools),
     var(--color-recipes),
     var(--color-a11y),
+    var(--color-svg),
     var(--accent-color),
     var(--accent-color);
   --parts: 8;

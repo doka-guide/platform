@@ -18,6 +18,7 @@
   --color-tools: hsl(var(--color-green));
   --color-recipes: hsl(var(--color-violet));
   --color-a11y: hsl(var(--color-aquamarine));
+  --color-svg: hsl(var(--color-pink));
 
   --color-subscribe-success: hsl(var(--color-green));
   --color-subscribe-error: hsl(var(--color-red));
