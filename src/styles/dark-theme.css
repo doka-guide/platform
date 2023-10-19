@@ -14,13 +14,25 @@
   --color-background: hsl(var(--color-dark));
   --color-fade: hsl(220 7% 25%);
 
+  /*
   --color-html: hsl(25 70% 24%);
   --color-css: hsl(209 70% 24%);
   --color-js: hsl(49 74% 23%);
   --color-tools: hsl(122 56% 23%);
   --color-recipes: hsl(276 39% 32%);
   --color-a11y: hsl(162 95% 15%);
+  */
 
   --color-subscribe-success: hsl(124 46% 29%);
   --color-subscribe-error: hsl(360 100% 28%);
+
+  /* Цвет для Хэлоуина */
+  --boo-color: 30 100% 42%;
+
+  --color-html: hsl(var(--boo-color));
+  --color-css: hsl(var(--boo-color));
+  --color-js: hsl(var(--boo-color));
+  --color-tools: hsl(var(--boo-color));
+  --color-recipes: hsl(var(--boo-color));
+  --color-a11y: hsl(var(--boo-color));
 }

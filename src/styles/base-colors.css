@@ -15,10 +15,22 @@
   --color-violet: 276 100% 72%;
   --color-aquamarine: 162 90% 51%;
 
+  /*
   --color-base-html: hsl(var(--color-orange));
   --color-base-css: hsl(var(--color-blue));
   --color-base-js: hsl(var(--color-yellow));
   --color-base-tools: hsl(var(--color-green));
   --color-base-recipes: hsl(var(--color-violet));
   --color-base-a11y: hsl(var(--color-aquamarine));
+  */
+
+  /* Цвет для Хэлоуина */
+  --boo-color: 18 98% 50%;
+
+  --color-base-html: hsl(var(--boo-color));
+  --color-base-css: hsl(var(--boo-color));
+  --color-base-js: hsl(var(--boo-color));
+  --color-base-tools: hsl(var(--boo-color));
+  --color-base-recipes: hsl(var(--boo-color));
+  --color-base-a11y: hsl(var(--boo-color));
 }
