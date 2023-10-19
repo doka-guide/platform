@@ -32,7 +32,7 @@ function hasStoredTheme() {
 
 function getCurrentTheme() {
   const storedTheme = store.getItem(STORAGE_KEY)
-  return storedTheme || THEMES.AUTO
+  return storedTheme || THEMES.DARK
 }
 
 function setCurrentTheme(theme) {
