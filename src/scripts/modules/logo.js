@@ -21,12 +21,15 @@ class Logo {
 
   setFocusOnElement() {
     this.refs.symbols.innerHTML =
-      'U<span class="logo__eye">&gt;</span><span class="logo__nose">ᴥ</span><span class="logo__eye">&lt;</span>U'
+      // собака-вампиряка (только нос)
+      'U<span class="logo__eye">&gt;</span><span class="logo__nose">ᵥᵥ</span><span class="logo__eye">&lt;</span>U'
   }
 
   unsetFocusOnElement() {
     this.refs.symbols.innerHTML =
-      'U<span class="logo__eye">•</span><span class="logo__nose">ᴥ</span><span class="logo__eye">•</span>U'
+      // 'U<span class="logo__eye">•</span><span class="logo__nose">ᴥ</span><span class="logo__eye">•</span>U'
+      // собака-вампиряка
+      'U<span class="logo__eye">•̀</span><span class="logo__nose">ᵥᵥ</span><span class="logo__eye">•́</span>U'
   }
 
   startAnimation() {
