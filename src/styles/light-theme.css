@@ -25,7 +25,7 @@
   --color-subscribe-error: hsl(var(--color-red));
 
   /* Цвет для Хэлоуина */
-  --boo-color: 18 98% 50%;
+  --boo-color: 15 97% 59%;
 
   --color-html: hsl(var(--boo-color));
   --color-css: hsl(var(--boo-color));

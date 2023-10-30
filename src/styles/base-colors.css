@@ -25,7 +25,7 @@
   */
 
   /* Цвет для Хэлоуина */
-  --boo-color: 18 98% 50%;
+  --boo-color: 15 97% 59%;
 
   --color-base-html: hsl(var(--boo-color));
   --color-base-css: hsl(var(--boo-color));
