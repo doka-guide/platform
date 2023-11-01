@@ -106,11 +106,7 @@
   font-size: calc(var(--image-font-size) * 10 / 7);
   line-height: calc(var(--image-font-size) * 7 / 10);
   top: -0.015em;
-
-  /* letter-spacing: calc(var(--logo-letter-spacing) * 1.5); */
-
-  /* собака-вампиряка */
-  letter-spacing: calc(var(--logo-letter-spacing) * 2);
+  letter-spacing: calc(var(--logo-letter-spacing) * 1.5);
 }
 
 .logo__text {
