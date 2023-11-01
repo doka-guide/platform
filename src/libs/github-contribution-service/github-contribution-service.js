@@ -91,7 +91,7 @@ function repoActions({ authorID, repo }) {
               path: "people"
             ) {
               nodes {
-                pushedDate
+                committedDate
               }
             }
           }
