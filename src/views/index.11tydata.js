@@ -40,9 +40,7 @@ module.exports = {
       const promo = promos
         .filter((p) => {
           const currentDate = new Date()
-          const isFiltered = currentDate >= new Date(p.data.startDate) && currentDate <= new Date(p.data.endDate)
-          console.log(currentDate, new Date(p.data.startDate), new Date(p.data.endDate), isFiltered)
-          return isFiltered
+          return currentDate >= new Date(p.data.startDate) && currentDate <= new Date(p.data.endDate)
         })
         .map((p) => {
           const output = {
@@ -56,11 +54,8 @@ module.exports = {
             links: p.data.links,
             title: p.data.title,
           }
-          console.log(output)
           return output
         })[0]
-
-      console.log(promo)
 
       return promo || defaultPromo
     },
