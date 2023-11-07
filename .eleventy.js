@@ -70,6 +70,10 @@ module.exports = function (config) {
     config.addCollection(section, (collectionApi) => getAllDocsByCategory(collectionApi, section))
   })
 
+  config.addCollection('promos', (collectionApi) => {
+    return collectionApi.getFilteredByGlob('src/promos/*.md')
+  })
+
   config.addCollection('docs', (collectionApi) => {
     return getAllDocs(collectionApi)
   })
