@@ -1,5 +1,7 @@
 .answer {
   counter-increment: answer;
+  border: 1px solid var(--color-fade);
+  border-radius: 6px;
 }
 
 .answer__author {
@@ -53,8 +55,6 @@
 .answer__content {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--color-fade);
-  border-radius: 6px;
 }
 
 .answer__content::after {
@@ -80,7 +80,6 @@
 .answer__content > .answer__summary::before {
   grid-row-start: 1;
   content: counter(answer);
-  display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
@@ -91,6 +90,7 @@
   font-family: 'Spot Mono', monospace;
   font-size: 30px;
   font-weight: 400;
+  display: none;
 }
 
 .answer__content .answer__toggler {
