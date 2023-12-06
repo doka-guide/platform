@@ -1,10 +1,13 @@
 .practices > article {
-  display: grid;
-  grid-gap: 1em;
+  border: 1px solid var(--color-fade);
+  border-radius: 6px;
+  margin-top: 40px;
 }
 
 .practices > article > .article-heading {
-  margin-bottom: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding: var(--offset);
 }
 
 .practices__author-name > * {
@@ -20,8 +23,6 @@
   position: relative;
   counter-increment: practices__content;
   overflow: hidden;
-  border: 1px solid var(--color-fade);
-  border-radius: 6px;
 }
 
 .practices__content::after {
@@ -38,7 +39,7 @@
   grid-row-start: 2;
   grid-row-end: 4;
   display: grid;
-  grid-gap: var(--font-size-l);
+  grid-gap: 10px;
   grid-template-rows: 30px calc(var(--font-size) * 2) var(--font-size);
   height: 110px;
   padding: var(--offset);
@@ -48,7 +49,6 @@
 .practices__content > .practices__summary::before {
   grid-row-start: 1;
   content: counter(practices__content);
-  display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
@@ -58,6 +58,7 @@
   font-family: 'Spot Mono', monospace;
   font-size: 30px;
   font-weight: 400;
+  display: none;
 }
 
 .practices__content .practices__toggler {
@@ -104,4 +105,20 @@
 
 .practices__content--short::after {
   height: unset;
+}
+
+@media (min-width: 1024px) {
+  .practices > article {
+    margin-top: 50px;
+  }
+
+  .practices__content > .practices__summary {
+    grid-gap: 20px;
+  }
+}
+
+@media (min-width: 1680px) {
+  .practices > article {
+    margin-top: 60px;
+  }
 }
