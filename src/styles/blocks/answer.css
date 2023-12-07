@@ -1,5 +1,4 @@
 .answer {
-  counter-increment: answer;
   border: 1px solid var(--color-fade);
   border-radius: 6px;
 }
@@ -73,28 +72,12 @@
   background-color: var(--color-background);
 }
 
-.answer__content > .answer__summary::before {
-  grid-row-start: 1;
-  content: counter(answer);
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  margin-block-end: var(--font-size-l);
-  border: 1px solid var(--color-text);
-  font-family: 'Spot Mono', monospace;
-  font-size: 30px;
-  font-weight: 400;
-  display: none;
-}
-
 .answer__content .answer__toggler {
   appearance: none;
   display: block;
   position: absolute;
   top: 0;
-  margin-top: 170px;
+  margin-block-start: 190px;
   justify-self: start;
   font-size: var(--font-size-m, 100%);
   font-family: var(--font-family);
@@ -125,7 +108,7 @@
   position: sticky;
   grid-row-start: unset;
   bottom: 1em;
-  margin-top: unset;
+  margin-block-start: unset;
 }
 
 .answer__content--short > .answer__summary {
