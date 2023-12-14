@@ -14,7 +14,7 @@ const CACHE_KEY_STAT = 'GITHUB_AUTHORS_CONTRIBUTION'
 const CACHE_KEY_EXISTS = 'GITHUB_AUTHORS_EXISTS'
 const CACHE_KEY_ID = 'GITHUB_AUTHORS_ID'
 const CACHE_KEY_ACTIONS = 'GITHUB_AUTHORS_ACTIONS'
-const CACHE_DURATION = '1d'
+const CACHE_DURATION = '1s'
 
 const assetCache = {}
 assetCache['stat'] = new Cache.AssetCache(CACHE_KEY_STAT)
@@ -91,7 +91,12 @@ function repoActions({ authorID, repo }) {
               path: "people"
             ) {
               nodes {
-                pushedDate
+                committedDate,
+                associatedPullRequests(first: 1) {
+                  nodes {
+                      mergedAt
+                  }
+                }
               }
             }
           }

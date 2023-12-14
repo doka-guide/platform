@@ -175,10 +175,14 @@ module.exports = {
       }
 
       const nodes = authorData?.contributionActions?.people?.target?.history?.nodes
+
+      const prNodes = nodes && nodes.length > 0 ? nodes[nodes.length - 1]?.associatedPullRequests?.nodes : null
+
+      const pullRequestDate =
+        prNodes && prNodes.length > 0 ? prNodes[prNodes.length - 1]?.mergedAt : '2021-10-12T00:00:00Z'
+
       // TODO: Решить вопрос с датой для участников: Игорь Коровченко, Ольга Алексашенко
-      const githubFirstContribution = new Date(
-        nodes && nodes.length > 0 ? nodes[nodes.length - 1]?.pushedDate : '2021-10-12T00:00:00Z'
-      )
+      const githubFirstContribution = new Date(pullRequestDate)
         .toLocaleString('ru', {
           year: 'numeric',
           month: 'long',
