@@ -3,7 +3,7 @@ title: 'Открытый техсобес'
 color: '0 100% 50%'
 design: 'stream'
 startDate: '2023-12-17T00:00:00'
-endDate: '2023-12-19T00:00:00'
+endDate: '2023-12-20T00:00:00'
 links:
   - emoji: '▶️'
     text: 'Смотреть стрим'
