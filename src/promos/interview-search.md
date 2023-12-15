@@ -1,5 +1,5 @@
 ---
-title: 'Может ты?'
+title: 'Может, ты?'
 color: '0 100% 50%'
 design: 'stream'
 startDate: '2023-12-15T00:00:00'
