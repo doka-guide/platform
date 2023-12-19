@@ -180,6 +180,18 @@ module.exports = {
       }
     },
 
+    videos: function (data) {
+      const { doc } = data
+      const pattern = /<source src=".*type="video\/mp4">/g
+      const videos = doc.template.inputContent
+        .split('\n')
+        .filter((string) => pattern.test(string))
+        .map((string) => {
+          return `${data.docPath}${string.match(pattern)[0].split('src="')[1].split('" type="video/mp4"')[0]}`
+        })
+      return videos
+    },
+
     demos: function (data) {
       const { doc } = data
       const matches = doc.template.inputContent.match(/<iframe.+<\/iframe>/g)
@@ -189,7 +201,7 @@ module.exports = {
               const src = iframe.match(/src=".+" /)
               return src ? src[0].replace('src="', '').replace('" ', '') : [...[]]
             })
-            .map((demo) => `${data.docPath}${demo}/`)
+            .map((demo) => `${data.docPath}${demo}`)
         : []
     },
 
@@ -215,6 +227,7 @@ module.exports = {
           coverAuthors: data.coverAuthors,
         },
         images: data.linksAndImages.images,
+        videos: data.videos,
         demos: data.demos,
         links: {
           inArticle: data.linksAndImages.links,
