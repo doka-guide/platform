@@ -46,6 +46,7 @@
 
 .offline .link--cached::after {
   background-image: url('/images/assets/cached-link.svg');
+  background-repeat: no-repeat;
 }
 
 .online .link--non-cached::after {
