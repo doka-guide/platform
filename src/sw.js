@@ -304,6 +304,9 @@ async function putPageInCache(cacheKey, page, loadRelated = true) {
     if (pageJson.images) {
       await putResourcesInCache(cacheKey, pageJson.images)
     }
+    if (pageJson.videos) {
+      await putResourcesInCache(cacheKey, pageJson.videos)
+    }
     if (pageJson.demos) {
       await putPagesInCache(cacheKey, pageJson.demos, false)
     }
@@ -326,6 +329,11 @@ async function putPageInCache(cacheKey, page, loadRelated = true) {
       await putPageInCache(cacheKey, pageJson.links.nextArticle, false)
       await putPageInCache(cacheKey, pageJson.links.previousArticle, false)
       await putPagesInCache(cacheKey, pageJson.links.relatedArticles, false)
+    }
+  } else if (page.match(/^\/people\//)) {
+    const pageJson = await (await fetch(`${page}index.json`)).json()
+    if (pageJson.images) {
+      await putResourcesInCache(cacheKey, pageJson.images)
     }
   }
   return response
