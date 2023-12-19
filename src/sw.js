@@ -298,7 +298,7 @@ async function putResourcesInCache(cacheKey, paths) {
 }
 
 async function putPageInCache(cacheKey, page, loadRelated = true) {
-  const response = await putResInCache(cacheKey, page)
+  const response = await putResInCache(cacheKey, page.replace(/\/#.+$/, ''))
   if (typeof page === 'string' && page.match(/^\/(a11y|css|html|js|tools|recipes)\/.+\//)) {
     try {
       const pageJson = await (await fetch(`${page}index.json`)).json()
@@ -374,11 +374,6 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
 
   // Игнорирует кеширование страниц с параметрами GET запроса
   if (request.url.indexOf('.html?') > -1 || request.url.indexOf('.js?') > -1) {
-    return new Response()
-  }
-
-  // Игнорирует кеширование страниц с якорями
-  if (request.url.indexOf('#') > -1) {
     return new Response()
   }
 
