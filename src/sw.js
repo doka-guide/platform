@@ -312,10 +312,10 @@ async function putPageInCache(cacheKey, page, loadRelated = true) {
       await putResInCache(cacheKey, pageJson.cover.mobile)
     }
     if (pageJson.people) {
-      await putResInCache(cacheKey, pageJson.people.authors)
-      await putResInCache(cacheKey, pageJson.people.contributors)
-      await putResInCache(cacheKey, pageJson.people.editors)
-      await putResInCache(cacheKey, pageJson.people.coverAuthors)
+      await putPagesInCache(cacheKey, pageJson.people.authors)
+      await putPagesInCache(cacheKey, pageJson.people.contributors)
+      await putPagesInCache(cacheKey, pageJson.people.editors)
+      await putPagesInCache(cacheKey, pageJson.people.coverAuthors)
     }
     if (loadRelated && pageJson.links) {
       await putPagesInCache(
@@ -424,7 +424,7 @@ self.addEventListener('install', async () => {
     await putResourcesInCache(debugScriptsCacheName, debugScripts)
   }
   await putResourcesInCache(assetsCacheName, assetsResources)
-  await putResourcesInCache(staticCacheName, staticPages)
+  await putPagesInCache(staticCacheName, staticPages)
 })
 
 self.addEventListener('activate', async () => {
