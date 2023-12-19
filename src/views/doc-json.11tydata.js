@@ -184,10 +184,12 @@ module.exports = {
       const { doc } = data
       const matches = doc.template.inputContent.match(/<iframe.+<\/iframe>/g)
       return matches
-        ? matches.map((iframe) => {
-            const src = iframe.match(/src=".+" /)
-            return src ? src[0].replace('src="', '').replace('" ', '') : [...[]]
-          })
+        ? matches
+            .map((iframe) => {
+              const src = iframe.match(/src=".+" /)
+              return src ? src[0].replace('src="', '').replace('" ', '') : [...[]]
+            })
+            .map((demo) => `${data.docPath}${demo}/`)
         : []
     },
 
