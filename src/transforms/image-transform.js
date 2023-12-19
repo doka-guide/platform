@@ -1,10 +1,6 @@
-const os = require('os')
 const path = require('path')
 const fsp = require('fs/promises')
-const Image = require('@11ty/eleventy-img')
 const sharp = require('sharp')
-
-Image.concurrency = os.cpus().length
 
 const baseConfig = {
   extBlackList: ['gif', 'svg', 'webp', 'avif'],
