@@ -335,6 +335,9 @@ async function putPageInCache(cacheKey, page, loadRelated = true) {
     if (pageJson.images) {
       await putResourcesInCache(cacheKey, pageJson.images)
     }
+    if (pageJson.links) {
+      await putPagesInCache(cacheKey, pageJson.links, false)
+    }
   }
   return response
 }

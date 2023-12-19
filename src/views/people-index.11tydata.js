@@ -16,6 +16,12 @@ module.exports = {
         buffer['images'].push(peopleData[key]['photoURL'])
       }
       buffer['images'] = buffer['images'].filter((img) => img !== null)
+
+      buffer['links'] = []
+      for (const key in peopleData) {
+        buffer['links'].push(peopleData[key]['pageLink'])
+      }
+
       return buffer
     },
   },
