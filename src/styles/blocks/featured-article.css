@@ -84,8 +84,7 @@
 }
 
 .offline .featured-article__title .link::after {
-  margin-left: calc(100% - 1em - var(--gutter));
-  margin-top: 0.5em;
+  display: none;
 }
 
 .featured-article__description {
