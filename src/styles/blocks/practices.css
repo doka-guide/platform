@@ -10,6 +10,7 @@
   margin-block-start: 0;
   margin-block-end: 0;
   padding: var(--offset);
+  padding-block-end: 0;
 }
 
 .practices__author-name > * {

@@ -15,14 +15,15 @@
 }
 
 .content p.question__response-placeholder {
-  margin-block-start: 10px;
-  margin-block-end: 10px;
+  margin-block-start: 4px;
+  margin-block-end: 4px;
 }
 
 .question__answer > .article-heading {
   margin-block-start: 0;
   margin-block-end: 0;
   padding: var(--offset);
+  padding-block-end: 0;
 }
 
 .questions__edit-button {
@@ -40,8 +41,8 @@
 
 @media (min-width: 768px) {
   .content p.question__response-placeholder {
-    margin-block-start: 16px;
-    margin-block-end: 16px;
+    margin-block-start: 7px;
+    margin-block-end: 7px;
   }
 
   .question__request .questions__edit-button {
@@ -59,8 +60,8 @@
   }
 
   .content p.question__response-placeholder {
-    margin-block-start: 20px;
-    margin-block-end: 20px;
+    margin-block-start: 10px;
+    margin-block-end: 10px;
   }
 
   .question__request .questions__edit-button {
