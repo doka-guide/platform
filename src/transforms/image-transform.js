@@ -85,6 +85,4 @@ async function buildImage(image, imagesSourcePath, window) {
   picElement.appendChild(imgElement)
 
   image.replaceWith(picElement)
-
-  console.log(image.outerHTML)
 }
