@@ -1,36 +1,16 @@
 const path = require('path')
 const fsp = require('fs/promises')
-const sharp = require('sharp')
 
 const baseConfig = {
-  extBlackList: ['gif', 'svg', 'webp', 'avif'],
   widths: [300, 600, 1200, 2200],
   sizes: ['(min-width: 1680px) 1087px', '(min-width: 1366px) calc(75vw - 2 * 20px)', 'calc(100vw - 2 * 10px)'].join(
     ', '
   ),
   formats: ['webp'],
-  filenameFormat: (id, src, width, format) => {
+  filenameFormat: (src, width, format) => {
     const extension = path.extname(src)
     const name = path.basename(src, extension)
     return `${name}-${width}w.${format}`
-  },
-  sharpWebpOptions: {
-    lossless: true,
-  },
-}
-
-const sharpWebpOptions = {
-  default: {
-    lossless: true,
-  },
-  get png() {
-    return this.default
-  },
-  jpg: {
-    quality: 80,
-  },
-  get jpeg() {
-    return this.jpg
   },
 }
 
@@ -49,7 +29,6 @@ module.exports = function (window, content, outputPath) {
   // например, из пути `dist/css/active/index.html` нужно получить `/css/active/`
   const baseSourcePath = outputPath.replace('dist/', '').replace('/index.html', '')
   const imagesSourcePath = path.join('src', baseSourcePath)
-  const imagesOutputPath = path.join('dist', baseSourcePath, 'images')
 
   const images = Array.from(articleContainer.querySelectorAll('img'))
     // игнорируем изображения, которые находятся внутри figure, picture
@@ -57,10 +36,10 @@ module.exports = function (window, content, outputPath) {
     // игнорируем внешние изображения
     .filter((image) => !image.src.startsWith('https://') && !image.src.startsWith('http://'))
 
-  return Promise.all(images.map((image) => buildImage(image, imagesSourcePath, imagesOutputPath, window)))
+  return Promise.all(images.map((image) => buildImage(image, imagesSourcePath, window)))
 }
 
-async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
+async function buildImage(image, imagesSourcePath, window) {
   // Исключение interviews для картинок из рубрики «На собеседовании»
   const originalLink = image.src.match('/interviews/')
     ? path.join('src', image.src)
@@ -74,35 +53,38 @@ async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
   }
 
   const ext = path.extname(originalLink).replace('.', '')
-  if (baseConfig.extBlackList.includes(ext)) {
-    return
-  }
-
-  const { width: originalWidth } = await sharp(originalLink).metadata()
-
-  // Исключение interviews для картинок из рубрики «На собеседовании»
-  const targetLink = image.src.match('/interviews/')
-    ? path.join('dist', image.src.replace(/images\/.+$/, 'images/'))
-    : imagesOutputPath
 
   const options = {
-    urlPath: image.src.match('/interviews/') ? image.src.replace(/images\/.+$/, 'images/') : 'images/',
-    outputDir: targetLink,
-    widths: [...baseConfig.widths, originalWidth],
+    widths: [...baseConfig.widths],
     formats: [...baseConfig.formats, ext],
     filenameFormat: baseConfig.filenameFormat,
-    sharpWebpOptions: sharpWebpOptions[ext] ? sharpWebpOptions[ext] : sharpWebpOptions.default,
   }
 
-  const imageAttributes = Object.fromEntries([...image.attributes].map((attr) => [attr.name, attr.value]))
-  imageAttributes.sizes = imageAttributes.sizes || baseConfig.sizes
+  const picElement = window.document.createElement('picture')
 
-  const metadata = Image.statsSync(originalLink, options)
+  for (let i = 0; i < options.formats.length; i++) {
+    const format = options.formats[i]
+    const formats = []
 
-  const imageHTML = Image.generateHTML(metadata, imageAttributes)
-  const tempElement = window.document.createElement('div')
-  tempElement.innerHTML = imageHTML
-  image.replaceWith(tempElement.firstElementChild)
+    for (let i = 0; i < options.widths.length; i++) {
+      const width = options.formats[i]
+      formats.push(options.filenameFormat(image.src, width, format))
+    }
 
-  Image(originalLink, options)
+    const srcElement = window.document.createElement('source')
+    srcElement.setAttribute('type', `image/${format}`)
+    srcElement.setAttribute('srcset', formats.join(', '))
+    srcElement.setAttribute('sizes', options.sizes)
+
+    picElement.appendChild(srcElement)
+  }
+
+  const imgElement = window.document.createElement('img')
+  imgElement.setAttribute('src', image.src)
+  imgElement.setAttribute('alt', image.alt)
+  picElement.appendChild(imgElement)
+
+  image.replaceWith(picElement)
+
+  console.log(image.outerHTML)
 }
