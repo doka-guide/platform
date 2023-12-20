@@ -3,7 +3,7 @@
   --stroke-color: hsl(var(--color-base-text) / var(--stroke-opacity));
   border: 1px solid var(--stroke-color);
   border-radius: 6px;
-  margin-block-start: 40px;
+  margin-block-start: 10px;
 }
 
 .practices > article > .article-heading {
@@ -89,9 +89,15 @@
   height: unset;
 }
 
+@media (min-width: 768px) {
+  .practices > article {
+    margin-block-start: 14px;
+  }
+}
+
 @media (min-width: 1024px) {
   .practices > article {
-    margin-block-start: 50px;
+    margin-block-start: 16px;
   }
 
   .practices__content > .practices__summary {
@@ -99,8 +105,8 @@
   }
 }
 
-@media (min-width: 1680px) {
+/* @media (min-width: 1680px) {
   .practices > article {
     margin-block-start: 60px;
   }
-}
+} */
