@@ -180,6 +180,8 @@ const assetsResources = [
   '/images/badges/most-viewed-week-zeta.svg',
   '/images/badges/most-viewed-year-line.svg',
   '/images/badges/most-viewed-year-zeta.svg',
+  '/images/badges/ny.svg',
+  '/images/badges/superstar.svg',
 ]
 
 const staticPages = [
