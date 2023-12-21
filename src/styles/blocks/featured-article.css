@@ -83,6 +83,10 @@
   right: 0;
 }
 
+.offline .featured-article__title .link::after {
+  display: none;
+}
+
 .featured-article__description {
   margin-top: auto;
   margin-bottom: 0;

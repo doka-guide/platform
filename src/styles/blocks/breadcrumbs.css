@@ -20,3 +20,8 @@
   flex-shrink: 1;
   min-width: 0;
 }
+
+.breadcrumbs .link::after,
+.breadcrumbs__item .link::after {
+  display: none;
+}

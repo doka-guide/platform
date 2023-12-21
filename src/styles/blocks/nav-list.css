@@ -41,6 +41,10 @@
   transition: var(--transition);
 }
 
+.offline .nav-list__link::after {
+  background-image: none;
+}
+
 .nav-list__link-text {
   position: relative;
   display: block;
