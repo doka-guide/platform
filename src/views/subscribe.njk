@@ -15,79 +15,77 @@
     </div>
   </div>
   <div class="standalone-page__content standalone-page__wrapper content">
-    <p>Дока — это гид по веб-платформе. В справочнике вы можете найти ответы на повседневные вопросы, а в рассылках мы собираем тематические подборки, советы от экспертов, авторские и партнёрские колонки.</p>
-    <p>Здесь вы можете подписаться и сразу рассказать немного о себе, чтобы мы настроили рассылку под ваши интересы.</p>
+    <p>Дока — это гид по веб-платформе. В справочнике можете найти ответы на повседневные вопросы, а в рассылках мы собираем тематические подборки, советы от экспертов, авторские и партнёрские колонки.</p>
+    <p>Здесь можете подписаться и сразу рассказать немного о себе, чтобы мы настроили рассылку под ваши интересы.</p>
 
-    <form class="subscribe-page__subscribe subscribe-settings form-with-status" action="">
+    <form class="subscribe-page__subscribe subscribe-settings form-with-status" aria-labelledby="subscribe-label" action="">
+      <h2 class="subscribe-settings__title" id="subscribe-label">Настроить рассылку</h2>
       <div class="subscribe-settings__row">
-        <label class="subscribe-settings__label" for="email">
-          Нам обязательно нужна ваша почта
-        </label>
         <input type="hidden" name="active" value="false">
-        <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email">
-        <span class="subscribe-settings__hint">Ваш e-mail</span>
+        <input class="subscribe-settings__input" type="email" name="email" placeholder="dog@doka.guide" inputmode="email" id="email" inputmode="email" autocomplete="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
+        <label for="email" class="subscribe-settings__hint">Ваш e-mail (обязательно)</label>
       </div>
       <div class="subscribe-settings__row">
         <fieldset class="subscribe-settings__fieldset">
           <legend class="subscribe-settings__label">Как вы связаны с веб-разработкой?</legend>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="front" id="noob">
+            <input class="subscribe-settings__control" type="radio" name="who" value="front" id="frontenddev">
             фронтенд-разработчик
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="back" id="cross">
+            <input class="subscribe-settings__control" type="radio" name="who" value="back" id="backenddev">
             бэкенд-разработчик
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="full" id="junior">
+            <input class="subscribe-settings__control" type="radio" name="who" value="full" id="fullstack">
             фуллстек-разработчик
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="designer" id="middle">
+            <input class="subscribe-settings__control" type="radio" name="who" value="designer" id="artist">
             дизайнер
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="qa" id="sinior">
-            QA
+            <input class="subscribe-settings__control" type="radio" name="who" value="qa" id="tester">
+            qa
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="devops" id="teamlead">
-            DevOps
+            <input class="subscribe-settings__control" type="radio" name="who" value="devops" id="devoops">
+            девопс
           </label>
           <label class="subscribe-settings__control-label">
             <input class="subscribe-settings__control" type="radio" name="who" value="devrel" id="architect">
-            DevRel
+            деврел
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="teamlead" id="nobody">
+            <input class="subscribe-settings__control" type="radio" name="who" value="teamlead" id="lead">
             тимлид
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="manager" id="nobody">
+            <input class="subscribe-settings__control" type="radio" name="who" value="manager" id="project">
             менеджер продукта или проектов
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="engineer" id="nobody">
+            <input class="subscribe-settings__control" type="radio" name="who" value="engineer" id="engmanager">
             engineering manager
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="analysis" id="nobody">
+            <input class="subscribe-settings__control" type="radio" name="who" value="analysis" id="analytics">
             аналитик
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="data" id="nobody">
-            Data Science и ML
+            <input class="subscribe-settings__control" type="radio" name="who" value="data" id="datascience">
+            data science и машинное обучение
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="hr" id="nobody">
-            HR
+            <input class="subscribe-settings__control" type="radio" name="who" value="hr" id="hiremanager">
+            эйчар
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="not-it" id="nobody">
+            <input class="subscribe-settings__control" type="radio" name="who" value="not-it" id="notit">
             я не из IT
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="who" value="sometingelse" id="nobody">
+            <input class="subscribe-settings__control" type="radio" name="who" value="sometingelse" id="another">
             совсем другое
           </label>
         </fieldset>
@@ -96,27 +94,27 @@
         <fieldset class="subscribe-settings__fieldset">
           <legend class="subscribe-settings__label">Ваш грейд</legend>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="grade" value="student" id="noob">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="student" id="start">
             только учусь
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="grade" value="intern" id="cross">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="intern" id="firstlvl">
             стажёр
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="grade" value="junior" id="cross">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="junior" id="secondlvl">
             начинающий специалист
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="grade" value="middle" id="cross">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="middle" id="thirdlvl">
             специалист
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="grade" value="senior" id="cross">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="senior" id="fourthlvl">
             опытный специалист
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="radio" name="grade" value="master" id="cross">
+            <input class="subscribe-settings__control" type="radio" name="grade" value="master" id="fithlvl">
             высший пилотаж
           </label>
         </fieldset>
@@ -125,34 +123,42 @@
         <fieldset class="subscribe-settings__fieldset">
           <legend class="subscribe-settings__label">Мне интересно читать:</legend>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="checkbox" name="interest" value="digest" id="interests" checked>
-            Дайджест Доки (1 раз в месяц)
+            <input class="subscribe-settings__control" type="checkbox" name="interests" value="digest" id="base" checked>
+            Дайджест Доки (один раз в месяц)
           </label>
           <label class="subscribe-settings__control-label">
-            <input class="subscribe-settings__control" type="checkbox" name="interest" value="dream-job" id="interests" checked>
-            Спецпроект Доки «<a href="https://dream-job.doka.guide">Трудоустройство</a>» (по мере выхода глав)
+            <input class="subscribe-settings__control" type="checkbox" name="interests" value="dream-job" id="special" checked>
+            Спецпроект «Трудоустройство» (по выходу глав)
           </label>
         </fieldset>
-        <p class="subscribe-settings__note">Мы готовим новые тематические рассылки. Со временем они дополнят этот список, и вы сможете выбрать, что читать. Об обновлениях будем сообщать в Дайджесте.</p>
+        <p class="subscribe-settings__note">Мы готовим новые тематические рассылки. Со временем дополним список, и вы сможете выбрать не только <a href="https://dream-job.doka.guide">спецпроект про трудоустройство</a> и ежемесячный дайджест. Об обновлениях расскажем в дайджесте.</p>
       </div>
-      <div class="subscribe-settings__row">
-        {# В спане ниже меняем сообщения под статус #}
-        <span class="form-with-status__status">Обрабатываем запрос</span>
+      <div class="subscribe-settings__row subscribe-settings__row--center">
         <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Подписаться</button>
+        {# Ниже меняем сообщения под статус #}
+        <div class="subscribe__status">
+          <p aria-live="polite" class="progress-text" id="subscribe-progress">Подписываем на рассылку ⌛</p>
+          <p aria-live="polite" class="success-text" id="subscribe-success">Вы подписались на рассылку, ура 🎉</p>
+          <p aria-live="assertive" class="error-text" data-state="error" id="subscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте подписаться ещё раз.</p>
+        </div>
       </div>
     </form>
 
-    <section class="unsubscribe-section subscribe-settings">
-      <p>Здесь можно отписаться от рассылки U×ᴥ×U</p>
-      <form class="subscribe-page__unsubscribe unsubscribe__form form-with-status" action="">
-        <label class="unsubscribe__label">
-          <input type="text" name="reason" class="unsubscribe__input subscribe-settings__input" placeholder="Слишком часто приходят письма">
-          <span class="unsubscribe__hint subscribe-settings__hint">Расскажете что не понравилось?</span>
-        </label>
+    <section class="unsubscribe-section">
+      <form class="subscribe-page__unsubscribe subscribe-settings unsubscribe__form form-with-status" aria-labelledby="unsubscribe-label" action="">
+        <h2 class="subscribe-settings__title" id="unsubscribe-label">Отписаться от рассылки <span aria-hidden="true">U×ᴥ×U</span></h2>
         <div class="unsubscribe__row">
+          <div class="unsubscribe__field">
+            <input type="text" name="reason" id="reason" class="unsubscribe__input subscribe-settings__input" placeholder="Например, слишком часто приходят письма">
+            <label for="reason" class="unsubscribe__hint subscribe-settings__hint">Расскажите, что не понравилось?</label>
+          </div>
           <button class="subscribe-settings__button text-control__button button button--invert" type="submit">Отписаться</button>
-          {# В спане ниже меняем сообщения под статус #}
-          <span class="form-with-status__status">Обрабатываем запрос</span>
+        </div>
+        {# Ниже меняем сообщения под статус #}
+        <div class="unsubscribe__status">
+          <p aria-live="polite" class="progress-text" id="usubscribe-progress">Отписываем от рассылки ⌛</p>
+          <p aria-live="polite" class="success-text" id="usubscribe-success">Вы отписались от рассылки ☹️</p>
+          <p aria-live="assertive" class="error-text" data-state="error" id="usubscribe-error">Что-то пошло не так. Перезагрузите страницу и попробуйте отписаться ещё раз.</p>
         </div>
       </form>
     </section>

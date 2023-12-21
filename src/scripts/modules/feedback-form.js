@@ -64,10 +64,6 @@ class DetailedAnswer extends BaseComponent {
       })
     })
   }
-
-  focus() {
-    this.textarea.focus()
-  }
 }
 
 function init() {
@@ -88,8 +84,10 @@ function init() {
 
   const voteDownButton = form.querySelector('.vote--down')
   const voteUpButton = form.querySelector('.vote--up')
+  const reasonButton = form.querySelector('.button--another-reason')
   const reasonFieldset = form.querySelector('.feedback-form__fieldset--reason')
   const textControl = form.querySelector('.feedback-form__text')
+  const textControlInput = form.querySelector('.text-control__input')
 
   let isSending = false
 
@@ -146,7 +144,7 @@ function init() {
 
   detailedAnswer.on(DetailedAnswer.EVENTS.ANSWER, () => {
     setTimeout(() => {
-      reasonFieldset.disabled = true
+      reasonFieldset.inert = true
       voteUpButton.disabled = true
     })
   })
@@ -162,13 +160,14 @@ function init() {
     () => {
       setTimeout(() => {
         voteDownButton.disabled = true
-        reasonFieldset.disabled = true
+        reasonFieldset.inert = true
       })
     },
     { once: true }
   )
 
   voteButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
+    voteDownButton.setAttribute('aria-expanded', 'true')
     reasonFieldset.hidden = false
   })
 
@@ -182,7 +181,7 @@ function init() {
     ButtonGroup.EVENTS.ANSWER,
     () => {
       setTimeout(() => {
-        reasonFieldset.disabled = true
+        reasonFieldset.inert = true
         voteUpButton.disabled = true
         textControl.hidden = true
       })
@@ -192,7 +191,8 @@ function init() {
 
   reasonsButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
     textControl.hidden = false
-    detailedAnswer.focus()
+    reasonButton.setAttribute('aria-expanded', 'true')
+    textControlInput.required = true
   })
 
   form.addEventListener('submit', (event) => {
@@ -216,9 +216,11 @@ function init() {
     })
       .then(() => {
         form.dataset.state = 'success'
+        form.setAttribute('aria-describedby', 'success')
       })
       .catch((error) => {
         form.dataset.state = 'error'
+        form.setAttribute('aria-describedby', 'error')
         console.error(error)
       })
       .finally(() => {

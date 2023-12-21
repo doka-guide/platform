@@ -216,6 +216,7 @@ class Header extends BaseComponent {
     const currentScroll = window.scrollY
     const isScrollingDown = currentScroll > lastScroll
     const isHeaderOnTop = currentScroll === 0
+    const minimumScrollDistance = 180
     this.state.lastScroll = currentScroll
 
     if (isHeaderOnTop) {
@@ -238,7 +239,7 @@ class Header extends BaseComponent {
         this.hideHeader()
       }
     } else {
-      if (!this.isFixed && !this.isMainPage) {
+      if (!this.isFixed && !this.isMainPage && lastScroll - currentScroll >= minimumScrollDistance) {
         this.showHeader()
       }
     }

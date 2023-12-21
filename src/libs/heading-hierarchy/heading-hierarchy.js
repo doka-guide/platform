@@ -89,9 +89,9 @@ function renderItem(item) {
 
 function render(rootItem) {
   return `
-    <div class="toc">
+    <aside class="toc" aria-label="Оглавление">
       ${renderItem(rootItem)}
-    </div>
+    </aside>
   `
 }
 

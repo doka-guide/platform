@@ -2,6 +2,7 @@
   --gap: 50px;
 }
 
+/* Стили для формы подписки */
 .subscribe-settings {
   display: grid;
   gap: var(--gap);
@@ -11,26 +12,11 @@
   background-color: var(--color-fade);
 }
 
-/* Отдельный класс для форм со статусами состояния */
-.form-with-status {
-  transition: opacity 0.2s ease-in-out;
-}
-
-/* Класс на время обработки */
-.form-with-status.progress {
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-/* Класс на случай успеха — progress */
-
-/* Класс на случай провала — error */
-
 .subscribe-settings__row--hidden {
   display: none;
 }
 
-.subscribe-settings__row:has(.subscribe-settings__button) {
+.subscribe-settings__row--center {
   text-align: center;
 }
 
@@ -51,10 +37,24 @@
   margin-block-start: 1em;
 }
 
+.subscribe-settings__title {
+  --font-size: var(--font-size-headline-2);
+  --line-height: var(--font-line-height-headline-2);
+  margin-top: 0;
+  margin-block-end: 0;
+  display: inline;
+  font: inherit;
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+}
+
 .subscribe-settings__label {
+  --font-size: var(--font-size-headline-3);
+  --line-height: var(--font-line-height-headline-3);
   display: block;
   margin-block-end: 30px;
-  font-size: 36px;
+  font-size: var(--font-size);
+  line-height: var(--line-height);
 }
 
 .subscribe-settings__input,
@@ -87,6 +87,7 @@
 }
 
 .subscribe-settings__control-label {
+  display: inline-flex;
   font-size: inherit;
 }
 
@@ -94,6 +95,44 @@
   position: relative;
   justify-self: center;
   transition: color 0.2s ease-out;
+}
+
+.subscribe-settings__button:focus-visible {
+  outline-offset: 3px;
+}
+
+/* Стили для формы отписки */
+.unsubscribe-section {
+  display: grid;
+  margin-block-start: calc(var(--gap) * 2);
+  background-color: var(--color-fade);
+}
+
+.unsubscribe-section--hidden {
+  display: none;
+}
+
+.unsubscribe__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.unsubscribe__row {
+  display: flex;
+  align-items: start;
+  width: 100%;
+  gap: 20px;
+}
+
+.unsubscribe__field {
+  flex-grow: 1;
+}
+
+/* Отдельный класс для форм со статусами состояния */
+.form-with-status {
+  transition: opacity 0.2s ease-in-out;
 }
 
 .form-with-status .text-control__button::after {
@@ -110,17 +149,53 @@
   block-size: 30px;
 }
 
+.subscribe__status {
+  margin-block-start: var(--gap);
+}
+
+/* Класс на время обработки */
+.form-with-status.progress {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .progress .text-control__button {
   color: currentColor;
 }
 
 .progress .text-control__button::after {
   content: "";
-  border: 2px dashed white;
+  border: 2px dashed hsl(var(--color-dark));
   border-radius: 50%;
   animation: progress-wheel 6s infinite linear;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .progress .text-control__button::after {
+    animation: none;
+  }
+}
+
+/* Стили для текстов статусов */
+.error-text,
+.success-text,
+.progress-text {
+  display: none;
+  padding: 0;
+  font-size: 0.8em;
+}
+
+.error-text {
+  color: hsl(0, 81%, 64%);
+}
+
+.progress .progress-text,
+.success .success-text,
+.error .error-text {
+  display: block;
+}
+
+/* Класс на случай успеха — progress */
 .success .text-control__button {
   color: currentColor;
 }
@@ -129,57 +204,13 @@
   content: "✅";
 }
 
+/* Класс на случай провала — error */
 .error .text-control__button {
   color: currentColor;
 }
 
 .error .text-control__button::after {
   content: "❌";
-}
-
-.form-with-status__status {
-  display: block;
-  margin-block: 0.5em;
-  font-size: 0.8em;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.2s ease-in;
-}
-
-.progress .form-with-status__status,
-.success .form-with-status__status,
-.error .form-with-status__status {
-  visibility: visible;
-  opacity: 1;
-}
-
-.unsubscribe-section {
-  display: grid;
-  gap: var(--gap);
-  margin-block-start: calc(var(--gap) * 2);
-  padding: var(--gap);
-  background-color: var(--color-fade);
-}
-
-.unsubscribe-section--hidden {
-  display: none;
-}
-
-.unsubscribe__form {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  gap: 20px;
-}
-
-.unsubscribe__row {
-  width: 20%;
-  inline-size: 20%;
-  text-align: center;
-}
-
-.unsubscribe__label {
-  flex-grow: 1;
 }
 
 @media (max-width: 768px) {
@@ -191,11 +222,6 @@
     font-size: 16px;
   }
 
-  .subscribe-settings__label {
-    font-size: 24px;
-    margin-block-end: 15px;
-  }
-
   .subscribe-settings__fieldset {
     gap: 8px;
   }
@@ -205,6 +231,7 @@
     inline-size: 20px;
     height: 20px;
     block-size: 20px;
+    margin-inline-end: 8px;
   }
 
   .unsubscribe__form {
@@ -214,6 +241,7 @@
   .unsubscribe__row {
     width: 100%;
     inline-size: 100%;
+    flex-wrap: wrap;
   }
 }
 

@@ -80,10 +80,6 @@
 
 .search-page__empty {}
 
-.search-page__footer {
-  align-self: end;
-}
-
 @media not all and (min-width: 1024px) {
   .search-page {
     display: grid;
@@ -117,10 +113,6 @@
   .search-page__main {
     grid-area: main;
     margin-inline: auto;
-  }
-
-  .search-page__footer {
-    grid-area: footer;
   }
 }
 
@@ -239,11 +231,6 @@
   .search-page__main {
     grid-column: 2/-1;
     justify-self: center;
-  }
-
-  .search-page__footer {
-    grid-column-start: 2;
-    grid-column-end: -1;
   }
 }
 

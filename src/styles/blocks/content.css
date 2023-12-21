@@ -71,6 +71,16 @@
   background-color: var(--accent-color);
 }
 
+.content > blockquote > p + p {
+  margin-block-start: 5px;
+}
+
+.content > p > kbd,
+.content > ul > li > kbd,
+.content > ol > li > kbd {
+  font-family: 'Spot Mono', monospace;
+}
+
 .content > img,
 .content > video,
 .content > audio,
