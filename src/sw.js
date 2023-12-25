@@ -359,12 +359,6 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
     return new Response()
   }
 
-  // Пробует загрузить ресурс из кеша
-  const responseFromCache = await caches.match(request)
-  if (responseFromCache) {
-    return responseFromCache
-  }
-
   let requestUrl = request.url
 
   // Обрабатывает URL для кеширование страниц, если адрес заканчивается на 'index.html'
@@ -379,6 +373,12 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
     if (preloadResponse) {
       cloneResponseInCache(cacheKey, requestUrl, preloadResponse)
       return preloadResponse
+    }
+
+    // Пробует загрузить ресурс из кеша
+    const responseFromCache = await caches.match(request)
+    if (responseFromCache) {
+      return responseFromCache
     }
 
     // Запрашиваемый пользователем ресурс загружается и помещается в кеш
