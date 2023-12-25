@@ -369,11 +369,6 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
     return new Response()
   }
 
-  // Игнорирует кеширование запросов методом POST
-  if (request.method === 'POST') {
-    return new Response()
-  }
-
   // Пробует загрузить ресурс из кеша
   const responseFromCache = await caches.match(request)
   if (responseFromCache) {
