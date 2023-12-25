@@ -369,11 +369,6 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
     return new Response()
   }
 
-  // Игнорирует кеширование манифеста
-  if (request.url.endsWith('manifest.json')) {
-    return new Response()
-  }
-
   // Игнорирует кеширование страниц с параметрами GET запроса
   if (request.url.indexOf('.html?') > -1 || request.url.indexOf('.js?') > -1) {
     return new Response()
