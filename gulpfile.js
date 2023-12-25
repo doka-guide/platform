@@ -40,7 +40,7 @@ const styles = () => {
         csso({
           restructure: false,
         }),
-      ])
+      ]),
     )
     .pipe(gulp.dest('dist/styles'))
 }
@@ -54,7 +54,7 @@ const sw = () => {
       esbuild({
         target: 'es2015',
         minify: true,
-      })
+      }),
     )
     .pipe(gulp.dest('dist/'))
 }
@@ -82,7 +82,7 @@ const scripts = () => {
             },
           },
         ],
-      })
+      }),
     )
     .pipe(gulp.dest('dist/scripts'))
 }
@@ -110,7 +110,7 @@ const cacheReplace = () => {
     .pipe(
       revRewrite({
         manifest: fs.readFileSync('dist/rev-manifset.json'),
-      })
+      }),
     )
     .pipe(gulp.dest('dist'))
 }
@@ -156,7 +156,7 @@ const socialCards = async () => {
 
         done()
       },
-    })
+    }),
   )
     .catch(console.error)
     .finally(async () => {

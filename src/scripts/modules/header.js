@@ -31,7 +31,7 @@ class Header extends BaseComponent {
       {
         condition: () => !!document.querySelector('.index-block'),
         getter: () => {
-          const additionalHeight = window.matchMedia('(min-width: 1366px)')
+          const additionalHeight = window.matchMedia('(width >= 1366px)')
             ? 0
             : document.querySelector('.index-block__header').offsetHeight
           return this.state.headerHeight + additionalHeight
@@ -57,7 +57,7 @@ class Header extends BaseComponent {
     ;['openOnKeyUp', 'closeOnKeyUp', 'closeOnClickOutSide', 'openMenu', 'closeMenu', 'fixHeader', 'checkFixed'].forEach(
       (method) => {
         this[method] = this[method].bind(this)
-      }
+      },
     )
 
     const resizeCallback = () => {
@@ -97,7 +97,7 @@ class Header extends BaseComponent {
     const header = this.refs.rootElement
 
     return [!header.classList.contains('header--static'), !header.classList.contains('search-page__header')].every(
-      Boolean
+      Boolean,
     )
   }
 
@@ -178,7 +178,7 @@ class Header extends BaseComponent {
         }
         header.classList.remove(...classes)
       },
-      { once: true }
+      { once: true },
     )
 
     this.fixHeader(true)
@@ -199,7 +199,7 @@ class Header extends BaseComponent {
         this.fixHeader(false)
         header.classList.remove(...classes)
       },
-      { once: true }
+      { once: true },
     )
 
     header.classList.add(...classes)
