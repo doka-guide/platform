@@ -42,7 +42,7 @@
   fill: #1d9bf0;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .person-links-list {
     border: none;
     padding: 0;

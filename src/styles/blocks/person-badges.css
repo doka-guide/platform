@@ -8,7 +8,7 @@
   margin-bottom: 1em;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .person-badges {
     grid-template-rows: repeat(var(--row-count), 1fr);
   }
@@ -161,7 +161,7 @@
   font-family: var(--font-family);
 }
 
-@media (max-width: 1023px) {
+@media (width <= 1023px) {
   .person-badges__pop-up-container {
     position: fixed;
     inset: 0;

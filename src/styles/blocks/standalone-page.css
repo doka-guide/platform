@@ -32,7 +32,7 @@
   padding: var(--offset);
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .standalone-page {
     --offset: 20px;
   }

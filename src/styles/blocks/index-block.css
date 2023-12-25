@@ -5,7 +5,7 @@
   justify-content: space-between;
 }
 
-@media (min-width: 1366px) {
+@media (width >= 1366px) {
   .index-block {
     min-height: calc(100vh - var(--font-line-height-l) - 3 * var(--offset));
   }
@@ -46,7 +46,7 @@
 
 .index-block__main {}
 
-@media not all and (min-width: 1366px) {
+@media not all and (width >= 1366px) {
   .index-block__inner {
     display: grid;
     grid-template-rows: min-content auto min-content;
@@ -81,7 +81,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (width >= 1366px) {
   .index-block {
     --offset: 20px;
     display: grid;

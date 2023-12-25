@@ -56,7 +56,7 @@
   border-bottom-left-radius: 0;
 }
 
-.switch__item:not(:first-child):not(:last-child) .switch__label {
+.switch__item:not(:first-child, :last-child) .switch__label {
   border-radius: 0;
 }
 

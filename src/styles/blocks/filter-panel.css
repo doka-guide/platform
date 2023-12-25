@@ -22,7 +22,7 @@
   --is-filter-open: 1;
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .filter-panel {
     --is-filter-open: 0;
     position: fixed;
@@ -67,13 +67,13 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .filter-panel__button {
     display: none;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .filter-panel {
     /* position: sticky;
     top: calc(var(--header-height, 0) * 1px);

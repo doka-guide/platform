@@ -146,7 +146,7 @@
   margin-left: 0;
 }
 
-@media not all and (min-width: 1024px) {
+@media not all and (width >= 1024px) {
   .article {}
 
   .article__layout {
@@ -188,7 +188,7 @@
   }
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .article__meta {
     margin-top: 80px;
     display: block;
@@ -203,13 +203,13 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .article__category {
     display: none;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .article {}
 
   .article__header-inner {}
@@ -275,7 +275,7 @@
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .article__aside {
     padding-right: var(--offset);
   }

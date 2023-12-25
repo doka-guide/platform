@@ -11,19 +11,19 @@
 
 .feedback-control-list__item {}
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .feedback-control-list {
     gap: 5px;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .feedback-control-list {
     gap: 8px;
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .feedback-control-list {
     gap: 10px;
     row-gap: 12px;

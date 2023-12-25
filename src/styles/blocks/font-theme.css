@@ -56,7 +56,7 @@
   --font-line-height-xxl: 60px;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .font-theme,
   .font-theme--text {
     --font-size-s: 12px;
@@ -99,7 +99,7 @@
   }
 }
 
-@media (min-width: 1366px) {
+@media (width >= 1366px) {
   .font-theme,
   .font-theme--text {
     --font-size-s: 12px;
@@ -142,7 +142,7 @@
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .font-theme,
   .font-theme--text {
     --font-size-s: 15px;

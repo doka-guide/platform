@@ -98,7 +98,7 @@
   padding-bottom: 30px;
 }
 
-@media (min-width: 320px) {
+@media (width >= 320px) {
   .person-page__main {
     grid-template-columns: 100%;
     grid-template-areas:
@@ -110,7 +110,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .person-page {
     --offset: 20px;
   }
@@ -137,7 +137,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .person-page {
     --sidebar-size: 245px;
     --content-max-size: 36rem;
@@ -165,13 +165,13 @@
   }
 }
 
-@media (min-width: 1440px) {
+@media (width >= 1440px) {
   .person-page {
     --sidebar-size-end: 1fr;
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .person-page {
     --sidebar-size: 320px;
   }

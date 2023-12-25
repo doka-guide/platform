@@ -21,7 +21,7 @@ module.exports = function (window) {
 
   if (content && !subscription) {
     let headings = content.querySelectorAll(
-      'h2, h3, h4, h5, h6, #questions > div.questions__list > div.question__request > aside > div > p:first-of-type'
+      'h2, h3, h4, h5, h6, #questions > div.questions__list > div.question__request > aside > div > p:first-of-type',
     )
 
     for (const heading of headings) {

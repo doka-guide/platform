@@ -97,19 +97,19 @@
   font-size: var(--font-size-m);
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .featured-article {
     min-height: 402px;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .featured-article {
     min-height: 500px;
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .featured-article {
     --gutter: 20px;
     min-height: 580px;
