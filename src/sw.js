@@ -354,40 +354,9 @@ async function putPagesInCache(cacheKey, pages, loadRelated = true) {
 
 // Стратегия кеширования
 async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fallbackUrl }) {
-  // Игнорирует запросы на другие домены
-  if (!request.url.startsWith(self.location.origin)) {
-    return new Response()
-  }
-
   // Игнорирует запросы browser-sync в режиме отладки
   if (request.url.indexOf('browser-sync') > -1) {
     return new Response()
-  }
-
-  // Игнорирует кеширование Service Worker
-  if (request.url.endsWith('sw.js')) {
-    return new Response()
-  }
-
-  // Игнорирует кеширование манифеста
-  if (request.url.endsWith('manifest.json')) {
-    return new Response()
-  }
-
-  // Игнорирует кеширование страниц с параметрами GET запроса
-  if (request.url.indexOf('.html?') > -1 || request.url.indexOf('.js?') > -1) {
-    return new Response()
-  }
-
-  // Игнорирует кеширование запросов методом POST
-  if (request.method === 'POST') {
-    return new Response()
-  }
-
-  // Пробует загрузить ресурс из кеша
-  const responseFromCache = await caches.match(request)
-  if (responseFromCache) {
-    return responseFromCache
   }
 
   let requestUrl = request.url
@@ -404,6 +373,12 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
     if (preloadResponse) {
       cloneResponseInCache(cacheKey, requestUrl, preloadResponse)
       return preloadResponse
+    }
+
+    // Пробует загрузить ресурс из кеша
+    const responseFromCache = await caches.match(request)
+    if (responseFromCache) {
+      return responseFromCache
     }
 
     // Запрашиваемый пользователем ресурс загружается и помещается в кеш
