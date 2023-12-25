@@ -150,11 +150,12 @@ module.exports = {
         ?.map((articleData) => transformArticleData(articleData))
     },
 
-    linksAndImages: function (data) {
+    linksAndImages: async function (data) {
       const { doc } = data
       const randomString = getRandomString(20)
       const pattern = /(!|)\[.*\]\([A-Za-zА-Яа-я0-9_/.:#?&-]+\)/g
-      const sources = doc.template.inputContent
+      const inputTemplate = await doc.template.inputContent
+      const sources = inputTemplate
         .split('\n')
         .filter((string) => pattern.test(string))
         .map((string) => {
@@ -180,10 +181,11 @@ module.exports = {
       }
     },
 
-    videos: function (data) {
+    videos: async function (data) {
       const { doc } = data
       const pattern = /<source src=".*type="video\/mp4">/g
-      const videos = doc.template.inputContent
+      const inputTemplate = await doc.template.inputContent
+      const videos = inputTemplate
         .split('\n')
         .filter((string) => pattern.test(string))
         .map((string) => {
@@ -192,9 +194,10 @@ module.exports = {
       return videos
     },
 
-    demos: function (data) {
+    demos: async function (data) {
       const { doc } = data
-      const matches = doc.template.inputContent.match(/<iframe.+<\/iframe>/g)
+      const inputTemplate = await doc.template.inputContent
+      const matches = inputTemplate.match(/<iframe.+<\/iframe>/g)
       return matches
         ? matches
             .map((iframe) => {

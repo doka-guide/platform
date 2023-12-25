@@ -1,6 +1,6 @@
 const os = require('os')
 const { Octokit } = require('@octokit/core')
-const Cache = require('@11ty/eleventy-cache-assets')
+const Cache = require('@11ty/eleventy-fetch')
 
 Cache.concurrency = os.cpus().length
 
