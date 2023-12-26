@@ -44,7 +44,6 @@
   "devDependencies": {
     "@11ty/eleventy": "^1.0.0",
     "@11ty/eleventy-cache-assets": "^2.3.0",
-    "@11ty/eleventy-img": "^2.0.0",
     "@babel/preset-env": "^7.20.2",
     "@octokit/core": "^3.5.1",
     "autoprefixer": "^10.4.4",
@@ -78,7 +77,6 @@
     "prettier": "^2.6.2",
     "prismjs": "^1.27.0",
     "puppeteer": "^13.5.2",
-    "sharp": "^0.30.3",
     "simple-git-hooks": "^2.7.0",
     "stylelint": "^14.6.1",
     "stylelint-config-standard": "^25.0.0",
