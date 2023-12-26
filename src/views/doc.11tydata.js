@@ -159,8 +159,9 @@ module.exports = {
         ?.filter((practice) => {
           return practice.filePathStem.startsWith(`${docPath}/practice`)
         })
-        ?.map((practice) => {
-          practice['isLong'] = practice.template.inputContent.split('\n').length > 2
+        ?.map(async (practice) => {
+          const p = await practice.template.inputContent
+          practice['isLong'] = p.split('\n').length > 2
           return practice
         })
     },
@@ -226,8 +227,9 @@ module.exports = {
               }
               return true
             })
-            .map((a) => {
-              a['isLong'] = a.template.inputContent.split('\n').length > 2
+            .map(async (article) => {
+              const a = await article.template.inputContent
+              a['isLong'] = a.split('\n').length > 2
               return a
             })
         )

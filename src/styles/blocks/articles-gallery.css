@@ -22,7 +22,7 @@
   display: none;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .articles-gallery__more-button {
     --button-gutter: 30px;
   }

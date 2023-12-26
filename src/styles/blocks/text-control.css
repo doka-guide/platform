@@ -51,7 +51,7 @@
   outline-offset: 3px;
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .text-control {
     --padding-block: 5px;
     --input-line-height: calc(16 / 14 * 1em);
@@ -68,7 +68,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .text-control {
     --padding-block: 0px; /* stylelint-disable length-zero-no-unit */
     --input-line-height: var(--font-line-height-s);
@@ -79,7 +79,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .text-control {
     --padding-block: 3px;
     --input-line-height: calc(16 / 12 * 1em);
@@ -90,7 +90,7 @@
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .text-control {
     --padding-block: 5px;
     --input-line-height: var(--font-line-height-s);

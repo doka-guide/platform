@@ -16,7 +16,12 @@
   vertical-align: top;
   text-decoration: none;
   background-repeat: repeat-x;
-  background-image: linear-gradient(90deg, hsl(var(--color-base-text) / var(--stroke-opacity)), hsl(var(--color-base-text) / var(--stroke-opacity)));
+  background-image:
+    linear-gradient(
+      90deg,
+      hsl(var(--color-base-text) / var(--stroke-opacity)),
+      hsl(var(--color-base-text) / var(--stroke-opacity))
+    );
   background-size: 100% var(--stroke-width, 1px);
   background-position: 0 100%;
   word-break: break-word;
@@ -42,7 +47,7 @@
   fill: #1d9bf0;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .person-links-list {
     border: none;
     padding: 0;

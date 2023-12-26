@@ -49,7 +49,7 @@
 }
 
 .content > blockquote::before {
-  content: '';
+  content: "";
   opacity:
     calc(
       0.1 * var(--is-light-theme-on) +
@@ -62,7 +62,7 @@
 }
 
 .content > blockquote::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   bottom: 0;
@@ -78,7 +78,7 @@
 .content > p > kbd,
 .content > ul > li > kbd,
 .content > ol > li > kbd {
-  font-family: 'Spot Mono', monospace;
+  font-family: "Spot Mono", monospace;
 }
 
 .content > img,
@@ -96,13 +96,13 @@
   overflow-wrap: break-word;
 }
 
-@media (max-height: 640px) {
+@media (height <= 640px) {
   .content > iframe {
     max-height: calc(100vh - var(--header-height, 0) * 1px - 3em);
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .content > p,
   .content > ul,
   .content > ol,
@@ -112,7 +112,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .content > p {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -127,7 +127,7 @@
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .content > p,
   .content > ul,
   .content > ol,

@@ -10,9 +10,7 @@ function init() {
   const [allControl, ...restControls] = Array.from(rootElement.querySelectorAll('.tag-filter__control'))
 
   function getFiltersValues() {
-    return restControls
-      .filter(control => control.checked)
-      .map(control => control.value)
+    return restControls.filter((control) => control.checked).map((control) => control.value)
   }
 
   function applyFilters() {
@@ -20,12 +18,9 @@ function init() {
   }
 
   function saveToURL() {
-    const entries = [...new FormData(filter).entries()]
-      .filter(([, value]) => !!value)
+    const entries = [...new FormData(filter).entries()].filter(([, value]) => !!value)
 
-    const serializedState = entries.length !== 0
-      ? '?' + new URLSearchParams(entries)
-      : window.location.pathname
+    const serializedState = entries.length !== 0 ? '?' + new URLSearchParams(entries) : window.location.pathname
 
     history.pushState(null, null, serializedState)
   }
@@ -45,24 +40,24 @@ function init() {
     const { value, checked } = event.target
 
     switch (true) {
-      case (!value && checked): {
+      case !value && checked: {
         for (const control of restControls) {
           control.checked = false
         }
         break
       }
 
-      case (!value && !checked): {
+      case !value && !checked: {
         allControl.checked = true
         break
       }
 
-      case (value && checked): {
+      case value && checked: {
         allControl.checked = false
         break
       }
 
-      case (value && !checked): {
+      case value && !checked: {
         const filterValues = getFiltersValues()
         if (filterValues.length === 0) {
           allControl.checked = true

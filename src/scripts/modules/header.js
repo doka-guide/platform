@@ -31,7 +31,7 @@ class Header extends BaseComponent {
       {
         condition: () => !!document.querySelector('.index-block'),
         getter: () => {
-          const additionalHeight = window.matchMedia('(min-width: 1366px)')
+          const additionalHeight = window.matchMedia('(width >= 1366px)')
             ? 0
             : document.querySelector('.index-block__header').offsetHeight
           return this.state.headerHeight + additionalHeight

@@ -10,6 +10,7 @@ const shell = require('gulp-shell')
 const postcss = require('gulp-postcss')
 const csso = require('postcss-csso')
 const pimport = require('postcss-import')
+const minmax = require('postcss-media-minmax')
 const autoprefixer = require('autoprefixer')
 const esbuild = require('gulp-esbuild')
 const del = require('del')
@@ -36,6 +37,7 @@ const styles = () => {
     .pipe(
       postcss([
         pimport,
+        minmax,
         autoprefixer,
         csso({
           restructure: false,

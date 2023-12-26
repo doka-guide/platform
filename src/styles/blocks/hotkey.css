@@ -12,13 +12,13 @@
   border-radius: 5px;
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .hotkey {
     display: none;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .hotkey {
     font-size: 20px;
   }

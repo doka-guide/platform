@@ -57,13 +57,13 @@
   filter: invert(var(--is-dark-theme-on));
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .footer {
     padding: 20px;
   }
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .footer {
     align-items: flex-start;
     flex-direction: column;
@@ -94,7 +94,7 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1366px) {
+@media (width >= 768px) and (width <= 1366px) {
   .footer__list {
     line-height: 18px;
   }

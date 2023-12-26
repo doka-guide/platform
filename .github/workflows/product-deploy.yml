@@ -13,22 +13,22 @@ jobs:
       PATH_TO_CONTENT: ./content
     steps:
       - name: Загрузка платформы
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Загрузка контента
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: doka-guide/content
           path: content
       - name: Загрузка кеша
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: doka-guide/cache
           path: cache
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
       - name: Кэширование модулей
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:

@@ -72,7 +72,7 @@
   padding-block-start: min(65px, 18%);
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .doc__linked-articles {
     flex-direction: column;
     gap: 13px;
@@ -81,14 +81,14 @@
   }
 }
 
-@media not all and (min-width: 1024px) {
+@media not all and (width >= 1024px) {
   .doc__linked-articles,
   .doc__related-articles {
     padding-inline: inherit;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .doc {
     --offset: 20px;
     --aside-with: 25%;
@@ -111,7 +111,7 @@
   }
 }
 
-@media (min-width: 2000px) {
+@media (width >= 2000px) {
   .doc {
     --columns-template: var(--aside-with) 1fr var(--aside-with);
   }
