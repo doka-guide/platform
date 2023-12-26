@@ -90,6 +90,56 @@ module.exports = function (config) {
     }, {})
   })
 
+  config.addCollection('posts', async (collectionApi) => {
+    const changeLog = await (
+      await fetch('https://raw.githubusercontent.com/doka-guide/content/main/CHANGELOG.md')
+    ).text()
+    const months = [
+      'января',
+      'февраля',
+      'марта',
+      'апреля',
+      'мая',
+      'июня',
+      'июля',
+      'августа',
+      'сентября',
+      'октября',
+      'ноября',
+      'декабря',
+    ]
+
+    let currentYear = 0
+    const posts = changeLog
+      .split('\n')
+      .filter((s) => s.match(/^(-|##) /))
+      .map((s) => {
+        if (s.match(/## .+ [0-9]{4}/)) {
+          currentYear = Number(s.replace(/## .+ /, ''))
+          return s
+        } else {
+          const stringParts = s.replace(/^- /, '').split(', [')
+          const date = stringParts[0].split(' ')
+          const currentDay = Number(date[0])
+          const currentMonth = months.indexOf(date[1])
+
+          const post = {}
+          const titledLink = stringParts[1].split('](')
+          post['date'] = new Date(Date.parse(`${currentYear}-${currentMonth + 1}-${currentDay}`))
+          post['title'] = titledLink[0].replace(/^\[/, '')
+          post['url'] = titledLink[1].replace(/\), [А-ЯЁа-яё ,]*/, '')
+          post['summary'] = collectionApi
+            .getFilteredByGlob(`src${post['url'].replace('https://doka.guide', '')}*.md`)[0]
+            ?.template.inputContent.split('\n')
+            .filter((s) => s.match(/^description: /))[0]
+            .replace(/^description: /, '')
+
+          return post
+        }
+      })
+    return posts.filter((s) => typeof s === 'object')
+  })
+
   config.addCollection('people', (collectionApi) => {
     return collectionApi.getFilteredByGlob('src/people/*/index.md')
   })
