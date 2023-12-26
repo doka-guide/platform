@@ -126,7 +126,7 @@ class SearchResultOutput extends BaseComponent {
         const editIcon = SearchResultOutput.isPlaceholder(hitObject) ? SearchResultOutput.templates.placeholderIcon : ''
         const title = SearchResultOutput.replaceBackticks(
           hitObject.title.replaceAll('<mark>', '<mark class="search-hit__marked">'),
-          SearchResultOutput.templates.titleCode
+          SearchResultOutput.templates.titleCode,
         )
         const summary = hitObject.summary
           .slice(0, SearchResultOutput.matchedItems)
@@ -157,7 +157,7 @@ class SearchResultOutput extends BaseComponent {
                 <li class="search-result-list__item">
                   ${SearchResultOutput.templates.hit(hitObject)}
                 </li>
-              `
+              `,
               )
               .join('')}
           </ol>

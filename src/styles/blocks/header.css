@@ -179,7 +179,7 @@
   margin-top: var(--gap, 16px);
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .header__inner--menu .header__search {
     margin-top: -14px;
   }
@@ -191,37 +191,37 @@
   margin-bottom: 1.7%;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .header__menu {
     margin-top: calc(4 * var(--gap, 16px));
   }
 }
 
-@media (min-width: 1366px) {
+@media (width >= 1366px) {
   .header__menu {
     margin-top: calc(6 * var(--gap, 16px));
   }
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .header__menu {
     --gap: 16px;
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .header__menu {
     --gap: 14px;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .header__menu {
     --gap: 6px;
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .header__menu {
     --gap: 9px;
   }
@@ -296,14 +296,14 @@
   display: none;
 }
 
-.header:not(.header--open):not(.header--static) .header__inner--menu {
+.header:not(.header--open, .header--static) .header__inner--menu {
   transform: translateY(-100%);
   opacity: 0;
   visibility: hidden;
   transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
 }
 
-@media not all and (min-width: 1366px) {
+@media not all and (width >= 1366px) {
   .header__category--standalone {
     height: 1.25em;
   }
@@ -313,7 +313,7 @@
   }
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .header__category:not(.header__category--standalone) {
     display: none;
   }
@@ -328,19 +328,19 @@
   }
 }
 
-@media all and (min-width: 430px) {
+@media all and (width >= 430px) {
   .header__category.header__category--visible {
     display: flex;
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .header__breadcrumbs {
     font-size: var(--font-size-l);
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .header__inner {
     padding-left: 20px;
     padding-right: 20px;
@@ -356,7 +356,7 @@
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .header__inner--menu {
     padding-bottom: 20px;
   }

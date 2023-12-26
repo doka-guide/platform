@@ -142,7 +142,7 @@ function init() {
         textControl.hidden = true
       })
     },
-    { once: true }
+    { once: true },
   )
 
   questionsButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {

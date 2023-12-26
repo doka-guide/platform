@@ -252,28 +252,28 @@ async function putInCacheWithSettings(cacheKey, request, response, extension, se
         await putInCache(
           cacheKey,
           request,
-          new Response(await response.blob(), { headers: settings[extension].headers })
+          new Response(await response.blob(), { headers: settings[extension].headers }),
         )
         break
       case 'json':
         await putInCache(
           cacheKey,
           request,
-          new Response(await response.json(), { headers: settings[extension].headers })
+          new Response(await response.json(), { headers: settings[extension].headers }),
         )
         break
       case 'text':
         await putInCache(
           cacheKey,
           request,
-          new Response(await response.text(), { headers: settings[extension].headers })
+          new Response(await response.text(), { headers: settings[extension].headers }),
         )
         break
       default:
         await putInCache(
           cacheKey,
           request,
-          new Response(await response.text(), { headers: { 'Content-Type': 'text/plain; charset=UTF-8' } })
+          new Response(await response.text(), { headers: { 'Content-Type': 'text/plain; charset=UTF-8' } }),
         )
         break
     }
@@ -321,7 +321,7 @@ async function putPageInCache(cacheKey, page, loadRelated = true) {
         await putPagesInCache(
           cacheKey,
           pageJson.links.inArticle.inside.filter((l) => !l.match('#')),
-          false
+          false,
         )
         await putPageInCache(cacheKey, pageJson.links.nextArticle, false)
         await putPageInCache(cacheKey, pageJson.links.previousArticle, false)
@@ -440,7 +440,7 @@ self.addEventListener('activate', async () => {
     cacheNames
       .filter((name) => name !== assetsCacheName)
       .filter((name) => name !== dynamicCacheName)
-      .map((name) => caches.delete(name))
+      .map((name) => caches.delete(name)),
   )
 })
 
@@ -454,7 +454,7 @@ self.addEventListener('sync', async (event) => {
     await putPagesInCache(
       syncFeaturedCacheName,
       featured.map((f) => f.link),
-      false
+      false,
     )
   }
 })
@@ -470,6 +470,6 @@ self.addEventListener('fetch', async (event) => {
       request: event.request,
       preloadResponsePromise: event.preloadResponse,
       fallbackUrl: offlinePageUrl,
-    })
+    }),
   )
 })

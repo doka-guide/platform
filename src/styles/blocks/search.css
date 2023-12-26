@@ -119,7 +119,7 @@
   letter-spacing: normal;
 }
 
-@media not all and (min-width: 1024px) {
+@media not all and (width >= 1024px) {
   .search__suggestion-key {
     display: none;
   }

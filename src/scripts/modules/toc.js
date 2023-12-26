@@ -87,7 +87,7 @@ function init() {
         .writeText(link)
         .then(() => {
           try {
-            if (window.matchMedia('(max-width: 720px)').matches) {
+            if (window.matchMedia('(width <= 720px)').matches) {
               const popup = document.querySelector('.doc__popup')
 
               popup.hidden = false
@@ -221,7 +221,7 @@ function init() {
 
       event.preventDefault()
       saveLink(link, button)
-    })
+    }),
   )
 
   function headingsScaler() {

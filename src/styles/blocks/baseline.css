@@ -92,7 +92,7 @@
   color: currentColor;
 }
 
-@media (min-width: 50em) {
+@media (width >= 50em) {
   .wdi-browser-compat {
     flex-wrap: nowrap;
   }
@@ -109,7 +109,7 @@
   }
 }
 
-@media (min-width: 600px) {
+@media (width >= 600px) {
   .wdi-browser-compat__label {
     margin-right: 24px;
   }

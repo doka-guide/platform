@@ -25,19 +25,19 @@
   font-family: var(--font-family);
 }
 
-@media not all and (min-width: 375px) {
+@media not all and (width >= 375px) {
   .not-found__logo {
     --image-font-size: 60px;
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .not-found__logo {
     --gutter: 20px;
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .not-found__logo {
     --image-font-size: 144px;
   }

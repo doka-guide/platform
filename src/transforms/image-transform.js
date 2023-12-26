@@ -9,9 +9,7 @@ Image.concurrency = os.cpus().length
 const baseConfig = {
   extBlackList: ['gif', 'svg', 'webp', 'avif'],
   widths: [300, 600, 1200, 2200],
-  sizes: ['(min-width: 1680px) 1087px', '(min-width: 1366px) calc(75vw - 2 * 20px)', 'calc(100vw - 2 * 10px)'].join(
-    ', '
-  ),
+  sizes: ['(width >= 1680px) 1087px', '(width >= 1366px) calc(75vw - 2 * 20px)', 'calc(100vw - 2 * 10px)'].join(', '),
   formats: ['webp'],
   filenameFormat: (id, src, width, format) => {
     const extension = path.extname(src)

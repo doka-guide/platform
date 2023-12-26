@@ -66,20 +66,20 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .index-section {
     --offset: 20px;
     --gutter: 22px;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .index-section {
     --gutter: 60px;
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .index-section {
     --gutter: 70px;
   }

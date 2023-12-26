@@ -80,7 +80,7 @@
 
 .search-page__empty {}
 
-@media not all and (min-width: 1024px) {
+@media not all and (width >= 1024px) {
   .search-page {
     display: grid;
     grid-template-rows: auto 1fr auto auto;
@@ -116,7 +116,7 @@
   }
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .search-page__header-inner {
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto;
@@ -195,13 +195,13 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .search-page__aside-button {
     display: none;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .search-page {
     --offset: 20px;
     display: grid;
@@ -234,7 +234,7 @@
   }
 }
 
-@media (min-width: 1240px) {
+@media (width >= 1240px) {
   .search-page__main {
     grid-column: auto;
   }

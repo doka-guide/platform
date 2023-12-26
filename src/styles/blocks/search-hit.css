@@ -68,7 +68,7 @@
   background-color: hsl(44deg 100% 59%);
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .search-hit__title {
     margin-bottom: 14px;
   }

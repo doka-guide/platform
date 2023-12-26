@@ -77,7 +77,7 @@
   text-align: end;
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .linked-article {
     padding: 16px;
     flex-direction: row;

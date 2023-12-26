@@ -8,7 +8,7 @@
   gap: 20px;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .intro {
     --gutter: 20px;
     grid-template-rows: unset;

@@ -17,7 +17,7 @@
   letter-spacing: var(--letter-spacing);
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .index-group-list {
     --list-item-gutter: 14px;
   }

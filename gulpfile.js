@@ -10,6 +10,7 @@ const shell = require('gulp-shell')
 const postcss = require('gulp-postcss')
 const csso = require('postcss-csso')
 const pimport = require('postcss-import')
+const minmax = require('postcss-media-minmax')
 const autoprefixer = require('autoprefixer')
 const esbuild = require('gulp-esbuild')
 const del = require('del')
@@ -36,11 +37,12 @@ const styles = () => {
     .pipe(
       postcss([
         pimport,
+        minmax,
         autoprefixer,
         csso({
           restructure: false,
         }),
-      ])
+      ]),
     )
     .pipe(gulp.dest('dist/styles'))
 }
@@ -54,7 +56,7 @@ const sw = () => {
       esbuild({
         target: 'es2015',
         minify: true,
-      })
+      }),
     )
     .pipe(gulp.dest('dist/'))
 }
@@ -82,7 +84,7 @@ const scripts = () => {
             },
           },
         ],
-      })
+      }),
     )
     .pipe(gulp.dest('dist/scripts'))
 }
@@ -110,7 +112,7 @@ const cacheReplace = () => {
     .pipe(
       revRewrite({
         manifest: fs.readFileSync('dist/rev-manifset.json'),
-      })
+      }),
     )
     .pipe(gulp.dest('dist'))
 }
@@ -156,7 +158,7 @@ const socialCards = async () => {
 
         done()
       },
-    })
+    }),
   )
     .catch(console.error)
     .finally(async () => {
