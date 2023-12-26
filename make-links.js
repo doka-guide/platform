@@ -72,7 +72,7 @@ const createLinks = (contentPath, link) => {
 const pathRequest = async () => {
   try {
     const answer = await question(
-      `Укажите путь к репозиторию с контентом (нажмите Enter, если это '${defaultPathToContent}'): `
+      `Укажите путь к репозиторию с контентом (нажмите Enter, если это '${defaultPathToContent}'): `,
     )
     return answer.trim() || defaultPathToContent
   } catch (err) {
@@ -83,7 +83,7 @@ const pathRequest = async () => {
 const buildTypeRequest = async () => {
   try {
     const answer = await question(
-      `Укажите относительный путь к материалу в формате 'раздел/папка' (нажмите Enter, если хотите собрать сайт со всеми материалами): `
+      `Укажите относительный путь к материалу в формате 'раздел/папка' (нажмите Enter, если хотите собрать сайт со всеми материалами): `,
     )
     return answer.trim()
   } catch (err) {
