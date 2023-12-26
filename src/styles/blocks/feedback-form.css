@@ -6,6 +6,8 @@
 
 .feedback-form__title {
   margin-bottom: 0.4em;
+  margin-left: auto;
+  margin-right: auto;
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
   font-size: var(--font-size-m);
