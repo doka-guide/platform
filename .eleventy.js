@@ -24,6 +24,8 @@ const imagePlaceTransform = require('./src/transforms/image-place-transform')
 const detailsTransform = require('./src/transforms/details-transform')
 const calloutTransform = require('./src/transforms/callout-transform')
 
+const pluginRss = require('@11ty/eleventy-plugin-rss')
+
 function getAllDocs(collectionAPI) {
   const dokas = collectionAPI.getFilteredByTag('doka')
   const articles = collectionAPI.getFilteredByTag('article')
@@ -379,6 +381,12 @@ module.exports = function (config) {
       return content
     })
   }
+
+  config.addPlugin(pluginRss, {
+    posthtmlRenderOptions: {
+      closingSingleTag: 'default',
+    },
+  })
 
   config.addPassthroughCopy('src/favicon.ico')
   config.addPassthroughCopy('src/manifest.json')
