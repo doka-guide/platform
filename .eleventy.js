@@ -57,12 +57,14 @@ function getAllDocsByCategory(collectionAPI, category) {
 module.exports = function (config) {
   config.setDataDeepMerge(true)
 
-  config.setBrowserSyncConfig({
-    server: {
-      baseDir: ['./src', './dist', './node_modules'],
-    },
-    files: ['src/styles/**/*.*', 'src/scripts/**/*.*'],
-    ghostMode: false,
+  config.setServerOptions({
+    liveReload: true,
+    domDiff: true,
+    port: 8080,
+    watch: ['src/styles/**/*.*', 'src/scripts/**/*.*'],
+    showAllHosts: false,
+    encoding: 'utf-8',
+    showVersion: false,
   })
 
   // Add all Tags
