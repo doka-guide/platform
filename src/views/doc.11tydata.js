@@ -57,6 +57,11 @@ function transformArticleData(article) {
   }
 }
 
+const asyncFilter = async (arr, predicate) => {
+  const results = await Promise.all(arr.map(predicate))
+  return arr.filter((_v, index) => results[index])
+}
+
 module.exports = {
   layout: 'base.njk',
 
@@ -151,19 +156,23 @@ module.exports = {
 
     baseUrl,
 
-    practices: function (data) {
+    practices: async function (data) {
       const allPractices = data.collections.practice
       const { docPath } = data
 
-      return allPractices
-        ?.filter((practice) => {
-          return practice.filePathStem.startsWith(`${docPath}/practice`)
-        })
-        ?.map(async (practice) => {
-          const p = await practice.template.inputContent
-          practice['isLong'] = p.split('\n').length > 2
-          return practice
-        })
+      const filteredPractices = allPractices?.filter((p) => {
+        return p.filePathStem.startsWith(`${docPath}/practice`)
+      })
+
+      const formattedPractices = await Promise.all(
+        filteredPractices.map(async (p) => {
+          const practice = await p.template.inputContent
+          p['isLong'] = practice.split('\n').length > 2
+          return p
+        }),
+      )
+
+      return formattedPractices
     },
 
     containsPractice: function (data) {
@@ -206,33 +215,37 @@ module.exports = {
         : []
 
       const filteredAnswersByQuestion = {}
-      questionList.forEach((q) => {
+      questionList.forEach(async (q) => {
         const filteredAnswersForQuestion = allAnswers.filter((a) => {
           return a.filePathStem.startsWith(`/interviews/${q}`)
         })
         filteredAnswersByQuestion[q] = []
-        filteredAnswersByQuestion[q].push(
-          ...filteredAnswersForQuestion
-            .filter((a) => {
-              if (a.data.excluded?.includes(docId)) {
-                return false
+
+        const filteredInterviews = await asyncFilter(filteredAnswersForQuestion, async (a) => {
+          const cache = await a.template._frontMatterDataCache
+          if (cache.excluded?.includes(docId)) {
+            return false
+          }
+          if (cache.included) {
+            for (let i = 0; i < cache.included.length; i++) {
+              if (cache.included[i] === docId) {
+                return true
               }
-              if (a.data.included) {
-                for (let i = 0; i < a.data.included.length; i++) {
-                  if (a.data.included[i] === docId) {
-                    return true
-                  }
-                }
-                return false
-              }
-              return true
-            })
-            .map(async (article) => {
-              const a = await article.template.inputContent
-              a['isLong'] = a.split('\n').length > 2
-              return a
-            }),
+            }
+            return false
+          }
+          return true
+        })
+
+        const formattedInterviews = await Promise.all(
+          filteredInterviews.map(async (a) => {
+            const article = await a.template.inputContent
+            a['isLong'] = article.split('\n').length > 2
+            return a
+          }),
         )
+
+        filteredAnswersByQuestion[q].push(...formattedInterviews)
       })
 
       return filteredAnswersByQuestion
