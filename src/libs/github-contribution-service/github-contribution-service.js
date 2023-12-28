@@ -1,6 +1,7 @@
 const os = require('os')
 const { Octokit } = require('@octokit/core')
 const Cache = require('@11ty/eleventy-fetch')
+const fetch = require('node-fetch')
 
 Cache.concurrency = os.cpus().length
 
@@ -8,6 +9,7 @@ const { GITHUB_TOKEN } = process.env
 
 const octokit = new Octokit({
   auth: GITHUB_TOKEN,
+  request: { fetch },
 })
 
 const CACHE_KEY_STAT = 'GITHUB_AUTHORS_CONTRIBUTION'
