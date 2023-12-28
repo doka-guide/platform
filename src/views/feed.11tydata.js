@@ -3,8 +3,7 @@ module.exports = {
   eleventyExcludeFromCollections: true,
   meta: {
     title: 'Новое в Доке',
-    subtitle:
-      'Дока — это документация для разработчиков на понятном языке. Её пишет сообщество, чтобы помогать друг другу. Ваши знания и опыт важны. Делитесь ими, мы поможем.',
+    subtitle: 'Дока — это документация для разработчиков на понятном языке.',
     language: 'ru',
     url: 'https://doka.guide/',
     author: {
@@ -14,8 +13,17 @@ module.exports = {
   },
 
   eleventyComputed: {
-    summary: function () {
-      return 'Test'
+    posts: async function (data) {
+      const { collections } = data
+      return collections.posts.filter((p) => typeof p === 'object').sort((p1, p2) => p1.date - p2.date)
+    },
+    updated: async function (data) {
+      const { posts } = data
+      if (posts[0]) {
+        return posts[0]?.date
+      } else {
+        return new Date().toISOString()
+      }
     },
   },
 }

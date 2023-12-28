@@ -112,34 +112,42 @@ module.exports = function (config) {
     ]
 
     let currentYear = 0
-    const posts = changeLog
-      .split('\n')
-      .filter((s) => s.match(/^(-|##) /))
-      .map((s) => {
+    const filteredPosts = changeLog.split('\n').filter((s) => s.match(/^(-|##) /))
+
+    const posts = await Promise.all(
+      filteredPosts.map(async (s) => {
         if (s.match(/## .+ [0-9]{4}/)) {
           currentYear = Number(s.replace(/## .+ /, ''))
           return s
         } else {
+          const post = {}
+
           const stringParts = s.replace(/^- /, '').split(', [')
           const date = stringParts[0].split(' ')
           const currentDay = Number(date[0])
           const currentMonth = months.indexOf(date[1])
-
-          const post = {}
           const titledLink = stringParts[1].split('](')
-          post['date'] = new Date(Date.parse(`${currentYear}-${currentMonth + 1}-${currentDay}`))
+          post['date'] = new Date(Date.parse(`${currentYear}-${currentMonth + 1}-${currentDay}`)).toISOString()
           post['title'] = titledLink[0].replace(/^\[/, '')
           post['url'] = titledLink[1].replace(/\), [А-ЯЁа-яё ,]*/, '')
-          post['summary'] = collectionApi
-            .getFilteredByGlob(`src${post['url'].replace('https://doka.guide', '')}*.md`)[0]
-            ?.template.inputContent.split('\n')
-            .filter((s) => s.match(/^description: /))[0]
-            .replace(/^description: /, '')
+          const rawArticle = collectionApi.getFilteredByGlob(
+            `src${post['url'].replace('https://doka.guide', '')}*.md`,
+          )[0]
+          if (rawArticle) {
+            const articleContent = await rawArticle.template.inputContent
+            const articleDescription = articleContent
+              .split('\n')
+              .filter((s) => s.match(/^description: /))[0]
+              .replace(/^description: /, '')
+            post['summary'] = articleDescription
+          }
 
           return post
         }
-      })
-    return posts.filter((s) => typeof s === 'object')
+      }),
+    )
+
+    return posts.filter(async (s) => typeof (await s) !== 'string')
   })
 
   config.addCollection('people', (collectionApi) => {
