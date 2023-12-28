@@ -26,6 +26,11 @@ const defaultPromo = {
   title: 'Друг для друга',
 }
 
+const asyncFilter = async (arr, predicate) => {
+  const results = await Promise.all(arr.map(predicate))
+  return arr.filter((_v, index) => results[index])
+}
+
 module.exports = {
   layout: 'base.njk',
   permalink: '/',
@@ -33,31 +38,36 @@ module.exports = {
   documentDescription: 'Документация для разработчиков на понятном языке',
 
   eleventyComputed: {
-    promoData: function (data) {
+    promoData: async function (data) {
       const { collections } = data
       const { promos } = collections
 
-      const promo = promos
-        .filter((p) => {
-          const currentDate = new Date()
-          return currentDate >= new Date(p.data.startDate) && currentDate <= new Date(p.data.endDate)
-        })
-        .map((p) => {
+      const filteredPromos = await asyncFilter(promos, async (promo) => {
+        const currentDate = new Date()
+        const cache = await promo.template._frontMatterDataCache
+        return currentDate >= new Date(cache.startDate) && currentDate <= new Date(cache.endDate)
+      })
+
+      const formattedPromos = await Promise.all(
+        filteredPromos.map(async (promo) => {
+          const content = await promo.template.inputContent
+          const cache = await promo.template._frontMatterDataCache
           const output = {
-            color: p.data.color,
-            content: p.template.inputContent
+            color: cache.color,
+            content: content
               .split('---')[2]
               .split('\n')
               .filter((s) => s !== '')
               .join('\n'),
-            design: p.data.design,
-            links: p.data.links,
-            title: p.data.title,
+            design: cache.design,
+            links: cache.links,
+            title: cache.title,
           }
           return output
-        })[0]
+        }),
+      )
 
-      return promo || defaultPromo
+      return formattedPromos[0] || defaultPromo
     },
   },
 }
