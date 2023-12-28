@@ -38,7 +38,7 @@
 }
 
 .linked-article__link::before {
-  content: '';
+  content: "";
   position: absolute;
   z-index: 1;
   inset: 0;
@@ -86,7 +86,7 @@
   }
 
   .linked-article::before {
-    content: '';
+    content: "";
     opacity: 0.15;
     position: absolute;
     z-index: -1;

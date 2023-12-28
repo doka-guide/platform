@@ -11,7 +11,7 @@
 }
 
 .article-image__picture::before {
-  content: '';
+  content: "";
   display: block;
   padding-top: calc(100% / (var(--aspect-ratio)));
 }

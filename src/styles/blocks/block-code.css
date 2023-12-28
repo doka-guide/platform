@@ -33,7 +33,7 @@
   align-items: start;
   align-content: start;
   grid-template-columns: auto minmax(0, 1fr);
-  grid-template-areas: 'lines code';
+  grid-template-areas: "lines code";
   overflow: auto;
   overscroll-behavior-x: contain;
   font-size: 1em;

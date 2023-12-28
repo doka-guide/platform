@@ -30,7 +30,7 @@
   }
 
   .filter-panel::before {
-    content: '';
+    content: "";
     opacity: var(--is-filter-open);
     position: absolute;
     inset: 0;

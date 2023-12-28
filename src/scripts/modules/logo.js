@@ -65,7 +65,7 @@ class Logo {
         this._isAnimation = false
         this.refs.image.classList.remove(Logo.constants.animationStateClass)
       },
-      { once: true },
+      { once: true }
     )
   }
 }

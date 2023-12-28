@@ -219,7 +219,7 @@ class QuickSearch extends BaseComponent {
             .map((hitObject) => {
               const title = hitObject.originalTitle.replace(
                 /`(.*?)`/g,
-                '<code class="suggestion-list__code font-theme font-theme--code">$1</code>',
+                '<code class="suggestion-list__code font-theme font-theme--code">$1</code>'
               )
               return `
                 <li class="suggestion-list__item" style="--accent-color: var(--color-${hitObject.category});">

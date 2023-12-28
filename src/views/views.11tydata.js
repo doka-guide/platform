@@ -148,7 +148,7 @@ module.exports = {
           practicesByPerson[personId][category] = []
         }
         practicesByPerson[personId][category].push(
-          collections[category].find((article) => article.filePathStem === `/${category}/${articleId}/index`),
+          collections[category].find((article) => article.filePathStem === `/${category}/${articleId}/index`)
         )
       })
       return practicesByPerson
@@ -191,7 +191,7 @@ module.exports = {
             collections.question.filter((question) => {
               return question.fileSlug === questionId
             })[0].data.related,
-            collections,
+            collections
           )
 
           if (related) {
@@ -216,7 +216,7 @@ module.exports = {
       for (const questionKey in answersByQuestion) {
         for (const personKey in answersByQuestion[questionKey]) {
           const answersOfPersonByQuestion = allAnswers.filter((a) =>
-            a.filePathStem.startsWith(`/interviews/${questionKey}/answers/${personKey}`),
+            a.filePathStem.startsWith(`/interviews/${questionKey}/answers/${personKey}`)
           )
           if (!answersByPerson[personKey]) {
             answersByPerson[personKey] = {}
@@ -244,7 +244,7 @@ module.exports = {
                   }
                   return true
                 }
-              }),
+              })
             )
           }
         }

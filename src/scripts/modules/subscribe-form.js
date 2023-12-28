@@ -375,7 +375,7 @@ async function init() {
   window.addEventListener('online', async () => {
     sendFromDb(
       dbSubscribeStoreName,
-      getPreparedSaveToServerFunction(email, hash ? 'PUT' : 'POST', hash ? inflation.profile.id : ''),
+      getPreparedSaveToServerFunction(email, hash ? 'PUT' : 'POST', hash ? inflation.profile.id : '')
     )
     closeAndDeleteDb(dbSubscribeStoreName)
   })

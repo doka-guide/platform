@@ -3,7 +3,7 @@ class BaseComponent extends EventTarget {
     this.dispatchEvent(
       new CustomEvent(eventType, {
         detail,
-      }),
+      })
     )
   }
 }

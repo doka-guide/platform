@@ -9,7 +9,7 @@
 
 /* фон при открытом меню */
 .header::before:not(.header--open) {
-  content: '';
+  content: "";
   position: fixed;
   z-index: 2;
   opacity: 0.3;
@@ -25,7 +25,7 @@
 
 /* "тень" от фиксированной шапки */
 .header::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
@@ -109,10 +109,10 @@
   display: grid;
   align-content: start;
   grid-template-areas:
-    'logo   button'
-    'search search'
-    'search-output search-output'
-    'list   list';
+    "logo   button"
+    "search search"
+    "search-output search-output"
+    "list   list";
   grid-template-rows: var(--font-size-xl) repeat(3, auto);
   font-size: calc(var(--font-size-xl) * 0.95);
   line-height: calc(var(--font-line-height-xl) * 0.95);
@@ -155,7 +155,7 @@
 }
 
 .header__divider::before {
-  content: '/';
+  content: "/";
 }
 
 .header__divider--large {
@@ -348,9 +348,9 @@
 
   .header__inner--menu {
     grid-template-areas:
-      'logo search button'
-      '.    search-output   .'
-      '.    list   .';
+      "logo search button"
+      ".    search-output   ."
+      ".    list   .";
     grid-auto-columns: auto 1fr auto;
     grid-template-rows: var(--search-input-height) auto;
   }

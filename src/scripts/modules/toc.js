@@ -221,7 +221,7 @@ function init() {
 
       event.preventDefault()
       saveLink(link, button)
-    }),
+    })
   )
 
   function headingsScaler() {

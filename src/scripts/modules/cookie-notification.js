@@ -26,7 +26,7 @@ function init() {
       banner.hidden = true
       localStorage.setItem(storageKey, true)
     },
-    { once: true },
+    { once: true }
   )
 }
 

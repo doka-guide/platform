@@ -20,7 +20,7 @@
 }
 
 .feedback-form__fieldset::after {
-  content: '';
+  content: "";
   display: table;
   clear: both;
 }

@@ -27,7 +27,7 @@
 }
 
 .nav-list__link::after {
-  content: '';
+  content: "";
   opacity: 0;
   visibility: hidden;
   position: absolute;
@@ -52,7 +52,7 @@
 }
 
 .nav-list__link-text::after {
-  content: '';
+  content: "";
   position: relative;
   z-index: -1;
   display: block;

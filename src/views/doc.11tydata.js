@@ -24,7 +24,7 @@ function getPopulatedPersons(personKey) {
             data: {
               name: personId,
             },
-          },
+          }
     )
   }
 }
@@ -289,7 +289,7 @@ module.exports = {
               }
               return map
             },
-            { chrome: 0, edge: 0, firefox: 0, safari: 0 },
+            { chrome: 0, edge: 0, firefox: 0, safari: 0 }
           )
         const supported = doc.data.baseline
           .filter((g) => webFeatures[g.group].is_baseline)
@@ -302,7 +302,7 @@ module.exports = {
               }
               return map
             },
-            { chrome: true, edge: true, firefox: true, safari: true },
+            { chrome: true, edge: true, firefox: true, safari: true }
           )
         const flagged = { chrome: false, edge: false, firefox: false, safari: false }
         const preview = { chrome: false, edge: false, firefox: false, safari: false }

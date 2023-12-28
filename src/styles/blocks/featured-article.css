@@ -10,7 +10,7 @@
 }
 
 .featured-article::before {
-  content: '';
+  content: "";
   position: absolute;
   z-index: -1;
   inset: 0;
@@ -29,7 +29,7 @@
 }
 
 .featured-article__image-wrapper::before {
-  content: '';
+  content: "";
   display: block;
   padding-top: 100%;
 }
@@ -75,7 +75,7 @@
 }
 
 .featured-article__link::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   bottom: 0;

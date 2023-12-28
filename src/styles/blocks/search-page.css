@@ -85,10 +85,10 @@
     display: grid;
     grid-template-rows: auto 1fr auto auto;
     grid-template-areas:
-      'header'
-      'main'
-      'filter'
-      'footer';
+      "header"
+      "main"
+      "filter"
+      "footer";
   }
 
   .search-page__header {
@@ -154,7 +154,7 @@
   }
 
   .search-page__aside::before {
-    content: '';
+    content: "";
     opacity: var(--is-filter-open);
     position: absolute;
     top: 0;

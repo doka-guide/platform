@@ -49,7 +49,7 @@
 }
 
 .content > blockquote::before {
-  content: '';
+  content: "";
   opacity:
     calc(
       0.1 * var(--is-light-theme-on) +
@@ -62,7 +62,7 @@
 }
 
 .content > blockquote::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   bottom: 0;
@@ -78,7 +78,7 @@
 .content > p > kbd,
 .content > ul > li > kbd,
 .content > ol > li > kbd {
-  font-family: 'Spot Mono', monospace;
+  font-family: "Spot Mono", monospace;
 }
 
 .content > img,

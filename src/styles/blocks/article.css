@@ -74,7 +74,7 @@
 }
 
 .article__placeholder::before {
-  content: '';
+  content: "";
   opacity: var(--placeholder-bg-opacity);
   position: absolute;
   z-index: -1;

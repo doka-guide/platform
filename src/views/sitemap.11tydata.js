@@ -21,7 +21,7 @@ module.exports = {
             url,
             date,
           }
-        },
+        }
       )
 
       const standalonePages = [

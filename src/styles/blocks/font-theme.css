@@ -1,6 +1,6 @@
 .font-theme,
 .font-theme--text {
-  --font-family: 'Graphik', sans-serif;
+  --font-family: "Graphik", sans-serif;
 
   --letter-spacing: normal;
 
@@ -36,7 +36,7 @@
 }
 
 .font-theme--code {
-  --font-family: 'Spot Mono', monospace;
+  --font-family: "Spot Mono", monospace;
 
   --letter-spacing: -0.04em;
 

@@ -14,11 +14,11 @@
   padding-top: clamp(var(--offset), 8%, 130px);
   display: grid;
   grid-template-areas:
-    'avatar   avatar   avatar'
-    'header   header   header'
-    'articles articles articles'
-    'meta     .        .'
-    'footer   footer   footer';
+    "avatar   avatar   avatar"
+    "header   header   header"
+    "articles articles articles"
+    "meta     .        ."
+    "footer   footer   footer";
 }
 
 .person-page__main > * {
@@ -102,11 +102,11 @@
   .person-page__main {
     grid-template-columns: 100%;
     grid-template-areas:
-      'avatar   . .'
-      'header   . .'
-      'articles . .'
-      'meta     . .'
-      'footer   . .';
+      "avatar   . ."
+      "header   . ."
+      "articles . ."
+      "meta     . ."
+      "footer   . .";
   }
 }
 
@@ -158,9 +158,9 @@
 
   .person-page__main {
     grid-template-areas:
-      'avatar header   header'
-      'meta   articles articles'
-      '.      footer   footer';
+      "avatar header   header"
+      "meta   articles articles"
+      ".      footer   footer";
     grid-template-rows: min-content auto min-content;
   }
 }

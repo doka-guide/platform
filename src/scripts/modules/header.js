@@ -57,7 +57,7 @@ class Header extends BaseComponent {
     ;['openOnKeyUp', 'closeOnKeyUp', 'closeOnClickOutSide', 'openMenu', 'closeMenu', 'fixHeader', 'checkFixed'].forEach(
       (method) => {
         this[method] = this[method].bind(this)
-      },
+      }
     )
 
     const resizeCallback = () => {
@@ -97,7 +97,7 @@ class Header extends BaseComponent {
     const header = this.refs.rootElement
 
     return [!header.classList.contains('header--static'), !header.classList.contains('search-page__header')].every(
-      Boolean,
+      Boolean
     )
   }
 
@@ -178,7 +178,7 @@ class Header extends BaseComponent {
         }
         header.classList.remove(...classes)
       },
-      { once: true },
+      { once: true }
     )
 
     this.fixHeader(true)
@@ -199,7 +199,7 @@ class Header extends BaseComponent {
         this.fixHeader(false)
         header.classList.remove(...classes)
       },
-      { once: true },
+      { once: true }
     )
 
     header.classList.add(...classes)

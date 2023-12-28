@@ -11,7 +11,7 @@
 }
 
 .menu-toggle::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: -10px;
 }

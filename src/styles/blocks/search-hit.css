@@ -25,7 +25,7 @@
 }
 
 .search-hit__link::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   bottom: 0;
@@ -57,7 +57,7 @@
 }
 
 .search-hit__edit::before {
-  content: '✎';
+  content: "✎";
 }
 
 .search-hit__summary {
