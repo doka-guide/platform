@@ -39,19 +39,19 @@ module.exports = {
     behanceId: function (data) {
       const { person } = data
       const pattern = new RegExp('^(http|https)://(www.)?behance.net/')
-      return person.data.url.replace(pattern, '')
+      return person.data.url?.replace(pattern, '')
     },
 
     twitterId: function (data) {
       const { person } = data
       const pattern = new RegExp('^(http|https)://(www.)?twitter.com/')
-      return person.data.url.replace(pattern, '')
+      return person.data.url?.replace(pattern, '')
     },
 
     telegramId: function (data) {
       const { person } = data
       const pattern = new RegExp('^(http|https)://(www.)?t.me/')
-      return person.data.url.replace(pattern, '')
+      return person.data.url?.replace(pattern, '')
     },
 
     badges: function (data) {
