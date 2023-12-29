@@ -354,32 +354,7 @@ async function putPagesInCache(cacheKey, pages, loadRelated = true) {
 
 // Стратегия кеширования
 async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fallbackUrl }) {
-  let requestUrl = request.url
-
-  // Игнорирует запросы на другие домены
-  if (!requestUrl.startsWith(self.location.origin)) {
-    return new Response()
-  }
-
-  // Игнорирует кеширование запросов методом POST
-  if (request.method === 'POST') {
-    return new Response()
-  }
-
-  // Игнорирует кеширование Service Worker
-  if (requestUrl.endsWith('sw.js')) {
-    return new Response()
-  }
-
-  // Игнорирует кеширование манифеста
-  if (requestUrl.endsWith('manifest.json')) {
-    return new Response()
-  }
-
-  // Игнорирует кеширование страниц с параметрами GET запроса
-  if (requestUrl.indexOf('.html?') > -1 || requestUrl.indexOf('.js?') > -1) {
-    return new Response()
-  }
+  let requestedUrl = request.url
 
   // Пробует загрузить ресурс из кеша
   const responseFromCache = await caches.match(request)
@@ -388,8 +363,8 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
   }
 
   // Обрабатывает URL для кеширование страниц, если адрес заканчивается на 'index.html'
-  if (requestUrl.endsWith('index.html')) {
-    requestUrl = requestUrl.replace('index.html', '')
+  if (requestedUrl.endsWith('index.html')) {
+    requestedUrl = requestedUrl.replace('index.html', '')
   }
 
   // Пробует получить ресурс из сети, если не получилось загрузить из кеша
@@ -397,12 +372,12 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
     // Пробует воспользоваться предварительно загруженным ресурсом, если не получилось загрузить из кеша
     const preloadResponse = await preloadResponsePromise
     if (preloadResponse) {
-      cloneResponseInCache(cacheKey, requestUrl, preloadResponse)
+      cloneResponseInCache(cacheKey, requestedUrl, preloadResponse)
       return preloadResponse
     }
 
     // Запрашиваемый пользователем ресурс загружается и помещается в кеш
-    return putResInCache(cacheKey, requestUrl)
+    return putResInCache(cacheKey, request)
   } catch (error) {
     // Если ресурс загрузить не получилось, показывается страница с уведомлением об отсутствии сети
     const fallbackResponse = await caches.match(fallbackUrl)
@@ -459,6 +434,26 @@ self.addEventListener('message', async (event) => {
 })
 
 self.addEventListener('fetch', async (event) => {
+  // Игнорирует запросы на другие домены
+  if (!event.request.startsWith(self.location.origin) && event.request.method === 'POST') {
+    return new Response(fetch(event.request))
+  }
+
+  // Игнорирует кеширование Service Worker
+  if (event.request.endsWith('sw.js')) {
+    return new Response(fetch(event.request))
+  }
+
+  // Игнорирует кеширование манифеста
+  if (event.request.endsWith('manifest.json')) {
+    return new Response(fetch(event.request))
+  }
+
+  // Игнорирует кеширование страниц с параметрами GET запроса
+  if (event.request.indexOf('.html?') > -1 || event.request.indexOf('.js?') > -1) {
+    return new Response(fetch(event.request))
+  }
+
   event.respondWith(
     cacheStrategyImpl({
       cacheKey: dynamicCacheName,
