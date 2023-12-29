@@ -46,7 +46,7 @@
 .subscribe-popup__email-form {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: flex-start;
   width: 100%;
   inline-size: 100%;
   gap: var(--gap);
