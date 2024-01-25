@@ -48,7 +48,7 @@
   display: block;
   position: absolute;
   top: 0;
-  margin-block-start: 170px;
+  margin-block-start: 190px;
   justify-self: start;
   font-size: var(--font-size-m, 100%);
   font-family: var(--font-family);
