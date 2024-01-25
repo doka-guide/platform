@@ -14,7 +14,7 @@
 }
 
 .practices__author-name > * {
-  font-family: 'Spot Mono', monospace;
+  font-family: "Spot Mono", monospace;
   font-weight: 300;
   font-size: var(--font-size-l);
   line-height: var(--font-line-height-l);
@@ -28,11 +28,16 @@
 }
 
 .practices__content::after {
-  content: ' ';
+  content: " ";
   display: block;
   position: relative;
   height: 100px;
-  background: linear-gradient(180deg, hsla(var(--color-base-background) / 0) 0%, hsla(var(--color-base-background) / 0.67) 100%);
+  background:
+    linear-gradient(
+      180deg,
+      hsla(var(--color-base-background) / 0) 0%,
+      hsla(var(--color-base-background) / 0.67) 100%
+    );
   border-radius: 8px;
   z-index: 0;
 }
@@ -90,13 +95,13 @@
   height: unset;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .practices > article {
     margin-block-start: 14px;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .practices > article {
     margin-block-start: 16px;
   }
@@ -105,9 +110,3 @@
     grid-gap: 20px;
   }
 }
-
-/* @media (min-width: 1680px) {
-  .practices > article {
-    margin-block-start: 60px;
-  }
-} */

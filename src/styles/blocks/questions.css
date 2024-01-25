@@ -54,7 +54,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .question__request {
     margin-block-start: 50px;
   }
@@ -73,7 +73,7 @@
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .question__request {
     margin-block-start: 60px;
   }
