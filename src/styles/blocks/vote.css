@@ -43,5 +43,5 @@
 
 .vote--active {
   background-color: var(--vote-color);
-  color: inherit;
+  color: hsl(var(--color-black));
 }

@@ -39,7 +39,7 @@
   margin-block-start: 10px;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .content p.question__response-placeholder {
     margin-block-start: 7px;
     margin-block-end: 7px;

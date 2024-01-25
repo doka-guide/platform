@@ -31,7 +31,7 @@ class Header extends BaseComponent {
       {
         condition: () => !!document.querySelector('.index-block'),
         getter: () => {
-          const additionalHeight = window.matchMedia('(min-width: 1366px)')
+          const additionalHeight = window.matchMedia('(width >= 1366px)')
             ? 0
             : document.querySelector('.index-block__header').offsetHeight
           return this.state.headerHeight + additionalHeight
@@ -216,6 +216,7 @@ class Header extends BaseComponent {
     const currentScroll = window.scrollY
     const isScrollingDown = currentScroll > lastScroll
     const isHeaderOnTop = currentScroll === 0
+    const minimumScrollDistance = 180
     this.state.lastScroll = currentScroll
 
     if (isHeaderOnTop) {
@@ -238,7 +239,7 @@ class Header extends BaseComponent {
         this.hideHeader()
       }
     } else {
-      if (!this.isFixed && !this.isMainPage) {
+      if (!this.isFixed && !this.isMainPage && lastScroll - currentScroll >= minimumScrollDistance) {
         this.showHeader()
       }
     }

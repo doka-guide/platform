@@ -1,29 +1,29 @@
 <div class="wdi-browser-compat">
-  <span class="wdi-browser-compat__label">Поддержка в браузерах</span>
+  <span class="wdi-browser-compat__label">Поддержка в браузерах:</span>
   <ul class="wdi-browser-compat__items">
     {% for browser in baseline.keys %}
       <li class="wdi-browser-compat__item">
         <span class="wdi-browser-compat__icon" data-browser="{{ browser }}">
           {% if baseline.supported[browser] %}
-              <span class="visually-hidden">{{ baseline.names[browser] }} {{ baseline.versions[browser] }}, Поддерживается</span>
+              <span class="visually-hidden">{{ baseline.names[browser] }} {{ baseline.versions[browser] }}, поддерживается</span>
             </span>
-            <span aria-label="Поддерживается" title="Поддерживается" class="wdi-browser-compat__version" data-compat="yes">{{ baseline.versions[browser] }}</span>
+            <span class="wdi-browser-compat__version" aria-hidden="true" data-compat="yes">{{ baseline.versions[browser] }}</span>
           {% elif baseline.flagged[browser] %}
             <span class="wdi-browser-compat__icon" data-browser="firefox">
-              <span class="visually-hidden">{{ baseline.names[browser] }} {{ baseline.versions[browser] }}, За флагом</span>
+              <span class="visually-hidden">{{ baseline.names[browser] }} {{ baseline.versions[browser] }}, за флагом</span>
             </span>
-            <span aria-label="За флагом" title="За флагом" class="wdi-browser-compat__version" data-compat="flag">
+            <span class="wdi-browser-compat__version" aria-hidden="true" data-compat="flag">
             </span>
           {% elif baseline.preview[browser] %}
             <span class="wdi-browser-compat__icon" data-browser="safari">
-              <span class="visually-hidden">{{ baseline.names[browser] }}, Превью</span>
+              <span class="visually-hidden">{{ baseline.names[browser] }}, превью</span>
             </span>
-            <span aria-label="Превью" title="Превью"> class="wdi-browser-compat__version" data-compat="preview"</span>
+            <span class="wdi-browser-compat__version" aria-hidden="true" data-compat="preview"></span>
           {% else %}
             <span class="wdi-browser-compat__icon" data-browser="edge">
-              <span class="visually-hidden">{{ baseline.names[browser] }}, Не поддерживается</span>
+              <span class="visually-hidden">{{ baseline.names[browser] }}, не поддерживается</span>
             </span>
-            <span aria-label="Не поддерживается" title="Не поддерживается" class="wdi-browser-compat__version" data-compat="no"></span>
+            <span class="wdi-browser-compat__version" aria-hidden="true" data-compat="no"></span>
           {% endif %}
       </li>
     {% endfor %}

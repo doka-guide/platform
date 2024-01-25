@@ -5,6 +5,12 @@
   gap: 20px;
 }
 
+.text-control__row {
+  width: 100%;
+  flex-grow: 1;
+  text-align: left;
+}
+
 .text-control__item {
   box-sizing: border-box;
   padding-block: var(--padding-block);
@@ -17,8 +23,6 @@
   --border-color-opacity: calc(1 - var(--is-dark-theme-on) * 0.6);
   flex: 1 1 auto;
   box-sizing: border-box;
-  padding-left: 0;
-  padding-right: 0;
   width: 100%;
   min-height: var(--input-height);
   height: var(--input-height);
@@ -42,7 +46,12 @@
   flex: 0 0 auto;
 }
 
-@media not all and (min-width: 768px) {
+.button--active:focus-visible,
+.text-control__button:focus-visible {
+  outline-offset: 3px;
+}
+
+@media not all and (width >= 768px) {
   .text-control {
     --padding-block: 5px;
     --input-line-height: calc(16 / 14 * 1em);
@@ -59,7 +68,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .text-control {
     --padding-block: 0px; /* stylelint-disable length-zero-no-unit */
     --input-line-height: var(--font-line-height-s);
@@ -70,7 +79,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .text-control {
     --padding-block: 3px;
     --input-line-height: calc(16 / 12 * 1em);
@@ -81,7 +90,7 @@
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .text-control {
     --padding-block: 5px;
     --input-line-height: var(--font-line-height-s);

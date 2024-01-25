@@ -40,19 +40,19 @@
   margin-top: 0.25em;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .callout {
     padding-right: 20px;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .callout {
     padding: 20px;
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .callout {
     padding-right: 3em;
   }

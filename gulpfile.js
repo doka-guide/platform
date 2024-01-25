@@ -10,6 +10,7 @@ const shell = require('gulp-shell')
 const postcss = require('gulp-postcss')
 const csso = require('postcss-csso')
 const pimport = require('postcss-import')
+const minmax = require('postcss-media-minmax')
 const autoprefixer = require('autoprefixer')
 const esbuild = require('gulp-esbuild')
 const del = require('del')
@@ -36,16 +37,29 @@ const styles = () => {
     .pipe(
       postcss([
         pimport,
+        minmax,
         autoprefixer,
         csso({
           restructure: false,
         }),
-      ])
+      ]),
     )
     .pipe(gulp.dest('dist/styles'))
 }
 
 // Scripts
+
+const sw = () => {
+  return gulp
+    .src('src/sw.js')
+    .pipe(
+      esbuild({
+        target: 'es2015',
+        minify: true,
+      }),
+    )
+    .pipe(gulp.dest('dist/'))
+}
 
 const scripts = () => {
   return gulp
@@ -70,7 +84,7 @@ const scripts = () => {
             },
           },
         ],
-      })
+      }),
     )
     .pipe(gulp.dest('dist/scripts'))
 }
@@ -78,7 +92,7 @@ const scripts = () => {
 // Clean
 
 const clean = () => {
-  return del(['dist/styles', 'dist/scripts'])
+  return del(['dist/styles', 'dist/scripts', 'dist/sw.js'])
 }
 
 // Cache
@@ -98,7 +112,7 @@ const cacheReplace = () => {
     .pipe(
       revRewrite({
         manifest: fs.readFileSync('dist/rev-manifset.json'),
-      })
+      }),
     )
     .pipe(gulp.dest('dist'))
 }
@@ -144,7 +158,7 @@ const socialCards = async () => {
 
         done()
       },
-    })
+    }),
   )
     .catch(console.error)
     .finally(async () => {
@@ -158,4 +172,4 @@ const socialCards = async () => {
 exports.socialCards = socialCards
 
 // Default
-exports.default = gulp.series(clean, styles, scripts, cache)
+exports.default = gulp.series(clean, styles, scripts, sw, cache)

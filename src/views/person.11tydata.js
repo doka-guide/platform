@@ -39,19 +39,19 @@ module.exports = {
     behanceId: function (data) {
       const { person } = data
       const pattern = new RegExp('^(http|https)://(www.)?behance.net/')
-      return person.data.url.replace(pattern, '')
+      return person.data.url?.replace(pattern, '')
     },
 
     twitterId: function (data) {
       const { person } = data
       const pattern = new RegExp('^(http|https)://(www.)?twitter.com/')
-      return person.data.url.replace(pattern, '')
+      return person.data.url?.replace(pattern, '')
     },
 
     telegramId: function (data) {
       const { person } = data
       const pattern = new RegExp('^(http|https)://(www.)?t.me/')
-      return person.data.url.replace(pattern, '')
+      return person.data.url?.replace(pattern, '')
     },
 
     badges: function (data) {
@@ -96,14 +96,40 @@ module.exports = {
       return answersByPerson[personId]
     },
 
+    categoriesOnlyWithPractice: function (data) {
+      const { personId, practicesByPerson, docsByPerson } = data
+      if (docsByPerson[personId] && practicesByPerson[personId]) {
+        const docsCategories = Object.keys(docsByPerson[personId])
+        const answersCategories = Object.keys(practicesByPerson[personId])
+        return answersCategories.filter((a) => !docsCategories.includes(a))
+      } else if (!docsByPerson[personId] && practicesByPerson[personId]) {
+        return Object.keys(practicesByPerson[personId])
+      } else {
+        return false
+      }
+    },
+
     isOnlyWithPractice: function (data) {
-      const { personId, docsByPerson } = data
-      return !docsByPerson[personId]
+      const { categoriesOnlyWithPractice } = data
+      return !!categoriesOnlyWithPractice
+    },
+
+    categoriesOnlyWithAnswers: function (data) {
+      const { personId, answersByPerson, docsByPerson } = data
+      if (docsByPerson[personId] && answersByPerson[personId]) {
+        const docsCategories = Object.keys(docsByPerson[personId])
+        const answersCategories = Object.keys(answersByPerson[personId])
+        return answersCategories.filter((a) => !docsCategories.includes(a))
+      } else if (!docsByPerson[personId] && answersByPerson[personId]) {
+        return Object.keys(answersByPerson[personId])
+      } else {
+        return false
+      }
     },
 
     isOnlyWithAnswer: function (data) {
-      const { personId, docsByPerson } = data
-      return !docsByPerson[personId]
+      const { categoriesOnlyWithAnswers } = data
+      return !!categoriesOnlyWithAnswers
     },
 
     articlesIndex: function (data) {
@@ -149,10 +175,14 @@ module.exports = {
       }
 
       const nodes = authorData?.contributionActions?.people?.target?.history?.nodes
+
+      const prNodes = nodes && nodes.length > 0 ? nodes[nodes.length - 1]?.associatedPullRequests?.nodes : null
+
+      const pullRequestDate =
+        prNodes && prNodes.length > 0 ? prNodes[prNodes.length - 1]?.mergedAt : '2021-10-12T00:00:00Z'
+
       // TODO: Решить вопрос с датой для участников: Игорь Коровченко, Ольга Алексашенко
-      const githubFirstContribution = new Date(
-        nodes && nodes.length > 0 ? nodes[nodes.length - 1]?.pushedDate : '2021-10-12T00:00:00Z'
-      )
+      const githubFirstContribution = new Date(pullRequestDate)
         .toLocaleString('ru', {
           year: 'numeric',
           month: 'long',

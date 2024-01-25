@@ -1,4 +1,5 @@
 import BaseComponent from '../core/base-component.js'
+import { setupDb, saveToDb, sendFromDb, closeAndDeleteDb } from './form-cache.js'
 
 class ButtonGroup extends BaseComponent {
   static get EVENTS() {
@@ -63,23 +64,30 @@ class DetailedAnswer extends BaseComponent {
       })
     })
   }
-
-  focus() {
-    this.textarea.focus()
-  }
 }
 
 function init() {
   const form = document.querySelector('.feedback-form')
+  const dbFeedbackStoreName = 'feedback'
+  const dbFeedbackStoreVersion = 1
 
   if (!form) {
     return
   }
 
+  const formData = new FormData(form)
+  setupDb(dbFeedbackStoreName, dbFeedbackStoreVersion, Object.keys(formData))
+  window.addEventListener('online', async () => {
+    sendFromDb(dbFeedbackStoreName, saveToServer)
+    closeAndDeleteDb(dbFeedbackStoreName)
+  })
+
   const voteDownButton = form.querySelector('.vote--down')
   const voteUpButton = form.querySelector('.vote--up')
+  const reasonButton = form.querySelector('.button--another-reason')
   const reasonFieldset = form.querySelector('.feedback-form__fieldset--reason')
   const textControl = form.querySelector('.feedback-form__text')
+  const textControlInput = form.querySelector('.text-control__input')
 
   let isSending = false
 
@@ -91,14 +99,13 @@ function init() {
       })
   }
 
-  function sendForm(formData) {
+  function saveToServer(formData) {
     const body = JSON.stringify({
       type: 'feedback',
       data: JSON.stringify(formData),
       author_id: 1,
     })
     const url = 'https://api.doka.guide/form'
-
     return getToken()
       .then((token) => {
         return fetch(url, {
@@ -120,13 +127,24 @@ function init() {
       })
   }
 
+  function sendForm(formData) {
+    if (window.navigator.onLine) {
+      return saveToServer(formData)
+    } else {
+      saveToDb(dbFeedbackStoreName, formData)
+      return new Promise((resolve) => {
+        resolve(new Response())
+      })
+    }
+  }
+
   const detailedAnswer = new DetailedAnswer({
     rootElement: textControl,
   })
 
   detailedAnswer.on(DetailedAnswer.EVENTS.ANSWER, () => {
     setTimeout(() => {
-      reasonFieldset.disabled = true
+      reasonFieldset.inert = true
       voteUpButton.disabled = true
     })
   })
@@ -142,13 +160,14 @@ function init() {
     () => {
       setTimeout(() => {
         voteDownButton.disabled = true
-        reasonFieldset.disabled = true
+        reasonFieldset.inert = true
       })
     },
     { once: true }
   )
 
   voteButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
+    voteDownButton.setAttribute('aria-expanded', 'true')
     reasonFieldset.hidden = false
   })
 
@@ -162,7 +181,7 @@ function init() {
     ButtonGroup.EVENTS.ANSWER,
     () => {
       setTimeout(() => {
-        reasonFieldset.disabled = true
+        reasonFieldset.inert = true
         voteUpButton.disabled = true
         textControl.hidden = true
       })
@@ -172,7 +191,8 @@ function init() {
 
   reasonsButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
     textControl.hidden = false
-    detailedAnswer.focus()
+    reasonButton.setAttribute('aria-expanded', 'true')
+    textControlInput.required = true
   })
 
   form.addEventListener('submit', (event) => {
@@ -182,7 +202,6 @@ function init() {
       return
     }
 
-    const formData = new FormData(form)
     const answer = formData.get('answer') || event.submitter?.value
 
     if (!(answer && answer.length >= DetailedAnswer.TEXT_THRESHOLD)) {
@@ -197,9 +216,11 @@ function init() {
     })
       .then(() => {
         form.dataset.state = 'success'
+        form.setAttribute('aria-describedby', 'success')
       })
       .catch((error) => {
         form.dataset.state = 'error'
+        form.setAttribute('aria-describedby', 'error')
         console.error(error)
       })
       .finally(() => {

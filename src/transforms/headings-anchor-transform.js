@@ -17,8 +17,9 @@ function createButtonMarkup(id, headingText) {
 
 module.exports = function (window) {
   const content = window.document.querySelector('.content')
+  const subscription = window.document.querySelector('.subscribe-page')
 
-  if (content) {
+  if (content && !subscription) {
     let headings = content.querySelectorAll(
       'h2, h3, h4, h5, h6, #questions > div.questions__list > div.question__request > aside > div > p:first-of-type'
     )

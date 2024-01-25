@@ -107,7 +107,7 @@
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   :root {
     --gap: 10px;
   }
