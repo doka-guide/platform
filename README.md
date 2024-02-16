@@ -4,14 +4,14 @@
 [![W3C Validator](https://github.com/doka-guide/platform/actions/workflows/w3c-validator.yml/badge.svg?branch=main&event=push)](https://github.com/doka-guide/platform/actions/workflows/w3c-validator.yml)
 [![Статус деплоя](https://github.com/doka-guide/platform/actions/workflows/product-deploy.yml/badge.svg?branch=main&event=push)](https://github.com/doka-guide/platform/actions/workflows/product-deploy.yml)
 [![Статус Docker](https://github.com/doka-guide/platform/actions/workflows/docker-deploy.yml/badge.svg?branch=main&event=push)](https://github.com/doka-guide/platform/actions/workflows/docker-deploy.yml)
-[![Дискорд](https://img.shields.io/discord/1006904139969724436)](https://discord.gg/Ncpvbun2mr)
+
 
 
 [⚠️ Если сайт Доки медленно загружается или не работает совсем](docs/load-fix.md)
 
 Дока — это добрая энциклопедия для веб-разработчиков. Наша цель — сделать документацию по веб-разработке практичной, понятной и не унылой.
 
-Вся актуальная информация по Доке обсуждается в [нашем сообществе в Дискорде](https://discord.gg/Ncpvbun2mr).
+Присоединяйтесь к [нашему сообществу в Телеграм](https://t.me/doka_guide), чтобы быть в курсе последних новостей, или к [чату](https://t.me/+qYFPI2mExuQxZTFi), чтобы пообщаться, задать вопрос и просто хорошо провести время.
 
 Этот репозиторий содержит платформу для сайта «[Дока](https://doka.guide/)». Платформа собирает статьи из [отдельного репозитория](https://github.com/doka-guide/content).
 

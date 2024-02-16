@@ -12,13 +12,13 @@
 
 .search-tag__switch {}
 
-@media not all and (min-width: 1024px) {
+@media not all and (width >= 1024px) {
   .search-tag__legend {
     display: none;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .search-tag {
     flex-direction: column;
     align-items: flex-start;
@@ -26,7 +26,7 @@
   }
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .search-tag {
     align-items: flex-start;
     flex-direction: column;

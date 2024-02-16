@@ -1,4 +1,5 @@
 import BaseComponent from '../core/base-component.js'
+import { setupDb, saveToDb, sendFromDb, closeAndDeleteDb } from './form-cache.js'
 
 class ButtonGroup extends BaseComponent {
   static get EVENTS() {
@@ -67,10 +68,19 @@ class DetailedAnswer extends BaseComponent {
 
 function init() {
   const form = document.querySelector('.feedback-form')
+  const dbFeedbackStoreName = 'feedback'
+  const dbFeedbackStoreVersion = 1
 
   if (!form) {
     return
   }
+
+  const formData = new FormData(form)
+  setupDb(dbFeedbackStoreName, dbFeedbackStoreVersion, Object.keys(formData))
+  window.addEventListener('online', async () => {
+    sendFromDb(dbFeedbackStoreName, saveToServer)
+    closeAndDeleteDb(dbFeedbackStoreName)
+  })
 
   const voteDownButton = form.querySelector('.vote--down')
   const voteUpButton = form.querySelector('.vote--up')
@@ -89,14 +99,13 @@ function init() {
       })
   }
 
-  function sendForm(formData) {
+  function saveToServer(formData) {
     const body = JSON.stringify({
       type: 'feedback',
       data: JSON.stringify(formData),
       author_id: 1,
     })
     const url = 'https://api.doka.guide/form'
-
     return getToken()
       .then((token) => {
         return fetch(url, {
@@ -116,6 +125,17 @@ function init() {
 
         return response
       })
+  }
+
+  function sendForm(formData) {
+    if (window.navigator.onLine) {
+      return saveToServer(formData)
+    } else {
+      saveToDb(dbFeedbackStoreName, formData)
+      return new Promise((resolve) => {
+        resolve(new Response())
+      })
+    }
   }
 
   const detailedAnswer = new DetailedAnswer({
@@ -182,7 +202,6 @@ function init() {
       return
     }
 
-    const formData = new FormData(form)
     const answer = formData.get('answer') || event.submitter?.value
 
     if (!(answer && answer.length >= DetailedAnswer.TEXT_THRESHOLD)) {

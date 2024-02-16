@@ -46,7 +46,7 @@
     var(--accent-color),
     var(--accent-color);
   --parts: 8;
-  content: '';
+  content: "";
   opacity: var(--is-animation);
   position: absolute;
   z-index: -1;
@@ -128,7 +128,7 @@
 }
 
 .logo__text::first-letter {
-  font-feature-settings: 'ss01' on;
+  font-feature-settings: "ss01" on;
 }
 
 .logo--color-contrast {
@@ -137,4 +137,8 @@
 
 .logo--color-fade {
   --ligthness: calc(var(--is-light-theme-on) * 90% + var(--is-dark-theme-on) * 25%);
+}
+
+.logo__text .link::after {
+  display: none;
 }

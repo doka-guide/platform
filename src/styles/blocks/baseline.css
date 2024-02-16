@@ -32,20 +32,20 @@
   background-size: cover;
 }
 
-.wdi-browser-compat__icon[data-browser='chrome'] {
-  background-image: url('/images/baseline/chrome.svg');
+.wdi-browser-compat__icon[data-browser="chrome"] {
+  background-image: url("/images/baseline/chrome.svg");
 }
 
-.wdi-browser-compat__icon[data-browser='firefox'] {
-  background-image: url('/images/baseline/firefox.svg');
+.wdi-browser-compat__icon[data-browser="firefox"] {
+  background-image: url("/images/baseline/firefox.svg");
 }
 
-.wdi-browser-compat__icon[data-browser='edge'] {
-  background-image: url('/images/baseline/edge.svg');
+.wdi-browser-compat__icon[data-browser="edge"] {
+  background-image: url("/images/baseline/edge.svg");
 }
 
-.wdi-browser-compat__icon[data-browser='safari'] {
-  background-image: url('/images/baseline/safari.svg');
+.wdi-browser-compat__icon[data-browser="safari"] {
+  background-image: url("/images/baseline/safari.svg");
 }
 
 .wdi-browser-compat__version {
@@ -63,26 +63,26 @@
   padding-inline: 0.5ch;
 }
 
-.wdi-browser-compat__version[data-compat='yes'] {
+.wdi-browser-compat__version[data-compat="yes"] {
   background: var(--wdi-success-bg-color, #e9f6ed);
   color: var(--wdi-success-color, #0d652d);
 }
 
-.wdi-browser-compat__version[data-compat='flag'] {
+.wdi-browser-compat__version[data-compat="flag"] {
   background-color: var(--wdi-warn-bg-color, #fff5e3);
-  background-image: url('/images/baseline/flag.svg');
+  background-image: url("/images/baseline/flag.svg");
   color: var(--wdi-warn-color, #c34900);
 }
 
-.wdi-browser-compat__version[data-compat='no'] {
+.wdi-browser-compat__version[data-compat="no"] {
   background-color: var(--wdi-error-bg-color, #fce8e8);
-  background-image: url('/images/baseline/no.svg');
+  background-image: url("/images/baseline/no.svg");
   color: var(--wdi-error-color, #a50e0e);
 }
 
-.wdi-browser-compat__version[data-compat='preview'] {
+.wdi-browser-compat__version[data-compat="preview"] {
   background-color: var(--wdi-warn-bg-color, #fff5e3);
-  background-image: url('/images/baseline/preview.svg');
+  background-image: url("/images/baseline/preview.svg");
   color: var(--wdi-warn-color, #c34900);
 }
 
@@ -92,7 +92,7 @@
   color: currentColor;
 }
 
-@media (min-width: 50em) {
+@media (width >= 50em) {
   .wdi-browser-compat {
     flex-wrap: nowrap;
   }
@@ -109,7 +109,7 @@
   }
 }
 
-@media (min-width: 600px) {
+@media (width >= 600px) {
   .wdi-browser-compat__label {
     margin-right: 24px;
   }

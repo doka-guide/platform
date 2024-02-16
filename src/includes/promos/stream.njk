@@ -1,0 +1,14 @@
+{% macro promo(color, title, content, links) %}
+<div class="intro__pitch promo" style="border: 3px solid hsl({{ color }})">
+  <h2 class="intro__moto font-theme--code">{{ title }}</h2>
+  <p>{{ content | safe }}</p>
+  <div class="intro__footer">
+    {% for link in links %}
+      <div class="intro__link">
+        {{ link.emoji }}
+        <a class="link" href="{{ link.url }}">{{ link.text }}</a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endmacro %}

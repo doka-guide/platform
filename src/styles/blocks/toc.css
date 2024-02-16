@@ -13,12 +13,12 @@
 }
 
 .toc__link[href="#na-sobesedovanii"]::after {
-  content: ' ';
+  content: " ";
   display: inline-block;
   width: 17px;
   height: 17px;
   margin-left: 4px;
-  background-image: url('../../images/partners/praktikum-icon.svg');
+  background-image: url("../../images/partners/practicum-icon.svg");
   background-size: 13px;
   background-repeat: no-repeat;
   background-position: 50% 40%;

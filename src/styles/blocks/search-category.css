@@ -12,14 +12,14 @@
 
 .search-category__item {}
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .search-category {
     flex-direction: column;
     align-items: flex-start;
   }
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .search-category {
     flex-direction: column;
     align-items: flex-start;

@@ -1,4 +1,5 @@
 import BaseComponent from '../core/base-component.js'
+import { setupDb, saveToDb, sendFromDb, closeAndDeleteDb } from './form-cache.js'
 
 class Settings extends BaseComponent {
   static get EVENTS() {
@@ -171,6 +172,10 @@ async function init() {
   const baseUrl = 'https://api.doka.guide'
   const params = window.location.search.replace('?', '').split('&')
   const hash = params.length > 0 ? params.filter((p) => p.startsWith('hash='))[0]?.replace('hash=', '') : null
+
+  const dbSubscribeStoreName = 'subscribe'
+  const dbSubscribeStoreVersion = 1
+
   const form = document.querySelector('.subscribe-page')
 
   if (!form) {
@@ -207,33 +212,47 @@ async function init() {
       .then((resp) => resp.json())
   }
 
-  function sendForm(email, formData, method, id = '') {
-    const body = JSON.stringify({
-      email,
-      data: JSON.stringify(formData),
-      author_id: 1,
-    })
-    const url = method === 'POST' ? `${baseUrl}/subscription` : `${baseUrl}/subscription/${id}`
+  function getPreparedSaveToServerFunction(email, method, id = '') {
+    return (formData) => {
+      const body = JSON.stringify({
+        email,
+        data: JSON.stringify(formData),
+        author_id: 1,
+      })
+      const url = method === 'POST' ? `${baseUrl}/subscription` : `${baseUrl}/subscription/${id}`
 
-    return getToken()
-      .then((token) => {
-        return fetch(url, {
-          method: method,
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: token,
-          },
-          body,
+      return getToken()
+        .then((token) => {
+          return fetch(url, {
+            method: method,
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+              Authorization: token,
+            },
+            body,
+          })
         })
-      })
-      .then((response) => {
-        if (!response.ok) {
-          throw response
-        }
+        .then((response) => {
+          if (!response.ok) {
+            throw response
+          }
 
-        return response
+          return response
+        })
+    }
+  }
+
+  function sendForm(email, formData, method, id = '') {
+    if (window.navigator.onLine) {
+      const saveToServer = getPreparedSaveToServerFunction(email, method, id)
+      return saveToServer(formData)
+    } else {
+      saveToDb(dbSubscribeStoreName, formData)
+      return new Promise((resolve) => {
+        resolve(new Response())
       })
+    }
   }
 
   function prepareFormData(form) {
@@ -345,6 +364,20 @@ async function init() {
       .finally(() => {
         isSending = false
       })
+  })
+
+  const email = formData.email
+  if (email) {
+    delete formData.email
+  }
+  setupDb(dbSubscribeStoreName, dbSubscribeStoreVersion, Object.keys(formData))
+
+  window.addEventListener('online', async () => {
+    sendFromDb(
+      dbSubscribeStoreName,
+      getPreparedSaveToServerFunction(email, hash ? 'PUT' : 'POST', hash ? inflation.profile.id : '')
+    )
+    closeAndDeleteDb(dbSubscribeStoreName)
   })
 }
 

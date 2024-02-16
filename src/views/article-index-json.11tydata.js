@@ -21,19 +21,24 @@ module.exports = {
     json: function (data) {
       const { category, categoryArticles } = data
       const json = categoryArticles
-        ?.filter?.((article) => article.template.dataCache['tags'].includes('doka'))
-        ?.reduce?.((map, article) => {
+        ?.filter?.(async (article) => {
+          const cache = await article.template._frontMatterDataCache
+          return cache['tags'].includes('doka')
+        })
+        ?.reduce?.(async (map, article) => {
           const data = {}
+          const cache = await article.template._frontMatterDataCache
+          const content = await article.template.inputContent
           data['path'] = `/${category}/${article.fileSlug}/`
-          data['related'] = article.template.dataCache['related']
-          const summary = article.template.inputContent.replace('\n\n', '\n').split('---')[2].split('\n')
+          data['related'] = cache['related']
+          const summary = content.replace('\n\n', '\n').split('---')[2].split('\n')
           let headerIndices = []
           summary.forEach((string, index) => {
             if (string.startsWith('## ')) {
               headerIndices.push(index)
             }
           })
-          map[article.template.dataCache['title']] = {
+          map[cache['title']] = {
             ...data,
             summary: summary
               .slice(0, headerIndices[1])

@@ -52,7 +52,7 @@
 }
 
 .article-nav__button::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -83,14 +83,14 @@
   opacity: 0;
 }
 
-@media (max-width: 720px) {
+@media (width <= 720px) {
   .article-nav__button-icon {
     left: auto;
     right: var(--offset, 10px);
   }
 }
 
-@media not all and (min-width: 1024px) {
+@media not all and (width >= 1024px) {
   .article-nav {
     transform: translateY(calc((1 - var(--is-nav-open)) * 100%));
     position: fixed;
@@ -112,7 +112,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .article-nav {
     position: static;
     transform: none;

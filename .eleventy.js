@@ -24,6 +24,8 @@ const imagePlaceTransform = require('./src/transforms/image-place-transform')
 const detailsTransform = require('./src/transforms/details-transform')
 const calloutTransform = require('./src/transforms/callout-transform')
 
+const pluginRss = require('@11ty/eleventy-plugin-rss')
+
 function getAllDocs(collectionAPI) {
   const dokas = collectionAPI.getFilteredByTag('doka')
   const articles = collectionAPI.getFilteredByTag('article')
@@ -57,17 +59,23 @@ function getAllDocsByCategory(collectionAPI, category) {
 module.exports = function (config) {
   config.setDataDeepMerge(true)
 
-  config.setBrowserSyncConfig({
-    server: {
-      baseDir: ['./src', './dist', './node_modules'],
-    },
-    files: ['src/styles/**/*.*', 'src/scripts/**/*.*'],
-    ghostMode: false,
+  config.setServerOptions({
+    liveReload: true,
+    domDiff: true,
+    port: 8080,
+    watch: ['src/styles/**/*.*', 'src/scripts/**/*.*'],
+    showAllHosts: false,
+    encoding: 'utf-8',
+    showVersion: false,
   })
 
   // Add all Tags
   mainSections.forEach((section) => {
     config.addCollection(section, (collectionApi) => getAllDocsByCategory(collectionApi, section))
+  })
+
+  config.addCollection('promos', (collectionApi) => {
+    return collectionApi.getFilteredByGlob('src/promos/*.md')
   })
 
   config.addCollection('docs', (collectionApi) => {
@@ -82,6 +90,64 @@ module.exports = function (config) {
       map[id] = doc
       return map
     }, {})
+  })
+
+  config.addCollection('posts', async (collectionApi) => {
+    const changeLog = await (
+      await fetch('https://raw.githubusercontent.com/doka-guide/content/main/CHANGELOG.md')
+    ).text()
+    const months = [
+      'января',
+      'февраля',
+      'марта',
+      'апреля',
+      'мая',
+      'июня',
+      'июля',
+      'августа',
+      'сентября',
+      'октября',
+      'ноября',
+      'декабря',
+    ]
+
+    let currentYear = 0
+    const filteredPosts = changeLog.split('\n').filter((s) => s.match(/^(-|##) /))
+
+    const posts = await Promise.all(
+      filteredPosts.map(async (s) => {
+        if (s.match(/## .+ [0-9]{4}/)) {
+          currentYear = Number(s.replace(/## .+ /, ''))
+          return s
+        } else {
+          const post = {}
+
+          const stringParts = s.replace(/^- /, '').split(', [')
+          const date = stringParts[0].split(' ')
+          const currentDay = Number(date[0])
+          const currentMonth = months.indexOf(date[1])
+          const titledLink = stringParts[1].split('](')
+          post['date'] = new Date(Date.parse(`${currentYear}-${currentMonth + 1}-${currentDay}`)).toISOString()
+          post['title'] = titledLink[0].replace(/^\[/, '')
+          post['url'] = titledLink[1].replace(/\), [А-ЯЁа-яё ,]*/, '')
+          const rawArticle = collectionApi.getFilteredByGlob(
+            `src${post['url'].replace('https://doka.guide', '')}*.md`
+          )[0]
+          if (rawArticle) {
+            const articleContent = await rawArticle.template.inputContent
+            const articleDescription = articleContent
+              .split('\n')
+              .filter((s) => s.match(/^description: /))[0]
+              .replace(/^description: /, '')
+            post['summary'] = articleDescription
+          }
+
+          return post
+        }
+      })
+    )
+
+    return posts.filter(async (s) => typeof (await s) !== 'string')
   })
 
   config.addCollection('people', (collectionApi) => {
@@ -376,12 +442,18 @@ module.exports = function (config) {
     })
   }
 
+  config.addPlugin(pluginRss, {
+    posthtmlRenderOptions: {
+      closingSingleTag: 'default',
+    },
+  })
+
   config.addPassthroughCopy('src/favicon.ico')
   config.addPassthroughCopy('src/manifest.json')
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
   config.addPassthroughCopy('src/images')
-  config.addPassthroughCopy('src/(css|html|js|tools|recipes|a11y|svg|people)/**/!(*11tydata*)*.!(md)')
+  config.addPassthroughCopy('src/(css|html|js|tools|recipes|a11y|people|interviews")/**/!(*11tydata*)*.!(md)')
 
   return {
     dir: {

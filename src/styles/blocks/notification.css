@@ -23,7 +23,7 @@
   padding-inline: 0.85em;
 }
 
-@media (min-width: 1366px) {
+@media (width >= 1366px) {
   .notification {
     padding: 12px 20px;
   }

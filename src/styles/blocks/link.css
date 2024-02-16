@@ -1,5 +1,5 @@
 @property --stroke-opacity {
-  syntax: '<number>';
+  syntax: "<number>";
   inherits: false;
   initial-value: 1;
 }
@@ -8,6 +8,7 @@
   --stroke-opacity: 0.3;
   --text-color: hsl(var(--color-base-text));
   --stroke-color: hsl(var(--color-base-text) / var(--stroke-opacity));
+  --cached-opacity: 0.6;
 
   color: var(--text-color);
   text-decoration-line: underline;
@@ -20,4 +21,43 @@
 
 .link:hover {
   --stroke-opacity: 0.1;
+}
+
+.online .link::after {
+  display: none;
+}
+
+.offline .link::after {
+  content: " ";
+  display: inline-block;
+  height: 0.9em;
+  width: 0.9em;
+  margin-left: 0.3em;
+  vertical-align: middle;
+  background-size: 0.9em;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: invert(calc(var(--is-dark-theme-on) * 1));
+}
+
+.online .link--cached::after {
+  display: none;
+}
+
+.offline .link--cached::after {
+  background-image: url("/images/assets/cached-link.svg");
+  background-repeat: no-repeat;
+}
+
+.online .link--non-cached::after {
+  display: none;
+}
+
+.offline .link--non-cached {
+  color: hsla(var(--color-base-text) / var(--cached-opacity));
+}
+
+.offline .link--non-cached::after {
+  background-image: url("/images/assets/non-cached-link.svg");
+  opacity: var(--cached-opacity);
 }

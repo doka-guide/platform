@@ -14,11 +14,11 @@
   padding-top: clamp(var(--offset), 8%, 130px);
   display: grid;
   grid-template-areas:
-    'avatar   avatar   avatar'
-    'header   header   header'
-    'articles articles articles'
-    'meta     .        .'
-    'footer   footer   footer';
+    "avatar   avatar   avatar"
+    "header   header   header"
+    "articles articles articles"
+    "meta     .        ."
+    "footer   footer   footer";
 }
 
 .person-page__main > * {
@@ -98,19 +98,19 @@
   padding-bottom: 30px;
 }
 
-@media (min-width: 320px) {
+@media (width >= 320px) {
   .person-page__main {
     grid-template-columns: 100%;
     grid-template-areas:
-      'avatar   . .'
-      'header   . .'
-      'articles . .'
-      'meta     . .'
-      'footer   . .';
+      "avatar   . ."
+      "header   . ."
+      "articles . ."
+      "meta     . ."
+      "footer   . .";
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .person-page {
     --offset: 20px;
   }
@@ -137,7 +137,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .person-page {
     --sidebar-size: 245px;
     --content-max-size: 36rem;
@@ -158,20 +158,20 @@
 
   .person-page__main {
     grid-template-areas:
-      'avatar header   header'
-      'meta   articles articles'
-      '.      footer   footer';
+      "avatar header   header"
+      "meta   articles articles"
+      ".      footer   footer";
     grid-template-rows: min-content auto min-content;
   }
 }
 
-@media (min-width: 1440px) {
+@media (width >= 1440px) {
   .person-page {
     --sidebar-size-end: 1fr;
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .person-page {
     --sidebar-size: 320px;
   }

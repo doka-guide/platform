@@ -56,7 +56,7 @@
 }
 
 .articles-group__placeholder-icon::before {
-  content: '✎';
+  content: "✎";
   font-family: var(--font-family);
   font-size: var(--font-size-m);
   letter-spacing: 0.2em;
@@ -78,13 +78,13 @@
   position: static;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .articles-group__list {
     grid-gap: 12px;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .articles-group__title {
     margin-bottom: 10px;
   }

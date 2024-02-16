@@ -1,4 +1,4 @@
-@import 'code-dark-theme.css';
+@import url("code-dark-theme.css");
 
 /* настройки для тёмной темы */
 :root {

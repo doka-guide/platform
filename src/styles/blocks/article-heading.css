@@ -139,13 +139,13 @@
   visibility: visible;
 }
 
-@media (max-width: 720px) {
+@media (width <= 720px) {
   .article-heading__status {
     display: none;
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .article-heading--level-2 {
     margin-top: 70px;
     margin-bottom: 16px;
@@ -159,7 +159,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .article-heading--level-2 {
     margin-top: 60px;
     margin-bottom: 20px;
@@ -173,7 +173,7 @@
   }
 }
 
-@media (min-width: 1680px) {
+@media (width >= 1680px) {
   .article-heading--level-2 {
     margin-top: 70px;
     margin-bottom: 20px;
