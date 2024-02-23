@@ -22,7 +22,11 @@ jobs:
           repository: doka-guide/content
           path: content
       - name: Загрузка кеша
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
+        with:
+          repository: doka-guide/cache
+          path: cache
+      - uses: actions/setup-node@v2
         with:
           repository: doka-guide/cache
           path: cache

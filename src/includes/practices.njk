@@ -27,7 +27,7 @@
           советует
         </h3>
         <div class="practices__content {% if not practice.isLong %}practices__content--short{% endif %} content">
-          <div class="practices__summary">
+          <div class="practices__summary content">
             {{ practice.templateContent | safe }}
             {% if practice.isLong %}
               <button class="practices__toggler" type="button" aria-live="polite" data-collapsed>

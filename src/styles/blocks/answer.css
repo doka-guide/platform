@@ -1,5 +1,8 @@
 .answer {
-  counter-increment: answer;
+  --stroke-opacity: 0.3;
+  --stroke-color: hsl(var(--color-base-text) / var(--stroke-opacity));
+  border: 1px solid var(--stroke-color);
+  border-radius: 6px;
 }
 
 .answer__author {
@@ -53,8 +56,6 @@
 .answer__content {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--color-fade);
-  border-radius: 6px;
 }
 
 .answer__content::after {
@@ -68,42 +69,23 @@
 }
 
 .answer__content > .answer__summary {
-  grid-row-start: 2;
-  grid-row-end: 4;
-  display: grid;
-  grid-template-rows: 30px calc(var(--font-size) * 2) var(--font-size);
   height: 110px;
   padding: var(--offset);
   background-color: var(--color-background);
-}
-
-.answer__content > .answer__summary::before {
-  grid-row-start: 1;
-  content: counter(answer);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  margin-block-end: var(--font-size-l);
-  border: 1px solid var(--color-text);
-  font-family: 'Spot Mono', monospace;
-  font-size: 30px;
-  font-weight: 400;
 }
 
 .answer__content .answer__toggler {
   appearance: none;
   display: block;
   position: absolute;
-  margin-top: 170px;
+  top: 0;
+  margin-block-start: 190px;
   justify-self: start;
   font-size: var(--font-size-m, 100%);
   font-family: var(--font-family);
   padding: 4px 15px;
   box-shadow: 0 0 10px 5px rgb(0 0 0 / 0.1);
-  border: none;
+  border: 1px solid var(--stroke-color);
   border-radius: 5px;
   background-color: var(--color-background);
   z-index: 1;
@@ -128,7 +110,7 @@
   position: sticky;
   grid-row-start: unset;
   bottom: 1em;
-  margin-top: unset;
+  margin-block-start: unset;
 }
 
 .answer__content--short > .answer__summary {
