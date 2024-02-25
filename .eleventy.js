@@ -1,30 +1,37 @@
+const path = require('path')
 const { slugify } = require('transliteration')
 const htmlnano = require('htmlnano')
 const markdownIt = require('markdown-it')
 const { parseHTML } = require('linkedom')
-const { isProdEnv } = require('./config/env')
+const { isProdEnv } = require('./config/env.js')
 const { mainSections } = require('./config/constants.js')
-const initMarkdownLibrary = require('./src/markdown-it')
-const demoLinkTransform = require('./src/transforms/demo-link-transform')
-const answersLinkTransform = require('./src/transforms/answers-link-transform')
-const imageTransform = require('./src/transforms/image-transform')
-const headingsIdTransform = require('./src/transforms/headings-id-transform')
-const headingsAnchorTransform = require('./src/transforms/headings-anchor-transform')
-const articleCodeBlocksTransform = require('./src/transforms/article-code-blocks-transform')
-const articleInlineCodeTransform = require('./src/transforms/article-inline-code-transform')
-const colorPickerTransform = require('./src/transforms/color-picker-transform')
-const codeClassesTransform = require('./src/transforms/code-classes-transform')
-const codeBreakifyTransform = require('./src/transforms/code-breakify-transform')
-const tocTransform = require('./src/transforms/toc-transform')
-const linkTransform = require('./src/transforms/link-transform')
-const iframeAttrTransform = require('./src/transforms/iframe-attr-transform')
-const tableTransform = require('./src/transforms/table-transform')
-const demoExternalLinkTransform = require('./src/transforms/demo-external-link-transform')
-const imagePlaceTransform = require('./src/transforms/image-place-transform')
-const detailsTransform = require('./src/transforms/details-transform')
-const calloutTransform = require('./src/transforms/callout-transform')
+const initMarkdownLibrary = require('./src/markdown-it.js')
+const demoLinkTransform = require('./src/transforms/demo-link-transform.js')
+const answersLinkTransform = require('./src/transforms/answers-link-transform.js')
+const imageTransform = require('./src/transforms/image-transform.js')
+const headingsIdTransform = require('./src/transforms/headings-id-transform.js')
+const headingsAnchorTransform = require('./src/transforms/headings-anchor-transform.js')
+const articleCodeBlocksTransform = require('./src/transforms/article-code-blocks-transform.js')
+const articleInlineCodeTransform = require('./src/transforms/article-inline-code-transform.js')
+const colorPickerTransform = require('./src/transforms/color-picker-transform.js')
+const codeClassesTransform = require('./src/transforms/code-classes-transform.js')
+const codeBreakifyTransform = require('./src/transforms/code-breakify-transform.js')
+const tocTransform = require('./src/transforms/toc-transform.js')
+const linkTransform = require('./src/transforms/link-transform.js')
+const iframeAttrTransform = require('./src/transforms/iframe-attr-transform.js')
+const tableTransform = require('./src/transforms/table-transform.js')
+const demoExternalLinkTransform = require('./src/transforms/demo-external-link-transform.js')
+const imagePlaceTransform = require('./src/transforms/image-place-transform.js')
+const detailsTransform = require('./src/transforms/details-transform.js')
+const calloutTransform = require('./src/transforms/callout-transform.js')
 
+const fetch = require('node-fetch')
 const pluginRss = require('@11ty/eleventy-plugin-rss')
+const eleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
+const postcssImport = require('postcss-import')
+const postcssMediaMinmax = require('postcss-media-minmax')
+const autoprefixer = require('autoprefixer')
+const postcssCsso = require('postcss-csso')
 
 function getAllDocs(collectionAPI) {
   const dokas = collectionAPI.getFilteredByTag('doka')
@@ -59,14 +66,10 @@ function getAllDocsByCategory(collectionAPI, category) {
 module.exports = function (config) {
   config.setDataDeepMerge(true)
 
-  config.setServerOptions({
-    liveReload: true,
-    domDiff: true,
-    port: 8080,
-    watch: ['src/styles/**/*.*', 'src/scripts/**/*.*'],
-    showAllHosts: false,
-    encoding: 'utf-8',
-    showVersion: false,
+  config.addPlugin(pluginRss, {
+    posthtmlRenderOptions: {
+      closingSingleTag: 'default',
+    },
   })
 
   // Add all Tags
@@ -409,6 +412,14 @@ module.exports = function (config) {
   }
 
   if (isProdEnv) {
+    config.setBrowserSyncConfig({
+      server: {
+        baseDir: ['./src', './dist', './node_modules'],
+      },
+      files: ['src/styles/**/*.*', 'src/scripts/**/*.*'],
+      ghostMode: false,
+    })
+
     config.addTransform('html-min', (content, outputPath) => {
       if (outputPath) {
         let isHtml = outputPath.endsWith('.html')
@@ -440,13 +451,56 @@ module.exports = function (config) {
 
       return content
     })
-  }
+  } else {
+    config.addPlugin(eleventyVitePlugin, {
+      showAllHosts: true,
 
-  config.addPlugin(pluginRss, {
-    posthtmlRenderOptions: {
-      closingSingleTag: 'default',
-    },
-  })
+      serverOptions: {
+        liveReload: true,
+        domDiff: true,
+        port: 8080,
+        showAllHosts: false,
+        encoding: 'utf-8',
+        showVersion: false,
+      },
+
+      viteOptions: {
+        clearScreen: false,
+        appType: 'mpa',
+
+        server: {
+          mode: 'development',
+          middlewareMode: true,
+        },
+
+        cacheDir: '.vite',
+
+        css: {
+          postcss: {
+            plugins: [
+              postcssImport,
+              postcssMediaMinmax,
+              autoprefixer,
+              postcssCsso({
+                restructure: false,
+              }),
+            ],
+          },
+        },
+
+        resolve: {
+          alias: {
+            '/sw.js': path.resolve('.', 'src/sw.js'),
+            '/scripts': path.resolve('.', 'src/scripts'),
+            scripts: path.resolve('.', 'src/scripts'),
+            '/styles': path.resolve('.', 'src/styles'),
+            styles: path.resolve('.', 'src/styles'),
+            '/node_modules': path.resolve('.', 'node_modules'),
+          },
+        },
+      },
+    })
+  }
 
   config.addPassthroughCopy('src/favicon.ico')
   config.addPassthroughCopy('src/manifest.json')
