@@ -22,7 +22,7 @@
   },
   "scripts": {
     "debug": "cross-env-shell NODE_ENV=development \"npm run make-links && node --inspect-brk node_modules/@11ty/eleventy/cmd.js --serve --quiet\"",
-    "start": "cross-env-shell NODE_ENV=development \"npm run make-links && eleventy --serve --quiet\"",
+    "start": "cross-env-shell NODE_ENV=development \"npm run make-links && eleventy --incremental --serve --quiet\"",
     "build": "cross-env-shell NODE_ENV=production \"npm run make-links && eleventy --quiet && npx gulp\"",
     "preview": "cross-env-shell NODE_ENV=development \"npm run make-links && eleventy --quiet && npx gulp\"",
     "deploy": "cd dist && rsync -e 'ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no' --exclude 'api.json' --exclude 'mail' --archive --progress --compress --delete . deploy@dev.doka.guide:$(echo $(grep 'SERVER_PATH' ../.env | cut -d '=' -f2))",
@@ -45,6 +45,7 @@
     "@11ty/eleventy": "^2.0.1",
     "@11ty/eleventy-fetch": "^4.0.0",
     "@11ty/eleventy-img": "^3.1.8",
+    "@11ty/eleventy-plugin-rss": "^1.2.0",
     "@babel/preset-env": "^7.23.6",
     "@octokit/core": "^5.0.2",
     "autoprefixer": "^10.4.16",
@@ -87,6 +88,7 @@
     "web-features": "^0.5.0"
   },
   "dependencies": {
+    "@11ty/eleventy-plugin-vite": "^4.0.0",
     "@babel/core": "^7.23.6",
     "babel-jest": "^29.7.0",
     "eslint-plugin-jest": "^27.6.0",
