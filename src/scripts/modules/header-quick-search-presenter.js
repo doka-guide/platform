@@ -1,4 +1,4 @@
-import { escape } from '/html-escaper/esm/index.js'
+import { escape } from 'html-escaper'
 import debounce from '../libs/debounce.js'
 import searchClient from '../core/search-api-client.js'
 import { MIN_SEARCH_SYMBOLS, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
