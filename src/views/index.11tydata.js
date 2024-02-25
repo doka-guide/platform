@@ -9,7 +9,7 @@ const defaultPromo = {
     {
       emoji: '🙌',
       text: 'Участники',
-      url: '/people',
+      url: '/people/',
     },
     {
       emoji:
