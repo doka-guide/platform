@@ -71,7 +71,6 @@
 .answer__content > .answer__summary {
   height: 110px;
   padding: var(--offset);
-  background-color: var(--color-background);
 }
 
 .answer__content .answer__toggler {
