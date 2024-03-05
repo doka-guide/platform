@@ -45,7 +45,6 @@
 .practices__content > .practices__summary {
   height: 110px;
   padding: var(--offset);
-  background-color: var(--color-background);
 }
 
 .practices__content .practices__toggler {
