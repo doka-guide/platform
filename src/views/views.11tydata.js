@@ -13,6 +13,7 @@ const {
 } = require('../libs/github-contribution-service/github-contribution-service')
 const { contentRepLink } = require('../../config/constants')
 const { setPath } = require('../libs/collection-helpers/set-path')
+const { isProdEnv } = require('../../config/env.js')
 
 function isExternalURL(url) {
   return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')
@@ -148,7 +149,7 @@ module.exports = {
           practicesByPerson[personId][category] = []
         }
         practicesByPerson[personId][category].push(
-          collections[category].find((article) => article.filePathStem === `/${category}/${articleId}/index`)
+          collections[category].find((article) => article.filePathStem === `/${category}/${articleId}/index`),
         )
       })
       return practicesByPerson
@@ -191,7 +192,7 @@ module.exports = {
             collections.question.filter((question) => {
               return question.fileSlug === questionId
             })[0].data.related,
-            collections
+            collections,
           )
 
           if (related) {
@@ -216,7 +217,7 @@ module.exports = {
       for (const questionKey in answersByQuestion) {
         for (const personKey in answersByQuestion[questionKey]) {
           const answersOfPersonByQuestion = allAnswers.filter((a) =>
-            a.filePathStem.startsWith(`/interviews/${questionKey}/answers/${personKey}`)
+            a.filePathStem.startsWith(`/interviews/${questionKey}/answers/${personKey}`),
           )
           if (!answersByPerson[personKey]) {
             answersByPerson[personKey] = {}
@@ -244,7 +245,7 @@ module.exports = {
                   }
                   return true
                 }
-              })
+              }),
             )
           }
         }
@@ -315,25 +316,33 @@ module.exports = {
       })
 
       const authorsNames = filteredAuthors.map((author) => author.fileSlug)
-      const contributionStat = await getAuthorsContributionWithCache({
-        authors: authorsNames,
-        // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
-        repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
-      })
-      const contributorExists = await getAuthorsExistsWithCache({
-        authors: authorsNames,
-      })
-      const contributorIDs = await getAuthorsIDsWithCache({
-        authors: authorsNames.filter((a) => (contributorExists[a] ? contributorExists[a].userCount > 0 : false)),
-        // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
-        repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
-      })
-      const contributionActions = await getActionsInRepoWithCache({
-        authors: authorsNames,
-        authorIDs: contributorIDs,
-        // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
-        repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
-      })
+
+      let contributionStat = undefined
+      let contributorExists = undefined
+      let contributorIDs = undefined
+      let contributionActions = undefined
+
+      if (isProdEnv) {
+        contributionStat = await getAuthorsContributionWithCache({
+          authors: authorsNames,
+          // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
+          repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
+        })
+        contributorExists = await getAuthorsExistsWithCache({
+          authors: authorsNames,
+        })
+        contributorIDs = await getAuthorsIDsWithCache({
+          authors: authorsNames.filter((a) => (contributorExists[a] ? contributorExists[a].userCount > 0 : false)),
+          // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
+          repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
+        })
+        contributionActions = await getActionsInRepoWithCache({
+          authors: authorsNames,
+          authorIDs: contributorIDs,
+          // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
+          repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
+        })
+      }
 
       return filteredAuthors
         .map((person) => {
@@ -426,8 +435,8 @@ module.exports = {
             totalArticles,
             totalPractices,
             totalAnswers,
-            contributionStat: contributionStat[personId],
-            contributionActions: contributionActions[personId],
+            contributionStat: contributionStat ? contributionStat[personId] : null,
+            contributionActions: contributionActions ? contributionActions[personId] : null,
           }
         })
         .sort((person1, person2) => person2.totalArticles - person1.totalArticles)
