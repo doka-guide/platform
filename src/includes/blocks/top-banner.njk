@@ -1,4 +1,4 @@
 <div class="top-banner notification" hidden>
   <p class="top-banner__content">Мы хотим понять, кто нас читает. Поможете нам? Займёт всего 5 минут.</p>
-  <a class="top-banner__button notification__button button" target="_blank" rel="noreferrer nofollow" href="https://forms.yandex.ru/cloud/65f1aaf35d2a061e4ff460e0/">Пройти опрос</a>
+  <a class="top-banner__button notification__button button" target="_blank" rel="noreferrer nofollow" href="{% if isMainPage %}https://forms.yandex.ru/cloud/65f1aaf35d2a061e4ff460e0/?utm_source=doka_main{% else %}https://forms.yandex.ru/cloud/65f1aaf35d2a061e4ff460e0/?utm_source=doka_other{% endif %}">Пройти опрос</a>
 </div>
