@@ -1,0 +1,48 @@
+.top-banner {
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  margin-block-end: 12px;
+  padding-inline-start: 150px;
+  font-size: 24px;
+  color: #fff;
+  background-color: #000;
+  z-index: 999;
+}
+
+.top-banner::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 15px;
+  inset-block-end: -12px;
+  inline-size: 120px;
+  block-size: 70px;
+  background-image: url("../../images/top-banner/mouse.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.top-banner__content {
+  margin: 0;
+}
+
+.top-banner__button {
+  padding-block: 15px;
+}
+
+@media (width <= 768px) {
+  .top-banner  {
+    margin-block-end: 0;
+    padding-inline-start: 15px;
+    font-size: 14px;
+  }
+
+  .top-banner::before {
+    display: none;
+  }
+
+  .top-banner__button {
+    padding-block: initial;
+  }
+}
