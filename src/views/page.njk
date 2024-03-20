@@ -1,7 +1,12 @@
 {% from "blocks/header.njk" import header with context %}
+{% from "blocks/top-banner.njk" import topBanner with context %}
 {% from "blocks/footer.njk" import footer with context %}
 
 {% set isLogoContrastColor = hasCategory %}
+
+{{ topBanner(
+  isMainPage=false
+) }}
 
 {{ header(
   title=title,
