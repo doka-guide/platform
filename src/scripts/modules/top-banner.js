@@ -11,9 +11,9 @@ function init() {
   const storageKey = 'top-banner'
 
   try {
-    const isCookieAccepted = JSON.parse(localStorage.getItem(storageKey))
+    const isBannerAccepted = JSON.parse(localStorage.getItem(storageKey))
 
-    if (isCookieAccepted) {
+    if (isBannerAccepted) {
       return
     }
 
