@@ -8,6 +8,10 @@
   z-index: 999;
 }
 
+.top-banner[hidden] {
+  display: none;
+}
+
 .top-banner::before {
   content: "";
   position: absolute;
