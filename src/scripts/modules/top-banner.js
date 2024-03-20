@@ -3,6 +3,8 @@ function init() {
   const button = banner?.querySelector('.top-banner__button')
   const interval = 10000
   const visitedPagesKey = 'pages-list'
+  const cookieNotificationKey = 'cookie-notification'
+  const subscriptionPopupKey = 'subscription-form-status'
 
   if (!banner && !button) {
     return
@@ -18,10 +20,12 @@ function init() {
     }
 
     const visitedPages = localStorage.getItem(visitedPagesKey)
+    const cookieNotification = localStorage.getItem(cookieNotificationKey)
+    const subscriptionPopup = localStorage.getItem(subscriptionPopupKey)
     const pageList = visitedPages ? JSON.parse(visitedPages) : {}
 
     let timer = setInterval(() => {
-      if (pageList) {
+      if (pageList && cookieNotification && subscriptionPopup === 'SHOWN') {
         for (const key in pageList) {
           if (pageList[key].duration >= interval * 2) {
             banner.hidden = false
