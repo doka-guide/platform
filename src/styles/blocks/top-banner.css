@@ -69,6 +69,6 @@
   }
 
   .top-banner__button {
-    padding-block: initial;
+    padding-block: 0.3em;
   }
 }
