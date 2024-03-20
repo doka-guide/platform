@@ -38,6 +38,25 @@
   margin: 0;
 }
 
+@media (width <= 1366px) {
+  .top-banner {
+    padding-inline-start: 110px;
+  }
+
+  .top-banner::before {
+    inset-block-start: calc(50% - 10px);
+    inline-size: 80px;
+    block-size: 20px;
+  }
+
+  .top-banner::after {
+    inset-inline-start: 33px;
+    inset-block-end: -8px;
+    inline-size: 45px;
+    block-size: 9px;
+  }
+}
+
 @media (width <= 768px) {
   .top-banner  {
     margin-block-end: 0;
