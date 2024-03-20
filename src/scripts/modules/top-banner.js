@@ -25,7 +25,7 @@ function init() {
     const pageList = visitedPages ? JSON.parse(visitedPages) : {}
 
     let timer = setInterval(() => {
-      if (pageList && cookieNotification && subscriptionPopup === 'SHOWN') {
+      if (pageList && cookieNotification && (subscriptionPopup === 'SHOWN' || subscriptionPopup === 'CLOSED')) {
         for (const key in pageList) {
           if (pageList[key].duration >= interval * 2) {
             banner.hidden = false
