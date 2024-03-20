@@ -424,7 +424,7 @@ self.addEventListener('sync', async (event) => {
     await putPagesInCache(
       syncFeaturedCacheName,
       featured.map((f) => f.link),
-      false,
+      true,
     )
   }
 })
@@ -435,22 +435,22 @@ self.addEventListener('message', async (event) => {
 
 self.addEventListener('fetch', async (event) => {
   // Игнорирует запросы на другие домены
-  if (!event.request.startsWith(self.location.origin) && event.request.method === 'POST') {
+  if (!event.request.url.startsWith(self.location.origin) && event.request.method === 'POST') {
     return new Response(fetch(event.request))
   }
 
   // Игнорирует кеширование Service Worker
-  if (event.request.endsWith('sw.js')) {
+  if (event.request.url.endsWith('sw.js')) {
     return new Response(fetch(event.request))
   }
 
   // Игнорирует кеширование манифеста
-  if (event.request.endsWith('manifest.json')) {
+  if (event.request.url.endsWith('manifest.json')) {
     return new Response(fetch(event.request))
   }
 
   // Игнорирует кеширование страниц с параметрами GET запроса
-  if (event.request.indexOf('.html?') > -1 || event.request.indexOf('.js?') > -1) {
+  if (event.request.url.indexOf('.html?') > -1 || event.request.url.indexOf('.js?') > -1) {
     return new Response(fetch(event.request))
   }
 
