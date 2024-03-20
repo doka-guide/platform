@@ -2,7 +2,6 @@
   position: relative;
   justify-content: space-between;
   align-items: center;
-  margin-block-end: 12px;
   padding-inline-start: 150px;
   color: #fff;
   background-color: #000;
@@ -13,10 +12,23 @@
   content: "";
   position: absolute;
   inset-inline-start: 15px;
-  inset-block-end: -12px;
+  inset-block-start: calc(50% - 15px);
   inline-size: 120px;
-  block-size: 70px;
-  background-image: url("../../images/top-banner/mouse.svg");
+  block-size: 30px;
+  background-image: url("../../images/top-banner/bat-eyes.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.top-banner::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 45px;
+  inset-block-end: -12px;
+  inline-size: 60px;
+  block-size: 13px;
+  background-image: url("../../images/top-banner/bat-teeth.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -33,7 +45,7 @@
     font-size: 14px;
   }
 
-  .top-banner::before {
+  .top-banner::before, .top-banner::after {
     display: none;
   }
 
