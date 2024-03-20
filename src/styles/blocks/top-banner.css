@@ -4,7 +4,6 @@
   align-items: center;
   margin-block-end: 12px;
   padding-inline-start: 150px;
-  font-size: 24px;
   color: #fff;
   background-color: #000;
   z-index: 999;
@@ -25,10 +24,6 @@
 
 .top-banner__content {
   margin: 0;
-}
-
-.top-banner__button {
-  padding-block: 15px;
 }
 
 @media (width <= 768px) {
