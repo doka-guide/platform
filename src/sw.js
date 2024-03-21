@@ -4,12 +4,152 @@ const salt = (cachePeriod) => {
   return new Date().getUTCDate() % cachePeriod >= cachePeriod / 2 ? 'even' : 'odd'
 }
 
+const debugStylesCacheName = 'doka-debug-styles-' + salt(CACHE_PERIOD)
+const debugScriptsCacheName = 'doka-debug-scripts-' + salt(CACHE_PERIOD)
 const assetsCacheName = 'doka-assets-' + salt(CACHE_PERIOD)
 const staticCacheName = 'doka-static-' + salt(CACHE_PERIOD)
 const dynamicCacheName = 'doka-dynamic-' + salt(CACHE_PERIOD)
 const syncFeaturedCacheName = 'doka-sync-featured-' + salt(CACHE_PERIOD)
 
 const offlinePageUrl = '/offline/'
+
+const debugStyles = [
+  '/styles/blocks/all-articles.css',
+  '/styles/blocks/answer.css',
+  '/styles/blocks/article-heading.css',
+  '/styles/blocks/article-image.css',
+  '/styles/blocks/article-indexes-list.css',
+  '/styles/blocks/article-nav.css',
+  '/styles/blocks/article.css',
+  '/styles/blocks/articles-gallery.css',
+  '/styles/blocks/articles-group.css',
+  '/styles/blocks/base-list.css',
+  '/styles/blocks/base.css',
+  '/styles/blocks/baseline.css',
+  '/styles/blocks/block-code.css',
+  '/styles/blocks/breadcrumbs.css',
+  '/styles/blocks/button.css',
+  '/styles/blocks/callout.css',
+  '/styles/blocks/code-fix.css',
+  '/styles/blocks/color-picker.css',
+  '/styles/blocks/container.css',
+  '/styles/blocks/content.css',
+  '/styles/blocks/contributors.css',
+  '/styles/blocks/cookie-notification.css',
+  '/styles/blocks/copy-button.css',
+  '/styles/blocks/details.css',
+  '/styles/blocks/doc.css',
+  '/styles/blocks/featured-article.css',
+  '/styles/blocks/featured-articles-list.css',
+  '/styles/blocks/feedback-control-list.css',
+  '/styles/blocks/feedback-form.css',
+  '/styles/blocks/figure.css',
+  '/styles/blocks/filter-group.css',
+  '/styles/blocks/filter-panel.css',
+  '/styles/blocks/float-button.css',
+  '/styles/blocks/font-theme.css',
+  '/styles/blocks/footer.css',
+  '/styles/blocks/format-block.css',
+  '/styles/blocks/header.css',
+  '/styles/blocks/hotkey.css',
+  '/styles/blocks/index-block.css',
+  '/styles/blocks/index-group-list.css',
+  '/styles/blocks/index-section.css',
+  '/styles/blocks/inline-code.css',
+  '/styles/blocks/intro.css',
+  '/styles/blocks/link.css',
+  '/styles/blocks/linked-article.css',
+  '/styles/blocks/logo.css',
+  '/styles/blocks/materials-collection.css',
+  '/styles/blocks/menu-toggle.css',
+  '/styles/blocks/nav-list.css',
+  '/styles/blocks/not-found.css',
+  '/styles/blocks/notification.css',
+  '/styles/blocks/people-page.css',
+  '/styles/blocks/person-avatar.css',
+  '/styles/blocks/person-badges.css',
+  '/styles/blocks/person-grid.css',
+  '/styles/blocks/person-links-list.css',
+  '/styles/blocks/person-page.css',
+  '/styles/blocks/person.css',
+  '/styles/blocks/persons-list.css',
+  '/styles/blocks/practices.css',
+  '/styles/blocks/question-form.css',
+  '/styles/blocks/questions.css',
+  '/styles/blocks/related-articles-list.css',
+  '/styles/blocks/search-category.css',
+  '/styles/blocks/search-hit.css',
+  '/styles/blocks/search-page.css',
+  '/styles/blocks/search-result-list.css',
+  '/styles/blocks/search-tag.css',
+  '/styles/blocks/search.css',
+  '/styles/blocks/snow-toggle.css',
+  '/styles/blocks/snow.css',
+  '/styles/blocks/social-card.css',
+  '/styles/blocks/standalone-page.css',
+  '/styles/blocks/subscribe-page.css',
+  '/styles/blocks/subscribe-popup.css',
+  '/styles/blocks/suggestion-list.css',
+  '/styles/blocks/switch.css',
+  '/styles/blocks/table-wrapper.css',
+  '/styles/blocks/tag-filter.css',
+  '/styles/blocks/text-control.css',
+  '/styles/blocks/theme-toggle.css',
+  '/styles/blocks/toc.css',
+  '/styles/blocks/visually-hidden.css',
+  '/styles/blocks/vote.css',
+  '/styles/base-colors.css',
+  '/styles/blocks',
+  '/styles/code-dark-theme.css',
+  '/styles/code-light-theme.css',
+  '/styles/dark-theme.css',
+  '/styles/fonts.css',
+  '/styles/fonts.sc.css',
+  '/styles/index.css',
+  '/styles/index.sc.css',
+  '/styles/light-theme.css',
+]
+
+const debugScripts = [
+  '/scripts/core/base-component.js',
+  '/scripts/core/search-api-client.js',
+  '/scripts/core/search-commons.js',
+  '/scripts/libs/debounce.js',
+  '/scripts/libs/throttle.js',
+  '/scripts/modules/answer.js',
+  '/scripts/modules/article-aside.js',
+  '/scripts/modules/article-nav.js',
+  '/scripts/modules/articles-gallery.js',
+  '/scripts/modules/articles-index.js',
+  '/scripts/modules/code-line-numbers.js',
+  '/scripts/modules/cookie-notification.js',
+  '/scripts/modules/copy-code-snippet.js',
+  '/scripts/modules/feedback-form.js',
+  '/scripts/modules/filter-panel.js',
+  '/scripts/modules/form-cache.js',
+  '/scripts/modules/header-quick-search-presenter.js',
+  '/scripts/modules/header.js',
+  '/scripts/modules/last-update.js',
+  '/scripts/modules/linked-article-navigation.js',
+  '/scripts/modules/logo.js',
+  '/scripts/modules/people.js',
+  '/scripts/modules/person-badges-tooltip.js',
+  '/scripts/modules/person-badges.js',
+  '/scripts/modules/persons-list.js',
+  '/scripts/modules/practices.js',
+  '/scripts/modules/pwa.js',
+  '/scripts/modules/question-form.js',
+  '/scripts/modules/quick-search.js',
+  '/scripts/modules/search-page-filter.js',
+  '/scripts/modules/search.js',
+  '/scripts/modules/snow-toggle.js',
+  '/scripts/modules/subscribe-form.js',
+  '/scripts/modules/subscribe-popup.js',
+  '/scripts/modules/theme-toggle.js',
+  '/scripts/modules/toc-text-crop.js',
+  '/scripts/modules/toc.js',
+  '/scripts/modules/triggers.js',
+]
 
 const assetsResources = [
   '/fonts/graphik/graphik-medium.woff2',
@@ -19,15 +159,6 @@ const assetsResources = [
   '/scripts/index.js',
   '/styles/index.css',
   '/styles/dark-theme.css',
-  '/favicon.ico',
-  '/images/icons/icon.svg',
-  'http://localhost:8080/images/icons/96x96.png',
-  'http://localhost:8080/images/icons/144x144.png',
-  'http://localhost:8080/images/icons/180x180.png',
-  'http://localhost:8080/images/icons/192x192.png',
-  'http://localhost:8080/images/icons/256x256.png',
-  'http://localhost:8080/images/icons/512x512.png',
-  'http://localhost:8080/images/icons/maskable.png',
   '/images/assets/cached-link.svg',
   '/images/assets/non-cached-link.svg',
   '/images/logo/logo-offline.svg',
@@ -264,6 +395,10 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
 
 // Слушатели
 self.addEventListener('install', async () => {
+  if (self.location.origin.startsWith('http://localhost')) {
+    await putResourcesInCache(debugStylesCacheName, debugStyles)
+    await putResourcesInCache(debugScriptsCacheName, debugScripts)
+  }
   await putResourcesInCache(assetsCacheName, assetsResources)
   await putPagesInCache(staticCacheName, staticPages)
 })
@@ -300,30 +435,22 @@ self.addEventListener('message', async (event) => {
 
 self.addEventListener('fetch', async (event) => {
   // Игнорирует запросы на другие домены
-  if (!event.request.url.startsWith(self.location.origin) && event.request.method === 'POST') {
+  if (!event.request.startsWith(self.location.origin) && event.request.method === 'POST') {
     return new Response(fetch(event.request))
   }
 
   // Игнорирует кеширование Service Worker
-  if (event.request.url.endsWith('sw.js')) {
+  if (event.request.endsWith('sw.js')) {
     return new Response(fetch(event.request))
   }
 
   // Игнорирует кеширование манифеста
-  if (event.request.url.endsWith('manifest.json')) {
+  if (event.request.endsWith('manifest.json')) {
     return new Response(fetch(event.request))
   }
 
   // Игнорирует кеширование страниц с параметрами GET запроса
-  if (event.request.url.indexOf('.html?') > -1 || event.request.url.indexOf('.js?') > -1) {
-    return new Response(fetch(event.request))
-  }
-
-  // Игнорирует запросы на кеш Vite
-  if (
-    event.request.url.startsWith('http://localhost:8080/@') ||
-    event.request.url.startsWith('http://localhost:8080/.')
-  ) {
+  if (event.request.indexOf('.html?') > -1 || event.request.indexOf('.js?') > -1) {
     return new Response(fetch(event.request))
   }
 
