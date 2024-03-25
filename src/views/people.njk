@@ -1,5 +1,4 @@
 {% from "blocks/header.njk" import header with context %}
-{% from "blocks/top-banner.njk" import topBanner with context %}
 {% from "blocks/footer.njk" import footer with context %}
 {% from "blocks/person.njk" import person %}
 
@@ -23,10 +22,6 @@
 {% endmacro %}
 
 <div class="people-page">
-
-  {{ topBanner(
-    isMainPage=false
-  ) }}
 
   {{ header(
     pageCategoryId='people',

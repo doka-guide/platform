@@ -1,14 +1,9 @@
 {% from "blocks/header.njk" import header with context %}
-{% from "blocks/top-banner.njk" import topBanner with context %}
 {% from "blocks/footer.njk" import footer with context %}
 {% from "blocks/article-image.njk" import articleImage %}
 {% from "blocks/linked-article.njk" import linkedArticle %}
 
 {% set isLogoContrastColor = hasCategory %}
-
-{{ topBanner(
-  isMainPage=false
-) }}
 
 {{ header(
   pageCategoryId=category,
