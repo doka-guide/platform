@@ -22,5 +22,6 @@ interviews
 
 # кеш для @11ty/eleventy-cache-assets
 .cache
+.issues.json
 
 .env
