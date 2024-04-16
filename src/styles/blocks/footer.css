@@ -47,6 +47,11 @@
 
 .footer-list__link_social {
   padding: 5px;
+  text-decoration: none;
+}
+
+.footer-list__link_social::after {
+  margin: 0;
 }
 
 .footer-list__link_social:hover {
