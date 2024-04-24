@@ -1,10 +1,35 @@
-<form class="header__search search font-theme font-theme--code" method="get" name="search-form" action="/search/" id="search-form">
+<form
+  class="header__search search font-theme font-theme--code"
+  method="get"
+  name="search-form"
+  action="/search/"
+  id="search-form"
+>
   <div class="search__control">
-    <label class="visually-hidden" for="search-field">Поиск</label>
-    <input class="search__input" type="text" name="query" id="search-field" placeholder="Поиск" autocomplete="off" {% if permalink == "/search/" %}aria-describedby="search-hint"{% endif %}>
+    <label
+      class="visually-hidden"
+      for="search-field"
+    >
+      Поиск
+    </label>
+    <input
+      class="search__input"
+      id="search-field"
+      type="text"
+      name="query"
+      placeholder="Поиск"
+      {% if permalink == "/search/" %}aria-describedby="search-hint"{% endif %}
+    >
 
-    <kbd class="hotkey search__key search__key--activate">/</kbd>
-    <kbd class="hotkey search__key search__key--enter">↲</kbd>
+    {% if isMainPage %}
+      <span class="hotkey search__key search__key--activate">
+        Поиск <kbd>/</kbd>
+      </span>
+    {% endif %}
+
+    <span class="hotkey search__key search__key--enter">
+      Искать <kbd>↲</kbd>
+    </span>
   </div>
 
   <div class="search__suggestion search__suggestion--hide">
@@ -16,5 +41,4 @@
       Расширенный поиск
     </a>
   </div>
-
 </form>

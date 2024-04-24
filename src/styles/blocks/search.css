@@ -51,7 +51,6 @@
 }
 
 .search__key {
-  margin: 0 10px;
   place-self: center end;
   pointer-events: none;
 }
