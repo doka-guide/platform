@@ -38,6 +38,10 @@
   background-color: var(--accent-color);
 }
 
+.offline .article-indexes-list__link::after {
+  background-image: none;
+}
+
 .article-indexes-list__link:hover {
   color: var(--accent-color);
 }

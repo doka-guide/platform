@@ -3,7 +3,7 @@
   <div class="article-image {{ class if class }}">
     <picture class="article-image__picture">
       {% if cover.mobile %}
-        <source srcset="{{ cover.mobile }}" media="(max-width: 425px)" width="1080" height="1080">
+        <source srcset="{{ cover.mobile }}" media="(width <= 425px)" width="1080" height="1080">
       {% endif %}
       <img class="article-image__content" src="{{ cover.desktop }}" alt="{{ cover.alt }}" width="1920" height="1080" itemprop="image">
     </picture>

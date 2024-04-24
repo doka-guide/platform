@@ -21,7 +21,7 @@
   top: 100vh;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .people-page {
     --offset: 20px;
   }

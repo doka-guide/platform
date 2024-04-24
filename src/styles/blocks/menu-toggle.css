@@ -11,7 +11,7 @@
 }
 
 .menu-toggle::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: -10px;
 }
@@ -22,7 +22,7 @@
   align-items: center;
 }
 
-/* @media all and (min-width: 1024px) {
+/* @media all and (width >= 1024px) {
   .menu-toggle__inner--close {
     flex-direction: column-reverse;
   }
@@ -60,7 +60,7 @@
   opacity: 0.7;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .menu-toggle__icon--open {
     gap: 10px;
   }

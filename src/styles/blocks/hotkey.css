@@ -1,5 +1,5 @@
 .hotkey {
-  opacity: 0.6;
+  opacity: 0.7;
   min-width: 14px;
   padding: 1px 6px;
   border: 1px solid hsl(var(--color-base-text) / 0.3);
@@ -12,13 +12,13 @@
   border-radius: 5px;
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .hotkey {
     display: none;
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .hotkey {
     font-size: 20px;
   }

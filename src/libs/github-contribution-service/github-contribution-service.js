@@ -1,6 +1,7 @@
 const os = require('os')
 const { Octokit } = require('@octokit/core')
-const Cache = require('@11ty/eleventy-cache-assets')
+const Cache = require('@11ty/eleventy-fetch')
+const fetch = require('node-fetch')
 
 Cache.concurrency = os.cpus().length
 
@@ -8,13 +9,14 @@ const { GITHUB_TOKEN } = process.env
 
 const octokit = new Octokit({
   auth: GITHUB_TOKEN,
+  request: { fetch },
 })
 
 const CACHE_KEY_STAT = 'GITHUB_AUTHORS_CONTRIBUTION'
 const CACHE_KEY_EXISTS = 'GITHUB_AUTHORS_EXISTS'
 const CACHE_KEY_ID = 'GITHUB_AUTHORS_ID'
 const CACHE_KEY_ACTIONS = 'GITHUB_AUTHORS_ACTIONS'
-const CACHE_DURATION = '1d'
+const CACHE_DURATION = '48d'
 
 const assetCache = {}
 assetCache['stat'] = new Cache.AssetCache(CACHE_KEY_STAT)
@@ -91,7 +93,12 @@ function repoActions({ authorID, repo }) {
               path: "people"
             ) {
               nodes {
-                pushedDate
+                committedDate,
+                associatedPullRequests(first: 1) {
+                  nodes {
+                      mergedAt
+                  }
+                }
               }
             }
           }

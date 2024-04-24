@@ -1,0 +1,25 @@
+{% from "blocks/header.njk" import header with context %}
+{% from "blocks/footer.njk" import footer with context %}
+
+{{ header(isLogoImageHidden=true) }}
+
+<main>
+  <div class="not-found font-theme font-theme--code">
+    <div class="not-found__logo logo">
+      <div class="logo__image" aria-hidden="true">
+        <img src="/images/logo/logo-offline.svg" alt="Логотип собачки, когда Дока оффлайн">
+      </div>
+    </div>
+    <p class="not-found__description">
+      Дока сейчас оффлайн!,<br>
+      Эта статья недоступна,,<br>
+      но смотрите, какие уже есть:
+    </p>
+  </div>
+
+  <div class="container">
+    {% include "articles-gallery.njk" %}
+  </div>
+</main>
+
+{{ footer() }}

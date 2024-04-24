@@ -36,7 +36,8 @@
   justify-items: end;
 }
 
-.social-card__title {
+.social-card__title,
+.social-card__index-title {
   --stroke-width: 2px;
   font-family: 'Spot Mono', monospace;
   font-size: calc(100vw * var(--title-font-size-proportion));
@@ -72,6 +73,7 @@
   grid-row-start: 1;
   grid-row-end: -1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: var(--accent-color);

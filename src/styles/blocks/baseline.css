@@ -1,23 +1,18 @@
 .wdi-browser-compat {
   max-width: 87.5%;
+  margin-block-start: 40px;
   align-items: center;
-  color: var(--wdi-text-color, #585b63);
+  color: var(--color-light);
   display: flex;
   flex-wrap: wrap;
 }
 
-.wdi-browser-compat__label {
-  color: var(--wdi-text-color, #585b63);
-  flex: 0 0 100%;
-  font-style: normal;
-  margin-right: 1rem;
-  width: 100%;
-}
-
 .wdi-browser-compat__items {
   display: flex;
-  margin: 1rem 1rem 1rem 0;
+  flex-wrap: wrap;
+  margin: 1rem 0;
   padding: 0;
+  gap: 24px;
   list-style: none;
 }
 
@@ -30,7 +25,6 @@
 .wdi-browser-compat__icon {
   display: inline-block;
   height: 24px;
-  margin-left: 24px;
   margin-right: 6px;
   width: 24px;
   background-repeat: no-repeat no-repeat;
@@ -38,20 +32,20 @@
   background-size: cover;
 }
 
-.wdi-browser-compat__icon[data-browser='chrome'] {
-  background-image: url('/images/baseline/chrome.svg');
+.wdi-browser-compat__icon[data-browser="chrome"] {
+  background-image: url("/images/baseline/chrome.svg");
 }
 
-.wdi-browser-compat__icon[data-browser='firefox'] {
-  background-image: url('/images/baseline/firefox.svg');
+.wdi-browser-compat__icon[data-browser="firefox"] {
+  background-image: url("/images/baseline/firefox.svg");
 }
 
-.wdi-browser-compat__icon[data-browser='edge'] {
-  background-image: url('/images/baseline/edge.svg');
+.wdi-browser-compat__icon[data-browser="edge"] {
+  background-image: url("/images/baseline/edge.svg");
 }
 
-.wdi-browser-compat__icon[data-browser='safari'] {
-  background-image: url('/images/baseline/safari.svg');
+.wdi-browser-compat__icon[data-browser="safari"] {
+  background-image: url("/images/baseline/safari.svg");
 }
 
 .wdi-browser-compat__version {
@@ -69,26 +63,26 @@
   padding-inline: 0.5ch;
 }
 
-.wdi-browser-compat__version[data-compat='yes'] {
+.wdi-browser-compat__version[data-compat="yes"] {
   background: var(--wdi-success-bg-color, #e9f6ed);
   color: var(--wdi-success-color, #0d652d);
 }
 
-.wdi-browser-compat__version[data-compat='flag'] {
+.wdi-browser-compat__version[data-compat="flag"] {
   background-color: var(--wdi-warn-bg-color, #fff5e3);
-  background-image: url('/images/baseline/flag.svg');
+  background-image: url("/images/baseline/flag.svg");
   color: var(--wdi-warn-color, #c34900);
 }
 
-.wdi-browser-compat__version[data-compat='no'] {
+.wdi-browser-compat__version[data-compat="no"] {
   background-color: var(--wdi-error-bg-color, #fce8e8);
-  background-image: url('/images/baseline/no.svg');
+  background-image: url("/images/baseline/no.svg");
   color: var(--wdi-error-color, #a50e0e);
 }
 
-.wdi-browser-compat__version[data-compat='preview'] {
+.wdi-browser-compat__version[data-compat="preview"] {
   background-color: var(--wdi-warn-bg-color, #fff5e3);
-  background-image: url('/images/baseline/preview.svg');
+  background-image: url("/images/baseline/preview.svg");
   color: var(--wdi-warn-color, #c34900);
 }
 
@@ -98,7 +92,7 @@
   color: currentColor;
 }
 
-@media (min-width: 50em) {
+@media (width >= 50em) {
   .wdi-browser-compat {
     flex-wrap: nowrap;
   }
@@ -112,5 +106,11 @@
   .wdi-browser-compat__link {
     flex: none;
     margin-left: auto;
+  }
+}
+
+@media (width >= 600px) {
+  .wdi-browser-compat__label {
+    margin-right: 24px;
   }
 }

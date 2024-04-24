@@ -111,9 +111,9 @@
       "headline": "{{ socialTitle }}",
       {% if cover %}
       "image": [
-        "{{ fullPageUrl }}{{ cover.desktop if cover.desktop }}"
+        "{{ baseUrl }}{{ cover.desktop if cover.desktop }}"
         {% if cover.mobile %},{% endif %}
-        "{{ fullPageUrl }}{{ cover.mobile if cover.mobile }}"
+        "{{ baseUrl }}{{ cover.mobile if cover.mobile }}"
       ],
       {% endif %}
       "datePublished": "{{ createdAt.toISOString() if createdAt }}",

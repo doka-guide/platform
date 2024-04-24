@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html class="base font-theme" lang="{{ meta.lang }}" itemscope itemtype="https://schema.org/{{ pageType }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../styles/index.sc.css">
+  </head>
+  <body class="base__body {{ bodyClass }}">
+    {% from "blocks/social-card.njk" import socialCard %}
+    {{ socialCard('all', 'Все статьи', cover, true) }}
+  </body>
+</html>

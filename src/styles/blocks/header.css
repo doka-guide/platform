@@ -9,7 +9,8 @@
 
 /* фон с закрытым меню */
 .header::before:not(.header--open) {
-  content: '';
+  content: "";
+  position: fixed;
   z-index: 2;
   opacity: 0.3;
   top: 0;
@@ -24,7 +25,7 @@
 
 /* "тень" от фиксированной шапки */
 .header::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
@@ -84,8 +85,30 @@
   font-family: var(--font-family);
 }
 
+
 /* фон всего меню, когда открыт выпадающий список */
-.header--open .header__controls {
+.header--main .header__inner--main {
+  height: calc(var(--font-line-height-l) * 1.25);
+}
+
+.header__inner--menu {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding-top: 20px;
+  display: grid;
+  align-content: start;
+  grid-template-areas:
+    "logo   button"
+    "search search"
+    "search-output search-output"
+    "list   list";
+  grid-template-rows: var(--font-size-xl) repeat(3, auto);
+  font-size: calc(var(--font-size-xl) * 0.95);
+  line-height: calc(var(--font-line-height-xl) * 0.95);
+  letter-spacing: -0.06em;
   background-color: var(--color-background);
 }
 
@@ -140,6 +163,9 @@
 .header--main .header__menu {
   position: relative;
   height: auto;
+
+.header__divider::before {
+  content: "/";
 }
 
 /* выпадающее меню в открытом состоянии на других страницах */
@@ -163,9 +189,9 @@
   gap: var(--gap);
 }
 
-@media not all and (min-width: 768px) {
-  .header__menu-list {
-    --gap: 16px;
+@media (width >= 1024px) {
+  .header__inner--menu .header__search {
+    margin-top: -14px;
   }
 }
 
@@ -213,6 +239,41 @@
   display: flex;
   align-self: center;
   align-items: center;
+
+@media (width >= 1024px) {
+  .header__menu {
+    margin-top: calc(4 * var(--gap, 16px));
+  }
+}
+
+@media (width >= 1366px) {
+  .header__menu {
+    margin-top: calc(6 * var(--gap, 16px));
+  }
+}
+
+@media not all and (width >= 768px) {
+  .header__menu {
+    --gap: 16px;
+  }
+}
+
+@media (width >= 768px) {
+  .header__menu {
+    --gap: 14px;
+  }
+}
+
+@media (width >= 1024px) {
+  .header__menu {
+    --gap: 6px;
+  }
+}
+
+@media (width >= 1680px) {
+  .header__menu {
+    --gap: 9px;
+  }
 }
 
 /* разделитель */
@@ -312,7 +373,14 @@
   display: none;
 }
 
-@media not all and (min-width: 1366px) {
+.header:not(.header--open, .header--static) .header__inner--menu {
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
+}
+
+@media not all and (width >= 1366px) {
   .header__category--standalone {
     height: 1.25em;
   }
@@ -322,7 +390,7 @@
   }
 }
 
-@media not all and (min-width: 768px) {
+@media not all and (width >= 768px) {
   .header__category:not(.header__category--standalone) {
     display: none;
   }
@@ -333,8 +401,36 @@
   }
 }
 
-@media all and (min-width: 430px) {
+@media all and (width >= 430px) {
   .header__category.header__category--visible {
     display: flex;
+  }
+}
+
+@media (width >= 768px) {
+  .header__breadcrumbs {
+    font-size: var(--font-size-l);
+  }
+}
+
+@media (width >= 1024px) {
+  .header__inner {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .header__inner--menu {
+    grid-template-areas:
+      "logo search button"
+      ".    search-output   ."
+      ".    list   .";
+    grid-auto-columns: auto 1fr auto;
+    grid-template-rows: var(--search-input-height) auto;
+  }
+}
+
+@media (width >= 1680px) {
+  .header__inner--menu {
+    padding-bottom: 20px;
   }
 }

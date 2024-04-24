@@ -137,3 +137,7 @@
 .logo--color-fade {
   --ligthness: calc(var(--is-light-theme-on) * 90% + var(--is-dark-theme-on) * 25%);
 }
+
+.logo__text .link::after {
+  display: none;
+}
