@@ -4,7 +4,17 @@
   <span class="header__divider {% if isLarge %}header__divider--large{% endif %} font-theme font-theme--code" aria-hidden="true"></span>
 {% endmacro %}
 
-{% macro header(pageCategoryId, category, title, link, isLogoContrastColor, hasAccentColor, isMainPage = false, isCategoryVisible = false, isLogoImageHidden = false) %}
+{% macro header(
+  pageCategoryId,
+  category,
+  title,
+  link,
+  isLogoContrastColor,
+  hasAccentColor,
+  isMainPage = false,
+  isCategoryVisible = false,
+  isLogoImageHidden = false)
+%}
   {% set articleIndexes = collections.articleIndexes %}
   <header
     class="
@@ -16,34 +26,39 @@
     <div class="header__controls font-theme font-theme--code">
       <ul class="header__breadcrumbs breadcrumbs base-list">
         <li class="breadcrumbs__item header__logo">
-          {{ logo(isLink=not isMainPage, isContrastColor=isLogoContrastColor, isImageHidden=isLogoImageHidden, letters=logoLetters) }}
+          {{ logo(
+            isLink = not isMainPage,
+            isContrastColor = isLogoContrastColor,
+            isImageHidden = isLogoImageHidden,
+            letters = logoLetters)
+          }}
           {{ divider() }}
         </li>
 
         {% if category %}
-          {% if title %}
-            <li class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% endif %}">
+          {# {% if title %} #}
+            {# <li class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% endif %}">
               <a class="breadcrumbs__text link" href="/{{ pageCategoryId }}/">
                 {{ category }}
               </a>
               {{ divider() }}
             </li>
-          {% else %}
-            <li class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% else %}header__category--standalone{% endif %}">
-              <span class="breadcrumbs__text">
-                {{ category }}
-              </span>
-            </li>
-          {% endif %}
+          {% else %} #}
+          <li class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% else %}header__category--standalone{% endif %}">
+            <span class="breadcrumbs__text">
+              {{ category }}
+            </span>
+          </li>
+          {# {% endif %} #}
         {% endif %}
 
-        {% if title %}
+        {# {% if title %}
           <li class="breadcrumbs__item breadcrumbs__item--shrink header__title">
             <span class="breadcrumbs__text" title="{{ title | replace('`', '') }}">
               {{ title | descriptionMarkdown | safe }}
             </span>
           </li>
-        {% endif %}
+        {% endif %} #}
       </ul>
 
       {% include "blocks/search.njk" %}

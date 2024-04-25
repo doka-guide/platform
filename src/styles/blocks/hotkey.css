@@ -1,4 +1,3 @@
-@layer visibleHotkeys, invisibleHotkeys;
 
 .hotkey {
   min-width: 14px;
@@ -22,22 +21,13 @@
   display: none;
 }
 
-@layer visibleHotkeys {
-  .header--open .hotkey--close {
-    display: inherit;
-  }
+.header--open .hotkey--close {
+  display: inline-block;
 }
 
 @media not all and (width >= 768px) {
-  @layer invisibleHotkeys {
-    .hotkey {
-      display: none;
-    }
+  .hotkey {
+    display: none;
   }
 }
 
-/* @media (width >= 1024px) {
-  .hotkey {
-    font-size: 20px;
-  }
-} */

@@ -18,7 +18,7 @@
       <h1 class="index-block__title">
         {{ categoryName }}
       </h1>
-      <div class="index-block__description content">
+      <div class="content">
         {{ articleIndex.templateContent | safe }}
       </div>
     </div>
@@ -26,7 +26,7 @@
     <fieldset class="index-block__filter">
       {# fieldset и legend не работают с flexbox/grid #}
       <legend class="visually-hidden">Сортировать по:</legend>
-      <div class="index-block__filter-legend" aria-hidden="true">Сортировать по:</div>
+      <div aria-hidden="true">Сортировать по:</div>
 
       <div class="index-block__filter-control switch">
         <label class="switch__item">

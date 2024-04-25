@@ -1,14 +1,20 @@
 .header {
-  position: relative;
   --header-bg-color: var(--accent-color, var(--color-background));
   --search-input-height: 0.4em;
   --header-animation-time: 0.5s;
+  position: relative;
   background-color: var(--color-background);
   z-index: 2;
 }
 
+/* всегда открытое меню (главная) */
+.header--main {
+  position: relative;
+}
+
 /* фон с закрытым меню */
-.header::before:not(.header--open) {
+
+/* .header::before:not(.header--open) {
   content: "";
   position: fixed;
   z-index: 2;
@@ -21,10 +27,11 @@
   transition:
     opacity var(--header-animation-time),
     visibility var(--header-animation-time);
-}
+} */
 
 /* "тень" от фиксированной шапки */
-.header::after {
+
+/* .header::after {
   content: "";
   position: absolute;
   left: 0;
@@ -53,17 +60,29 @@
       hsl(var(--color-base-background)/0) 100%
     );
   pointer-events: none;
-}
+} */
 
-/* всегда открытое меню */
-.header--main {
-  position: relative;
+.header__search {
+  font-family: var(--font-family);
+  font-size: calc(var(--font-size-xl)* .85);
+
+  /* line-height: calc(var(--font-line-height-xl)* .85); */
+
+  /* line-height: calc(var(--font-line-height-xl)* .55); */
+  line-height: var(--font-line-height-xl);
 }
 
 /* фиксируем открытое меню */
 .header--open {
   position: fixed;
   width: 100%;
+}
+
+/* TODO: пофиксить страницу с участниками, там это не второй элемент в бади */
+
+.base__body:has(.header--open) > :nth-child(2) {
+  background-color: black;
+  opacity: .4;
 }
 
 .header--open::after {
@@ -83,6 +102,10 @@
   letter-spacing: -0.06em;
   line-height: var(--font-line-height-l);
   font-family: var(--font-family);
+}
+
+.header--open .header__controls {
+  background-color: var(--color-background);
 }
 
 .header-inner {
@@ -115,6 +138,12 @@
   background-color: var(--color-background);
 }
 
+@media (width >= 768px) {
+  .header__inner--menu {
+    display: block;
+  }
+}
+
 /* поиск */
 .header__controls .header__search {
   display: none;
@@ -127,7 +156,8 @@
 .header--open .header__search,
 .header--main .header__search {
   display: block;
-  padding-top: var(--gap, 16px);
+
+  /* padding-top: var(--gap, 16px); */
 }
 
 @media (width >= 1024px) {
@@ -190,54 +220,39 @@
 /* список разделов */
 .header__menu-list {
   padding: var(--gap, 16px) 10px 1.7% 10px;
-  gap: var(--gap);
+
+  /* gap: var(--gap); */
 }
 
-@media (width >= 1024px) {
+/* @media (width >= 1024px) {
   .header__inner--menu .header__search {
     margin-top: -14px;
   }
-}
+} */
 
-@media (width >= 768px) {
+/* @media (width >= 768px) {
   .header__menu-list {
     --gap: 14px;
   }
-}
+} */
 
 @media (width >= 1024px) {
   .header__menu-list {
     padding: 2px 20px 1.7% 237px;
-    --gap: 6px;
+
+    /* --gap: 6px; */
   }
 }
 
-@media (width >= 1680px) {
+/* @media (width >= 1680px) {
   .header__menu-list {
     --gap: 9px;
   }
-}
+} */
 
-.header__breadcrumbs {
-  min-width: 0;
-  line-height: 1.25;
-}
-
-@media (width >= 768px) {
-  .header__breadcrumbs {
-    font-size: var(--font-size-l);
-  }
-}
-
-@media not all and (width >= 768px) {
-  .header--fixed .header__breadcrumbs {
-    flex-wrap: wrap;
-  }
-}
-
-.header__title-code {
+/* .header__title-code {
   font: inherit;
-}
+} */
 
 .header__logo {
   display: flex;
@@ -245,17 +260,17 @@
   align-items: center;
 }
 
-@media (width >= 1024px) {
+/* @media (width >= 1024px) {
   .header__menu {
     margin-top: calc(4 * var(--gap, 16px));
   }
-}
+} */
 
-@media (width >= 1366px) {
+/* @media (width >= 1366px) {
   .header__menu {
     margin-top: calc(6 * var(--gap, 16px));
   }
-}
+} */
 
 @media not all and (width >= 768px) {
   .header__menu {
@@ -283,10 +298,11 @@
 
 /* разделитель */
 .header__divider {
-  opacity: 0.3;
+  --text-font-size: 0.85em;
   margin: 0 0.2em;
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
+  opacity: 0.3;
 }
 
 /* .header__divider::before {
@@ -325,8 +341,7 @@
 }
 
 /* скпываем крошки, когда меню открыто */
-.header--open .header__category,
-.header--open .header__title {
+.header--open .header__category {
   display: none;
 }
 
@@ -365,9 +380,9 @@
   opacity: 0;
 }
 
-.header:not(.header--fixed) .header__title {
+/* .header:not(.header--fixed) .header__title {
   display: none;
-}
+} */
 
 .header:not(.header--open)::before {
   opacity: 0;
@@ -385,7 +400,7 @@
   transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
 }
 
-@media not all and (width >= 1366px) {
+/* @media not all and (width >= 1366px) {
   .header__category--standalone {
     height: 1.25em;
   }
@@ -393,17 +408,17 @@
   .header:not(.header--fixed) .header__category--standalone {
     display: none;
   }
-}
+} */
 
 @media not all and (width >= 768px) {
   .header__category:not(.header__category--standalone) {
     display: none;
   }
 
-  .header--fixed .header__title {
+  /* .header--fixed .header__title {
     margin-top: 10px;
     flex-basis: 100%;
-  }
+  } */
 }
 
 @media all and (width >= 430px) {
