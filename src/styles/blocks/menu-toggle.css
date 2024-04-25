@@ -16,6 +16,10 @@
   inset: -10px;
 }
 
+.menu-toggle--open {
+  --is-menu-open: 1;
+}
+
 .menu-toggle__inner {
   display: flex;
   gap: 10px;
@@ -30,6 +34,10 @@
 
 .menu-toggle__icon {
   transition: opacity 0.2s;
+}
+
+.menu-toggle:hover .menu-toggle__icon {
+  opacity: 0.7;
 }
 
 .menu-toggle__icon--open {
@@ -50,14 +58,6 @@
   gap: 7px;
   background-color: currentColor;
   border-radius: 50%;
-}
-
-.menu-toggle--open {
-  --is-menu-open: 1;
-}
-
-.menu-toggle:hover .menu-toggle__icon {
-  opacity: 0.7;
 }
 
 @media (width >= 1024px) {

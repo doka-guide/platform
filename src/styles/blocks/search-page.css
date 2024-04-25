@@ -11,14 +11,15 @@
 
 .search-page__header .header__search {
   display: block;
-  padding-top: var(--gap, 16px);
+
+  /* padding-top: var(--gap, 16px); */
 }
 
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
   .search-page__header .header__search {
     padding-top: 0;
   }
-}
+} */
 
 .search-page__aside {
   --lightness: calc(100% - var(--is-dark-theme-on) * 80%);
@@ -127,7 +128,7 @@
   }
 
   .search-page__search {
-    margin-top: 12px;
+    /* margin-top: 12px; */
     grid-row: 2;
     grid-column-start: 1;
     grid-column-end: -1;

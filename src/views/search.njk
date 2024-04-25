@@ -3,7 +3,7 @@ layout: 'base.njk'
 permalink: '/search/'
 title: 'Поиск'
 ---
-{% from "blocks/header.njk" import divider %}
+{% from "blocks/header.njk" import devider %}
 {% from "blocks/footer.njk" import footer with context %}
 {% from "blocks/logo.njk" import logo %}
 
@@ -14,7 +14,7 @@ title: 'Поиск'
     <div class="header__controls font-theme font-theme--code">
       <div class="header__logo search-page__logo">
         {{ logo(isLink=true, isContrastColor=isLogoContrastColor) }}
-        {{ divider() }}
+        {{ devider() }}
       </div>
 
       {% include "blocks/search.njk" %}

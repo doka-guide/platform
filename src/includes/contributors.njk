@@ -11,7 +11,7 @@
 {% macro personsList(list, personType, maxPersons = 3) %}
   {% set totalPersonsCount = list.length %}
   {% set extraPersonsCount = totalPersonsCount - maxPersons %}
-  {% set divider = "," %}
+  {% set devider = "," %}
 
   <div class="persons-list">
     <ul class="persons-list__items base-list">
@@ -24,7 +24,7 @@
         >
           {{ person(name=personItem.data.name, url='/people/' + personItem.fileSlug + '/') }}
           {% if not loop.last %}
-            {{ divider }}
+            {{ devider }}
           {% endif %}
         </li>
       {% endfor %}

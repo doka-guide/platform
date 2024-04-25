@@ -1,7 +1,11 @@
 {% from "blocks/logo.njk" import logo %}
 
-{% macro divider(isLarge) %}
-  <span class="header__divider {% if isLarge %}header__divider--large{% endif %} font-theme font-theme--code" aria-hidden="true"></span>
+{% macro devider() %}
+  <span
+    class="header__devider font-theme font-theme--code"
+    aria-hidden="true"
+  >
+  </span>
 {% endmacro %}
 
 {% macro header(
@@ -20,7 +24,7 @@
     class="
       header
       {% if isMainPage %}header--main{% endif %}
-      {% if not hasAccentColor %}header--simple{% endif %}
+      {# {% if not hasAccentColor %}header--simple{% endif %} #}
     "
   >
     <div class="header__controls font-theme font-theme--code">
@@ -32,24 +36,28 @@
             isImageHidden = isLogoImageHidden,
             letters = logoLetters)
           }}
-          {{ divider() }}
+          {{ devider() }}
         </li>
 
         {% if category %}
-          {# {% if title %} #}
-            {# <li class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% endif %}">
+          {% if title %}
+            <li
+              class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% endif %}"
+            >
               <a class="breadcrumbs__text link" href="/{{ pageCategoryId }}/">
                 {{ category }}
               </a>
-              {{ divider() }}
+              {{ devider() }}
             </li>
-          {% else %} #}
-          <li class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% else %}header__category--standalone{% endif %}">
-            <span class="breadcrumbs__text">
-              {{ category }}
-            </span>
-          </li>
-          {# {% endif %} #}
+          {% else %}
+            <li
+              class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% else %}header__category--standalone{% endif %}"
+            >
+              <span class="breadcrumbs__text">
+                {{ category }}
+              </span>
+            </li>
+          {% endif %}
         {% endif %}
 
         {# {% if title %}
@@ -101,7 +109,6 @@
           </button>   
         </div>
       {% endif %}
-
     </div>
 
     <div class="header__menu">
