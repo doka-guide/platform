@@ -9,7 +9,7 @@
 .article__header-inner {
   box-sizing: border-box;
   padding: var(--offset);
-  padding-top: clamp(20px, 8%, 130px);
+  padding-top: clamp(20px, 3%, 130px);
 }
 
 .article__title {
@@ -46,7 +46,7 @@
 
 .article__image {
   margin-bottom: 60px;
-  margin-bottom: clamp(20px, 5.5%, 60px);
+  margin-bottom: clamp(20px, 2%, 60px);
 }
 
 .article__description {
@@ -95,9 +95,9 @@
 }
 
 .article__read-time {
-  margin-top: 1.5em;
+  margin-top: 0.8em;
   margin-bottom: 1em;
-  font-size: 0.86em;
+  font-size: var(--font-size-s);
 }
 
 .article__layout {}
