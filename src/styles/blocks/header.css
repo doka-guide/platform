@@ -39,15 +39,11 @@
     "logo button"
     "search search-output";
   grid-template-columns: 1fr auto;
-  padding: var(--gap, 10px);
+  padding: 10px;
   font-family: var(--font-family);
   font-size: var(--font-size-l);
   line-height: var(--font-line-height-l);
   background-color: var(--header-bg-color);
-}
-
-.header--open .header__controls {
-  background-color: var(--color-background);
 }
 
 @media (width >= 1024px) {
@@ -55,7 +51,12 @@
     --gap: 20px;
     display: flex;
     justify-content: space-between;
+    padding: 20px;
   }
+}
+
+.header--open .header__controls {
+  background-color: var(--color-background);
 }
 
 .header__devider {
@@ -115,26 +116,9 @@
   line-height: calc(var(--font-line-height-xl) * 0.95);
   letter-spacing: -0.06em;
   background-color: var(--color-background);
-  transition: transform var(--header-animation-time) cubic-bezier(0.65, 0.05, 0.36, 1);
+
+  /* transition: transform var(--header-animation-time) cubic-bezier(0.65, 0.05, 0.36, 1); */
   z-index: -1;
-}
-
-@media (width >= 768px) {
-  .header__menu {
-    --gap: 14px;
-  }
-}
-
-@media (width >= 1024px) {
-  .header__menu {
-    --gap: 6px;
-  }
-}
-
-@media (width >= 1680px) {
-  .header__menu {
-    --gap: 9px;
-  }
 }
 
 /* всегда раскрытый список разделов на главной */
@@ -195,6 +179,24 @@
 }
 
 /* TODO: разобраться со свалкой с анимациями */
+
+/* @media (width >= 768px) {
+  .header__menu {
+    --gap: 14px;
+  }
+}
+
+@media (width >= 1024px) {
+  .header__menu {
+    --gap: 6px;
+  }
+}
+
+@media (width >= 1680px) {
+  .header__menu {
+    --gap: 9px;
+  }
+} */
 
 /* .header::before:not(.header--open) {
   content: "";
