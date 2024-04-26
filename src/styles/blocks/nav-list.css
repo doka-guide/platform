@@ -1,6 +1,7 @@
 .nav-list {
   --stroke-size: calc(6 / 48 * 1em);
-  --transition: 150ms ease-in-out;
+  
+  /* --transition: 150ms ease-in-out; */
   display: grid;
   gap: var(--gap);
 }
