@@ -1,15 +1,15 @@
 .header {
   --header-bg-color: var(--accent-color, var(--color-background));
   --search-input-height: 0.4em;
+
+  /* TODO: подумать, что делать с анимацией */
   --header-animation-time: 0.5s;
   background-color: var(--color-background);
   z-index: 2;
 }
 
-/* TODO: придумать названия получше .header--main и .header--sticky */
-
 /* всегда открытое меню (главная) */
-.header--main {
+.header--static {
   position: relative;
 }
 
@@ -55,7 +55,6 @@
     --gap: 20px;
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
   }
 }
 
@@ -80,7 +79,7 @@
 }
 
 /* показываем поиск на главной и с раскрытым дропдауном */
-.header--main .header__search,
+.header--static .header__search,
 .header--open .header__search {
   display: block;
 }
@@ -140,16 +139,19 @@
 }
 
 /* всегда раскрытый список разделов на главной */
-.header--main .header__menu {
+.header--static .header__menu {
   position: static;
   height: auto;
 }
 
-.header:not(.header--open, .header--main) .header__menu {
+.header:not(.header--open, .header--static) .header__menu {
   transform: translateY(-100%);
   visibility: hidden;
   opacity: 0;
-  transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
+  
+  /* TODO: тут тоже разобраться с анимацией */
+
+  /* transition-delay: 0s, var(--header-animation-time), var(--header-animation-time); */
 }
 
 /* TODO: пофиксить страницу с участниками, там правило срабатывает в хедере тоже */
@@ -252,7 +254,7 @@
 
 /* @media (width >= 1024px) {
   .header--open .header__search,
-  .header--main .header__search {
+  .header-static .header__search {
     padding-top: 0;
   }
 }

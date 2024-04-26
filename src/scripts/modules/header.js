@@ -90,7 +90,7 @@ class Header extends BaseComponent {
   // }
 
   // get isMainPage() {
-  //   return this.refs.rootElement.classList.contains('header--main')
+  //   return this.refs.rootElement.classList.contains('header--static')
   // }
 
   // get isClosableHeader() {
