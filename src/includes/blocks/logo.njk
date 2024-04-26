@@ -23,21 +23,21 @@
 
   <{{tag}} class="{{ classes }}" {{ attrs }}>
     {% if (not isImageHidden) %}
-      <div
+      <span
         class="logo__image {{ 'logo__image--contrast' if not isContrastColor else '' }}"
         aria-hidden="true"
       >
-        <div class="logo__symbols logo__symbols--main">
+        <span class="logo__symbols logo__symbols--main">
           {{ letters | safe }}
-        </div>
-        <div class="logo__symbols logo__symbols--search">
+        </span>
+        <span class="logo__symbols logo__symbols--search">
           U<span class="logo__eye">ˇ</span><span class="logo__nose">ᴥ</span><span class="logo__eye">ˇ</span>U
-        </div>
-      </div>
+        </span>
+      </span>
     {% endif %}
-    <div
+    <span
       class="logo__text {{ 'link' if isLink else '' }} {{ 'logo__text--contrast' if not isContrastColor else '' }}">
       Дока
-    </div>
+    </span>
   </{{tag}}>
 {% endmacro %}
