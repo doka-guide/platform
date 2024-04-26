@@ -1,57 +1,69 @@
-.menu-toggle {
+/* TODO: переименовать файл */
+.hamburger {
   position: relative;
-  appearance: none;
-  margin: 0;
   display: block;
+  margin: 0;
   padding: 0;
   border: 0;
   background-color: transparent;
   color: inherit;
+  appearance: none;
   cursor: pointer;
 }
 
-.menu-toggle::after {
+.hamburger::after {
   content: "";
   position: absolute;
   inset: -10px;
 }
 
-.menu-toggle--open {
+/* увеличиваем область клика для кнопки открытия */
+.header:has(.hamburger):not(.header--open) .hamburger {
+  padding: 10px 0;
+}
+
+/* показываем/скрываем внутренности гамбургера (в хедере) */
+.hamburger-content--open {
   --is-menu-open: 1;
 }
 
-.menu-toggle__inner {
-  display: flex;
-  gap: 10px;
-  align-items: center;
+.header--open .hamburger-content--open {
+  display: none;
 }
 
-/* @media all and (width >= 1024px) {
-  .menu-toggle__inner--close {
+.hamburger-content--close {
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
+.header--open .hamburger-content--close {
+  display: flex;
+}
+
+@media all and (width >= 1024px) {
+  .hamburger-content--close {
     flex-direction: column-reverse;
   }
-} */
+}
 
-.menu-toggle__icon {
+/* стили иконок из гамбургера */
+.hamburger-icon {
   transition: opacity 0.2s;
 }
 
-.menu-toggle:hover .menu-toggle__icon {
+.hamburger:hover .hamburger-icon {
   opacity: 0.7;
 }
 
-.menu-toggle__icon--open {
+.hamburger-icon--open {
   display: flex;
   align-items: center;
   gap: 7px;
 }
 
-.menu-toggle__icon--close {
-  width: 30px;
-  height: 30px;
-}
-
-.menu-toggle__dot {
+.hamburger-icon__dot {
+  --gap: 7px;
   flex: 0 0 auto;
   width: 6px;
   height: 6px;
@@ -61,16 +73,24 @@
 }
 
 @media (width >= 1024px) {
-  .menu-toggle__icon--open {
+  .hamburger-icon--open {
+    --gap: 10px;
     gap: 10px;
   }
 
-  .menu-toggle__dot {
+  .hamburger-icon__dot {
     width: 8px;
     height: 8px;
   }
+}
 
-  .menu-toggle__icon--close {
+.hamburger-icon--close {
+  width: 30px;
+  height: 30px;
+}
+
+@media (width >= 1024px) {
+  .hamburger-icon--close {
     width: 43px;
     height: 43px;
   }

@@ -16,18 +16,19 @@
       class="search__input"
       id="search-field"
       type="text"
+      autocomplete="off"
       name="query"
       placeholder="Что ищете?"
       {% if permalink == "/search/" %}aria-describedby="search-hint"{% endif %}
     >
 
     {% if isMainPage %}
-      <span class="hotkey search__key search__key--activate">
+      <span class="search__key search__key--activate hotkey">
         Поиск <kbd>/</kbd>
       </span>
     {% endif %}
 
-    <span class="hotkey search__key search__key--enter">
+    <span class="search__key search__key--enter hotkey">
       Искать <kbd>↲</kbd>
     </span>
   </div>

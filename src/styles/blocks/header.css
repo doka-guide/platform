@@ -261,7 +261,7 @@
 }
 
 /* закрытие/раскрытие меню */
-.header__toggle {
+.header__hamburger {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -269,24 +269,12 @@
   gap: 16px;
 }
 
-.header__controls .header__toggle {
+.header__controls .header__hamburger {
   grid-area: button;
   align-self: center;
 }
 
-.menu-toggle--close {
-  display: none;
-}
-
-.header--open .menu-toggle--close {
-  display: block;
-}
-
-.header--open .menu-toggle--open {
-  display: none;
-}
-
-/* скпываем крошки, когда меню открыто */
+/* скрываем крошки, когда меню открыто */
 .header--open .header__category {
   display: none;
 }
@@ -329,7 +317,7 @@
   visibility: hidden;
 }
 
-.header--static .header__toggle {
+.header--static .header__hamburger {
   display: none;
 }
 
