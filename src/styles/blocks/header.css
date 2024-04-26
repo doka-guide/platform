@@ -94,9 +94,20 @@
   gap: 16px;
 }
 
-.header__controls .header__hamburger {
-  grid-area: button;
-  align-self: center;
+/* скрываем/показываем горячие клавиши */
+.hotkey--close {
+  display: none;
+  text-transform: uppercase;
+}
+
+.header--open .hotkey--search {
+  display: none;
+}
+
+@media (width >= 768px) {
+  .header--open .hotkey--close {
+    display: inherit;
+  }
 }
 
 /* дропдаун с разделами */
@@ -236,6 +247,7 @@
   transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
 } */
 
+
 /* TODO: удалить в случае, если ничего не ломается */
 
 /* @media (width >= 1024px) {
@@ -243,6 +255,11 @@
   .header--main .header__search {
     padding-top: 0;
   }
+}
+
+.header__controls .header__hamburger {
+  grid-area: button;
+  align-self: center;
 }
 
 .header--open .header__menu {

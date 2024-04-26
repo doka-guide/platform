@@ -12,19 +12,6 @@
   opacity: 0.7;
 }
 
-.hotkey--close {
-  display: none;
-  text-transform: uppercase;
-}
-
-.header--open .hotkey--search {
-  display: none;
-}
-
-.header--open .hotkey--close {
-  display: inline-block;
-}
-
 @media not all and (width >= 768px) {
   .hotkey {
     display: none;

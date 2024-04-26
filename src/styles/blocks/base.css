@@ -10,6 +10,8 @@
   font-family: var(--font-family, sans-serif);
   color: var(--color-text);
   background-color: var(--color-background);
+  
+  /* Нам точно нужен этот префикс? */
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
