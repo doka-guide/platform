@@ -20,7 +20,9 @@
   isLogoImageHidden = false)
 %}
   {% set articleIndexes = collections.articleIndexes %}
-  <header class="header {% if isMainPage %}header--main{% endif %}">
+  <header
+    class="header {% if isMainPage %}header--main{% else %}header--sticky{% endif %}"
+  >
     <div class="header__controls font-theme font-theme--code">
       <ul class="header__breadcrumbs breadcrumbs base-list">
         <li class="breadcrumbs__item header__logo">
@@ -66,9 +68,8 @@
             esc
           </span>
 
-          {# TODO: удалить .menu-toggle после замены в скрипте #}
           <button
-            class="hamburger menu-toggle"
+            class="hamburger"
             type="button"
             aria-controls="dropdown-menu"
           >

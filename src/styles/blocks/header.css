@@ -2,22 +2,27 @@
   --header-bg-color: var(--accent-color, var(--color-background));
   --search-input-height: 0.4em;
   --header-animation-time: 0.5s;
-  position: relative;
   background-color: var(--color-background);
   z-index: 2;
 }
+
+/* TODO: придумать названия получше .header--main и .header--sticky */
 
 /* всегда открытое меню (главная) */
 .header--main {
   position: relative;
 }
 
-/* фиксированное меню (остальные страницы) */
-.header--fixed {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+/* фиксированное меню на десктопах и планшетах (остальные страницы) */
+.header--sticky {
+  position: static;
+}
+
+@media (width >= 768px) {
+  .header--sticky {
+    position: sticky;
+    top: 0;
+  }
 }
 
 /* фиксированный дропдаун */
@@ -50,15 +55,9 @@
     --gap: 20px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
   }
 }
-
-/* .header__logo {
-  display: flex;
-  align-self: center;
-  align-items: center;
-} */
 
 /* разделитель */
 .header__devider {
@@ -86,14 +85,102 @@
   display: block;
 }
 
-/* @media (width >= 1024px) {
-  .header--open .header__search,
-  .header--main .header__search {
-    padding-top: 0;
-  }
-} */
+/* закрытие/раскрытие меню */
+.header__hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-inline-start: 20px;
+  gap: 16px;
+}
 
-/* фон с закрытым меню */
+.header__controls .header__hamburger {
+  grid-area: button;
+  align-self: center;
+}
+
+/* дропдаун с разделами */
+.header__menu {
+  height: 0;
+  font-size: calc(var(--font-size-xl) * 0.95);
+  line-height: calc(var(--font-line-height-xl) * 0.95);
+  letter-spacing: -0.06em;
+  background-color: var(--color-background);
+  transition: transform var(--header-animation-time) cubic-bezier(0.65, 0.05, 0.36, 1);
+  z-index: -1;
+}
+
+@media (width >= 768px) {
+  .header__menu {
+    --gap: 14px;
+  }
+}
+
+@media (width >= 1024px) {
+  .header__menu {
+    --gap: 6px;
+  }
+}
+
+@media (width >= 1680px) {
+  .header__menu {
+    --gap: 9px;
+  }
+}
+
+/* всегда раскрытый список разделов на главной */
+.header--main .header__menu {
+  position: static;
+  height: auto;
+}
+
+.header:not(.header--open, .header--main) .header__menu {
+  transform: translateY(-100%);
+  visibility: hidden;
+  opacity: 0;
+  transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
+}
+
+/* TODO: пофиксить страницу с участниками, там правило срабатывает в хедере тоже */
+
+/* TODO: пофиксить проблему со смешением и наложением цветов в разделах */
+
+/* затемняем фон сайта, когда меню открыто */
+.base__body:has(.header--open) > :first-of-type:not(.header) {
+  background-color: var(--color-fade);
+  filter: grayscale(100%) brightness(45%);
+}
+
+/* список разделов */
+.header__menu-list {
+  padding: var(--gap, 16px) 10px 1.7% 10px;
+  background: var(--color-background);
+}
+
+@media (width >= 1024px) {
+  .header__menu-list {
+    padding: 2px 20px 1.7% 237px;
+  }
+}
+
+/* скрываем крошки, когда меню открыто */
+.header--open .header__category {
+  display: none;
+}
+
+@media not all and (width >= 768px) {
+  .header__category:not(.header__category--standalone) {
+    display: none;
+  }
+}
+
+@media all and (width >= 430px) {
+  .header__category.header__category--visible {
+    display: flex;
+  }
+}
+
+/* TODO: разобраться со свалкой с анимациями */
 
 /* .header::before:not(.header--open) {
   content: "";
@@ -108,22 +195,60 @@
   transition:
     opacity var(--header-animation-time),
     visibility var(--header-animation-time);
-} */
-
-/* TODO: пофиксить страницу с участниками, там это не второй элемент в бади */
-
-.base__body:has(.header--open) > :nth-child(2) {
-  background-color: black;
-  opacity: .4;
 }
 
-/* .header-inner {
-  padding: 10px;
+.header--sticky-show {
+  animation-direction: normal;
+}
+
+.header--sticky-hide {
+  animation-direction: reverse;
+  animation-duration: 0.2s;
+  animation-timing-function: ease;
+}
+
+.header--animating {
+  animation-name: fixedHeaderAnimation;
+  animation-duration: var(--header-animation-time);
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+@keyframes fixedHeaderAnimation {
+  from {
+    transform: translateY(-100%);
+  }
+}
+
+.header:not(.header--sticky)::after {
+  opacity: 0;
+}
+
+.header:not(.header--open)::before {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.header:not(.header--open, .header--static) .header__inner--menu {
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
 } */
 
-/* фон всего меню, когда открыт выпадающий список */
-.header--main .header__inner--main {
-  height: calc(var(--font-line-height-l) * 1.25);
+/* TODO: удалить в случае, если ничего не ломается */
+
+/* @media (width >= 1024px) {
+  .header--open .header__search,
+  .header--main .header__search {
+    padding-top: 0;
+  }
+}
+
+.header--open .header__menu {
+  box-sizing: border-box;
+  width: inherit;
+  height: auto;
 }
 
 .header__inner--menu {
@@ -153,218 +278,68 @@
   }
 }
 
-/* дропдаун с разделами */
-.header__menu {
-  height: 0;
-  font-size: calc(var(--font-size-xl) * 0.95);
-  line-height: calc(var(--font-line-height-xl) * 0.95);
-  letter-spacing: -0.06em;
-  background-color: var(--color-background);
-  transition: transform var(--header-animation-time) cubic-bezier(0.65, 0.05, 0.36, 1);
-  z-index: -1;
-}
-
-/* всегда раскрытый список разделов на главной */
-.header--main .header__menu {
-  position: relative;
-  height: auto;
-}
-
-/* выпадающее меню в открытом состоянии на других страницах */
-.header--open .header__menu {
-  box-sizing: border-box;
-  position: fixed;
-  width: inherit;
-  height: auto;
-}
-
-.header:not(.header--open, .header--main) .header__menu {
-  transform: translateY(-100%);
-  opacity: 0;
-  visibility: hidden;
-  transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
-}
-
-/* список разделов */
-.header__menu-list {
-  padding: var(--gap, 16px) 10px 1.7% 10px;
-
-  /* gap: var(--gap); */
-}
-
-/* @media (width >= 1024px) {
+@media (width >= 1024px) {
   .header__inner--menu .header__search {
     margin-top: -14px;
-  }
-} */
-
-/* @media (width >= 768px) {
-  .header__menu-list {
-    --gap: 14px;
-  }
-} */
-
-@media (width >= 1024px) {
-  .header__menu-list {
-    padding: 2px 20px 1.7% 237px;
-
-    /* --gap: 6px; */
-  }
-}
-
-/* @media (width >= 1680px) {
-  .header__menu-list {
-    --gap: 9px;
-  }
-} */
-
-/* .header__title-code {
-  font: inherit;
-} */
-
-
-
-/* @media (width >= 1024px) {
-  .header__menu {
-    margin-top: calc(4 * var(--gap, 16px));
-  }
-} */
-
-/* @media (width >= 1366px) {
-  .header__menu {
-    margin-top: calc(6 * var(--gap, 16px));
-  }
-} */
-
-@media not all and (width >= 768px) {
-  .header__menu {
-    --gap: 16px;
   }
 }
 
 @media (width >= 768px) {
-  .header__menu {
+  .header__menu-list {
     --gap: 14px;
   }
 }
 
-@media (width >= 1024px) {
-  .header__menu {
-    --gap: 6px;
-  }
-}
-
 @media (width >= 1680px) {
-  .header__menu {
+  .header__menu-list {
     --gap: 9px;
   }
 }
 
-/* закрытие/раскрытие меню */
-.header__hamburger {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-inline-start: 20px;
-  gap: 16px;
+.header__title-code {
+  font: inherit;
 }
 
-.header__controls .header__hamburger {
-  grid-area: button;
-  align-self: center;
-}
-
-/* скрываем крошки, когда меню открыто */
-.header--open .header__category {
-  display: none;
-}
-
-
-
-.header--fixed-show {
-  animation-direction: normal;
-}
-
-.header--fixed-hide {
-  animation-direction: reverse;
-  animation-duration: 0.2s;
-  animation-timing-function: ease;
-}
-
-.header--animating {
-  animation-name: fixedHeaderAnimation;
-  animation-duration: var(--header-animation-time);
-  animation-fill-mode: both;
-  animation-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
-}
-
-@keyframes fixedHeaderAnimation {
-  from {
-    transform: translateY(-100%);
+@media (width >= 1024px) {
+  .header__menu {
+    margin-top: calc(4 * var(--gap, 16px));
   }
 }
 
-/* .header:not(.header--fixed)::after {
-  opacity: 0;
-} */
+@media (width >= 1366px) {
+  .header__menu {
+    margin-top: calc(6 * var(--gap, 16px));
+  }
+}
 
-/* .header:not(.header--fixed) .header__title {
+.header:not(.header--sticky) .header__title {
   display: none;
-} */
-
-.header:not(.header--open)::before {
-  opacity: 0;
-  visibility: hidden;
 }
 
 .header--static .header__hamburger {
   display: none;
 }
 
-.header:not(.header--open, .header--static) .header__inner--menu {
-  transform: translateY(-100%);
-  opacity: 0;
-  visibility: hidden;
-  transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
-}
-
-/* @media not all and (width >= 1366px) {
+@media not all and (width >= 1366px) {
   .header__category--standalone {
     height: 1.25em;
   }
 
-  .header:not(.header--fixed) .header__category--standalone {
+  .header:not(.header--sticky) .header__category--standalone {
     display: none;
-  }
-} */
-
-@media not all and (width >= 768px) {
-  .header__category:not(.header__category--standalone) {
-    display: none;
-  }
-
-  /* .header--fixed .header__title {
-    margin-top: 10px;
-    flex-basis: 100%;
-  } */
-}
-
-@media all and (width >= 430px) {
-  .header__category.header__category--visible {
-    display: flex;
   }
 }
 
-/* @media (width >= 768px) {
+@media (width >= 768px) {
   .header__breadcrumbs {
     font-size: var(--font-size-l);
   }
-} */
+}
 
 @media (width >= 1024px) {
-  /* .header__inner {
+  .header__inner {
     padding: 20px;
-  } */
+  }
 
   .header__inner--menu {
     grid-template-areas:
@@ -380,4 +355,4 @@
   .header__inner--menu {
     padding-bottom: 20px;
   }
-}
+} */

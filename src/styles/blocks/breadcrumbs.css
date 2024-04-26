@@ -6,18 +6,10 @@
 
 .header__breadcrumbs {
   min-width: 0;
-
-  /* line-height: 1.25; */
 }
 
-/* @media (width >= 768px) {
-  .header__breadcrumbs {
-    
-  }
-} */
-
 @media not all and (width >= 768px) {
-  .header--fixed .header__breadcrumbs {
+  .header--sticky .header__breadcrumbs {
     flex-wrap: wrap;
   }
 }

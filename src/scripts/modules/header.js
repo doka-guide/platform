@@ -3,7 +3,7 @@ import debounce from '../libs/debounce.js'
 import BaseComponent from '../core/base-component.js'
 
 const headerActiveClass = 'header--open'
-const headerAnimationName = 'fixedHeaderAnimation'
+// const headerAnimationName = 'stickyHeaderAnimation'
 
 class Header extends BaseComponent {
   constructor({ rootElement }) {
@@ -13,12 +13,12 @@ class Header extends BaseComponent {
     this.refs = {
       rootElement,
       input: rootElement.querySelector('.search__input'),
-      toggleButtons: rootElement.querySelectorAll('.menu-toggle'),
+      toggleButtons: rootElement.querySelectorAll('.hamburger'),
     }
 
     this.state = {
       headerHeight: null,
-      fixedHeaderHeight: null,
+      stickyHeaderHeight: null,
       lastScroll: 0,
       getScrollThreshold: window.innerHeight,
     }
@@ -54,10 +54,10 @@ class Header extends BaseComponent {
       }
     }
 
-    ;['openOnKeyUp', 'closeOnKeyUp', 'closeOnClickOutSide', 'openMenu', 'closeMenu', 'fixHeader', 'checkFixed'].forEach(
+    ;['openOnKeyUp', 'closeOnKeyUp', 'closeOnClickOutSide', 'openMenu', 'closeMenu', 'stickyHeader'].forEach(
       (method) => {
         this[method] = this[method].bind(this)
-      }
+      },
     )
 
     const resizeCallback = () => {
@@ -71,35 +71,35 @@ class Header extends BaseComponent {
     window.addEventListener('orientationchange', onResize)
     resizeCallback()
 
-    if (this.isClosableHeader) {
+    if (this) {
       this.refs.toggleButtons.forEach((button) => {
         button.addEventListener('click', () => {
           this.isMenuOpen ? this.closeMenu() : this.openMenu()
         })
       })
 
-      document.addEventListener('keyup', this.openOnKeyUp)
+      // document.addEventListener('keyup', this.openOnKeyUp)
 
-      window.addEventListener('scroll', throttle(this.checkFixed, 250, { leading: false }), { passive: true })
-      this.checkFixed()
+      window.addEventListener('scroll', throttle(this.checkSticky, 250, { leading: false }), { passive: true })
+      this.checkSticky()
     }
   }
 
-  get isFixed() {
-    return this.refs.rootElement.classList.contains('header--fixed')
-  }
+  // get isSticky() {
+  //   return this.refs.rootElement.classList.contains('header--sticky')
+  // }
 
-  get isMainPage() {
-    return this.refs.rootElement.classList.contains('header--main')
-  }
+  // get isMainPage() {
+  //   return this.refs.rootElement.classList.contains('header--main')
+  // }
 
-  get isClosableHeader() {
-    const header = this.refs.rootElement
+  // get isClosableHeader() {
+  //   const header = this.refs.rootElement
 
-    return [!header.classList.contains('header--static'), !header.classList.contains('search-page__header')].every(
-      Boolean
-    )
-  }
+  //   return [!header.classList.contains('header--static'), !header.classList.contains('search-page__header')].every(
+  //     Boolean
+  //   )
+  // }
 
   get isMenuOpen() {
     return this.refs.rootElement.classList.contains(headerActiveClass)
@@ -109,20 +109,16 @@ class Header extends BaseComponent {
     const header = this.refs.rootElement
     const state = this.state
 
-    if (this.isFixed) {
-      state.fixedHeaderHeight = header.offsetHeight
-      header.classList.remove('header--fixed')
+    if (this.isSticky) {
+      state.stickyHeaderHeight = header.offsetHeight
       state.headerHeight = header.offsetHeight
-      header.classList.add('header--fixed')
     } else {
       state.headerHeight = header.offsetHeight
-      header.classList.add('header--fixed')
-      state.fixedHeaderHeight = header.offsetHeight
-      header.classList.remove('header--fixed')
+      state.stickyHeaderHeight = header.offsetHeight
     }
 
-    document.documentElement.style.setProperty('--fixed-header-height', state.fixedHeaderHeight)
-    document.documentElement.style.setProperty('--not-fixed-header-height', state.headerHeight)
+    document.documentElement.style.setProperty('--sticky-header-height', state.stickyHeaderHeight)
+    document.documentElement.style.setProperty('--not-sticky-header-height', state.headerHeight)
   }
 
   calculateScrollThreshold() {
@@ -149,6 +145,7 @@ class Header extends BaseComponent {
 
   openMenu() {
     this.refs.rootElement.classList.add(headerActiveClass)
+
     document.removeEventListener('keyup', this.openOnKeyUp)
     document.addEventListener('keyup', this.closeOnKeyUp)
     document.addEventListener('click', this.closeOnClickOutSide)
@@ -166,83 +163,84 @@ class Header extends BaseComponent {
   }
 
   // методы для плавного появления/скрытия шапки
-  showHeader() {
-    const { rootElement: header } = this.refs
-    const classes = ['header--animating', 'header--fixed-show']
+  // showHeader() {
+  //   const { rootElement: header } = this.refs
+  //   const classes = ['header--animating', 'header--sticky-show']
 
-    header.addEventListener(
-      'animationend',
-      (event) => {
-        if (event.animationName !== headerAnimationName) {
-          return
-        }
-        header.classList.remove(...classes)
-      },
-      { once: true }
-    )
+  //   header.addEventListener(
+  //     'animationend',
+  //     (event) => {
+  //       if (event.animationName !== headerAnimationName) {
+  //         return
+  //       }
+  //       header.classList.remove(...classes)
+  //     },
+  //     { once: true }
+  //   )
 
-    this.fixHeader(true)
-    header.classList.add(...classes)
-    this.emit('fixed')
+  //   this.stickyHeader(true)
+  //   header.classList.add(...classes)
+  //   this.emit('sticky')
+  // }
+
+  // hideHeader() {
+  //   const { rootElement: header } = this.refs
+  //   const classes = ['header--animating', 'header--sticky-hide']
+
+  //   header.addEventListener(
+  //     'animationend',
+  //     (event) => {
+  //       if (event.animationName !== headerAnimationName) {
+  //         return
+  //       }
+  //       this.stickyHeader(false)
+  //       header.classList.remove(...classes)
+  //     },
+  //     { once: true }
+  //   )
+
+  //   header.classList.add(...classes)
+  //   this.emit('unsticky')
+  // }
+
+  stickyHeader(flag) {
+    this.refs.rootElement.classList.toggle('header--sticky', flag)
+    document.documentElement.style.setProperty('--is-header-sticky', Number(flag))
   }
 
-  hideHeader() {
-    const { rootElement: header } = this.refs
-    const classes = ['header--animating', 'header--fixed-hide']
-
-    header.addEventListener(
-      'animationend',
-      (event) => {
-        if (event.animationName !== headerAnimationName) {
-          return
-        }
-        this.fixHeader(false)
-        header.classList.remove(...classes)
-      },
-      { once: true }
-    )
-
-    header.classList.add(...classes)
-    this.emit('unfixed')
-  }
-
-  fixHeader(flag) {
-    this.refs.rootElement.classList.toggle('header--fixed', flag)
-    document.documentElement.style.setProperty('--is-header-fixed', Number(flag))
-  }
-
-  checkFixed() {
-    const { lastScroll } = this.state
+  /** отслеживаем скролл страницы */
+  checkSticky() {
+    // const { lastScroll } = this.state
     const currentScroll = window.scrollY
-    const isScrollingDown = currentScroll > lastScroll
+    // const isScrollingDown = currentScroll > lastScroll
     const isHeaderOnTop = currentScroll === 0
-    const minimumScrollDistance = 180
-    this.state.lastScroll = currentScroll
+    // const minimumScrollDistance = 180
+    // this.state.lastScroll = currentScroll
 
     if (isHeaderOnTop) {
-      if (this.isFixed) {
-        this.fixHeader(false)
-        this.emit('unfixed')
+      if (this.isSticky) {
+        this.stickyHeader(false)
+        this.emit('unsticky')
       }
       return
     }
 
     if (currentScroll <= this.scrollThreshold) {
-      if (this.isFixed) {
+      if (this.isSticky) {
         this.hideHeader()
       }
       return
     }
 
-    if (isScrollingDown) {
-      if (this.isFixed) {
-        this.hideHeader()
-      }
-    } else {
-      if (!this.isFixed && !this.isMainPage && lastScroll - currentScroll >= minimumScrollDistance) {
-        this.showHeader()
-      }
-    }
+    // if (isScrollingDown) {
+    //   if (this.isSticky) {
+    //     this.hideHeader()
+    //   }
+    // } else {
+    //   if (!this.isSticky && !this.isMainPage && lastScroll - currentScroll >= minimumScrollDistance) {
+    //     this.showHeader()
+    //   }
+    // }
   }
 }
 

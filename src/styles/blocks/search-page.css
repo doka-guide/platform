@@ -5,8 +5,9 @@
 
 .search-page__header {
   --search-input-height: 1.285em;
-  position: sticky;
-  top: 0;
+
+  /* position: sticky;
+  top: 0; */
 }
 
 .search-page__header .header__search {

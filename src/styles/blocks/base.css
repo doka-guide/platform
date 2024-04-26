@@ -1,9 +1,9 @@
 .base {
-  --is-header-fixed: 0;
+  --is-header-sticky: 0;
   --header-height:
     calc(
-      var(--is-header-fixed) * var(--fixed-header-height, 0) +
-      (1 - var(--is-header-fixed)) * var(--not-fixed-header-height, 0)
+      var(--is-header-sticky) * var(--sticky-header-height, 0) +
+      (1 - var(--is-header-sticky)) * var(--not-sticky-header-height, 0)
     );
   font-size: var(--font-size-m, 100%);
   line-height: var(--font-line-height-m, 1.15);
@@ -16,5 +16,5 @@
 
 .base__body {
   margin: 0;
-  padding-top: calc(var(--is-header-fixed) * var(--not-fixed-header-height, 0) * 1px);
+  padding-top: calc(var(--is-header-sticky) * var(--not-sticky-header-height, 0) * 1px);
 }
