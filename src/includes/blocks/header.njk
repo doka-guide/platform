@@ -67,7 +67,11 @@
           </span>
 
           {# TODO: удалить .menu-toggle после замены в скрипте #}
-          <button class="hamburger menu-toggle" type="button">
+          <button
+            class="hamburger menu-toggle"
+            type="button"
+            aria-controls="dropdown-menu"
+          >
             <span class="hamburger-content hamburger-content--open">
               <span class="visually-hidden">Открыть меню</span>
               <span class="hamburger-icon hamburger-icon--open">
@@ -94,7 +98,7 @@
       {% endif %}
     </div>
 
-    <div class="header__menu">
+    <div class="header__menu" id="dropdown-menu">
       {% include "blocks/nav-list.njk" %}
     </div>
   </header>
