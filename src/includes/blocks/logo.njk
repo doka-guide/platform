@@ -24,7 +24,7 @@
   <{{tag}} class="{{ classes }}" {{ attrs }}>
     {% if (not isImageHidden) %}
       <span
-        class="logo__image {{ 'logo__image--contrast' if not isContrastColor else '' }}"
+        class="logo__image {{ 'logo__image--contrast' if not isContrastColor else 'logo__image--custom' }}"
         aria-hidden="true"
       >
         <span class="logo__symbols logo__symbols--main">
@@ -36,7 +36,7 @@
       </span>
     {% endif %}
     <span
-      class="logo__text {{ 'link' if isLink else '' }} {{ 'logo__text--contrast' if not isContrastColor else '' }}">
+      class="logo__text {{ 'link' if isLink else '' }} {{ 'logo__text--contrast' if not isContrastColor else 'logo__image--custom' }}">
       Дока
     </span>
   </{{tag}}>

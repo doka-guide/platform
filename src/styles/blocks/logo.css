@@ -29,7 +29,9 @@
   user-select: none;
 }
 
-.logo__image--contrast {
+/* добавляем контрастную рамку для лого */
+.logo__image--contrast,
+.header--open .logo__image--custom {
   border: 1px var(--logo-border-color) solid;
 }
 

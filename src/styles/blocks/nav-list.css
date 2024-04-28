@@ -4,6 +4,8 @@
   /* --transition: 150ms ease-in-out; */
   display: grid;
   gap: 16px;
+
+  /* gap: var(--gap); */  
 }
 
 @media (width >= 768px) {
@@ -30,11 +32,6 @@
 .nav-list__item {
   position: relative;
   z-index: 0;
-
-  /* padding-top: var(--block-padding);
-  padding-bottom: var(--block-padding);
-  padding-left: 10px;
-  padding-right: 10px; */
 }
 
 .nav-list__link {
