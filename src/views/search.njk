@@ -10,19 +10,36 @@ title: 'Поиск'
 {% set isLogoContrastColor = hasCategory %}
 
 <div class="search-page">
+
+  {# TODO: прикрутить блок с хедером #}
   <header class="header search-page__header">
     <div class="header__controls font-theme font-theme--code">
       <div class="header__logo search-page__logo">
-        {{ logo(isLink=true, isContrastColor=isLogoContrastColor) }}
+        {{ logo(isLink = true,
+          isContrastColor = isLogoContrastColor)
+        }}
         {{ devider() }}
       </div>
 
       {% include "blocks/search.njk" %}
 
       <div class="header__hamburger search-page__toggle">
-        <button class="hamburger" type="reset" form="search-form">
-          <span class="visually-hidden">Очистить фильтры</span>
-          <svg class="hamburger-icon hamburger-icon--close" width="45" height="45" viewBox="0 0 45 45" aria-hidden="true">
+        {# TODO: задать другой класс (модификатор?) для кнопки. Она тут не закрывает, а удаляет #}
+        <button
+          class="hamburger"
+          type="reset"
+          form="search-form"
+        >
+          <span class="visually-hidden">
+            Очистить фильтры
+          </span>
+          <svg
+            class="hamburger-icon hamburger-icon--close"
+            width="45"
+            height="45"
+            viewBox="0 0 45 45"
+            aria-hidden="true"
+          >
             <circle cx="22.5" cy="22.5" r="22.5" fill="var(--color-text)" />
             <path fill="var(--color-background)" d="M30.3 32.1c-.5 0-1-.2-1.4-.6l-6.5-6.6-6.5 6.5c-.5.5-1 .7-1.5.7-.4 0-.8-.1-1-.4-.3-.3-.5-.6-.5-1 0-.6.3-1.1.7-1.6l6.5-6.5-6.5-6.4c-.4-.5-.7-1-.7-1.5s.2-.8.4-1.1c.3-.3.7-.4 1.1-.4.5 0 1 .2 1.5.7l6.5 6.5 6.5-6.6c.5-.5 1-.7 1.5-.7.3 0 .7.2 1 .5.3.4.5.8.5 1.1 0 .5-.2 1-.7 1.4l-6.5 6.5 6.5 6.6c.5.5.7 1 .7 1.4 0 .4-.1.7-.5 1-.4.4-.7.5-1 .5z"/>
           </svg>
@@ -33,17 +50,41 @@ title: 'Поиск'
 
   <aside class="search-page__aside">
     <div class="search-page__aside-inner">
+
       {% include "blocks/search-category.njk" %}
       {% include "blocks/search-tags.njk" %}
+
     </div>
 
-    <button class="search-page__aside-button" type="button" aria-expanded="false">
-      <span class="search-page__aside-button-name visually-hidden">Показать фильтр</span>
-      <div class="search-page__aside-icon-wrapper" aria-hidden="true">
-        <svg class="search-page__aside-icon search-page__aside-icon--close" width="48" height="48" fill="currentColor" viewBox="0 0 48 48">
+    <button
+      class="search-page__aside-button"
+      type="button"
+      aria-expanded="false"
+    >
+      <span class="search-page__aside-button-name visually-hidden">
+        Показать фильтр
+      </span>
+      {# TODO: заменить #fff на переменную #}
+      <div
+        class="search-page__aside-icon-wrapper"
+        aria-hidden="true"
+      >
+        <svg
+          class="search-page__aside-icon search-page__aside-icon--close"
+          width="48"
+          height="48"
+          fill="currentColor"
+          viewBox="0 0 48 48"
+        >
           <path d="M31.27 32.88l-7.3-7.3-7.24 7.24c-.43.43-.8.58-1.15.58a.94.94 0 01-.71-.26.94.94 0 01-.27-.72c0-.34.15-.72.58-1.15l7.24-7.24-7.24-7.23c-.43-.43-.58-.81-.58-1.16 0-.32.1-.54.27-.7a.94.94 0 01.7-.28c.35 0 .73.16 1.16.59l7.24 7.23 7.3-7.3c.44-.44.8-.58 1.09-.58.15 0 .36.07.62.37.28.3.36.55.36.73 0 .3-.14.65-.52 1.03l-7.3 7.3 7.3 7.3c.44.44.58.8.58 1.1 0 .15-.07.36-.37.62-.3.27-.55.35-.73.35-.3 0-.65-.13-1.03-.52z" />
         </svg>
-        <svg class="search-page__aside-icon search-page__aside-icon--filter" width="48" height="48" viewBox="0 0 48 48" stroke-width="1.3">
+        <svg
+          class="search-page__aside-icon search-page__aside-icon--filter"
+          width="48"
+          height="48"
+          viewBox="0 0 48 48"
+          stroke-width="1.3"
+        >
           <g stroke="currentColor" stroke-linecap="round" fill="none">
             <path d="M13.65 30.35h21.7" />
             <path d="M13.65 23.35h21.7" />
@@ -60,8 +101,12 @@ title: 'Поиск'
   </aside>
 
   <main class="search-page__main">
-    <h1 class="visually-hidden">Результаты поиска</h1>
+    <h1 class="visually-hidden">
+      Результаты поиска
+    </h1>
+
     {% include "blocks/search-hits.njk" %}
+
     <div class="search__placeholder" id="search-hint">
       Введите текст в поле поиска, и появится список всего, что нашлось
     </div>

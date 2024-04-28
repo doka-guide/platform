@@ -1,6 +1,8 @@
 .nav-list {
   --stroke-size: calc(6 / 48 * 1em);
 
+  /* TODO: подумать про анимацию тут тоже */
+  
   /* --transition: 150ms ease-in-out; */
   display: grid;
   gap: 16px;
