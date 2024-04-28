@@ -151,7 +151,7 @@
 
 /* список разделов */
 .header__menu-list {
-  padding: 0 0 5% var(--gap, 16px);
+  padding: 0 1% 1.8%;
   background: var(--color-background);
 }
 
