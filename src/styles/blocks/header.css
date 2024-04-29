@@ -39,19 +39,29 @@
     "logo button"
     "search search-output";
   grid-template-columns: 1fr auto;
-  padding: 10px;
+  padding: var(--padding, 10px);
   font-family: var(--font-family);
   font-size: var(--font-size-l);
   line-height: var(--font-line-height-l);
   background-color: var(--header-bg-color);
 }
 
+@media (width >= 768px) {
+  .header__controls--scrollable {
+    --padding: 7px;
+  }
+}
+
 @media (width >= 1024px) {
   .header__controls {
     --gap: 20px;
+    --padding: 20px;
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+  }
+
+  .header__controls--scrollable {
+    --padding: 10px;
   }
 }
 

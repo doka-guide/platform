@@ -27,6 +27,25 @@
   display: none;
 }
 
+.skip-link {
+  position: absolute;
+  overflow: hidden;
+  top: auto;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  padding: 23px 53px;
+  background-color: var(--color-background);
+  z-index: 4;
+}
+ 
+.skip-link:focus-visible {
+  top: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+}
+
 .offline .link::after {
   content: ' ';
   display: inline-block;

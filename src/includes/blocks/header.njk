@@ -20,6 +20,9 @@
   isLogoImageHidden = false)
 %}
   {% set articleIndexes = collections.articleIndexes %}
+
+  {% include "blocks/skip-link.njk" %}
+
   <header
     class="header {% if isMainPage %}header--static{% else %}header--sticky{% endif %}"
     aria-label="Главный"
@@ -72,6 +75,7 @@
           <button
             class="hamburger"
             type="button"
+            aria-expanded="false"
             aria-controls="dropdown-menu"
           >
             <span class="hamburger-content hamburger-content--open">
