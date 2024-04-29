@@ -36,7 +36,7 @@
   height: 1px;
   padding: 23px 53px;
   background-color: var(--color-background);
-  z-index: 4;
+  z-index: 3;
 }
  
 .skip-link:focus-visible {
