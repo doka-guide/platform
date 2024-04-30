@@ -50,7 +50,7 @@ jobs:
       - name: Установка модулей
         run: npm ci
       - name: Копирование кеша
-        run: cp ./cache/.issues.json ./
+        run: ls -al cache && cp ./cache/.issues.json ./
       - name: Сборка сайта
         run: |
           cp .env.example .env
