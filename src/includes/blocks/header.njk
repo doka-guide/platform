@@ -64,12 +64,12 @@
 
       {% include "blocks/search.njk" %}
 
-      <div class="header__hamburger">
-        <span class="hotkey hotkey--search font-theme font-theme--code">
-          Поиск <kbd>/</kbd>
-        </span>
-
-        {% if not isMainPage or isSearchPage %}
+      {# TODO: включить в условие, что это not isSearchPage #}
+      {% if not isMainPage %}
+        <div class="header__hamburger">
+          <span class="hotkey hotkey--search font-theme font-theme--code">
+            Поиск <kbd>/</kbd>
+          </span>
           <span class="hotkey hotkey--close font-theme font-theme--code">
             esc
           </span>
@@ -102,30 +102,31 @@
               </svg>
             </span>
           </button>
-        {% endif %}
+        </div>
+      {% endif %}
 
-        {% if isSearchPage %}
-          <button
-            class="hamburger-reset"
-            type="reset"
-            form="search-form"
+      {% if isSearchPage %}
+        {# TODO: задать другой класс (модификатор?) для кнопки. Она тут не закрывает, а удаляет #}
+        <button
+          class="hamburger"
+          type="reset"
+          form="search-form"
+        >
+          <span class="visually-hidden">
+            Очистить
+          </span>
+          <svg
+            class="hamburger-icon hamburger-icon--close"
+            width="45"
+            height="45"
+            viewBox="0 0 45 45"
+            aria-hidden="true"
           >
-            <span class="visually-hidden">
-              Очистить поиск и фильтры
-            </span>
-            <svg
-              class="hamburger-icon hamburger-icon--close"
-              width="45"
-              height="45"
-              viewBox="0 0 45 45"
-              aria-hidden="true"
-            >
-              <circle cx="22.5" cy="22.5" r="22.5" fill="var(--color-text)"/>
-              <path fill="var(--color-background)" d="M30.3 32.1c-.5 0-1-.2-1.4-.6l-6.5-6.6-6.5 6.5c-.5.5-1 .7-1.5.7-.4 0-.8-.1-1-.4-.3-.3-.5-.6-.5-1 0-.6.3-1.1.7-1.6l6.5-6.5-6.5-6.4c-.4-.5-.7-1-.7-1.5s.2-.8.4-1.1c.3-.3.7-.4 1.1-.4.5 0 1 .2 1.5.7l6.5 6.5 6.5-6.6c.5-.5 1-.7 1.5-.7.3 0 .7.2 1 .5.3.4.5.8.5 1.1 0 .5-.2 1-.7 1.4l-6.5 6.5 6.5 6.6c.5.5.7 1 .7 1.4 0 .4-.1.7-.5 1-.4.4-.7.5-1 .5z"/>
-            </svg>
-          </button>
-        {% endif %}
-      </div>
+            <circle cx="22.5" cy="22.5" r="22.5" fill="var(--color-text)"/>
+            <path fill="var(--color-background)" d="M30.3 32.1c-.5 0-1-.2-1.4-.6l-6.5-6.6-6.5 6.5c-.5.5-1 .7-1.5.7-.4 0-.8-.1-1-.4-.3-.3-.5-.6-.5-1 0-.6.3-1.1.7-1.6l6.5-6.5-6.5-6.4c-.4-.5-.7-1-.7-1.5s.2-.8.4-1.1c.3-.3.7-.4 1.1-.4.5 0 1 .2 1.5.7l6.5 6.5 6.5-6.6c.5-.5 1-.7 1.5-.7.3 0 .7.2 1 .5.3.4.5.8.5 1.1 0 .5-.2 1-.7 1.4l-6.5 6.5 6.5 6.6c.5.5.7 1 .7 1.4 0 .4-.1.7-.5 1-.4.4-.7.5-1 .5z"/>
+          </svg>
+        </button>
+      {% endif %}
     </div>
 
     {% if not isSearchPage %}

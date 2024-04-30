@@ -19,8 +19,15 @@
       autocomplete="off"
       name="query"
       placeholder="Что ищете?"
-      {% if isSearchPage %}aria-describedby="search-hint"{% endif %}
+      {% if permalink == "/search/" %}aria-describedby="search-hint"{% endif %}
     >
+
+    {% if isMainPage %}
+      <span class="search__key search__key--activate hotkey">
+        Поиск <kbd>/</kbd>
+      </span>
+    {% endif %}
+
     <span class="search__key search__key--enter hotkey">
       Искать <kbd>↲</kbd>
     </span>
