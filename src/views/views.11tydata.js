@@ -1,17 +1,10 @@
 const path = require('path')
 const fsp = require('fs/promises')
-const { URL } = require('url')
 const frontMatter = require('gray-matter')
 const { baseUrl, mainSections } = require('../../config/constants')
 const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
-const {
-  getAuthorsContributionWithCache,
-  getAuthorsExistsWithCache,
-  getAuthorsIDsWithCache,
-  getActionsInRepoWithCache,
-} = require('../libs/github-contribution-service/github-contribution-service')
-const { contentRepLink } = require('../../config/constants')
+const { getAuthorContributionStats } = require('../libs/github-contribution-stats/github-contribution-stats')
 const { setPath } = require('../libs/collection-helpers/set-path')
 const { isProdEnv } = require('../../config/env.js')
 
@@ -315,33 +308,10 @@ module.exports = {
         return !!docsByPerson[personId] || !!practicesByPerson[personId] || !!answersByPerson[personId]
       })
 
-      const authorsNames = filteredAuthors.map((author) => author.fileSlug)
-
       let contributionStat = undefined
-      let contributorExists = undefined
-      let contributorIDs = undefined
-      let contributionActions = undefined
 
       if (isProdEnv) {
-        contributionStat = await getAuthorsContributionWithCache({
-          authors: authorsNames,
-          // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
-          repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
-        })
-        contributorExists = await getAuthorsExistsWithCache({
-          authors: authorsNames,
-        })
-        contributorIDs = await getAuthorsIDsWithCache({
-          authors: authorsNames.filter((a) => (contributorExists[a] ? contributorExists[a].userCount > 0 : false)),
-          // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
-          repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
-        })
-        contributionActions = await getActionsInRepoWithCache({
-          authors: authorsNames,
-          authorIDs: contributorIDs,
-          // 'https://github.com/doka-guide/content' -> 'doka-guide/content'
-          repo: new URL(contentRepLink).pathname.replace(/^\//, ''),
-        })
+        contributionStat = getAuthorContributionStats()
       }
 
       return filteredAuthors
@@ -435,8 +405,7 @@ module.exports = {
             totalArticles,
             totalPractices,
             totalAnswers,
-            contributionStat: contributionStat ? contributionStat[personId] : null,
-            contributionActions: contributionActions ? contributionActions[personId] : null,
+            contributionStat: contributionStat ? contributionStat[personId.toLowerCase()] : null,
           }
         })
         .sort((person1, person2) => person2.totalArticles - person1.totalArticles)
