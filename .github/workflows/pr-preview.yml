@@ -53,6 +53,8 @@ jobs:
           echo "::set-output name=check_id::$check_run_id"
       - name: Установка модулей
         run: npm ci
+      - name: Копирование кеша
+        run: cp ./cache/.issues.json ./
       - name: Сообщение о начале публикации превью
         uses: hasura/comment-progress@v2.1.0
         with:

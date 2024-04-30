@@ -49,6 +49,8 @@ jobs:
           ssh -o StrictHostKeyChecking=no deploy@dev.doka.guide
       - name: Установка модулей
         run: npm ci
+      - name: Копирование кеша
+        run: cp ./cache/.issues.json ./
       - name: Сборка сайта
         run: |
           cp .env.example .env
