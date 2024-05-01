@@ -56,15 +56,14 @@
 </svg>
 {% endset %}
 
+{{ header(
+  pageCategoryId='people',
+  category=categoryName,
+  title=name,
+  isCategoryVisible=true
+) }}
+
 <div class="person-page">
-
-  {{ header(
-    pageCategoryId='people',
-    category=categoryName,
-    title=name,
-    isCategoryVisible=true
-  ) }}
-
   <main class="person-page__main" id="main-content">
     <div class="person-page__avatar">
       {{ personAvatar(

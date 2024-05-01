@@ -21,14 +21,13 @@
   </li>
 {% endmacro %}
 
+{{ header(
+  pageCategoryId='people',
+  category=title,
+  isCategoryVisible=true
+) }}
+
 <div class="people-page">
-
-  {{ header(
-    pageCategoryId='people',
-    category=title,
-    isCategoryVisible=true
-  ) }}
-
   <main class="people-page__main" id="main-content">
     <h1 class="visually-hidden">
       {{ title }}

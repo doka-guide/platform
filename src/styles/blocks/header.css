@@ -180,12 +180,6 @@
   }
 }
 
-@media all and (width >= 430px) {
-  .header__category.header__category--visible {
-    display: flex;
-  }
-}
-
 /* TODO: разобраться со свалкой с анимациями */
 
 /* @media (width >= 768px) {
