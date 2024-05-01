@@ -79,7 +79,7 @@
   transition: opacity var(--header-animation-time);
 }
 
-/* анимируем логотип булочки */
+/* анимируем булочку */
 .logo {
   --image-font-size: 0.85em;
   --logo-letter-spacing: -0.14em;
@@ -145,18 +145,9 @@
 }
 
 .logo__eye {
-  position: relative;
   top: -0.08em;
 }
 
-.logo__eye:first-child {
-  letter-spacing: calc(var(--logo-letter-spacing) * 2);
-}
-
 .logo__nose {
-  position: relative;
-  font-size: calc(var(--image-font-size) * 10 / 7);
-  line-height: calc(var(--image-font-size) * 7 / 10);
   top: -0.015em;
-  letter-spacing: calc(var(--logo-letter-spacing) * 1.5);
 }
