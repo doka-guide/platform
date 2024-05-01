@@ -1,4 +1,3 @@
-
 .hotkey {
   min-width: 14px;
   padding: 1px 6px;
@@ -16,4 +15,8 @@
   .hotkey {
     display: none;
   }
+}
+
+.hotkey--close {
+  text-transform: uppercase;
 }

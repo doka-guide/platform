@@ -103,7 +103,6 @@
 /* скрываем/показываем горячие клавиши */
 .hotkey--close {
   display: none;
-  text-transform: uppercase;
 }
 
 .header--open .hotkey--search {
