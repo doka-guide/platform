@@ -13,6 +13,7 @@ class Header extends BaseComponent {
     this.refs = {
       rootElement,
       input: rootElement.querySelector('.search__input'),
+      headerControls: rootElement.querySelector('.header__controls'),
       toggleButtons: rootElement.querySelectorAll('.hamburger'),
     }
 
@@ -75,19 +76,56 @@ class Header extends BaseComponent {
       this.refs.toggleButtons.forEach((button) => {
         button.addEventListener('click', () => {
           this.isMenuOpen ? this.closeMenu() : this.openMenu()
+          this.setExpandedAttr(button)
         })
+
+        // button.addEventListener('keydown', (event) => {
+        //   if (event.key === 'Escape') {
+        //     this.setExpandedAttr(button)
+        //   }
+        // })
       })
 
-      // document.addEventListener('keyup', this.openOnKeyUp)
+      // let initialScrollPositionX = window.scrollX
+      // let initialScrollPositionY = window.scrollY
+
+      // function checkScrollPosition() {
+      //   let currentScrollPositionX = window.scrollX
+      //   let currentScrollPositionY = window.scrollY
+      //   const extraClass = 'header__controls--scrollable'
+
+      //   // Conditional logic based on the initial and current scroll positions
+      //   if(rootElement.classList.contains(headerActiveClass) && currentScrollPositionX > initialScrollPositionX || currentScrollPositionY > initialScrollPositionY) {
+      //     console.log('!!!!!!');
+      //     elementssssss.classList.add(extraClass)
+      //   }
+      // }
+
+      // checkScrollPosition()
+
+      // Example usage: call checkScrollPosition() on a scroll event or another event
+      // window.addEventListener('scroll', (element) => {
+      //   const elementssssss = element = headerControls
+      //   let currentScrollPositionX = window.scrollX
+      //   let currentScrollPositionY = window.scrollY
+      //   const extraClass = '.header__controls--scrollable'
+
+      //   // Conditional logic based on the initial and current scroll positions
+      //   if(rootElement.classList.contains(headerActiveClass) && currentScrollPositionX > initialScrollPositionX || currentScrollPositionY > initialScrollPositionY) {
+      //     console.log('!!!!!!');
+      //     elementssssss.classList.add(extraClass)
+      //   }
+
+      // })
 
       window.addEventListener('scroll', throttle(this.checkSticky, 250, { leading: false }), { passive: true })
-      this.checkSticky()
+      // this.checkSticky()
     }
   }
 
-  // get isSticky() {
-  //   return this.refs.rootElement.classList.contains('header--sticky')
-  // }
+  get isSticky() {
+    return this.refs.rootElement.classList.contains('header--sticky')
+  }
 
   // get isMainPage() {
   //   return this.refs.rootElement.classList.contains('header--static')
@@ -132,13 +170,13 @@ class Header extends BaseComponent {
   }
 
   closeOnKeyUp(event) {
-    if (event.code === 'Escape' && !this.isMainPage) {
+    if (event.code === 'Escape') {
       this.closeMenu()
     }
   }
 
   closeOnClickOutSide(event) {
-    if (!event.target.closest('.header__controls') && !this.isMainPage) {
+    if (!event.target.closest('.header__controls')) {
       this.closeMenu()
     }
   }
@@ -162,6 +200,50 @@ class Header extends BaseComponent {
     this.emit('menu.close')
   }
 
+  setExpandedAttr(button) {
+    const { rootElement } = this.refs
+
+    if (rootElement.classList.contains(headerActiveClass)) {
+      button.setAttribute('aria-expanded', 'true')
+    } else {
+      button.setAttribute('aria-expanded', 'false')
+    }
+  }
+
+  // shrinkHeader() {
+  //   const { headerControls : header } = this.refs
+  //   const extraClass = '.header__controls--scrollable'
+
+  //   header.addEventListener(
+  //     'scrollable',
+  //     (event) => {
+  //       header.classList.add(extraClass)
+  //     },
+  //     { once: true }
+  //   )
+
+  //   this.stickyHeader(true)
+  //   header.classList.add(extraClass)
+  //   this.emit('sticky')
+  // }
+
+  // expandHeader() {
+  //   const { headerControls : header } = this.refs
+  //   const extraClass = '.header__controls--scrollable'
+
+  //   header.addEventListener(
+  //     'scrollable',
+  //     (event) => {
+  //       this.stickyHeader(false)
+  //       header.classList.remove(extraClass)
+  //     },
+  //     { once: true }
+  //   )
+
+  //   header.classList.add(extraClass)
+  //   this.emit('unsticky')
+  // }
+
   // методы для плавного появления/скрытия шапки
   // showHeader() {
   //   const { rootElement: header } = this.refs
@@ -170,16 +252,13 @@ class Header extends BaseComponent {
   //   header.addEventListener(
   //     'animationend',
   //     (event) => {
-  //       if (event.animationName !== headerAnimationName) {
-  //         return
-  //       }
-  //       header.classList.remove(...classes)
+  //       headerControls.classList.remove(class)
   //     },
   //     { once: true }
   //   )
 
   //   this.stickyHeader(true)
-  //   header.classList.add(...classes)
+  //   headerControls.classList.add(...classes)
   //   this.emit('sticky')
   // }
 
@@ -209,39 +288,40 @@ class Header extends BaseComponent {
   }
 
   /** отслеживаем скролл страницы */
-  checkSticky() {
-    // const { lastScroll } = this.state
-    const currentScroll = window.scrollY
-    // const isScrollingDown = currentScroll > lastScroll
-    const isHeaderOnTop = currentScroll === 0
-    // const minimumScrollDistance = 180
-    // this.state.lastScroll = currentScroll
+  // checkSticky() {
+  //   const { lastScroll } = this.state
+  //   const currentScroll = window.scrollY
+  //   const isScrollingDown = currentScroll > lastScroll
+  //   const isHeaderOnTop = currentScroll === 0
+  //   const minimumScrollDistance = 180
+  //   this.state.lastScroll = currentScroll
 
-    if (isHeaderOnTop) {
-      if (this.isSticky) {
-        this.stickyHeader(false)
-        this.emit('unsticky')
-      }
-      return
-    }
+  //   if (isHeaderOnTop) {
+  //     if (this.isSticky) {
+  //       this.stickyHeader(false)
+  //       this.emit('unsticky')
+  //     }
+  //     return
+  //   }
 
-    if (currentScroll <= this.scrollThreshold) {
-      if (this.isSticky) {
-        this.hideHeader()
-      }
-      return
-    }
+  //   if (currentScroll <= this.scrollThreshold) {
+  //     if (this.isSticky) {
+  //       this.hideHeader()
+  //     }
+  //     return
+  //   }
 
-    // if (isScrollingDown) {
-    //   if (this.isSticky) {
-    //     this.hideHeader()
-    //   }
-    // } else {
-    //   if (!this.isSticky && !this.isMainPage && lastScroll - currentScroll >= minimumScrollDistance) {
-    //     this.showHeader()
-    //   }
-    // }
-  }
+  //   if (isScrollingDown) {
+  //     if (this.isSticky) {
+  //       console.log('STICKY');
+  //       this.shrinkHeader()
+  //     }
+  //   } else {
+  //     if (!this.isSticky && lastScroll - currentScroll >= minimumScrollDistance) {
+  //       this.expandHeader()
+  //     }
+  //   }
+  // }
 }
 
 export default new Header({
