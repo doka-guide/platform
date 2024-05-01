@@ -1,0 +1,204 @@
+/* TODO: разобраться со свалкой с анимациями */
+
+
+
+/* 
+
+.header {
+  --header-animation-time: 0.5s;
+  background-color: var(--color-background);
+}
+
+.header:not(.header--open, .header--static) .header__menu {
+  transform: translateY(-100%);
+  visibility: hidden;
+  opacity: 0;
+  transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
+}
+
+.header::before:not(.header--open) {
+  content: "";
+  position: fixed;
+  z-index: 2;
+  opacity: 0.3;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-text);
+  transition:
+    opacity var(--header-animation-time),
+    visibility var(--header-animation-time);
+}
+
+.header--sticky-show {
+  animation-direction: normal;
+}
+
+.header--sticky-hide {
+  animation-direction: reverse;
+  animation-duration: 0.2s;
+  animation-timing-function: ease;
+}
+
+.header--animating {
+  animation-name: fixedHeaderAnimation;
+  animation-duration: var(--header-animation-time);
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+@keyframes fixedHeaderAnimation {
+  from {
+    transform: translateY(-100%);
+  }
+}
+
+.header:not(.header--sticky)::after {
+  opacity: 0;
+}
+
+.header:not(.header--open)::before {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.header:not(.header--open, .header--static) .header__inner--menu {
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition-delay: 0s, var(--header-animation-time), var(--header-animation-time);
+} 
+
+.header__menu {
+  transition: transform var(--header-animation-time) cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+*/
+
+
+/* TODO: удалить в случае, если ничего не ломается */
+
+/* @media (width >= 1024px) {
+  .header--open .header__search,
+  .header-static .header__search {
+    padding-top: 0;
+  }
+}
+
+.header__controls .header__hamburger {
+  grid-area: button;
+  align-self: center;
+}
+
+.header--open .header__menu {
+  box-sizing: border-box;
+  width: inherit;
+  height: auto;
+}
+
+.header__inner--menu {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding-top: 20px;
+  display: grid;
+  align-content: start;
+  grid-template-areas:
+    "logo   button"
+    "search search"
+    "search-output search-output"
+    "list   list";
+  grid-template-rows: var(--font-size-xl) repeat(3, auto);
+  font-size: calc(var(--font-size-xl) * 0.95);
+  line-height: calc(var(--font-line-height-xl) * 0.95);
+  letter-spacing: -0.06em;
+  background-color: var(--color-background);
+}
+
+@media (width >= 768px) {
+  .header__inner--menu {
+    display: block;
+  }
+}
+
+@media (width >= 1024px) {
+  .header__inner--menu .header__search {
+    margin-top: -14px;
+  }
+}
+
+@media (width >= 768px) {
+  .header__menu-list {
+    --gap: 14px;
+  }
+}
+
+@media (width >= 1680px) {
+  .header__menu-list {
+    --gap: 9px;
+  }
+}
+
+.header__title-code {
+  font: inherit;
+}
+
+@media (width >= 1024px) {
+  .header__menu {
+    margin-top: calc(4 * var(--gap, 16px));
+  }
+}
+
+@media (width >= 1366px) {
+  .header__menu {
+    margin-top: calc(6 * var(--gap, 16px));
+  }
+}
+
+.header:not(.header--sticky) .header__title {
+  display: none;
+}
+
+.header--static .header__hamburger {
+  display: none;
+}
+
+@media not all and (width >= 1366px) {
+  .header__category--standalone {
+    height: 1.25em;
+  }
+
+  .header:not(.header--sticky) .header__category--standalone {
+    display: none;
+  }
+}
+
+@media (width >= 768px) {
+  .header__breadcrumbs {
+    font-size: var(--font-size-l);
+  }
+}
+
+@media (width >= 1024px) {
+  .header__inner {
+    padding: 20px;
+  }
+
+  .header__inner--menu {
+    grid-template-areas:
+      "logo search button"
+      ".    search-output   ."
+      ".    list   .";
+    grid-auto-columns: auto 1fr auto;
+    grid-template-rows: var(--search-input-height) auto;
+  }
+}
+
+@media (width >= 1680px) {
+  .header__inner--menu {
+    padding-bottom: 20px;
+  }
+} */
