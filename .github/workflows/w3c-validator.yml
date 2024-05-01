@@ -9,8 +9,22 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PATH_TO_CONTENT: ./content
     steps:
-      - uses: actions/checkout@v4
+      - name: Загрузка платформы
+        uses: actions/checkout@v4
+      - name: Загрузка контента
+        uses: actions/checkout@v4
+        with:
+          repository: doka-guide/content
+          path: content
+      - name: Загрузка кеша
+        uses: actions/checkout@v2
+        with:
+          repository: doka-guide/cache
+          path: cache
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -30,7 +44,11 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - run: |
-          npm ci
-          npm run build
-          npx node-w3c-validator -i ./dist/**/*.html -f lint -ev
+      - name: Установка модулей
+        run: npm ci
+      - name: Копирование кеша
+        run: cp ./cache/issues.json ./.issues.json
+      - name: Сборка сайта
+        run: npm run build
+      - name: Валидация
+        run: npx node-w3c-validator -i ./dist/**/*.html -f lint -ev

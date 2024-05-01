@@ -4,7 +4,6 @@ const frontMatter = require('gray-matter')
 const { baseUrl, mainSections } = require('../../config/constants')
 const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
-const { getAuthorContributionStats } = require('../libs/github-contribution-stats/github-contribution-stats')
 const { setPath } = require('../libs/collection-helpers/set-path')
 const { isProdEnv } = require('../../config/env.js')
 
@@ -311,6 +310,7 @@ module.exports = {
       let contributionStat = undefined
 
       if (isProdEnv) {
+        const { getAuthorContributionStats } = require('../libs/github-contribution-stats/github-contribution-stats')
         contributionStat = getAuthorContributionStats()
       }
 
