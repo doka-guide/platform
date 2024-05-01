@@ -82,7 +82,10 @@
   display: none;
   grid-area: search;
   grid-column-end: none;
-  transition: opacity var(--header-animation-time);
+
+  /* TODO: подумать про анимацию тут тоже??? */
+
+  /* transition: opacity var(--header-animation-time); */
 }
 
 /* показываем поиск на главной и с раскрытым дропдауном */

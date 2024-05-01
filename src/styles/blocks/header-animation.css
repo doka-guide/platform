@@ -1,9 +1,8 @@
 /* TODO: разобраться со свалкой с анимациями */
 
+/* анимируем появление/скрытие всего меню */
 
-
-/* 
-
+/*
 .header {
   --header-animation-time: 0.5s;
   background-color: var(--color-background);
@@ -73,132 +72,91 @@
 .header__menu {
   transition: transform var(--header-animation-time) cubic-bezier(0.65, 0.05, 0.36, 1);
 }
-
 */
 
-
-/* TODO: удалить в случае, если ничего не ломается */
-
-/* @media (width >= 1024px) {
-  .header--open .header__search,
-  .header-static .header__search {
-    padding-top: 0;
-  }
+/* анимируем появление строки поиска, когда меню открывается */
+.header__controls .header__search {
+  transition: opacity var(--header-animation-time);
 }
 
-.header__controls .header__hamburger {
-  grid-area: button;
-  align-self: center;
+/* анимируем логотип булочки */
+.logo {
+  --image-font-size: 0.85em;
+  --logo-letter-spacing: -0.14em;
 }
 
-.header--open .header__menu {
-  box-sizing: border-box;
-  width: inherit;
-  height: auto;
+.logo__image {
+  --is-animation: 0;
 }
 
-.header__inner--menu {
-  position: fixed;
-  z-index: 2;
-  top: 0;
+.logo__image::before {
+  --colors:
+    var(--accent-color),
+    var(--accent-color),
+    var(--color-css),
+    var(--color-js),
+    var(--color-tools),
+    var(--color-recipes),
+    var(--color-a11y),
+    var(--accent-color),
+    var(--accent-color);
+  --parts: 8;
+  content: '';
+  opacity: var(--is-animation);
+  position: absolute;
+  z-index: -1;
   left: 0;
   right: 0;
-  padding-top: 20px;
-  display: grid;
-  align-content: start;
-  grid-template-areas:
-    "logo   button"
-    "search search"
-    "search-output search-output"
-    "list   list";
-  grid-template-rows: var(--font-size-xl) repeat(3, auto);
-  font-size: calc(var(--font-size-xl) * 0.95);
-  line-height: calc(var(--font-line-height-xl) * 0.95);
-  letter-spacing: -0.06em;
-  background-color: var(--color-background);
+  top: 0;
+  height: calc(var(--parts) * 100%);
+  background-image: linear-gradient(var(--colors));
+  transition: opacity 0.5s;
 }
 
-@media (width >= 768px) {
-  .header__inner--menu {
-    display: block;
+.logo__image--animation {
+  --is-animation: 1;
+}
+
+@keyframes logoAnimation {
+  to {
+    transform:
+      translateY(-100%)
+      translateY(calc(100% / (var(--parts) - 1)));
   }
 }
 
-@media (width >= 1024px) {
-  .header__inner--menu .header__search {
-    margin-top: -14px;
-  }
+.logo__image--animation::before {
+  animation: logoAnimation 0.75s ease-out infinite both;
 }
 
-@media (width >= 768px) {
-  .header__menu-list {
-    --gap: 14px;
-  }
+.logo__symbols {
+  transition: opacity 0.2s;
+
+  /* для устранения скачков в Safari */
+  transform: translateZ(0);
 }
 
-@media (width >= 1680px) {
-  .header__menu-list {
-    --gap: 9px;
-  }
+.logo__symbols--main {
+  opacity: calc(1 - var(--is-animation));
 }
 
-.header__title-code {
-  font: inherit;
+.logo__symbols--search {
+  opacity: var(--is-animation);
 }
 
-@media (width >= 1024px) {
-  .header__menu {
-    margin-top: calc(4 * var(--gap, 16px));
-  }
+.logo__eye {
+  position: relative;
+  top: -0.08em;
 }
 
-@media (width >= 1366px) {
-  .header__menu {
-    margin-top: calc(6 * var(--gap, 16px));
-  }
+.logo__eye:first-child {
+  letter-spacing: calc(var(--logo-letter-spacing) * 2);
 }
 
-.header:not(.header--sticky) .header__title {
-  display: none;
+.logo__nose {
+  position: relative;
+  font-size: calc(var(--image-font-size) * 10 / 7);
+  line-height: calc(var(--image-font-size) * 7 / 10);
+  top: -0.015em;
+  letter-spacing: calc(var(--logo-letter-spacing) * 1.5);
 }
-
-.header--static .header__hamburger {
-  display: none;
-}
-
-@media not all and (width >= 1366px) {
-  .header__category--standalone {
-    height: 1.25em;
-  }
-
-  .header:not(.header--sticky) .header__category--standalone {
-    display: none;
-  }
-}
-
-@media (width >= 768px) {
-  .header__breadcrumbs {
-    font-size: var(--font-size-l);
-  }
-}
-
-@media (width >= 1024px) {
-  .header__inner {
-    padding: 20px;
-  }
-
-  .header__inner--menu {
-    grid-template-areas:
-      "logo search button"
-      ".    search-output   ."
-      ".    list   .";
-    grid-auto-columns: auto 1fr auto;
-    grid-template-rows: var(--search-input-height) auto;
-  }
-}
-
-@media (width >= 1680px) {
-  .header__inner--menu {
-    padding-bottom: 20px;
-  }
-} */

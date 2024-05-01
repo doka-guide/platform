@@ -12,7 +12,7 @@
 }
 
 .logo__image {
-  --is-animation: 0;
+  /* --is-animation: 0; */
   --accent-color: var(--color-html);
   align-self: center;
   position: relative;
@@ -35,7 +35,7 @@
   border: 1px var(--logo-border-color) solid;
 }
 
-.logo__image::before {
+/* .logo__image::before {
   --colors:
     var(--accent-color),
     var(--accent-color),
@@ -73,7 +73,7 @@
 
 .logo__image--animation::before {
   animation: logoAnimation 0.75s ease-out infinite both;
-}
+} */
 
 .logo__symbols {
   grid-area: 1 / 1 / -1 / -1;
@@ -82,22 +82,25 @@
   line-height: 1;
   letter-spacing: var(--logo-letter-spacing);
   text-decoration: none;
-  transition: opacity 0.2s;
-  transform: translateZ(0); /* для устранения скачков в Safari */
+
+  /* transition: opacity 0.2s;
+  transform: translateZ(0); */
+  
+  /* для устранения скачков в Safari */
 }
 
-.logo__symbols--main {
+/* .logo__symbols--main {
   opacity: calc(1 - var(--is-animation));
-}
+} */
 
-.logo__symbols--search {
+/* .logo__symbols--search {
   opacity: var(--is-animation);
-}
+} */
 
-.logo__eye {
+/* .logo__eye {
   position: relative;
   top: -0.08em;
-}
+} */
 
 .logo__eye:first-child {
   letter-spacing: calc(var(--logo-letter-spacing) * 2);

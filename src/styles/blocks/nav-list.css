@@ -1,13 +1,11 @@
 .nav-list {
   --stroke-size: calc(6 / 48 * 1em);
 
-  /* TODO: подумать про анимацию тут тоже */
+  /* TODO: подумать про анимацию тут тоже??? */
   
-  /* --transition: 150ms ease-in-out; */
+  --transition: 150ms ease-in-out;
   display: grid;
   gap: 16px;
-
-  /* gap: var(--gap); */  
 }
 
 @media (width >= 768px) {
