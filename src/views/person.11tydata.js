@@ -168,21 +168,14 @@ module.exports = {
     },
 
     badgesFields: function (data) {
-      const { authorData } = data
-
-      if (!authorData) {
-        return null
+      const { contributionStat } = data
+      const releaseDate = new Date('2021-10-12T00:00:00Z')
+      const theFirstDate = new Date('1970-01-01T00:00:00Z')
+      let pullRequestDate = releaseDate
+      if (contributionStat && !contributionStat['first'] === theFirstDate) {
+        pullRequestDate = contributionStat
       }
-
-      const nodes = authorData?.contributionActions?.people?.target?.history?.nodes
-
-      const prNodes = nodes && nodes.length > 0 ? nodes[nodes.length - 1]?.associatedPullRequests?.nodes : null
-
-      const pullRequestDate =
-        prNodes && prNodes.length > 0 ? prNodes[prNodes.length - 1]?.mergedAt : '2021-10-12T00:00:00Z'
-
-      // TODO: Решить вопрос с датой для участников: Игорь Коровченко, Ольга Алексашенко
-      const githubFirstContribution = new Date(pullRequestDate)
+      const githubFirstContribution = pullRequestDate
         .toLocaleString('ru', {
           year: 'numeric',
           month: 'long',
