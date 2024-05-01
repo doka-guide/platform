@@ -15,10 +15,10 @@
   link,
   isLogoContrastColor,
   hasAccentColor,
-  isMainPage = false,
-  isSearchPage = false,
-  isCategoryVisible = false,
-  isLogoImageHidden = false)
+  isMainPage=false,
+  isSearchPage=false,
+  isCategoryVisible=false,
+  isLogoImageHidden=false)
 %}
   {% set articleIndexes = collections.articleIndexes %}
 
@@ -32,10 +32,10 @@
       <ul class="header__breadcrumbs breadcrumbs base-list">
         <li class="breadcrumbs__item header__logo">
           {{ logo(
-            isLink = not isMainPage,
-            isContrastColor = isLogoContrastColor,
-            isImageHidden = isLogoImageHidden,
-            letters = logoLetters)
+            isLink=not isMainPage,
+            isContrastColor=isLogoContrastColor,
+            isImageHidden=isLogoImageHidden,
+            letters=logoLetters)
           }}
           {{ devider() }}
         </li>
@@ -106,9 +106,9 @@
       {% endif %}
 
       {% if isSearchPage %}
-        {# TODO: задать другой класс (модификатор?) для кнопки. Она тут не закрывает, а удаляет #}
+        {# TODO: задать другой класс для кнопки. Она тут не закрывает, а удаляет #}
         <button
-          class="hamburger"
+          class="hamburger hamburge--reset"
           type="reset"
           form="search-form"
         >

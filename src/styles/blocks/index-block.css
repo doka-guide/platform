@@ -24,11 +24,7 @@
   font-weight: normal;
 }
 
-/* .index-block__description {}
-
-.index-block__description--aside {} */
-
-/* TODO: сделать фон не прозрачным, чтобы при этом не выделялся при затемнении */
+/* TODO: сделать фон непрозрачным, чтобы при этом не выделялся при затемнении */
 
 .index-block__filter {
   margin: 0;
@@ -40,15 +36,7 @@
   font-size: var(--font-size-s);
   line-height: var(--font-line-height-s);
   background-color: var(--color-background);
-
-  /* background-color: transparent; */
 }
-
-/* .index-block__filter-legend {}
-
-.index-block__filter-control {}
-
-.index-block__main {} */
 
 @media not all and (width >= 1366px) {
   .index-block__inner {
@@ -105,8 +93,6 @@
     position: absolute;
     opacity: 0;
   }
-
-  /* .index-block__description {} */
 
   .index-block__filter {
     grid-column: 1;

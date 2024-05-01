@@ -19,7 +19,7 @@
       autocomplete="off"
       name="query"
       placeholder="Что ищете?"
-      {% if permalink == "/search/" %}aria-describedby="search-hint"{% endif %}
+      {% if permalink == isSearchPage %}aria-describedby="search-hint"{% endif %}
     >
 
     {% if isMainPage %}
