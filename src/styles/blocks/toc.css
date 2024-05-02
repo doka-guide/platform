@@ -26,6 +26,12 @@
 }
 
 .toc__link--active {
-  text-decoration: none;
-  background-color: var(--active-link-background, var(--color-fade));
+  background-color: transparent;
+}
+
+@media (width >= 1024px) {
+  .toc__link--active {
+    text-decoration: none;
+    background-color: var(--active-link-background, var(--color-fade));
+  }
 }

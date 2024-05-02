@@ -5,7 +5,7 @@ function init() {
     return
   }
 
-  const button = nav.querySelector('.article-nav__button')
+  const button = nav.querySelector('.toggle-button')
   const content = nav.querySelector('.article-nav__content')
 
   button.addEventListener('click', () => {

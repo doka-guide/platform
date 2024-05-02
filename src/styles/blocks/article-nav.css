@@ -1,138 +1,112 @@
 .article-nav {
   --is-nav-open: 0;
-  --button-height: 108px;
-  --lightness: calc(100% - var(--is-dark-theme-on) * 80%);
+  display: block;
+  font-size: 17px;
+
+  /* TODO: заменить цвет черты? */
+  border-bottom: 1px solid var(--active-link-background, var(--color-fade));
 }
 
-.article-nav__button {
-  margin: 0;
-  position: absolute;
-  left: 0;
-  bottom: 100%;
-  overflow: visible;
-  width: 100%;
-  border: 0;
+@media (width >= 1024px) {
+  .article-nav {
+    font-size: inherit;
+    border-bottom: 0;
+  }
+}
+
+.article-nav__toggle {
+  position: relative;
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--offset);
+}
+
+/* расширяем область клика кнопки */
+.article-nav__toggle::before {
+  content: "";
+  position: absolute;
+}
+
+@media (width >= 1024px) {
+  .article-nav__toggle {
+    display: none;
+  }
+}
+
+/* TODO: подумать, как скрыть текст со смещением пунктов меню, но бкз смещения кнопки закрытия */
+.toggle-text {
+  visibility: visible;
+}
+
+.toggle-button {
+  display: block;
   box-sizing: border-box;
-  min-height: var(--button-height);
-  padding: 30px 10px;
+  width: auto;
+  margin: auto 0;
+  padding: 0;
+  border: 0;
   background-color: transparent;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
-.article-nav__button-icon {
-  visibility: visible;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 30px;
-  margin: auto;
-  transform: scale(calc(var(--on) + var(--off) * 1.5));
-  opacity: var(--on);
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  color: var(--color-text);
-  background-color: hsl(0 0% var(--lightness));
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  transition: transform 0.5s, opacity 0.5s;
-}
-
-.article-nav__button-icon--open {
-  --on: calc(1 - var(--is-nav-open));
-  --off: var(--is-nav-open);
-}
-
-.article-nav__button-icon--close {
-  --on: var(--is-nav-open);
-  --off: calc(1 - var(--is-nav-open));
-}
-
-.article-nav__button::before {
+/* расширяем область клика кнопки */
+.toggle-button::after {
   content: "";
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.33));
-  transition: 0.5s;
+  inset: 0;
+}
+
+/* TODO: поколдовать с размерами иконок */
+.toggle-button__icon {
+  display: block;
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  color: var(--color-text);
+  background-color: transparent;
 }
 
 .article-nav__content {
-  overflow: auto;
-  overscroll-behavior: contain;
-  padding: var(--offset);
-  min-height: 0;
+  box-sizing: border-box;
+  padding-bottom: var(--offset);
+  line-height: 1.9;
 }
 
-.article-nav--open {
-  --is-nav-open: 1;
+.article-nav .toggle-button__icon--open,
+.article-nav .toggle-button__icon--close,
+.article-nav__content {
+  display: none;
 }
 
-.article-nav:not(.article-nav--open) .article-nav__button {
-  visibility: hidden;
-  transition-delay: 0.5s;
+.article-nav:not(.article-nav--open) .toggle-button__icon--open,
+.article-nav--open .toggle-button__icon--close,
+.article-nav--open .article-nav__content {
+  display: block;
 }
 
-.article-nav:not(.article-nav--open) .article-nav__button::before {
-  visibility: hidden;
-  opacity: 0;
-}
-
-@media (width <= 720px) {
-  .article-nav__button-icon {
-    left: auto;
-    right: var(--offset, 10px);
-  }
-}
-
-@media not all and (width >= 1024px) {
-  .article-nav {
-    transform: translateY(calc((1 - var(--is-nav-open)) * 100%));
-    position: fixed;
-    z-index: 1;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0;
-    max-height: calc(100% - var(--button-height));
-    display: grid;
-    grid-template-rows: 1fr auto;
-    transition: transform 0.5s cubic-bezier(0.65, 0.05, 0.36, 1);
-  }
-
+@media (width >= 1024px) {
   .article-nav__content {
+    /* --lightness: calc(100% - var(--is-dark-theme-on) * 80%);
     --active-link-lightness: calc(var(--is-light-theme-on) * 92%);
     --active-link-background: hsl(0 0% var(--active-link-lightness));
+    */
+    display: block;
+    overflow: auto;
+    height: 100%;
+    padding: var(--offset, 10px);
+    line-height: 1.6;
+    overscroll-behavior: contain;
     background-color: hsl(0 0% var(--lightness));
   }
 }
 
-@media (width >= 1024px) {
-  .article-nav {
-    position: static;
-    transform: none;
-    display: block;
-  }
-
-  .article-nav__button {
-    display: none;
-  }
-
-  .article-nav__content {
-    overflow: auto;
-    box-sizing: border-box;
-    height: 100%;
-  }
+.article-nav.article-nav--open .toggle-text {
+  visibility: hidden;
 }
 
-@supports (filter: drop-shadow(0 0)) {
-  .article-nav__button-icon {
-    box-shadow: none;
-    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
-  }
+.article-nav--open {
+  --is-nav-open: 1;
+  display: block;
 }
