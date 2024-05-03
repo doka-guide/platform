@@ -16,6 +16,7 @@
   scroll-behavior: smooth;
 }
 
+/* TODO: рассчитать правильный отступ при наличии класса aria__controls--expanded */
 .base__body {
   margin: 0;
   padding-top: calc(var(--is-header-sticky) * var(--not-sticky-header-height, 0) * 1px);

@@ -145,7 +145,7 @@
 
   .person-page__avatar {
     position: sticky;
-    top: calc(var(--is-header-fixed) * var(--header-height) * 1px);
+    top: calc(var(--is-header-sticky) * var(--header-height) * 1px);
     transition: top 0.6s;
   }
 

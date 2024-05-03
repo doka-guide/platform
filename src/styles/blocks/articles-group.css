@@ -1,8 +1,6 @@
-.articles-group {}
-
 .articles-group__title {
   position: sticky;
-  top: calc(var(--offset, 0px) + var(--is-header-fixed, 0) * var(--header-height, 0) * 1px);
+  top: calc(var(--offset, 0px) + var(--is-header-sticky, 0) * var(--header-height, 0) * 1px);
   margin-top: 0;
   margin-bottom: 12px;
   box-sizing: border-box;
@@ -28,8 +26,6 @@
 .articles-group__title--letter {
   text-transform: uppercase;
 }
-
-.articles-group__section {}
 
 .articles-group__section + .articles-group__section {
   margin-top: 30px;
