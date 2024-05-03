@@ -1,3 +1,8 @@
+:root {
+  --menu-padding-min: 10px;
+  --menu-padding-max: 20px;
+}
+
 .header {
   --header-bg-color: var(--accent-color, var(--color-background));
   --search-input-height: 0.4em;
@@ -36,7 +41,7 @@
     "logo button"
     "search search-output";
   grid-template-columns: 1fr auto;
-  padding: var(--padding, 10px);
+  padding: var(--menu-padding-min);
   font-family: var(--font-family);
   font-size: var(--font-size-l);
   line-height: var(--font-line-height-l);
@@ -45,20 +50,20 @@
 
 @media (width >= 768px) {
   .header__controls--scrollable {
-    --padding: 7px;
+    padding: 7px;
   }
 }
 
 @media (width >= 1024px) {
   .header__controls {
     --gap: 20px;
-    --padding: 20px;
+    padding: var(--menu-padding-max);
     display: flex;
     justify-content: space-between;
   }
 
   .header__controls--scrollable {
-    --padding: 10px;
+    padding: var(--menu-padding-min);
   }
 }
 
@@ -145,13 +150,13 @@
 
 /* список разделов */
 .header__menu-list {
-  padding: 0 1% 1.8%;
+  padding: 0 var(--menu-padding-min) var(--menu-padding-min);
   background: var(--color-background);
 }
 
 @media (width >= 1024px) {
   .header__menu-list {
-    padding: 0 0 1.7% calc(40*var(--gap, 16px));
+    padding: 0 var(--menu-padding-max) var(--menu-padding-max) calc(40*var(--gap, 16px));
   }
 }
 
