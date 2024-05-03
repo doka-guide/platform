@@ -1,28 +1,41 @@
+:root {
+  --list-padding-min: 10px;
+  --list-padding-max: 20px;
+  --gap: 16px;
+}
+
 .nav-list {
   --stroke-size: calc(6 / 48 * 1em);
   --transition: 150ms ease-in-out;
   display: grid;
+  padding-top: var(--list-padding-min);
+  padding-bottom: var(--list-padding-min);
+  padding-right: var(--list-padding-min);
+  padding-left: var(--list-padding-min);
   gap: 16px;
+  background: var(--color-background);
 }
 
 @media (width >= 768px) {
   .nav-list {
-    --gap: 14px;
+    --block-padding: 1px;
+    gap:14px;
     line-height: calc(42 / 36);
   }
 }
 
+/* TODO: рассчитать отступ слева более элегантно */
+
 @media (width >= 1024px) {
   .nav-list {
+    --block-padding: 6px;
     --gap: 6px;
+    padding-top: 0;
+    padding-bottom: var(--list-padding-max);
+    padding-right: var(--list-padding-max);
+    padding-left: calc(40*var(--gap));
+    gap: 6px;
     line-height: inherit;
-  }
-}
-
-@media (width >= 1680px) {
-  .nav-list {
-    --gap: 9px;
-    line-height: 1;
   }
 }
 

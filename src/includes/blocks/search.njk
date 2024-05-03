@@ -22,9 +22,10 @@
       {% if permalink == isSearchPage %}aria-describedby="search-hint"{% endif %}
     >
 
+    {# TODO: перенести в header.njk? #}
     {% if isMainPage %}
       <span class="search__key search__key--activate hotkey">
-        Поиск <kbd>/</kbd>
+        Поиск <kbd class="hotkey__key">/</kbd>
       </span>
     {% endif %}
 

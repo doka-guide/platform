@@ -72,7 +72,8 @@
 }
 
 .header__devider {
-  margin: 0 0.2em;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
   opacity: 0.3;
@@ -100,7 +101,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-inline-start: 20px;
+  margin-left: 20px;
   gap: 16px;
 }
 
@@ -109,7 +110,16 @@
   display: none;
 }
 
+.hotkey--search {
+  display: inline;
+}
+
 .header--open .hotkey--search {
+  display: none;
+}
+
+.hotkey__key {
+  font-family: inherit;
   display: none;
 }
 
@@ -118,6 +128,14 @@
     display: inherit;
   }
 }
+
+@media (width >= 1024px) {
+  .hotkey__key {
+    display: inline;
+  }
+}
+
+/* TODO: хранить стили из .header__menu в .nav-list (в одном месте) */
 
 /* дропдаун с разделами */
 .header__menu {
@@ -146,18 +164,6 @@
 .base__body:has(.header--open) > :first-of-type:not(.header) {
   background-color: var(--color-fade);
   filter: grayscale(100%) brightness(45%);
-}
-
-/* список разделов */
-.header__menu-list {
-  padding: 0 var(--menu-padding-min) var(--menu-padding-min);
-  background: var(--color-background);
-}
-
-@media (width >= 1024px) {
-  .header__menu-list {
-    padding: 0 var(--menu-padding-max) var(--menu-padding-max) calc(40*var(--gap, 16px));
-  }
 }
 
 /* скрываем крошки, когда меню открыто */
