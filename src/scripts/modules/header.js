@@ -105,6 +105,7 @@ class Header extends BaseComponent {
   }
 
   /* рассчитываем высоту хедера, чтобы добавить другим элементам правильный отступ сверху */
+  /* 🔥 В момент расчёта высота обоих состояний одинаковая. Как итог при стики состоянии отступ такой же, как при не стики. Надо переприсваивать значение где-то ниже */
   calculateHeaderHeight() {
     const header = this.refs.rootElement
     const state = this.state
@@ -112,8 +113,8 @@ class Header extends BaseComponent {
     state.headerHeight = header.offsetHeight
     state.stickyHeaderHeight = header.offsetHeight
 
-    document.documentElement.style.setProperty('--sticky-header-height', state.stickyHeaderHeight)
-    document.documentElement.style.setProperty('--not-sticky-header-height', state.headerHeight)
+    document.documentElement.style.setProperty('--sticky-header-height', state.stickyHeaderHeight + 'px')
+    document.documentElement.style.setProperty('--not-sticky-header-height', state.headerHeight + 'px')
   }
 
   calculateScrollThreshold() {

@@ -33,6 +33,13 @@
   width: 100%;
 }
 
+@media (height <= 450px) {
+  .header--open {
+    height: 100%;
+    overflow-y: scroll;
+  }
+}
+
 /* содержимое главного меню (без дропдауна) */
 .header__controls {
   --letter-spacing: -0.06em;
@@ -46,6 +53,7 @@
   font-size: var(--font-size-l);
   line-height: var(--font-line-height-l);
   background-color: var(--header-bg-color);
+  transition: all 0.2s;
 }
 
 @media (width >= 768px) {
@@ -139,7 +147,7 @@
 
 /* дропдаун с разделами */
 .header__menu {
-  height: 0;
+  height: 100%;
   font-size: calc(var(--font-size-xl) * 0.95);
   line-height: calc(var(--font-line-height-xl) * 0.95);
   letter-spacing: -0.06em;
@@ -154,6 +162,7 @@
 }
 
 .header:not(.header--open, .header--static) .header__menu {
+  height: 0;
   visibility: hidden;
   opacity: 0;
 }
@@ -161,9 +170,19 @@
 /* TODO: пофиксить проблему со смешением и наложением цветов в разделах */
 
 /* затемняем фон сайта, когда меню открыто */
-.base__body:has(.header--open) > :first-of-type:not(.header) {
-  background-color: var(--color-fade);
+
+/* .base__body:has(.header--open) > :first-of-type:not(.header) {
+  background-color: hsl(var(--color-fade));
   filter: grayscale(100%) brightness(45%);
+} */
+
+/* Переделала на псевдоэлемент для страницы */
+.base__body:has(.header--open)::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-color: hsl(var(--color-fade) / 0.45);
+  backdrop-filter: grayscale(1);
 }
 
 /* скрываем крошки, когда меню открыто */

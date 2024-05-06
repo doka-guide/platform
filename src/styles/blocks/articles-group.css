@@ -63,7 +63,7 @@
   font-size: var(--font-size-s);
   line-height: var(--font-line-height-s);
   white-space: nowrap;
-  background-color: var(--color-fade);
+  background-color: hsl(var(--color-fade));
 }
 
 .articles-group--accent .articles-group__link {
