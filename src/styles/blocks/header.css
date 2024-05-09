@@ -167,16 +167,7 @@
   opacity: 0;
 }
 
-/* TODO: пофиксить проблему со смешением и наложением цветов в разделах */
-
 /* затемняем фон сайта, когда меню открыто */
-
-/* .base__body:has(.header--open) > :first-of-type:not(.header) {
-  background-color: hsl(var(--color-fade));
-  filter: grayscale(100%) brightness(45%);
-} */
-
-/* Переделала на псевдоэлемент для страницы */
 .base__body:has(.header--open)::after {
   content: '';
   position: fixed;

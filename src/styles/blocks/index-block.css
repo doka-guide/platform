@@ -24,8 +24,6 @@
   font-weight: normal;
 }
 
-/* TODO: сделать фон непрозрачным, чтобы при этом не выделялся при затемнении */
-
 .index-block__filter {
   margin: 0;
   position: sticky;
