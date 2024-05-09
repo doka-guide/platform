@@ -2,8 +2,6 @@
   --is-nav-open: 0;
   display: block;
   font-size: 17px;
-
-  /* TODO: заменить цвет черты? */
   border-bottom: 1px solid var(--active-link-background, hsl(var(--color-fade)));
 }
 

@@ -16,7 +16,6 @@ class Header extends BaseComponent {
     }
 
     this.state = {
-      headerHeight: null,
       stickyHeaderHeight: null,
       lastScroll: 0,
       getScrollThreshold: window.innerHeight,
@@ -25,7 +24,7 @@ class Header extends BaseComponent {
     const scrollThresholdConditions = [
       {
         condition: () => !!document.querySelector('.article'),
-        getter: () => this.state.headerHeight + document.querySelector('.article__header').offsetHeight,
+        getter: () => this.state.stickyHeaderHeight + document.querySelector('.article__header').offsetHeight,
       },
       {
         condition: () => !!document.querySelector('.index-block'),
@@ -33,12 +32,12 @@ class Header extends BaseComponent {
           const additionalHeight = window.matchMedia('(width >= 1366px)')
             ? 0
             : document.querySelector('.index-block__header').offsetHeight
-          return this.state.headerHeight + additionalHeight
+          return this.state.stickyHeaderHeight + additionalHeight
         },
       },
       {
         condition: () => !!document.querySelector('.standalone-page'),
-        getter: () => this.state.headerHeight + document.querySelector('.standalone-page__header').offsetHeight,
+        getter: () => this.state.stickyHeaderHeight + document.querySelector('.standalone-page__header').offsetHeight,
       },
       {
         condition: () => true,
@@ -66,7 +65,7 @@ class Header extends BaseComponent {
     })
 
     const resizeCallback = () => {
-      this.calculateHeaderHeight()
+      // this.calculateHeaderHeight()
       this.calculateScrollThreshold()
     }
 
@@ -105,17 +104,16 @@ class Header extends BaseComponent {
   }
 
   /* рассчитываем высоту хедера, чтобы добавить другим элементам правильный отступ сверху */
-  /* 🔥 В момент расчёта высота обоих состояний одинаковая. Как итог при стики состоянии отступ такой же, как при не стики. Надо переприсваивать значение где-то ниже */
-  calculateHeaderHeight() {
-    const header = this.refs.rootElement
-    const state = this.state
 
-    state.headerHeight = header.offsetHeight
-    state.stickyHeaderHeight = header.offsetHeight
+  /* TODO: у нас высота хедера может быть только 54 и 56, нужно ли нам столько кода вместо того, чтобы задать фиксированное знаечение???? */
 
-    document.documentElement.style.setProperty('--sticky-header-height', state.stickyHeaderHeight + 'px')
-    document.documentElement.style.setProperty('--not-sticky-header-height', state.headerHeight + 'px')
-  }
+  // calculateHeaderHeight() {
+  //   const header = this.refs.rootElement
+  //   const state = this.state
+  //   state.stickyHeaderHeight = header.offsetHeight
+
+  //   document.documentElement.style.setProperty('--sticky-header-height', state.stickyHeaderHeight)
+  // }
 
   calculateScrollThreshold() {
     this.scrollThreshold = this.getScrollThreshold()

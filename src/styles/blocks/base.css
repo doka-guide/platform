@@ -1,10 +1,8 @@
 .base {
-  --is-header-sticky: 0;
-  --header-height:
-    calc(
-      var(--is-header-sticky) * var(--sticky-header-height, 0) +
-      (1 - var(--is-header-sticky)) * var(--not-sticky-header-height, 0)
-    );
+  --is-header-sticky: 1;
+  
+  /* TODO: может зададим фиксированный отступ и не будем рассчитывать высоту хедера? */
+  --header-height: 56;
   font-size: var(--font-size-m, 100%);
   line-height: var(--font-line-height-m, 1.15);
   font-family: var(--font-family, sans-serif);
@@ -22,13 +20,14 @@
 }
 
 .base__body:has(.header--open) {
-  padding-top: var(--not-sticky-header-height);
+  margin-top: var(--header-height);
 }
 
 .base__body:has(.header--open > .header__controls--shrink) {
   padding-top: var(--sticky-header-height);
 }
 
+/* TODO: разобраться, нужны ли эти стили */
 
 @media not all and (width >= 768px) {
   .base__body:has(.header--open) {
