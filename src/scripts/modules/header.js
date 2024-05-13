@@ -82,7 +82,9 @@ class Header extends BaseComponent {
         this.isMenuOpen ? this.closeMenu() : this.openMenu()
       })
 
+      document.addEventListener('keyup', this.openOnKeyUp)
       window.addEventListener('scroll', throttle(this.checkSticky, { leading: false }), { passive: true })
+
       this.checkSticky()
     }
   }
@@ -113,7 +115,7 @@ class Header extends BaseComponent {
 
   /* события для закрытия/открытия дропдауна с разделами */
   openOnKeyUp(event) {
-    if (event.code === 'Slash') {
+    if (event.code === 'Slash' || event.code === 'NumpadDivide') {
       this.openMenu()
     }
   }
