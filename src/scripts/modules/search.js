@@ -126,7 +126,7 @@ class SearchResultOutput extends BaseComponent {
         const editIcon = SearchResultOutput.isPlaceholder(hitObject) ? SearchResultOutput.templates.placeholderIcon : ''
         const title = SearchResultOutput.replaceBackticks(
           hitObject.title.replaceAll('<mark>', '<mark class="search-hit__marked">'),
-          SearchResultOutput.templates.titleCode
+          SearchResultOutput.templates.titleCode,
         )
         const summary = hitObject.summary
           .slice(0, SearchResultOutput.matchedItems)
@@ -157,7 +157,7 @@ class SearchResultOutput extends BaseComponent {
                 <li class="search-result-list__item">
                   ${SearchResultOutput.templates.hit(hitObject)}
                 </li>
-              `
+              `,
               )
               .join('')}
           </ol>
@@ -288,20 +288,13 @@ function init() {
 
     document.addEventListener('keydown', (event) => {
       // Блокировка показа встроенного поиска в Firefox
-      if (event.code === 'Slash' && document.activeElement !== searchField) {
+      if (event.code === 'Slash' || (event.code === 'NumpadDivide' && document.activeElement !== searchField)) {
         event.preventDefault()
       }
     })
 
     document.addEventListener('keyup', (event) => {
-      if (event.code === 'Escape') {
-        queueMicrotask(() => {
-          searchForm.reset()
-          searchField.focus()
-        })
-      }
-
-      if (event.code === 'Slash' && document.activeElement !== searchField) {
+      if (event.code === 'Slash' || (event.code === 'NumpadDivide' && document.activeElement !== searchField)) {
         queueMicrotask(() => {
           searchField.focus()
         })

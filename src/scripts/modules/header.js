@@ -1,3 +1,5 @@
+// TODO: переписать условие так, чтобы скрипт не срабатывал на главной и странице с расширенным поиском. Там меню всегда раскрыто. Из-за этого сейчас при нажатии на / фокус не переносится на поле поиска на этих страницах
+
 import throttle from '../libs/throttle.js'
 import debounce from '../libs/debounce.js'
 import BaseComponent from '../core/base-component.js'
