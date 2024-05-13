@@ -12,7 +12,7 @@ class Header extends BaseComponent {
       rootElement,
       input: rootElement.querySelector('.search__input'),
       headerContent: rootElement.querySelector('.header__controls'),
-      toggleButtons: rootElement.querySelectorAll('.hamburger'),
+      toggleButton: rootElement.querySelector('.hamburger'),
     }
 
     this.state = {
@@ -55,7 +55,7 @@ class Header extends BaseComponent {
     ;[
       'openOnKeyUp',
       'closeOnKeyUp',
-      'closeOnClickOutSide',
+      'closeOnClickOutside',
       'openMenu',
       'closeMenu',
       'stickyHeader',
@@ -75,19 +75,11 @@ class Header extends BaseComponent {
     window.addEventListener('orientationchange', onResize)
     resizeCallback()
 
-    if (this) {
-      this.refs.toggleButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-          this.isMenuOpen ? this.closeMenu() : this.openMenu()
-          this.setExpandedAttr(button)
-        })
+    const { toggleButton } = this.refs
 
-        // TODO: переключать aria-expanded по нажатию на Esc
-        // button.addEventListener('keydown', (event) => {
-        //   if (event.key === 'Escape') {
-        //     this.setExpandedAttr(button)
-        //   }
-        // })
+    if (this) {
+      toggleButton.addEventListener('click', () => {
+        this.isMenuOpen ? this.closeMenu() : this.openMenu()
       })
 
       window.addEventListener('scroll', throttle(this.checkSticky, { leading: false }), { passive: true })
@@ -132,39 +124,34 @@ class Header extends BaseComponent {
     }
   }
 
-  closeOnClickOutSide(event) {
+  closeOnClickOutside(event) {
     if (!event.target.closest('.header__controls')) {
       this.closeMenu()
     }
   }
 
   openMenu() {
-    this.refs.rootElement.classList.add(headerActiveClass)
+    const { rootElement, toggleButton } = this.refs
+
+    rootElement.classList.add(headerActiveClass)
+    toggleButton.setAttribute('aria-expanded', 'true')
 
     document.removeEventListener('keyup', this.openOnKeyUp)
     document.addEventListener('keyup', this.closeOnKeyUp)
-    document.addEventListener('click', this.closeOnClickOutSide)
+    document.addEventListener('click', this.closeOnClickOutside)
   }
 
   closeMenu() {
-    const { rootElement } = this.refs
+    const { rootElement, toggleButton } = this.refs
 
     rootElement.classList.remove(headerActiveClass)
+    toggleButton.setAttribute('aria-expanded', 'false')
+
     document.removeEventListener('keyup', this.closeOnKeyUp)
-    document.removeEventListener('click', this.closeOnClickOutSide)
+    document.removeEventListener('click', this.closeOnClickOutside)
     document.addEventListener('keyup', this.openOnKeyUp)
 
     this.emit('menu.close')
-  }
-
-  setExpandedAttr(button) {
-    const { rootElement } = this.refs
-
-    if (rootElement.classList.contains(headerActiveClass)) {
-      button.setAttribute('aria-expanded', 'true')
-    } else {
-      button.setAttribute('aria-expanded', 'false')
-    }
   }
 
   stickyHeader(flag) {
