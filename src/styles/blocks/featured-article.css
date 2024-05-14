@@ -22,7 +22,6 @@
   opacity: 0.84;
 }
 
-/* TODO: не хардкодить стили фокуса? */
 .featured-article:focus-within {
   outline: 2px solid hsl(var(--color-base-text));
   outline-offset: 1px;
