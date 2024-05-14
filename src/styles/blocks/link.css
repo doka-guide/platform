@@ -50,14 +50,14 @@
   opacity: var(--cached-opacity);
 }
 
-.online .link:not(.nav-list__link, .article-indexes-list__link)::after {
+.online .link:not(.nav-list__link, .article-indexes-list__link, .featured-article__link)::after {
   display: none;
 }
 
-.online .link--cached:not(.nav-list__link, .article-indexes-list__link)::after {
+.online .link--cached:not(.nav-list__link, .article-indexes-list__link, .featured-article__link)::after {
   display: none;
 }
 
-.online .link--non-cached:not(.nav-list__link, .article-indexes-list__link)::after {
+.online .link--non-cached:not(.nav-list__link, .article-indexes-list__link, .featured-article__link)::after {
   display: none;
 }

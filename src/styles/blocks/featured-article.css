@@ -22,6 +22,11 @@
   opacity: 0.84;
 }
 
+.featured-article:focus-within {
+  outline: 2px solid hsl(var(--color-base-text));
+  outline-offset: 1px;
+}
+
 .featured-article__image-wrapper {
   margin-bottom: auto;
   position: relative;
@@ -69,18 +74,19 @@
   --stroke-width: 2px;
 }
 
+.featured-article__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
 .featured-article__link:hover {
   --stroke-opacity: 0;
   --stroke-width: 0;
 }
 
-.featured-article__link::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.featured-article__link:focus-visible {
+  outline: 0;
 }
 
 .offline .featured-article__title .link::after {
