@@ -50,17 +50,14 @@
   opacity: var(--cached-opacity);
 }
 
-/* TODO: избавиться от правил с :not, чтобы не приходилось отменять таким образом стили для фичеринга из файла featured-article.css */
 .online .link:not(.nav-list__link, .article-indexes-list__link, .featured-article__link)::after {
   display: none;
 }
 
-/* TODO: избавиться от правил с :not, чтобы не приходилось отменять таким образом стили для фичеринга из файла featured-article.css */
 .online .link--cached:not(.nav-list__link, .article-indexes-list__link, .featured-article__link)::after {
   display: none;
 }
 
-/* TODO: избавиться от правил с :not, чтобы не приходилось отменять таким образом стили для фичеринга из файла featured-article.css */
 .online .link--non-cached:not(.nav-list__link, .article-indexes-list__link, .featured-article__link)::after {
   display: none;
 }
