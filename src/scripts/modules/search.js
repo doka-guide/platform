@@ -288,13 +288,13 @@ function init() {
 
     document.addEventListener('keydown', (event) => {
       // Блокировка показа встроенного поиска в Firefox
-      if (event.code === 'Slash' || (event.code === 'NumpadDivide' && document.activeElement !== searchField)) {
+      if (event.key === '/' && document.activeElement !== searchField) {
         event.preventDefault()
       }
     })
 
     document.addEventListener('keyup', (event) => {
-      if (event.code === 'Slash' || (event.code === 'NumpadDivide' && document.activeElement !== searchField)) {
+      if (event.key === '/' && document.activeElement !== searchField) {
         queueMicrotask(() => {
           searchField.focus()
         })

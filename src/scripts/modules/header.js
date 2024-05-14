@@ -58,6 +58,7 @@ class Header extends BaseComponent {
       'openOnKeyUp',
       'closeOnKeyUp',
       'closeOnClickOutside',
+      'closeOnFocusout',
       'openMenu',
       'closeMenu',
       'stickyHeader',
@@ -77,9 +78,9 @@ class Header extends BaseComponent {
     window.addEventListener('orientationchange', onResize)
     resizeCallback()
 
-    const { toggleButton } = this.refs
-
     if (this) {
+      const { toggleButton } = this.refs
+
       toggleButton.addEventListener('click', () => {
         this.isMenuOpen ? this.closeMenu() : this.openMenu()
       })
@@ -117,13 +118,19 @@ class Header extends BaseComponent {
 
   /* события для закрытия/открытия дропдауна с разделами */
   openOnKeyUp(event) {
-    if (event.code === 'Slash' || event.code === 'NumpadDivide') {
+    if (event.key === '/') {
       this.openMenu()
     }
   }
 
   closeOnKeyUp(event) {
     if (event.code === 'Escape') {
+      this.closeMenu()
+    }
+  }
+
+  closeOnFocusout(event) {
+    if (!this.refs.rootElement.contains(event.relatedTarget)) {
       this.closeMenu()
     }
   }
@@ -143,6 +150,7 @@ class Header extends BaseComponent {
     document.removeEventListener('keyup', this.openOnKeyUp)
     document.addEventListener('keyup', this.closeOnKeyUp)
     document.addEventListener('click', this.closeOnClickOutside)
+    document.addEventListener('focusout', this.closeOnFocusout)
   }
 
   closeMenu() {
@@ -153,6 +161,7 @@ class Header extends BaseComponent {
 
     document.removeEventListener('keyup', this.closeOnKeyUp)
     document.removeEventListener('click', this.closeOnClickOutside)
+    document.removeEventListener('focusout', this.closeOnFocusout)
     document.addEventListener('keyup', this.openOnKeyUp)
 
     this.emit('menu.close')
