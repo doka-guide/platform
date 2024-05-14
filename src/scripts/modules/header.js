@@ -1,5 +1,3 @@
-// TODO: переписать условие так, чтобы скрипт не срабатывал на главной и странице с расширенным поиском. Там меню всегда раскрыто. Из-за этого сейчас при нажатии на / фокус не переносится на поле поиска на этих страницах
-
 import throttle from '../libs/throttle.js'
 import debounce from '../libs/debounce.js'
 import BaseComponent from '../core/base-component.js'
@@ -78,7 +76,7 @@ class Header extends BaseComponent {
     window.addEventListener('orientationchange', onResize)
     resizeCallback()
 
-    if (this) {
+    if (this.isSticky) {
       const { toggleButton } = this.refs
 
       toggleButton.addEventListener('click', () => {
@@ -94,6 +92,10 @@ class Header extends BaseComponent {
 
   get isSticky() {
     return this.refs.rootElement.classList.contains('header--sticky')
+  }
+
+  get isStatic() {
+    return this.refs.rootElement.classList.contains('header--static')
   }
 
   get isMenuOpen() {
