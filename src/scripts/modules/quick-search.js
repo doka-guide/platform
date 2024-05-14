@@ -60,13 +60,13 @@ class QuickSearch extends BaseComponent {
 
     document.addEventListener('keydown', (event) => {
       // Firefox при нажатии Slash открывает свой поиск по странице
-      if (event.key === '/' && document.activeElement !== this.refs.input) {
+      if ((event.code === 'Slash' || event.code === 'NumpadDivide') && document.activeElement !== this.refs.input) {
         event.preventDefault()
       }
     })
 
     document.addEventListener('keyup', (event) => {
-      if (event.key === '/') {
+      if (event.code === 'Slash' || event.code === 'NumpadDivide') {
         queueMicrotask(() => {
           this.enter()
         })

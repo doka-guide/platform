@@ -118,7 +118,7 @@ class Header extends BaseComponent {
 
   /* события для закрытия/открытия дропдауна с разделами */
   openOnKeyUp(event) {
-    if (event.key === '/') {
+    if (event.code === 'Slash' || event.code === 'NumpadDivide') {
       this.openMenu()
     }
   }
