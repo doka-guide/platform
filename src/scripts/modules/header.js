@@ -19,6 +19,7 @@ class Header extends BaseComponent {
       stickyHeaderHeight: null,
       lastScroll: 0,
       getScrollThreshold: window.innerHeight,
+      lastFocusedElement: null,
     }
 
     const scrollThresholdConditions = [
@@ -57,6 +58,7 @@ class Header extends BaseComponent {
       'closeOnKeyUp',
       'closeOnClickOutside',
       'closeOnFocusout',
+      'focusOnLastElement',
       'openMenu',
       'closeMenu',
       'stickyHeader',
@@ -77,9 +79,7 @@ class Header extends BaseComponent {
     resizeCallback()
 
     if (this.isSticky) {
-      const { toggleButton } = this.refs
-
-      toggleButton.addEventListener('click', () => {
+      this.refs.toggleButton.addEventListener('click', () => {
         this.isMenuOpen ? this.closeMenu() : this.openMenu()
       })
 
@@ -94,17 +94,13 @@ class Header extends BaseComponent {
     return this.refs.rootElement.classList.contains('header--sticky')
   }
 
-  get isStatic() {
-    return this.refs.rootElement.classList.contains('header--static')
-  }
-
   get isMenuOpen() {
     return this.refs.rootElement.classList.contains(headerActiveClass)
   }
 
   /* рассчитываем высоту хедера, чтобы добавить другим элементам правильный отступ сверху */
 
-  // у нас высота хедера может быть только 54 и 56, нужно ли нам столько кода вместо того, чтобы задать фиксированное знаечение????
+  // у нас высота хедера может быть только 54 и 56, нужно ли нам столько кода вместо того, чтобы задать фиксированное значение????
 
   // calculateHeaderHeight() {
   //   const header = this.refs.rootElement
@@ -119,7 +115,7 @@ class Header extends BaseComponent {
   }
 
   /* события для закрытия/открытия дропдауна с разделами */
-  // здесь фокус устанавливается в поле поиска, когда список разделов скрыт
+  // здесь фокус устанавливается в поле поиска, когда есть дропдаун
   // TODO: управлять фокусом для поля поиска в одном файле и не дублировать функции
   openOnKeyUp(event) {
     if (event.code === 'Slash' || event.code === 'NumpadDivide') {
@@ -146,8 +142,16 @@ class Header extends BaseComponent {
     }
   }
 
+  focusOnLastElement() {
+    if (this.state.lastFocusedElement) {
+      this.state.lastFocusedElement.focus()
+    }
+  }
+
   openMenu() {
     const { rootElement, toggleButton } = this.refs
+
+    this.state.lastFocusedElement = document.activeElement
 
     rootElement.classList.add(headerActiveClass)
     toggleButton.setAttribute('aria-expanded', 'true')
@@ -168,6 +172,7 @@ class Header extends BaseComponent {
     document.removeEventListener('click', this.closeOnClickOutside)
     document.removeEventListener('focusout', this.closeOnFocusout)
     document.addEventListener('keyup', this.openOnKeyUp)
+    this.focusOnLastElement()
 
     this.emit('menu.close')
   }
