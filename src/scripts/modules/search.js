@@ -4,17 +4,18 @@ import BaseComponent from '../core/base-component.js'
 import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
 import logo from '../modules/logo.js'
 
-function onFocus() {
-  logo.setFocusOnElement()
-}
+// Уже управляем фокусом в header.js (до этого и в quick-search.js)
+// function onFocus() {
+//   logo.setFocusOnElement()
+// }
 
-function onBlur() {
-  logo.unsetFocusOnElement()
-}
+// function onBlur() {
+//   logo.unsetFocusOnElement()
+// }
 
 function setLiveRegion(isLiveRegion, element) {
   if (isLiveRegion) {
-    element.setAttribute('aria-live', 'assertive')
+    element.setAttribute('aria-live', 'polite')
     element.setAttribute('aria-atomic', 'true')
   } else {
     element.removeAttribute('aria-live')
@@ -35,7 +36,7 @@ class Filter extends BaseComponent {
       })
 
     form.addEventListener('reset', () => {
-      // событие reset срабатывает перед тем, как поля очистятся
+      /* событие reset срабатывает перед тем, как поля очистятся */
       setTimeout(() => {
         this.emit('reset', this.state)
       })
@@ -215,7 +216,7 @@ function init() {
     element: searchHits,
   })
 
-  // преобразует состояние фильтров в понятный серверу формат
+  /* преобразует состояние фильтров в понятный серверу формат */
   function prepareFilters(filtersState) {
     const result = [
       [...filtersState.getAll('category')].map((v) => {
@@ -229,7 +230,7 @@ function init() {
     return result
   }
 
-  // сериализует состояние фильтров в формат Search Params
+  /* сериализует состояние фильтров в формат Search Params */
   function filtersToSearchParams(filtersState, fallbackPath) {
     let searchString = new URLSearchParams(filtersState).toString()
     searchString = searchString ? '?' + searchString : fallbackPath
@@ -273,9 +274,9 @@ function init() {
   const debouncedOnFilterChange = debounce(onFilterChange, 150)
 
   function assignSearchField() {
-    searchField.addEventListener('focus', onFocus, true)
-    searchField.addEventListener('blur', onBlur, true)
-    searchField.focus()
+    // searchField.addEventListener('focus', onFocus, true)
+    // searchField.addEventListener('blur', onBlur, true)
+    // searchField.focus()
     searchField.addEventListener('input', () => {
       if (!searchField.value) {
         setLiveRegion(false, searchHits)
@@ -294,11 +295,11 @@ function init() {
     })
 
     document.addEventListener('keyup', (event) => {
-      if ((event.code === 'Slash' || event.code === 'NumpadDivide') && document.activeElement !== searchField) {
-        queueMicrotask(() => {
-          searchField.focus()
-        })
-      }
+      // if ((event.code === 'Slash' || event.code === 'NumpadDivide') && document.activeElement !== searchField) {
+      //   queueMicrotask(() => {
+      //     searchField.focus()
+      //   })
+      // }
 
       if (event.code === 'Enter' && document.activeElement === searchField) {
         queueMicrotask(() => {

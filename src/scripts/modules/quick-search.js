@@ -58,12 +58,13 @@ class QuickSearch extends BaseComponent {
     this.refs.input.addEventListener('focus', onFocus, true)
     this.refs.input.addEventListener('blur', onBlur, true)
 
-    document.addEventListener('keydown', (event) => {
-      // Firefox при нажатии Slash открывает свой поиск по странице
-      if ((event.code === 'Slash' || event.code === 'NumpadDivide') && document.activeElement !== this.refs.input) {
-        event.preventDefault()
-      }
-    })
+    // Уже блокируем в search.js
+    // document.addEventListener('keydown', (event) => {
+    //   // блокировка показа встроенного поиска в Firefox
+    //   if ((event.code === 'Slash' || event.code === 'NumpadDivide') && document.activeElement !== this.refs.input) {
+    //     event.preventDefault()
+    //   }
+    // })
 
     document.addEventListener('keyup', (event) => {
       if (event.code === 'Slash' || event.code === 'NumpadDivide') {
@@ -74,6 +75,8 @@ class QuickSearch extends BaseComponent {
     })
   }
 
+  // здесь фокус устанавливается в полях на главной и на странице быстрого поиска
+  // TODO: управлять фокусом для поля поиска в одном файле и не дублировать функции
   enter() {
     this.refs.input?.focus()
   }
