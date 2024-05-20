@@ -6,18 +6,9 @@ function init() {
   }
 
   const button = nav.querySelector('.toggle-button')
-  const content = nav.querySelector('.article-nav__content')
 
   button.addEventListener('click', () => {
     nav.classList.toggle('article-nav--open')
-  })
-
-  content.addEventListener('click', (event) => {
-    const link = event.target.closest('a')
-
-    if (link) {
-      nav.classList.remove('article-nav--open')
-    }
   })
 }
 
