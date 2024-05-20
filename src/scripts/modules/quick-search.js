@@ -128,7 +128,7 @@ class QuickSearch extends BaseComponent {
 
   closeSuggestionOnOutSideClick(event) {
     const { rootElement } = this.refs
-    if (!rootElement.contains(event.target)) {
+    if (!rootElement.contains(event.target) && this.isSuggestionOpen) {
       this.closeSuggestion()
     }
   }

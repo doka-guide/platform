@@ -131,13 +131,13 @@ class Header extends BaseComponent {
   }
 
   closeOnFocusout(event) {
-    if (!this.refs.rootElement.contains(event.relatedTarget)) {
+    if (event.relatedTarget && !this.refs.rootElement.contains(event.relatedTarget)) {
       this.closeMenu()
     }
   }
 
   closeOnClickOutside(event) {
-    if (!event.target.closest('.header__controls')) {
+    if (!this.refs.rootElement.contains(event.target)) {
       this.closeMenu()
     }
   }
@@ -158,8 +158,8 @@ class Header extends BaseComponent {
 
     document.removeEventListener('keyup', this.openOnKeyUp)
     document.addEventListener('keyup', this.closeOnKeyUp)
+    rootElement.addEventListener('focusout', this.closeOnFocusout)
     document.addEventListener('click', this.closeOnClickOutside)
-    document.addEventListener('focusout', this.closeOnFocusout)
   }
 
   closeMenu() {
@@ -169,14 +169,15 @@ class Header extends BaseComponent {
     toggleButton.setAttribute('aria-expanded', 'false')
 
     document.removeEventListener('keyup', this.closeOnKeyUp)
-    document.removeEventListener('click', this.closeOnClickOutside)
     document.removeEventListener('focusout', this.closeOnFocusout)
+    document.removeEventListener('click', this.closeOnClickOutside)
     document.addEventListener('keyup', this.openOnKeyUp)
     this.focusOnLastElement()
 
     this.emit('menu.close')
   }
 
+  /* отслеживаем скролл, устанавливаем флаг для хедера */
   stickyHeader(flag) {
     this.refs.headerContent.classList.toggle('header__controls--shrink', flag)
     document.documentElement.style.setProperty('--is-header-sticky', Number(flag))
