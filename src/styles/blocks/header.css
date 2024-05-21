@@ -114,6 +114,11 @@
   gap: 16px;
 }
 
+.hotkey__key {
+  font-family: inherit;
+  display: none;
+}
+
 /* скрываем/показываем горячие клавиши */
 .hotkey--close {
   display: none;
@@ -127,20 +132,11 @@
   display: none;
 }
 
-.hotkey__key {
-  font-family: inherit;
-  display: none;
-}
-
-@media (width >= 768px) {
-  .header--open .hotkey--close {
-    display: none;
-  }
-}
-
 @media (width >= 1024px) {
-  .hotkey--search, .hotkey__key {
-    display: inline;
+  .hotkey__key,
+  .hotkey--search,
+  .header--open .hotkey--close {
+    display: inline-block;
   }
 }
 
