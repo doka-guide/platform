@@ -183,7 +183,6 @@ class Header extends BaseComponent {
     document.documentElement.style.setProperty('--is-header-sticky', Number(flag))
   }
 
-  /* отслеживаем скролл, устанавливаем флаг для хедера */
   checkSticky() {
     const { lastScroll } = this.state
     const currentScroll = window.scrollY

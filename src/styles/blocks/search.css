@@ -8,16 +8,10 @@
   line-height: var(--font-line-height-xl);
   letter-spacing: var(--letter-spacing);
 
-  /* line-height: calc(var(--font-line-height-xl) * 0.75); */
-
-  /* line-height: 1; */
-  
   /* font-family: var(--font-family);
   font-size: calc(var(--font-size-xl)* .85); */
 
   /* line-height: calc(var(--font-line-height-xl)* .85); */
-
-  /* line-height: calc(var(--font-line-height-xl)* .55); */
 }
 
 @media (width >= 760px) {
@@ -54,10 +48,6 @@
   border-bottom: 2px solid hsl(0 0% 70%);
   background-color: transparent;
 }
-
-/* .header--open > :has(.search__input) {
-  max-height: 37px;
-} */
 
 .search__input:focus {
   border-bottom-color: var(--color-text);
