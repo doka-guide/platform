@@ -133,7 +133,7 @@
 
 @media (width >= 768px) {
   .header--open .hotkey--close {
-    display: inherit;
+    display: none;
   }
 }
 
