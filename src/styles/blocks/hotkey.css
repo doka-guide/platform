@@ -12,6 +12,12 @@
   user-select: none;
 }
 
+@media (width <= 1366px) {
+  .hotkey {
+    font-size: 18px;
+  }
+}
+
 @media not all and (width >= 768px) {
   .hotkey {
     display: none;

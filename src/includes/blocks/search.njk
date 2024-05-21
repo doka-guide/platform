@@ -17,7 +17,7 @@
       id="search-field"
       type="text"
       name="query"
-      placeholder="Что ищете?"
+      placeholder="Поиск"
       aria-keyshortcuts="&#47;"
       autocomplete="off"
       {% if permalink == isSearchPage %}aria-describedby="search-hint"{% endif %}
@@ -26,7 +26,7 @@
     {# TODO: перенести в header.njk? #}
     {% if isMainPage %}
       <span class="search__key hotkey hotkey--search">
-        Поиск <kbd class="hotkey__key">/</kbd>
+        Клавиша <kbd class="hotkey__key">/</kbd>
       </span>
     {% endif %}
 
