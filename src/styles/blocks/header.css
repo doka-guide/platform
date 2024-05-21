@@ -79,15 +79,16 @@
   background-color: var(--color-background);
 }
 
-.header__devider {
+.header__divider {
   margin-left: 0.2em;
   margin-right: 0.2em;
   font-family: var(--font-family);
+  font-size: 0.85em;
   letter-spacing: var(--letter-spacing);
   opacity: 0.3;
 }
 
-.header__devider::before {
+.header__divider::before {
   content: "/";
 }
 
@@ -119,7 +120,7 @@
 }
 
 .hotkey--search {
-  display: inline;
+  display: none;
 }
 
 .header--open .hotkey--search {
@@ -138,7 +139,7 @@
 }
 
 @media (width >= 1024px) {
-  .hotkey__key {
+  .hotkey--search, .hotkey__key {
     display: inline;
   }
 }

@@ -42,11 +42,18 @@
   border: 0;
   padding: 0 100px 0 10px;
   font: inherit;
-  letter-spacing: inherit;
+  line-height: calc(1em + 1px);
+  letter-spacing: -0.08em;
   color: inherit;
   outline: none;
   border-bottom: 2px solid hsl(0 0% 70%);
   background-color: transparent;
+}
+
+@media (width >= 1024px) {
+  .search__input {
+    padding-inline-start: 0;
+  }
 }
 
 .search__input:focus {
@@ -56,6 +63,7 @@
 .search__control {
   position: relative;
   display: grid;
+  font-size: var(--font-size-l);
 }
 
 .search__control > * {
