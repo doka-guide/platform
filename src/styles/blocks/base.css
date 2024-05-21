@@ -8,8 +8,6 @@
   font-family: var(--font-family, sans-serif);
   color: var(--color-text);
   background-color: var(--color-background);
-
-  /* Нам точно нужен этот префикс? */
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
@@ -24,17 +22,5 @@
 }
 
 .base__body:has(.header--open > .header__controls--shrink) {
-  padding-top: var(--sticky-header-height);
-}
-
-/* TODO: разобраться, нужны ли эти стили */
-
-@media not all and (width >= 768px) {
-  .base__body:has(.header--open) {
-    padding-top: 0;
-  }
-
-  .base__body:has(.header--open > .header__controls--shrink) {
-    padding-top: 0;
-  }
+  padding-top: var(--header-height);
 }

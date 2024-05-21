@@ -56,7 +56,6 @@
   inset: 0;
 }
 
-/* TODO: поколдовать с размерами иконок */
 .toggle-button__icon {
   display: block;
   margin: auto;

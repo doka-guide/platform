@@ -107,7 +107,7 @@ class Header extends BaseComponent {
   //   const state = this.state
   //   state.stickyHeaderHeight = header.offsetHeight
 
-  //   document.documentElement.style.setProperty('--sticky-header-height', state.stickyHeaderHeight)
+  //   document.documentElement.style.setProperty('--header-height', state.stickyHeaderHeight)
   // }
 
   calculateScrollThreshold() {

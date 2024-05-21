@@ -213,7 +213,7 @@
   }
 
   .article__aside {
-    --header-offset: calc(var(--header-height, 0) * 1px);
+    --header-offset: calc(var(--header-height) * 1px);
     position: sticky;
     top: var(--header-offset, 0);
     box-sizing: border-box;
