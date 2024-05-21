@@ -1,29 +1,37 @@
 .article-nav {
   --is-nav-open: 0;
   display: block;
+  position: relative;
+  padding: var(--offset);
   font-size: 17px;
   border-bottom: 1px solid var(--active-link-background, hsl(var(--color-fade)));
 }
 
 @media (width >= 1024px) {
   .article-nav {
+    padding: var(--offset, 10px);
     font-size: inherit;
     border-bottom: 0;
   }
 }
 
-.article-nav__toggle {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--offset);
+.article-nav--open {
+  --is-nav-open: 1;
+  display: block;
 }
 
-/* расширяем область клика кнопки */
+.article-nav__toggle {
+  position: relative;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* расширяем область клика кнопки на десктопах */
 .article-nav__toggle::before {
   content: "";
   position: absolute;
+  inset: 0;
 }
 
 @media (width >= 1024px) {
@@ -32,78 +40,73 @@
   }
 }
 
-/* TODO: подумать, как скрыть текст со смещением пунктов меню, но бкз смещения кнопки закрытия */
-.toggle-text {
-  visibility: visible;
+.article-nav__content {
+  display: none;
+  box-sizing: border-box;
+  padding-bottom: var(--offset);
+  line-height: 1.9;
+}
+
+@media (width >= 1024px) {
+  .article-nav__content {
+    display: block;
+    overflow: auto;
+    height: 100%;
+    line-height: 1.6;
+    overscroll-behavior: contain;
+  }
+}
+
+.toggle-button__icon--open .article-nav__toggle {
+  display: none;
 }
 
 .toggle-button {
-  display: block;
   box-sizing: border-box;
-  width: auto;
-  margin: auto 0;
+  position: absolute;
+  right: 0;
+  display: block;
+
+  /* width: 100%; */
   padding: 0;
+
+  /* text-align: right; */
   border: 0;
   background-color: transparent;
-  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* расширяем область клика кнопки */
+/* расширяем область клика кнопки на десктопах */
 .toggle-button::after {
   content: "";
-  position: absolute;
   inset: 0;
 }
 
 .toggle-button__icon {
-  display: block;
-  margin: auto;
   width: 48px;
   height: 48px;
   color: var(--color-text);
   background-color: transparent;
 }
 
-.article-nav__content {
-  box-sizing: border-box;
-  padding-bottom: var(--offset);
-  line-height: 1.9;
-}
-
-.article-nav .toggle-button__icon--open,
-.article-nav .toggle-button__icon--close,
-.article-nav__content {
+.toggle-button__icon--close {
   display: none;
 }
 
-.article-nav:not(.article-nav--open) .toggle-button__icon--open,
-.article-nav--open .toggle-button__icon--close,
-.article-nav--open .article-nav__content {
+.article-nav--open .toggle-button__icon--open {
+  display: none;
+}
+
+.article-nav--open .article-nav__content,
+.article-nav--open .toggle-button__icon--close {
   display: block;
 }
 
-@media (width >= 1024px) {
-  .article-nav__content {
-    /* --lightness: calc(100% - var(--is-dark-theme-on) * 80%);
-    --active-link-lightness: calc(var(--is-light-theme-on) * 92%);
-    --active-link-background: hsl(0 0% var(--active-link-lightness));
-    */
-    display: block;
-    overflow: auto;
-    height: 100%;
-    padding: var(--offset, 10px);
-    line-height: 1.6;
-    overscroll-behavior: contain;
-    background-color: hsl(0 0% var(--lightness));
-  }
-}
-
-.article-nav.article-nav--open .toggle-text {
-  visibility: hidden;
-}
-
-.article-nav--open {
-  --is-nav-open: 1;
+.toggle-text {
   display: block;
+  line-height: 2;
+}
+
+.article-nav--open .toggle-text {
+  display: none;
 }
