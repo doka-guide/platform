@@ -57,9 +57,12 @@
   transition: all 0.2s;
 }
 
-/* TODO: придумать как убрать мерцание при анимации */
 .header__controls--shrink {
-  border-bottom: 1px solid var(--header-border-color);
+  box-shadow: 0 1px 0 0 var(--header-border-color); 
+}
+
+.header--open > .header__controls--shrink {
+  box-shadow: none;
 }
 
 @media (width >= 768px) {
