@@ -19,7 +19,7 @@
   align-items: baseline;
 }
 
-/* 
+/*
 .breadcrumbs__item--shrink {
   flex-shrink: 1;
   min-width: 0;
@@ -28,6 +28,7 @@
 .breadcrumbs__text {
   --stroke-width: 2px;
   --text-font-size: 0.85em;
+  letter-spacing: -.08em;
   line-height: 1;
   white-space: nowrap;
   text-overflow: ellipsis;
