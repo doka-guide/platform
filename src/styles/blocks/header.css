@@ -116,6 +116,7 @@
 
 .hotkey__key {
   font-family: inherit;
+  text-transform: uppercase;
   display: none;
 }
 
