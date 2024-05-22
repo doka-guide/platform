@@ -40,6 +40,7 @@
   .article-nav__content {
     display: block;
     overflow: auto;
+    padding: var(--offset, 10px);
     height: 100%;
     line-height: 2;
     overscroll-behavior: contain;
