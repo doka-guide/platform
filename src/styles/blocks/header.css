@@ -5,6 +5,7 @@
 
 .header {
   --header-bg-color: var(--accent-color, var(--color-background));
+  --header-border-color: var(--accent-color, var(--color-border));
   --search-input-height: 0.4em;
   background-color: var(--color-background);
   z-index: 2;
@@ -54,6 +55,11 @@
   line-height: var(--font-line-height-l);
   background-color: var(--header-bg-color);
   transition: all 0.2s;
+}
+
+/* TODO: придумать как убрать мерцание при анимации */
+.header__controls--shrink {
+  border-bottom: 1px solid var(--header-border-color);
 }
 
 @media (width >= 768px) {

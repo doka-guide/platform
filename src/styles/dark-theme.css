@@ -13,6 +13,7 @@
   --color-text: hsl(var(--color-light));
   --color-background: hsl(var(--color-dark));
   --color-fade: 220 7% 25%;
+  --color-border: hsl(var(--color-base-text) / 0.3);
 
   --color-html: hsl(25 70% 24%);
   --color-css: hsl(209 70% 24%);
