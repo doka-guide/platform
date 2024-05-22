@@ -64,7 +64,7 @@
 
 @media (width >= 768px) {
   .header__controls--shrink {
-    padding: 7px;
+    padding: 7px 10px;
   }
 }
 
@@ -77,7 +77,7 @@
   }
 
   .header__controls--shrink {
-    padding: var(--menu-padding-min);
+    padding: var(--menu-padding-min) var(--menu-padding-max);
   }
 }
 
