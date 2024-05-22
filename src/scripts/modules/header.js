@@ -16,7 +16,7 @@ class Header extends BaseComponent {
     }
 
     this.state = {
-      stickyHeaderHeight: null,
+      // stickyHeaderHeight: null,
       lastScroll: 0,
       getScrollThreshold: window.innerHeight,
       lastFocusedElement: null,
@@ -25,20 +25,20 @@ class Header extends BaseComponent {
     const scrollThresholdConditions = [
       {
         condition: () => !!document.querySelector('.article'),
-        getter: () => this.state.stickyHeaderHeight + document.querySelector('.article__header').offsetHeight,
+        getter: () => document.querySelector('.article__header'),
       },
       {
         condition: () => !!document.querySelector('.index-block'),
         getter: () => {
           const additionalHeight = window.matchMedia('(width >= 1366px)')
             ? 0
-            : document.querySelector('.index-block__header').offsetHeight
-          return this.state.stickyHeaderHeight + additionalHeight
+            : document.querySelector('.index-block__header')
+          return additionalHeight
         },
       },
       {
         condition: () => !!document.querySelector('.standalone-page'),
-        getter: () => this.state.stickyHeaderHeight + document.querySelector('.standalone-page__header').offsetHeight,
+        getter: () => document.querySelector('.standalone-page__header'),
       },
       {
         condition: () => true,
@@ -190,7 +190,7 @@ class Header extends BaseComponent {
     const isHeaderOnTop = currentScroll === 0
     this.state.lastScroll = currentScroll
 
-    if (isHeaderOnTop || currentScroll <= this.scrollThreshold) {
+    if (isHeaderOnTop) {
       if (this.isSticky) {
         this.stickyHeader(false)
         this.emit('unsticky')
@@ -198,7 +198,7 @@ class Header extends BaseComponent {
       return
     }
 
-    if (isScrollingDown) {
+    if (isScrollingDown || currentScroll <= this.scrollThreshold) {
       if (this.isSticky) {
         this.stickyHeader(true)
         this.emit('sticky')
