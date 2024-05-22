@@ -8,6 +8,7 @@
 
 @media (width >= 1024px) {
   .article-nav {
+    --offset: 10px;
     padding: var(--offset);
     font-size: inherit;
     border-bottom: 0;
@@ -32,15 +33,15 @@
 .article-nav__content {
   display: none;
   box-sizing: border-box;
-  padding: var(--offset, 20px);
+  padding: 18px 0 var(--offset);
   line-height: 1.8;
 }
 
 @media (width >= 1024px) {
   .article-nav__content {
-    display: block;
+    display: initial;
     overflow: auto;
-    padding: var(--offset, 10px);
+    padding: var(--offset);
     height: 100%;
     line-height: 2;
     overscroll-behavior: contain;
