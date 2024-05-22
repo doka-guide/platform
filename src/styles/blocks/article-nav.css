@@ -2,14 +2,13 @@
   --is-nav-open: 0;
   display: block;
   position: relative;
-  padding: var(--offset);
   font-size: 17px;
   border-bottom: 1px solid var(--active-link-background, hsl(var(--color-fade)));
 }
 
 @media (width >= 1024px) {
   .article-nav {
-    padding: var(--offset, 10px);
+    padding: var(--offset);
     font-size: inherit;
     border-bottom: 0;
   }
@@ -17,21 +16,11 @@
 
 .article-nav--open {
   --is-nav-open: 1;
-  display: block;
 }
 
 .article-nav__toggle {
   position: relative;
   width: 100%;
-  display: inline-flex;
-  align-items: center;
-}
-
-/* расширяем область клика кнопки на десктопах */
-.article-nav__toggle::before {
-  content: "";
-  position: absolute;
-  inset: 0;
 }
 
 @media (width >= 1024px) {
@@ -43,8 +32,8 @@
 .article-nav__content {
   display: none;
   box-sizing: border-box;
-  padding-bottom: var(--offset);
-  line-height: 1.9;
+  padding: var(--offset, 20px);
+  line-height: 1.8;
 }
 
 @media (width >= 1024px) {
@@ -52,7 +41,7 @@
     display: block;
     overflow: auto;
     height: 100%;
-    line-height: 1.6;
+    line-height: 2;
     overscroll-behavior: contain;
   }
 }
@@ -63,23 +52,23 @@
 
 .toggle-button {
   box-sizing: border-box;
-  position: absolute;
-  right: 0;
-  display: block;
-
-  /* width: 100%; */
-  padding: 0;
-
-  /* text-align: right; */
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--offset);
+  width: 100%;
+  font-size: inherit;
   border: 0;
   background-color: transparent;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* расширяем область клика кнопки на десктопах */
-.toggle-button::after {
-  content: "";
-  inset: 0;
+.toggle-button[aria-expanded="true"] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: auto;
+  text-align: initial;
 }
 
 .toggle-button__icon {
@@ -103,8 +92,7 @@
 }
 
 .toggle-text {
-  display: block;
-  line-height: 2;
+  display: inline-block;
 }
 
 .article-nav--open .toggle-text {
