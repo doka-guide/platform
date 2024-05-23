@@ -8,7 +8,7 @@
   --header-border-color: var(--accent-color, var(--color-border));
   --search-input-height: 0.4em;
   background-color: var(--color-background);
-  z-index: 2;
+  z-index: 3;
 }
 
 /* всегда открытое меню (главная) */
@@ -58,7 +58,7 @@
 }
 
 .header__controls--shrink {
-  box-shadow: 0 1px 0 0 var(--header-border-color); 
+  box-shadow: 0 1px 0 0 var(--header-border-color);
 }
 
 .header--open > .header__controls--shrink {
@@ -181,7 +181,7 @@
   inset: 0;
   background-color: hsl(var(--color-fade) / 0.45);
   backdrop-filter: grayscale(1);
-  z-index: 1;
+  z-index: 2;
 }
 
 /* скрываем крошки, когда меню открыто */
