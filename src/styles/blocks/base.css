@@ -13,14 +13,15 @@
 }
 
 /* TODO: рассчитать правильный отступ при наличии класса aria__controls--expanded */
+
 .base__body {
   margin: 0;
 }
 
 .base__body:has(.header--open) {
-  margin-top: var(--header-height);
+  top: 56px;
 }
 
-.base__body:has(.header--open > .header__controls--shrink) {
+/* .base__body:has(.header--open > .header__controls--shrink) {
   padding-top: var(--header-height);
-}
+} */

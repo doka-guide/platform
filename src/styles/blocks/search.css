@@ -88,8 +88,6 @@
   visibility: hidden;
 }
 
-/* TODO: починить отступ у горячей клавиши поиска на мобилках? */
-
 .search__input:placeholder-shown ~ .search__key--enter,
 .search__input:not(:focus) ~ .search__key--enter {
   visibility: hidden;
