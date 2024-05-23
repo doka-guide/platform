@@ -16,7 +16,7 @@
   position: relative;
 }
 
-/* фиксированное меню на десктопах и планшетах (остальные страницы) */
+/* фиксированное меню на мобилках */
 .header--sticky {
   position: static;
 }
@@ -28,16 +28,28 @@
   }
 }
 
-/* фиксированный дропдаун */
 .header--open {
   position: fixed;
-  width: 100%;
+
+  /* width: 100%; */
 }
 
 @media (height <= 450px) {
   .header--open {
+    position: fixed;
     height: 100%;
     overflow-y: scroll;
+  }
+}
+
+@media (width >= 768px) {
+  .header--open {
+    position: sticky;
+    width: 100%;
+  }
+
+  .header--open .header__menu {
+    position: fixed;
   }
 }
 
@@ -154,13 +166,23 @@
 
 /* дропдаун с разделами */
 .header__menu {
-  height: 100%;
+  /* position: absolute; */
+
+  /* position: fixed; */
+  width: 100%;
+
+  /* height: 100%; */
   font-size: calc(var(--font-size-xl) * 0.95);
   line-height: calc(var(--font-line-height-xl) * 0.95);
   letter-spacing: -0.06em;
   background-color: var(--color-background);
-  z-index: -1;
 }
+
+/* @media (width >= 1024px) {
+  .header__menu {
+    position: absolute;
+  }
+} */
 
 /* всегда раскрытый список разделов на главной */
 .header--static .header__menu {
@@ -169,8 +191,8 @@
 }
 
 .header:not(.header--open, .header--static) .header__menu {
-  height: 0;
   visibility: hidden;
+  height: 0;
   opacity: 0;
 }
 
