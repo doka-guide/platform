@@ -64,8 +64,7 @@
 
       {% include "blocks/search.njk" %}
 
-      {# TODO: включить в условие, что это not isSearchPage #}
-      {% if not isMainPage %}
+      {% if (not isMainPage) and (not isSearchPage) %}
         <div class="header__hamburger">
           <span class="hotkey hotkey--search font-theme font-theme--code">
             Клавиша <kbd class="hotkey__key">/</kbd>
@@ -105,10 +104,10 @@
         </div>
       {% endif %}
 
+      {# TODO: сделать универсальный класс для кнопок в хедере, не hamburger #}
       {% if isSearchPage %}
-        {# TODO: задать другой класс для кнопки. Она тут не закрывает, а удаляет #}
         <button
-          class="hamburger hamburge--reset"
+          class="search__reset-button hamburger"
           type="reset"
           form="search-form"
         >
