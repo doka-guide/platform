@@ -30,8 +30,7 @@
 
 .header--open {
   position: fixed;
-
-  /* width: 100%; */
+  width: 100%;
 }
 
 @media (height <= 450px) {
