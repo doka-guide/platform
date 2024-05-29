@@ -215,3 +215,10 @@
     display: none;
   }
 }
+
+/* скрываем крошку на мобильных на странице раздела */
+@media (width < 768px) {
+  .header__category--standalone {
+    display: none;
+  }
+}
