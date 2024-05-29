@@ -86,9 +86,15 @@
   position: relative;
   z-index: -1;
   display: block;
-  height: var(--stroke-size);
+  height: round(var(--stroke-size), 1px);
   background-color: var(--accent-color);
   border-radius: 1em;
+}
+
+@supports not (height: round(1.5px, 1px)) {
+  .nav-list__link-text::after {
+    height: var(--stroke-size);
+  }
 }
 
 .nav-list__link:hover::after {
