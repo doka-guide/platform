@@ -34,9 +34,21 @@
     padding-top: 0;
     padding-bottom: var(--list-padding-max);
     padding-right: var(--list-padding-max);
-    padding-left: calc(40*var(--gap));
+    padding-left: calc(37*var(--gap));
     gap: 6px;
     line-height: inherit;
+  }
+}
+
+@media (width >= 1366px) {
+  .nav-list {
+    padding-left: calc(38*var(--gap));
+  }
+}
+
+@media (width >= 1680px) {
+  .nav-list {
+    padding-left: calc(45*var(--gap));
   }
 }
 
