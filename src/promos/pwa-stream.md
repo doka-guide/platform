@@ -1,5 +1,5 @@
 ---
-title: 'Стрим сегодня'
+title: 'Стрим в записи'
 color: '0 100% 50%'
 design: 'stream'
 startDate: '2024-05-27T00:00:00'
