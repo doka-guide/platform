@@ -19,7 +19,6 @@ class Header extends BaseComponent {
       // stickyHeaderHeight: null,
       lastScroll: 0,
       getScrollThreshold: window.innerHeight,
-      lastFocusedElement: null,
     }
 
     const scrollThresholdConditions = [
@@ -58,7 +57,6 @@ class Header extends BaseComponent {
       'closeOnKeyUp',
       'closeOnClickOutside',
       'closeOnFocusout',
-      'focusOnLastElement',
       'openMenu',
       'closeMenu',
       'stickyHeader',
@@ -73,6 +71,8 @@ class Header extends BaseComponent {
     }
 
     const onResize = debounce(resizeCallback, 200)
+
+    this.state.lastFocusedElement = document.activeElement
 
     window.addEventListener('resize', onResize)
     window.addEventListener('orientationchange', onResize)
@@ -142,16 +142,8 @@ class Header extends BaseComponent {
     }
   }
 
-  focusOnLastElement() {
-    if (this.state.lastFocusedElement) {
-      this.state.lastFocusedElement.focus()
-    }
-  }
-
   openMenu() {
     const { rootElement, toggleButton } = this.refs
-
-    this.state.lastFocusedElement = document.activeElement
 
     rootElement.classList.add(headerActiveClass)
     toggleButton.setAttribute('aria-expanded', 'true')
@@ -172,7 +164,6 @@ class Header extends BaseComponent {
     document.removeEventListener('focusout', this.closeOnFocusout)
     document.removeEventListener('click', this.closeOnClickOutside)
     document.addEventListener('keyup', this.openOnKeyUp)
-    this.focusOnLastElement()
 
     this.emit('menu.close')
   }
