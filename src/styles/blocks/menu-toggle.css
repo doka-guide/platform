@@ -18,7 +18,7 @@
 }
 
 /* увеличиваем область клика для кнопки открытия */
-.header:has(.hamburger):not(.header--open) .hamburger {
+.header:has(.hamburger):not(.header--open) .hamburger:not(.search__reset-button) {
   padding: 10px 0;
 }
 
@@ -94,4 +94,8 @@
     width: 43px;
     height: 43px;
   }
+}
+
+.search__reset-button {
+  margin-inline-start: 20px;
 }
