@@ -69,14 +69,26 @@
   left: -10000px;
   width: 1px;
   height: 1px;
-  padding: 23px 53px;
+  padding: 16px 52px;
   background-color: var(--color-background);
-  z-index: 3;
+  z-index: 4;
 }
- 
+
 .skip-link:focus-visible {
   top: 0;
   left: 0;
   width: auto;
   height: auto;
+}
+
+@media (width >= 1024px) {
+  .skip-link {
+    padding: 23px 56px;
+  }
+}
+
+@media (width >= 1680px) {
+  .skip-link {
+    padding: 26px 62px;
+  }
 }
