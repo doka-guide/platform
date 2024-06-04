@@ -44,7 +44,7 @@
             </span>
           </label>
           {% for category in collections.articleIndexes %}
-            <label class="tag-filter" style="--accent-color: var(--color-{{ category.fileSlug }})">
+            <label class="tag-filter" style="--accent-color: var(--color-base-{{ category.fileSlug }})">
               <input class="tag-filter__control" type="checkbox" name="category" value="{{ category.fileSlug }}">
               <span class="tag-filter__text">
                 {{ category.data.name }}
