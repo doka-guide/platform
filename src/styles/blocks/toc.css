@@ -3,7 +3,13 @@
 }
 
 .toc__item {
-  padding-left: 10px;
+  padding-inline-start: 10px;
+}
+
+@media (width < 1024px) {
+  .toc__item:first-of-type {
+    padding-inline-end: 60px;
+  }
 }
 
 .toc__link {

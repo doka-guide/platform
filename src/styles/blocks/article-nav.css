@@ -9,9 +9,10 @@
 @media (width >= 1024px) {
   .article-nav {
     --offset: 10px;
-    padding: var(--offset);
+    padding: calc(var(--offset) * 2);
     font-size: inherit;
     border-bottom: 0;
+    overflow: auto;
   }
 }
 
@@ -33,7 +34,7 @@
 .article-nav__content {
   display: none;
   box-sizing: border-box;
-  padding: 18px 0 var(--offset);
+  padding: var(--offset) 0;
   line-height: 1.8;
 }
 
@@ -41,10 +42,15 @@
   .article-nav__content {
     display: initial;
     overflow: auto;
-    padding: var(--offset);
     height: 100%;
-    line-height: 2;
+    line-height: 1.8;
     overscroll-behavior: contain;
+  }
+}
+
+@media (width >= 1366px) {
+  .article-nav__content {
+    line-height: 1.6;
   }
 }
 
@@ -57,7 +63,6 @@
   display: inline-flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--offset);
   width: 100%;
   font-size: inherit;
   border: 0;
