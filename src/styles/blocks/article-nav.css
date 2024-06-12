@@ -78,19 +78,31 @@
   text-align: initial;
 }
 
-.toggle-button__icon {
+.toggle-button__icons {
+  position: relative;
   width: 48px;
   height: 48px;
+  overflow: hidden;
+}
+
+.toggle-button__icon {
+  position: absolute;
+  inset: 0;
   color: var(--color-text);
   background-color: transparent;
+  transform: scale(calc(var(--on) + var(--off)* 1.5));
+  opacity: var(--on);
+  transition: transform 0.5s, opacity 0.5s;
 }
 
 .toggle-button__icon--close {
-  display: none;
+  --on: var(--is-nav-open);
+  --off: calc(1 - var(--is-nav-open));
 }
 
-.article-nav--open .toggle-button__icon--open {
-  display: none;
+.toggle-button__icon--open {
+  --on: calc(1 - var(--is-nav-open));
+  --off: var(--is-nav-open);
 }
 
 .article-nav--open .article-nav__content,
