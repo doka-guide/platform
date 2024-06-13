@@ -32,10 +32,18 @@
 }
 
 .article-nav__content {
-  display: none;
   box-sizing: border-box;
-  padding: var(--offset) 0;
+  height: 0;
+  padding: 0;
   line-height: 1.8;
+  overflow: hidden;
+  transition: padding 0.3s;
+}
+
+.article-nav--open .article-nav__content {
+  height: auto;
+  padding: var(--offset) 0;
+  transition: padding 0.3s;
 }
 
 @media (width >= 1024px) {
@@ -105,7 +113,6 @@
   --off: var(--is-nav-open);
 }
 
-.article-nav--open .article-nav__content,
 .article-nav--open .toggle-button__icon--close {
   display: block;
 }
