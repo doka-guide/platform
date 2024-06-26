@@ -24,5 +24,5 @@
   justify-content: center;
   align-items: center;
   font-family: var(--font-family);
-  background-color: var(--accent-color, var(--color-fade));
+  background-color: var(--accent-color, hsl(var(--color-fade)));
 }

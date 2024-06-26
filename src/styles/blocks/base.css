@@ -1,10 +1,8 @@
 .base {
-  --is-header-fixed: 0;
-  --header-height:
-    calc(
-      var(--is-header-fixed) * var(--fixed-header-height, 0) +
-      (1 - var(--is-header-fixed)) * var(--not-fixed-header-height, 0)
-    );
+  --is-header-sticky: 1;
+  
+  /* TODO: может зададим фиксированный отступ и не будем рассчитывать высоту хедера? */
+  --header-height: 56;
   font-size: var(--font-size-m, 100%);
   line-height: var(--font-line-height-m, 1.15);
   font-family: var(--font-family, sans-serif);
@@ -14,7 +12,16 @@
   scroll-behavior: smooth;
 }
 
+/* TODO: рассчитать правильный отступ при наличии класса aria__controls--expanded */
+
 .base__body {
   margin: 0;
-  padding-top: calc(var(--is-header-fixed) * var(--not-fixed-header-height, 0) * 1px);
 }
+
+.base__body:has(.header--open) {
+  top: 56px;
+}
+
+/* .base__body:has(.header--open > .header__controls--shrink) {
+  padding-top: var(--header-height);
+} */

@@ -3,3 +3,9 @@
   grid-gap: 6px;
   justify-items: start;
 }
+
+@media not all and (width >= 768px) {
+  .filter-group {
+    grid-gap: 10px;
+  }
+}

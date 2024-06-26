@@ -10,7 +10,8 @@
 
   --color-text: hsl(var(--color-dark));
   --color-background: hsl(var(--color-light));
-  --color-fade: hsl(0 0% 92%);
+  --color-fade: 0 0% 82%;
+  --color-border: hsl(var(--color-base-text) / 0.3);
 
   --color-html: hsl(var(--color-orange));
   --color-css: hsl(var(--color-blue));
