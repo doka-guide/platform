@@ -132,7 +132,7 @@ module.exports = function (config) {
           const titledLink = stringParts[1].split('](')
           post['date'] = new Date(Date.parse(`${currentYear}-${currentMonth + 1}-${currentDay}`)).toISOString()
           post['title'] = titledLink[0].replace(/^\[/, '')
-          post['url'] = titledLink[1].replace(/\), [А-ЯЁа-яё ,]*/, '')
+          post['url'] = titledLink[1].replace(/\/[^/]+$/, '/')
           const rawArticle = collectionApi.getFilteredByGlob(
             `src${post['url'].replace('https://doka.guide', '')}*.md`,
           )[0]
