@@ -135,9 +135,18 @@ const socialCards = async () => {
       objectMode: true,
       async transform(file, encoding, done) {
         const imagePath = file.path.replace('index.sc.html', 'images/covers/')
-        await fsp.mkdir(imagePath, { recursive: true })
+        if (!fs.existsSync(imagePath)) {
+          await fsp.mkdir(imagePath, { recursive: true })
+        }
 
         await page.goto('file://' + file.path)
+
+        await page.evaluate(() => {
+          const image = document.querySelector('.social-card__image')
+          if (image) {
+            image.setAttribute('src', image.src.replace(/.*images\//, 'images/'))
+          }
+        })
 
         await page.setViewport({
           width: 503,
