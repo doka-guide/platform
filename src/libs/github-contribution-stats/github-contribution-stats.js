@@ -5,7 +5,7 @@ const stats = issues.reduce((result, issue) => {
   const isPullRequest = 'pull_request' in issue
   const pullRequestIncrement = isPullRequest ? 1 : 0
   const issueIncrement = !isPullRequest ? 1 : 0
-  const pullRequestDate = isPullRequest ? new Date(issue['closed_at']) : new Date()
+  const pullRequestDate = isPullRequest && issue['closed_at'] ? new Date(Date.parse(issue['closed_at'])) : new Date()
 
   if (result && user in result) {
     result[user]['issues'] += issueIncrement
