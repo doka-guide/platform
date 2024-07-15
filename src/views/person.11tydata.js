@@ -169,13 +169,15 @@ module.exports = {
 
     badgesFields: function (data) {
       const { contributionStat } = data
-      const releaseDate = new Date('2021-10-12T00:00:00Z')
-      const theFirstDate = new Date('1970-01-01T00:00:00Z')
-      let pullRequestDate = releaseDate
-      if (contributionStat && !contributionStat['first'] === theFirstDate) {
-        pullRequestDate = contributionStat
-      }
-      const githubFirstContribution = pullRequestDate
+      const releaseDate = Date.parse('2021-10-12T00:00:00Z')
+      const theFirstDate = Date.parse('1970-01-01T00:00:00Z')
+
+      const pullRequestDate = contributionStat
+        ? Date.parse(contributionStat['first']) !== theFirstDate
+          ? contributionStat['first']
+          : releaseDate
+        : releaseDate
+      const githubFirstContribution = new Date(pullRequestDate)
         .toLocaleString('ru', {
           year: 'numeric',
           month: 'long',
