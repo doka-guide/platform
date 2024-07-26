@@ -270,7 +270,8 @@ module.exports = function (config) {
   })
 
   config.addCollection('webFeatures', async () => {
-    return (await import('web-features')).default
+    const { features } = await import('web-features')
+    return features
   })
 
   config.setLibrary('md', initMarkdownLibrary())
