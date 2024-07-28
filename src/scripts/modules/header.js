@@ -98,18 +98,6 @@ class Header extends BaseComponent {
     return this.refs.rootElement.classList.contains(headerActiveClass)
   }
 
-  /* рассчитываем высоту хедера, чтобы добавить другим элементам правильный отступ сверху */
-
-  // у нас высота хедера может быть только 54 и 56, нужно ли нам столько кода вместо того, чтобы задать фиксированное значение????
-
-  // calculateHeaderHeight() {
-  //   const header = this.refs.rootElement
-  //   const state = this.state
-  //   state.stickyHeaderHeight = header.offsetHeight
-
-  //   document.documentElement.style.setProperty('--header-height', state.stickyHeaderHeight)
-  // }
-
   calculateScrollThreshold() {
     this.scrollThreshold = this.getScrollThreshold()
   }

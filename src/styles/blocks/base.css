@@ -1,7 +1,5 @@
 .base {
   --is-header-sticky: 1;
-  
-  /* TODO: может зададим фиксированный отступ и не будем рассчитывать высоту хедера? */
   --header-height: 56;
   font-size: var(--font-size-m, 100%);
   line-height: var(--font-line-height-m, 1.15);
@@ -21,7 +19,3 @@
 .base__body:has(.header--open) {
   top: 56px;
 }
-
-/* .base__body:has(.header--open > .header__controls--shrink) {
-  padding-top: var(--header-height);
-} */
