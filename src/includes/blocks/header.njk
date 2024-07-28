@@ -65,7 +65,7 @@
       {% include "blocks/search.njk" %}
 
       {% if (not isMainPage) and (not isSearchPage) %}
-        <div class="header__hamburger">
+        <div class="header__buttons">
           <span class="hotkey hotkey--search font-theme font-theme--code">
             Клавиша <kbd class="hotkey__key">/</kbd>
           </span>
@@ -74,24 +74,24 @@
           </span>
 
           <button
-            class="hamburger"
+            class="header-button"
             type="button"
             aria-expanded="false"
             aria-controls="dropdown-menu"
           >
-            <span class="hamburger-content hamburger-content--open">
+            <span class="header-button-content header-button-content--open">
               <span class="visually-hidden">Открыть меню</span>
-              <span class="hamburger-icon hamburger-icon--open">
-                <span class="hamburger-icon__dot"></span>
-                <span class="hamburger-icon__dot"></span>
-                <span class="hamburger-icon__dot"></span>
+              <span class="header-button-icon header-button-icon--open">
+                <span class="header-button-icon__dot"></span>
+                <span class="header-button-icon__dot"></span>
+                <span class="header-button-icon__dot"></span>
               </span>
             </span>
 
-            <span class="hamburger-content hamburger-content--close">
+            <span class="header-button-content header-button-content--close">
               <span class="visually-hidden">Закрыть меню</span>
               <svg
-                class="hamburger-icon hamburger-icon--close"
+                class="header-button-icon header-button-icon--close"
                 width="45"
                 height="45"
                 viewBox="0 0 45 45"
@@ -104,10 +104,10 @@
         </div>
       {% endif %}
 
-      {# TODO: сделать универсальный класс для кнопок в хедере, не hamburger #}
+      {# TODO: сделать универсальный класс для кнопок в хедере, не header-button #}
       {% if isSearchPage %}
         <button
-          class="search__reset-button hamburger"
+          class="search__reset-button header-button"
           type="reset"
           form="search-form"
         >
@@ -115,7 +115,7 @@
             Очистить
           </span>
           <svg
-            class="hamburger-icon hamburger-icon--close"
+            class="header-button-icon header-button-icon--close"
             width="45"
             height="45"
             viewBox="0 0 45 45"

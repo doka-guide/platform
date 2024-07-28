@@ -126,7 +126,7 @@
 }
 
 /* закрытие/раскрытие меню */
-.header__hamburger {
+.header__buttons {
   display: flex;
   align-items: center;
   justify-content: flex-end;

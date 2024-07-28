@@ -12,7 +12,7 @@ class Header extends BaseComponent {
       rootElement,
       input: rootElement.querySelector('.search__input'),
       headerContent: rootElement.querySelector('.header__controls'),
-      toggleButton: rootElement.querySelector('.hamburger'),
+      toggleButton: rootElement.querySelector('.header-button'),
     }
 
     this.state = {
