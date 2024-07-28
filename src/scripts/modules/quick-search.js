@@ -24,6 +24,7 @@ class QuickSearch extends BaseComponent {
     this.refs = {
       rootElement,
       input: rootElement.querySelector('.search__input'),
+      fullLink: rootElement.querySelector('.search__full-link'),
       suggestionContainer: rootElement.querySelector('.search__suggestion'),
       suggestionContent: rootElement.querySelector('.search__suggestion-content'),
       suggestionList: rootElement.querySelector('.suggestion-list'),
@@ -135,6 +136,7 @@ class QuickSearch extends BaseComponent {
 
   onSearch(event) {
     this.emit('search', event.target.value)
+    this.refs.fullLink.href = `/search/?query=${this.refs.input.value}`
   }
 
   onCursorChange(event) {
