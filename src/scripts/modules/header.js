@@ -16,7 +16,6 @@ class Header extends BaseComponent {
     }
 
     this.state = {
-      // stickyHeaderHeight: null,
       lastScroll: 0,
       getScrollThreshold: window.innerHeight,
     }
@@ -53,6 +52,7 @@ class Header extends BaseComponent {
     }
 
     ;[
+      'enter',
       'openOnKeyUp',
       'closeOnKeyUp',
       'closeOnClickOutside',
@@ -66,7 +66,6 @@ class Header extends BaseComponent {
     })
 
     const resizeCallback = () => {
-      // this.calculateHeaderHeight()
       this.calculateScrollThreshold()
     }
 
@@ -88,10 +87,24 @@ class Header extends BaseComponent {
 
       this.checkSticky()
     }
+
+    if (this.isMainPage) {
+      document.addEventListener('keyup', (event) => {
+        if (event.code === 'Slash' || event.code === 'NumpadDivide') {
+          queueMicrotask(() => {
+            this.enter()
+          })
+        }
+      })
+    }
   }
 
   get isSticky() {
     return this.refs.rootElement.classList.contains('header--sticky')
+  }
+
+  get isMainPage() {
+    return window.location.pathname === '/'
   }
 
   get isMenuOpen() {
@@ -103,8 +116,10 @@ class Header extends BaseComponent {
   }
 
   /* события для закрытия/открытия дропдауна с разделами */
-  // здесь фокус устанавливается в поле поиска, когда есть дропдаун
-  // TODO: управлять фокусом для поля поиска в одном файле и не дублировать функции
+  enter() {
+    this.refs.input?.focus()
+  }
+
   openOnKeyUp(event) {
     if (event.code === 'Slash' || event.code === 'NumpadDivide') {
       this.openMenu()

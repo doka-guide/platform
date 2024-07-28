@@ -4,15 +4,6 @@ import BaseComponent from '../core/base-component.js'
 import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
 import logo from '../modules/logo.js'
 
-// Уже управляем фокусом в header.js (до этого и в quick-search.js)
-// function onFocus() {
-//   logo.setFocusOnElement()
-// }
-
-// function onBlur() {
-//   logo.unsetFocusOnElement()
-// }
-
 function setLiveRegion(isLiveRegion, element) {
   if (isLiveRegion) {
     element.setAttribute('aria-live', 'polite')
@@ -274,9 +265,7 @@ function init() {
   const debouncedOnFilterChange = debounce(onFilterChange, 150)
 
   function assignSearchField() {
-    // searchField.addEventListener('focus', onFocus, true)
-    // searchField.addEventListener('blur', onBlur, true)
-    // searchField.focus()
+    searchField.focus()
     searchField.addEventListener('input', () => {
       if (!searchField.value) {
         setLiveRegion(false, searchHits)
@@ -295,12 +284,6 @@ function init() {
     })
 
     document.addEventListener('keyup', (event) => {
-      // if ((event.code === 'Slash' || event.code === 'NumpadDivide') && document.activeElement !== searchField) {
-      //   queueMicrotask(() => {
-      //     searchField.focus()
-      //   })
-      // }
-
       if (event.code === 'Enter' && document.activeElement === searchField) {
         queueMicrotask(() => {
           document.querySelector(SEARCH_HIT_LINK_SELECTOR)?.focus()
