@@ -6,6 +6,7 @@ const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 const { setPath } = require('../libs/collection-helpers/set-path')
 const { isProdEnv } = require('../../config/env.js')
+const { transformArticleData } = require('../scripts/modules/transform-article-data.js')
 
 function isExternalURL(url) {
   return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')
@@ -96,21 +97,7 @@ module.exports = {
         .slice(0, featuredArticlesMaxCount)
         .map((id) => docsById[id])
         .filter(Boolean)
-        .map((article) => {
-          const section = article.filePathStem.split('/')[1]
-
-          return {
-            title: article?.data?.title,
-            cover: article?.data?.cover,
-            get imageLink() {
-              return `${this.cover?.mobile}`
-            },
-            description: article?.data?.description,
-            link: `/${section}/${article?.fileSlug}/`,
-            linkTitle: article?.data?.title.replace(/`/g, ''),
-            section,
-          }
-        })
+        .map((article) => transformArticleData(article))
     },
 
     themeColor: function (data) {

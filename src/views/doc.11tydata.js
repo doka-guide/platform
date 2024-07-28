@@ -2,6 +2,7 @@ const fs = require('fs')
 const { baseUrl } = require('../../config/constants')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 const roleCollection = require('../libs/role-constructor/collection.json')
+const { transformArticleData } = require('../scripts/modules/transform-article-data.js')
 
 function getPersons(personGetter) {
   return function (data) {
@@ -24,7 +25,7 @@ function getPopulatedPersons(personKey) {
             data: {
               name: personId,
             },
-          }
+          },
     )
   }
 }
@@ -38,23 +39,6 @@ function assignGreaterValue(map, item, key) {
     map[key] = Number(item[key])
   }
   return map
-}
-
-// TODO: вынести эту функцию в отдельный файл и переиспользовать в `views.11tydata.js`
-function transformArticleData(article) {
-  const section = article.filePathStem.split('/')[1]
-
-  return {
-    title: article.data.title,
-    cover: article.data.cover,
-    get imageLink() {
-      return `${this.cover.mobile}`
-    },
-    description: article.data.description,
-    link: `/${section}/${article.fileSlug}/`,
-    linkTitle: article.data.title.replace(/`/g, ''),
-    section,
-  }
 }
 
 const asyncFilter = async (arr, predicate) => {
@@ -289,7 +273,7 @@ module.exports = {
               }
               return map
             },
-            { chrome: 0, edge: 0, firefox: 0, safari: 0 }
+            { chrome: 0, edge: 0, firefox: 0, safari: 0 },
           )
         const supported = doc.data.baseline
           .filter((g) => webFeatures[g.group].is_baseline)
@@ -302,7 +286,7 @@ module.exports = {
               }
               return map
             },
-            { chrome: true, edge: true, firefox: true, safari: true }
+            { chrome: true, edge: true, firefox: true, safari: true },
           )
         const flagged = { chrome: false, edge: false, firefox: false, safari: false }
         const preview = { chrome: false, edge: false, firefox: false, safari: false }
