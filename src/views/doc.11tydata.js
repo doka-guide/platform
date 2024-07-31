@@ -2,7 +2,7 @@ const fs = require('fs')
 const { baseUrl } = require('../../config/constants')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 const roleCollection = require('../libs/role-constructor/collection.json')
-const { transformArticleData } = require('../scripts/modules/transform-article-data.js')
+const transformArticleData = require('../scripts/modules/transform-article-data.js')
 
 function getPersons(personGetter) {
   return function (data) {

@@ -6,7 +6,7 @@ const categoryColors = require('../../config/category-colors')
 const { titleFormatter } = require('../libs/title-formatter/title-formatter')
 const { setPath } = require('../libs/collection-helpers/set-path')
 const { isProdEnv } = require('../../config/env.js')
-const { transformArticleData } = require('../scripts/modules/transform-article-data.js')
+const transformArticleData = require('../scripts/modules/transform-article-data.js')
 
 function isExternalURL(url) {
   return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')

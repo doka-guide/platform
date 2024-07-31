@@ -1,4 +1,4 @@
-export function transformArticleData(article) {
+module.exports = function transformArticleData(article) {
   const section = article.filePathStem.split('/')[1]
 
   return {
