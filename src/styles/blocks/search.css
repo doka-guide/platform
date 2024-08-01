@@ -1,5 +1,4 @@
 .search {
-  /* --search-input-height: calc(var(--font-size-xl) * 1.25); */
   margin-top: var(--gap, 10px);
   position: relative;
   display: grid;
@@ -7,11 +6,6 @@
   font-size: calc(var(--font-size-xl) * 0.75);
   line-height: var(--font-line-height-xl);
   letter-spacing: var(--letter-spacing);
-
-  /* font-family: var(--font-family);
-  font-size: calc(var(--font-size-xl)* .85); */
-
-  /* line-height: calc(var(--font-line-height-xl)* .85); */
 }
 
 @media (width >= 760px) {
