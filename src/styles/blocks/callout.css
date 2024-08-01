@@ -1,6 +1,6 @@
 .callout {
   --padding: 10px;
-  --code-lines-background: var(--color-fade);
+  --code-lines-background: hsl(var(--color-fade));
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -9,7 +9,7 @@
   padding: 10px;
   overflow-wrap: break-word;
   border-radius: 6px;
-  background-color: var(--color-fade);
+  background-color: hsl(var(--color-fade));
 }
 
 .callout__icon {

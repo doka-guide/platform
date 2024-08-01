@@ -24,6 +24,7 @@ class QuickSearch extends BaseComponent {
     this.refs = {
       rootElement,
       input: rootElement.querySelector('.search__input'),
+      fullLink: rootElement.querySelector('.search__full-link'),
       suggestionContainer: rootElement.querySelector('.search__suggestion'),
       suggestionContent: rootElement.querySelector('.search__suggestion-content'),
       suggestionList: rootElement.querySelector('.suggestion-list'),
@@ -33,7 +34,6 @@ class QuickSearch extends BaseComponent {
       highlightedIndex: -1,
     }
     ;[
-      'enter',
       'exit',
       'openSuggestion',
       'closeSuggestion',
@@ -57,25 +57,6 @@ class QuickSearch extends BaseComponent {
     this.refs.input.addEventListener('input', this.onSearch)
     this.refs.input.addEventListener('focus', onFocus, true)
     this.refs.input.addEventListener('blur', onBlur, true)
-
-    document.addEventListener('keydown', (event) => {
-      // Firefox при нажатии Slash открывает свой поиск по странице
-      if (event.code === 'Slash' && document.activeElement !== this.refs.input) {
-        event.preventDefault()
-      }
-    })
-
-    document.addEventListener('keyup', (event) => {
-      if (event.code === 'Slash') {
-        queueMicrotask(() => {
-          this.enter()
-        })
-      }
-    })
-  }
-
-  enter() {
-    this.refs.input?.focus()
   }
 
   exit() {
@@ -125,13 +106,14 @@ class QuickSearch extends BaseComponent {
 
   closeSuggestionOnOutSideClick(event) {
     const { rootElement } = this.refs
-    if (!rootElement.contains(event.target)) {
+    if (!rootElement.contains(event.target) && this.isSuggestionOpen) {
       this.closeSuggestion()
     }
   }
 
   onSearch(event) {
     this.emit('search', event.target.value)
+    this.refs.fullLink.href = `/search/?query=${this.refs.input.value}`
   }
 
   onCursorChange(event) {
@@ -219,7 +201,7 @@ class QuickSearch extends BaseComponent {
             .map((hitObject) => {
               const title = hitObject.originalTitle.replace(
                 /`(.*?)`/g,
-                '<code class="suggestion-list__code font-theme font-theme--code">$1</code>'
+                '<code class="suggestion-list__code font-theme font-theme--code">$1</code>',
               )
               return `
                 <li class="suggestion-list__item" style="--accent-color: var(--color-${hitObject.category});">

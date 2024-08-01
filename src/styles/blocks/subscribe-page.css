@@ -9,7 +9,7 @@
   padding: var(--gap);
   font-size: 24px;
   accent-color: hsl(var(--color-base-text));
-  background-color: var(--color-fade);
+  background-color: hsl(var(--color-fade));
 }
 
 .subscribe-settings__row--hidden {
@@ -105,7 +105,7 @@
 .unsubscribe-section {
   display: grid;
   margin-block-start: calc(var(--gap) * 2);
-  background-color: var(--color-fade);
+  background-color: hsl(var(--color-fade));
 }
 
 .unsubscribe-section--hidden {

@@ -5,19 +5,14 @@ function init() {
     return
   }
 
-  const button = nav.querySelector('.article-nav__button')
-  const content = nav.querySelector('.article-nav__content')
+  const button = nav.querySelector('.toggle-button')
 
   button.addEventListener('click', () => {
     nav.classList.toggle('article-nav--open')
-  })
 
-  content.addEventListener('click', (event) => {
-    const link = event.target.closest('a')
-
-    if (link) {
-      nav.classList.remove('article-nav--open')
-    }
+    let isExpanded = button.getAttribute('aria-expanded')
+    isExpanded = isExpanded === 'true' ? 'false' : 'true'
+    button.setAttribute('aria-expanded', isExpanded)
   })
 }
 

@@ -41,7 +41,7 @@
   grid-template-rows: calc(1.5 * var(--font-size-l)) auto min-content;
   gap: calc(2 * var(--gutter));
   padding: var(--gutter);
-  background-color: var(--color-fade);
+  background-color: hsl(var(--color-fade));
   border-radius: 6px;
 }
 

@@ -4,17 +4,9 @@ import BaseComponent from '../core/base-component.js'
 import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
 import logo from '../modules/logo.js'
 
-function onFocus() {
-  logo.setFocusOnElement()
-}
-
-function onBlur() {
-  logo.unsetFocusOnElement()
-}
-
 function setLiveRegion(isLiveRegion, element) {
   if (isLiveRegion) {
-    element.setAttribute('aria-live', 'assertive')
+    element.setAttribute('aria-live', 'polite')
     element.setAttribute('aria-atomic', 'true')
   } else {
     element.removeAttribute('aria-live')
@@ -35,7 +27,7 @@ class Filter extends BaseComponent {
       })
 
     form.addEventListener('reset', () => {
-      // событие reset срабатывает перед тем, как поля очистятся
+      /* событие reset срабатывает перед тем, как поля очистятся */
       setTimeout(() => {
         this.emit('reset', this.state)
       })
@@ -126,7 +118,7 @@ class SearchResultOutput extends BaseComponent {
         const editIcon = SearchResultOutput.isPlaceholder(hitObject) ? SearchResultOutput.templates.placeholderIcon : ''
         const title = SearchResultOutput.replaceBackticks(
           hitObject.title.replaceAll('<mark>', '<mark class="search-hit__marked">'),
-          SearchResultOutput.templates.titleCode
+          SearchResultOutput.templates.titleCode,
         )
         const summary = hitObject.summary
           .slice(0, SearchResultOutput.matchedItems)
@@ -157,7 +149,7 @@ class SearchResultOutput extends BaseComponent {
                 <li class="search-result-list__item">
                   ${SearchResultOutput.templates.hit(hitObject)}
                 </li>
-              `
+              `,
               )
               .join('')}
           </ol>
@@ -215,7 +207,7 @@ function init() {
     element: searchHits,
   })
 
-  // преобразует состояние фильтров в понятный серверу формат
+  /* преобразует состояние фильтров в понятный серверу формат */
   function prepareFilters(filtersState) {
     const result = [
       [...filtersState.getAll('category')].map((v) => {
@@ -229,7 +221,7 @@ function init() {
     return result
   }
 
-  // сериализует состояние фильтров в формат Search Params
+  /* сериализует состояние фильтров в формат Search Params */
   function filtersToSearchParams(filtersState, fallbackPath) {
     let searchString = new URLSearchParams(filtersState).toString()
     searchString = searchString ? '?' + searchString : fallbackPath
@@ -273,8 +265,6 @@ function init() {
   const debouncedOnFilterChange = debounce(onFilterChange, 150)
 
   function assignSearchField() {
-    searchField.addEventListener('focus', onFocus, true)
-    searchField.addEventListener('blur', onBlur, true)
     searchField.focus()
     searchField.addEventListener('input', () => {
       if (!searchField.value) {
@@ -288,25 +278,12 @@ function init() {
 
     document.addEventListener('keydown', (event) => {
       // Блокировка показа встроенного поиска в Firefox
-      if (event.code === 'Slash' && document.activeElement !== searchField) {
+      if ((event.code === 'Slash' || event.code === 'NumpadDivide') && document.activeElement !== searchField) {
         event.preventDefault()
       }
     })
 
     document.addEventListener('keyup', (event) => {
-      if (event.code === 'Escape') {
-        queueMicrotask(() => {
-          searchForm.reset()
-          searchField.focus()
-        })
-      }
-
-      if (event.code === 'Slash' && document.activeElement !== searchField) {
-        queueMicrotask(() => {
-          searchField.focus()
-        })
-      }
-
       if (event.code === 'Enter' && document.activeElement === searchField) {
         queueMicrotask(() => {
           document.querySelector(SEARCH_HIT_LINK_SELECTOR)?.focus()

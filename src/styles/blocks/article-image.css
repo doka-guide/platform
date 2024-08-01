@@ -1,5 +1,5 @@
 .article-image {
-  --aspect-ratio: 16 / 9;
+  --aspect-ratio: 16 / 7;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-column-gap: 1em;
