@@ -53,7 +53,7 @@ SUBTITLE_NEW_2="## Новые контрибьюторы"
 SUBTITLE_NEW_3="Весь ченджлог"
 
 gh repo set-default doka-guide/platform
-gh release create "$TAG" --draft --title="$TITLE" --generate-notes --verify-tag
+gh release create "$TAG" --title="$TITLE" --generate-notes
 gh release view --repo=github.com/doka-guide/platform >> auto-notes.md
 sed -E 's/\* /- /g' auto-notes.md | sed -E 's/'"$SUBTITLE_OLD_1"'/'"$SUBTITLE_NEW_1"'/' | sed -E 's/'"$SUBTITLE_OLD_2"'/'"$SUBTITLE_NEW_2"'/' | sed -E 's/'"$SUBTITLE_OLD_3"'/'"$SUBTITLE_NEW_3"'/' > notes.md
-gh release edit "$TAG" --draft --notes-file notes.md
+gh release edit "$TAG" --notes-file notes.md
