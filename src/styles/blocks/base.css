@@ -15,6 +15,9 @@
 }
 
 .base__body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-block-size: 100dvh;
   margin: 0;
   padding-top: calc(var(--is-header-fixed) * var(--not-fixed-header-height, 0) * 1px);
 }
