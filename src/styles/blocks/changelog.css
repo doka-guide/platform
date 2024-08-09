@@ -17,14 +17,12 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  column-gap: 18px;
 }
 
 .changelog-item__time,
 .changelog-item__author {
   display: flex;
   align-items: baseline;
-  gap: 18px;
   font-size: 28px;
 }
 
@@ -34,9 +32,11 @@
   flex: 1 1 auto;
   border-block-end: 5px dotted var(--color-text);
   opacity: 0.3;
+  margin-inline: 18px;
 }
 
 .changelog-item__time {
+  gap: 18px;
   flex-shrink: 0;
   inline-size: 30%;
   font-family: var(--font-family);
@@ -52,15 +52,22 @@
 }
 
 .changelog-item__author {
+  flex-wrap: wrap;
   flex: 1 0 25%;
   justify-content: end;
-  font-family: var(--font-family)
+}
+
+.changelog-item__author-link {
+  font-family: var(--font-family);
+}
+
+.changelog-item__author-link:not(:first-child) {
+  margin-inline-start: 1ch;
 }
 
 .changelog-footer {
   display: flex;
   justify-content: space-between;
-  gap: 18px;
   margin-block-start: 45px;
 }
 
@@ -138,6 +145,7 @@
 
   .changelog-item__author {
     flex: 0 0 auto;
+    justify-content: start;
   }
 
   .changelog-item__author::before {
