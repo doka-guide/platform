@@ -131,8 +131,10 @@ module.exports = function (config) {
           const currentMonth = months.indexOf(date[1])
           const titledLink = stringParts[1].split('](')
           post['date'] = new Date(Date.parse(`${currentYear}-${currentMonth + 1}-${currentDay}`)).toISOString()
+          post['shortDate'] = `${date[0]} ${date[1]}`
           post['title'] = titledLink[0].replace(/^\[/, '')
           post['url'] = titledLink[1].replace(/\/[^/]+$/, '/')
+          post['authors'] = stringParts[1].split('), ')[1].split(', ')
           const rawArticle = collectionApi.getFilteredByGlob(
             `src${post['url'].replace('https://doka.guide', '')}*.md`,
           )[0]
