@@ -2,6 +2,7 @@
   --header-bg-color: var(--accent-color, var(--color-background));
   --search-input-height: 0.7em;
   --header-animation-time: 0.6s;
+  --header-font-letter-spacing: -0.06em;
   position: relative;
   z-index: 2;
   background-color: var(--color-background);
@@ -90,7 +91,7 @@
 
 .header__inner--main {
   font-size: var(--font-size-l);
-  letter-spacing: -0.06em;
+  letter-spacing: var(--header-font-letter-spacing);
   line-height: var(--font-line-height-l);
   font-family: var(--font-family);
 }
@@ -116,7 +117,7 @@
   grid-template-rows: var(--font-size-xl) repeat(3, auto);
   font-size: calc(var(--font-size-xl) * 0.95);
   line-height: calc(var(--font-line-height-xl) * 0.95);
-  letter-spacing: -0.06em;
+  letter-spacing: var(--header-font-letter-spacing);
   background-color: var(--color-background);
   transition:
     transform var(--header-animation-time) cubic-bezier(0.65, 0.05, 0.36, 1),
