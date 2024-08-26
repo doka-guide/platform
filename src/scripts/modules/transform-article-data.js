@@ -3,7 +3,7 @@ module.exports = function transformArticleData(article) {
 
   return {
     title: article.data.title,
-    cover: article.data.cover,
+    cover: article.data.cover ?? {},
     get imageLink() {
       return `${this.cover.mobile}`
     },
