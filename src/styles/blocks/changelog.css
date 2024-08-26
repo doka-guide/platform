@@ -10,7 +10,7 @@
 }
 
 .changelog-list__item:not(:last-child) {
-  margin-block-end: 20px;
+  margin-block-end: 24px;
 }
 
 .changelog-item {
@@ -32,13 +32,12 @@
   flex: 1 1 auto;
   border-block-end: 5px dotted var(--color-text);
   opacity: 0.3;
-  margin-inline: 18px;
+  margin-inline: 20px;
 }
 
 .changelog-item__time {
-  gap: 18px;
   flex-shrink: 0;
-  inline-size: 30%;
+  inline-size: calc(100% / 3);
   font-family: var(--font-family);
 }
 
@@ -73,7 +72,7 @@
 
 .changelog-footer::before {
   content: "";
-  flex-basis: 30%;
+  flex-basis: calc(100% / 3);
 }
 
 .changelog-footer__item {
@@ -85,7 +84,7 @@
   text-align: end;
 }
 
-@media (width <= 1024px) {
+@media (width <= 1200px) {
   .changelog-item {
     flex-wrap: wrap;
   }
