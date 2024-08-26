@@ -13,11 +13,8 @@ function hasTag(tags, tag) {
   return (tags || []).includes(tag)
 }
 
-// TODO: вынести эту функцию в отдельный файл и переиспользовать в `views.11tydata.js`
-function transformArticleData(article) {
-  const section = article.filePathStem.split('/')[1]
-
-  return `/${section}/${article.fileSlug}/`
+function getArticlePath(article) {
+  return `/${article.filePathStem.split('/')[1]}/${article.fileSlug}/`
 }
 
 function getRandomString(length) {
@@ -125,7 +122,7 @@ module.exports = {
 
       const articleId = linkedArticles?.[docId]?.next?.id
       const articleData = docsById[articleId]
-      return articleData && transformArticleData(articleData)
+      return articleData && getArticlePath(articleData)
     },
 
     previousArticle: function (data) {
@@ -135,7 +132,7 @@ module.exports = {
 
       const articleId = linkedArticles?.[docId]?.previous?.id
       const articleData = docsById[articleId]
-      return articleData && transformArticleData(articleData)
+      return articleData && getArticlePath(articleData)
     },
 
     relatedArticles: function (data) {
@@ -147,7 +144,7 @@ module.exports = {
         ?.slice(0, 3)
         ?.map((articleId) => docsById[articleId])
         ?.filter(Boolean)
-        ?.map((articleData) => transformArticleData(articleData))
+        ?.map((articleData) => getArticlePath(articleData))
     },
 
     linksAndImages: async function (data) {
