@@ -134,13 +134,26 @@ class Header extends BaseComponent {
   }
 
   closeOnFocusout(event) {
-    if (event.relatedTarget && !this.refs.rootElement.contains(event.relatedTarget)) {
+    const cookieBanner = document.querySelector('.cookie-notification')
+    const subscriptionBanner = document.querySelector('.subscribe-popup')
+    if (
+      event.relatedTarget &&
+      !this.refs.rootElement.contains(event.relatedTarget) &&
+      !cookieBanner.contains(event.relatedTarget) &&
+      !subscriptionBanner.contains(event.relatedTarget)
+    ) {
       this.closeMenu()
     }
   }
 
   closeOnClickOutside(event) {
-    if (!this.refs.rootElement.contains(event.target)) {
+    const cookieBanner = document.querySelector('.cookie-notification')
+    const subscriptionBanner = document.querySelector('.subscribe-popup')
+    if (
+      !this.refs.rootElement.contains(event.target) &&
+      !cookieBanner.contains(event.target) &&
+      !subscriptionBanner.contains(event.target)
+    ) {
       this.closeMenu()
     }
   }
