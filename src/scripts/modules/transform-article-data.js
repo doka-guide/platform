@@ -5,7 +5,7 @@ module.exports = function transformArticleData(article) {
     title: article.data.title,
     cover: article.data.cover ?? {},
     get imageLink() {
-      return `${this.cover.mobile}`
+      return Object.keys(this.cover).includes('mobile') ? `${this.cover.mobile}` : undefined
     },
     description: article.data.description,
     link: `/${section}/${article.fileSlug}/`,
