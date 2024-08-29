@@ -90,6 +90,20 @@
 
 @media (width >= 1024px) {
   .header-button-icon--close {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (width >= 1366px) {
+  .header-button-icon--close {
+    width: 37px;
+    height: 37px;
+  }
+}
+
+@media (width >= 1680px) {
+  .header-button-icon--close {
     width: 43px;
     height: 43px;
   }

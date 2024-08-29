@@ -33,7 +33,7 @@
   display: block;
   box-sizing: border-box;
   width: 100%;
-  height: calc(1em + 3px);
+  height: calc(1em + 1px);
   border: 0;
   padding: 0 100px 0 10px;
   font: inherit;

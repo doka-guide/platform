@@ -119,6 +119,13 @@
   grid-column-end: none;
 }
 
+@media (width >= 1680px) {
+  .header__controls .header__search {
+    position: relative;
+    top: -2px;
+  }
+}
+
 /* показываем поиск на главной и с раскрытым дропдауном */
 .header--static .header__search,
 .header--open .header__search {
@@ -220,5 +227,19 @@
 @media (width < 768px) {
   .header__category--standalone {
     display: none;
+  }
+}
+
+/* подтягиваем контент под растущий хэдер */
+@media (width >= 768px) and (width < 1024px) {
+  .header--open + .doc {
+    position: relative;
+    top: -50px;
+  }
+}
+
+@media (width < 768px) {
+  .header--open + .doc .article__header {
+    padding-block-start: 51px;
   }
 }
