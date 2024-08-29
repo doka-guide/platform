@@ -92,7 +92,7 @@
 
 .article__read-time {
   margin-top: 0.8em;
-  margin-bottom: 1em;
+  margin-bottom: 0;
   font-size: var(--font-size-s);
 }
 

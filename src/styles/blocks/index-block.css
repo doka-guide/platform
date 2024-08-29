@@ -16,6 +16,12 @@
   background-color: var(--accent-color);
 }
 
+@media (width >= 768px) and (width < 1366px) {
+  .index-block__header {
+    padding: calc(2 * var(--offset));
+  }
+}
+
 .index-block__title {
   margin-top: 0;
   margin-bottom: 10px;
