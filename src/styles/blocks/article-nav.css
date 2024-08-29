@@ -74,6 +74,7 @@
   width: 100%;
   font-size: inherit;
   border: 0;
+  padding-inline-start: var(--offset);
   background-color: transparent;
   -webkit-tap-highlight-color: transparent;
 }
