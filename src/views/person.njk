@@ -223,17 +223,19 @@
               {{ articleIndexesMap[category].data.name }}
             </h2>
             <h3 class="articles-group__sub-title font-theme font-theme--code">{{ answersPersonRole }}</h3>
-            {% for articleList in answersInArticles[category] %}
-              <ul class="articles-group__list base-list">
-                {% for article in articleList | sort %}
-                  <li>
-                    <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
-                      {{ article.data.title | descriptionMarkdown | safe }}
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% endfor %}
+            <ul class="articles-group__list base-list">
+              {% for articleList in answersInArticles[category] %}
+                <ul class="articles-group__list base-list">
+                  {% for article in articleList | sort %}
+                    <li>
+                      <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
+                        {{ article.data.title | descriptionMarkdown | safe }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endfor %}
+            </ul>
           </section>
         {% endfor %}
       {% endif %}
