@@ -204,15 +204,17 @@
               {{ articleIndexesMap[category].data.name }}
             </h2>
             <h3 class="articles-group__sub-title font-theme font-theme--code">{{ practicesPersonRole }}</h3>
-            {% for practice in practicesIndex[category] | sort %}
-              <ul class="articles-group__list base-list">
-                <li>
-                  <a class="articles-group__link link" href="/{{ category }}/{{ practice.fileSlug }}/#na-praktike">
-                    {{ practice.data.title | descriptionMarkdown | safe }}
-                  </a>
-                </li>
-              </ul>
-            {% endfor %}
+            <ul class="articles-group__list base-list">
+              {% for practice in practicesIndex[category] | sort %}
+                <ul class="articles-group__list base-list">
+                  <li>
+                    <a class="articles-group__link link" href="/{{ category }}/{{ practice.fileSlug }}/#na-praktike">
+                      {{ practice.data.title | descriptionMarkdown | safe }}
+                    </a>
+                  </li>
+                </ul>
+              {% endfor %}
+            </ul>
           </section>
         {% endfor %}
       {% endif %}
