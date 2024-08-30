@@ -206,15 +206,13 @@
             <h3 class="articles-group__sub-title font-theme font-theme--code">{{ practicesPersonRole }}</h3>
             <ul class="articles-group__list base-list">
               {% for practice in practicesIndex[category] | sort %}
-                <ul class="articles-group__list base-list">
-                  <li>
-                    <a class="articles-group__link link" href="/{{ category }}/{{ practice.fileSlug }}/#na-praktike">
-                      {{ practice.data.title | descriptionMarkdown | safe }}
-                    </a>
-                  </li>
-                </ul>
+                <li>
+                  <a class="articles-group__link link" href="/{{ category }}/{{ practice.fileSlug }}/#na-praktike">
+                    {{ practice.data.title | descriptionMarkdown | safe }}
+                  </a>
+                </li>
               {% endfor %}
-            </ul>
+            <ul>
           </section>
         {% endfor %}
       {% endif %}
@@ -227,15 +225,13 @@
             <h3 class="articles-group__sub-title font-theme font-theme--code">{{ answersPersonRole }}</h3>
             <ul class="articles-group__list base-list">
               {% for articleList in answersInArticles[category] %}
-                <ul class="articles-group__list base-list">
-                  {% for article in articleList | sort %}
-                    <li>
-                      <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
-                        {{ article.data.title | descriptionMarkdown | safe }}
-                      </a>
-                    </li>
-                  {% endfor %}
-                </ul>
+                {% for article in articleList | sort %}
+                  <li>
+                    <a class="articles-group__link link" href="/{{ category }}/{{ article.fileSlug }}/#na-sobesedovanii">
+                      {{ article.data.title | descriptionMarkdown | safe }}
+                    </a>
+                  </li>
+                {% endfor %}
               {% endfor %}
             </ul>
           </section>
