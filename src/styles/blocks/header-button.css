@@ -1,0 +1,114 @@
+.header-button {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: inherit;
+  appearance: none;
+  cursor: pointer;
+}
+
+.header-button::after {
+  content: "";
+  position: absolute;
+  inset: -10px;
+}
+
+/* увеличиваем область клика для кнопки открытия */
+.header:has(.header-button):not(.header--open) .header-button:not(.search__reset-button) {
+  padding: 10px 0;
+}
+
+/* показываем/скрываем внутренности гамбургера (в хедере) */
+.header-button-content--open {
+  --is-menu-open: 1;
+}
+
+.header--open .header-button-content--open {
+  display: none;
+}
+
+.header-button-content--close {
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
+.header--open .header-button-content--close {
+  display: flex;
+}
+
+@media all and (width >= 1024px) {
+  .header-button-content--close {
+    flex-direction: column-reverse;
+  }
+}
+
+/* стили иконок из гамбургера */
+.header-button-icon {
+  transition: opacity 0.2s;
+}
+
+.header-button:hover .header-button-icon {
+  opacity: 0.7;
+}
+
+.header-button-icon--open {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.header-button-icon__dot {
+  --gap: 7px;
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  gap: 7px;
+  background-color: currentColor;
+  border-radius: 50%;
+}
+
+@media (width >= 1024px) {
+  .header-button-icon--open {
+    --gap: 10px;
+    gap: 10px;
+  }
+
+  .header-button-icon__dot {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+.header-button-icon--close {
+  width: 30px;
+  height: 30px;
+}
+
+@media (width >= 1024px) {
+  .header-button-icon--close {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (width >= 1366px) {
+  .header-button-icon--close {
+    width: 37px;
+    height: 37px;
+  }
+}
+
+@media (width >= 1680px) {
+  .header-button-icon--close {
+    width: 43px;
+    height: 43px;
+  }
+}
+
+.search__reset-button {
+  margin-inline-start: 20px;
+}

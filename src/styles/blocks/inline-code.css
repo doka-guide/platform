@@ -5,5 +5,5 @@
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
   border-radius: 2em;
-  background-color: var(--background-code-color, var(--color-fade));
+  background-color: var(--background-code-color, hsl(var(--color-fade)));
 }

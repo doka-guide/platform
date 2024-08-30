@@ -23,7 +23,7 @@
   font-size: 0.6em;
   line-height: 1;
   letter-spacing: 0.025em;
-  background-color: var(--color-fade);
+  background-color: hsl(var(--color-fade));
   border-radius: 2em;
   transition: opacity 0.2s;
 }

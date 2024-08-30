@@ -3,22 +3,19 @@ import debounce from '../libs/debounce.js'
 import BaseComponent from '../core/base-component.js'
 
 const headerActiveClass = 'header--open'
-const headerAnimationName = 'fixedHeaderAnimation'
 
 class Header extends BaseComponent {
   constructor({ rootElement }) {
     super()
 
-    /** @type {Object<string, HTMLElement>} */
     this.refs = {
       rootElement,
       input: rootElement.querySelector('.search__input'),
-      toggleButtons: rootElement.querySelectorAll('.menu-toggle'),
+      headerContent: rootElement.querySelector('.header__controls'),
+      toggleButton: rootElement.querySelector('.header-button'),
     }
 
     this.state = {
-      headerHeight: null,
-      fixedHeaderHeight: null,
       lastScroll: 0,
       getScrollThreshold: window.innerHeight,
     }
@@ -26,20 +23,20 @@ class Header extends BaseComponent {
     const scrollThresholdConditions = [
       {
         condition: () => !!document.querySelector('.article'),
-        getter: () => this.state.headerHeight + document.querySelector('.article__header').offsetHeight,
+        getter: () => document.querySelector('.article__header'),
       },
       {
         condition: () => !!document.querySelector('.index-block'),
         getter: () => {
           const additionalHeight = window.matchMedia('(width >= 1366px)')
             ? 0
-            : document.querySelector('.index-block__header').offsetHeight
-          return this.state.headerHeight + additionalHeight
+            : document.querySelector('.index-block__header')
+          return additionalHeight
         },
       },
       {
         condition: () => !!document.querySelector('.standalone-page'),
-        getter: () => this.state.headerHeight + document.querySelector('.standalone-page__header').offsetHeight,
+        getter: () => document.querySelector('.standalone-page__header'),
       },
       {
         condition: () => true,
@@ -54,194 +51,166 @@ class Header extends BaseComponent {
       }
     }
 
-    ;['openOnKeyUp', 'closeOnKeyUp', 'closeOnClickOutSide', 'openMenu', 'closeMenu', 'fixHeader', 'checkFixed'].forEach(
-      (method) => {
-        this[method] = this[method].bind(this)
-      }
-    )
+    ;[
+      'enter',
+      'openOnKeyUp',
+      'closeOnKeyUp',
+      'closeOnClickOutside',
+      'closeOnFocusout',
+      'openMenu',
+      'closeMenu',
+      'stickyHeader',
+      'checkSticky',
+    ].forEach((method) => {
+      this[method] = this[method].bind(this)
+    })
 
     const resizeCallback = () => {
-      this.calculateHeaderHeight()
       this.calculateScrollThreshold()
     }
 
     const onResize = debounce(resizeCallback, 200)
 
+    this.state.lastFocusedElement = document.activeElement
+
     window.addEventListener('resize', onResize)
     window.addEventListener('orientationchange', onResize)
     resizeCallback()
 
-    if (this.isClosableHeader) {
-      this.refs.toggleButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-          this.isMenuOpen ? this.closeMenu() : this.openMenu()
-        })
+    if (this.isSticky) {
+      this.refs.toggleButton.addEventListener('click', () => {
+        this.isMenuOpen ? this.closeMenu() : this.openMenu()
       })
 
       document.addEventListener('keyup', this.openOnKeyUp)
+      window.addEventListener('scroll', throttle(this.checkSticky, { leading: false }), { passive: true })
 
-      window.addEventListener('scroll', throttle(this.checkFixed, 250, { leading: false }), { passive: true })
-      this.checkFixed()
+      this.checkSticky()
+    }
+
+    if (this.isMainPage) {
+      document.addEventListener('keyup', (event) => {
+        if (event.code === 'Slash' || event.code === 'NumpadDivide') {
+          queueMicrotask(() => {
+            this.enter()
+          })
+        }
+      })
     }
   }
 
-  get isFixed() {
-    return this.refs.rootElement.classList.contains('header--fixed')
+  get isSticky() {
+    return this.refs.rootElement.classList.contains('header--sticky')
   }
 
   get isMainPage() {
-    return this.refs.rootElement.classList.contains('header--main')
-  }
-
-  get isClosableHeader() {
-    const header = this.refs.rootElement
-
-    return [!header.classList.contains('header--static'), !header.classList.contains('search-page__header')].every(
-      Boolean
-    )
+    return window.location.pathname === '/'
   }
 
   get isMenuOpen() {
     return this.refs.rootElement.classList.contains(headerActiveClass)
   }
 
-  calculateHeaderHeight() {
-    const header = this.refs.rootElement
-    const state = this.state
-
-    if (this.isFixed) {
-      state.fixedHeaderHeight = header.offsetHeight
-      header.classList.remove('header--fixed')
-      state.headerHeight = header.offsetHeight
-      header.classList.add('header--fixed')
-    } else {
-      state.headerHeight = header.offsetHeight
-      header.classList.add('header--fixed')
-      state.fixedHeaderHeight = header.offsetHeight
-      header.classList.remove('header--fixed')
-    }
-
-    document.documentElement.style.setProperty('--fixed-header-height', state.fixedHeaderHeight)
-    document.documentElement.style.setProperty('--not-fixed-header-height', state.headerHeight)
-  }
-
   calculateScrollThreshold() {
     this.scrollThreshold = this.getScrollThreshold()
   }
 
+  /* события для закрытия/открытия дропдауна с разделами */
+  enter() {
+    this.refs.input?.focus()
+  }
+
   openOnKeyUp(event) {
-    if (event.code === 'Slash') {
+    if (event.code === 'Slash' || event.code === 'NumpadDivide') {
       this.openMenu()
+      this.refs.input.focus()
     }
   }
 
   closeOnKeyUp(event) {
-    if (event.code === 'Escape' && !this.isMainPage) {
+    if (event.code === 'Escape') {
       this.closeMenu()
     }
   }
 
-  closeOnClickOutSide(event) {
-    if (!event.target.closest('.header__inner') && !this.isMainPage) {
+  closeOnFocusout(event) {
+    const cookieBanner = document.querySelector('.cookie-notification')
+    const subscriptionBanner = document.querySelector('.subscribe-popup')
+    if (
+      event.relatedTarget &&
+      !this.refs.rootElement.contains(event.relatedTarget) &&
+      !cookieBanner.contains(event.relatedTarget) &&
+      !subscriptionBanner.contains(event.relatedTarget)
+    ) {
+      this.closeMenu()
+    }
+  }
+
+  closeOnClickOutside(event) {
+    const cookieBanner = document.querySelector('.cookie-notification')
+    const subscriptionBanner = document.querySelector('.subscribe-popup')
+    if (
+      !this.refs.rootElement.contains(event.target) &&
+      !cookieBanner.contains(event.target) &&
+      !subscriptionBanner.contains(event.target)
+    ) {
       this.closeMenu()
     }
   }
 
   openMenu() {
-    this.refs.rootElement.classList.add(headerActiveClass)
+    const { rootElement, toggleButton } = this.refs
+
+    rootElement.classList.add(headerActiveClass)
+    toggleButton.setAttribute('aria-expanded', 'true')
+
     document.removeEventListener('keyup', this.openOnKeyUp)
     document.addEventListener('keyup', this.closeOnKeyUp)
-    document.addEventListener('click', this.closeOnClickOutSide)
+    rootElement.addEventListener('focusout', this.closeOnFocusout)
+    document.addEventListener('click', this.closeOnClickOutside)
   }
 
   closeMenu() {
-    const { rootElement } = this.refs
+    const { rootElement, toggleButton } = this.refs
 
     rootElement.classList.remove(headerActiveClass)
+    toggleButton.setAttribute('aria-expanded', 'false')
+
     document.removeEventListener('keyup', this.closeOnKeyUp)
-    document.removeEventListener('click', this.closeOnClickOutSide)
+    document.removeEventListener('focusout', this.closeOnFocusout)
+    document.removeEventListener('click', this.closeOnClickOutside)
     document.addEventListener('keyup', this.openOnKeyUp)
 
     this.emit('menu.close')
   }
 
-  // методы для плавного появления/скрытия шапки
-  showHeader() {
-    const { rootElement: header } = this.refs
-    const classes = ['header--animating', 'header--fixed-show']
-
-    header.addEventListener(
-      'animationend',
-      (event) => {
-        if (event.animationName !== headerAnimationName) {
-          return
-        }
-        header.classList.remove(...classes)
-      },
-      { once: true }
-    )
-
-    this.fixHeader(true)
-    header.classList.add(...classes)
-    this.emit('fixed')
+  /* отслеживаем скролл, устанавливаем флаг для хедера */
+  stickyHeader(flag) {
+    this.refs.headerContent.classList.toggle('header__controls--shrink', flag)
+    document.documentElement.style.setProperty('--is-header-sticky', Number(flag))
   }
 
-  hideHeader() {
-    const { rootElement: header } = this.refs
-    const classes = ['header--animating', 'header--fixed-hide']
-
-    header.addEventListener(
-      'animationend',
-      (event) => {
-        if (event.animationName !== headerAnimationName) {
-          return
-        }
-        this.fixHeader(false)
-        header.classList.remove(...classes)
-      },
-      { once: true }
-    )
-
-    header.classList.add(...classes)
-    this.emit('unfixed')
-  }
-
-  fixHeader(flag) {
-    this.refs.rootElement.classList.toggle('header--fixed', flag)
-    document.documentElement.style.setProperty('--is-header-fixed', Number(flag))
-  }
-
-  checkFixed() {
+  checkSticky() {
     const { lastScroll } = this.state
     const currentScroll = window.scrollY
     const isScrollingDown = currentScroll > lastScroll
     const isHeaderOnTop = currentScroll === 0
-    const minimumScrollDistance = 180
     this.state.lastScroll = currentScroll
 
     if (isHeaderOnTop) {
-      if (this.isFixed) {
-        this.fixHeader(false)
-        this.emit('unfixed')
+      if (this.isSticky) {
+        this.stickyHeader(false)
+        this.emit('unsticky')
       }
       return
     }
 
-    if (currentScroll <= this.scrollThreshold) {
-      if (this.isFixed) {
-        this.hideHeader()
+    if (isScrollingDown || currentScroll <= this.scrollThreshold) {
+      if (this.isSticky) {
+        this.stickyHeader(true)
+        this.emit('sticky')
       }
       return
-    }
-
-    if (isScrollingDown) {
-      if (this.isFixed) {
-        this.hideHeader()
-      }
-    } else {
-      if (!this.isFixed && !this.isMainPage && lastScroll - currentScroll >= minimumScrollDistance) {
-        this.showHeader()
-      }
     }
   }
 }

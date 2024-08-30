@@ -7,8 +7,7 @@ class Logo {
   }
 
   constructor() {
-    // в шапке может быть два логотипа, поэтому берём последний
-    const rootElement = Array.from(document.querySelectorAll('.logo')).pop()
+    const rootElement = document.querySelector('.logo')
 
     this.refs = {
       rootElement,
@@ -39,14 +38,12 @@ class Logo {
 
   endAnimation() {
     const isSearchPage = window.location.pathname.indexOf('/search/') > -1
-    let logoImage
+    const logoImage = document.querySelector('.logo__image')
     let firstResultColor
 
     if (isSearchPage) {
-      logoImage = document.querySelector('.logo__image')
       firstResultColor = document?.querySelector('.search-hit')?.getAttribute('style')
     } else {
-      logoImage = document.querySelectorAll('.logo__image')[1]
       firstResultColor = document?.querySelector('.suggestion-list__item')?.getAttribute('style')
     }
 
@@ -65,7 +62,7 @@ class Logo {
         this._isAnimation = false
         this.refs.image.classList.remove(Logo.constants.animationStateClass)
       },
-      { once: true }
+      { once: true },
     )
   }
 }

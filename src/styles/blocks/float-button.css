@@ -11,6 +11,8 @@
 }
 
 .float-button__icons {
+  --stroke-opacity: 0.3;
+  --stroke-color: hsl(var(--color-base-text) / var(--stroke-opacity));
   visibility: visible;
   position: absolute;
   left: 0;
@@ -19,9 +21,10 @@
   margin: auto;
   width: 48px;
   height: 48px;
+  border: 1px solid var(--stroke-color);
   border-radius: 50%;
   color: var(--color-text);
-  background-color: hsl(0 0% var(--lightness));
+  background-color: var(--color-background);
   box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
 }
 
