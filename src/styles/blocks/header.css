@@ -49,6 +49,7 @@
 
   .header--open .header__menu {
     position: fixed;
+    top: 55px;
   }
 }
 
