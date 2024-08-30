@@ -46,7 +46,9 @@
     position: sticky;
     width: 100%;
   }
+}
 
+@media (width >= 1024px) {
   .header--open .header__menu {
     position: fixed;
     top: 55px;
