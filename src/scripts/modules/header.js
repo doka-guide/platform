@@ -88,6 +88,13 @@ class Header extends BaseComponent {
       this.checkSticky()
     }
 
+    document.addEventListener('keydown', (event) => {
+      // Firefox при нажатии Slash открывает свой поиск по странице
+      if (document.activeElement !== this.refs.input && (event.code === 'Slash' || event.code === 'NumpadDivide')) {
+        event.preventDefault()
+      }
+    })
+
     if (this.isMainPage) {
       document.addEventListener('keyup', (event) => {
         if (event.code === 'Slash' || event.code === 'NumpadDivide') {
