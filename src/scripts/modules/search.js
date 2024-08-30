@@ -276,14 +276,13 @@ function init() {
       event.preventDefault()
     })
 
-    document.addEventListener('keydown', (event) => {
-      // Блокировка показа встроенного поиска в Firefox
-      if ((event.code === 'Slash' || event.code === 'NumpadDivide') && document.activeElement !== searchField) {
-        event.preventDefault()
-      }
-    })
-
     document.addEventListener('keyup', (event) => {
+      if (event.code === 'Slash' && document.activeElement !== searchField) {
+        queueMicrotask(() => {
+          searchField.focus()
+        })
+      }
+
       if (event.code === 'Enter' && document.activeElement === searchField) {
         queueMicrotask(() => {
           document.querySelector(SEARCH_HIT_LINK_SELECTOR)?.focus()
