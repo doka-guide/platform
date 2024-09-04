@@ -23,12 +23,18 @@
 }
 
 .index-section__item {
-  scroll-margin-block: calc(var(--header-height, 0) * 1px + 1em);
+  scroll-margin-block: calc(var(--header-height) * 1px + 1rem);
   position: relative;
   padding-bottom: var(--gutter);
   display: flow-root;
   page-break-inside: avoid;
   break-inside: avoid;
+}
+
+@media (width >= 1024px) {
+  .index-section__item {
+    scroll-margin-block: calc(var(--header-height) * 1px + 2rem);
+  }
 }
 
 .index-section__item::before {

@@ -1,10 +1,6 @@
 .base {
-  --is-header-fixed: 0;
-  --header-height:
-    calc(
-      var(--is-header-fixed) * var(--fixed-header-height, 0) +
-      (1 - var(--is-header-fixed)) * var(--not-fixed-header-height, 0)
-    );
+  --is-header-sticky: 1;
+  --header-height: 56;
   font-size: var(--font-size-m, 100%);
   line-height: var(--font-line-height-m, 1.15);
   font-family: var(--font-family, sans-serif);
@@ -14,10 +10,15 @@
   scroll-behavior: smooth;
 }
 
+/* TODO: рассчитать правильный отступ при наличии класса aria__controls--expanded */
+
 .base__body {
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-block-size: 100dvh;
   margin: 0;
-  padding-top: calc(var(--is-header-fixed) * var(--not-fixed-header-height, 0) * 1px);
+}
+
+.base__body:has(.header--open) {
+  top: 56px;
 }

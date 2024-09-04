@@ -1,91 +1,137 @@
 {% from "blocks/logo.njk" import logo %}
 
-{% macro divider(isLarge) %}
-  <span class="header__divider {% if isLarge %}header__divider--large{% endif %} font-theme font-theme--code" aria-hidden="true"></span>
+{% macro devider() %}
+  <span
+    class="header__divider font-theme font-theme--code"
+    aria-hidden="true"
+  >
+  </span>
 {% endmacro %}
 
-{% macro header(pageCategoryId, category, title, link, isLogoContrastColor, hasAccentColor, isMainPage = false, isCategoryVisible = false, isLogoImageHidden = false) %}
+{% macro header(
+  pageCategoryId,
+  category,
+  title,
+  link,
+  isLogoContrastColor,
+  hasAccentColor,
+  isMainPage=false,
+  isSearchPage=false,
+  isCategoryVisible=false,
+  isLogoImageHidden=false)
+%}
   {% set articleIndexes = collections.articleIndexes %}
+
+  {% include "blocks/skip-link.njk" %}
+
   <header
-    class="
-      header
-      {% if isMainPage %}header--main header--open{% endif %}
-      {% if not hasAccentColor %}header--simple{% endif %}
-    "
+    class="header {% if isMainPage or isSearchPage %}header--static{% else %}header--sticky{% endif %}"
+    aria-label="Главный"
   >
-    <div class="header__inner header__inner--main font-theme font-theme--code">
+    <div class="header__controls font-theme font-theme--code">
       <ul class="header__breadcrumbs breadcrumbs base-list">
         <li class="breadcrumbs__item header__logo">
-          {{ logo(isLink=not isMainPage, isContrastColor=isLogoContrastColor, isImageHidden=isLogoImageHidden, letters=logoLetters) }}
-          {% if not isMainPage %}{{ divider() }}{% endif %}
+          {{ logo(
+            isLink=not isMainPage,
+            isContrastColor=isLogoContrastColor,
+            isImageHidden=isLogoImageHidden,
+            letters=logoLetters)
+          }}
+          {{ devider() }}
         </li>
 
         {% if category %}
           {% if title %}
-            <li class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% endif %}">
+            <li
+              class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% endif %}"
+            >
               <a class="breadcrumbs__text link" href="/{{ pageCategoryId }}/">
                 {{ category }}
               </a>
-              {{ divider() }}
+              {{ devider() }}
             </li>
           {% else %}
-            <li class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% else %}header__category--standalone{% endif %}">
+            <li
+              class="breadcrumbs__item header__category {% if isCategoryVisible %}header__category--visible{% else %}header__category--standalone{% endif %}"
+            >
               <span class="breadcrumbs__text">
                 {{ category }}
               </span>
             </li>
           {% endif %}
         {% endif %}
-
-        {% if title %}
-          <li class="breadcrumbs__item breadcrumbs__item--shrink header__title">
-            <span class="breadcrumbs__text" title="{{ title | replace('`', '') }}">
-              {{ title | descriptionMarkdown | safe }}
-            </span>
-          </li>
-        {% endif %}
       </ul>
 
-      <div class="header__toggle">
-        <button class="menu-toggle" type="button">
-          <span class="visually-hidden">Открыть меню</span>
-          <span class="menu-toggle__inner menu-toggle__inner--open">
-            <kbd class="hotkey font-theme font-theme--code">/</kbd>
-            <span class="menu-toggle__icon menu-toggle__icon--open">
-              <span class="menu-toggle__dot"></span>
-              <span class="menu-toggle__dot"></span>
-              <span class="menu-toggle__dot"></span>
-            </span>
-          </span>
-        </button>
-      </div>
-    </div>
-
-    <div class="header__inner header__inner--menu">
-      <div class="header__logo">
-        {{ logo(
-          isLink=not isMainPage
-        ) }}
-        {{ divider(isLarge=true) }}
-      </div>
-
       {% include "blocks/search.njk" %}
-      {% include "blocks/nav-list.njk" %}
 
-      {% if not isMainPage %}
-        <div class="header__toggle">
-          <button class="menu-toggle" type="button">
-            <span class="visually-hidden">Закрыть меню</span>
-            <span class="menu-toggle__inner menu-toggle__inner--close">
-              <kbd class="hotkey font-theme font-theme--code">esc</kbd>
-              <svg class="menu-toggle__icon menu-toggle__icon--close" width="45" height="45" viewBox="0 0 45 45">
-                <circle cx="22.5" cy="22.5" r="22.5" fill="var(--color-text)" />
+      {% if (not isMainPage) and (not isSearchPage) %}
+        <div class="header__buttons">
+          <span class="hotkey hotkey--search font-theme font-theme--code">
+            Клавиша <kbd class="hotkey__key">/</kbd>
+          </span>
+          <span class="hotkey hotkey--close font-theme font-theme--code">
+            <kbd class="hotkey__key">esc</kbd>
+          </span>
+
+          <button
+            class="header-button"
+            type="button"
+            aria-expanded="false"
+            aria-controls="dropdown-menu"
+          >
+            <span class="header-button-content header-button-content--open">
+              <span class="visually-hidden">Открыть меню</span>
+              <span class="header-button-icon header-button-icon--open">
+                <span class="header-button-icon__dot"></span>
+                <span class="header-button-icon__dot"></span>
+                <span class="header-button-icon__dot"></span>
+              </span>
+            </span>
+
+            <span class="header-button-content header-button-content--close">
+              <span class="visually-hidden">Закрыть меню</span>
+              <svg
+                class="header-button-icon header-button-icon--close"
+                width="45"
+                height="45"
+                viewBox="0 0 45 45"
+              >
+                <circle cx="22.5" cy="22.5" r="22.5" fill="var(--color-text)"/>
                 <path fill="var(--color-background)" d="M30.3 32.1c-.5 0-1-.2-1.4-.6l-6.5-6.6-6.5 6.5c-.5.5-1 .7-1.5.7-.4 0-.8-.1-1-.4-.3-.3-.5-.6-.5-1 0-.6.3-1.1.7-1.6l6.5-6.5-6.5-6.4c-.4-.5-.7-1-.7-1.5s.2-.8.4-1.1c.3-.3.7-.4 1.1-.4.5 0 1 .2 1.5.7l6.5 6.5 6.5-6.6c.5-.5 1-.7 1.5-.7.3 0 .7.2 1 .5.3.4.5.8.5 1.1 0 .5-.2 1-.7 1.4l-6.5 6.5 6.5 6.6c.5.5.7 1 .7 1.4 0 .4-.1.7-.5 1-.4.4-.7.5-1 .5z"/>
               </svg>
             </span>
           </button>
         </div>
       {% endif %}
+
+      {% if isSearchPage %}
+        <button
+          class="search__reset-button header-button"
+          type="reset"
+          form="search-form"
+        >
+          <span class="visually-hidden">
+            Очистить
+          </span>
+          <svg
+            class="header-button-icon header-button-icon--close"
+            width="45"
+            height="45"
+            viewBox="0 0 45 45"
+            aria-hidden="true"
+          >
+            <path fill="var(--color-text)" fill-rule="evenodd" d="m1.828 18.331 9.222-8.476a5.613 5.613 0 0 1 3.799-1.483H31c3.108 0 5.627 2.53 5.627 5.651v16.954c0 3.12-2.52 5.65-5.627 5.65H14.849a5.613 5.613 0 0 1-3.8-1.482L1.829 26.67c-2.437-2.24-2.437-6.098 0-8.338Z" clip-rule="evenodd"/>
+            <path fill="var(--color-background)" d="M18.527 15.814a1.565 1.565 0 0 0-2.22 0 1.58 1.58 0 0 0 0 2.229l4.44 4.457-4.44 4.457a1.58 1.58 0 0 0 0 2.23 1.566 1.566 0 0 0 2.22 0l4.44-4.458 4.44 4.457a1.566 1.566 0 0 0 2.22 0 1.58 1.58 0 0 0 0-2.229l-4.44-4.457 4.44-4.457a1.58 1.58 0 0 0 0-2.229 1.565 1.565 0 0 0-2.22 0l-4.44 4.457-4.44-4.457Z"/>
+            <path fill="var(--color-background)" d="M18.527 15.814a1.565 1.565 0 0 0-2.22 0 1.58 1.58 0 0 0 0 2.229l4.44 4.457-4.44 4.457a1.58 1.58 0 0 0 0 2.23 1.566 1.566 0 0 0 2.22 0l4.44-4.458 4.44 4.457a1.566 1.566 0 0 0 2.22 0 1.58 1.58 0 0 0 0-2.229l-4.44-4.457 4.44-4.457a1.58 1.58 0 0 0 0-2.229 1.565 1.565 0 0 0-2.22 0l-4.44 4.457-4.44-4.457Z"/>
+          </svg>
+        </button>
+      {% endif %}
     </div>
+
+    {% if not isSearchPage %}
+      <div class="header__menu" id="dropdown-menu">
+        {% include "blocks/nav-list.njk" %}
+      </div>
+    {% endif %}
   </header>
 {% endmacro %}

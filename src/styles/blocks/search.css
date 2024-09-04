@@ -1,15 +1,29 @@
 .search {
-  --search-input-height: calc(var(--font-size-xl) * 1.25);
+  margin-top: var(--gap, 10px);
   position: relative;
   display: grid;
   font-family: var(--font-family);
-  font-size: calc(var(--font-size-xl) * 0.85);
-  line-height: calc(var(--font-line-height-xl) * 0.85);
+  font-size: calc(var(--font-size-xl) * 0.75);
+  line-height: var(--font-line-height-xl);
   letter-spacing: var(--letter-spacing);
 }
 
-.search__input,
-.search__controls {
+@media (width >= 760px) {
+  .search {
+    --gap: 16px;
+    align-self: flex-start;
+    flex-grow: 1;
+  }
+}
+
+@media (width >= 1024px) {
+  .search {
+    --gap: 0;
+  }
+}
+
+.search__controls,
+.search__input {
   grid-column: 1 / -1;
   grid-row: 1 / -1;
 }
@@ -19,14 +33,22 @@
   display: block;
   box-sizing: border-box;
   width: 100%;
+  height: calc(1em + 1px);
   border: 0;
-  padding: 0 10px;
+  padding: 0 100px 0 10px;
   font: inherit;
-  letter-spacing: inherit;
+  line-height: calc(1em + 1px);
+  letter-spacing: -0.08em;
   color: inherit;
   outline: none;
   border-bottom: 2px solid hsl(0 0% 70%);
   background-color: transparent;
+}
+
+@media (width >= 1024px) {
+  .search__input {
+    padding-inline-start: 0;
+  }
 }
 
 .search__input:focus {
@@ -36,6 +58,7 @@
 .search__control {
   position: relative;
   display: grid;
+  font-size: var(--font-size-l);
 }
 
 .search__control > * {
@@ -51,12 +74,11 @@
 }
 
 .search__key {
-  margin: 0 10px;
   place-self: center end;
   pointer-events: none;
 }
 
-.search__input:focus ~ .search__key--activate {
+.search__input:focus ~ .hotkey--search {
   visibility: hidden;
 }
 

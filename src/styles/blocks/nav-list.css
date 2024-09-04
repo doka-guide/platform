@@ -1,18 +1,60 @@
+:root {
+  --list-padding-min: 10px;
+  --list-padding-max: 20px;
+  --gap: 16px;
+}
+
 .nav-list {
   --stroke-size: calc(6 / 48 * 1em);
   --transition: 150ms ease-in-out;
   display: grid;
-  gap: var(--gap);
+  padding-top: var(--list-padding-min);
+  padding-bottom: var(--list-padding-min);
+  padding-right: var(--list-padding-min);
+  padding-left: var(--list-padding-min);
+  gap: 16px;
+  background: var(--color-background);
+}
+
+@media (width >= 768px) {
+  .nav-list {
+    --block-padding: 1px;
+    gap:14px;
+    line-height: calc(42 / 36);
+  }
+}
+
+
+/* TODO: рассчитать отступ слева более элегантно */
+
+@media (width >= 1024px) {
+  .nav-list {
+    --block-padding: 6px;
+    --gap: 6px;
+    padding-top: 0;
+    padding-bottom: var(--list-padding-max);
+    padding-right: var(--list-padding-max);
+    padding-left: calc(37*var(--gap));
+    gap: 6px;
+    line-height: inherit;
+  }
+}
+
+@media (width >= 1366px) {
+  .nav-list {
+    padding-left: calc(38*var(--gap));
+  }
+}
+
+@media (width >= 1680px) {
+  .nav-list {
+    padding-left: calc(45*var(--gap));
+  }
 }
 
 .nav-list__item {
   position: relative;
   z-index: 0;
-
-  /* padding-top: var(--block-padding);
-  padding-bottom: var(--block-padding);
-  padding-left: 10px;
-  padding-right: 10px; */
 }
 
 .nav-list__link {
@@ -56,9 +98,15 @@
   position: relative;
   z-index: -1;
   display: block;
-  height: var(--stroke-size);
+  height: round(var(--stroke-size), 1px);
   background-color: var(--accent-color);
   border-radius: 1em;
+}
+
+@supports not (height: round(1.5px, 1px)) {
+  .nav-list__link-text::after {
+    height: var(--stroke-size);
+  }
 }
 
 .nav-list__link:hover::after {
@@ -69,28 +117,4 @@
 .nav-list__link:hover .nav-list__link-text::after {
   opacity: 0;
   transition: var(--transition);
-}
-
-@media not all and (width >= 768px) {
-  .nav-list {}
-}
-
-@media (width >= 768px) {
-  .nav-list {
-    --block-padding: 1px;
-    line-height: calc(42 / 36);
-  }
-}
-
-@media (width >= 1024px) {
-  .nav-list {
-    --block-padding: 6px;
-    line-height: inherit;
-  }
-}
-
-@media (width >= 1680px) {
-  .nav-list {
-    line-height: 1;
-  }
 }

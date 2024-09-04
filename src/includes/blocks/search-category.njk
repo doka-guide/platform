@@ -3,7 +3,7 @@
   <div class="search-category__legend" aria-hidden="true">Фильтровать по:</div>
 
   {% for category in collections.articleIndexes %}
-    <label class="search-category__item tag-filter" style="--accent-color: var(--color-{{ category.fileSlug }})">
+    <label class="search-category__item tag-filter" style="--accent-color: var(--color-base-{{ category.fileSlug }})">
       <input class="tag-filter__control" type="checkbox" name="category" value="{{ category.fileSlug }}" form="search-form">
       <span class="tag-filter__text">
         {{ category.data.name }}
