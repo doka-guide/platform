@@ -46,15 +46,25 @@
 }
 
 .intro__pitch--partner {
+  border: 1px solid hsl(var(--color-fade));
+  border-radius: 6px;
   background-color: transparent;
 }
 
 .intro__moto {
-  align-self: center;
+  align-self: self-start;
   font-family: var(--font-family);
   font-size: var(--font-size-l);
   font-weight: 300;
+  line-height: 1;
   margin: 0;
+}
+
+.intro__accent {
+  border-radius: 1em;
+  padding: 0 0.3em;
+  background-color: hsl(var(--color-fade));
+  white-space: nowrap;
 }
 
 .intro__footer {
