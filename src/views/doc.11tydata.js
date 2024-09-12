@@ -151,7 +151,8 @@ module.exports = {
       const formattedPractices = await Promise.all(
         filteredPractices.map(async (p) => {
           const practice = await p.template.inputContent
-          p['isLong'] = practice.split('\n').length > 2
+
+          p['isLong'] = practice.split('\n').filter((s) => s.length && s !== '\r').length > 2
           return p
         }),
       )
