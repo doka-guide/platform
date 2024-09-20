@@ -84,28 +84,28 @@
 }
 
 .header-button-icon--close {
-  width: 28px;
-  height: 28px;
-}
-
-@media (width >= 768px) {
-  .header-button-icon--close {
-    width: 30px;
-    height: 30px;
-  }
+  width: 30px;
+  height: 30px;
 }
 
 @media (width >= 1024px) {
   .header-button-icon--close {
-    width: 32px;
-    height: 32px;
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (width >= 1366px) {
+  .header-button-icon--close {
+    width: 37px;
+    height: 37px;
   }
 }
 
 @media (width >= 1680px) {
   .header-button-icon--close {
-    width: 40px;
-    height: 40px;
+    width: 43px;
+    height: 43px;
   }
 }
 

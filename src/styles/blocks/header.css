@@ -51,6 +51,10 @@
 @media (width >= 1024px) {
   .header--open .header__menu {
     position: fixed;
+    top: 75px;
+  }
+
+  .header--open .header__controls--shrink + .header__menu {
     top: 55px;
   }
 }
@@ -58,6 +62,10 @@
 @media (width >= 1366px) {
   .header--open .header__menu {
     position: fixed;
+    top: 76px;
+  }
+
+  .header--open .header__controls--shrink + .header__menu {
     top: 56px;
   }
 }
@@ -65,6 +73,10 @@
 @media (width >= 1680px) {
   .header--open .header__menu {
     position: fixed;
+    top: 83px;
+  }
+
+  .header--open .header__controls--shrink + .header__menu {
     top: 63px;
   }
 }
@@ -114,6 +126,7 @@
 
 .header--open .header__controls {
   background-color: var(--color-background);
+  transition: none;
 }
 
 .header__divider {
