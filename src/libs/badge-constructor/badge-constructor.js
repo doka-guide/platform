@@ -33,6 +33,10 @@ const SHAPES = {
     height: 3,
     width: 2,
   },
+  L: {
+    height: 2,
+    width: 3,
+  },
 }
 
 const COLORS = {
