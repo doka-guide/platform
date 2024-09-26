@@ -235,11 +235,11 @@
   },
   "mentioned": {
     "id": "mentioned",
-    "shape": "L",
-    "angle": "0",
+    "shape": "gamma-right",
+    "angle": "90",
     "field": {
-      "height": 2,
-      "width": 3
+      "height": 3,
+      "width": 2
     },
     "src": "/images/badges/mention.svg",
     "alt": "Довольный смайл, поднимающий руку со знаком собачки.",
