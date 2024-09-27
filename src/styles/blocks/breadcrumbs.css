@@ -20,3 +20,7 @@
   flex-shrink: 1;
   min-width: 0;
 }
+
+.breadcrumbs__item:last-child .breadcrumbs__text {
+  padding-right: calc(var(--header-font-letter-spacing) * -1);
+}
