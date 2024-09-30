@@ -150,7 +150,7 @@
 }
 
 @media (width >= 1680px) {
-  .header__controls .header__search {
+  .header__controls .header__search, .header__controls .header__buttons {
     position: relative;
     top: -2px;
   }
