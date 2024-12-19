@@ -1,0 +1,8 @@
+/* stylelint-disable-next-line selector-id-pattern */
+#snowCanvas {
+	position: fixed;
+	inset: 0;
+  z-index: 100;
+	display: block;
+	pointer-events: none;
+}
