@@ -51,7 +51,7 @@ const styles = () => {
 
 const sw = () => {
   return gulp
-    .src('src/sw.js')
+    .src(['src/sw.js'])
     .pipe(
       esbuild({
         target: 'es2015',
@@ -63,7 +63,7 @@ const sw = () => {
 
 const scripts = () => {
   return gulp
-    .src('src/scripts/index.js')
+    .src(['src/scripts/index.js', 'src/scripts/workers/snow-worker-25.js'])
     .pipe(
       esbuild({
         target: 'es2015',
