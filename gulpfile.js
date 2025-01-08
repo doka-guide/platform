@@ -1,8 +1,5 @@
 const path = require('path')
 const fs = require('fs')
-const fsp = require('fs/promises')
-const { Transform } = require('stream')
-const { pipeline } = require('stream/promises')
 
 const gulp = require('gulp')
 const git = require('gulp-git')
@@ -16,7 +13,6 @@ const esbuild = require('gulp-esbuild')
 const del = require('del')
 const rev = require('gulp-rev')
 const revRewrite = require('gulp-rev-rewrite')
-const puppeteer = require('puppeteer')
 
 const { contentRepGithub, contentRepFolders } = require(path.join(__dirname, 'config/constants'))
 
@@ -122,10 +118,6 @@ const cache = gulp.series(cacheHash, cacheReplace)
 exports.setupContent = gulp.series(cloneContent, makeLinks)
 
 exports.dropContent = () => del(['content', ...contentRepFolders.map((folder) => `src/${folder}`)])
-
-// Build social cards
-
-exports.socialCards = socialCards
 
 // Default
 exports.default = gulp.series(clean, styles, scripts, sw, cache)
