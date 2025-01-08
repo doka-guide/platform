@@ -123,59 +123,6 @@ exports.setupContent = gulp.series(cloneContent, makeLinks)
 
 exports.dropContent = () => del(['content', ...contentRepFolders.map((folder) => `src/${folder}`)])
 
-// Social cards
-
-const socialCards = async () => {
-  const browser = await puppeteer.launch({ headless: 'new' })
-  const page = await browser.newPage()
-
-  return pipeline(
-    gulp.src('dist/{a11y,css,html,js,tools,recipes}/**/index.sc.html'),
-    new Transform({
-      objectMode: true,
-      async transform(file, encoding, done) {
-        const imagePath = file.path.replace('index.sc.html', 'images/covers/')
-        if (!fs.existsSync(imagePath)) {
-          await fsp.mkdir(imagePath, { recursive: true })
-        }
-
-        await page.goto('file://' + file.path)
-
-        await page.evaluate(() => {
-          const image = document.querySelector('.social-card__image')
-          if (image) {
-            image.setAttribute('src', image.src.replace(/.*images\//, 'images/'))
-          }
-        })
-
-        await page.setViewport({
-          width: 503,
-          height: 273,
-          deviceScaleFactor: 1,
-        })
-
-        await page.screenshot({
-          path: path.join(imagePath, 'og.png'),
-          type: 'png',
-          clip: {
-            x: 0,
-            y: 0,
-            width: 503,
-            height: 273,
-          },
-        })
-
-        done()
-      },
-    }),
-  )
-    .catch(console.error)
-    .finally(async () => {
-      await page.close()
-      await browser.close()
-    })
-}
-
 // Build social cards
 
 exports.socialCards = socialCards
