@@ -1,4 +1,4 @@
-window.onload = function () {
+export default function () {
   class Snowfall {
     constructor(canvas) {
       this.canvas = canvas
