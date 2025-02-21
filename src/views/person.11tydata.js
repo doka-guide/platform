@@ -33,8 +33,7 @@ module.exports = {
 
     url: function (data) {
       const { person } = data
-      const pattern = new RegExp('^(http|https)://(www.)?(.*?)(?:\/)?$')
-      return person.data.url?.replace(pattern, '')
+      return person.data.url
     },
 
     behanceId: function (data) {
@@ -45,7 +44,7 @@ module.exports = {
 
     twitterId: function (data) {
       const { person } = data
-      const pattern = new RegExp('^(http|https)://(www.)?twitter.com|x.com/')
+      const pattern = new RegExp('^(http|https)://(www.)?twitter.com/')
       return person.data.url?.replace(pattern, '')
     },
 
@@ -53,6 +52,14 @@ module.exports = {
       const { person } = data
       const pattern = new RegExp('^(http|https)://(www.)?t.me/')
       return person.data.url?.replace(pattern, '')
+    },
+
+    cattedLink: function (data) {
+      const { person } = data
+      return person.data.url
+        ?.replace(/\/$/, '')
+        .replace(/^(http|https):\/\/(www\.)?/, '')
+        .replace(/([/.])/g, '$1\u200B')
     },
 
     badges: function (data) {
