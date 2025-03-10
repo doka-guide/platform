@@ -276,19 +276,15 @@ module.exports = {
             },
             { chrome: 0, edge: 0, firefox: 0, safari: 0 },
           )
-        const supported = doc.data.baseline
-          .filter((g) => webFeatures[g.group].is_baseline)
-          .reduce(
-            (map, item) => {
-              for (const key of keys) {
-                if (!item[key]) {
-                  map[key] = false
-                }
-              }
-              return map
-            },
-            { chrome: true, edge: true, firefox: true, safari: true },
-          )
+        const supported = Object.keys(versions).reduce(
+          (map, item) => {
+            if (versions[item] === 0) {
+              map[item] = false
+            }
+            return map
+          },
+          { chrome: true, edge: true, firefox: true, safari: true },
+        )
         const flagged = { chrome: false, edge: false, firefox: false, safari: false }
         const preview = { chrome: false, edge: false, firefox: false, safari: false }
         return {
