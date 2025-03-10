@@ -9,19 +9,14 @@
             </span>
             <span class="wdi-browser-compat__version" aria-hidden="true" data-compat="yes">{{ baseline.versions[browser] }}</span>
           {% elif baseline.flagged[browser] %}
-            <span class="wdi-browser-compat__icon" data-browser="firefox">
-              <span class="visually-hidden">{{ baseline.names[browser] }} {{ baseline.versions[browser] }}, за флагом</span>
-            </span>
+            <span class="visually-hidden">{{ baseline.names[browser] }} {{ baseline.versions[browser] }}, за флагом</span>
             <span class="wdi-browser-compat__version" aria-hidden="true" data-compat="flag">
             </span>
           {% elif baseline.preview[browser] %}
-            <span class="wdi-browser-compat__icon" data-browser="safari">
-              <span class="visually-hidden">{{ baseline.names[browser] }}, превью</span>
-            </span>
+            <span class="visually-hidden">{{ baseline.names[browser] }}, превью</span>
             <span class="wdi-browser-compat__version" aria-hidden="true" data-compat="preview"></span>
           {% else %}
-            <span class="wdi-browser-compat__icon" data-browser="edge">
-              <span class="visually-hidden">{{ baseline.names[browser] }}, не поддерживается</span>
+            <span class="visually-hidden">{{ baseline.names[browser] }}, не поддерживается</span>
             </span>
             <span class="wdi-browser-compat__version" aria-hidden="true" data-compat="no"></span>
           {% endif %}
