@@ -70,7 +70,6 @@
 }
 
 .wdi-browser-compat__version[data-compat="flag"] {
-  padding: 4px;
   background-color: var(--wdi-warn-bg-color, #fff5e3);
   background-image: url("/images/baseline/flag.svg");
   color: var(--wdi-warn-color, #c34900);
