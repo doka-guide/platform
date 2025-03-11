@@ -44,6 +44,7 @@
 @import url("blocks/block-code.css");
 @import url("blocks/details.css");
 @import url("blocks/format-block.css");
+@import url("blocks/github-widget.css");
 @import url("blocks/vote.css");
 @import url("blocks/feedback-control-list.css");
 @import url("blocks/text-control.css");
