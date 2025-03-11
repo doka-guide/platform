@@ -116,7 +116,7 @@
                 <span>{{ telegramId }}</span>
               {% else %}
                 {{ linkIcon | safe }}
-                <span>{{ cattedLink }}</span>
+                <span>{{ cutLink }}</span>
               {% endif %}
             </a>
           </li>
@@ -126,7 +126,7 @@
             <a class="person-links-list__link link" href="{{ issuesLink }}">
               {{ githubIcon | safe }}
               {{ issuesIcon | safe }}
-              <span>{{ contributionStat.issues }} {{ contributionStat.issues | pluralize('ишью', 'ишьюс') }}</span>
+              <span>{{ contributionStat.issues }} {{ contributionStat.issues | pluralize('ишью', 'ишьюс', 'ишьюсов') }}</span>
             </a>
           </li>
         {% endif %}
@@ -135,7 +135,7 @@
             <a class="person-links-list__link link" href="{{ pullRequestsLink }}">
               {{ githubIcon | safe }}
               {{ prIcon | safe }}
-              <span>{{ contributionStat.pr }} {{ contributionStat.pr | pluralize('пулреквест', 'пулреквестов') }}</span>
+              <span>{{ contributionStat.pr }} {{ contributionStat.pr | pluralize('пулреквест', 'пулреквеста', 'пулреквестов') }}</span>
             </a>
           </li>
         {% endif %}

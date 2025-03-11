@@ -54,7 +54,7 @@ module.exports = {
       return person.data.url?.replace(pattern, '')
     },
 
-    cattedLink: function (data) {
+    cutLink: function (data) {
       const { person } = data
       return person.data.url
         ?.replace(/\/$/, '')
