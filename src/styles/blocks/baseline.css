@@ -53,6 +53,7 @@
   --size-2: clamp(0.75rem, 0.71rem + 0.18vw, 0.875rem);
   background-repeat: no-repeat no-repeat;
   background-position: center center;
+  background-origin: content-box;
   border-radius: 10000px;
   display: inline-block;
   font-size: var(--size-2);
@@ -81,6 +82,7 @@
 }
 
 .wdi-browser-compat__version[data-compat="preview"] {
+  padding: 2px;
   background-color: var(--wdi-warn-bg-color, #fff5e3);
   background-image: url("/images/baseline/preview.svg");
   color: var(--wdi-warn-color, #c34900);
