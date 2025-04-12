@@ -11,7 +11,8 @@ class SearchAPIClient {
     filters.forEach((f) => {
       params.append(f.key, f.val)
     })
-    return fetch(url.toString() + '?' + params.toString(), {
+    url.search = params
+    return fetch(url, {
       headers: {
         Accept: 'application/json',
       },
