@@ -1,17 +1,4 @@
 class SearchAPIClient {
-  static get defaultSearchSettings() {
-    return {
-      getRankingInfo: true,
-      analytics: true,
-      enableABTest: false,
-      attributesToRetrieve: '*',
-      attributesToSnippet: '*:20',
-      responseFields: '*',
-      explain: '*',
-      facets: ['*', 'category', 'tags'],
-    }
-  }
-
   constructor(url) {
     this.url = url
   }
