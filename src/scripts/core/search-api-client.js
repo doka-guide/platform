@@ -1,17 +1,4 @@
 class SearchAPIClient {
-  static get defaultSearchSettings() {
-    return {
-      getRankingInfo: true,
-      analytics: true,
-      enableABTest: false,
-      attributesToRetrieve: '*',
-      attributesToSnippet: '*:20',
-      responseFields: '*',
-      explain: '*',
-      facets: ['*', 'category', 'tags'],
-    }
-  }
-
   constructor(url) {
     this.url = url
   }
@@ -24,11 +11,10 @@ class SearchAPIClient {
     filters.forEach((f) => {
       params.append(f.key, f.val)
     })
-    return fetch(url.toString() + '?' + params.toString(), {
-      method: 'POST',
+    url.search = params
+    return fetch(url, {
       headers: {
         Accept: 'application/json',
-        Origin: 'https://doka.guide',
       },
     }).then((response) => response.json())
   }
