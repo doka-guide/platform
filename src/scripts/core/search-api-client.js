@@ -14,7 +14,6 @@ class SearchAPIClient {
     return fetch(url.toString() + '?' + params.toString(), {
       headers: {
         Accept: 'application/json',
-        Origin: 'https://doka.guide',
       },
     }).then((response) => response.json())
   }
