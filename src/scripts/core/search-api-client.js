@@ -12,7 +12,6 @@ class SearchAPIClient {
       params.append(f.key, f.val)
     })
     return fetch(url.toString() + '?' + params.toString(), {
-      method: 'POST',
       headers: {
         Accept: 'application/json',
         Origin: 'https://doka.guide',
