@@ -238,7 +238,11 @@ function arrangeBadges(badges) {
 }
 
 function arrangeShapes(badges, coords) {
+  if (!badges.length) return
+  if (!coords) return
+
   badges.forEach((b, i) => {
+    if (!coords[i]) return
     b.parentElement.style = `--start-col: ${coords[i].x + 1}; --start-row: ${coords[i].y + 1};`
   })
 }
