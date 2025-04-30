@@ -54,6 +54,14 @@ module.exports = {
       return person.data.url?.replace(pattern, '')
     },
 
+    cutLink: function (data) {
+      const { person } = data
+      return person.data.url
+        ?.replace(/\/$/, '')
+        .replace(/^(http|https):\/\/(www\.)?/, '')
+        .replace(/([/.])/g, '$1\u200B')
+    },
+
     badges: function (data) {
       const { person } = data
       return person.data.badges?.map(getBadge)
