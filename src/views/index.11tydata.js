@@ -38,6 +38,32 @@ module.exports = {
   documentDescription: 'Документация для разработчиков на понятном языке',
 
   eleventyComputed: {
+    changeLog: async function (data) {
+      const { collections } = data
+      const { posts, peopleById } = collections
+      const peopleIds = Object.keys(peopleById)
+
+      return posts
+        ? posts
+            .filter((p) => typeof p !== 'string')
+            .slice(0, 5)
+            .map((p) => {
+              p['title'] = p['title'].replace(/^`/, '<code>').replace(/`$/, '</code>')
+              p['authors'] = p['authors'].map((a) => {
+                return {
+                  name: a,
+                  url: `/people/${peopleIds.filter((p) => peopleById[p].data.name === a)[0]}`,
+                }
+              })
+              const date = new Date(p['date'])
+              const day = String(date.getDate())
+              const month = String(date.getMonth() + 1)
+              p['mobileDate'] = `${day.length > 1 ? day : `0${month}`}.${month.length > 1 ? month : `0${month}`}`
+              return p
+            })
+        : []
+    },
+
     promoData: async function (data) {
       const { collections } = data
       const { promos } = collections
