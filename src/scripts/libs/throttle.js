@@ -1,25 +1,21 @@
-export default function throttle(callback, delay, options = { leading: true }) {
-  let isThrottled = false
+export default function throttle(callback) {
+  let requestId = null
   let savedArgs
   let savedThis
 
-  return function wrapper() {
-    if (isThrottled) {
-      savedArgs = arguments
-      savedThis = this
-      return
-    }
-
-    options.leading && callback.apply(this, arguments)
-
-    isThrottled = true
-
-    setTimeout(function () {
-      isThrottled = false
-      if (savedArgs) {
-        callback.apply(savedThis, savedArgs)
-        savedArgs = savedThis = null
-      }
-    }, delay)
+  function frameFunction() {
+    callback.apply(savedThis, savedArgs)
+    requestId = null
   }
+
+  function replacedFunction() {
+    savedThis = this
+    savedArgs = arguments
+
+    if (requestId === null) {
+      requestId = requestAnimationFrame(frameFunction)
+    }
+  }
+
+  return replacedFunction
 }

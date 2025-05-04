@@ -83,7 +83,7 @@ class Header extends BaseComponent {
       })
 
       document.addEventListener('keyup', this.openOnKeyUp)
-      window.addEventListener('scroll', throttle(this.checkSticky, { leading: false }), { passive: true })
+      window.addEventListener('scroll', throttle(this.checkSticky))
 
       this.checkSticky()
     }
