@@ -1,0 +1,62 @@
+.github-widget {
+  --widget-padding: .4em .4em .25em;
+  --bg-lightness: calc(var(--is-light-theme-on)* 87% + var(--is-dark-theme-on)* 20%);
+  --bg-hover-lightness: calc(var(--is-light-theme-on)* 95% + var(--is-dark-theme-on)* 12%);
+  display: flex;
+}
+
+.github-widget__repository,
+.github-widget__stargazers {
+  font-size: calc(var(--font-size-s) * 0.98);
+  line-height: 1;
+  color: hsl(var(--color-base-text));
+  text-decoration: none;
+  padding: var(--widget-padding);
+  border: 1px solid hsl(var(--color-fade));
+  transition: background-color .2s;
+}
+
+@media (width >= 768px) {
+  .github-widget__repository,
+  .github-widget__stargazers {
+    font-size: var(--font-size-s);
+  }
+}
+
+.github-widget__repository {
+  display: flex;
+  gap: 5px;
+  border-radius: 2em 0 0 2em;
+  background-color: hsl(0 0% var(--bg-lightness));
+}
+
+.github-widget__star {
+  fill: hsl(var(--color-base-text));
+}
+
+@media (width >= 768px) {
+  .github-widget__star {
+    width: 15px;
+    height: 15px;
+    margin-top: -.1em;
+  }
+}
+
+.github-widget__stargazers {
+  border-radius: 0 2em 2em 0;
+  border-left: none;
+}
+
+.github-widget__repository:focus-within,
+.github-widget__stargazers:focus-within {
+  outline: auto 2px -webkit-focus-ring-color;
+}
+
+.github-widget:hover .github-widget__repository {
+  background-color: transparent;
+}
+
+.github-widget:hover .github-widget__repository:hover,
+.github-widget__stargazers:hover {
+  background-color: hsl(0 0% var(--bg-hover-lightness));
+}
