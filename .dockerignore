@@ -5,3 +5,6 @@ docs
 .idea
 .git*
 .vscode
+*.code-workspace
+*.sublime-workspace
+*.sublime-project
