@@ -3,6 +3,9 @@ dist
 
 .idea
 .vscode
+*.code-workspace
+*.sublime-workspace
+*.sublime-project
 
 # симлинки на данные репозитория контента
 a11y
