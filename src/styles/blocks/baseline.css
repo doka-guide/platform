@@ -1,5 +1,4 @@
 .wdi-browser-compat {
-  max-width: 87.5%;
   margin-block-start: 40px;
   align-items: center;
   color: var(--color-light);
@@ -18,8 +17,26 @@
   list-style: none;
 }
 
+@media (width >= 768px) {
+  .wdi-browser-compat {
+    max-width: 81%;
+  }
+}
+
+@media (width >= 1024px) {
+  .wdi-browser-compat {
+    max-width: 87.5%;
+  }
+}
+
 @media not all and (width >= 1024px) {
   .wdi-browser-compat {
     padding: inherit;
+  }
+}
+
+@media (width >= 1680px) {
+  .wdi-browser-compat {
+    max-width: 100%;
   }
 }
