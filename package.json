@@ -83,8 +83,7 @@
     "stylelint": "^16.1.0",
     "stylelint-config-standard": "^36.0.0",
     "terser": "^5.26.0",
-    "transliteration": "^2.3.5",
-    "web-features": "^2.40.2"
+    "transliteration": "^2.3.5"
   },
   "dependencies": {
     "@11ty/eleventy-plugin-vite": "^4.0.0",
