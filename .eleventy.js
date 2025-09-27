@@ -269,11 +269,6 @@ module.exports = function (config) {
     return orderedArticleIndexes
   })
 
-  config.addCollection('webFeatures', async () => {
-    const { features } = await import('web-features')
-    return features
-  })
-
   config.setLibrary('md', initMarkdownLibrary())
 
   config.addNunjucksShortcode('readingTime', (text) => {
@@ -508,6 +503,7 @@ module.exports = function (config) {
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
   config.addPassthroughCopy('src/images')
+  config.addPassthroughCopy('src/libs/doka-baseline')
   config.addPassthroughCopy('src/(css|html|js|a11y|tools|recipes|people|interviews)/**/!(*11tydata*)*.!(md)')
 
   return {

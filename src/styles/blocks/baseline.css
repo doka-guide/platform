@@ -8,7 +8,9 @@
 }
 
 .wdi-browser-compat__items {
+  flex: 1 1 100%;
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   margin: 1rem 0;
   padding: 0;
@@ -16,103 +18,8 @@
   list-style: none;
 }
 
-.wdi-browser-compat__item {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-
-.wdi-browser-compat__icon {
-  display: inline-block;
-  height: 24px;
-  margin-right: 6px;
-  width: 24px;
-  background-repeat: no-repeat no-repeat;
-  background-position: center center;
-  background-size: cover;
-}
-
-.wdi-browser-compat__icon[data-browser="chrome"] {
-  background-image: url("/images/baseline/chrome.svg");
-}
-
-.wdi-browser-compat__icon[data-browser="firefox"] {
-  background-image: url("/images/baseline/firefox.svg");
-}
-
-.wdi-browser-compat__icon[data-browser="edge"] {
-  background-image: url("/images/baseline/edge.svg");
-}
-
-.wdi-browser-compat__icon[data-browser="safari"] {
-  background-image: url("/images/baseline/safari.svg");
-}
-
-.wdi-browser-compat__version {
-  box-sizing: border-box;
-  --size-2: clamp(0.75rem, 0.71rem + 0.18vw, 0.875rem);
-  background-repeat: no-repeat no-repeat;
-  background-position: center center;
-  background-origin: content-box;
-  border-radius: 10000px;
-  display: inline-block;
-  font-size: var(--size-2);
-  height: 24px;
-  line-height: 24px;
-  min-width: 24px;
-  text-align: center;
-  padding-inline: 0.5ch;
-}
-
-.wdi-browser-compat__version[data-compat="yes"] {
-  background: var(--wdi-success-bg-color, #e9f6ed);
-  color: var(--wdi-success-color, #0d652d);
-}
-
-.wdi-browser-compat__version[data-compat="flag"] {
-  background-color: var(--wdi-warn-bg-color, #fff5e3);
-  background-image: url("/images/baseline/flag.svg");
-  color: var(--wdi-warn-color, #c34900);
-}
-
-.wdi-browser-compat__version[data-compat="no"] {
-  background-color: var(--wdi-error-bg-color, #fce8e8);
-  background-image: url("/images/baseline/no.svg");
-  color: var(--wdi-error-color, #a50e0e);
-}
-
-.wdi-browser-compat__version[data-compat="preview"] {
-  padding: 2px;
-  background-color: var(--wdi-warn-bg-color, #fff5e3);
-  background-image: url("/images/baseline/preview.svg");
-  color: var(--wdi-warn-color, #c34900);
-}
-
-.wdi-browser-compat__link {
-  flex: 0 0 100%;
-  margin-left: 0;
-  color: currentColor;
-}
-
-@media (width >= 50em) {
+@media not all and (width >= 1024px) {
   .wdi-browser-compat {
-    flex-wrap: nowrap;
-  }
-
-  .wdi-browser-compat__label {
-    flex: none;
-    margin-bottom: 0;
-    width: auto;
-  }
-
-  .wdi-browser-compat__link {
-    flex: none;
-    margin-left: auto;
-  }
-}
-
-@media (width >= 600px) {
-  .wdi-browser-compat__label {
-    margin-right: 24px;
+    padding: inherit;
   }
 }
