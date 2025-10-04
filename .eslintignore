@@ -10,4 +10,4 @@ src/a11y
 src/pages
 src/people
 src/specials
-src/libs/doka-baseline
+src/scripts/web-components/*.min.js

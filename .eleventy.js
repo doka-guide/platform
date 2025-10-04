@@ -503,7 +503,6 @@ module.exports = function (config) {
   config.addPassthroughCopy('src/robots.txt')
   config.addPassthroughCopy('src/fonts')
   config.addPassthroughCopy('src/images')
-  config.addPassthroughCopy('src/libs/doka-baseline')
   config.addPassthroughCopy('src/(css|html|js|a11y|tools|recipes|people|interviews)/**/!(*11tydata*)*.!(md)')
 
   return {
