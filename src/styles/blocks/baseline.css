@@ -1,5 +1,5 @@
 .wdi-browser-compat {
-  margin-block-start: 40px;
+  margin-block-end: 20px;
   align-items: center;
   color: var(--color-light);
   display: flex;
