@@ -3,29 +3,40 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t=globalThis,e=t.ShadowRoot&&(void 0===t.ShadyCSS||t.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,s=Symbol(),i=new WeakMap;let o=class{constructor(t,e,i){if(this._$cssResult$=!0,i!==s)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e}get styleSheet(){let t=this.o;const s=this.t;if(e&&void 0===t){const e=void 0!==s&&1===s.length;e&&(t=i.get(s)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),e&&i.set(s,t))}return t}toString(){return this.cssText}};const r=(t,...e)=>{const i=1===t.length?t[0]:e.reduce((e,s,i)=>e+(t=>{if(!0===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(s)+t[i+1],t[0]);return new o(i,t,s)},a=e?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const s of t.cssRules)e+=s.cssText;return(t=>new o("string"==typeof t?t:t+"",void 0,s))(e)})(t):t,{is:n,defineProperty:l,getOwnPropertyDescriptor:c,getOwnPropertyNames:d,getOwnPropertySymbols:p,getPrototypeOf:h}=Object,f=globalThis,C=f.trustedTypes,u=C?C.emptyScript:"",g=f.reactiveElementPolyfillSupport,m=(t,e)=>t,b={toAttribute(t,e){switch(e){case Boolean:t=t?u:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let s=t;switch(e){case Boolean:s=null!==t;break;case Number:s=null===t?null:Number(t);break;case Object:case Array:try{s=JSON.parse(t)}catch(t){s=null}}return s}},y=(t,e)=>!n(t,e),v={attribute:!0,type:String,converter:b,reflect:!1,useDefault:!1,hasChanged:y};
+const t$1=globalThis,e$2=t$1.ShadowRoot&&(void 0===t$1.ShadyCSS||t$1.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,s$2=Symbol(),o$3=new WeakMap;let n$2 = class n{constructor(t,e,o){if(this._$cssResult$=true,o!==s$2)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e;}get styleSheet(){let t=this.o;const s=this.t;if(e$2&&void 0===t){const e=void 0!==s&&1===s.length;e&&(t=o$3.get(s)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),e&&o$3.set(s,t));}return t}toString(){return this.cssText}};const r$3=t=>new n$2("string"==typeof t?t:t+"",void 0,s$2),i$4=(t,...e)=>{const o=1===t.length?t[0]:e.reduce(((e,s,o)=>e+(t=>{if(true===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(s)+t[o+1]),t[0]);return new n$2(o,t,s$2)},S$1=(s,o)=>{if(e$2)s.adoptedStyleSheets=o.map((t=>t instanceof CSSStyleSheet?t:t.styleSheet));else for(const e of o){const o=document.createElement("style"),n=t$1.litNonce;void 0!==n&&o.setAttribute("nonce",n),o.textContent=e.cssText,s.appendChild(o);}},c$2=e$2?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const s of t.cssRules)e+=s.cssText;return r$3(e)})(t):t;
+
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */Symbol.metadata??=Symbol("metadata"),f.litPropertyMetadata??=new WeakMap;let L=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=v){if(e.state&&(e.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((e=Object.create(e)).wrapped=!0),this.elementProperties.set(t,e),!e.noAccessor){const s=Symbol(),i=this.getPropertyDescriptor(t,s,e);void 0!==i&&l(this.prototype,t,i)}}static getPropertyDescriptor(t,e,s){const{get:i,set:o}=c(this.prototype,t)??{get(){return this[e]},set(t){this[e]=t}};return{get:i,set(e){const r=i?.call(this);o?.call(this,e),this.requestUpdate(t,r,s)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??v}static _$Ei(){if(this.hasOwnProperty(m("elementProperties")))return;const t=h(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty(m("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(m("properties"))){const t=this.properties,e=[...d(t),...p(t)];for(const s of e)this.createProperty(s,t[s])}const t=this[Symbol.metadata];if(null!==t){const e=litPropertyMetadata.get(t);if(void 0!==e)for(const[t,s]of e)this.elementProperties.set(t,s)}this._$Eh=new Map;for(const[t,e]of this.elementProperties){const s=this._$Eu(t,e);void 0!==s&&this._$Eh.set(s,t)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const s=new Set(t.flat(1/0).reverse());for(const t of s)e.unshift(a(t))}else void 0!==t&&e.push(a(t));return e}static _$Eu(t,e){const s=e.attribute;return!1===s?void 0:"string"==typeof s?s:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(t=>this.enableUpdating=t),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(t=>t(this))}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){const t=new Map,e=this.constructor.elementProperties;for(const s of e.keys())this.hasOwnProperty(s)&&(t.set(s,this[s]),delete this[s]);t.size>0&&(this._$Ep=t)}createRenderRoot(){const s=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((s,i)=>{if(e)s.adoptedStyleSheets=i.map(t=>t instanceof CSSStyleSheet?t:t.styleSheet);else for(const e of i){const i=document.createElement("style"),o=t.litNonce;void 0!==o&&i.setAttribute("nonce",o),i.textContent=e.cssText,s.appendChild(i)}})(s,this.constructor.elementStyles),s}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach(t=>t.hostConnected?.())}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach(t=>t.hostDisconnected?.())}attributeChangedCallback(t,e,s){this._$AK(t,s)}_$ET(t,e){const s=this.constructor.elementProperties.get(t),i=this.constructor._$Eu(t,s);if(void 0!==i&&!0===s.reflect){const o=(void 0!==s.converter?.toAttribute?s.converter:b).toAttribute(e,s.type);this._$Em=t,null==o?this.removeAttribute(i):this.setAttribute(i,o),this._$Em=null}}_$AK(t,e){const s=this.constructor,i=s._$Eh.get(t);if(void 0!==i&&this._$Em!==i){const t=s.getPropertyOptions(i),o="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:b;this._$Em=i;const r=o.fromAttribute(e,t.type);this[i]=r??this._$Ej?.get(i)??r,this._$Em=null}}requestUpdate(t,e,s){if(void 0!==t){const i=this.constructor,o=this[t];if(s??=i.getPropertyOptions(t),!((s.hasChanged??y)(o,e)||s.useDefault&&s.reflect&&o===this._$Ej?.get(t)&&!this.hasAttribute(i._$Eu(t,s))))return;this.C(t,e,s)}!1===this.isUpdatePending&&(this._$ES=this._$EP())}C(t,e,{useDefault:s,reflect:i,wrapped:o},r){s&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,r??e??this[t]),!0!==o||void 0!==r)||(this._$AL.has(t)||(this.hasUpdated||s||(e=void 0),this._$AL.set(t,e)),!0===i&&this._$Em!==t&&(this._$Eq??=new Set).add(t))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,e]of this._$Ep)this[t]=e;this._$Ep=void 0}const t=this.constructor.elementProperties;if(t.size>0)for(const[e,s]of t){const{wrapped:t}=s,i=this[e];!0!==t||this._$AL.has(e)||void 0===i||this.C(e,void 0,s,i)}}let t=!1;const e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach(t=>t.hostUpdate?.()),this.update(e)):this._$EM()}catch(e){throw t=!1,this._$EM(),e}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach(t=>t.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Eq&&=this._$Eq.forEach(t=>this._$ET(t,this[t])),this._$EM()}updated(t){}firstUpdated(t){}};L.elementStyles=[],L.shadowRootOptions={mode:"open"},L[m("elementProperties")]=new Map,L[m("finalized")]=new Map,g?.({ReactiveElement:L}),(f.reactiveElementVersions??=[]).push("2.1.1");
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const _=globalThis,$=_.trustedTypes,w=$?$.createPolicy("lit-html",{createHTML:t=>t}):void 0,A="$lit$",k=`lit$${Math.random().toFixed(9).slice(2)}$`,x="?"+k,M=`<${x}>`,S=document,E=()=>S.createComment(""),Z=t=>null===t||"object"!=typeof t&&"function"!=typeof t,U=Array.isArray,P="[ \t\n\f\r]",T=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,O=/-->/g,N=/>/g,G=RegExp(`>|${P}(?:([^\\s"'>=/]+)(${P}*=${P}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),H=/'/g,D=/"/g,B=/^(?:script|style|textarea|title)$/i,R=(t=>(e,...s)=>({_$litType$:t,strings:e,values:s}))(1),z=Symbol.for("lit-noChange"),F=Symbol.for("lit-nothing"),I=new WeakMap,j=S.createTreeWalker(S,129);function q(t,e){if(!U(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==w?w.createHTML(e):e}const V=(t,e)=>{const s=t.length-1,i=[];let o,r=2===e?"<svg>":3===e?"<math>":"",a=T;for(let e=0;e<s;e++){const s=t[e];let n,l,c=-1,d=0;for(;d<s.length&&(a.lastIndex=d,l=a.exec(s),null!==l);)d=a.lastIndex,a===T?"!--"===l[1]?a=O:void 0!==l[1]?a=N:void 0!==l[2]?(B.test(l[2])&&(o=RegExp("</"+l[2],"g")),a=G):void 0!==l[3]&&(a=G):a===G?">"===l[0]?(a=o??T,c=-1):void 0===l[1]?c=-2:(c=a.lastIndex-l[2].length,n=l[1],a=void 0===l[3]?G:'"'===l[3]?D:H):a===D||a===H?a=G:a===O||a===N?a=T:(a=G,o=void 0);const p=a===G&&t[e+1].startsWith("/>")?" ":"";r+=a===T?s+M:c>=0?(i.push(n),s.slice(0,c)+A+s.slice(c)+k+p):s+k+(-2===c?e:p)}return[q(t,r+(t[s]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),i]};class W{constructor({strings:t,_$litType$:e},s){let i;this.parts=[];let o=0,r=0;const a=t.length-1,n=this.parts,[l,c]=V(t,e);if(this.el=W.createElement(l,s),j.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(i=j.nextNode())&&n.length<a;){if(1===i.nodeType){if(i.hasAttributes())for(const t of i.getAttributeNames())if(t.endsWith(A)){const e=c[r++],s=i.getAttribute(t).split(k),a=/([.?@])?(.*)/.exec(e);n.push({type:1,index:o,name:a[2],strings:s,ctor:"."===a[1]?X:"?"===a[1]?tt:"@"===a[1]?et:Q}),i.removeAttribute(t)}else t.startsWith(k)&&(n.push({type:6,index:o}),i.removeAttribute(t));if(B.test(i.tagName)){const t=i.textContent.split(k),e=t.length-1;if(e>0){i.textContent=$?$.emptyScript:"";for(let s=0;s<e;s++)i.append(t[s],E()),j.nextNode(),n.push({type:2,index:++o});i.append(t[e],E())}}}else if(8===i.nodeType)if(i.data===x)n.push({type:2,index:o});else{let t=-1;for(;-1!==(t=i.data.indexOf(k,t+1));)n.push({type:7,index:o}),t+=k.length-1}o++}}static createElement(t,e){const s=S.createElement("template");return s.innerHTML=t,s}}function K(t,e,s=t,i){if(e===z)return e;let o=void 0!==i?s._$Co?.[i]:s._$Cl;const r=Z(e)?void 0:e._$litDirective$;return o?.constructor!==r&&(o?._$AO?.(!1),void 0===r?o=void 0:(o=new r(t),o._$AT(t,s,i)),void 0!==i?(s._$Co??=[])[i]=o:s._$Cl=o),void 0!==o&&(e=K(t,o._$AS(t,e.values),o,i)),e}class J{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:s}=this._$AD,i=(t?.creationScope??S).importNode(e,!0);j.currentNode=i;let o=j.nextNode(),r=0,a=0,n=s[0];for(;void 0!==n;){if(r===n.index){let e;2===n.type?e=new Y(o,o.nextSibling,this,t):1===n.type?e=new n.ctor(o,n.name,n.strings,this,t):6===n.type&&(e=new st(o,this,t)),this._$AV.push(e),n=s[++a]}r!==n?.index&&(o=j.nextNode(),r++)}return j.currentNode=S,i}p(t){let e=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,e),e+=s.strings.length-2):s._$AI(t[e])),e++}}class Y{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,s,i){this.type=2,this._$AH=F,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=s,this.options=i,this._$Cv=i?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=K(this,t,e),Z(t)?t===F||null==t||""===t?(this._$AH!==F&&this._$AR(),this._$AH=F):t!==this._$AH&&t!==z&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>U(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==F&&Z(this._$AH)?this._$AA.nextSibling.data=t:this.T(S.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:s}=t,i="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=W.createElement(q(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===i)this._$AH.p(e);else{const t=new J(i,this),s=t.u(this.options);t.p(e),this.T(s),this._$AH=t}}_$AC(t){let e=I.get(t.strings);return void 0===e&&I.set(t.strings,e=new W(t)),e}k(t){U(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let s,i=0;for(const o of t)i===e.length?e.push(s=new Y(this.O(E()),this.O(E()),this,this.options)):s=e[i],s._$AI(o),i++;i<e.length&&(this._$AR(s&&s._$AB.nextSibling,i),e.length=i)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=t.nextSibling;t.remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class Q{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,s,i,o){this.type=1,this._$AH=F,this._$AN=void 0,this.element=t,this.name=e,this._$AM=i,this.options=o,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=F}_$AI(t,e=this,s,i){const o=this.strings;let r=!1;if(void 0===o)t=K(this,t,e,0),r=!Z(t)||t!==this._$AH&&t!==z,r&&(this._$AH=t);else{const i=t;let a,n;for(t=o[0],a=0;a<o.length-1;a++)n=K(this,i[s+a],e,a),n===z&&(n=this._$AH[a]),r||=!Z(n)||n!==this._$AH[a],n===F?t=F:t!==F&&(t+=(n??"")+o[a+1]),this._$AH[a]=n}r&&!i&&this.j(t)}j(t){t===F?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class X extends Q{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===F?void 0:t}}class tt extends Q{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==F)}}class et extends Q{constructor(t,e,s,i,o){super(t,e,s,i,o),this.type=5}_$AI(t,e=this){if((t=K(this,t,e,0)??F)===z)return;const s=this._$AH,i=t===F&&s!==F||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,o=t!==F&&(s===F||i);i&&this.element.removeEventListener(this.name,this,s),o&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class st{constructor(t,e,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=s}get _$AU(){return this._$AM._$AU}_$AI(t){K(this,t)}}const it=_.litHtmlPolyfillSupport;it?.(W,Y),(_.litHtmlVersions??=[]).push("3.3.1");const ot=globalThis;
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */let rt=class extends L{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,s)=>{const i=s?.renderBefore??e;let o=i._$litPart$;if(void 0===o){const t=s?.renderBefore??null;i._$litPart$=o=new Y(e.insertBefore(E(),t),t,void 0,s??{})}return o._$AI(t),o})(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return z}};rt._$litElement$=!0,rt.finalized=!0,ot.litElementHydrateSupport?.({LitElement:rt});const at=ot.litElementPolyfillSupport;at?.({LitElement:rt}),(ot.litElementVersions??=[]).push("4.2.1");
+ */const{is:i$3,defineProperty:e$1,getOwnPropertyDescriptor:h$2,getOwnPropertyNames:r$2,getOwnPropertySymbols:o$2,getPrototypeOf:n$1}=Object,a$1=globalThis,c$1=a$1.trustedTypes,l$1=c$1?c$1.emptyScript:"",p$1=a$1.reactiveElementPolyfillSupport,d$1=(t,s)=>t,u$1={toAttribute(t,s){switch(s){case Boolean:t=t?l$1:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t);}return t},fromAttribute(t,s){let i=t;switch(s){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t);}catch(t){i=null;}}return i}},f$1=(t,s)=>!i$3(t,s),b={attribute:true,type:String,converter:u$1,reflect:false,useDefault:false,hasChanged:f$1};Symbol.metadata??=Symbol("metadata"),a$1.litPropertyMetadata??=new WeakMap;let y$1 = class y extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t);}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,s=b){if(s.state&&(s.attribute=false),this._$Ei(),this.prototype.hasOwnProperty(t)&&((s=Object.create(s)).wrapped=true),this.elementProperties.set(t,s),!s.noAccessor){const i=Symbol(),h=this.getPropertyDescriptor(t,i,s);void 0!==h&&e$1(this.prototype,t,h);}}static getPropertyDescriptor(t,s,i){const{get:e,set:r}=h$2(this.prototype,t)??{get(){return this[s]},set(t){this[s]=t;}};return {get:e,set(s){const h=e?.call(this);r?.call(this,s),this.requestUpdate(t,h,i);},configurable:true,enumerable:true}}static getPropertyOptions(t){return this.elementProperties.get(t)??b}static _$Ei(){if(this.hasOwnProperty(d$1("elementProperties")))return;const t=n$1(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties);}static finalize(){if(this.hasOwnProperty(d$1("finalized")))return;if(this.finalized=true,this._$Ei(),this.hasOwnProperty(d$1("properties"))){const t=this.properties,s=[...r$2(t),...o$2(t)];for(const i of s)this.createProperty(i,t[i]);}const t=this[Symbol.metadata];if(null!==t){const s=litPropertyMetadata.get(t);if(void 0!==s)for(const[t,i]of s)this.elementProperties.set(t,i);}this._$Eh=new Map;for(const[t,s]of this.elementProperties){const i=this._$Eu(t,s);void 0!==i&&this._$Eh.set(i,t);}this.elementStyles=this.finalizeStyles(this.styles);}static finalizeStyles(s){const i=[];if(Array.isArray(s)){const e=new Set(s.flat(1/0).reverse());for(const s of e)i.unshift(c$2(s));}else void 0!==s&&i.push(c$2(s));return i}static _$Eu(t,s){const i=s.attribute;return  false===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=false,this.hasUpdated=false,this._$Em=null,this._$Ev();}_$Ev(){this._$ES=new Promise((t=>this.enableUpdating=t)),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach((t=>t(this)));}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.();}removeController(t){this._$EO?.delete(t);}_$E_(){const t=new Map,s=this.constructor.elementProperties;for(const i of s.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t);}createRenderRoot(){const t=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return S$1(t,this.constructor.elementStyles),t}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(true),this._$EO?.forEach((t=>t.hostConnected?.()));}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach((t=>t.hostDisconnected?.()));}attributeChangedCallback(t,s,i){this._$AK(t,i);}_$ET(t,s){const i=this.constructor.elementProperties.get(t),e=this.constructor._$Eu(t,i);if(void 0!==e&&true===i.reflect){const h=(void 0!==i.converter?.toAttribute?i.converter:u$1).toAttribute(s,i.type);this._$Em=t,null==h?this.removeAttribute(e):this.setAttribute(e,h),this._$Em=null;}}_$AK(t,s){const i=this.constructor,e=i._$Eh.get(t);if(void 0!==e&&this._$Em!==e){const t=i.getPropertyOptions(e),h="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:u$1;this._$Em=e;const r=h.fromAttribute(s,t.type);this[e]=r??this._$Ej?.get(e)??r,this._$Em=null;}}requestUpdate(t,s,i){if(void 0!==t){const e=this.constructor,h=this[t];if(i??=e.getPropertyOptions(t),!((i.hasChanged??f$1)(h,s)||i.useDefault&&i.reflect&&h===this._$Ej?.get(t)&&!this.hasAttribute(e._$Eu(t,i))))return;this.C(t,s,i);} false===this.isUpdatePending&&(this._$ES=this._$EP());}C(t,s,{useDefault:i,reflect:e,wrapped:h},r){i&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,r??s??this[t]),true!==h||void 0!==r)||(this._$AL.has(t)||(this.hasUpdated||i||(s=void 0),this._$AL.set(t,s)),true===e&&this._$Em!==t&&(this._$Eq??=new Set).add(t));}async _$EP(){this.isUpdatePending=true;try{await this._$ES;}catch(t){Promise.reject(t);}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,s]of this._$Ep)this[t]=s;this._$Ep=void 0;}const t=this.constructor.elementProperties;if(t.size>0)for(const[s,i]of t){const{wrapped:t}=i,e=this[s];true!==t||this._$AL.has(s)||void 0===e||this.C(s,void 0,i,e);}}let t=false;const s=this._$AL;try{t=this.shouldUpdate(s),t?(this.willUpdate(s),this._$EO?.forEach((t=>t.hostUpdate?.())),this.update(s)):this._$EM();}catch(s){throw t=false,this._$EM(),s}t&&this._$AE(s);}willUpdate(t){}_$AE(t){this._$EO?.forEach((t=>t.hostUpdated?.())),this.hasUpdated||(this.hasUpdated=true,this.firstUpdated(t)),this.updated(t);}_$EM(){this._$AL=new Map,this.isUpdatePending=false;}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return  true}update(t){this._$Eq&&=this._$Eq.forEach((t=>this._$ET(t,this[t]))),this._$EM();}updated(t){}firstUpdated(t){}};y$1.elementStyles=[],y$1.shadowRootOptions={mode:"open"},y$1[d$1("elementProperties")]=new Map,y$1[d$1("finalized")]=new Map,p$1?.({ReactiveElement:y$1}),(a$1.reactiveElementVersions??=[]).push("2.1.1");
+
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=new Promise((t,e)=>{this.o=t,this.h=e}):3===this.i?this.t=Promise.reject(this.l):this.t=Promise.resolve(this.u)),this.t}constructor(t,e,s){this.p=0,this.i=0,(this._=t).addController(this);const i="object"==typeof e?e:{task:e,args:s};this.v=i.task,this.j=i.args,this.m=i.argsEqual??ct,this.k=i.onComplete,this.A=i.onError,this.autoRun=i.autoRun??!0,"initialValue"in i&&(this.u=i.initialValue,this.i=2,this.O=this.T?.())}hostUpdate(){!0===this.autoRun&&this.S()}hostUpdated(){"afterUpdate"===this.autoRun&&this.S()}T(){if(void 0===this.j)return;const t=this.j();if(!Array.isArray(t))throw Error("The args function must return an array");return t}async S(){const t=this.T(),e=this.O;this.O=t,t===e||void 0===t||void 0!==e&&this.m(e,t)||await this.run(t)}async run(t){let e,s;t??=this.T(),this.O=t,1===this.i?this.q?.abort():(this.t=void 0,this.o=void 0,this.h=void 0),this.i=1,"afterUpdate"===this.autoRun?queueMicrotask(()=>this._.requestUpdate()):this._.requestUpdate();const i=++this.p;this.q=new AbortController;let o=!1;try{e=await this.v(t,{signal:this.q.signal})}catch(t){o=!0,s=t}if(this.p===i){if(e===nt)this.i=0;else{if(!1===o){try{this.k?.(e)}catch{}this.i=2,this.o?.(e)}else{try{this.A?.(s)}catch{}this.i=3,this.h?.(s)}this.u=e,this.l=s}this._.requestUpdate()}}abort(t){1===this.i&&this.q?.abort(t)}get value(){return this.u}get error(){return this.l}get status(){return this.i}render(t){switch(this.i){case 0:return t.initial?.();case 1:return t.pending?.();case 2:return t.complete?.(this.value);case 3:return t.error?.(this.error);default:throw Error("Unexpected status: "+this.i)}}}const ct=(t,e)=>t===e||t.length===e.length&&t.every((t,s)=>!y(t,e[s])),dt={limited:R`
+const t=globalThis,i$2=t.trustedTypes,s$1=i$2?i$2.createPolicy("lit-html",{createHTML:t=>t}):void 0,e="$lit$",h$1=`lit$${Math.random().toFixed(9).slice(2)}$`,o$1="?"+h$1,n=`<${o$1}>`,r$1=document,l=()=>r$1.createComment(""),c=t=>null===t||"object"!=typeof t&&"function"!=typeof t,a=Array.isArray,u=t=>a(t)||"function"==typeof t?.[Symbol.iterator],d="[ \t\n\f\r]",f=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,v=/-->/g,_=/>/g,m=RegExp(`>|${d}(?:([^\\s"'>=/]+)(${d}*=${d}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),p=/'/g,g=/"/g,$=/^(?:script|style|textarea|title)$/i,y=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),x=y(1),T=Symbol.for("lit-noChange"),E=Symbol.for("lit-nothing"),A=new WeakMap,C=r$1.createTreeWalker(r$1,129);function P(t,i){if(!a(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==s$1?s$1.createHTML(i):i}const V=(t,i)=>{const s=t.length-1,o=[];let r,l=2===i?"<svg>":3===i?"<math>":"",c=f;for(let i=0;i<s;i++){const s=t[i];let a,u,d=-1,y=0;for(;y<s.length&&(c.lastIndex=y,u=c.exec(s),null!==u);)y=c.lastIndex,c===f?"!--"===u[1]?c=v:void 0!==u[1]?c=_:void 0!==u[2]?($.test(u[2])&&(r=RegExp("</"+u[2],"g")),c=m):void 0!==u[3]&&(c=m):c===m?">"===u[0]?(c=r??f,d=-1):void 0===u[1]?d=-2:(d=c.lastIndex-u[2].length,a=u[1],c=void 0===u[3]?m:'"'===u[3]?g:p):c===g||c===p?c=m:c===v||c===_?c=f:(c=m,r=void 0);const x=c===m&&t[i+1].startsWith("/>")?" ":"";l+=c===f?s+n:d>=0?(o.push(a),s.slice(0,d)+e+s.slice(d)+h$1+x):s+h$1+(-2===d?i:x);}return [P(t,l+(t[s]||"<?>")+(2===i?"</svg>":3===i?"</math>":"")),o]};class N{constructor({strings:t,_$litType$:s},n){let r;this.parts=[];let c=0,a=0;const u=t.length-1,d=this.parts,[f,v]=V(t,s);if(this.el=N.createElement(f,n),C.currentNode=this.el.content,2===s||3===s){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes);}for(;null!==(r=C.nextNode())&&d.length<u;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(e)){const i=v[a++],s=r.getAttribute(t).split(h$1),e=/([.?@])?(.*)/.exec(i);d.push({type:1,index:c,name:e[2],strings:s,ctor:"."===e[1]?H:"?"===e[1]?I:"@"===e[1]?L:k}),r.removeAttribute(t);}else t.startsWith(h$1)&&(d.push({type:6,index:c}),r.removeAttribute(t));if($.test(r.tagName)){const t=r.textContent.split(h$1),s=t.length-1;if(s>0){r.textContent=i$2?i$2.emptyScript:"";for(let i=0;i<s;i++)r.append(t[i],l()),C.nextNode(),d.push({type:2,index:++c});r.append(t[s],l());}}}else if(8===r.nodeType)if(r.data===o$1)d.push({type:2,index:c});else {let t=-1;for(;-1!==(t=r.data.indexOf(h$1,t+1));)d.push({type:7,index:c}),t+=h$1.length-1;}c++;}}static createElement(t,i){const s=r$1.createElement("template");return s.innerHTML=t,s}}function S(t,i,s=t,e){if(i===T)return i;let h=void 0!==e?s._$Co?.[e]:s._$Cl;const o=c(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(false),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s._$Co??=[])[e]=h:s._$Cl=h),void 0!==h&&(i=S(t,h._$AS(t,i.values),h,e)),i}class M{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i;}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??r$1).importNode(i,true);C.currentNode=e;let h=C.nextNode(),o=0,n=0,l=s[0];for(;void 0!==l;){if(o===l.index){let i;2===l.type?i=new R(h,h.nextSibling,this,t):1===l.type?i=new l.ctor(h,l.name,l.strings,this,t):6===l.type&&(i=new z(h,this,t)),this._$AV.push(i),l=s[++n];}o!==l?.index&&(h=C.nextNode(),o++);}return C.currentNode=r$1,e}p(t){let i=0;for(const s of this._$AV) void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++;}}class R{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,i,s,e){this.type=2,this._$AH=E,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cv=e?.isConnected??true;}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=S(this,t,i),c(t)?t===E||null==t||""===t?(this._$AH!==E&&this._$AR(),this._$AH=E):t!==this._$AH&&t!==T&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):u(t)?this.k(t):this._(t);}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t));}_(t){this._$AH!==E&&c(this._$AH)?this._$AA.nextSibling.data=t:this.T(r$1.createTextNode(t)),this._$AH=t;}$(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=N.createElement(P(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else {const t=new M(e,this),s=t.u(this.options);t.p(i),this.T(s),this._$AH=t;}}_$AC(t){let i=A.get(t.strings);return void 0===i&&A.set(t.strings,i=new N(t)),i}k(t){a(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new R(this.O(l()),this.O(l()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e);}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(false,true,i);t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i;}}setConnected(t){ void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t));}}class k{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=E,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=E;}_$AI(t,i=this,s,e){const h=this.strings;let o=false;if(void 0===h)t=S(this,t,i,0),o=!c(t)||t!==this._$AH&&t!==T,o&&(this._$AH=t);else {const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=S(this,e[s+n],i,n),r===T&&(r=this._$AH[n]),o||=!c(r)||r!==this._$AH[n],r===E?t=E:t!==E&&(t+=(r??"")+h[n+1]),this._$AH[n]=r;}o&&!e&&this.j(t);}j(t){t===E?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"");}}class H extends k{constructor(){super(...arguments),this.type=3;}j(t){this.element[this.name]=t===E?void 0:t;}}class I extends k{constructor(){super(...arguments),this.type=4;}j(t){this.element.toggleAttribute(this.name,!!t&&t!==E);}}class L extends k{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5;}_$AI(t,i=this){if((t=S(this,t,i,0)??E)===T)return;const s=this._$AH,e=t===E&&s!==E||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==E&&(s===E||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t;}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t);}}class z{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s;}get _$AU(){return this._$AM._$AU}_$AI(t){S(this,t);}}const j=t.litHtmlPolyfillSupport;j?.(N,R),(t.litHtmlVersions??=[]).push("3.3.1");const B=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new R(i.insertBefore(l(),t),t,void 0,s??{});}return h._$AI(t),h};
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */const s=globalThis;let i$1 = class i extends y$1{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0;}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const r=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=B(r,this.renderRoot,this.renderOptions);}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(true);}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(false);}render(){return T}};i$1._$litElement$=true,i$1["finalized"]=true,s.litElementHydrateSupport?.({LitElement:i$1});const o=s.litElementPolyfillSupport;o?.({LitElement:i$1});(s.litElementVersions??=[]).push("4.2.1");
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */const i=Symbol();class h{get taskComplete(){return this.t||(1===this.i?this.t=new Promise(((t,s)=>{this.o=t,this.h=s;})):3===this.i?this.t=Promise.reject(this.l):this.t=Promise.resolve(this.u)),this.t}constructor(t,s,i){this.p=0,this.i=0,(this._=t).addController(this);const h="object"==typeof s?s:{task:s,args:i};this.v=h.task,this.j=h.args,this.m=h.argsEqual??r,this.k=h.onComplete,this.A=h.onError,this.autoRun=h.autoRun??true,"initialValue"in h&&(this.u=h.initialValue,this.i=2,this.O=this.T?.());}hostUpdate(){ true===this.autoRun&&this.S();}hostUpdated(){"afterUpdate"===this.autoRun&&this.S();}T(){if(void 0===this.j)return;const t=this.j();if(!Array.isArray(t))throw Error("The args function must return an array");return t}async S(){const t=this.T(),s=this.O;this.O=t,t===s||void 0===t||void 0!==s&&this.m(s,t)||await this.run(t);}async run(t){let s,h;t??=this.T(),this.O=t,1===this.i?this.q?.abort():(this.t=void 0,this.o=void 0,this.h=void 0),this.i=1,"afterUpdate"===this.autoRun?queueMicrotask((()=>this._.requestUpdate())):this._.requestUpdate();const r=++this.p;this.q=new AbortController;let e=false;try{s=await this.v(t,{signal:this.q.signal});}catch(t){e=true,h=t;}if(this.p===r){if(s===i)this.i=0;else {if(false===e){try{this.k?.(s);}catch{}this.i=2,this.o?.(s);}else {try{this.A?.(h);}catch{}this.i=3,this.h?.(h);}this.u=s,this.l=h;}this._.requestUpdate();}}abort(t){1===this.i&&this.q?.abort(t);}get value(){return this.u}get error(){return this.l}get status(){return this.i}render(t){switch(this.i){case 0:return t.initial?.();case 1:return t.pending?.();case 2:return t.complete?.(this.value);case 3:return t.error?.(this.error);default:throw Error("Unexpected status: "+this.i)}}}const r=(s,i)=>s===i||s.length===i.length&&s.every(((s,h)=>!f$1(s,i[h])));
+
+// Copyright baseline-status contributors
+// Licensed under the Apache License, Version 2.0
+// See the LICENSE-APACHE file in the project root for details.
+
+
+const icons = {
+    limited: x`
         <svg viewBox="0 0 36 20">
             <path
                 fill="var(--baseline-icon-limited-front)"
@@ -48,7 +59,8 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
                 d="M28 2L36 10L28 18L26 16L32 10L26 4L28 2Z"
             />
         </svg>
-    `,widely:R`
+    `,
+    widely: x`
         <svg viewBox="0 0 36 20">
             <path
                 fill="var(--baseline-icon-widely-front)"
@@ -67,7 +79,8 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
                 d="M10 0L2 8L4 10L10 4L14 8L16 6L10 0Z"
             />
         </svg>
-    `,newly:R`
+    `,
+    newly: x`
         <svg viewBox="0 0 36 20">
             <path
                 fill="var(--baseline-icon-newly-back)"
@@ -78,7 +91,8 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
                 d="m26 0 2 2-18 18L0 10l2-2 8 8L26 0Z"
             />
         </svg>
-    `,no_data:R`
+    `,
+    no_data: x`
         <svg viewBox="0 0 36 20">
             <path
                 fill="var(--baseline-icon-no_data)"
@@ -97,7 +111,16 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
                 d="M26 0L28 2L10 20L0 10L2 8L10 16L26 0Z"
             />
         </svg>
-    `};window.customElements.define("baseline-icon",class extends rt{static get styles(){return r`
+    `,
+};
+
+/**
+ * Web component rendering baseline support icon.
+ * @see https://web.dev/baseline
+ */
+class BaselineIcon extends i$1 {
+    static get styles() {
+        return i$4`
             :host {
                 --baseline-icon-limited-front: light-dark(#f09409, #f09409);
                 --baseline-icon-limited-back: light-dark(#c6c6c6, #565656);
@@ -117,7 +140,33 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
                 height: 20px;
                 display: inline-block;
             }
-        `}static get properties(){return{support:{type:String}}}render(){return dt[this.support]}});const pt={chrome:R`<svg
+        `;
+    }
+
+    static get properties() {
+        return {
+            /**
+             * Level of support (widely, newly, limited, no_data)
+             * @type {string}
+             */
+            support: { type: String },
+        };
+    }
+
+    render() {
+        return icons[this.support];
+    }
+}
+
+window.customElements.define('baseline-icon', BaselineIcon);
+
+// Copyright baseline-status contributors
+// Licensed under the Apache License, Version 2.0
+// See the LICENSE-APACHE file in the project root for details.
+
+
+const ICONS = {
+    chrome: x`<svg
         xmlns="http://www.w3.org/2000/svg"
         width="21"
         height="21"
@@ -170,7 +219,8 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
             fill="url(#c)"
             d="M96 72.6a63.7 63.7 0 0 1 32-8.6h110.8a128 128 0 0 0-221.7 0l55.5 96A64 64 0 0 1 96 72.6Z"
         />
-    </svg>`,edge:R`<svg
+    </svg>`,
+    edge: x`<svg
         xmlns="http://www.w3.org/2000/svg"
         width="21"
         height="21"
@@ -265,7 +315,8 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
                 d="M12.145 11.857c-.072.08-.271.2-.271.447 0 .207.135.414.382.582 1.14.796 3.3.685 3.307.685a4.75 4.75 0 0 0 2.415-.662A4.893 4.893 0 0 0 20.4 8.694c.024-1.785-.637-2.972-.9-3.498C17.802 1.896 14.16 0 10.2 0A10.2 10.2 0 0 0 0 10.057c.04-2.909 2.933-5.26 6.375-5.26.28 0 1.873.024 3.347.797a5.786 5.786 0 0 1 2.463 2.335c.486.845.573 1.92.573 2.35 0 .431-.215 1.06-.621 1.587l.008-.008Z"
             />
         </g>
-    </svg>`,firefox:R`<svg
+    </svg>`,
+    firefox: x`<svg
         xmlns="http://www.w3.org/2000/svg"
         width="21"
         height="21"
@@ -497,7 +548,8 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
             />
             <linearGradient id="P" gradientUnits="userSpaceOnUse" />
         </defs>
-    </svg>`,safari:R`<svg
+    </svg>`,
+    safari: x`<svg
         xmlns="http://www.w3.org/2000/svg"
         width="21"
         height="21"
@@ -602,7 +654,16 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
                 />
             </clipPath>
         </defs>
-    </svg>`},ht={available:R`<svg
+    </svg>`,
+};
+
+// Copyright baseline-status contributors
+// Licensed under the Apache License, Version 2.0
+// See the LICENSE-APACHE file in the project root for details.
+
+
+const SUPPORT_ICONS = {
+    available: x`<svg
         xmlns="http://www.w3.org/2000/svg"
         width="17"
         height="21"
@@ -616,7 +677,8 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
             fill="currentColor"
             d="M11.348 8.125 6.34 13.056l-3.006-2.954 1.002-.985 1.999 1.965 4.012-3.942 1.002.985Z"
         />
-    </svg>`,unavailable:R`<svg
+    </svg>`,
+    unavailable: x`<svg
         xmlns="http://www.w3.org/2000/svg"
         width="17"
         height="21"
@@ -630,7 +692,8 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
             fill="currentColor"
             d="m10.321 8.126-1.987 1.972 1.987 1.972-.993.986-1.987-1.972-1.987 1.972-.993-.986 1.986-1.972-1.986-1.972.993-.986 1.987 1.972L9.328 7.14l.993.986Z"
         />
-    </svg>`,no_data:R`<svg
+    </svg>`,
+    no_data: x`<svg
         xmlns="http://www.w3.org/2000/svg"
         width="17"
         height="21"
@@ -645,7 +708,218 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
             d="M1.25317 3.31021C2.75786 2.13162 4.65827 1.4281 6.72373 1.4281C11.6047 1.4281 15.5615 5.35546 15.5615 10.2001C15.5615 15.0447 11.6047 18.9721 6.72373 18.9721C4.65827 18.9721 2.75786 18.2686 1.25317 17.09C1.01715 17.425 0.764387 17.7475 0.496094 18.0563C2.20987 19.3966 4.37247 20.1961 6.72373 20.1961C12.2857 20.1961 16.7946 15.7207 16.7946 10.2001C16.7946 4.67946 12.2857 0.204102 6.72373 0.204102C4.37247 0.204102 2.20987 1.00363 0.496094 2.34391C0.764386 2.65272 1.01715 2.97522 1.25317 3.31021Z"
             fill="currentColor"
         />
-    </svg>`},ft="newly",Ct="no_data",ut="no_data",gt={NOT_SUPPORTED:{status:"unavailable"},UNKNOWN:{status:ut}},mt=["chrome","edge","firefox","safari"],bt={limited:{badge:"Ограниченная поддержка",description:"Эта функциональность не является базовой, поскольку она пока не работает в некоторых наиболее распространённых браузерах"},newly:{badge:"Недавно доступно",description:"Эта функциональность работает в новейших версиях наиболее распространённых браузеров"},widely:{badge:"Широко распростанено",description:"Эта функциональность работает во многих версиях наиболее распространённых браузеров"},no_data:{badge:"Неизвестно",description:"Информации о поддержке этой функциональности браузерами не найдена"},loading:{badge:"Загрузка",description:""},supported:{chrome:"Поддерживается в Chrome",edge:"Поддерживается в Edge",firefox:"Поддерживается в Firefox",safari:"Поддерживается в Safari"},supportedStatus:{available:"да",unavailable:"нет",no_data:"неизвестно"},unknownName:"Неизвестное свойство",date:"начиная с",featureLinkText:"Подробнее",specLinkText:"Спецификация"},yt=gt.NOT_SUPPORTED,vt=(t,e=yt)=>mt.map(s=>({id:s,data:t?.[s]??e})),Lt={name:bt.unknownName,badge:bt.no_data.badge,supportStatus:Ct,implementations:vt(null,gt.UNKNOWN),specification:null},_t={name:"",badge:bt.loading.badge,loading:!0},$t=t=>{const{badge:e,supportStatus:s,implementations:i,dates:o,loading:r}=t,a=[e,o?.year].filter(Boolean).join(" ");if(r)return a;const n=i.map(t=>t.data.status);s===Ct&&n.fill(ut);return`${a?`${a}. `:""}${i.map((t,e)=>{const s=t.id;return`${bt.supported[s]}: ${bt.supportedStatus[n[e]]}.`}).join(" ")}`},wt=t=>{const{supportStatus:e,dates:s={},id:i,specification:o,loading:r}=t;if(r)return{};const{fullDate:a}=s;return{text:`${bt[e].description}${a?` ${bt.date} ${a}`:"."}`,...e!==Ct&&{featureLink:`https://web-platform-dx.github.io/web-features-explorer/features/${i}/`,featureLinkText:bt.featureLinkText},...o&&{specLinks:o.links.map(t=>t.link),specLinkText:bt.specLinkText}}},At=t=>{if(!t||!t.baseline)return(t=>{const e={...Lt,...t?.loading&&{..._t},...t?.feature_id&&{name:t.feature_id}};return{...e,description:wt(e),ariaLabel:$t(e)}})(t);const{name:e,baseline:s,browser_implementations:i={},feature_id:o,spec:r={}}=t,a=s.status||Ct,n=bt[a].badge,l=(t=>{const{low_date:e,high_date:s}=t,i=s??e,o=i?i.split("-")[0]:"";return{fullDate:i?new Intl.DateTimeFormat("ru-RU",{year:"numeric",month:"long",day:"numeric"}).format(new Date(i)):"",year:o}})(s),c={name:e,badge:n,id:o,supportStatus:a,implementations:vt(i),dates:l,showYear:a===ft&&""!==l.year,specification:r};return{...c,description:wt(c),ariaLabel:$t(c)}};class kt extends rt{static get styles(){return r`
+    </svg>`,
+};
+
+const statusTypes = {
+    NEWLY: 'newly',
+    NO_DATA: 'no_data'};
+
+const implementationStatusTypes = {
+    NO: 'unavailable',
+    UNKNOWN: 'no_data',
+};
+
+const implementationTypes = {
+    NOT_SUPPORTED: { status: implementationStatusTypes.NO },
+    UNKNOWN: { status: implementationStatusTypes.UNKNOWN },
+};
+
+const browserNameList = ['chrome', 'edge', 'firefox', 'safari'];
+
+const messages = {
+    limited: {
+        badge: 'Ограниченная поддержка',
+        description:
+            'Эта функциональность не является базовой, поскольку она пока не работает в некоторых наиболее распространённых браузерах',
+    },
+    newly: {
+        badge: 'Недавно доступно',
+        description:
+            'Эта функциональность работает в новейших версиях наиболее распространённых браузеров',
+    },
+    widely: {
+        badge: 'Широко распростанено',
+        description:
+            'Эта функциональность работает во многих версиях наиболее распространённых браузеров',
+    },
+    no_data: {
+        badge: 'Неизвестно',
+        description:
+            'Информации о поддержке этой функциональности браузерами не найдена',
+    },
+    loading: {
+        badge: 'Загрузка',
+        description: '',
+    },
+    supported: {
+        chrome: 'Поддерживается в Chrome',
+        edge: 'Поддерживается в Edge',
+        firefox: 'Поддерживается в Firefox',
+        safari: 'Поддерживается в Safari',
+    },
+
+    supportedStatus: {
+        available: 'да',
+        unavailable: 'нет',
+        no_data: 'неизвестно',
+    },
+    unknownName: 'Неизвестное свойство',
+    date: 'начиная с',
+    featureLinkText: 'Подробнее',
+    specLinkText: 'Спецификация',
+};
+
+const DEFAULT = {
+    implementation: implementationTypes.NOT_SUPPORTED,
+};
+
+const getBrowserImplementationList = (
+    implementations,
+    defaultData = DEFAULT.implementation,
+) => {
+    return browserNameList.map(browserName => ({
+        id: browserName,
+        data: implementations?.[browserName] ?? defaultData,
+    }));
+};
+
+const EMPTY_BASELINE_OBJ = {
+    name: messages.unknownName,
+    badge: messages.no_data.badge,
+    supportStatus: statusTypes.NO_DATA,
+    implementations: getBrowserImplementationList(
+        null,
+        implementationTypes.UNKNOWN,
+    ),
+    specification: null,
+};
+
+const LOADING_BASELINE_OBJ = {
+    name: '',
+    badge: messages.loading.badge,
+    loading: true,
+};
+
+const getAriaLabel = obj => {
+    const { badge, supportStatus, implementations, dates, loading } = obj;
+
+    const labelPar1 = [badge, dates?.year].filter(Boolean).join(' ');
+
+    if (loading) {
+        return labelPar1;
+    }
+
+    const statuses = implementations.map(browser => browser.data.status);
+
+    if (supportStatus === statusTypes.NO_DATA) {
+        statuses.fill(implementationStatusTypes.UNKNOWN);
+    }
+
+    const labelPart2 = implementations
+        .map((browser, index) => {
+            const id = browser.id;
+            return `${messages.supported[id]}: ${messages.supportedStatus[statuses[index]]}.`;
+        })
+        .join(' ');
+
+    return `${labelPar1 ? `${labelPar1}. ` : ''}${labelPart2}`;
+};
+
+const getDescription = obj => {
+    const { supportStatus, dates = {}, id, specification, loading } = obj;
+
+    if (loading) return {};
+
+    const { fullDate } = dates;
+
+    const result = {
+        text: `${messages[supportStatus].description}${fullDate ? ` ${messages.date} ${fullDate}` : '.'}`,
+        ...(supportStatus !== statusTypes.NO_DATA && {
+            featureLink: `https://web-platform-dx.github.io/web-features-explorer/features/${id}/`,
+            featureLinkText: messages.featureLinkText,
+        }),
+        ...(specification && {
+            specLinks: specification.links.map(item => item.link),
+            specLinkText: messages.specLinkText,
+        }),
+    };
+
+    return result;
+};
+
+const getBaselineDates = baseline => {
+    const { low_date: lowDateStr, high_date: highDateStr } = baseline;
+
+    const dateStr = highDateStr ?? lowDateStr;
+
+    const year = dateStr ? dateStr.split('-')[0] : '';
+    const fullDate = dateStr
+        ? new Intl.DateTimeFormat('ru-RU', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+          }).format(new Date(dateStr))
+        : '';
+
+    return {
+        fullDate,
+        year,
+    };
+};
+
+const getEmptyBaselineObject = sourceData => {
+    const data = {
+        ...EMPTY_BASELINE_OBJ,
+        ...(sourceData?.loading && { ...LOADING_BASELINE_OBJ }),
+        ...(sourceData?.feature_id && { name: sourceData.feature_id }),
+    };
+
+    return {
+        ...data,
+        description: getDescription(data),
+        ariaLabel: getAriaLabel(data),
+    };
+};
+
+const transformToBaselineObject = responseData => {
+    if (!responseData || !responseData.baseline) {
+        return getEmptyBaselineObject(responseData);
+    }
+
+    const {
+        name,
+        baseline,
+        browser_implementations: implementations = {},
+        feature_id: id,
+        spec: specification = {},
+    } = responseData;
+
+    const supportStatus = baseline.status || statusTypes.NO_DATA;
+    const badge = messages[supportStatus].badge;
+    const dates = getBaselineDates(baseline);
+
+    const data = {
+        name,
+        badge,
+        id,
+        supportStatus,
+        implementations: getBrowserImplementationList(implementations),
+        dates,
+        showYear: supportStatus === statusTypes.NEWLY && dates.year !== '',
+        specification,
+    };
+
+    return {
+        ...data,
+        description: getDescription(data),
+        ariaLabel: getAriaLabel(data),
+    };
+};
+
+class DokaBaseline extends i$1 {
+    static get styles() {
+        return i$4`
             :host {
                 --limited: 34 100% 46%;
                 --newly: 214 82% 51%;
@@ -781,12 +1055,12 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
                 align-items: center;
                 white-space: nowrap;
                 gap: 0.5rem;
+                line-height: 2;
                 font-weight: bold;
             }
 
             .badge {
                 padding: 0 0.5rem;
-                line-height: 2;
                 text-transform: uppercase;
                 font-size: 12px;
                 border-radius: 4px;
@@ -845,6 +1119,22 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
                 font-size: 16px;
             }
 
+            details > summary .open-icon {
+                width: 10px;
+                height: 20px;
+                line-height: normal;
+                margin-left: auto;
+                color: inherit;
+            }
+
+            details > summary .open-icon svg {
+                transition: transform 0.3s;
+            }
+
+            details[open] summary .open-icon svg {
+                transform: rotate(180deg);
+            }
+
             details {
                 p + p {
                     margin-top: 12px;
@@ -863,60 +1153,201 @@ const nt=Symbol();class lt{get taskComplete(){return this.t||(1===this.i?this.t=
                     text-underline-offset: 0.125em;
                 }
             }
-        `}static properties={groupId:{type:String},showName:{type:String},showFeatLink:{type:String},showSpecLinks:{type:String}};constructor(){super(),this.groupId="",this.showFeatLink="false",this.showName="false",this.showSpecLinks="false"}fetchData=new lt(this,{task:async([t],{signal:e})=>{const s=`https://api.webstatus.dev/v1/features/${t}`,i=await fetch(s,{signal:e,cache:"force-cache"});if(!i.ok)throw new Error(i.status);return i.json()},args:()=>[this.groupId]});renderStatusTitle(t){const{badge:e,dates:s,showYear:i}=t;return R`
+        `;
+    }
+
+    static properties = {
+        groupId: { type: String },
+        showName: { type: String },
+        showFeatLink: { type: String },
+        showSpecLinks: { type: String },
+    };
+
+    constructor() {
+        super();
+        this.groupId = '';
+        this.showFeatLink = 'false';
+        this.showName = 'false';
+        this.showSpecLinks = 'false';
+    }
+
+    fetchData = new h(this, {
+        task: async ([id], { signal }) => {
+            const url = `https://api.webstatus.dev/v1/features/${id}`;
+            const response = await fetch(url, { signal, cache: 'force-cache' });
+
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
+
+            return response.json();
+        },
+        args: () => [this.groupId],
+    });
+
+    renderStatusTitle(baselineObj) {
+        const { badge, dates, showYear } = baselineObj;
+        return x`
             <div class="status-title">
-                <span class="badge">${e}</span>${i?`${s.year}`:""}
+                <span class="badge">${badge}</span>${showYear
+                    ? `${dates.year}`
+                    : ''}
             </div>
-        `}renderBrowserSupport(t){const{id:e,data:s}=t,{status:i="unavailable",version:o}=s;return R`
+        `;
+    }
+
+    renderBrowserSupport(browser) {
+        const { id, data } = browser;
+        const { status = 'unavailable', version } = data;
+
+        return x`
             <span class="browser-support">
-                ${pt[e]}
-                <browser-support-icon class="support-${i}">
-                    ${ht[i]}
+                ${ICONS[id]}
+                <browser-support-icon class="support-${status}">
+                    ${SUPPORT_ICONS[status]}
                 </browser-support-icon>
-                ${o?R`<div class="browser-version">${o}</div>`:""}
+                ${version
+                    ? x`<div class="browser-version">${version}</div>`
+                    : ''}
             </span>
-        `}renderImplementationsInfo(t){const{implementations:e,supportStatus:s}=t;return R`
-            <div class="browsers ${s}">
-                ${e.map(t=>this.renderBrowserSupport(t))}
+        `;
+    }
+
+    renderImplementationsInfo(baselineObj) {
+        const { implementations, supportStatus } = baselineObj;
+
+        return x`
+            <div class="browsers ${supportStatus}">
+                ${implementations.map(browser =>
+                    this.renderBrowserSupport(browser),
+                )}
             </div>
-        `}renderSpecLinks(t){if("true"!==this.showSpecLinks)return"";const{specLinks:e,specLinkText:s}=t;return e?R`
+        `;
+    }
+
+    renderSpecLinks(description) {
+        if (this.showSpecLinks !== 'true') return '';
+
+        const { specLinks, specLinkText } = description;
+
+        if (specLinks) {
+            return x`
                 <p class="link-list">
-                    ${e.map(t=>R`<a
-                                href=${t}
+                    ${specLinks.map(
+                        link =>
+                            x`<a
+                                href=${link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                >${s}
-                            </a>`)}
+                                >${specLinkText}
+                            </a>`,
+                    )}
                 </p>
-            `:void 0}renderDescription(t){const{description:e}=t,{text:s,featureLink:i,featureLinkText:o}=e,r="true"===this.showFeatLink&&Boolean(i);return R`
-            <p>${s}</p>
-            ${r?R`
+            `;
+        }
+    }
+
+    renderDescription(baselineObj) {
+        const { description } = baselineObj;
+        const { text, featureLink, featureLinkText } = description;
+        const showFeatLink =
+            this.showFeatLink === 'true' && Boolean(featureLink);
+
+        return x`
+            <p>${text}</p>
+            ${showFeatLink
+                ? x`
                       <p>
                           <a
-                              href=${i}
+                              href=${featureLink}
                               target="_blank"
                               rel="noopener noreferrer"
-                              >${o}</a
+                              >${featureLinkText}</a
                           >
                       </p>
-                  `:""}
-            ${this.renderSpecLinks(e)}
-        `}renderName(t){return"true"===this.showName?R`<div class="name">${t}</div>`:null}renderBaseline(t){if(null===t)return null;const{name:e,ariaLabel:s,supportStatus:i}=t,o=`doka-baseline ${i}${"true"===this.showName?" with-name":""}${t.loading?" loading":""}`;return R`
-            <div class=${o}>
-                ${this.renderName(e)}
+                  `
+                : ''}
+            ${this.renderSpecLinks(description)}
+        `;
+    }
+
+    renderName(name) {
+        if (this.showName === 'true') {
+            return x`<div class="name">${name}</div>`;
+        }
+        return null;
+    }
+
+    renderBaseline(baselineObj) {
+        if (baselineObj === null) {
+            return null;
+        }
+
+        const { name, ariaLabel, supportStatus } = baselineObj;
+
+        const mainClass = `doka-baseline ${supportStatus}${this.showName === 'true' ? ' with-name' : ''}${baselineObj.loading ? ' loading' : ''}`;
+
+        return x`
+            <div class=${mainClass}>
+                ${this.renderName(name)}
                 <details>
-                    <summary aria-label="${s}">
+                    <summary aria-label="${ariaLabel}">
                         <baseline-icon
-                            support="${i}"
+                            support="${supportStatus}"
                             aria-hidden="true"
                         ></baseline-icon>
                         <div class="status-container" aria-hidden="true">
-                            ${this.renderStatusTitle(t)}
-                            ${this.renderImplementationsInfo(t)}
+                            ${this.renderStatusTitle(baselineObj)}
+                            ${this.renderImplementationsInfo(baselineObj)}
+                        </div>
+
+                        <div>
+                            <span class="open-icon" aria-hidden="true">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="11"
+                                    height="7"
+                                    viewBox="0 0 11 7"
+                                    fill="none"
+                                >
+                                    <path
+                                        d="M5.5 6.45356L0.25 1.20356L1.19063 0.262939L5.5 4.59419L9.80937 0.284814L10.75 1.22544L5.5 6.45356Z"
+                                        fill="currentColor"
+                                    />
+                                </svg>
+                            </span>
                         </div>
                     </summary>
-                    ${this.renderDescription(t)}
+                    ${this.renderDescription(baselineObj)}
                 </details>
-                <div></div>
             </div>
-        `}render(){return this.groupId?this.fetchData.render({pending:()=>{const t=At({loading:!0,feature_id:this.groupId});return this.renderBaseline(t)},complete:t=>{const e=At(t);return this.renderBaseline(e)},error:()=>{const t=At();return this.renderBaseline(t)}}):null}}export{kt as DokaBaseline};
+        `;
+    }
+
+    render() {
+        if (!this.groupId) {
+            return null;
+        }
+
+        return this.fetchData.render({
+            pending: () => {
+                const loadingBaselineObj = transformToBaselineObject({
+                    loading: true,
+                    feature_id: this.groupId,
+                });
+                return this.renderBaseline(loadingBaselineObj);
+            },
+            complete: responseData => {
+                const baselineObj = transformToBaselineObject(responseData);
+
+                return this.renderBaseline(baselineObj);
+            },
+            error: () => {
+                const emptyBaselineObj = transformToBaselineObject();
+                return this.renderBaseline(emptyBaselineObj);
+            },
+        });
+    }
+}
+
+export { DokaBaseline };
