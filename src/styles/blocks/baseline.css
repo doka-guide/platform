@@ -17,6 +17,10 @@
   list-style: none;
 }
 
+doka-baseline {
+  min-height: 64px;
+}
+
 @media (width >= 768px) {
   .wdi-browser-compat {
     max-width: 81%;
