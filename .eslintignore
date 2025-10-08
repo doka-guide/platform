@@ -10,4 +10,3 @@ src/a11y
 src/pages
 src/people
 src/specials
-src/scripts/web-components/*.build.js
