@@ -269,11 +269,6 @@ module.exports = function (config) {
     return orderedArticleIndexes
   })
 
-  config.addCollection('webFeatures', async () => {
-    const { features } = await import('web-features')
-    return features
-  })
-
   config.setLibrary('md', initMarkdownLibrary())
 
   config.addNunjucksShortcode('readingTime', (text) => {

@@ -34,13 +34,6 @@ function hasTag(tags, tag) {
   return (tags || []).includes(tag)
 }
 
-function assignGreaterValue(map, item, key) {
-  if (!Number.isNaN(item[key]) && Number(item[key]) > map[key]) {
-    map[key] = Number(item[key])
-  }
-  return map
-}
-
 const asyncFilter = async (arr, predicate) => {
   const results = await Promise.all(arr.map(predicate))
   return arr.filter((_v, index) => results[index])
@@ -257,43 +250,11 @@ module.exports = {
     },
 
     baseline: function (data) {
-      const { doc, collections, hasBaseline } = data
-      const { webFeatures } = collections
+      const { doc, hasBaseline } = data
       if (hasBaseline) {
-        const keys = ['chrome', 'edge', 'firefox', 'safari']
-        const names = { chrome: 'Chrome', edge: 'Edge', firefox: 'Firefox', safari: 'Safari' }
-        const versions = doc.data.baseline
-          .filter((g) => Object.keys(webFeatures[g.group]).includes('status'))
-          .map((g) => {
-            return webFeatures[g.group].status.support
-          })
-          .reduce(
-            (map, item) => {
-              for (const key of keys) {
-                assignGreaterValue(map, item, key)
-              }
-              return map
-            },
-            { chrome: 0, edge: 0, firefox: 0, safari: 0 },
-          )
-        const supported = Object.keys(versions).reduce(
-          (map, item) => {
-            if (versions[item] === 0) {
-              map[item] = false
-            }
-            return map
-          },
-          { chrome: true, edge: true, firefox: true, safari: true },
-        )
-        const flagged = { chrome: false, edge: false, firefox: false, safari: false }
-        const preview = { chrome: false, edge: false, firefox: false, safari: false }
+        const groupIds = doc.data.baseline.filter((g) => g.group).map((g) => g.group)
         return {
-          keys,
-          names,
-          versions,
-          flagged,
-          supported,
-          preview,
+          groupIds,
         }
       }
       return {}

@@ -108,11 +108,14 @@
         </div>
 
         <div class="article__content doc__wrapper">
+
+          {% if hasBaseline %}
+            {% include "blocks/baseline.njk" %}
+          {% endif %}
+
           <div class="article__content-inner content">
             {{ doc.templateContent | safe }}
-            {% if hasBaseline %}
-              {% include "blocks/baseline.njk" %}
-            {% endif %}
+
             {% include "practices.njk" %}
             {% include "questions.njk" %}
           </div>
