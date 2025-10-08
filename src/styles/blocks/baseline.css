@@ -18,7 +18,7 @@
 }
 
 doka-baseline {
-  min-height: 64px;
+  min-height: 56px;
 }
 
 @media (width >= 768px) {
