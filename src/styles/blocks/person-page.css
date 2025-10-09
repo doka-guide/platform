@@ -90,7 +90,7 @@
   display: grid;
   gap: var(--offset);
   grid-template-columns: minmax(min(100%, 320px), 1fr);
-  max-width: 960px;
+  max-width: 1440px;
 }
 
 .person-page__group {
@@ -139,7 +139,7 @@
 @media (width >= 1024px) {
   .person-page {
     --sidebar-size: 245px;
-    --content-max-size: 36rem;
+    --content-max-size: 34rem;
   }
 
   .person-page__avatar {
@@ -168,10 +168,21 @@
   .person-page {
     --sidebar-size-end: 1fr;
   }
+
+  .person-page__articles {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  }
 }
 
 @media (width >= 1680px) {
+  .person-page__main {
+    grid-template-areas:
+      "avatar header   ."
+      "meta   articles articles"
+      ".      footer   footer"
+  }
+
   .person-page {
-    --sidebar-size: 320px;
+    --sidebar-size: 300px;
   }
 }
