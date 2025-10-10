@@ -1,8 +1,5 @@
 const path = require('path')
 const fs = require('fs')
-const fsp = require('fs/promises')
-const { Transform } = require('stream')
-const { pipeline } = require('stream/promises')
 
 const gulp = require('gulp')
 const git = require('gulp-git')
@@ -16,7 +13,6 @@ const esbuild = require('gulp-esbuild')
 const del = require('del')
 const rev = require('gulp-rev')
 const revRewrite = require('gulp-rev-rewrite')
-const puppeteer = require('puppeteer')
 
 const { contentRepGithub, contentRepFolders } = require(path.join(__dirname, 'config/constants'))
 
@@ -122,63 +118,6 @@ const cache = gulp.series(cacheHash, cacheReplace)
 exports.setupContent = gulp.series(cloneContent, makeLinks)
 
 exports.dropContent = () => del(['content', ...contentRepFolders.map((folder) => `src/${folder}`)])
-
-// Social cards
-
-const socialCards = async () => {
-  const browser = await puppeteer.launch({ headless: 'new' })
-  const page = await browser.newPage()
-
-  return pipeline(
-    gulp.src('dist/{a11y,css,html,js,tools,recipes}/**/index.sc.html'),
-    new Transform({
-      objectMode: true,
-      async transform(file, encoding, done) {
-        const imagePath = file.path.replace('index.sc.html', 'images/covers/')
-        if (!fs.existsSync(imagePath)) {
-          await fsp.mkdir(imagePath, { recursive: true })
-        }
-
-        await page.goto('file://' + file.path)
-
-        await page.evaluate(() => {
-          const image = document.querySelector('.social-card__image')
-          if (image) {
-            image.setAttribute('src', image.src.replace(/.*images\//, 'images/'))
-          }
-        })
-
-        await page.setViewport({
-          width: 503,
-          height: 273,
-          deviceScaleFactor: 1,
-        })
-
-        await page.screenshot({
-          path: path.join(imagePath, 'og.png'),
-          type: 'png',
-          clip: {
-            x: 0,
-            y: 0,
-            width: 503,
-            height: 273,
-          },
-        })
-
-        done()
-      },
-    }),
-  )
-    .catch(console.error)
-    .finally(async () => {
-      await page.close()
-      await browser.close()
-    })
-}
-
-// Build social cards
-
-exports.socialCards = socialCards
 
 // Default
 exports.default = gulp.series(clean, styles, scripts, sw, cache)
