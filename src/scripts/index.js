@@ -26,3 +26,6 @@ import './modules/person-badges-tooltip.js'
 import './modules/answer.js'
 import './modules/pwa.js'
 import './modules/triggers.js'
+import { DokaBaseline } from './web-components/doka-baseline.build.js'
+
+window.customElements.define('doka-baseline', DokaBaseline)
