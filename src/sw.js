@@ -434,10 +434,11 @@ self.addEventListener('message', async (event) => {
 })
 
 self.addEventListener('fetch', async (event) => {
-  const url = new URL(event.request.url)
+  const url = event.request.url
+  const urlObject = new URL(url)
 
   // Игнорирует запросы на другие домены
-  if (url.origin !== self.location.origin) {
+  if (urlObject.origin !== self.location.origin) {
     return
   }
 
@@ -447,17 +448,17 @@ self.addEventListener('fetch', async (event) => {
   }
 
   // Игнорирует кеширование Service Worker
-  if (event.request.endsWith('sw.js')) {
+  if (url.endsWith('sw.js')) {
     return
   }
 
   // Игнорирует кеширование манифеста
-  if (event.request.endsWith('manifest.json')) {
+  if (url.endsWith('manifest.json')) {
     return
   }
 
   // Игнорирует кеширование страниц с параметрами GET запроса
-  if (event.request.indexOf('.html?') > -1 || event.request.indexOf('.js?') > -1) {
+  if (url.indexOf('.html?') > -1 || url.indexOf('.js?') > -1) {
     return
   }
 
