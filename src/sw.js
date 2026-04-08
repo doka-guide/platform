@@ -448,17 +448,17 @@ self.addEventListener('fetch', async (event) => {
   }
 
   // Игнорирует кеширование Service Worker
-  if (url.endsWith('sw.js')) {
+  if (urlObject.pathname === '/sw.js') {
     return
   }
 
   // Игнорирует кеширование манифеста
-  if (url.endsWith('manifest.json')) {
+  if (urlObject.pathname === '/manifest.json') {
     return
   }
 
   // Игнорирует кеширование страниц с параметрами GET запроса
-  if (url.indexOf('.html?') > -1 || url.indexOf('.js?') > -1) {
+  if (urlObject.search !== '') {
     return
   }
 
