@@ -2,9 +2,17 @@
   "private": true,
   "author": "Doka.Team",
   "license": "MIT + CC BY-NC-SA 4.0",
-  "engines": {
-    "node": ">=16",
-    "npm": ">=8"
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24.16.0",
+      "onFail": "warn"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": ">=11.13.0",
+      "onFail": "warn"
+    }
   },
   "browserslist": [
     "last 2 version",
@@ -24,12 +32,12 @@
     "debug": "cross-env-shell NODE_ENV=development NODE_OPTIONS=--max-old-space-size=8192 \"npm run make-links && node --inspect-brk node_modules/@11ty/eleventy/cmd.js --serve --quiet\"",
     "start": "cross-env-shell NODE_ENV=development NODE_OPTIONS=--max-old-space-size=8192 \"npm run make-links && eleventy --incremental --serve --quiet\"",
     "build": "cross-env-shell NODE_ENV=production \"npm run make-links && eleventy --quiet && npx gulp\"",
-    "preview": "cross-env-shell NODE_ENV=production \"npm run make-links && eleventy --quiet && npx gulp\"",
     "deploy": "cd dist && rsync -e 'ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no' --exclude 'api.json' --exclude 'mail' --archive --progress --compress --delete . deploy@dev.doka.guide:$(echo $(grep 'SERVER_PATH' ../.env | cut -d '=' -f2))",
     "editorconfig": "editorconfig-checker",
-    "stylelint": "stylelint 'src/styles/**/*.css'",
-    "eslint": "eslint '**/*.js'",
-    "lint-check": "npm run editorconfig && npm run stylelint && npm run eslint",
+    "lint:css": "stylelint 'src/styles/**/*.css'",
+    "lint:js": "eslint '**/*.js'",
+    "lint:html": "node-w3c-validator -i ./dist/**/*.html -f lint -ev",
+    "lint-check": "npm run editorconfig && npm run lint:css && npm run lint:js && npm run lint:html",
     "test": "jest",
     "make-links": "node make-links.js"
   },
@@ -46,9 +54,12 @@
     "@11ty/eleventy-fetch": "^4.0.0",
     "@11ty/eleventy-img": "^3.1.8",
     "@11ty/eleventy-plugin-rss": "^1.2.0",
+    "@11ty/eleventy-plugin-vite": "^4.0.0",
+    "@babel/core": "^7.29.7",
     "@babel/preset-env": "^7.23.6",
     "@octokit/core": "^5.0.2",
     "autoprefixer": "^10.4.16",
+    "babel-jest": "^29.7.0",
     "cross-env": "^7.0.3",
     "del": "^6.1.1",
     "dotenv": "^16.3.1",
@@ -57,6 +68,7 @@
     "esbuild": "^0.19.10",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jest": "^27.6.0",
     "eslint-plugin-prettier": "^5.1.2",
     "gray-matter": "^4.0.3",
     "gulp": "^5.0.0",
@@ -66,6 +78,7 @@
     "gulp-rev": "^9.0.0",
     "gulp-rev-rewrite": "^5.0.0",
     "gulp-shell": "^0.6.3",
+    "html-escaper": "^3.0.3",
     "htmlnano": "^2.1.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -73,6 +86,7 @@
     "linkedom": "^0.16.5",
     "markdown-it": "^14.0.0",
     "nano-staged": "^0.8.0",
+    "node-w3c-validator": "^2.0.2",
     "postcss": "^8.4.32",
     "postcss-csso": "^6.0.1",
     "postcss-import": "^15.1.0",
@@ -85,12 +99,5 @@
     "terser": "^5.26.0",
     "transliteration": "^2.3.5",
     "web-features": "^3.17.0"
-  },
-  "dependencies": {
-    "@11ty/eleventy-plugin-vite": "^4.0.0",
-    "@babel/core": "^7.23.6",
-    "babel-jest": "^29.7.0",
-    "eslint-plugin-jest": "^27.6.0",
-    "html-escaper": "^3.0.3"
   }
 }
