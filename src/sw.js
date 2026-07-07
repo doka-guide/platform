@@ -434,24 +434,32 @@ self.addEventListener('message', async (event) => {
 })
 
 self.addEventListener('fetch', async (event) => {
+  const url = event.request.url
+  const urlObject = new URL(url)
+
   // Игнорирует запросы на другие домены
-  if (!event.request.startsWith(self.location.origin) && event.request.method === 'POST') {
-    return new Response(fetch(event.request))
+  if (urlObject.origin !== self.location.origin) {
+    return
+  }
+
+  // Игнорирует обработку не GET-запросов
+  if (event.request.method !== 'GET') {
+    return
   }
 
   // Игнорирует кеширование Service Worker
-  if (event.request.endsWith('sw.js')) {
-    return new Response(fetch(event.request))
+  if (urlObject.pathname === '/sw.js') {
+    return
   }
 
   // Игнорирует кеширование манифеста
-  if (event.request.endsWith('manifest.json')) {
-    return new Response(fetch(event.request))
+  if (urlObject.pathname === '/manifest.json') {
+    return
   }
 
   // Игнорирует кеширование страниц с параметрами GET запроса
-  if (event.request.indexOf('.html?') > -1 || event.request.indexOf('.js?') > -1) {
-    return new Response(fetch(event.request))
+  if (urlObject.search !== '') {
+    return
   }
 
   event.respondWith(
