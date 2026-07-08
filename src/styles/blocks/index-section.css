@@ -3,16 +3,18 @@
   --gutter: 40px;
   --column-breakpoint: 15em;
   padding: var(--offset);
+  display: grid;
+  display: grid-lanes;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--column-breakpoint)), 1fr));
+  align-items: start;
+  column-gap: var(--offset);
   line-height: 1.25;
   will-change: transform, opacity;
   animation: showIndexSection 0.4s forwards;
 }
 
-.index-section:not([hidden]) {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--column-breakpoint)), 1fr));
-  column-gap: var(--offset);
-  align-items: start;
+.index-section[hidden] {
+  display: none;
 }
 
 @keyframes showIndexSection {
@@ -45,6 +47,7 @@
   inset: calc(-1 * var(--offset) / 2);
   bottom: calc(var(--gutter) - var(--offset) / 2);
   background-color: var(--accent-color);
+  border-radius: 6px;
 }
 
 .index-section__item:target::before {
