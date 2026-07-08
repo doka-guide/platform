@@ -358,9 +358,15 @@ module.exports = function (config) {
     return five
   })
 
-  config.addFilter('pluralize', (content, one, many) => {
-    const number = parseInt(content)
-    return number === 1 ? one : many
+  config.addFilter('pluralize', (number, one, few, many) => {
+    number = Math.abs(number)
+    if (number % 10 === 1 && number % 100 !== 11) {
+      return one
+    } else if (number % 10 >= 2 && number % 10 <= 4 && (number % 100 < 10 || number % 100 >= 20)) {
+      return few
+    } else {
+      return many
+    }
   })
 
   {
