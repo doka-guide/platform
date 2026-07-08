@@ -11,35 +11,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Загрузка платформы
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+        uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version-file: .nvmrc
+          cache: 'npm'
       - name: Установка необходимых зависимостей
-        run: npm install --save-dev eslint-config-prettier eslint-plugin-prettier prettier
-
+        run: npm ci
       - name: Проверка линтером JS
-        run: npx eslint '*.js'
+        run: npm run lint:js
   css:
     runs-on: ubuntu-latest
     steps:
       - name: Загрузка платформы
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+        uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
-      - name: Кэширование модулей
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          node-version-file: .nvmrc
+          cache: 'npm'
       - name: Установка необходимых зависимостей
-        run:  npm install --save-dev stylelint-config-standard
+        run:  npm ci
       - name: Проверка линтером CSS
-        run: npx stylelint 'src/styles/**/*.css'
+        run: npm run lint:css

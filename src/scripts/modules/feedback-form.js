@@ -163,7 +163,7 @@ function init() {
         reasonFieldset.inert = true
       })
     },
-    { once: true }
+    { once: true },
   )
 
   voteButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {
@@ -186,7 +186,7 @@ function init() {
         textControl.hidden = true
       })
     },
-    { once: true }
+    { once: true },
   )
 
   reasonsButtonGroup.on(ButtonGroup.EVENTS.CORRECTION, () => {

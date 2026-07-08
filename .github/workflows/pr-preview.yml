@@ -13,33 +13,23 @@ jobs:
       PATH_TO_CONTENT: ./content
     steps:
       - name: Загрузка платформы
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Загрузка контента
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: doka-guide/content
           path: content
       - name: Загрузка кеша
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           repository: doka-guide/cache
           path: cache
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
-      - name: Кэширование модулей
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          node-version-file: .nvmrc
+          cache: 'npm'
       - name: Получение идентификатора
         id: check
         if: ${{ env.SURGE_TOKEN != '' }}
@@ -71,7 +61,7 @@ jobs:
         continue-on-error: true
         run: |
           cp .env.example .env
-          npm run preview
+          npm run build
           ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no deploy@dev.doka.guide mkdir -p /web/sites/dev.doka.guide/platform/${{ github.event.pull_request.number }}
           cd dist && rsync -e "ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no" --archive --progress --compress --delete . deploy@dev.doka.guide:/web/sites/dev.doka.guide/platform/${{ github.event.pull_request.number }}
           echo "Ссылка на превью — ${{ env.DEPLOY_DOMAIN }}"

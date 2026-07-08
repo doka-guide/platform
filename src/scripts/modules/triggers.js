@@ -76,7 +76,7 @@ function init() {
       updatePageInfo(sessionObject.visited, currentPage, 'duration', updatingPeriod, (from, to) => from + to)
       updatePageInfo(sessionObject.visited, currentPage, 'loaded', currentTime, (from, to) => to)
       updatePageInfo(sessionObject.visited, currentPage, 'scrollDeepness', scrollDeepness, (from, to) =>
-        to > from ? to : from
+        to > from ? to : from,
       )
     } else {
       sessionObject['visited'][currentPage] = {
