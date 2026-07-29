@@ -15,6 +15,7 @@ const rev = require('gulp-rev')
 const revRewrite = require('gulp-rev-rewrite')
 
 const { contentRepGithub, contentRepFolders } = require(path.join(__dirname, 'config/constants'))
+const { injectDemoFrame } = require('./src/libs/demo-frame/inject-demo-frame')
 
 const cloneContent = () => git.clone(contentRepGithub)
 
@@ -29,7 +30,7 @@ const makeLinks = shell.task(`node make-links.js --default`, {
 
 const styles = () => {
   return gulp
-    .src('src/styles/{index.css,index.sc.css,dark-theme.css}')
+    .src('src/styles/{index.css,index.sc.css,dark-theme.css,demo-frame.css}')
     .pipe(
       postcss([
         pimport,
@@ -59,7 +60,7 @@ const sw = () => {
 
 const scripts = () => {
   return gulp
-    .src('src/scripts/index.js')
+    .src(['src/scripts/index.js', 'src/scripts/demo-frame.js'])
     .pipe(
       esbuild({
         target: 'es2015',
@@ -115,9 +116,13 @@ const cacheReplace = () => {
 
 const cache = gulp.series(cacheHash, cacheReplace)
 
+// Demo frame
+
+const demoFrame = () => injectDemoFrame()
+
 exports.setupContent = gulp.series(cloneContent, makeLinks)
 
 exports.dropContent = () => del(['content', ...contentRepFolders.map((folder) => `src/${folder}`)])
 
 // Default
-exports.default = gulp.series(clean, styles, scripts, sw, cache)
+exports.default = gulp.series(clean, styles, scripts, sw, demoFrame, cache)
