@@ -17,6 +17,7 @@ const revRewrite = require('gulp-rev-rewrite').default
 
 const { contentRepGithub, contentRepFolders } = require(path.join(__dirname, 'config/constants'))
 const { styleEntries, bundleStyle } = require(path.join(__dirname, 'config/css'))
+const { injectDemoFrame } = require('./src/libs/demo-frame/inject-demo-frame')
 
 // Раньше здесь был пакет del. С 7-й версии он ESM-only и больше не callable
 // (экспортирует deleteAsync/deleteSync), а обе площадки вызова передавали
@@ -92,6 +93,25 @@ const scripts = () => {
     .pipe(gulp.dest('dist/scripts'))
 }
 
+// Отдельная точка входа: скрипт подключается только в демки, бандл сайта ему не нужен.
+const demoFrameScript = () => {
+  return gulp
+    .src('src/scripts/demo-frame.js')
+    .pipe(
+      gulpEsbuild({
+        entryPoints: ['src/scripts/demo-frame.js'],
+        outfile: 'demo-frame.js',
+        target: 'es2015',
+        minify: true,
+      }),
+    )
+    .pipe(gulp.dest('dist/scripts'))
+}
+
+// Demo frame
+
+const demoFrame = () => injectDemoFrame()
+
 // Clean
 
 const clean = () => {
@@ -127,4 +147,4 @@ exports.setupContent = gulp.series(cloneContent, makeLinks)
 exports.dropContent = () => removePaths(['content', ...contentRepFolders.map((folder) => `src/${folder}`)])
 
 // Default
-exports.default = gulp.series(clean, styles, scripts, sw, cache)
+exports.default = gulp.series(clean, styles, scripts, demoFrameScript, sw, demoFrame, cache)
