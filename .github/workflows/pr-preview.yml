@@ -116,6 +116,20 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: site-dist
+      # Опись защищает от обрезанного при передаче архива: дальше идёт rsync с
+      # --delete, и неполный артефакт стёр бы недостающее из превью.
+      # Разбираем grep-ом, а не source: опись собрана кодом из форка, это данные.
+      - name: Проверка артефакта
+        run: |
+          set -eu
+          test -f site-manifest.txt || { echo "В артефакте нет описи"; exit 1; }
+          EXPECTED_SHA="$(grep '^sha256=' site-manifest.txt | cut -d= -f2)"
+          ACTUAL_SHA="$(sha256sum site.tar | cut -d' ' -f1)"
+          if [ "$EXPECTED_SHA" != "$ACTUAL_SHA" ]; then
+            echo "Архив побился при передаче: ждали $EXPECTED_SHA, получили $ACTUAL_SHA"
+            exit 1
+          fi
+          echo "EXPECTED_FILES=$(grep '^files=' site-manifest.txt | cut -d= -f2)" >> "$GITHUB_ENV"
       # Содержимое архива собрано кодом из форка. Распаковываем до записи ключа и
       # вычищаем симлинки: иначе член архива может указать на
       # $HOME/.ssh/doka_deploy и ключ утечёт в публичное превью.
@@ -125,6 +139,13 @@ jobs:
           set -eu
           PREVIEW_DIR="$(mktemp -d "$RUNNER_TEMP/preview.XXXXXX")"
           tar --extract --file site.tar --directory "$PREVIEW_DIR" --no-same-owner --no-same-permissions
+          ACTUAL_FILES="$(find "$PREVIEW_DIR" -type f | wc -l | tr -d ' ')"
+          if [ "$ACTUAL_FILES" -ne "$EXPECTED_FILES" ]; then
+            echo "Распаковалось $ACTUAL_FILES файлов вместо $EXPECTED_FILES"
+            exit 1
+          fi
+          # Симлинки вычищаем после сверки: их удаление не меняет число обычных
+          # файлов, но должно случиться до записи ключа.
           find "$PREVIEW_DIR" -type l -delete
           test -f "$PREVIEW_DIR/index.html" || { echo "В артефакте нет index.html"; exit 1; }
           echo "PREVIEW_DIR=$PREVIEW_DIR" >> "$GITHUB_ENV"
