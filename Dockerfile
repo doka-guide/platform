@@ -1,4 +1,4 @@
-FROM node:alpine3.16
+FROM node:lts-alpine
 
 ENV PATH_TO_CONTENT=./content
 
