@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Загрузка платформы
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+        uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
-          cache: npm
+          node-version-file: .nvmrc
+          cache: 'npm'
       - name: Установка зависимостей
         run: npm ci
 
@@ -26,7 +26,7 @@ jobs:
         run: npm run editorconfig
       - name: Проверка линтером CSS
         if: ${{ !cancelled() }}
-        run: npm run stylelint
+        run: npm run lint:css
       - name: Проверка линтером JS
         if: ${{ !cancelled() }}
-        run: npm run eslint
+        run: npm run lint:js

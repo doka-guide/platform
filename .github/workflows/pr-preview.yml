@@ -74,7 +74,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
       # Отдельный префикс без restore-keys: недоверенная джоба не должна ни читать,
       # ни перезаписывать кеш продакшн-деплоя.
       - name: Кэширование модулей
@@ -90,7 +90,7 @@ jobs:
         run: |
           set -eu
           cp .env.example .env
-          npm run preview
+          npm run build
       # Пустой dist доезжает до rsync --delete и стирает превью, поэтому проверяем до упаковки.
       # Один tar вместо десятков тысяч файлов — иначе выгрузка артефакта дольше самой сборки.
       - name: Упаковка результата
