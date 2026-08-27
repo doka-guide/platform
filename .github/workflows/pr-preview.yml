@@ -162,7 +162,7 @@ jobs:
           set -eu
           SSH_COMMAND="ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no"
           $SSH_COMMAND deploy@dev.doka.guide mkdir -p "$PREVIEW_PATH"
-          rsync -e "$SSH_COMMAND" --archive --compress --delete --safe-links \
+          rsync -e "$SSH_COMMAND" --archive --compress --delete-after --safe-links \
             "$PREVIEW_DIR/" "deploy@dev.doka.guide:$PREVIEW_PATH"
           echo "Ссылка на превью — $DEPLOY_DOMAIN"
 

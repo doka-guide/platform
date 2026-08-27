@@ -5,12 +5,36 @@ on:
     branches:
       - main
 
+permissions: {}
+
+env:
+  IMAGE: dokaguide/platform
+
 jobs:
-  docker:
-    runs-on: ubuntu-latest
+  # Раньше обе архитектуры собирались в одной джобе через QEMU. Node 24 под
+  # эмуляцией arm64 падает с «qemu: uncaught target signal 4 (Illegal
+  # instruction)» на npm ci — не всегда, а через раз, в зависимости от того,
+  # по каким путям пойдёт JIT. Поэтому каждая архитектура собирается на своём
+  # нативном раннере, и эмуляции больше нет вовсе.
+  build:
+    name: Сборка образа (${{ matrix.platform }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux/amd64
+            runner: ubuntu-latest
+          - platform: linux/arm64
+            runner: ubuntu-24.04-arm
     steps:
-      - name: Настройка QEMU
-        uses: docker/setup-qemu-action@v3
+      - name: Загрузка платформы
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: Настройка Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Авторизация на Docker Hub
@@ -18,12 +42,62 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Сборка и публикация
-        id: docker_build
-        uses: docker/build-push-action@v5
+      # Каждая сборка кладёт образ без тега и отдаёт дайджест: тег появится
+      # один раз в джобе слияния, когда обе архитектуры готовы.
+      - name: Сборка и выгрузка по дайджесту
+        id: build
+        uses: docker/build-push-action@v6
         with:
-          push: true
-          tags: dokaguide/platform:latest
-          platforms: linux/amd64,linux/arm64,linux/x86_64
+          platforms: ${{ matrix.platform }}
+          outputs: type=image,name=${{ env.IMAGE }},push-by-digest=true,name-canonical=true,push=true
+      - name: Сохранение дайджеста
+        run: |
+          set -eu
+          mkdir -p "$RUNNER_TEMP/digests"
+          touch "$RUNNER_TEMP/digests/${DIGEST#sha256:}"
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+      - name: Имя артефакта без слэшей
+        run: echo "ARTIFACT=digest-${PLATFORM//\//-}" >> "$GITHUB_ENV"
+        env:
+          PLATFORM: ${{ matrix.platform }}
+      - name: Выгрузка дайджеста
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT }}
+          path: ${{ runner.temp }}/digests/*
+          retention-days: 1
+          if-no-files-found: error
+
+  # Тег dokaguide/platform:latest навешивается на манифест из обоих образов.
+  # Отдельная джоба нужна, чтобы тег не переезжал на одну архитектуру раньше,
+  # чем собралась вторая.
+  merge:
+    name: Сборка манифеста
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions: {}
+    steps:
+      - name: Загрузка дайджестов
+        uses: actions/download-artifact@v4
+        with:
+          path: digests
+          pattern: digest-*
+          merge-multiple: true
+      - name: Настройка Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Авторизация на Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Публикация манифеста
+        run: |
+          set -eu
+          cd digests
+          # shellcheck disable=SC2046
+          docker buildx imagetools create --tag "$IMAGE:latest" \
+            $(printf "$IMAGE@sha256:%s " *)
       - name: Обзор загруженного образа
-        run: echo ${{ steps.docker_build.outputs.digest }}
+        run: docker buildx imagetools inspect "$IMAGE:latest"

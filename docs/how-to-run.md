@@ -32,8 +32,18 @@
   - `PLATFORM_REP_GITHUB_URL` - путь до репозитория с платформой на GitHub;
   - `CONTENT_REP_GITHUB_URL` - путь до репозитория с контентом на GitHub;
   - `CONTENT_REP_GITHUB` - ссылка до репозитория с контентом на GitHub для работы с Git;
-  - `SERVER_PATH` - абсолютный путь до папки на сервере с текущей сборкой;
-  - `GITHUB_TOKEN` - токен для работы с GraphQL GitHub (персональный токен можно сгенерировать, как описано в [инструкции](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)).
+  - `SERVER_PATH` - абсолютный путь до папки на сервере с текущей сборкой.
 2. Запустить локальный веб-сервер командой `npm start`.
 
-Если оставить поле `GITHUB_TOKEN` пустым, на страницах участников не будет отображена информация об активности на GitHub в репозитории с контентом.
+## Файл `.issues.json`
+
+Без этого файла сборка падает сразу: `src/libs/github-contribution-stats/github-contribution-stats.js` требует его на верхнем уровне, ещё до рендера. Из него считается активность участников — сколько у кого пулреквестов и issue.
+
+Файл не лежит в репозитории платформы, его готовит отдельный репозиторий [doka-guide/cache](https://github.com/doka-guide/cache). В CI он копируется оттуда автоматически, а локально его нужно положить в корень руками:
+
+```bash
+git clone --depth 1 https://github.com/doka-guide/cache.git ../doka-cache
+cp ../doka-cache/issues.json .issues.json
+```
+
+Файл добавлен в `.gitignore`, коммитить его не нужно.
