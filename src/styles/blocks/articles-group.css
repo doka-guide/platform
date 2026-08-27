@@ -11,6 +11,7 @@
   background-color: var(--accent-color);
   transition: top 0.6s cubic-bezier(0.65, 0.05, 0.36, 1);
   will-change: top;
+  border-radius: 6px;
 }
 
 @media (width >= 1024px) {
@@ -70,6 +71,7 @@
   line-height: var(--font-line-height-s);
   white-space: nowrap;
   background-color: hsl(var(--color-fade));
+  border-radius: 6px;
 }
 
 .articles-group--accent .articles-group__link {
