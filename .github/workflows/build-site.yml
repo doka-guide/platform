@@ -95,6 +95,19 @@ jobs:
       # Один tar вместо десятков тысяч файлов: иначе выгрузка дольше сборки.
       - name: Упаковка сайта
         run: tar --create --file site.tar --directory dist .
+      # Опись едет вместе с архивом, чтобы принимающая сторона могла убедиться,
+      # что доехало ровно то же самое. Без неё обрезанный при передаче архив
+      # распакуется частично, пройдёт проверку на index.html и уедет в rsync
+      # с --delete, который вычистит недостающее с боевого сайта.
+      - name: Опись артефакта
+        run: |
+          set -eu
+          {
+            printf 'sha256=%s\n' "$(sha256sum site.tar | cut -d' ' -f1)"
+            printf 'files=%s\n' "$(find dist -type f | wc -l | tr -d ' ')"
+            printf 'html=%s\n' "$(find dist -type f -name '*.html' | wc -l | tr -d ' ')"
+          } > site-manifest.txt
+          cat site-manifest.txt
       - name: Упаковка страниц
         run: |
           set -eu
@@ -105,7 +118,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: site-dist
-          path: site.tar
+          path: |
+            site.tar
+            site-manifest.txt
           retention-days: 1
           if-no-files-found: error
           # Из 494 МБ около 340 МБ — уже сжатые картинки, но 86 МБ HTML жмутся

@@ -75,12 +75,40 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: site-dist
+      # Дальше идёт rsync с --delete, поэтому неполный артефакт опаснее
+      # упавшего деплоя: он не оставит старую версию, а сотрёт недостающее.
+      # Проверяем контрольную сумму до распаковки и опись после, чтобы до
+      # сервера не доехал обрезанный или пустой архив.
+      - name: Проверка артефакта
+        run: |
+          set -eu
+          test -f site-manifest.txt || { echo "В артефакте нет описи"; exit 1; }
+          # Разбираем grep-ом, а не source: опись — данные, а не код.
+          EXPECTED_SHA="$(grep '^sha256=' site-manifest.txt | cut -d= -f2)"
+          ACTUAL_SHA="$(sha256sum site.tar | cut -d' ' -f1)"
+          if [ "$EXPECTED_SHA" != "$ACTUAL_SHA" ]; then
+            echo "Архив побился при передаче: ждали $EXPECTED_SHA, получили $ACTUAL_SHA"
+            exit 1
+          fi
+          echo "EXPECTED_FILES=$(grep '^files=' site-manifest.txt | cut -d= -f2)" >> "$GITHUB_ENV"
+          echo "EXPECTED_HTML=$(grep '^html=' site-manifest.txt | cut -d= -f2)" >> "$GITHUB_ENV"
       - name: Распаковка артефакта
         run: |
           set -eu
           SITE_DIR="$(mktemp -d "$RUNNER_TEMP/site.XXXXXX")"
           tar --extract --file site.tar --directory "$SITE_DIR" --no-same-owner --no-same-permissions
           test -f "$SITE_DIR/index.html" || { echo "В артефакте нет index.html"; exit 1; }
+          ACTUAL_FILES="$(find "$SITE_DIR" -type f | wc -l | tr -d ' ')"
+          if [ "$ACTUAL_FILES" -ne "$EXPECTED_FILES" ]; then
+            echo "Распаковалось $ACTUAL_FILES файлов вместо $EXPECTED_FILES"
+            exit 1
+          fi
+          # Нижняя граница на случай сборки, которая формально удалась, но выдала
+          # почти пустой dist. Сейчас страниц около 3500, запас многократный.
+          if [ "$EXPECTED_HTML" -lt 1000 ]; then
+            echo "Подозрительно мало страниц: $EXPECTED_HTML"
+            exit 1
+          fi
           echo "SITE_DIR=$SITE_DIR" >> "$GITHUB_ENV"
       # Последовательность та же, что и до выноса сборки: ключ, конфиг и
       # холостое подключение, которое добавляет хост в known_hosts.
@@ -96,10 +124,14 @@ jobs:
           printf '%s\n' "$DEPLOY_CONFIG" > "$HOME/.ssh/config"
           chmod 600 "$HOME/.ssh/config"
           ssh -o StrictHostKeyChecking=no deploy@dev.doka.guide
+      # --max-delete — последний предохранитель уже на уровне rsync: если что-то
+      # всё-таки прошло проверки и удаляемого оказалось неправдоподобно много,
+      # rsync прервётся с кодом 25 и не станет вычищать боевой сайт.
+      # Штатная выкатка удаляет единицы файлов — в основном старые кеш-хэши.
       - name: Публикация сайта
         run: |
           set -eu
           cd "$SITE_DIR"
           rsync --exclude 'api.json' --exclude 'mail' \
-            --archive --progress --compress --delete \
+            --archive --progress --compress --delete --max-delete=500 \
             . dev.doka.guide:/web/sites/doka.guide/www/
