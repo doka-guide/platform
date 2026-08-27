@@ -1,0 +1,121 @@
+name: Сборка сайта
+
+# Переиспользуемая сборка. Раньше сайт собирался дважды на каждое событие:
+# отдельно для превью/деплоя и отдельно для W3C-валидации. Теперь сборка живёт
+# в одном месте, а результат разъезжается по джобам артефактами.
+#
+# Воркфлоу вызывают в том числе из pull_request_target, где выполняется код из
+# форка (npm ci, *.11tydata.js). Поэтому секреты только явные и поимённо: у
+# недоверенной сборки их нет вовсе. Не добавляй в вызовы `secrets: inherit` —
+# это отдаст форку весь набор, включая DEPLOY_KEY.
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Коммит платформы для сборки. Пусто — коммит, на котором запущен воркфлоу.
+        type: string
+        required: false
+        default: ''
+      allow-unsafe-checkout:
+        description: Разрешить чекаут кода из форка. Нужно при вызове из pull_request_target.
+        type: boolean
+        required: false
+        default: false
+      cache-prefix:
+        description: >-
+          Префикс ключа npm-кеша. Недоверенные сборки обязаны использовать
+          собственный префикс, иначе форк сможет отравить кеш продакшн-деплоя.
+        type: string
+        required: true
+    secrets:
+      github-token:
+        description: >-
+          Токен для GitHub GraphQL API: без него страницы участников соберутся,
+          но останутся без активности на GitHub. Передаётся только из доверенных
+          сборок — превью из форка собирается без него, как и раньше.
+        required: false
+
+jobs:
+  build:
+    name: Сборка
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      PATH_TO_CONTENT: ./content
+      GITHUB_TOKEN: ${{ secrets.github-token }}
+    steps:
+      - name: Загрузка платформы
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.ref }}
+          allow-unsafe-pr-checkout: ${{ inputs.allow-unsafe-checkout }}
+          persist-credentials: false
+      - name: Загрузка контента
+        uses: actions/checkout@v6
+        with:
+          repository: doka-guide/content
+          path: content
+          persist-credentials: false
+      - name: Загрузка кеша
+        uses: actions/checkout@v6
+        with:
+          repository: doka-guide/cache
+          path: cache
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      # Без restore-keys: недоверенная сборка не должна ни читать, ни
+      # перезаписывать кеш доверенной. Разделение обеспечивает cache-prefix.
+      - name: Кэширование модулей
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ inputs.cache-prefix }}-${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+      - name: Установка модулей
+        run: npm ci
+      - name: Копирование кеша
+        run: cp ./cache/issues.json ./.issues.json
+      - name: Сборка сайта
+        run: |
+          set -eu
+          cp .env.example .env
+          npm run build
+      # Пустой dist доезжает до rsync --delete и стирает сайт, поэтому
+      # проверяем до упаковки, а не после выгрузки.
+      - name: Проверка результата
+        run: |
+          set -eu
+          test -f dist/index.html || { echo "dist пуст — сборка ничего не выдала"; exit 1; }
+      # Два артефакта вместо одного. Полный нужен деплою, но валидатору из
+      # почти 500 МБ интересны только страницы: качать ради них сотни мегабайт
+      # картинок — дороже, чем собрать отдельный маленький архив.
+      # Один tar вместо десятков тысяч файлов: иначе выгрузка дольше сборки.
+      - name: Упаковка сайта
+        run: tar --create --file site.tar --directory dist .
+      - name: Упаковка страниц
+        run: |
+          set -eu
+          cd dist
+          find . -name '*.html' -print0 \
+            | tar --create --file ../site-html.tar --null --files-from -
+      - name: Выгрузка сайта
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: site.tar
+          retention-days: 1
+          if-no-files-found: error
+          # Из 494 МБ около 340 МБ — уже сжатые картинки, но 86 МБ HTML жмутся
+          # в 5.7 раза. Первый уровень забирает почти весь выигрыш, не тратя
+          # процессор на остальное.
+          compression-level: 1
+      - name: Выгрузка страниц
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-html
+          path: site-html.tar
+          retention-days: 1
+          if-no-files-found: error
