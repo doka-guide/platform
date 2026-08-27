@@ -30,3 +30,8 @@ jobs:
       - name: Проверка линтером JS
         if: ${{ !cancelled() }}
         run: npm run lint:js
+      # Раньше jest жил только локально и в pre-commit его тоже не было:
+      # зелёный CI ничего не говорил о тестах.
+      - name: Тесты
+        if: ${{ !cancelled() }}
+        run: npm test

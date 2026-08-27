@@ -19,8 +19,6 @@ jobs:
       contents: read
     with:
       cache-prefix: product
-    secrets:
-      github-token: ${{ secrets.GITHUB_TOKEN }}
 
   # Валидация разметки. Собранные страницы приезжают артефактом, поэтому джоба
   # не пересобирает сайт и не нуждается ни в контенте, ни в секретах.
