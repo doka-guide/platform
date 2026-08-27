@@ -86,7 +86,7 @@
     "linkedom": "^0.16.5",
     "markdown-it": "^14.0.0",
     "nano-staged": "^0.8.0",
-    "node-w3c-validator": "^2.0.2",
+    "node-w3c-validator": "^3.0.0",
     "postcss": "^8.4.32",
     "postcss-csso": "^6.0.1",
     "postcss-import": "^15.1.0",
@@ -99,5 +99,8 @@
     "terser": "^5.26.0",
     "transliteration": "^2.3.5",
     "web-features": "^3.17.0"
+  },
+  "allowScripts": {
+    "vnu-jar": true
   }
 }
