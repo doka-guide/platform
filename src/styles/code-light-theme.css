@@ -246,7 +246,7 @@ pre[class*="language-"] {
 .token.token.cr::before,
 .token.token.lf::before,
 .token.token.space::before {
-  color: hsla(230, 8%, 24%, 0.2);
+  color: hsl(230, 8%, 24%, 0.2);
 }
 
 /* Toolbar plugin overrides */
@@ -280,7 +280,7 @@ div.code-toolbar > .toolbar.toolbar > .toolbar-item > span:focus {
 
 /* The highlighted line itself */
 .line-highlight.line-highlight {
-  background: hsla(230, 8%, 24%, 0.05);
+  background: hsl(230, 8%, 24%, 0.05);
 }
 
 /* Default line numbers in Line Highlight plugin */
@@ -290,7 +290,7 @@ div.code-toolbar > .toolbar.toolbar > .toolbar-item > span:focus {
   color: hsl(230, 8%, 24%);
   padding: 0.1em 0.6em;
   border-radius: 0.3em;
-  box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2); /* same as Toolbar plugin default */
+  box-shadow: 0 2px 0 0 rgb(0, 0, 0, 0.2); /* same as Toolbar plugin default */
 }
 
 /* Hovering over a linkable line number (in the gutter area) */
@@ -303,7 +303,7 @@ div.code-toolbar > .toolbar.toolbar > .toolbar-item > span:focus {
 
 /* Requires Line Numbers plugin as well */
 pre[id].linkable-line-numbers.linkable-line-numbers span.line-numbers-rows > span:hover::before {
-  background-color: hsla(230, 8%, 24%, 0.05);
+  background-color: hsl(230, 8%, 24%, 0.05);
 }
 
 /* Line Numbers and Command Line plugins overrides */
@@ -311,7 +311,7 @@ pre[id].linkable-line-numbers.linkable-line-numbers span.line-numbers-rows > spa
 /* Line separating gutter from coding area */
 .line-numbers.line-numbers .line-numbers-rows,
 .command-line .command-line-prompt {
-  border-right-color: hsla(230, 8%, 24%, 0.2);
+  border-right-color: hsl(230, 8%, 24%, 0.2);
 }
 
 /* Match Braces plugin overrides */
@@ -346,40 +346,40 @@ pre[id].linkable-line-numbers.linkable-line-numbers span.line-numbers-rows > spa
 /* Taken from https://github.com/atom/github/blob/master/styles/variables.less */
 pre.diff-highlight > code .token.token.deleted:not(.prefix),
 pre > code.diff-highlight .token.token.deleted:not(.prefix) {
-  background-color: hsla(353, 100%, 66%, 0.15);
+  background-color: hsl(353, 100%, 66%, 0.15);
 }
 
 pre.diff-highlight > code .token.token.deleted:not(.prefix)::-moz-selection,
 pre.diff-highlight > code .token.token.deleted:not(.prefix) *::-moz-selection,
 pre > code.diff-highlight .token.token.deleted:not(.prefix)::-moz-selection,
 pre > code.diff-highlight .token.token.deleted:not(.prefix) *::-moz-selection {
-  background-color: hsla(353, 95%, 66%, 0.25);
+  background-color: hsl(353, 95%, 66%, 0.25);
 }
 
 pre.diff-highlight > code .token.token.deleted:not(.prefix)::selection,
 pre.diff-highlight > code .token.token.deleted:not(.prefix) *::selection,
 pre > code.diff-highlight .token.token.deleted:not(.prefix)::selection,
 pre > code.diff-highlight .token.token.deleted:not(.prefix) *::selection {
-  background-color: hsla(353, 95%, 66%, 0.25);
+  background-color: hsl(353, 95%, 66%, 0.25);
 }
 
 pre.diff-highlight > code .token.token.inserted:not(.prefix),
 pre > code.diff-highlight .token.token.inserted:not(.prefix) {
-  background-color: hsla(137, 100%, 55%, 0.15);
+  background-color: hsl(137, 100%, 55%, 0.15);
 }
 
 pre.diff-highlight > code .token.token.inserted:not(.prefix)::-moz-selection,
 pre.diff-highlight > code .token.token.inserted:not(.prefix) *::-moz-selection,
 pre > code.diff-highlight .token.token.inserted:not(.prefix)::-moz-selection,
 pre > code.diff-highlight .token.token.inserted:not(.prefix) *::-moz-selection {
-  background-color: hsla(135, 73%, 55%, 0.25);
+  background-color: hsl(135, 73%, 55%, 0.25);
 }
 
 pre.diff-highlight > code .token.token.inserted:not(.prefix)::selection,
 pre.diff-highlight > code .token.token.inserted:not(.prefix) *::selection,
 pre > code.diff-highlight .token.token.inserted:not(.prefix)::selection,
 pre > code.diff-highlight .token.token.inserted:not(.prefix) *::selection {
-  background-color: hsla(135, 73%, 55%, 0.25);
+  background-color: hsl(135, 73%, 55%, 0.25);
 }
 
 /* Previewers plugin overrides */
@@ -389,7 +389,7 @@ pre > code.diff-highlight .token.token.inserted:not(.prefix) *::selection {
 /* Border around popup */
 .prism-previewer.prism-previewer::before,
 .prism-previewer-gradient.prism-previewer-gradient div {
-  border-color: hsl(0, 0, 95%);
+  border-color: hsl(0, 0%, 95%);
 }
 
 /* Angle and time should remain as circles and are hence not included */
@@ -401,11 +401,11 @@ pre > code.diff-highlight .token.token.inserted:not(.prefix) *::selection {
 
 /* Triangles pointing to the code */
 .prism-previewer.prism-previewer::after {
-  border-top-color: hsl(0, 0, 95%);
+  border-top-color: hsl(0, 0%, 95%);
 }
 
 .prism-previewer-flipped.prism-previewer-flipped.after {
-  border-bottom-color: hsl(0, 0, 95%);
+  border-bottom-color: hsl(0, 0%, 95%);
 }
 
 /* Background colour within the popup */
