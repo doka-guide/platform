@@ -16,7 +16,7 @@ const dom = new JSDOM(
   <a class="toc__link">${headersTemplate[1]}</a>
   <a class="toc__link">${headersTemplate[2]}</a>
   <a class="toc__link">${headersTemplate[3]}</a>
-  `
+  `,
 )
 
 test('обрезка длины заголовка секции в боковой навигации', () => {
