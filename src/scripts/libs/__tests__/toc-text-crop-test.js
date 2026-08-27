@@ -9,18 +9,11 @@ const headersTemplate = [
   'Сколько солнечных дней в году в Москве? Лучше не знать!',
   ' Рыжий кот не смог перепрыгнуть забор из-за избыточного веса                                   ',
 ]
-const dom = new JSDOM(
-  `
-  <!DOCTYPE html>
-  <a class="toc__link">${headersTemplate[0]}</a>
-  <a class="toc__link">${headersTemplate[1]}</a>
-  <a class="toc__link">${headersTemplate[2]}</a>
-  <a class="toc__link">${headersTemplate[3]}</a>
-  `,
-)
+
+document.body.innerHTML = headersTemplate.map((header) => `<a class="toc__link">${header}</a>`).join('\n')
 
 test('обрезка длины заголовка секции в боковой навигации', () => {
-  const tocLinks = dom.window.document.querySelectorAll('.toc__link')
+  const tocLinks = document.querySelectorAll('.toc__link')
 
   clipContent(tocLinks, MAX_LENGTH)
 

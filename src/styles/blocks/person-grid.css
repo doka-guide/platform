@@ -1,7 +1,7 @@
 .person-grid {
   display: grid;
-  grid-row-gap: 1.6em;
-  grid-column-gap: 5.35em;
+  row-gap: 1.6em;
+  column-gap: 5.35em;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 22em), 1fr));
 }
 

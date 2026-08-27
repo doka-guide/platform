@@ -2,7 +2,7 @@
   --page-size: 6;
   --columns: 1;
   display: grid;
-  grid-gap: 10px;
+  gap: 10px;
   grid-template-columns: repeat(var(--columns), 1fr);
 }
 
@@ -43,6 +43,6 @@
 @media (width >= 1200px) {
   .featured-articles-list {
     --columns: 3;
-    grid-gap: 20px;
+    gap: 20px;
   }
 }

@@ -40,7 +40,7 @@
 
 .articles-group__list {
   display: grid;
-  grid-gap: 10px;
+  gap: 10px;
 }
 
 .articles-group__link {
@@ -55,7 +55,6 @@
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
   overflow-wrap: break-word;
-  word-break: break-word;
 }
 
 .articles-group__placeholder-icon::before {
@@ -84,7 +83,7 @@
 
 @media (width >= 768px) {
   .articles-group__list {
-    grid-gap: 12px;
+    gap: 12px;
   }
 }
 

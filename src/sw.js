@@ -378,7 +378,7 @@ async function cacheStrategyImpl({ cacheKey, request, preloadResponsePromise, fa
 
     // Запрашиваемый пользователем ресурс загружается и помещается в кеш
     return putResInCache(cacheKey, request)
-  } catch (error) {
+  } catch {
     // Если ресурс загрузить не получилось, показывается страница с уведомлением об отсутствии сети
     const fallbackResponse = await caches.match(fallbackUrl)
     if (fallbackResponse) {

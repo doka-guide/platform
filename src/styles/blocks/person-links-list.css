@@ -1,6 +1,6 @@
 .person-links-list {
   display: grid;
-  grid-gap: 10px;
+  gap: 10px;
   font-size: var(--font-size-s);
   line-height: 1.47;
   font-family: var(--font-family);
@@ -24,7 +24,7 @@
     );
   background-size: 100% var(--stroke-width, 1px);
   background-position: 0 100%;
-  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .person-links-list__icon {
