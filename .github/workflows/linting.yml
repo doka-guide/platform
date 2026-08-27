@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  js:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Загрузка платформы
@@ -16,20 +16,17 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: 'npm'
-      - name: Установка необходимых зависимостей
+      - name: Установка зависимостей
         run: npm ci
-      - name: Проверка линтером JS
-        run: npm run lint:js
-  css:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Загрузка платформы
-        uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: .nvmrc
-          cache: 'npm'
-      - name: Установка необходимых зависимостей
-        run:  npm ci
+
+      # Шаги не прерывают друг друга: при падении видно все три отчёта сразу,
+      # а не только первый упавший линтер.
+      - name: Проверка editorconfig
+        if: ${{ !cancelled() }}
+        run: npm run editorconfig
       - name: Проверка линтером CSS
+        if: ${{ !cancelled() }}
         run: npm run lint:css
+      - name: Проверка линтером JS
+        if: ${{ !cancelled() }}
+        run: npm run lint:js
