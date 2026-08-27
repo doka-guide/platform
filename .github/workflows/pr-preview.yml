@@ -42,72 +42,65 @@ jobs:
               await github.rest.issues.createComment({ owner, repo, issue_number, body })
             }
 
-  # Сборка кода из форка. В этой джобе нет ни одного секрета, а GITHUB_TOKEN урезан до чтения,
-  # поэтому выполнение чужого кода (npm ci, *.11tydata.js) ничего не может утащить.
+  # Сборка кода из форка. В переиспользуемом воркфлоу нет ни одного секрета, а
+  # GITHUB_TOKEN урезан до чтения, поэтому выполнение чужого кода (npm ci,
+  # *.11tydata.js) ничего не может утащить. Отдельный префикс кеша не даёт форку
+  # перезаписать кеш продакшн-деплоя.
   build:
     name: Сборка превью
     if: ${{ !github.event.pull_request.draft }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+    uses: ./.github/workflows/build-site.yml
+    # Переиспользуемый воркфлоу не может запросить больше прав, чем дал вызывающий,
+    # а на уровне воркфлоу стоит permissions: {} — поэтому выдаём чтение здесь.
     permissions:
       contents: read
-    env:
-      PATH_TO_CONTENT: ./content
+    with:
+      ref: ${{ github.event.pull_request.head.sha }}
+      allow-unsafe-checkout: true
+      cache-prefix: pr-preview
+
+  # Валидация собранных страниц. Секретов не требует и работает с тем же
+  # артефактом, что и публикация, — сайт больше не собирается второй раз.
+  validate:
+    name: Валидация разметки
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
     steps:
+      # Нужен только package.json с зависимостями валидатора: сам сайт приезжает
+      # артефактом. Код из форка не выполняется — берём базовую ветку.
       - name: Загрузка платформы
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          allow-unsafe-pr-checkout: true
           persist-credentials: false
-      - name: Загрузка контента
-        uses: actions/checkout@v5
-        with:
-          repository: doka-guide/content
-          path: content
-          persist-credentials: false
-      - name: Загрузка кеша
-        uses: actions/checkout@v5
-        with:
-          repository: doka-guide/cache
-          path: cache
-          persist-credentials: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
-      # Отдельный префикс без restore-keys: недоверенная джоба не должна ни читать,
-      # ни перезаписывать кеш продакшн-деплоя.
-      - name: Кэширование модулей
-        uses: actions/cache@v4
+          cache: 'npm'
+      - uses: actions/setup-java@v4
         with:
-          path: ~/.npm
-          key: pr-preview-${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          java-version: 17
+          distribution: 'temurin'
+          architecture: x64
       - name: Установка модулей
         run: npm ci
-      - name: Копирование кеша
-        run: cp ./cache/issues.json ./.issues.json
-      - name: Сборка сайта
-        run: |
-          set -eu
-          cp .env.example .env
-          npm run build
-      # Пустой dist доезжает до rsync --delete и стирает превью, поэтому проверяем до упаковки.
-      # Один tar вместо десятков тысяч файлов — иначе выгрузка артефакта дольше самой сборки.
-      - name: Упаковка результата
-        run: |
-          set -eu
-          test -f dist/index.html || { echo "dist пуст — сборка ничего не выдала"; exit 1; }
-          tar --create --file preview.tar --directory dist .
-      - name: Выгрузка артефакта
-        uses: actions/upload-artifact@v4
+      - name: Загрузка страниц
+        uses: actions/download-artifact@v4
         with:
-          name: preview-dist
-          path: preview.tar
-          retention-days: 1
-          if-no-files-found: error
-          # Из 494 МБ около 340 МБ — уже сжатые картинки, но 86 МБ HTML жмутся в 5.7 раза.
-          # Первый уровень забирает почти весь выигрыш, не тратя процессор на остальное.
-          compression-level: 1
+          name: site-html
+      # Архив собран кодом из форка. Вычищаем симлинки: иначе член архива может
+      # указать куда угодно за пределы dist. Штатная сборка симлинков не создаёт.
+      - name: Распаковка страниц
+        run: |
+          set -eu
+          mkdir -p dist
+          tar --extract --file site-html.tar --directory dist \
+            --no-same-owner --no-same-permissions
+          find dist -type l -delete
+      - name: Валидация
+        run: npm run lint:html
 
   # Публикация. Здесь есть DEPLOY_KEY, но кода из форка нет — только собранная статика.
   deploy:
@@ -122,15 +115,16 @@ jobs:
       - name: Загрузка артефакта
         uses: actions/download-artifact@v4
         with:
-          name: preview-dist
-      # Содержимое архива собрано кодом из форка. Распаковываем до записи ключа и вычищаем
-      # симлинки: иначе член архива может указать на $HOME/.ssh/doka_deploy и ключ утечёт
-      # в публичное превью. Штатная сборка симлинков в dist не создаёт.
+          name: site-dist
+      # Содержимое архива собрано кодом из форка. Распаковываем до записи ключа и
+      # вычищаем симлинки: иначе член архива может указать на
+      # $HOME/.ssh/doka_deploy и ключ утечёт в публичное превью.
+      # Штатная сборка симлинков в dist не создаёт.
       - name: Распаковка артефакта
         run: |
           set -eu
           PREVIEW_DIR="$(mktemp -d "$RUNNER_TEMP/preview.XXXXXX")"
-          tar --extract --file preview.tar --directory "$PREVIEW_DIR" --no-same-owner --no-same-permissions
+          tar --extract --file site.tar --directory "$PREVIEW_DIR" --no-same-owner --no-same-permissions
           find "$PREVIEW_DIR" -type l -delete
           test -f "$PREVIEW_DIR/index.html" || { echo "В артефакте нет index.html"; exit 1; }
           echo "PREVIEW_DIR=$PREVIEW_DIR" >> "$GITHUB_ENV"
@@ -155,7 +149,7 @@ jobs:
   # останется с сообщением «Идёт сборка...».
   report:
     name: Отчёт в пулреквесте
-    needs: [start, build, deploy]
+    needs: [start, build, validate, deploy]
     if: ${{ always() && !cancelled() && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
