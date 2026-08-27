@@ -122,6 +122,12 @@ jobs:
           printf '%s\n' "$DEPLOY_CONFIG" > "$HOME/.ssh/config"
           chmod 600 "$HOME/.ssh/config"
           ssh -o StrictHostKeyChecking=no deploy@dev.doka.guide
+      # --delete-after: сначала переливаются все файлы и только потом удаляются
+      # лишние. Если передача оборвётся на середине, не удалится ничего — на
+      # сервере останется прежняя версия плюс частично долитая новая. При
+      # удалении по ходу (поведение --delete по умолчанию) оборванная передача
+      # оставила бы сайт с уже вычищенными файлами.
+      #
       # --max-delete — последний предохранитель на уровне rsync: если неполный
       # артефакт всё же прошёл сверку описи, rsync прервётся с кодом 25 и не
       # станет вычищать боевой сайт.
@@ -139,5 +145,5 @@ jobs:
           echo "Файлов в артефакте: $EXPECTED_FILES, предел удаления: $MAX_DELETE"
           cd "$SITE_DIR"
           rsync --exclude 'api.json' --exclude 'mail' \
-            --archive --progress --compress --delete --max-delete="$MAX_DELETE" \
+            --archive --progress --compress --delete-after --max-delete="$MAX_DELETE" \
             . dev.doka.guide:/web/sites/doka.guide/www/
