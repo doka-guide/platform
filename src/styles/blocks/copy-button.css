@@ -6,7 +6,7 @@
   display: grid;
   align-items: center;
   grid-auto-flow: column;
-  grid-gap: 6px;
+  gap: 6px;
   background-color: transparent;
   font-size: var(--font-size-s);
   line-height: calc(20 / 15);

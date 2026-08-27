@@ -35,6 +35,7 @@
   white-space: initial;
   overflow: unset;
   clip-path: unset;
+  /* stylelint-disable-next-line property-no-deprecated */
   clip: unset;
 }
 
@@ -105,6 +106,7 @@
     position: absolute;
     margin: -1px;
     clip-path: inset(50%);
+    /* stylelint-disable-next-line property-no-deprecated */
     clip: rect(0 0 0 0);
     overflow: hidden;
     width: 1px;

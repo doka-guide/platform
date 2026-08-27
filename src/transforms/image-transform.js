@@ -70,7 +70,7 @@ async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
 
   try {
     await fsp.stat(originalLink)
-  } catch (error) {
+  } catch {
     console.warn(`Изображение ${originalLink} не существует`)
     return
   }

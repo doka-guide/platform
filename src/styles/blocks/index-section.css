@@ -29,7 +29,6 @@
   position: relative;
   padding-bottom: var(--gutter);
   display: flow-root;
-  page-break-inside: avoid;
   break-inside: avoid;
 }
 

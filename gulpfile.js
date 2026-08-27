@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs')
+const { rm } = require('node:fs/promises')
 
 const gulp = require('gulp')
 const git = require('gulp-git')
@@ -9,12 +10,22 @@ const csso = require('postcss-csso')
 const pimport = require('postcss-import')
 const minmax = require('postcss-media-minmax')
 const autoprefixer = require('autoprefixer')
-const esbuild = require('gulp-esbuild')
-const del = require('del')
-const rev = require('gulp-rev')
-const revRewrite = require('gulp-rev-rewrite')
+// С версии 0.15 gulp-esbuild экспортирует именованные функции вместо самого
+// себя, а entryPoints и outfile стали обязательными: раньше точка входа
+// бралась из потока gulp. Без них поток молча повисает, и gulp сообщает
+// только «Did you forget to signal async completion?».
+const { gulpEsbuild } = require('gulp-esbuild')
+// gulp-rev 12 и gulp-rev-rewrite 7 собраны как ESM: при require() приезжает
+// пространство имён с __esModule, а сама функция лежит в default.
+const rev = require('gulp-rev').default
+const revRewrite = require('gulp-rev-rewrite').default
 
 const { contentRepGithub, contentRepFolders } = require(path.join(__dirname, 'config/constants'))
+
+// Раньше здесь был пакет del. С 7-й версии он ESM-only и больше не callable
+// (экспортирует deleteAsync/deleteSync), а обе площадки вызова передавали
+// обычные пути без глобов — то есть ровно то, что умеет родной fs.rm.
+const removePaths = (paths) => Promise.all(paths.map((target) => rm(target, { recursive: true, force: true })))
 
 const cloneContent = () => git.clone(contentRepGithub)
 
@@ -49,7 +60,9 @@ const sw = () => {
   return gulp
     .src('src/sw.js')
     .pipe(
-      esbuild({
+      gulpEsbuild({
+        entryPoints: ['src/sw.js'],
+        outfile: 'sw.js',
         target: 'es2015',
         minify: true,
       }),
@@ -61,7 +74,9 @@ const scripts = () => {
   return gulp
     .src('src/scripts/index.js')
     .pipe(
-      esbuild({
+      gulpEsbuild({
+        entryPoints: ['src/scripts/index.js'],
+        outfile: 'index.js',
         target: 'es2015',
         bundle: true,
         minify: true,
@@ -88,7 +103,7 @@ const scripts = () => {
 // Clean
 
 const clean = () => {
-  return del(['dist/styles', 'dist/scripts', 'dist/sw.js'])
+  return removePaths(['dist/styles', 'dist/scripts', 'dist/sw.js'])
 }
 
 // Cache
@@ -117,7 +132,7 @@ const cache = gulp.series(cacheHash, cacheReplace)
 
 exports.setupContent = gulp.series(cloneContent, makeLinks)
 
-exports.dropContent = () => del(['content', ...contentRepFolders.map((folder) => `src/${folder}`)])
+exports.dropContent = () => removePaths(['content', ...contentRepFolders.map((folder) => `src/${folder}`)])
 
 // Default
 exports.default = gulp.series(clean, styles, scripts, sw, cache)

@@ -42,7 +42,7 @@
 }
 
 .offline .link--non-cached {
-  color: hsla(var(--color-base-text) / var(--cached-opacity));
+  color: hsl(var(--color-base-text) / var(--cached-opacity));
 }
 
 .offline .link--non-cached::after {
