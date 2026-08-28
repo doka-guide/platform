@@ -38,6 +38,7 @@
     "lint:js": "eslint '**/*.js'",
     "lint:html": "node scripts/lint-html.js",
     "lint-check": "npm run editorconfig && npm run lint:css && npm run lint:js && npm run lint:html",
+    "check": "node scripts/check.js",
     "test": "jest",
     "make-links": "node make-links.js"
   },
