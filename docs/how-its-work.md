@@ -83,6 +83,8 @@ platform
   ├── .github         # Служебная папка для GitHub
   ├── config          # Папка с файлами конфигурации
   ├── docs            # Документация Платформы Доки
+  ├── scripts         # Служебные скрипты: проверки и валидация разметки
+  ├── test            # Помощники для тестов, не привязанные к одному модулю
   └── src             # Исходный код для сборки
       ├── data        # Папка с подключением данных (сущность 11ty)
       ├── fonts       # Папка с подготовленными шрифтами
@@ -164,7 +166,7 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 
 #### Тесты
 
-В Доке используем модульное тестирование с помощью фреймворка [Jest](https://jestjs.io). Его конфигурация находится в файлах [_jest.config.js_](https://github.com/doka-guide/platform/blob/main/jest.config.js) и [_jest.setup.js_](https://github.com/doka-guide/platform/blob/main/jest.setup.js). Сами тесты — в подпапке *__tests__/* папок со скриптами.
+В Доке используем модульное тестирование с помощью фреймворка [Jest](https://jestjs.io). Его конфигурация находится в файле [_jest.config.js_](https://github.com/doka-guide/platform/blob/main/jest.config.js). Сами тесты — в подпапке *__tests__/* рядом с тем, что проверяют.
 
 #### Скрипты запуска
 
@@ -173,12 +175,13 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 - `debug` — для отладки платформы и контента (сайт не падает, если что-то пошло не так, а информирует о том, что случилось);
 - `start` — для запуска платформы локально с автоматической перезагрузкой при изменении файлов контента или платформы;
 - `build` — для сборки сайта (с минификацей кода и всеми трансформациями);
-- `preview` — для предварительного просмотра сборки (без минификации кода и всеми трансформациями кроме `image-transform`);
 - `deploy` — для развёртывания сайта на инфраструктуре Доки (при наличии доступа);
 - `editorconfig` — для проверки файлов на требования Editorconfig, согласно [конфигурации](https://github.com/doka-guide/platform/blob/main/.editorconfig);
-- `stylelint` — для проверки файлов на требования Stylelint, согласно [конфигурации](https://github.com/doka-guide/platform/blob/main/.stylelintrc.json);
-- `eslint` — для проверки файлов на требования ESLint, согласно [конфигурации](https://github.com/doka-guide/platform/blob/main/.eslintrc.json);
-- `lint-check` — запуск всех линтеров;
+- `lint:css` — для проверки стилей на требования Stylelint, согласно [конфигурации](https://github.com/doka-guide/platform/blob/main/.stylelintrc.json);
+- `lint:js` — для проверки скриптов на требования ESLint, согласно [конфигурации](https://github.com/doka-guide/platform/blob/main/eslint.config.js);
+- `lint:html` — для проверки валидности собранной разметки, по одной странице каждого типа (нужен собранный `dist` и Java);
+- `lint-check` — запуск всех линтеров подряд;
+- `check` — тесты и быстрые линтеры одним прогоном, без прерывания друг друга;
 - `test` — запуск модульных тестов;
 - `make-links` — для формирования символьных ссылок на контент.
 
@@ -191,15 +194,23 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 - _[404.njk](https://github.com/doka-guide/platform/blob/main/src/views/404.njk)_ — страница, которая показывается, если по указанному адресу страницы нет;
 - _[all.njk](https://github.com/doka-guide/platform/blob/main/src/views/all.njk)_ — страница с индексом по всем материалам (докам, статьям);
 - _[article-index.njk](https://github.com/doka-guide/platform/blob/main/src/views/article-index.njk)_ — страницы с индексом материалов по каждому разделу;
+- _[article-index-json.njk](https://github.com/doka-guide/platform/blob/main/src/views/article-index-json.njk)_ — сокращённое содержимое раздела в формате JSON: путь, связанные материалы и краткое описание каждой доки;
 - _[doc.njk](https://github.com/doka-guide/platform/blob/main/src/views/doc.njk)_ — страницы с материалами;
+- _[doc-json.njk](https://github.com/doka-guide/platform/blob/main/src/views/doc-json.njk)_ — материал в формате JSON: ссылки, картинки, видео и демки, найденные в тексте;
 - _[feed.njk](https://github.com/doka-guide/platform/blob/main/src/views/feed.njk)_ — XML-документ для организации фида для RSS;
+- _[featured-json.njk](https://github.com/doka-guide/platform/blob/main/src/views/featured-json.njk)_ — список избранных материалов в формате JSON;
 - _[index.njk](https://github.com/doka-guide/platform/blob/main/src/views/index.njk)_ — главная страница сайта;
 - _[page.njk](https://github.com/doka-guide/platform/blob/main/src/views/page.njk)_ — страницы с текстами, которые не являются материалами;
+- _[offline.njk](https://github.com/doka-guide/platform/blob/main/src/views/offline.njk)_ — страница, которую показывает сервис-воркер, когда сети нет;
 - _[people.njk](https://github.com/doka-guide/platform/blob/main/src/views/people.njk)_ — страница со списком участников (контрибьюторов);
+- _[people-csv.njk](https://github.com/doka-guide/platform/blob/main/src/views/people-csv.njk)_ — список участников в формате CSV;
+- _[people-index.njk](https://github.com/doka-guide/platform/blob/main/src/views/people-index.njk)_ — фотографии и ссылки на страницы участников в формате JSON;
+- _[people-info.njk](https://github.com/doka-guide/platform/blob/main/src/views/people-info.njk)_ — сводная информация обо всех участниках в формате JSON;
 - _[person-json.njk](https://github.com/doka-guide/platform/blob/main/src/views/person-json.njk)_ — информация об участнике проекта в формате JSON;
 - _[person.njk](https://github.com/doka-guide/platform/blob/main/src/views/person.njk)_ — персональные страницы участников;
 - _[sc-index.njk](https://github.com/doka-guide/platform/blob/main/src/views/sc-index.njk)_ — карточки для социальных сетей (нужны для формирования картинки для социальных сетей) в формате HTML для разделов;
 - _[sc.njk](https://github.com/doka-guide/platform/blob/main/src/views/sc.njk)_ — карточки для социальных сетей (нужны для формирования картинки для социальных сетей) в формате HTML для материалов;
+- _[sc-all.njk](https://github.com/doka-guide/platform/blob/main/src/views/sc-all.njk)_ — карточка для социальных сетей для страницы со всеми материалами;
 - _[search.njk](https://github.com/doka-guide/platform/blob/main/src/views/search.njk)_ — страница поиска;
 - _[sitemap.njk](https://github.com/doka-guide/platform/blob/main/src/views/sitemap.njk)_ — XML-документ с картой сайта;
 - _[specials.njk](https://github.com/doka-guide/platform/blob/main/src/views/specials.njk)_ — страницы специальных проектов;
