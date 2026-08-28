@@ -21,8 +21,13 @@ jobs:
 
       # Шаги не прерывают друг друга: при падении видно все три отчёта сразу,
       # а не только первый упавший линтер.
+      # editorconfig-checker скачивает свой бинарник через GitHub API. Без
+      # токена запрос неавторизованный, а лимит общий на IP раннера — прогоны
+      # падали случайно, с «API rate limit exceeded» вместо ошибок разметки.
       - name: Проверка editorconfig
         if: ${{ !cancelled() }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run editorconfig
       - name: Проверка линтером CSS
         if: ${{ !cancelled() }}
@@ -30,8 +35,3 @@ jobs:
       - name: Проверка линтером JS
         if: ${{ !cancelled() }}
         run: npm run lint:js
-      # Раньше jest жил только локально и в pre-commit его тоже не было:
-      # зелёный CI ничего не говорил о тестах.
-      - name: Тесты
-        if: ${{ !cancelled() }}
-        run: npm test
