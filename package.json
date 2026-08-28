@@ -56,8 +56,8 @@
     "@11ty/eleventy-img": "^7.0.0",
     "@11ty/eleventy-plugin-rss": "^3.0.0",
     "@11ty/eleventy-plugin-vite": "^8.0.0",
-    "@babel/core": "^8.0.1",
-    "@babel/preset-env": "^8.0.2",
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.0",
     "@eslint/js": "^10.0.1",
     "autoprefixer": "^10.4.16",
     "babel-jest": "^30.4.1",
@@ -101,6 +101,10 @@
     "web-features": "^3.17.0"
   },
   "allowScripts": {
+    "esbuild": true,
+    "fsevents": true,
+    "simple-git-hooks": true,
+    "unrs-resolver": true,
     "vnu-jar": true
   }
 }
