@@ -136,12 +136,10 @@ module.exports = function (config) {
             `src${post['url'].replace('https://doka.guide', '')}*.md`,
           )[0]
           if (rawArticle) {
-            const articleContent = await rawArticle.template.inputContent
-            const articleDescription = articleContent
-              .split('\n')
-              .filter((s) => s.match(/^description: /))[0]
-              .replace(/^description: /, '')
-            post['summary'] = articleDescription
+            // Раньше описание выковыривалось из сырого текста статьи через
+            // template.inputContent — приватный API, удалённый в 11ty 3.
+            // Фронтматтер и так разобран, значение лежит в data.
+            post['summary'] = rawArticle.data.description
           }
 
           return post
@@ -149,7 +147,10 @@ module.exports = function (config) {
       }),
     )
 
-    return posts.filter(async (s) => typeof (await s) !== 'string')
+    // Колбэк был асинхронным, а промис всегда истинный — фильтр не отсеивал
+    // ничего. Строки-заголовки годов из CHANGELOG убирались ниже по потоку,
+    // в feed.11tydata.js, уже синхронной проверкой.
+    return posts.filter((post) => typeof post !== 'string')
   })
 
   config.addCollection('people', (collectionApi) => {
