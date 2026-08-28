@@ -1,9 +1,3 @@
-const CACHE_PERIOD = 2
-const salt = (cachePeriod) => {
-  return new Date().getUTCDate() % cachePeriod >= cachePeriod / 2 ? 'even' : 'odd'
-}
-const syncFeaturedCacheName = 'doka-sync-featured-' + salt(CACHE_PERIOD)
-
 const ONLINE_STATE_CLASS = 'online'
 const OFFLINE_STATE_CLASS = 'offline'
 const CACHED_LINK_CLASS = 'link--cached'
@@ -40,28 +34,9 @@ function setNetworkStatus() {
   })
 }
 
-window.addEventListener('load', async () => {
+// Сервис-воркер отключён, регистрации здесь больше нет: см. комментарий в
+// src/sw.js. Осталась только разметка состояния сети и ссылок.
+window.addEventListener('load', () => {
   setNetworkStatus()
   setLinksMarked()
-
-  if (
-    (!window.location.origin.startsWith('http://localhost') || localStorage.getItem('DOKA_MODE') === 'DEBUG') &&
-    navigator.serviceWorker
-  ) {
-    try {
-      await navigator.serviceWorker.register('/sw.js', {
-        scope: '/',
-      })
-      navigator.serviceWorker.ready.then(async (registration) => {
-        if (registration.sync) {
-          await registration.sync.register(syncFeaturedCacheName)
-        }
-      })
-      navigator.serviceWorker.ready.then((registration) => {
-        registration.active.postMessage(window.location.pathname)
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  }
 })
