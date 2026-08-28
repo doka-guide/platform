@@ -44,18 +44,19 @@ module.exports = {
 
       const filteredPromos = await asyncFilter(promos, async (promo) => {
         const currentDate = new Date()
-        const cache = await promo.template._frontMatterDataCache
+        const cache = promo.data
         return currentDate >= new Date(cache.startDate) && currentDate <= new Date(cache.endDate)
       })
 
       const formattedPromos = await Promise.all(
         filteredPromos.map(async (promo) => {
-          const content = await promo.template.inputContent
-          const cache = await promo.template._frontMatterDataCache
+          // rawInput отдаёт текст уже без фронтматтера, поэтому прежний
+          // split по «---» больше не нужен.
+          const content = promo.rawInput ?? ''
+          const cache = promo.data
           const output = {
             color: cache.color,
             content: content
-              .split('---')[2]
               .split('\n')
               .filter((s) => s !== '')
               .join('\n'),

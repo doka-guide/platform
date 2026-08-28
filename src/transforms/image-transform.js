@@ -1,7 +1,9 @@
 const os = require('os')
 const path = require('path')
 const fsp = require('fs/promises')
-const Image = require('@11ty/eleventy-img')
+// eleventy-img 7 собран как ESM: при require() приезжает пространство имён,
+// а вызываемая функция со statsSync и generateHTML лежит в default.
+const Image = require('@11ty/eleventy-img').default
 const sharp = require('sharp')
 
 Image.concurrency = os.cpus().length
@@ -99,12 +101,14 @@ async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
   const imageAttributes = Object.fromEntries([...image.attributes].map((attr) => [attr.name, attr.value]))
   imageAttributes.sizes = imageAttributes.sizes || baseConfig.sizes
 
-  const metadata = Image.statsSync(originalLink, options)
+  // В Image 7 синхронный statsSync удалён. Асинхронный вызов и создаёт файлы,
+  // и возвращает метаданные, поэтому отдельный вызов «на отвяжись» больше не
+  // нужен: раньше картинки генерировались без ожидания, и сборка могла
+  // завершиться раньше, чем они дописались на диск.
+  const metadata = await Image(originalLink, options)
 
   const imageHTML = Image.generateHTML(metadata, imageAttributes)
   const tempElement = window.document.createElement('div')
   tempElement.innerHTML = imageHTML
   image.replaceWith(tempElement.firstElementChild)
-
-  Image(originalLink, options)
 }

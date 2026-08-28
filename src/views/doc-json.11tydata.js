@@ -151,7 +151,7 @@ module.exports = {
       const { doc } = data
       const randomString = getRandomString(20)
       const pattern = /(!|)\[.*\]\([A-Za-zА-Яа-я0-9_/.:#?&-]+\)/g
-      const inputTemplate = await doc.template.inputContent
+      const inputTemplate = doc.rawInput ?? ''
       const sources = inputTemplate
         .split('\n')
         .filter((string) => pattern.test(string))
@@ -181,7 +181,7 @@ module.exports = {
     videos: async function (data) {
       const { doc } = data
       const pattern = /<source src=".*type="video\/mp4">/g
-      const inputTemplate = await doc.template.inputContent
+      const inputTemplate = doc.rawInput ?? ''
       const videos = inputTemplate
         .split('\n')
         .filter((string) => pattern.test(string))
@@ -193,7 +193,7 @@ module.exports = {
 
     demos: async function (data) {
       const { doc } = data
-      const inputTemplate = await doc.template.inputContent
+      const inputTemplate = doc.rawInput ?? ''
       const matches = inputTemplate.match(/<iframe.+<\/iframe>/g)
       return matches
         ? matches
