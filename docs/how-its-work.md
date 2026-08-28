@@ -201,7 +201,7 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 - _[featured-json.njk](https://github.com/doka-guide/platform/blob/main/src/views/featured-json.njk)_ — список избранных материалов в формате JSON;
 - _[index.njk](https://github.com/doka-guide/platform/blob/main/src/views/index.njk)_ — главная страница сайта;
 - _[page.njk](https://github.com/doka-guide/platform/blob/main/src/views/page.njk)_ — страницы с текстами, которые не являются материалами;
-- _[offline.njk](https://github.com/doka-guide/platform/blob/main/src/views/offline.njk)_ — страница, которую показывает сервис-воркер, когда сети нет;
+- _[offline.njk](https://github.com/doka-guide/platform/blob/main/src/views/offline.njk)_ — страница с сообщением об отсутствии сети; сейчас не используется, потому что сервис-воркер отключён;
 - _[people.njk](https://github.com/doka-guide/platform/blob/main/src/views/people.njk)_ — страница со списком участников (контрибьюторов);
 - _[people-csv.njk](https://github.com/doka-guide/platform/blob/main/src/views/people-csv.njk)_ — список участников в формате CSV;
 - _[people-index.njk](https://github.com/doka-guide/platform/blob/main/src/views/people-index.njk)_ — фотографии и ссылки на страницы участников в формате JSON;
