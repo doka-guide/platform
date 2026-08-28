@@ -16,6 +16,13 @@
 
     {% include "meta.njk" %}
 
+    {# Стили, которые страница вычисляет из коллекций и не может держать в
+    обычном CSS-файле. В head, потому что style — метаданные и в разметке
+    страницы невалиден. #}
+    {% if pageStyles %}
+      <style>{{ pageStyles | safe }}</style>
+    {% endif %}
+
   </head>
   <body class="base__body {{ bodyClass }}">
     {{ content | safe }}
