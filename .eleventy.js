@@ -25,9 +25,10 @@ const imagePlaceTransform = require('./src/transforms/image-place-transform.js')
 const detailsTransform = require('./src/transforms/details-transform.js')
 const calloutTransform = require('./src/transforms/callout-transform.js')
 
-const fetch = require('node-fetch')
-const pluginRss = require('@11ty/eleventy-plugin-rss')
-const eleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
+// Плагины 11ty 3 собраны как ESM: при require() приезжает пространство
+// имён, а сам плагин лежит в default.
+const pluginRss = require('@11ty/eleventy-plugin-rss').default
+const eleventyVitePlugin = require('@11ty/eleventy-plugin-vite').default
 const postcssImport = require('postcss-import')
 const postcssMediaMinmax = require('postcss-media-minmax')
 const autoprefixer = require('autoprefixer')
@@ -64,8 +65,6 @@ function getAllDocsByCategory(collectionAPI, category) {
 }
 
 module.exports = function (config) {
-  config.setDataDeepMerge(true)
-
   config.addPlugin(pluginRss, {
     posthtmlRenderOptions: {
       closingSingleTag: 'default',
@@ -413,14 +412,6 @@ module.exports = function (config) {
   }
 
   if (isProdEnv) {
-    config.setBrowserSyncConfig({
-      server: {
-        baseDir: ['./src', './dist', './node_modules'],
-      },
-      files: ['src/styles/**/*.*', 'src/scripts/**/*.*'],
-      ghostMode: false,
-    })
-
     config.addTransform('html-min', (content, outputPath) => {
       if (outputPath) {
         let isHtml = outputPath.endsWith('.html')

@@ -20,34 +20,47 @@ module.exports = {
 
     json: function (data) {
       const { category, categoryArticles } = data
-      const json = categoryArticles
-        ?.filter?.(async (article) => {
-          const cache = await article.template._frontMatterDataCache
-          return cache['tags'].includes('doka')
-        })
-        ?.reduce?.(async (map, article) => {
-          const data = {}
-          const cache = await article.template._frontMatterDataCache
-          const content = await article.template.inputContent
-          data['path'] = `/${category}/${article.fileSlug}/`
-          data['related'] = cache['related']
-          const summary = content.replace('\n\n', '\n').split('---')[2].split('\n')
-          let headerIndices = []
-          summary.forEach((string, index) => {
-            if (string.startsWith('## ')) {
-              headerIndices.push(index)
+
+      // Раньше здесь читался внутренний API 11ty — template._frontMatterDataCache
+      // и template.inputContent. В третьей версии их нет, всё нужное лежит в
+      // публичных article.data и article.rawInput. Важное отличие: rawInput
+      // отдаёт текст уже без фронтматтера, поэтому пропускать его split'ом
+      // по «---» больше не надо.
+      //
+      // Заодно убраны async-колбэки у filter и reduce. Промис всегда истинный,
+      // поэтому filter ничего не отсеивал, а аккумулятор reduce после первой
+      // итерации становился промисом — из-за этого в файл попадала ровно одна
+      // статья вместо всего раздела.
+      // 11ty зондирует вычисляемые поля через Proxy, чтобы понять, какие
+      // данные они читают. На этом проходе categoryArticles — не массив,
+      // поэтому проверка обязательна.
+      if (!Array.isArray(categoryArticles)) {
+        return {}
+      }
+
+      return categoryArticles
+        .filter((article) => article.data.tags?.includes('doka'))
+        .reduce((map, article) => {
+          const lines = (article.rawInput ?? '').split('\n')
+          const headingIndices = []
+
+          lines.forEach((line, index) => {
+            if (line.startsWith('## ')) {
+              headingIndices.push(index)
             }
           })
-          map[cache['title']] = {
-            ...data,
-            summary: summary
-              .slice(0, headerIndices[1])
-              .filter((content) => content !== '')
-              .filter((content) => content !== '## Кратко'),
+
+          map[article.data.title] = {
+            path: `/${category}/${article.fileSlug}/`,
+            related: article.data.related,
+            summary: lines
+              .slice(0, headingIndices[1])
+              .filter((line) => line !== '')
+              .filter((line) => line !== '## Кратко'),
           }
+
           return map
         }, {})
-      return json
     },
   },
 }

@@ -152,7 +152,7 @@ module.exports = {
 
       const formattedPractices = await Promise.all(
         filteredPractices.map(async (p) => {
-          const practice = await p.template.inputContent
+          const practice = p.rawInput ?? ''
 
           p['isLong'] = practice.split('\n').filter((s) => s.length && s !== '\r').length > 2
           return p
@@ -209,7 +209,7 @@ module.exports = {
         filteredAnswersByQuestion[q] = []
 
         const filteredInterviews = await asyncFilter(filteredAnswersForQuestion, async (a) => {
-          const cache = await a.template._frontMatterDataCache
+          const cache = a.data
           if (cache.excluded?.includes(docId)) {
             return false
           }
@@ -226,7 +226,7 @@ module.exports = {
 
         const formattedInterviews = await Promise.all(
           filteredInterviews.map(async (a) => {
-            const article = await a.template.inputContent
+            const article = a.rawInput ?? ''
             a['isLong'] = article.split('\n').length > 2
             return a
           }),

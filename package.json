@@ -38,6 +38,7 @@
     "lint:js": "eslint '**/*.js'",
     "lint:html": "node scripts/lint-html.js",
     "lint-check": "npm run editorconfig && npm run lint:css && npm run lint:js && npm run lint:html",
+    "check": "node scripts/check.js",
     "test": "jest",
     "make-links": "node make-links.js"
   },
@@ -50,11 +51,11 @@
     "preserveUnused": true
   },
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.1",
-    "@11ty/eleventy-fetch": "^4.0.0",
-    "@11ty/eleventy-img": "^3.1.8",
-    "@11ty/eleventy-plugin-rss": "^1.2.0",
-    "@11ty/eleventy-plugin-vite": "^4.0.0",
+    "@11ty/eleventy": "^3.1.6",
+    "@11ty/eleventy-fetch": "^5.1.3",
+    "@11ty/eleventy-img": "^7.0.0",
+    "@11ty/eleventy-plugin-rss": "^3.0.0",
+    "@11ty/eleventy-plugin-vite": "^8.0.0",
     "@babel/core": "^8.0.1",
     "@babel/preset-env": "^8.0.2",
     "@eslint/js": "^10.0.1",
