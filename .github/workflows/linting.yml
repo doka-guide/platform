@@ -2,13 +2,19 @@ name: Linting
 
 on:
   pull_request:
-  push:
-    branches:
-      - main
+  # Вызывается боевым деплоем как гейт перед публикацией. Отдельного триггера
+  # на push в main нет: иначе на каждый мёрж проверки прогонялись бы дважды.
+  workflow_call:
+
+permissions: {}
 
 jobs:
   lint:
+    name: Линтеры
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
       - name: Загрузка платформы
         uses: actions/checkout@v6

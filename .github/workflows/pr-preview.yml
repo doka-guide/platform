@@ -23,24 +23,49 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: actions/github-script@v9
-        env:
-          MESSAGE: "Идёт сборка и публикация превью... [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+      # Нужен только scripts/preview-note.js. Под pull_request_target checkout по
+      # умолчанию берёт базовую ветку, кода из форка здесь не появляется.
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      # Заметки прошлой схемы. Раньше превью отписывалось отдельным комментарием,
+      # и на каждый пулреквест приходило письмо. Убираем оставшиеся, чтобы в
+      # ленте не висело вечное «Идёт сборка...». Шаг можно удалить, когда старых
+      # комментариев не останется.
+      - name: Уборка старых комментариев
+        uses: actions/github-script@v9
         with:
           script: |
             const { owner, repo } = context.repo
             const issue_number = context.payload.pull_request.number
             const marker = `<!-- doka-preview-${issue_number} -->`
-            const body = `${marker}\n${process.env.MESSAGE}`
             const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number, per_page: 100 })
-            const existing = comments.find(
-              (comment) => comment.user?.login === 'github-actions[bot]' && (comment.body || '').includes(marker),
-            )
-            if (existing) {
-              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body })
-            } else {
-              await github.rest.issues.createComment({ owner, repo, issue_number, body })
+            for (const comment of comments) {
+              if (comment.user?.login === 'github-actions[bot]' && (comment.body || '').includes(marker)) {
+                await github.rest.issues.deleteComment({ owner, repo, comment_id: comment.id })
+              }
             }
+      - name: Заметка в описании
+        uses: actions/github-script@v9
+        env:
+          MESSAGE: "Идёт сборка и публикация превью... [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+        with:
+          script: |
+            // Путь абсолютный: относительный require в github-script резолвится от
+            // каталога экшена, а не от репозитория.
+            const { buildBody } = require(`${process.env.GITHUB_WORKSPACE}/scripts/preview-note.js`)
+            const { owner, repo } = context.repo
+            const pull_number = context.payload.pull_request.number
+            // Описание перечитываем прямо перед записью: автор мог поправить его
+            // после запуска воркфлоу.
+            const { data: pull } = await github.rest.pulls.get({ owner, repo, pull_number })
+            const body = buildBody(
+              pull.body,
+              `<!-- doka-preview-${pull_number} -->`,
+              `<!-- /doka-preview-${pull_number} -->`,
+              process.env.MESSAGE,
+            )
+            await github.rest.pulls.update({ owner, repo, pull_number, body })
 
   # Сборка кода из форка. В переиспользуемом воркфлоу нет ни одного секрета, а
   # GITHUB_TOKEN урезан до чтения, поэтому выполнение чужого кода (npm ci,
@@ -166,8 +191,8 @@ jobs:
             "$PREVIEW_DIR/" "deploy@dev.doka.guide:$PREVIEW_PATH"
           echo "Ссылка на превью — $DEPLOY_DOMAIN"
 
-  # Итоговый комментарий. always(), иначе при падении сборки пулреквест навсегда
-  # останется с сообщением «Идёт сборка...».
+  # Итоговая заметка. always(), иначе при падении сборки в описании навсегда
+  # останется «Идёт сборка...».
   report:
     name: Отчёт в пулреквесте
     needs: [start, build, validate, deploy]
@@ -177,6 +202,9 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - uses: actions/github-script@v9
         env:
           IS_PUBLISHED: ${{ needs.deploy.result == 'success' }}
@@ -184,21 +212,21 @@ jobs:
           FAILURE_MESSAGE: "Превью контента из ${{ github.event.pull_request.head.sha }} не опубликовано. Ошибка сборки или публикации. [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
         with:
           script: |
+            // Путь абсолютный: относительный require в github-script резолвится от
+            // каталога экшена, а не от репозитория.
+            const { buildBody } = require(`${process.env.GITHUB_WORKSPACE}/scripts/preview-note.js`)
             const { owner, repo } = context.repo
-            const issue_number = context.payload.pull_request.number
-            const marker = `<!-- doka-preview-${issue_number} -->`
+            const pull_number = context.payload.pull_request.number
             const isPublished = process.env.IS_PUBLISHED === 'true'
             const message = isPublished ? process.env.SUCCESS_MESSAGE : process.env.FAILURE_MESSAGE
-            const body = `${marker}\n${message}`
-            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number, per_page: 100 })
-            const existing = comments.find(
-              (comment) => comment.user?.login === 'github-actions[bot]' && (comment.body || '').includes(marker),
+            const { data: pull } = await github.rest.pulls.get({ owner, repo, pull_number })
+            const body = buildBody(
+              pull.body,
+              `<!-- doka-preview-${pull_number} -->`,
+              `<!-- /doka-preview-${pull_number} -->`,
+              message,
             )
-            if (existing) {
-              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body })
-            } else {
-              await github.rest.issues.createComment({ owner, repo, issue_number, body })
-            }
+            await github.rest.pulls.update({ owner, repo, pull_number, body })
             if (!isPublished) {
               core.setFailed('Превью не опубликовано')
             }

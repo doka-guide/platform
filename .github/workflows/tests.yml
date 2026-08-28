@@ -2,9 +2,9 @@ name: Tests
 
 on:
   pull_request:
-  push:
-    branches:
-      - main
+  # Вызывается боевым деплоем как гейт перед публикацией. Отдельного триггера
+  # на push в main нет: иначе на каждый мёрж проверки прогонялись бы дважды.
+  workflow_call:
 
 permissions: {}
 
