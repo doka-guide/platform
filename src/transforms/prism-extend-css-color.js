@@ -16,7 +16,9 @@ module.exports = function (Prism) {
       // Один уровень вложенных скобок — его требуют relative syntax
       // (rgb(from hwb(...) r g b)) и calc() внутри каналов. Глубже вложенный
       // вызов матчится сам по себе, и превьюшка будет не от всего значения.
-      pattern: /\b(?:hsla?|rgba?|hwb|lab|lch|oklab|oklch|color-mix|color)\((?:[^()]|\([^()]*\))*\)/i,
+      // Угловые скобки исключены: в них записана формальная грамматика
+      // (color-mix(<метод-интерполяции>, <цвет>)), из которой цвета не выйдет.
+      pattern: /\b(?:hsla?|rgba?|hwb|lab|lch|oklab|oklch|color-mix|color)\((?:[^()<>]|\([^()<>]*\))*\)/i,
       inside: {
         unit: /\b(?:deg|grad|rad|turn)\b|%/,
         number: /-?\b\d*\.?\d+\b/,

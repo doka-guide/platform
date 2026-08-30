@@ -65,6 +65,11 @@ describe('prism-extend-css-color', () => {
     expect(colorTokens('display: flex')).toEqual([])
   })
 
+  it('не считает цветом запись формального синтаксиса', () => {
+    expect(colorTokens('color-mix(<метод-интерполяции>, <цвет> [<процент>]?)')).toEqual([])
+    expect(colorTokens('rgb(<число> <число> <число>)')).toEqual([])
+  })
+
   it('переживает повторный вызов, не теряя именованные цвета', () => {
     extendCssColor(Prism)
 
