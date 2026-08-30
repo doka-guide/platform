@@ -13,8 +13,7 @@ module.exports = function (window) {
     item.style.setProperty('--color-picker', ` ${item.textContent}`)
     item.classList.add('color-picker__inline')
 
-    // previousElementSibling пуст, если цвет — самый первый токен в блоке кода
-    // (например, пример синтаксиса вида `color-mix(in oklab, blue 50%, red);`)
+    // previousElementSibling пуст, если цвет — первый токен в блоке кода
     if (item.previousElementSibling && /[(]/.test(item.previousElementSibling.textContent)) {
       item.previousElementSibling.classList.add('color-picker__grouped') // Добавляет дополнительный margin скобке, если затем следует токен цвета
     }
