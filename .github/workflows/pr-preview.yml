@@ -14,9 +14,11 @@ env:
   DEPLOY_DOMAIN: https://platform-${{ github.event.pull_request.number }}.dev.doka.guide
 
 jobs:
-  # Сообщение о начале сборки. Кода из форка здесь нет, поэтому доступна запись в пулреквест.
+  # Заметка живёт в описании пулреквеста, а не отдельным комментарием: GitHub
+  # шлёт письмо на создание комментария, а правку описания не рассылает вовсе.
+  # Кода из форка здесь нет, поэтому доступна запись в пулреквест.
   start:
-    name: Сообщение о начале
+    name: Заметка о начале
     if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -29,18 +31,23 @@ jobs:
         with:
           script: |
             const { owner, repo } = context.repo
-            const issue_number = context.payload.pull_request.number
-            const marker = `<!-- doka-preview-${issue_number} -->`
-            const body = `${marker}\n${process.env.MESSAGE}`
-            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number, per_page: 100 })
-            const existing = comments.find(
-              (comment) => comment.user?.login === 'github-actions[bot]' && (comment.body || '').includes(marker),
-            )
-            if (existing) {
-              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body })
-            } else {
-              await github.rest.issues.createComment({ owner, repo, issue_number, body })
-            }
+            const pull_number = context.payload.pull_request.number
+            const marker = `<!-- doka-preview-${pull_number} -->`
+            const endMarker = `<!-- /doka-preview-${pull_number} -->`
+            const block = `${marker}\n${process.env.MESSAGE}\n${endMarker}`
+            // Описание перечитываем прямо перед записью: автор мог поправить
+            // его, пока шла сборка.
+            const { data: pull } = await github.rest.pulls.get({ owner, repo, pull_number })
+            const current = pull.body || ''
+            const start = current.indexOf(marker)
+            const end = current.indexOf(endMarker)
+            const body =
+              start !== -1 && end !== -1 && end > start
+                ? current.slice(0, start) + block + current.slice(end + endMarker.length)
+                : current.trimEnd()
+                  ? `${current.trimEnd()}\n\n${block}`
+                  : block
+            await github.rest.pulls.update({ owner, repo, pull_number, body })
 
   # Сборка кода из форка. В переиспользуемом воркфлоу нет ни одного секрета, а
   # GITHUB_TOKEN урезан до чтения, поэтому выполнение чужого кода (npm ci,
@@ -166,7 +173,7 @@ jobs:
             "$PREVIEW_DIR/" "deploy@dev.doka.guide:$PREVIEW_PATH"
           echo "Ссылка на превью — $DEPLOY_DOMAIN"
 
-  # Итоговый комментарий. always(), иначе при падении сборки пулреквест навсегда
+  # Итоговая заметка. always(), иначе при падении сборки пулреквест навсегда
   # останется с сообщением «Идёт сборка...».
   report:
     name: Отчёт в пулреквесте
@@ -185,20 +192,46 @@ jobs:
         with:
           script: |
             const { owner, repo } = context.repo
-            const issue_number = context.payload.pull_request.number
-            const marker = `<!-- doka-preview-${issue_number} -->`
+            const pull_number = context.payload.pull_request.number
+            const marker = `<!-- doka-preview-${pull_number} -->`
+            const endMarker = `<!-- /doka-preview-${pull_number} -->`
             const isPublished = process.env.IS_PUBLISHED === 'true'
             const message = isPublished ? process.env.SUCCESS_MESSAGE : process.env.FAILURE_MESSAGE
-            const body = `${marker}\n${message}`
-            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number, per_page: 100 })
-            const existing = comments.find(
-              (comment) => comment.user?.login === 'github-actions[bot]' && (comment.body || '').includes(marker),
-            )
-            if (existing) {
-              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body })
-            } else {
-              await github.rest.issues.createComment({ owner, repo, issue_number, body })
-            }
+            const block = `${marker}\n${message}\n${endMarker}`
+            // Описание перечитываем прямо перед записью: автор мог поправить
+            // его, пока шла сборка.
+            const { data: pull } = await github.rest.pulls.get({ owner, repo, pull_number })
+            const current = pull.body || ''
+            const start = current.indexOf(marker)
+            const end = current.indexOf(endMarker)
+            const body =
+              start !== -1 && end !== -1 && end > start
+                ? current.slice(0, start) + block + current.slice(end + endMarker.length)
+                : current.trimEnd()
+                  ? `${current.trimEnd()}\n\n${block}`
+                  : block
+            await github.rest.pulls.update({ owner, repo, pull_number, body })
             if (!isPublished) {
               core.setFailed('Превью не опубликовано')
+            }
+      # Комментарии прошлой схемы. Убираем оставшиеся, чтобы в ленте не висело
+      # вечное «Идёт сборка...». Шаг можно удалить, когда их не останется.
+      - name: Уборка старых комментариев
+        uses: actions/github-script@v9
+        continue-on-error: true
+        with:
+          script: |
+            const { owner, repo } = context.repo
+            const issue_number = context.payload.pull_request.number
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            })
+            for (const comment of comments) {
+              const isBot = comment.user?.login === 'github-actions[bot]'
+              if (isBot && (comment.body || '').includes('Превью контента')) {
+                await github.rest.issues.deleteComment({ owner, repo, comment_id: comment.id })
+              }
             }

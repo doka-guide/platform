@@ -1,4 +1,6 @@
-require('dotenv').config({ path: '.env' })
+// В тестах dotenv молчит: его строка про загруженные переменные попадает
+// в отчёт jest и выглядит там как сообщение упавшего теста.
+require('dotenv').config({ path: '.env', quiet: process.env.NODE_ENV === 'test' })
 
 const DEFAULT_ENVS = {
   BASE_URL: 'https://doka.guide',

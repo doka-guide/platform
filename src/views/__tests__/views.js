@@ -50,6 +50,9 @@ describe('articlePathsToObject', () => {
   })
 
   it('works if there is no such category in collection', () => {
+    // Пропуск категории — ожидаемое поведение, и оно логируется. Спай заодно
+    // убирает предупреждение из вывода тестов, где оно выглядит как ошибка.
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {})
     const paths = ['js/a', 'js/b', 'css/c']
     const collections = {
       js: [
@@ -68,6 +71,11 @@ describe('articlePathsToObject', () => {
         },
       ],
     })
+    expect(warn).toHaveBeenCalledWith('No such category in collections: css')
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 })
 
