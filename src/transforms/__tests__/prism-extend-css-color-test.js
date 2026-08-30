@@ -64,4 +64,11 @@ describe('prism-extend-css-color', () => {
   it('не трогает свойства без цвета', () => {
     expect(colorTokens('display: flex')).toEqual([])
   })
+
+  it('переживает повторный вызов, не теряя именованные цвета', () => {
+    extendCssColor(Prism)
+
+    expect(colorTokens('color: red')).toEqual(['red'])
+    expect(colorTokens('color: oklch(60% 0.15 50)')).toEqual(['oklch(60% 0.15 50)'])
+  })
 })

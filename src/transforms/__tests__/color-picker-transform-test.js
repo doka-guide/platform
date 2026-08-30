@@ -41,4 +41,12 @@ describe('color-picker-transform', () => {
     expect(swatch.classList.contains('color-transparent')).toBe(true)
     expect(swatch.classList.contains('color-picker__inline')).toBe(false)
   })
+
+  it('оставляет превью цвету, внутри которого упомянут transparent', async () => {
+    const window = await highlightAndPick('.a { color: color-mix(in srgb, transparent 50%, red); }')
+    const swatch = window.document.querySelector('.token.color')
+
+    expect(window.document.querySelector('.color-transparent')).toBeNull()
+    expect(swatch.style.getPropertyValue('--color-picker').trim()).toBe('color-mix(in srgb, transparent 50%, red)')
+  })
 })
