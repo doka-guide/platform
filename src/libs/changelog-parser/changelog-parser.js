@@ -78,17 +78,22 @@ function coverUrl(post, articleData) {
   return post.url + (articleData?.cover?.og ?? 'images/covers/og.png')
 }
 
+// Описание приходит с markdown-разметкой: «содержимого `<details>`». В соцсети
+// такое уезжает через doc.11tydata.js с вырезанными кавычками и скобками —
+// там значение метатега, разметке взяться неоткуда. В содержимом записи
+// разметка своя, поэтому код становится кодом, а скобки остаются на месте.
+function descriptionToHtml(description) {
+  return escapeHtml(description).replace(/`([^`]+)`/g, '<code>$1</code>')
+}
+
 // Читалки показывают картинку из содержимого записи, отдельного поля
 // для обложки в Atom нет.
 function buildPostContent(post, articleData) {
   const alt = articleData?.cover?.alt ?? `Обложка материала «${post.title}»`
   const image = `<p><img src="${escapeHtml(coverUrl(post, articleData))}" alt="${escapeHtml(alt)}"></p>`
+  const description = articleData?.description
 
-  // Описание чистится так же, как для соцсетей в doc.11tydata.js: обратные
-  // кавычки и угловые скобки из markdown в готовом HTML выглядят мусором.
-  const description = articleData?.description?.replace(/[`<>]/g, '')
-
-  return description ? `${image}<p>${escapeHtml(description)}</p>` : image
+  return description ? `${image}<p>${descriptionToHtml(description)}</p>` : image
 }
 
 module.exports = { parseChangelog, buildPostContent }

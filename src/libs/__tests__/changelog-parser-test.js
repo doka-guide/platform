@@ -127,10 +127,18 @@ describe('buildPostContent', () => {
     )
   })
 
-  it('чистит описание от разметки и экранирует спецсимволы', () => {
-    const content = buildPostContent(post, { description: 'Тег `<video>` и «кавычки» & амперсанд.' })
+  it('превращает код из описания в <code>, не теряя угловых скобок', () => {
+    // Регрессия: обратные кавычки и скобки вырезались вместе с содержимым,
+    // и «стилизация `<details>`» превращалась в «стилизация details».
+    const content = buildPostContent(post, { description: 'Стилизация содержимого `<details>`.' })
 
-    expect(content).toContain('<p>Тег video и «кавычки» &amp; амперсанд.</p>')
+    expect(content).toContain('<p>Стилизация содержимого <code>&lt;details&gt;</code>.</p>')
+  })
+
+  it('экранирует спецсимволы в описании', () => {
+    const content = buildPostContent(post, { description: 'Кавычки «ёлочки» & амперсанд.' })
+
+    expect(content).toContain('<p>Кавычки «ёлочки» &amp; амперсанд.</p>')
   })
 
   it('экранирует кавычки в альтернативном тексте', () => {
