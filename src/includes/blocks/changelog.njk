@@ -1,0 +1,23 @@
+<div class="changelog">
+  <h2 class="visually-hidden">Новые статьи</h2>
+
+  <ul class="changelog-list">
+    {% for item in changeLog %}
+      <li class="changelog-list__item">
+        <div class="changelog-list__link changelog-item">
+          <time datetime="{{ item.date }}" class="changelog-item__time font-theme--code" data-mobile="{{ item.mobileDate }}">{{ item.shortDate }}</time>
+          <a href="{{ item.url }}" class="changelog-item__title link">{{ item.title | safe }}</a>
+          <div class="changelog-item__author">
+            {% for author in item.authors %}
+              {% if loop.index0 !== 0 %}, {% endif %}<a href="{{ author.url }}" class="changelog-item__author-link font-theme--code link">{{ author.name }}</a>
+            {% endfor %}
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  <div class="changelog-footer">
+    <p class="changelog-footer__item">Новые материалы в <a href="https://github.com/doka-guide/content/blob/main/CHANGELOG.md" class="link changelog-footer__link">ченджлоге</a></p>
+    <p class="changelog-footer__item">Станьте автором! Выберите тему в 🔥 <a href="https://github.com/doka-guide/content/milestone/22" class="link changelog-footer__link">Бэклоге</a></p>
+  </div>
+</div>
