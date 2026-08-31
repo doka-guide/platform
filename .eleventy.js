@@ -24,6 +24,7 @@ const demoExternalLinkTransform = require('./src/transforms/demo-external-link-t
 const imagePlaceTransform = require('./src/transforms/image-place-transform.js')
 const detailsTransform = require('./src/transforms/details-transform.js')
 const calloutTransform = require('./src/transforms/callout-transform.js')
+const { parseChangelog, buildPostContent } = require('./src/libs/changelog-parser/changelog-parser.js')
 
 // Плагины 11ty 3 собраны как ESM: при require() приезжает пространство
 // имён, а сам плагин лежит в default.
@@ -98,59 +99,13 @@ module.exports = function (config) {
     const changeLog = await (
       await fetch('https://raw.githubusercontent.com/doka-guide/content/main/CHANGELOG.md')
     ).text()
-    const months = [
-      'января',
-      'февраля',
-      'марта',
-      'апреля',
-      'мая',
-      'июня',
-      'июля',
-      'августа',
-      'сентября',
-      'октября',
-      'ноября',
-      'декабря',
-    ]
 
-    let currentYear = 0
-    const filteredPosts = changeLog.split('\n').filter((s) => s.match(/^(-|##) /))
-
-    const posts = await Promise.all(
-      filteredPosts.map(async (s) => {
-        if (s.match(/## .+ [0-9]{4}/)) {
-          currentYear = Number(s.replace(/## .+ /, ''))
-          return s
-        } else {
-          const post = {}
-
-          const stringParts = s.replace(/^- /, '').split(', [')
-          const date = stringParts[0].split(' ')
-          const currentDay = Number(date[0])
-          const currentMonth = months.indexOf(date[1])
-          const titledLink = stringParts[1].split('](')
-          post['date'] = new Date(Date.parse(`${currentYear}-${currentMonth + 1}-${currentDay}`)).toISOString()
-          post['title'] = titledLink[0].replace(/^\[/, '')
-          post['url'] = titledLink[1].replace(/\/[^/]+$/, '/')
-          const rawArticle = collectionApi.getFilteredByGlob(
-            `src${post['url'].replace('https://doka.guide', '')}*.md`,
-          )[0]
-          if (rawArticle) {
-            // Раньше описание выковыривалось из сырого текста статьи через
-            // template.inputContent — приватный API, удалённый в 11ty 3.
-            // Фронтматтер и так разобран, значение лежит в data.
-            post['summary'] = rawArticle.data.description
-          }
-
-          return post
-        }
-      }),
-    )
-
-    // Колбэк был асинхронным, а промис всегда истинный — фильтр не отсеивал
-    // ничего. Строки-заголовки годов из CHANGELOG убирались ниже по потоку,
-    // в feed.11tydata.js, уже синхронной проверкой.
-    return posts.filter((post) => typeof post !== 'string')
+    return parseChangelog(changeLog).map((post) => {
+      // Материала может не быть в сборке: CHANGELOG приходит из main репозитория
+      // контента, а локально подключены не все разделы (CONTENT_REP_FOLDERS).
+      const article = collectionApi.getFilteredByGlob(`src${new URL(post.url).pathname}*.md`)[0]
+      return { ...post, content: buildPostContent(post, article?.data) }
+    })
   })
 
   config.addCollection('people', (collectionApi) => {

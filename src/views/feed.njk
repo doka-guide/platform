@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" xml:base="{{ meta.url }}/">
+<feed xmlns="http://www.w3.org/2005/Atom" xml:base="{{ meta.url }}">
   <title>{{ meta.title }}</title>
   <subtitle>{{ meta.subtitle }}</subtitle>
   <link href="{{ permalink | absoluteUrl(meta.url) }}" rel="self"/>
-  <link href="{{ meta.url }}/"/>
+  <link href="{{ meta.url }}"/>
   <updated>{{ updated }}</updated>
-  <id>{{ meta.url }}/</id>
+  <id>{{ meta.url }}</id>
   <author>
     <name>{{ meta.author.name }}</name>
     <email>{{ meta.author.email }}</email>
@@ -16,9 +16,7 @@
     <link href="{{ post.url }}"/>
     <updated>{{ post.date }}</updated>
     <id>{{ post.url }}</id>
-    {% if post.description %}
-      <content xml:lang="{{ meta.language }}" type="html">{{ post.description | htmlToAbsoluteUrls(post.url) }}</content>
-    {% endif %}
+    <content xml:lang="{{ meta.language }}" type="html">{{ post.content }}</content>
   </entry>
   {%- endfor %}
 </feed>
