@@ -16,9 +16,12 @@
     <link href="{{ post.url }}"/>
     <updated>{{ post.date }}</updated>
     <id>{{ post.url }}</id>
-    {#- Обложка отдаётся отдельным полем, а не картинкой внутри content:
+    {#- Обложка отдаётся полями Media RSS, а не картинкой внутри content:
         читалки вытаскивают первую картинку содержимого в карточку записи
-        и показывают её же в тексте — обложка задваивается. #}
+        и показывают её же в тексте — обложка задваивается. Полей два,
+        потому что читалки смотрят разные: media:content — «главная картинка
+        записи», media:thumbnail — превью для списка. #}
+    <media:content url="{{ post.cover }}" medium="image"/>
     <media:thumbnail url="{{ post.cover }}"/>
     {%- if post.content %}
     <content xml:lang="{{ meta.language }}" type="html">{{ post.content }}</content>
