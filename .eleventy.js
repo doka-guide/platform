@@ -24,7 +24,7 @@ const demoExternalLinkTransform = require('./src/transforms/demo-external-link-t
 const imagePlaceTransform = require('./src/transforms/image-place-transform.js')
 const detailsTransform = require('./src/transforms/details-transform.js')
 const calloutTransform = require('./src/transforms/callout-transform.js')
-const { parseChangelog, buildPostContent } = require('./src/libs/changelog-parser/changelog-parser.js')
+const { parseChangelog, enrichPost } = require('./src/libs/changelog-parser/changelog-parser.js')
 
 // Плагины 11ty 3 собраны как ESM: при require() приезжает пространство
 // имён, а сам плагин лежит в default.
@@ -101,10 +101,8 @@ module.exports = function (config) {
     ).text()
 
     return parseChangelog(changeLog).map((post) => {
-      // Материала может не быть в сборке: CHANGELOG приходит из main репозитория
-      // контента, а локально подключены не все разделы (CONTENT_REP_FOLDERS).
       const article = collectionApi.getFilteredByGlob(`src${new URL(post.url).pathname}*.md`)[0]
-      return { ...post, content: buildPostContent(post, article?.data) }
+      return enrichPost(post, article?.data)
     })
   })
 

@@ -86,14 +86,15 @@ function descriptionToHtml(description) {
   return escapeHtml(description).replace(/`([^`]+)`/g, '<code>$1</code>')
 }
 
-// Читалки показывают картинку из содержимого записи, отдельного поля
-// для обложки в Atom нет.
-function buildPostContent(post, articleData) {
-  const alt = articleData?.cover?.alt ?? `Обложка материала «${post.title}»`
-  const image = `<p><img src="${escapeHtml(coverUrl(post, articleData))}" alt="${escapeHtml(alt)}"></p>`
-  const description = articleData?.description
-
-  return description ? `${image}<p>${descriptionToHtml(description)}</p>` : image
+// Материала может не быть в сборке: CHANGELOG приходит из main репозитория
+// контента, а локально подключены не все разделы (CONTENT_REP_FOLDERS).
+// Адрес обложки собирается из ссылки, поэтому есть всегда, описание — нет.
+function enrichPost(post, articleData) {
+  return {
+    ...post,
+    cover: coverUrl(post, articleData),
+    content: articleData?.description ? `<p>${descriptionToHtml(articleData.description)}</p>` : '',
+  }
 }
 
-module.exports = { parseChangelog, buildPostContent }
+module.exports = { parseChangelog, enrichPost }

@@ -1,4 +1,4 @@
-const { parseChangelog, buildPostContent } = require('../changelog-parser/changelog-parser')
+const { parseChangelog, enrichPost } = require('../changelog-parser/changelog-parser')
 
 const CHANGELOG = [
   '# Новые материалы',
@@ -101,49 +101,41 @@ describe('parseChangelog', () => {
   })
 })
 
-describe('buildPostContent', () => {
-  const post = { title: 'WebSocket', url: 'https://doka.guide/js/websocket/' }
+describe('enrichPost', () => {
+  const post = { date: '2026-07-18T00:00:00.000Z', title: 'WebSocket', url: 'https://doka.guide/js/websocket/' }
 
-  it('ставит обложку материала первой картинкой', () => {
-    const content = buildPostContent(post, { description: 'Двусторонняя связь с сервером.' })
+  it('складывает адрес обложки по соглашению об именах', () => {
+    const enriched = enrichPost(post, { description: 'Двусторонняя связь с сервером.' })
 
-    expect(content).toBe(
-      '<p><img src="https://doka.guide/js/websocket/images/covers/og.png" ' +
-        'alt="Обложка материала «WebSocket»"></p><p>Двусторонняя связь с сервером.</p>',
-    )
+    expect(enriched).toEqual({
+      ...post,
+      cover: 'https://doka.guide/js/websocket/images/covers/og.png',
+      content: '<p>Двусторонняя связь с сервером.</p>',
+    })
   })
 
   it('берёт обложку из фронтматтера, если она задана', () => {
-    const content = buildPostContent(post, { cover: { og: 'cover.png', alt: 'Кот в проводах' } })
-
-    expect(content).toContain('<img src="https://doka.guide/js/websocket/cover.png" alt="Кот в проводах">')
+    expect(enrichPost(post, { cover: { og: 'cover.png' } }).cover).toBe('https://doka.guide/js/websocket/cover.png')
   })
 
   it('обходится без описания, когда материала нет в сборке', () => {
-    const content = buildPostContent(post, undefined)
+    const enriched = enrichPost(post, undefined)
 
-    expect(content).toBe(
-      '<p><img src="https://doka.guide/js/websocket/images/covers/og.png" alt="Обложка материала «WebSocket»"></p>',
-    )
+    expect(enriched.content).toBe('')
+    expect(enriched.cover).toBe('https://doka.guide/js/websocket/images/covers/og.png')
   })
 
   it('превращает код из описания в <code>, не теряя угловых скобок', () => {
     // Регрессия: обратные кавычки и скобки вырезались вместе с содержимым,
     // и «стилизация `<details>`» превращалась в «стилизация details».
-    const content = buildPostContent(post, { description: 'Стилизация содержимого `<details>`.' })
+    const enriched = enrichPost(post, { description: 'Стилизация содержимого `<details>`.' })
 
-    expect(content).toContain('<p>Стилизация содержимого <code>&lt;details&gt;</code>.</p>')
+    expect(enriched.content).toBe('<p>Стилизация содержимого <code>&lt;details&gt;</code>.</p>')
   })
 
   it('экранирует спецсимволы в описании', () => {
-    const content = buildPostContent(post, { description: 'Кавычки «ёлочки» & амперсанд.' })
+    const enriched = enrichPost(post, { description: 'Кавычки «ёлочки» & амперсанд.' })
 
-    expect(content).toContain('<p>Кавычки «ёлочки» &amp; амперсанд.</p>')
-  })
-
-  it('экранирует кавычки в альтернативном тексте', () => {
-    const content = buildPostContent(post, { cover: { alt: 'Собака в "очках"' } })
-
-    expect(content).toContain('alt="Собака в &quot;очках&quot;"')
+    expect(enriched.content).toBe('<p>Кавычки «ёлочки» &amp; амперсанд.</p>')
   })
 })

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" xml:base="{{ meta.url }}">
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xml:base="{{ meta.url }}">
   <title>{{ meta.title }}</title>
   <subtitle>{{ meta.subtitle }}</subtitle>
   <link href="{{ permalink | absoluteUrl(meta.url) }}" rel="self"/>
@@ -16,7 +16,13 @@
     <link href="{{ post.url }}"/>
     <updated>{{ post.date }}</updated>
     <id>{{ post.url }}</id>
+    {#- Обложка отдаётся отдельным полем, а не картинкой внутри content:
+        читалки вытаскивают первую картинку содержимого в карточку записи
+        и показывают её же в тексте — обложка задваивается. #}
+    <media:thumbnail url="{{ post.cover }}"/>
+    {%- if post.content %}
     <content xml:lang="{{ meta.language }}" type="html">{{ post.content }}</content>
+    {%- endif %}
   </entry>
   {%- endfor %}
 </feed>
