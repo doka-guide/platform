@@ -1,8 +1,20 @@
-{% if baseline.groupIds %}
+{% if baseline.versions %}
   <div class="wdi-browser-compat">
     <div class="wdi-browser-compat__items">
-      {% for groupId in baseline.groupIds %}
-        <doka-baseline groupId="{{ groupId }}" showName="{{ baseline.groupIds.length > 1 }}"></doka-baseline>
+      {{ baseline.status }}
+      {{ baseline.date }}
+      {{ baseline.versions }}
+
+      {% for group in baseline.groups %}
+        {{ group.name }}
+
+        <doka-baseline
+          groupId="{{ group.id }}"
+          versionsInfo="{{ baseline.versions }}"
+          dateInfo="{{ baseline.date }}"
+          statusInfo="{{ baseline.status }}"
+        >
+        </doka-baseline>
       {% endfor %}
     </div>
   </div>
