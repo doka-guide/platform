@@ -5,6 +5,7 @@ const markdownIt = require('markdown-it')
 const { parseHTML } = require('linkedom')
 const { isProdEnv } = require('./config/env.js')
 const { mainSections } = require('./config/constants.js')
+const { cssTargets } = require('./config/css.js')
 const initMarkdownLibrary = require('./src/markdown-it.js')
 const demoLinkTransform = require('./src/transforms/demo-link-transform.js')
 const answersLinkTransform = require('./src/transforms/answers-link-transform.js')
@@ -24,14 +25,12 @@ const demoExternalLinkTransform = require('./src/transforms/demo-external-link-t
 const imagePlaceTransform = require('./src/transforms/image-place-transform.js')
 const detailsTransform = require('./src/transforms/details-transform.js')
 const calloutTransform = require('./src/transforms/callout-transform.js')
+const { parseChangelog, enrichPost } = require('./src/libs/changelog-parser/changelog-parser.js')
 
-const fetch = require('node-fetch')
-const pluginRss = require('@11ty/eleventy-plugin-rss')
-const eleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
-const postcssImport = require('postcss-import')
-const postcssMediaMinmax = require('postcss-media-minmax')
-const autoprefixer = require('autoprefixer')
-const postcssCsso = require('postcss-csso')
+// Плагины 11ty 3 собраны как ESM: при require() приезжает пространство
+// имён, а сам плагин лежит в default.
+const pluginRss = require('@11ty/eleventy-plugin-rss').default
+const eleventyVitePlugin = require('@11ty/eleventy-plugin-vite').default
 
 function getAllDocs(collectionAPI) {
   const dokas = collectionAPI.getFilteredByTag('doka')
@@ -64,8 +63,6 @@ function getAllDocsByCategory(collectionAPI, category) {
 }
 
 module.exports = function (config) {
-  config.setDataDeepMerge(true)
-
   config.addPlugin(pluginRss, {
     posthtmlRenderOptions: {
       closingSingleTag: 'default',
@@ -99,58 +96,11 @@ module.exports = function (config) {
     const changeLog = await (
       await fetch('https://raw.githubusercontent.com/doka-guide/content/main/CHANGELOG.md')
     ).text()
-    const months = [
-      'января',
-      'февраля',
-      'марта',
-      'апреля',
-      'мая',
-      'июня',
-      'июля',
-      'августа',
-      'сентября',
-      'октября',
-      'ноября',
-      'декабря',
-    ]
 
-    let currentYear = 0
-    const filteredPosts = changeLog.split('\n').filter((s) => s.match(/^(-|##) /))
-
-    const posts = await Promise.all(
-      filteredPosts.map(async (s) => {
-        if (s.match(/## .+ [0-9]{4}/)) {
-          currentYear = Number(s.replace(/## .+ /, ''))
-          return s
-        } else {
-          const post = {}
-
-          const stringParts = s.replace(/^- /, '').split(', [')
-          const date = stringParts[0].split(' ')
-          const currentDay = Number(date[0])
-          const currentMonth = months.indexOf(date[1])
-          const titledLink = stringParts[1].split('](')
-          post['date'] = new Date(Date.parse(`${currentYear}-${currentMonth + 1}-${currentDay}`)).toISOString()
-          post['title'] = titledLink[0].replace(/^\[/, '')
-          post['url'] = titledLink[1].replace(/\/[^/]+$/, '/')
-          const rawArticle = collectionApi.getFilteredByGlob(
-            `src${post['url'].replace('https://doka.guide', '')}*.md`,
-          )[0]
-          if (rawArticle) {
-            const articleContent = await rawArticle.template.inputContent
-            const articleDescription = articleContent
-              .split('\n')
-              .filter((s) => s.match(/^description: /))[0]
-              .replace(/^description: /, '')
-            post['summary'] = articleDescription
-          }
-
-          return post
-        }
-      }),
-    )
-
-    return posts.filter(async (s) => typeof (await s) !== 'string')
+    return parseChangelog(changeLog).map((post) => {
+      const article = collectionApi.getFilteredByGlob(`src${new URL(post.url).pathname}*.md`)[0]
+      return enrichPost(post, article?.data)
+    })
   })
 
   config.addCollection('people', (collectionApi) => {
@@ -267,6 +217,11 @@ module.exports = function (config) {
     })
 
     return orderedArticleIndexes
+  })
+
+  config.addCollection('webFeatures', async () => {
+    const { features } = await import('web-features')
+    return features
   })
 
   config.setLibrary('md', initMarkdownLibrary())
@@ -408,14 +363,6 @@ module.exports = function (config) {
   }
 
   if (isProdEnv) {
-    config.setBrowserSyncConfig({
-      server: {
-        baseDir: ['./src', './dist', './node_modules'],
-      },
-      files: ['src/styles/**/*.*', 'src/scripts/**/*.*'],
-      ghostMode: false,
-    })
-
     config.addTransform('html-min', (content, outputPath) => {
       if (outputPath) {
         let isHtml = outputPath.endsWith('.html')
@@ -471,16 +418,13 @@ module.exports = function (config) {
 
         cacheDir: '.vite',
 
+        // Тот же движок и те же targets, что в прод-сборке (config/css.js),
+        // чтобы стили на дев-сервере и на проде не расходились. Минификация
+        // здесь не включена: на дев-сервере она ни к чему.
         css: {
-          postcss: {
-            plugins: [
-              postcssImport,
-              postcssMediaMinmax,
-              autoprefixer,
-              postcssCsso({
-                restructure: false,
-              }),
-            ],
+          transformer: 'lightningcss',
+          lightningcss: {
+            targets: cssTargets,
           },
         },
 

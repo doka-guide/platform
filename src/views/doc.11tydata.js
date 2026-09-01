@@ -34,6 +34,15 @@ function hasTag(tags, tag) {
   return (tags || []).includes(tag)
 }
 
+function assignGreaterValue(map, list, key) {
+  list.forEach((item) => {
+    if (!Number.isNaN(item[key]) && Number(item[key]) > map[key]) {
+      map[key] = Number(item[key])
+    }
+  })
+  return map
+}
+
 const asyncFilter = async (arr, predicate) => {
   const results = await Promise.all(arr.map(predicate))
   return arr.filter((_v, index) => results[index])
@@ -143,7 +152,7 @@ module.exports = {
 
       const formattedPractices = await Promise.all(
         filteredPractices.map(async (p) => {
-          const practice = await p.template.inputContent
+          const practice = p.rawInput ?? ''
 
           p['isLong'] = practice.split('\n').filter((s) => s.length && s !== '\r').length > 2
           return p
@@ -200,7 +209,7 @@ module.exports = {
         filteredAnswersByQuestion[q] = []
 
         const filteredInterviews = await asyncFilter(filteredAnswersForQuestion, async (a) => {
-          const cache = await a.template._frontMatterDataCache
+          const cache = a.data
           if (cache.excluded?.includes(docId)) {
             return false
           }
@@ -217,7 +226,7 @@ module.exports = {
 
         const formattedInterviews = await Promise.all(
           filteredInterviews.map(async (a) => {
-            const article = await a.template.inputContent
+            const article = a.rawInput ?? ''
             a['isLong'] = article.split('\n').length > 2
             return a
           }),
@@ -250,11 +259,73 @@ module.exports = {
     },
 
     baseline: function (data) {
-      const { doc, hasBaseline } = data
+      const { doc, collections, hasBaseline } = data
+      const { webFeatures } = collections
       if (hasBaseline) {
-        const groupIds = doc.data.baseline.filter((g) => g.group).map((g) => g.group)
+        const keys = ['chrome', 'edge', 'firefox', 'safari']
+        const names = { chrome: 'Chrome', edge: 'Edge', firefox: 'Firefox', safari: 'Safari' }
+        const baselineTypes = ['high', 'low', false, undefined]
+        const types = ['widely', 'newly', 'limited', 'unknown', 'depricated']
+        let baselineStatus = { index: 0, type: types[0] }
+        const versions = doc.data.baseline
+          .filter((g) => webFeatures[g.group])
+          .map((g) => {
+            const item = webFeatures[g.group]
+            let { status, discouraged } = item
+            if (item.kind === 'move') {
+              status = webFeatures[item.redirect_target].status
+              discouraged = webFeatures[item.redirect_target].discouraged
+            } else if (item.kind === 'split') {
+              const target = item.redirect_targets.find((target) => webFeatures[target].status)
+              status = webFeatures[target].status
+              discouraged = webFeatures[target].discouraged
+            }
+            const compatData = status.by_compat_key
+            const baselineType = status.baseline
+            let bTypeIndex = baselineTypes.findIndex((t) => t === baselineType)
+
+            if (bTypeIndex === 2 && discouraged !== undefined) {
+              bTypeIndex = 4
+            }
+
+            if (bTypeIndex > baselineStatus.index) {
+              baselineStatus.index = bTypeIndex
+              baselineStatus.type = types[bTypeIndex]
+            }
+
+            const bKeys = g.features ?? []
+            return Object.keys(compatData)
+              .filter((key) => bKeys.includes(key))
+              .map((key) => compatData[key].support)
+          })
+          .reduce(
+            (map, item) => {
+              for (const key of keys) {
+                assignGreaterValue(map, item, key)
+              }
+              return map
+            },
+            { chrome: 0, edge: 0, firefox: 0, safari: 0 },
+          )
+        const supported = Object.keys(versions).reduce(
+          (map, item) => {
+            if (versions[item] === 0) {
+              map[item] = false
+            }
+            return map
+          },
+          { chrome: true, edge: true, firefox: true, safari: true },
+        )
+        const flagged = { chrome: false, edge: false, firefox: false, safari: false }
+        const preview = { chrome: false, edge: false, firefox: false, safari: false }
         return {
-          groupIds,
+          keys,
+          names,
+          versions,
+          flagged,
+          supported,
+          preview,
+          status: baselineStatus.type,
         }
       }
       return {}
