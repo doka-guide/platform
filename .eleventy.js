@@ -33,7 +33,6 @@ const eleventyVitePlugin = require('@11ty/eleventy-plugin-vite').default
 const postcssImport = require('postcss-import')
 const postcssMediaMinmax = require('postcss-media-minmax')
 const autoprefixer = require('autoprefixer')
-const postcssCsso = require('postcss-csso')
 
 function getAllDocs(collectionAPI) {
   const dokas = collectionAPI.getFilteredByTag('doka')
@@ -423,14 +422,13 @@ module.exports = function (config) {
 
         css: {
           postcss: {
-            plugins: [
-              postcssImport,
-              postcssMediaMinmax,
-              autoprefixer,
-              postcssCsso({
-                restructure: false,
-              }),
-            ],
+            // csso здесь не нужен: на дев-сервере минификация не даёт ничего,
+            // зато ломает сборку. Он тянет css-tree 2.2.1, который не знает
+            // @container, @scope, вложенные слои и вложенность — а Vite гонит
+            // через эту цепочку и инлайновые стили демок, поэтому демка с
+            // @container отдавалась с 500. В прод-сборке csso остаётся: там
+            // postcss ходит только по src/styles, демки уезжают копией.
+            plugins: [postcssImport, postcssMediaMinmax, autoprefixer],
           },
         },
 
