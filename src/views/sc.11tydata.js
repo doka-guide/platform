@@ -1,3 +1,5 @@
+const { titleFormatter } = require('../libs/title-formatter/title-formatter')
+
 module.exports = {
   pagination: {
     data: 'collections.docs',
@@ -8,6 +10,13 @@ module.exports = {
   permalink: '{{doc.filePathStem}}.sc.html',
 
   eleventyComputed: {
+    // Нужен для <title> на странице карточки: в head он обязателен по
+    // спецификации, хотя сама страница нужна только под скриншот.
+    documentTitle: function (data) {
+      const { doc } = data
+      return titleFormatter([doc.data.title, 'Дока'])
+    },
+
     cover: function (data) {
       const { doc } = data
       return doc.data.cover

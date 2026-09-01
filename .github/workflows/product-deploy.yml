@@ -5,57 +5,145 @@ on:
     branches:
       - main
 
+permissions: {}
+
 jobs:
-  deploy:
+  # Сборка вынесена в переиспользуемый воркфлоу: раньше на каждый push в main
+  # сайт собирался дважды — здесь и в отдельной джобе W3C-валидации.
+  build:
+    name: Сборка сайта
+    uses: ./.github/workflows/build-site.yml
+    # Переиспользуемый воркфлоу не может запросить больше прав, чем дал вызывающий,
+    # а на уровне воркфлоу стоит permissions: {} — поэтому выдаём чтение здесь.
+    permissions:
+      contents: read
+    with:
+      cache-prefix: product
+
+  # Валидация разметки. Собранные страницы приезжают артефактом, поэтому джоба
+  # не пересобирает сайт и не нуждается ни в контенте, ни в секретах.
+  validate:
+    name: Валидация разметки
+    needs: build
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      PATH_TO_CONTENT: ./content
+    timeout-minutes: 20
+    permissions:
+      contents: read
     steps:
       - name: Загрузка платформы
-        uses: actions/checkout@v4
-      - name: Загрузка контента
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
-          repository: doka-guide/content
-          path: content
-      - name: Загрузка кеша
-        uses: actions/checkout@v4
+          persist-credentials: false
+      - uses: actions/setup-node@v6
         with:
-          repository: doka-guide/cache
-          path: cache
-      - uses: actions/setup-node@v4
+          node-version-file: .nvmrc
+          cache: 'npm'
+      - uses: actions/setup-java@v4
         with:
-          node-version: 20
-      - name: Кэширование модулей
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Установка ключа для пользователя
-        run: |
-          set -eu
-          mkdir "$HOME/.ssh"
-          echo "${{ secrets.DEPLOY_KEY }}" > "$HOME/.ssh/doka_deploy"
-          chmod 600 "$HOME/.ssh/doka_deploy"
-          echo "${{ secrets.DEPLOY_CONFIG }}" > "$HOME/.ssh/config"
-          chmod 600 "$HOME/.ssh/config"
-          ssh -o StrictHostKeyChecking=no deploy@dev.doka.guide
+          java-version: 17
+          distribution: 'temurin'
+          architecture: x64
       - name: Установка модулей
         run: npm ci
-      - name: Копирование кеша
-        run: cp ./cache/issues.json ./.issues.json
-      - name: Сборка сайта
+      - name: Загрузка страниц
+        uses: actions/download-artifact@v4
+        with:
+          name: site-html
+      - name: Распаковка страниц
         run: |
-          cp .env.example .env
-          npm run build
+          set -eu
+          mkdir -p dist
+          tar --extract --file site-html.tar --directory dist \
+            --no-same-owner --no-same-permissions
+      - name: Валидация
+        run: npm run lint:html
+
+  # Публикация на продакшн. Намеренно зависит только от сборки, а не от
+  # валидации: до выноса сборки это были два независимых воркфлоу, и красная
+  # разметка выкатку не останавливала. Если захотим гейт — это отдельное
+  # решение, а не побочный эффект переезда на артефакты.
+  deploy:
+    name: Публикация сайта
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions: {}
+    steps:
+      - name: Загрузка артефакта
+        uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+      # Дальше идёт rsync с --delete, поэтому неполный артефакт опаснее
+      # упавшего деплоя: он не оставит старую версию, а сотрёт недостающее.
+      # Проверяем контрольную сумму до распаковки и опись после, чтобы до
+      # сервера не доехал обрезанный или пустой архив.
+      - name: Проверка артефакта
+        run: |
+          set -eu
+          test -f site-manifest.txt || { echo "В артефакте нет описи"; exit 1; }
+          # Разбираем grep-ом, а не source: опись — данные, а не код.
+          EXPECTED_SHA="$(grep '^sha256=' site-manifest.txt | cut -d= -f2)"
+          ACTUAL_SHA="$(sha256sum site.tar | cut -d' ' -f1)"
+          if [ "$EXPECTED_SHA" != "$ACTUAL_SHA" ]; then
+            echo "Архив побился при передаче: ждали $EXPECTED_SHA, получили $ACTUAL_SHA"
+            exit 1
+          fi
+          echo "EXPECTED_FILES=$(grep '^files=' site-manifest.txt | cut -d= -f2)" >> "$GITHUB_ENV"
+          echo "EXPECTED_HTML=$(grep '^html=' site-manifest.txt | cut -d= -f2)" >> "$GITHUB_ENV"
+      - name: Распаковка артефакта
+        run: |
+          set -eu
+          SITE_DIR="$(mktemp -d "$RUNNER_TEMP/site.XXXXXX")"
+          tar --extract --file site.tar --directory "$SITE_DIR" --no-same-owner --no-same-permissions
+          test -f "$SITE_DIR/index.html" || { echo "В артефакте нет index.html"; exit 1; }
+          ACTUAL_FILES="$(find "$SITE_DIR" -type f | wc -l | tr -d ' ')"
+          if [ "$ACTUAL_FILES" -ne "$EXPECTED_FILES" ]; then
+            echo "Распаковалось $ACTUAL_FILES файлов вместо $EXPECTED_FILES"
+            exit 1
+          fi
+          # Нижняя граница на случай сборки, которая формально удалась, но выдала
+          # почти пустой dist. Сейчас страниц около 3500, запас многократный.
+          if [ "$EXPECTED_HTML" -lt 1000 ]; then
+            echo "Подозрительно мало страниц: $EXPECTED_HTML"
+            exit 1
+          fi
+          echo "SITE_DIR=$SITE_DIR" >> "$GITHUB_ENV"
+      # Последовательность та же, что и до выноса сборки: ключ, конфиг и
+      # холостое подключение, которое добавляет хост в known_hosts.
+      - name: Установка ключа для пользователя
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          DEPLOY_CONFIG: ${{ secrets.DEPLOY_CONFIG }}
+        run: |
+          set -eu
+          mkdir -p "$HOME/.ssh"
+          printf '%s\n' "$DEPLOY_KEY" > "$HOME/.ssh/doka_deploy"
+          chmod 600 "$HOME/.ssh/doka_deploy"
+          printf '%s\n' "$DEPLOY_CONFIG" > "$HOME/.ssh/config"
+          chmod 600 "$HOME/.ssh/config"
+          ssh -o StrictHostKeyChecking=no deploy@dev.doka.guide
+      # --delete-after: сначала переливаются все файлы и только потом удаляются
+      # лишние. Если передача оборвётся на середине, не удалится ничего — на
+      # сервере останется прежняя версия плюс частично долитая новая. При
+      # удалении по ходу (поведение --delete по умолчанию) оборванная передача
+      # оставила бы сайт с уже вычищенными файлами.
+      #
+      # --max-delete — последний предохранитель на уровне rsync: если неполный
+      # артефакт всё же прошёл сверку описи, rsync прервётся с кодом 25 и не
+      # станет вычищать боевой сайт.
+      #
+      # Порог считается от размера сборки, а не фиксированным числом. Круглые
+      # 500 уже один раз остановили штатную выкатку: на сервере накапливаются
+      # сгенерированные картинки с прежними хэшами, и законная уборка легко
+      # выходит за любое ровное значение. Пятая часть от числа файлов в
+      # артефакте — это около двух тысяч при нынешних десяти с половиной, чего
+      # хватает на уборку, но катастрофу с почти пустой сборкой всё ещё ловит.
       - name: Публикация сайта
         run: |
-          cd dist
-          rsync --exclude 'api.json' --exclude 'mail' --archive --progress --compress --delete . dev.doka.guide:/web/sites/doka.guide/www/
+          set -eu
+          MAX_DELETE=$((EXPECTED_FILES / 5))
+          echo "Файлов в артефакте: $EXPECTED_FILES, предел удаления: $MAX_DELETE"
+          cd "$SITE_DIR"
+          rsync --exclude 'api.json' --exclude 'mail' \
+            --archive --progress --compress --delete-after --max-delete="$MAX_DELETE" \
+            . dev.doka.guide:/web/sites/doka.guide/www/

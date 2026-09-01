@@ -1,3 +1,7 @@
+// Читалки хранят у себя всё, что когда-либо получили, поэтому отдавать весь
+// CHANGELOG целиком незачем: это 450+ записей и сотня килобайт на каждый опрос.
+const POSTS_IN_FEED = 50
+
 module.exports = {
   permalink: 'feed/index.xml',
   eleventyExcludeFromCollections: true,
@@ -13,17 +17,16 @@ module.exports = {
   },
 
   eleventyComputed: {
-    posts: async function (data) {
+    posts: function (data) {
       const { collections } = data
-      return collections.posts.filter((p) => typeof p === 'object').sort((p1, p2) => p1.date - p2.date)
+      // Копия, потому что sort меняет массив на месте, а коллекция общая.
+      return [...collections.posts]
+        .sort((post1, post2) => new Date(post2.date) - new Date(post1.date))
+        .slice(0, POSTS_IN_FEED)
     },
-    updated: async function (data) {
+    updated: function (data) {
       const { posts } = data
-      if (posts[0]) {
-        return posts[0]?.date
-      } else {
-        return new Date().toISOString()
-      }
+      return posts[0]?.date ?? new Date().toISOString()
     },
   },
 }

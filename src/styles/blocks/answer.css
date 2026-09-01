@@ -63,7 +63,7 @@
   display: block;
   position: relative;
   height: 100px;
-  background: linear-gradient(180deg, hsla(var(--color-base-background) / 0) 0%, hsla(var(--color-base-background) / 0.67) 100%);
+  background: linear-gradient(180deg, hsl(var(--color-base-background) / 0) 0%, hsl(var(--color-base-background) / 0.67) 100%);
   border-radius: 8px;
   z-index: 0;
 }

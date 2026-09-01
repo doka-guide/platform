@@ -6,14 +6,17 @@ module.exports = function (window) {
   const color = content?.querySelectorAll('.token.color')
 
   color?.forEach(function (item) {
-    if (/(transparent)/.test(item.textContent)) {
+    // Сравниваем целиком, а не по вхождению: transparent бывает частью
+    // рисуемого цвета — color-mix(in srgb, transparent 50%, red).
+    if (item.textContent.trim().toLowerCase() === 'transparent') {
       return item.classList.replace('color', 'color-transparent') // Выключает color-picker для цвета transparent
     }
 
     item.style.setProperty('--color-picker', ` ${item.textContent}`)
     item.classList.add('color-picker__inline')
 
-    if (/[(]/.test(item.previousElementSibling.textContent)) {
+    // previousElementSibling пуст, если цвет — первый токен в блоке кода
+    if (item.previousElementSibling && /[(]/.test(item.previousElementSibling.textContent)) {
       item.previousElementSibling.classList.add('color-picker__grouped') // Добавляет дополнительный margin скобке, если затем следует токен цвета
     }
   })

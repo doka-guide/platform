@@ -1,8 +1,10 @@
 const Prism = require('prismjs')
 const loadLanguages = require('prismjs/components/')
 const { escape } = require('html-escaper')
+const extendCssColor = require('./prism-extend-css-color')
 
 loadLanguages()
+extendCssColor(Prism)
 
 const endOfLine = '\n'
 

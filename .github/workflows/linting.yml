@@ -7,39 +7,31 @@ on:
       - main
 
 jobs:
-  js:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Загрузка платформы
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+        uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
-      - name: Установка необходимых зависимостей
-        run: npm install --save-dev eslint-config-prettier eslint-plugin-prettier prettier
+          node-version-file: .nvmrc
+          cache: 'npm'
+      - name: Установка зависимостей
+        run: npm ci
 
-      - name: Проверка линтером JS
-        run: npx eslint '*.js'
-  css:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Загрузка платформы
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Кэширование модулей
-        uses: actions/cache@v4
+      # Шаги не прерывают друг друга: при падении видно все три отчёта сразу,
+      # а не только первый упавший линтер.
+      # editorconfig-checker скачивает свой бинарник через GitHub API. Без
+      # токена запрос неавторизованный, а лимит общий на IP раннера — прогоны
+      # падали случайно, с «API rate limit exceeded» вместо ошибок разметки.
+      - name: Проверка editorconfig
+        if: ${{ !cancelled() }}
         env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Установка необходимых зависимостей
-        run:  npm install --save-dev stylelint-config-standard
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run editorconfig
       - name: Проверка линтером CSS
-        run: npx stylelint 'src/styles/**/*.css'
+        if: ${{ !cancelled() }}
+        run: npm run lint:css
+      - name: Проверка линтером JS
+        if: ${{ !cancelled() }}
+        run: npm run lint:js

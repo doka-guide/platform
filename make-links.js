@@ -15,7 +15,7 @@ const SYMLINKS_DEST = contentRepFolders.map((folder) => path.join('src', folder)
 const existingSymlinks = SYMLINKS_DEST.filter((dest) => {
   try {
     return fs.readlinkSync(dest)
-  } catch (e) {
+  } catch {
     return false
   }
 })
@@ -23,7 +23,7 @@ const existingSymlinks = SYMLINKS_DEST.filter((dest) => {
 const existingFolders = SYMLINKS_DEST.filter((dest) => {
   try {
     return fs.readdirSync(dest)
-  } catch (e) {
+  } catch {
     return false
   }
 })

@@ -5,7 +5,7 @@ module.exports = () => {
   const md = markdownIt({
     html: true,
     breaks: true,
-    linkify: true,
+    linkify: false,
     highlight: function (str, lang) {
       const content = md.utils.escapeHtml(str)
       const LANG_ALIASES = {

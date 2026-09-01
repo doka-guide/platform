@@ -1,99 +1,237 @@
 name: PR Preview
 
 on:
-  pull_request_target
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: pr-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions: {}
+
+env:
+  DEPLOY_DOMAIN: https://platform-${{ github.event.pull_request.number }}.dev.doka.guide
 
 jobs:
-  preview:
+  # Заметка живёт в описании пулреквеста, а не отдельным комментарием: GitHub
+  # шлёт письмо на создание комментария, а правку описания не рассылает вовсе.
+  # Кода из форка здесь нет, поэтому доступна запись в пулреквест.
+  start:
+    name: Заметка о начале
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.draft == false }}
-    env:
-      DEPLOY_DOMAIN: https://platform-${{ github.event.pull_request.number }}.dev.doka.guide
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      PATH_TO_CONTENT: ./content
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
     steps:
-      - name: Загрузка платформы
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-      - name: Загрузка контента
-        uses: actions/checkout@v4
-        with:
-          repository: doka-guide/content
-          path: content
-      - name: Загрузка кеша
-        uses: actions/checkout@v2
-        with:
-          repository: doka-guide/cache
-          path: cache
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Кэширование модулей
-        uses: actions/cache@v4
+      - uses: actions/github-script@v9
         env:
-          cache-name: cache-node-modules
+          MESSAGE: "Идёт сборка и публикация превью... [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Получение идентификатора
-        id: check
-        if: ${{ env.SURGE_TOKEN != '' }}
-        run: |
-          check_suite_url=$(curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }} | jq -r '.check_suite_url')
-          check_run_id=$(curl -s -H "Accept: application/vnd.github.v3+json" $check_suite_url/check-runs | jq '.check_runs[] | .id')
-          echo "::set-output name=check_id::$check_run_id"
+          script: |
+            const { owner, repo } = context.repo
+            const pull_number = context.payload.pull_request.number
+            const marker = `<!-- doka-preview-${pull_number} -->`
+            const endMarker = `<!-- /doka-preview-${pull_number} -->`
+            const block = `${marker}\n${process.env.MESSAGE}\n${endMarker}`
+            // Описание перечитываем прямо перед записью: автор мог поправить
+            // его, пока шла сборка.
+            const { data: pull } = await github.rest.pulls.get({ owner, repo, pull_number })
+            const current = pull.body || ''
+            const start = current.indexOf(marker)
+            const end = current.indexOf(endMarker)
+            const body =
+              start !== -1 && end !== -1 && end > start
+                ? current.slice(0, start) + block + current.slice(end + endMarker.length)
+                : current.trimEnd()
+                  ? `${current.trimEnd()}\n\n${block}`
+                  : block
+            await github.rest.pulls.update({ owner, repo, pull_number, body })
+
+  # Сборка кода из форка. В переиспользуемом воркфлоу нет ни одного секрета, а
+  # GITHUB_TOKEN урезан до чтения, поэтому выполнение чужого кода (npm ci,
+  # *.11tydata.js) ничего не может утащить. Отдельный префикс кеша не даёт форку
+  # перезаписать кеш продакшн-деплоя.
+  build:
+    name: Сборка превью
+    if: ${{ !github.event.pull_request.draft }}
+    uses: ./.github/workflows/build-site.yml
+    # Переиспользуемый воркфлоу не может запросить больше прав, чем дал вызывающий,
+    # а на уровне воркфлоу стоит permissions: {} — поэтому выдаём чтение здесь.
+    permissions:
+      contents: read
+    with:
+      ref: ${{ github.event.pull_request.head.sha }}
+      allow-unsafe-checkout: true
+      cache-prefix: pr-preview
+
+  # Валидация собранных страниц. Секретов не требует и работает с тем же
+  # артефактом, что и публикация, — сайт больше не собирается второй раз.
+  validate:
+    name: Валидация разметки
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      # Нужен только package.json с зависимостями валидатора: сам сайт приезжает
+      # артефактом. Код из форка не выполняется — берём базовую ветку.
+      - name: Загрузка платформы
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: 'npm'
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          architecture: x64
       - name: Установка модулей
         run: npm ci
-      - name: Копирование кеша
-        run: cp ./cache/issues.json ./.issues.json
-      - name: Сообщение о начале публикации превью
-        uses: hasura/comment-progress@v2.1.0
+      - name: Загрузка страниц
+        uses: actions/download-artifact@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          number: ${{ github.event.pull_request.number }}
-          id: preview-${{ github.event.pull_request.number }}
-          message: "Идёт сборка и публикация превью... [Подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)"
-          recreate: true
-      - name: Установка ключа для пользователя
+          name: site-html
+      # Архив собран кодом из форка. Вычищаем симлинки: иначе член архива может
+      # указать куда угодно за пределы dist. Штатная сборка симлинков не создаёт.
+      - name: Распаковка страниц
         run: |
           set -eu
-          mkdir "$HOME/.ssh"
-          echo "${{ secrets.DEPLOY_KEY }}" > "$HOME/.ssh/doka_deploy"
-          chmod 600 "$HOME/.ssh/doka_deploy"
-      - name: Сборка и публикация сайта
-        id: build-preview
-        continue-on-error: true
+          mkdir -p dist
+          tar --extract --file site-html.tar --directory dist \
+            --no-same-owner --no-same-permissions
+          find dist -type l -delete
+      - name: Валидация
+        run: npm run lint:html
+
+  # Публикация. Здесь есть DEPLOY_KEY, но кода из форка нет — только собранная статика.
+  deploy:
+    name: Публикация превью
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions: {}
+    env:
+      PREVIEW_PATH: /web/sites/dev.doka.guide/platform/${{ github.event.pull_request.number }}
+    steps:
+      - name: Загрузка артефакта
+        uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+      # Опись защищает от обрезанного при передаче архива: дальше идёт rsync с
+      # --delete, и неполный артефакт стёр бы недостающее из превью.
+      # Разбираем grep-ом, а не source: опись собрана кодом из форка, это данные.
+      - name: Проверка артефакта
         run: |
-          cp .env.example .env
-          npm run preview
-          ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no deploy@dev.doka.guide mkdir -p /web/sites/dev.doka.guide/platform/${{ github.event.pull_request.number }}
-          cd dist && rsync -e "ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no" --archive --progress --compress --delete . deploy@dev.doka.guide:/web/sites/dev.doka.guide/platform/${{ github.event.pull_request.number }}
-          echo "Ссылка на превью — ${{ env.DEPLOY_DOMAIN }}"
-          echo -e "${{ steps.links.outputs.list }}"
-      - name: Сообщение о неудаче публикации превью
-        uses: hasura/comment-progress@v2.1.0
-        if: failure()
+          set -eu
+          test -f site-manifest.txt || { echo "В артефакте нет описи"; exit 1; }
+          EXPECTED_SHA="$(grep '^sha256=' site-manifest.txt | cut -d= -f2)"
+          ACTUAL_SHA="$(sha256sum site.tar | cut -d' ' -f1)"
+          if [ "$EXPECTED_SHA" != "$ACTUAL_SHA" ]; then
+            echo "Архив побился при передаче: ждали $EXPECTED_SHA, получили $ACTUAL_SHA"
+            exit 1
+          fi
+          echo "EXPECTED_FILES=$(grep '^files=' site-manifest.txt | cut -d= -f2)" >> "$GITHUB_ENV"
+      # Содержимое архива собрано кодом из форка. Распаковываем до записи ключа и
+      # вычищаем симлинки: иначе член архива может указать на
+      # $HOME/.ssh/doka_deploy и ключ утечёт в публичное превью.
+      # Штатная сборка симлинков в dist не создаёт.
+      - name: Распаковка артефакта
+        run: |
+          set -eu
+          PREVIEW_DIR="$(mktemp -d "$RUNNER_TEMP/preview.XXXXXX")"
+          tar --extract --file site.tar --directory "$PREVIEW_DIR" --no-same-owner --no-same-permissions
+          ACTUAL_FILES="$(find "$PREVIEW_DIR" -type f | wc -l | tr -d ' ')"
+          if [ "$ACTUAL_FILES" -ne "$EXPECTED_FILES" ]; then
+            echo "Распаковалось $ACTUAL_FILES файлов вместо $EXPECTED_FILES"
+            exit 1
+          fi
+          # Симлинки вычищаем после сверки: их удаление не меняет число обычных
+          # файлов, но должно случиться до записи ключа.
+          find "$PREVIEW_DIR" -type l -delete
+          test -f "$PREVIEW_DIR/index.html" || { echo "В артефакте нет index.html"; exit 1; }
+          echo "PREVIEW_DIR=$PREVIEW_DIR" >> "$GITHUB_ENV"
+      - name: Установка ключа для пользователя
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        run: |
+          set -eu
+          mkdir -p "$HOME/.ssh"
+          printf '%s\n' "$DEPLOY_KEY" > "$HOME/.ssh/doka_deploy"
+          chmod 600 "$HOME/.ssh/doka_deploy"
+      - name: Публикация превью
+        run: |
+          set -eu
+          SSH_COMMAND="ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no"
+          $SSH_COMMAND deploy@dev.doka.guide mkdir -p "$PREVIEW_PATH"
+          rsync -e "$SSH_COMMAND" --archive --compress --delete-after --safe-links \
+            "$PREVIEW_DIR/" "deploy@dev.doka.guide:$PREVIEW_PATH"
+          echo "Ссылка на превью — $DEPLOY_DOMAIN"
+
+  # Итоговая заметка. always(), иначе при падении сборки пулреквест навсегда
+  # останется с сообщением «Идёт сборка...».
+  report:
+    name: Отчёт в пулреквесте
+    needs: [start, build, validate, deploy]
+    if: ${{ always() && !cancelled() && !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/github-script@v9
+        env:
+          IS_PUBLISHED: ${{ needs.deploy.result == 'success' }}
+          SUCCESS_MESSAGE: '<a href="${{ env.DEPLOY_DOMAIN }}">Превью контента</a> из ${{ github.event.pull_request.head.sha }} опубликовано.'
+          FAILURE_MESSAGE: "Превью контента из ${{ github.event.pull_request.head.sha }} не опубликовано. Ошибка сборки или публикации. [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          number: ${{ github.event.pull_request.number }}
-          id: preview-${{ github.event.pull_request.number }}
-          message: "Превью контента из ${{ github.event.after }} не опубликовано. Ошибка сборки или публикации. [Подробнее](https://github.com/${{ github.repository }}/runs/${{ steps.check.outputs.check_id }}?check_suite_focus=true)"
-          fail: true
-          recreate: true
-      - name: Сообщение об успехе публикации превью
-        uses: hasura/comment-progress@v2.1.0
-        if: success()
+          script: |
+            const { owner, repo } = context.repo
+            const pull_number = context.payload.pull_request.number
+            const marker = `<!-- doka-preview-${pull_number} -->`
+            const endMarker = `<!-- /doka-preview-${pull_number} -->`
+            const isPublished = process.env.IS_PUBLISHED === 'true'
+            const message = isPublished ? process.env.SUCCESS_MESSAGE : process.env.FAILURE_MESSAGE
+            const block = `${marker}\n${message}\n${endMarker}`
+            // Описание перечитываем прямо перед записью: автор мог поправить
+            // его, пока шла сборка.
+            const { data: pull } = await github.rest.pulls.get({ owner, repo, pull_number })
+            const current = pull.body || ''
+            const start = current.indexOf(marker)
+            const end = current.indexOf(endMarker)
+            const body =
+              start !== -1 && end !== -1 && end > start
+                ? current.slice(0, start) + block + current.slice(end + endMarker.length)
+                : current.trimEnd()
+                  ? `${current.trimEnd()}\n\n${block}`
+                  : block
+            await github.rest.pulls.update({ owner, repo, pull_number, body })
+            if (!isPublished) {
+              core.setFailed('Превью не опубликовано')
+            }
+      # Комментарии прошлой схемы. Убираем оставшиеся, чтобы в ленте не висело
+      # вечное «Идёт сборка...». Шаг можно удалить, когда их не останется.
+      - name: Уборка старых комментариев
+        uses: actions/github-script@v9
+        continue-on-error: true
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          number: ${{ github.event.pull_request.number }}
-          id: preview-${{ github.event.pull_request.number }}
-          message: '<a href="${{ env.DEPLOY_DOMAIN }}">Превью контента</a> из ${{ github.event.after }} опубликовано.'
-          recreate: true
+          script: |
+            const { owner, repo } = context.repo
+            const issue_number = context.payload.pull_request.number
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            })
+            for (const comment of comments) {
+              const isBot = comment.user?.login === 'github-actions[bot]'
+              if (isBot && (comment.body || '').includes('Превью контента')) {
+                await github.rest.issues.deleteComment({ owner, repo, comment_id: comment.id })
+              }
+            }

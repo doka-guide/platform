@@ -2,6 +2,9 @@
   position: absolute;
   margin: -1px;
   clip-path: inset(50%);
+
+  /* Устарело, но осознанно: канонический фолбэк к clip-path */
+  /* stylelint-disable-next-line property-no-deprecated */
   clip: rect(0 0 0 0);
   overflow: hidden;
   width: 1px;

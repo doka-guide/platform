@@ -12,11 +12,24 @@ class SearchAPIClient {
       params.append(f.key, f.val)
     })
     url.search = params
+    this.abortController?.abort?.()
+    this.abortController = new AbortController()
     return fetch(url, {
       headers: {
         Accept: 'application/json',
       },
-    }).then((response) => response.json())
+      signal: this.abortController.signal,
+    })
+      .then((response) => response.json())
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          return
+        }
+        return Promise.reject(error)
+      })
+      .finally(() => {
+        this.abortController = null
+      })
   }
 }
 

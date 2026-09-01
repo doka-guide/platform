@@ -32,7 +32,7 @@
 
 .social-card__slogan-wrapper {
   display: grid;
-  grid-gap: 6px;
+  gap: 6px;
   justify-items: end;
 }
 

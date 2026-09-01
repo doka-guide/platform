@@ -5,16 +5,14 @@
 import { init } from '../../modules/last-update'
 
 const createPastDate = (passedSeconds) => {
-  // Создаёт дату на момент «N-секунд назад» и возвращает её для последующих проверок
-  const date = new Date()
-
-  if (passedSeconds >= 3600) {
-    date.setHours(date.getHours() - passedSeconds / 3600)
-  } else if (passedSeconds >= 60) {
-    date.setMinutes(date.getMinutes() - passedSeconds / 60)
-  } else {
-    date.setSeconds(date.getSeconds() - passedSeconds)
-  }
+  // Создаёт дату на момент «N-секунд назад» и возвращает её для последующих проверок.
+  //
+  // Считается вычитанием миллисекунд, а не через setHours. Прежний вариант
+  // передавал в setHours дробное число часов, а оно усекается к нулю: днём
+  // getHours() - 1.944 давало «минус два часа», но в первом часу ночи
+  // 0 - 1.944 превращалось в -1, то есть в один час. Из-за этого тест падал
+  // каждые сутки с 00:00 до 01:00.
+  const date = new Date(Date.now() - passedSeconds * 1000)
 
   const time = document.createElement('time')
   time.setAttribute('data-relative-time', null)
