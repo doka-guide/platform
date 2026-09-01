@@ -5,6 +5,7 @@ const markdownIt = require('markdown-it')
 const { parseHTML } = require('linkedom')
 const { isProdEnv } = require('./config/env.js')
 const { mainSections } = require('./config/constants.js')
+const { cssTargets } = require('./config/css.js')
 const initMarkdownLibrary = require('./src/markdown-it.js')
 const demoLinkTransform = require('./src/transforms/demo-link-transform.js')
 const answersLinkTransform = require('./src/transforms/answers-link-transform.js')
@@ -30,9 +31,6 @@ const { parseChangelog, enrichPost } = require('./src/libs/changelog-parser/chan
 // имён, а сам плагин лежит в default.
 const pluginRss = require('@11ty/eleventy-plugin-rss').default
 const eleventyVitePlugin = require('@11ty/eleventy-plugin-vite').default
-const postcssImport = require('postcss-import')
-const postcssMediaMinmax = require('postcss-media-minmax')
-const autoprefixer = require('autoprefixer')
 
 function getAllDocs(collectionAPI) {
   const dokas = collectionAPI.getFilteredByTag('doka')
@@ -420,15 +418,13 @@ module.exports = function (config) {
 
         cacheDir: '.vite',
 
+        // Тот же движок и те же targets, что в прод-сборке (config/css.js),
+        // чтобы стили на дев-сервере и на проде не расходились. Минификация
+        // здесь не включена: на дев-сервере она ни к чему.
         css: {
-          postcss: {
-            // csso здесь не нужен: на дев-сервере минификация не даёт ничего,
-            // зато ломает сборку. Он тянет css-tree 2.2.1, который не знает
-            // @container, @scope, вложенные слои и вложенность — а Vite гонит
-            // через эту цепочку и инлайновые стили демок, поэтому демка с
-            // @container отдавалась с 500. В прод-сборке csso остаётся: там
-            // postcss ходит только по src/styles, демки уезжают копией.
-            plugins: [postcssImport, postcssMediaMinmax, autoprefixer],
+          transformer: 'lightningcss',
+          lightningcss: {
+            targets: cssTargets,
           },
         },
 

@@ -1,15 +1,10 @@
 const path = require('path')
 const fs = require('fs')
-const { rm } = require('node:fs/promises')
+const { mkdir, rm, writeFile } = require('node:fs/promises')
 
 const gulp = require('gulp')
 const git = require('gulp-git')
 const shell = require('gulp-shell')
-const postcss = require('gulp-postcss')
-const csso = require('postcss-csso')
-const pimport = require('postcss-import')
-const minmax = require('postcss-media-minmax')
-const autoprefixer = require('autoprefixer')
 // С версии 0.15 gulp-esbuild экспортирует именованные функции вместо самого
 // себя, а entryPoints и outfile стали обязательными: раньше точка входа
 // бралась из потока gulp. Без них поток молча повисает, и gulp сообщает
@@ -21,6 +16,7 @@ const rev = require('gulp-rev').default
 const revRewrite = require('gulp-rev-rewrite').default
 
 const { contentRepGithub, contentRepFolders } = require(path.join(__dirname, 'config/constants'))
+const { styleEntries, bundleStyle } = require(path.join(__dirname, 'config/css'))
 
 // Раньше здесь был пакет del. С 7-й версии он ESM-only и больше не callable
 // (экспортирует deleteAsync/deleteSync), а обе площадки вызова передавали
@@ -38,20 +34,16 @@ const makeLinks = shell.task(`node make-links.js --default`, {
 
 // Styles
 
-const styles = () => {
-  return gulp
-    .src('src/styles/{index.css,index.sc.css,dark-theme.css}')
-    .pipe(
-      postcss([
-        pimport,
-        minmax,
-        autoprefixer,
-        csso({
-          restructure: false,
-        }),
-      ]),
-    )
-    .pipe(gulp.dest('dist/styles'))
+// lightningcss сам собирает @import, ставит префиксы и минифицирует, поэтому
+// gulp-поток здесь не нужен: точки входа известны, файлы он читает с диска.
+const styles = async () => {
+  await mkdir('dist/styles', { recursive: true })
+
+  await Promise.all(
+    styleEntries.map((entry) =>
+      writeFile(path.join('dist/styles', entry), bundleStyle(path.join('src/styles', entry))),
+    ),
+  )
 }
 
 // Scripts
