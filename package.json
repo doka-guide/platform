@@ -15,9 +15,9 @@
     }
   },
   "browserslist": [
-    "last 2 version",
-    "not dead",
-    "not ie <= 11"
+    "defaults",
+    "safari >= 16.4",
+    "ios_saf >= 16.4"
   ],
   "nodeW3Cvalidator": {
     "suppressErrors": [
