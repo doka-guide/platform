@@ -521,10 +521,12 @@ const SUPPORT_ICONS = {
 
 const statusTypes = {
   NEWLY: 'newly',
+  WIDELY: 'widely',
   NO_DATA: 'no_data',
 }
 
 const implementationStatusTypes = {
+  YES: 'available',
   NO: 'unavailable',
   UNKNOWN: 'no_data',
 }
@@ -584,6 +586,24 @@ const getBrowserImplementationList = (implementations, defaultData = DEFAULT.imp
     id: browserName,
     data: implementations?.[browserName] ?? defaultData,
   }))
+}
+
+const getImplementations = (versions) => {
+  return browserNameList.reduce((acc, browserName) => {
+    const version = versions[browserName]
+    if (version) {
+      acc[browserName] = {
+        status: implementationStatusTypes.YES,
+        version,
+      }
+    }
+    return acc
+  }, {})
+}
+
+const parseObjFromStr = (str = '') => {
+  const validJson = str.replace(/'/g, '"')
+  return JSON.parse(validJson)
 }
 
 const EMPTY_BASELINE_OBJ = {
@@ -648,9 +668,9 @@ const getDescription = (obj) => {
 }
 
 const getBaselineDates = (baseline) => {
-  const { low_date: lowDateStr, high_date: highDateStr } = baseline
+  const { low_date: lowDateStr, high_date: highDateStr, date } = baseline
 
-  const dateStr = highDateStr ?? lowDateStr
+  const dateStr = highDateStr ?? lowDateStr ?? date
 
   const year = dateStr ? dateStr.split('-')[0] : ''
   const fullDate = dateStr
@@ -707,6 +727,40 @@ const transformToBaselineObject = (responseData) => {
     dates,
     showYear: supportStatus === statusTypes.NEWLY && dates.year !== '',
     specification,
+  }
+
+  return {
+    ...data,
+    description: getDescription(data),
+    ariaLabel: getAriaLabel(data),
+  }
+}
+
+const parseBaselineObject = (baselineData) => {
+  if (!baselineData?.status || !baselineData?.versions) {
+    return getEmptyBaselineObject()
+  }
+
+  const { status, versions, date } = baselineData
+
+  const supportStatus = status || statusTypes.NO_DATA
+
+  const badge = messages[supportStatus].badge
+  const dates =
+    supportStatus === statusTypes.NEWLY || supportStatus === statusTypes.WIDELY ? getBaselineDates({ date }) : ''
+
+  const parsedVersions = parseObjFromStr(versions)
+  const implementations = getImplementations(parsedVersions)
+
+  const data = {
+    // name,
+    badge,
+    id: null,
+    supportStatus,
+    implementations: getBrowserImplementationList(implementations),
+    dates,
+    showYear: supportStatus === statusTypes.NEWLY && dates.year !== '',
+    specification: null,
   }
 
   return {
@@ -961,6 +1015,9 @@ class DokaBaseline extends LitElement {
     showName: { type: String },
     showFeatLink: { type: String },
     showSpecLinks: { type: String },
+    statusInfo: { type: String },
+    dateInfo: { type: String },
+    versionsInfo: { type: String },
   }
 
   constructor() {
@@ -969,6 +1026,9 @@ class DokaBaseline extends LitElement {
     this.showFeatLink = 'false'
     this.showName = 'false'
     this.showSpecLinks = 'false'
+    this.statusInfo = ''
+    this.dateInfo = ''
+    this.versionsInfo = ''
   }
 
   fetchData = new Task(this, {
@@ -1026,14 +1086,16 @@ class DokaBaseline extends LitElement {
 
     return html`
       <p>${text}</p>
-      ${showLinks
-        ? html`
-            <p class="link-list">
-              ${showFeatLink ? this.renderLink(featureLink, featureLinkText) : ''}
-              ${showSpecLinks ? specLinks.map((link) => this.renderLink(link, specLinkText)) : ''}
-            </p>
-          `
-        : ''}
+      ${
+        showLinks
+          ? html`
+              <p class="link-list">
+                ${showFeatLink ? this.renderLink(featureLink, featureLinkText) : ''}
+                ${showSpecLinks ? specLinks.map((link) => this.renderLink(link, specLinkText)) : ''}
+              </p>
+            `
+          : ''
+      }
     `
   }
 
@@ -1051,9 +1113,7 @@ class DokaBaseline extends LitElement {
 
     const { name, ariaLabel, supportStatus } = baselineObj
 
-    const mainClass = `doka-baseline ${supportStatus}${this.showName === 'true' ? ' with-name' : ''}${
-      baselineObj.loading ? ' loading' : ''
-    }`
+    const mainClass = `doka-baseline ${supportStatus}${this.showName === 'true' ? ' with-name' : ''}${baselineObj.loading ? ' loading' : ''}`
 
     return html`
       <div class=${mainClass}>
@@ -1097,7 +1157,15 @@ class DokaBaseline extends LitElement {
 
   render() {
     if (!this.groupId) {
-      return null
+      if (!this.statusInfo || !this.versionsInfo) {
+        return null
+      }
+      const baselineObj = parseBaselineObject({
+        status: this.statusInfo,
+        versions: this.versionsInfo,
+        date: this.dateInfo,
+      })
+      return this.renderBaseline(baselineObj)
     }
 
     return this.fetchData.render({
