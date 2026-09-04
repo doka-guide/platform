@@ -94,7 +94,7 @@
     "stylelint-config-standard": "^40.0.0",
     "terser": "^5.26.0",
     "transliteration": "^2.3.5",
-    "web-features": "3.37"
+    "web-features": "^3.37.0"
   },
   "allowScripts": {
     "esbuild": true,
