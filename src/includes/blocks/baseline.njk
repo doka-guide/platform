@@ -1,10 +1,6 @@
 {% if baseline.versions %}
   <div class="wdi-browser-compat">
     <div class="wdi-browser-compat__items">
-      {{ baseline.status }}
-      {{ baseline.date }}
-      {{ baseline.versions }}
-
       <doka-baseline
         versionsInfo="{{ baseline.versions }}"
         dateInfo="{{ baseline.date }}"
