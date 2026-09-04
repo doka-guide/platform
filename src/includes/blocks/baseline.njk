@@ -5,17 +5,12 @@
       {{ baseline.date }}
       {{ baseline.versions }}
 
-      {% for group in baseline.groups %}
-        {{ group.name }}
-
-        <doka-baseline
-          groupId="{{ group.id }}"
-          versionsInfo="{{ baseline.versions }}"
-          dateInfo="{{ baseline.date }}"
-          statusInfo="{{ baseline.status }}"
-        >
-        </doka-baseline>
-      {% endfor %}
+      <doka-baseline
+        versionsInfo="{{ baseline.versions }}"
+        dateInfo="{{ baseline.date }}"
+        statusInfo="{{ baseline.status }}"
+      >
+      </doka-baseline>
     </div>
   </div>
 {% endif %}
