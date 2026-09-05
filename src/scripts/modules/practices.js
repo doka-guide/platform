@@ -1,15 +1,17 @@
-function setTabIndex(list, newValue) {
-  for (let item of list) {
-    item.setAttribute('tabindex', newValue)
-  }
+const tabIndexActions = {
+  '-1': (element) => element.setAttribute('tabindex', '-1'),
+  0: (element) => element.removeAttribute('tabindex'),
 }
 
 function getActiveElements(container) {
   const allElements = []
   allElements.push(container.getElementsByClassName('block-code__inner'))
   allElements.push(container.getElementsByClassName('block-code__copy-button'))
+  allElements.push(container.getElementsByClassName('article-heading__copy-button'))
   allElements.push(container.getElementsByTagName('a'))
   allElements.push(container.getElementsByTagName('input'))
+  allElements.push(container.getElementsByTagName('details'))
+  allElements.push(container.getElementsByTagName('iframe'))
   for (let iframe of container.getElementsByTagName('iframe')) {
     allElements.push(iframe.contentWindow.document.getElementsByTagName('a'))
     allElements.push(iframe.contentWindow.document.getElementsByTagName('input'))
@@ -20,7 +22,9 @@ function getActiveElements(container) {
 function toggleTabIndex(container, newValue) {
   const activeElements = getActiveElements(container)
   activeElements.forEach((elements) => {
-    setTabIndex(elements, newValue)
+    for (const element of elements) {
+      tabIndexActions[newValue](element)
+    }
   })
 }
 
@@ -53,6 +57,7 @@ function togglePractice(event) {
     element.innerHTML = '– Свернуть'
     element.addEventListener('keydown', tabKeyPressed)
     toggleTabIndex(summaryContainer, '0')
+    contentContainer.focus()
   }
 }
 
