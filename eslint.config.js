@@ -30,7 +30,7 @@ module.exports = [
 
   {
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2022,
       sourceType: 'module',
       globals: {
         ...globals.browser,

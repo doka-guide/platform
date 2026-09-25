@@ -34,10 +34,19 @@ function hasTag(tags, tag) {
   return (tags || []).includes(tag)
 }
 
-function assignGreaterValue(map, list, key) {
+function assignGreaterValue(map, list_, key) {
+  const list = Array.isArray(list_) ? list_ : [list_]
   list.forEach((item) => {
-    if (!Number.isNaN(item[key]) && Number(item[key]) > map[key]) {
-      map[key] = Number(item[key])
+    if (item.versions[key] === null) {
+      map.versions[key] = null
+      map.date = null
+    } else if (
+      map.versions[key] !== null &&
+      !Number.isNaN(item.versions[key]) &&
+      Number(item.versions[key]) > map.versions[key]
+    ) {
+      map.versions[key] = Number(item.versions[key])
+      map.date = item.date
     }
   })
   return map
@@ -262,52 +271,103 @@ module.exports = {
       const { doc, collections, hasBaseline } = data
       const { webFeatures } = collections
       if (hasBaseline) {
-        const keys = ['chrome', 'edge', 'firefox', 'safari']
-        const names = { chrome: 'Chrome', edge: 'Edge', firefox: 'Firefox', safari: 'Safari' }
-        const versions = doc.data.baseline
+        const browsersKeys = ['chrome', 'edge', 'firefox', 'safari']
+        const baselineTypes = ['high', 'low', false, undefined]
+        const types = ['widely', 'newly', 'limited', 'unknown', 'depricated']
+        const groups = doc.data.baseline
           .filter((g) => webFeatures[g.group])
           .map((g) => {
-            const item = webFeatures[g.group]
-            let status = item.status
-            if (item.kind === 'move') {
-              status = webFeatures[item.redirect_target].status
-            } else if (item.kind === 'split') {
-              const target = item.redirect_targets.find((target) => webFeatures[target].status)
-              status = webFeatures[target].status
-            }
-            const compatData = status.by_compat_key
-            const bKeys = g.features ?? []
-            return Object.keys(compatData)
-              .filter((key) => bKeys.includes(key))
-              .map((key) => compatData[key].support)
-          })
-          .reduce(
-            (map, item) => {
-              for (const key of keys) {
-                assignGreaterValue(map, item, key)
+            let wfKey = g.group
+            const item = webFeatures[wfKey]
+            const groupInfo = { index: 0, status: types[0], name: '', id: g.group }
+
+            let { kind, status, discouraged, name } = item
+            if (kind !== 'feature') {
+              if (kind === 'move') {
+                wfKey = item.redirect_target
+              } else if (kind === 'split') {
+                wfKey = item.redirect_targets.find((target) => webFeatures[target].status)
               }
-              return map
-            },
-            { chrome: 0, edge: 0, firefox: 0, safari: 0 },
-          )
-        const supported = Object.keys(versions).reduce(
-          (map, item) => {
-            if (versions[item] === 0) {
-              map[item] = false
+              status = webFeatures[wfKey].status
+              discouraged = webFeatures[wfKey].discouraged
+              name = webFeatures[wfKey].name
             }
+
+            const compatData = status.by_compat_key
+            const baselineType = status.baseline
+            let bTypeIndex = baselineTypes.findIndex((t) => t === baselineType)
+
+            if (bTypeIndex === 2 && discouraged !== undefined) {
+              bTypeIndex = 4
+            }
+
+            if (bTypeIndex > groupInfo.index) {
+              groupInfo.index = bTypeIndex
+              groupInfo.status = types[bTypeIndex]
+            }
+
+            groupInfo.name = name
+
+            const supportedFeatKeys = Object.keys(compatData)
+            const featKeys = Object.values(g.features) ?? []
+            groupInfo.supports = featKeys
+              .filter((featKey) => supportedFeatKeys.includes(featKey))
+              .map((featKey) => {
+                const featData = compatData[featKey]
+                const featSupport = featData.support
+                const date = featData.baseline_high_date ?? featData.baseline_low_date
+
+                const featBrowsersKeys = Object.keys(featSupport)
+                return browsersKeys.reduce(
+                  (acc, browsersKey) => {
+                    if (featBrowsersKeys.includes(browsersKey)) {
+                      acc.versions[browsersKey] = featSupport[browsersKey]
+                    }
+                    return acc
+                  },
+                  {
+                    versions: { chrome: null, edge: null, firefox: null, safari: null },
+                    date,
+                  },
+                )
+              })
+
+            return groupInfo
+          })
+
+        const { status, date, versions } = groups.reduce(
+          (map, groupInfo) => {
+            if (groupInfo.index > map.index) {
+              map.index = groupInfo.index
+              map.status = groupInfo.status
+            }
+
+            for (const browserKey of browsersKeys) {
+              assignGreaterValue(map, groupInfo.supports, browserKey)
+            }
+
             return map
           },
-          { chrome: true, edge: true, firefox: true, safari: true },
+          {
+            index: 0,
+            status: types[0],
+            date: null,
+            versions: { chrome: 0, edge: 0, firefox: 0, safari: 0 },
+          },
         )
-        const flagged = { chrome: false, edge: false, firefox: false, safari: false }
-        const preview = { chrome: false, edge: false, firefox: false, safari: false }
+
+        const versionsStrValue = Object.keys(versions).reduce((map, browserKey) => {
+          if (versions[browserKey]) {
+            map[browserKey] = `${versions[browserKey]}`
+          }
+          return map
+        }, {})
+
         return {
-          keys,
-          names,
-          versions,
-          flagged,
-          supported,
-          preview,
+          groups,
+          status,
+          date,
+          versions: JSON.stringify(versionsStrValue),
         }
       }
       return {}
