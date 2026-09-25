@@ -33,7 +33,7 @@
     "start": "cross-env-shell NODE_ENV=development NODE_OPTIONS=--max-old-space-size=8192 \"npm run make-links && eleventy --incremental --serve --quiet\"",
     "build": "cross-env-shell NODE_ENV=production \"npm run make-links && eleventy --quiet && npx gulp\"",
     "deploy": "cd dist && rsync -e 'ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no' --exclude 'api.json' --exclude 'mail' --archive --progress --compress --delete . deploy@dev.doka.guide:$(echo $(grep 'SERVER_PATH' ../.env | cut -d '=' -f2))",
-    "editorconfig": "editorconfig-checker",
+    "editorconfig": "cross-env EC_VERSION=v4.0.1 editorconfig-checker --format gcc",
     "lint:css": "stylelint 'src/styles/**/*.css'",
     "lint:js": "eslint '**/*.js'",
     "lint:html": "node scripts/lint-html.js",
@@ -94,7 +94,7 @@
     "stylelint-config-standard": "^40.0.0",
     "terser": "^5.26.0",
     "transliteration": "^2.3.5",
-    "web-features": "^3.37.0"
+    "web-features": "^3.39.0"
   },
   "allowScripts": {
     "esbuild": true,

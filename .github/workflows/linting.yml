@@ -8,6 +8,7 @@ on:
 
 jobs:
   lint:
+    name: Линтеры
     runs-on: ubuntu-latest
     steps:
       - name: Загрузка платформы
@@ -21,14 +22,33 @@ jobs:
 
       # Шаги не прерывают друг друга: при падении видно все три отчёта сразу,
       # а не только первый упавший линтер.
+
       # editorconfig-checker скачивает свой бинарник через GitHub API. Без
       # токена запрос неавторизованный, а лимит общий на IP раннера — прогоны
       # падали случайно, с «API rate limit exceeded» вместо ошибок разметки.
+      #
+      # Версия бинарника и формат вывода закреплены в npm-скрипте. Обёртка
+      # качает «latest», поэтому CI сам уехал на 4.0.0, а тот в GitHub Actions
+      # переключается на формат github-actions: файл и строка уходят в
+      # метаданные аннотации, и в логе остаётся голое «trailing whitespace».
+      #
+      # Подсказка печатается только если проверка дошла до отчёта: при упавшей
+      # загрузке бинарника совет искать пробелы уводит не туда. Пайплайн склеен
+      # с `exit 0` через `&&`, потому что шаг идёт в `bash -e`: без склейки
+      # падение проверки убьёт шаг до подсказки.
       - name: Проверка editorconfig
         if: ${{ !cancelled() }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run editorconfig
+        run: |
+          set -o pipefail
+          npm run editorconfig 2>&1 | tee "$RUNNER_TEMP/editorconfig.log" && exit 0
+          if grep -q 'errors found' "$RUNNER_TEMP/editorconfig.log"; then
+            echo
+            echo "Файлы выше расходятся с .editorconfig — правило, файл и строка указаны в отчёте."
+            echo "Локально тот же отчёт: npm run editorconfig. Простые случаи правит на месте npm run editorconfig -- --fix"
+          fi
+          exit 1
       - name: Проверка линтером CSS
         if: ${{ !cancelled() }}
         run: npm run lint:css

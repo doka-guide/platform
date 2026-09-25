@@ -27,7 +27,7 @@ interviews
 .cache
 .issues.json
 
-# бинарник, который editorconfig-checker скачивает при запуске
+# остатки старой обёртки editorconfig-checker, которая качала бинарник сюда
 bin
 
 .env
