@@ -36,8 +36,9 @@ function hasTag(tags, tag) {
 
 function assignGreaterValue(map, list, key) {
   list.forEach((item) => {
-    if (!Number.isNaN(item[key]) && Number(item[key]) > map[key]) {
-      map[key] = Number(item[key])
+    const version = (item[key] ?? '').replace('≤', '')
+    if (!Number.isNaN(version) && Number(version) > map[key]) {
+      map[key] = Number(version)
     }
   })
   return map
