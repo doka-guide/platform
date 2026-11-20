@@ -84,7 +84,7 @@ describe('resolveDemoData', () => {
     })
   })
 
-  it('берёт адрес сайта из настроек, чтобы превью вели на себя', () => {
+  it('берёт адрес сайта из BASE_URL', () => {
     writeFile(path.join(srcDir, 'html/details/index.md'), '---\ntitle: "`<details>`"\nauthors:\n  - solarrust\n---\n')
 
     const data = resolve('html/details/demos/example/index.html', 'https://platform-1355.dev.doka.guide/')

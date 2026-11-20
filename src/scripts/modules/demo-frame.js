@@ -27,7 +27,6 @@ const STYLES = `
     left: 0;
     box-sizing: border-box;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     column-gap: 16px;
     padding: 4px 16px;
@@ -44,14 +43,39 @@ const STYLES = `
 
   .main {
     display: flex;
-    flex-wrap: wrap;
+    flex: 1 1 auto;
     align-items: center;
     column-gap: 12px;
     min-width: 0;
   }
 
+  /* Полоса всегда в одну строку: длинный заголовок и авторы
+     обрезаются многоточием, полный текст — в подсказке. */
+  .title,
   .authors {
-    margin-left: auto;
+    overflow: hidden;
+    min-width: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .authors {
+    flex: 0 1 auto;
+    max-width: 40%;
+    /* Место под обводку фокуса: иначе её обрежет overflow. */
+    margin: -4px -4px -4px auto;
+    padding: 4px;
+  }
+
+  /* Каждый автор — свой блок со своим многоточием: так обводка фокуса
+     у обрезанного имени остаётся целой. */
+  .authors a {
+    overflow: hidden;
+    max-width: 100%;
+    padding: 0;
+    vertical-align: top;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   a {
@@ -62,7 +86,7 @@ const STYLES = `
     color: inherit;
     text-decoration-line: underline;
     text-decoration-thickness: 1px;
-    text-decoration-color: color-mix(in srgb, var(--accent) 60%, transparent);
+    text-decoration-color: color-mix(in srgb, var(--accent) 75%, transparent);
     text-underline-offset: 0.2em;
     transition: text-decoration-color 0.15s, opacity 0.15s;
   }
@@ -83,6 +107,7 @@ const STYLES = `
   .logo {
     font-family: ${MONO_FONT};
     letter-spacing: -0.05em;
+    flex-shrink: 0;
     white-space: nowrap;
     text-decoration-line: none;
     opacity: 0.8;
@@ -105,6 +130,13 @@ const STYLES = `
   code {
     font-family: ${MONO_FONT};
     font-size: 0.95em;
+  }
+
+  @media print {
+    .bar,
+    .spacer {
+      display: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -161,7 +193,7 @@ export function renderTitle(doc, title) {
   })
 }
 
-function createLink(doc, { href, text, className, label }) {
+function createLink(doc, { href, text, className, label, hint }) {
   const link = doc.createElement('a')
   link.href = href
   if (className) {
@@ -169,6 +201,9 @@ function createLink(doc, { href, text, className, label }) {
   }
   if (label) {
     link.setAttribute('aria-label', label)
+  }
+  if (hint) {
+    link.title = hint
   }
   if (typeof text === 'string') {
     link.textContent = text
@@ -179,7 +214,7 @@ function createLink(doc, { href, text, className, label }) {
 }
 
 /**
- * Рисует рамку и добавляет её в конец body.
+ * Рисует рамку и добавляет её в `<html>` после body.
  *
  * @param {Document} doc
  * @param {{ baseUrl: string, articleUrl: string, title: string, authors: { name: string, url: string }[], accent: string }} data
@@ -198,6 +233,8 @@ export function mountFrame(doc, data) {
   const bar = doc.createElement('aside')
   bar.className = 'bar'
   bar.setAttribute('aria-label', 'Демка из Доки')
+  // Демка может быть на другом языке, а подписи в полосе всегда русские.
+  bar.setAttribute('lang', 'ru')
   if (data.accent) {
     bar.style.setProperty('--accent', data.accent)
   }
@@ -206,13 +243,19 @@ export function mountFrame(doc, data) {
   main.className = 'main'
   main.append(
     createLink(doc, { href: data.baseUrl, text: 'U•ᴥ•U Дока', className: 'logo', label: 'Дока — на главную' }),
-    createLink(doc, { href: data.articleUrl, text: renderTitle(doc, data.title) }),
+    createLink(doc, {
+      href: data.articleUrl,
+      text: renderTitle(doc, data.title),
+      className: 'title',
+      hint: data.title.replace(/`/g, ''),
+    }),
   )
   bar.append(main)
 
   if (data.authors.length > 0) {
     const authors = doc.createElement('div')
     authors.className = 'authors'
+    authors.title = data.authors.map((author) => author.name).join(', ')
     data.authors.forEach((author, index) => {
       if (index > 0) {
         authors.append(doc.createTextNode(', '))
@@ -223,7 +266,9 @@ export function mountFrame(doc, data) {
   }
 
   root.append(style, bar)
-  doc.body.append(host)
+  // Не в body: если body в демке — flex или grid, даже пустой хост
+  // становится элементом раскладки и сдвигает содержимое.
+  doc.documentElement.append(host)
 
   return host
 }
@@ -240,26 +285,91 @@ function hasOwnText(element) {
   return false
 }
 
+function isHidden(element, style) {
+  if (typeof element.checkVisibility === 'function') {
+    // Видит и скрытых предков, например содержимое закрытого <details>.
+    return !element.checkVisibility({ visibilityProperty: true })
+  }
+  return style.visibility === 'hidden' || style.display === 'none'
+}
+
+function isClipping(overflow) {
+  return Boolean(overflow) && overflow !== 'visible'
+}
+
+/**
+ * Можно ли вообще прокрутить страницу. Если демка запретила прокрутку
+ * (`overflow: hidden` у html или body), распорка ничего не откроет.
+ *
+ * @param {Document} doc
+ * @returns {boolean}
+ */
+export function canScrollPage(doc) {
+  const win = doc.defaultView
+  const htmlOverflow = win.getComputedStyle(doc.documentElement).overflowY
+  const overflow = isClipping(htmlOverflow) ? htmlOverflow : win.getComputedStyle(doc.body).overflowY
+  return overflow !== 'hidden' && overflow !== 'clip'
+}
+
+/**
+ * Нижний край видимой области элемента с учётом предков, которые обрезают
+ * содержимое (`overflow` не `visible`). Текст внутри прокручиваемого блока
+ * демки ниже края блока не виден, и распорка под ним не нужна.
+ *
+ * @param {Element | null} element
+ * @param {Window} win
+ * @param {Map<Element, number>} cache
+ * @returns {number} координата во вьюпорте или Infinity
+ */
+function getClipBottom(element, win, cache) {
+  if (!element || element === element.ownerDocument.documentElement) {
+    return Infinity
+  }
+  if (cache.has(element)) {
+    return cache.get(element)
+  }
+
+  let clip = getClipBottom(element.parentElement, win, cache)
+  // overflow у body уходит вьюпорту, если у html он visible: тогда body не обрезает.
+  const doc = element.ownerDocument
+  const ownsOverflow = element !== doc.body || isClipping(win.getComputedStyle(doc.documentElement).overflowY)
+  if (ownsOverflow && isClipping(win.getComputedStyle(element).overflowY)) {
+    clip = Math.min(clip, element.getBoundingClientRect().bottom)
+  }
+
+  cache.set(element, clip)
+  return clip
+}
+
 /**
  * Нижняя граница содержимого демки в координатах документа: текста,
  * картинок, полей ввода. Фоновые обёртки во всю высоту не считаются:
- * под рамкой у них нет ничего важного.
+ * под рамкой у них нет ничего важного. Содержимое прокручиваемых блоков
+ * считается только до края блока. Fixed-элементы и всё внутри них
+ * тоже не считаются: они не двигаются при прокрутке, и распорка
+ * под ними росла бы без конца.
  *
  * @param {Document} doc
- * @param {HTMLElement} host
  * @returns {number}
  */
-export function measureContentBottom(doc, host) {
+export function measureContentBottom(doc) {
   const win = doc.defaultView
+  const fixedElements = []
+  const clipCache = new Map()
   let bottom = 0
 
   for (const element of doc.body.querySelectorAll('*')) {
-    if (element === host || !(element.matches(REPLACED_ELEMENTS) || hasOwnText(element))) {
+    if (fixedElements.some((fixed) => fixed.contains(element))) {
       continue
     }
 
     const style = win.getComputedStyle(element)
-    if (style.position === 'fixed' || style.visibility === 'hidden' || style.display === 'none') {
+    if (style.position === 'fixed') {
+      fixedElements.push(element)
+      continue
+    }
+
+    if (!(element.matches(REPLACED_ELEMENTS) || hasOwnText(element)) || isHidden(element, style)) {
       continue
     }
 
@@ -268,7 +378,8 @@ export function measureContentBottom(doc, host) {
       continue
     }
 
-    bottom = Math.max(bottom, rect.bottom + win.scrollY)
+    const visibleBottom = Math.min(rect.bottom, getClipBottom(element.parentElement, win, clipCache))
+    bottom = Math.max(bottom, visibleBottom + win.scrollY)
   }
 
   return bottom
@@ -310,12 +421,16 @@ export function reserveSpace(doc, host) {
   root.append(spacer)
 
   const update = () => {
-    const barHeight = bar.getBoundingClientRect().height
-    const bottom = getSpacerBottom({ contentBottom: measureContentBottom(doc, host), barHeight })
-
-    // Начало координат распорки зависит от того, спозиционирован ли body
-    // в демке. Поэтому сначала ставим её в 0 и меряем, где этот 0.
     spacer.style.top = '0px'
+    if (!canScrollPage(doc)) {
+      return
+    }
+
+    const barHeight = bar.getBoundingClientRect().height
+    const bottom = getSpacerBottom({ contentBottom: measureContentBottom(doc), barHeight })
+
+    // Начало координат распорки зависит от того, спозиционирован ли html
+    // в демке. Поэтому распорка стоит в 0, и мы меряем, где этот 0.
     const origin = spacer.getBoundingClientRect().top + win.scrollY
     spacer.style.top = `${bottom - origin - 1}px`
   }
