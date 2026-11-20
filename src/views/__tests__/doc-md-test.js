@@ -130,3 +130,14 @@ describe('doc-md: markdown-версия материала', () => {
     expect(docMd.eleventyComputed.markdown({ doc: undefined, collections: {} })).toBe('')
   })
 })
+
+describe('doc: ссылка на markdown-версию в <head>', () => {
+  it('ведёт туда же, куда doc-md кладёт файл', () => {
+    const { markdownUrl } = require('../doc.11tydata').eleventyComputed
+    const item = doc({ slug: 'flex' })
+    const permalink = docMd.permalink.replace('{{doc.filePathStem}}', item.filePathStem).replace(/^\/\//, '/')
+
+    expect(markdownUrl({ doc: item })).toBe(`${baseUrl}${permalink}`)
+    expect(markdownUrl({ doc: item })).toBe(`${baseUrl}/css/flex/index.md`)
+  })
+})

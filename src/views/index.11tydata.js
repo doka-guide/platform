@@ -37,6 +37,26 @@ module.exports = {
   documentTitle: 'Дока',
   documentDescription: 'Документация для разработчиков на понятном языке',
 
+  // У главной нет своего текста, поэтому её markdown-версия — справка о Доке целиком
+  markdownUrl: `${constants.baseUrl}/llms.txt`,
+
+  // Разметка для поисковиков и ИИ-ассистентов: кто делает сайт и где ещё его найти
+  organization: {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Дока',
+    url: `${constants.baseUrl}/`,
+    logo: `${constants.baseUrl}/images/icons/512x512.png`,
+    description: 'Документация для разработчиков на понятном языке',
+    email: 'hi@doka.guide',
+    sameAs: [
+      'https://github.com/doka-guide',
+      'https://t.me/doka_guide',
+      'https://www.youtube.com/@doka-guide',
+      'https://x.com/doka_guide',
+    ],
+  },
+
   eleventyComputed: {
     promoData: async function (data) {
       const { collections } = data
