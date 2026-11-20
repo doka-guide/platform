@@ -138,6 +138,10 @@ jobs:
       # выходит за любое ровное значение. Пятая часть от числа файлов в
       # артефакте — это около двух тысяч при нынешних десяти с половиной, чего
       # хватает на уборку, но катастрофу с почти пустой сборкой всё ещё ловит.
+      #
+      # --checksum, потому что у свежей сборки новые даты у всех файлов, и по
+      # размеру с датой rsync переписывал на боевом сайте почти каждый файл.
+      # По содержимому меняются только действительно изменённые.
       - name: Публикация сайта
         run: |
           set -eu
@@ -145,5 +149,5 @@ jobs:
           echo "Файлов в артефакте: $EXPECTED_FILES, предел удаления: $MAX_DELETE"
           cd "$SITE_DIR"
           rsync --exclude 'api.json' --exclude 'mail' \
-            --archive --progress --compress --delete-after --max-delete="$MAX_DELETE" \
+            --archive --checksum --progress --compress --delete-after --max-delete="$MAX_DELETE" \
             . dev.doka.guide:/web/sites/doka.guide/www/
