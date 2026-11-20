@@ -58,6 +58,9 @@
 <link rel="canonical" href="{{ baseUrl }}{{ page.url }}">
 <link rel="manifest" href="/manifest.json">
 <link rel="alternate" type="application/atom+xml" title="Новое в Доке" href="{{ baseUrl }}/feed/index.xml">
+{% if markdownUrl %}
+  <link rel="alternate" type="text/markdown" href="{{ markdownUrl }}">
+{% endif %}
 
 <!-- 10.1 Open Graph (and Facebook) -->
 
@@ -100,6 +103,10 @@
 
 {% if articleTag %}
   <meta property="article:tag" content="{{ articleTag }}">
+{% endif %}
+
+{% if organization %}
+  <script type="application/ld+json">{{ organization | dump | safe }}</script>
 {% endif %}
 
 {% if pageType === 'Article' %}
