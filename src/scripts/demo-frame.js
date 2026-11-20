@@ -1,6 +1,6 @@
-// Показывает шапку/подвал демки, только когда документ открыт не в iframe.
-// Класс выставляется синхронно (скрипт без defer/async), чтобы не было
-// вспышки шапки при первой отрисовке отдельной вкладки.
-if (window.self === window.top) {
-  document.documentElement.classList.add('demo-frame--visible')
-}
+// Точка входа рамки демки. Подключается только в демки, на этапе сборки.
+// document.currentScript доступен лишь при синхронном выполнении, поэтому
+// тег берём сразу, до любых обработчиков.
+import { init } from './modules/demo-frame'
+
+init(document.currentScript)

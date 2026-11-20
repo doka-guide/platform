@@ -1,61 +1,72 @@
-const { parseHTML } = require('linkedom')
+// Метка, по которой сборка узнаёт уже обработанную демку.
+const MARKER_ATTRIBUTE = 'data-demo-frame'
+
+// Ручная шапка из старого шаблона демок. Вторую такую же не добавляем,
+// иначе в отдельной вкладке их будет два комплекта.
+const HAND_MADE_FRAME = /class\s*=\s*["'][^"']*\bdemo-(?:logo|meta)\b/i
+
+function escapeAttribute(value) {
+  return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
 
 /**
- * Внедряет в HTML демки автоматическую шапку (ссылка на doka.guide) и подвал
- * (ссылка на статью и на автора). Видимость управляется исключительно через
- * src/scripts/demo-frame.js (класс .demo-frame--visible на <html>), без
- * query-параметров — демка не должна ничего знать про embed.
+ * Собирает тег скрипта рамки. Все данные для подписи едут в data-атрибутах:
+ * саму рамку скрипт рисует в браузере и только вне iframe.
  *
- * Идемпотентна: повторный вызов на уже обработанном файле возвращает его
- * без изменений (gulp может пересобирать dist без предварительной чистки).
+ * @param {{ baseUrl: string, articleUrl: string, title: string, authors: { name: string, url: string }[], accent: string }} data
+ * @returns {string}
+ */
+function buildScriptTag(data) {
+  const attributes = {
+    src: '/scripts/demo-frame.js',
+    [MARKER_ATTRIBUTE]: '',
+    'data-base-url': data.baseUrl,
+    'data-article-url': data.articleUrl,
+    'data-article-title': data.title,
+    'data-authors': JSON.stringify(data.authors),
+    'data-accent': data.accent,
+  }
+
+  const serialized = Object.entries(attributes)
+    .map(([name, value]) => (value === '' ? name : `${name}="${escapeAttribute(value)}"`))
+    .join(' ')
+
+  return `<script ${serialized}></script>`
+}
+
+/**
+ * Добавляет в HTML демки скрипт, который вне iframe рисует рамку Доки:
+ * лого, ссылку на статью и авторов.
+ *
+ * HTML не пересобирается через парсер, а дополняется строкой. Так демка
+ * остаётся байт в байт прежней: парсер переставлял вложенный доктайп SVG
+ * в начало файла и переводил страницу в режим совместимости.
+ *
+ * Идемпотентна: повторный вызов возвращает файл без изменений.
  *
  * @param {string} html — исходный HTML демки
- * @param {{ section: string, slug: string, authorUsername: string, authorName: string, accent: string }} data
+ * @param {{ baseUrl: string, articleUrl: string, title: string, authors: { name: string, url: string }[], accent: string }} data
  * @returns {string} обновлённый HTML
  */
 function transformDemoHtml(html, data) {
-  const { document } = parseHTML(html)
-
-  if (document.querySelector('.demo-frame-footer')) {
-    return document.toString()
-  }
-
-  // В части демок шапка и подвал ещё свёрстаны вручную (.demo-logo, .demo-meta).
-  // Вторые такие же не добавляем, иначе в отдельной вкладке их будет два комплекта.
-  if (document.querySelector('.demo-logo, .demo-meta')) {
+  if (html.includes(MARKER_ATTRIBUTE) || HAND_MADE_FRAME.test(html)) {
     return html
   }
 
-  const styleLink = document.createElement('link')
-  styleLink.setAttribute('rel', 'stylesheet')
-  styleLink.setAttribute('href', '/styles/demo-frame.css')
-  document.head.appendChild(styleLink)
+  const tag = buildScriptTag(data)
 
-  // Без defer/async: класс должен выставиться до первой отрисовки,
-  // иначе в отдельной вкладке будет видна вспышка шапки/футера.
-  const script = document.createElement('script')
-  script.setAttribute('src', '/scripts/demo-frame.js')
-  document.head.insertBefore(script, document.head.firstChild)
+  // Перед </head>: так `<meta charset>` остаётся в первых байтах файла.
+  const headEnd = html.search(/<\/head\s*>/i)
+  if (headEnd !== -1) {
+    return `${html.slice(0, headEnd)}${tag}\n${html.slice(headEnd)}`
+  }
 
-  const existingStyle = document.body.getAttribute('style') || ''
-  const separator = existingStyle && !existingStyle.trim().endsWith(';') ? ';' : ''
-  document.body.setAttribute('style', `${existingStyle}${separator}--demo-frame-accent: ${data.accent}`)
+  const bodyStart = html.search(/<body[\s>]/i)
+  if (bodyStart !== -1) {
+    return `${html.slice(0, bodyStart)}${tag}\n${html.slice(bodyStart)}`
+  }
 
-  const logo = document.createElement('a')
-  logo.setAttribute('class', 'demo-frame-logo')
-  logo.setAttribute('href', 'https://doka.guide/')
-  logo.textContent = 'U•ᴥ•U Дока'
-  document.body.appendChild(logo)
-
-  const footer = document.createElement('footer')
-  footer.setAttribute('class', 'demo-frame-footer')
-  footer.innerHTML = `
-    <a href="https://doka.guide/${data.section}/${data.slug}/">${data.slug} — Дока</a>
-    <a href="https://doka.guide/people/${data.authorUsername}/">${data.authorName}</a>
-  `
-  document.body.appendChild(footer)
-
-  return document.toString()
+  return `${html}\n${tag}\n`
 }
 
-module.exports = { transformDemoHtml }
+module.exports = { transformDemoHtml, MARKER_ATTRIBUTE }

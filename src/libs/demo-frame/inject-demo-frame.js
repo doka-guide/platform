@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const frontMatter = require('gray-matter')
 const categoryColors = require('../../../config/category-colors')
+const { baseUrl: BASE_URL } = require('../../../config/constants')
 const { transformDemoHtml } = require('./transform-demo-html')
 
 const ROOT_DIR = path.join(__dirname, '..', '..', '..')
@@ -67,16 +68,33 @@ function findDemoEntryFiles(rootDir) {
 }
 
 /**
+ * Читает имя автора из его профиля. Если профиля нет, возвращает логин:
+ * сборка из-за этого не падает.
+ *
+ * @param {string} username
+ * @param {string} srcDir
+ * @returns {string}
+ */
+function resolveAuthorName(username, srcDir) {
+  try {
+    const personMdPath = path.join(srcDir, 'people', username, 'index.md')
+    return frontMatter(fs.readFileSync(personMdPath, 'utf-8')).data.name || username
+  } catch {
+    return username
+  }
+}
+
+/**
  * По пути dist/{section}/{slug}/demos/{name}/index.html находит исходную
- * статью и автора, чтобы собрать данные для шапки/подвала демки.
- * Если статья или автор не резолвятся — возвращает null, вызывающий код
- * должен пропустить такой файл, не обрушая сборку.
+ * статью и собирает данные для рамки демки: заголовок, ссылку, авторов
+ * и цвет раздела. Если статья не находится, возвращает null, и вызывающий
+ * код пропускает файл, не обрушая сборку.
  *
  * @param {string} demoEntryPath
- * @param {{ distDir: string, srcDir: string }} dirs
- * @returns {{ section: string, slug: string, authorUsername: string, authorName: string, accent: string } | null}
+ * @param {{ distDir: string, srcDir: string, baseUrl?: string }} options
+ * @returns {{ baseUrl: string, articleUrl: string, title: string, authors: { name: string, url: string }[], accent: string } | null}
  */
-function resolveDemoData(demoEntryPath, { distDir, srcDir } = { distDir: DIST_DIR, srcDir: SRC_DIR }) {
+function resolveDemoData(demoEntryPath, { distDir = DIST_DIR, srcDir = SRC_DIR, baseUrl = BASE_URL } = {}) {
   const relFromDist = path.relative(distDir, demoEntryPath)
   const parts = relFromDist.split(path.sep)
   const demosIndex = parts.indexOf('demos')
@@ -87,7 +105,6 @@ function resolveDemoData(demoEntryPath, { distDir, srcDir } = { distDir: DIST_DI
 
   const articleRelParts = parts.slice(0, demosIndex)
   const [section] = articleRelParts
-  const slug = articleRelParts.slice(1).join('/')
 
   const articleMdPath = path.join(srcDir, ...articleRelParts, 'index.md')
   if (!fs.existsSync(articleMdPath)) {
@@ -101,23 +118,22 @@ function resolveDemoData(demoEntryPath, { distDir, srcDir } = { distDir: DIST_DI
     return null
   }
 
-  const authors = articleData.authors
-  const authorUsername = Array.isArray(authors) ? authors[0] : authors
-  if (!authorUsername) {
-    return null
-  }
-
-  let authorName = authorUsername
-  try {
-    const personMdPath = path.join(srcDir, 'people', authorUsername, 'index.md')
-    authorName = frontMatter(fs.readFileSync(personMdPath, 'utf-8')).data.name || authorUsername
-  } catch {
-    // Профиль автора не резолвится — используем логин, сборку не обрушаем.
-  }
+  const siteUrl = baseUrl.replace(/\/+$/, '')
+  const usernames = [].concat(articleData.authors || []).filter(Boolean)
+  const authors = usernames.map((username) => ({
+    name: resolveAuthorName(username, srcDir),
+    url: `${siteUrl}/people/${username}/`,
+  }))
 
   const { light: accent } = categoryColors[section] || categoryColors.default
 
-  return { section, slug, authorUsername, authorName, accent }
+  return {
+    baseUrl: `${siteUrl}/`,
+    articleUrl: `${siteUrl}/${articleRelParts.join('/')}/`,
+    title: String(articleData.title || articleRelParts.at(-1)),
+    authors,
+    accent,
+  }
 }
 
 /**
@@ -127,7 +143,7 @@ async function injectDemoFrame() {
   const demoFiles = findDemoEntryFiles(DIST_DIR)
 
   for (const filePath of demoFiles) {
-    const data = resolveDemoData(filePath, { distDir: DIST_DIR, srcDir: SRC_DIR })
+    const data = resolveDemoData(filePath)
     if (!data) {
       continue
     }

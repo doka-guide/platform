@@ -93,7 +93,8 @@ const scripts = () => {
     .pipe(gulp.dest('dist/scripts'))
 }
 
-// Отдельная точка входа: скрипт подключается только в демки, бандл сайта ему не нужен.
+// Отдельная точка входа: скрипт рисует рамку демки и подключается только в демки.
+// Бандл сайта ему не нужен.
 const demoFrameScript = () => {
   return gulp
     .src('src/scripts/demo-frame.js')
@@ -102,6 +103,7 @@ const demoFrameScript = () => {
         entryPoints: ['src/scripts/demo-frame.js'],
         outfile: 'demo-frame.js',
         target: 'es2015',
+        bundle: true,
         minify: true,
       }),
     )

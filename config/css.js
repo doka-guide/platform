@@ -11,7 +11,7 @@ const cssTargets = browserslistToTargets(browserslist(browsers))
 
 // Точки входа: всё остальное подключается к ним через @import, их же
 // lightningcss и собирает в один файл.
-const styleEntries = ['index.css', 'index.sc.css', 'dark-theme.css', 'demo-frame.css']
+const styleEntries = ['index.css', 'index.sc.css', 'dark-theme.css']
 
 const bundleStyle = (filename) => bundle({ filename, minify: true, targets: cssTargets }).code
 
