@@ -67,12 +67,13 @@ const STYLES = `
     text-overflow: ellipsis;
   }
 
-  /* Авторы не сжимаются раньше заголовка, предел — 40% ширины. */
+  /* Авторы не сжимаются раньше заголовка. Предел — 45% блока, это около
+    40% полосы: блок уже неё на ширину лого. */
   .authors {
     display: flex;
     flex: 0 0 auto;
     align-items: baseline;
-    max-width: 40%;
+    max-width: 45%;
     /* Место под обводку фокуса: иначе её обрежет overflow. */
     margin: -4px -4px -4px auto;
     padding: 4px;
@@ -190,6 +191,8 @@ const STYLES = `
       padding-bottom: 1px;
       overflow: visible;
       white-space: normal;
+      /* Длинное слово из <code> переносится, а не вылезает за край. */
+      overflow-wrap: anywhere;
     }
 
     /* Имена переносятся, а не уходят за край. Обрезать нечего,
