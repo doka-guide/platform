@@ -197,9 +197,12 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 - _[article-index-json.njk](https://github.com/doka-guide/platform/blob/main/src/views/article-index-json.njk)_ — сокращённое содержимое раздела в формате JSON: путь, связанные материалы и краткое описание каждой доки;
 - _[doc.njk](https://github.com/doka-guide/platform/blob/main/src/views/doc.njk)_ — страницы с материалами;
 - _[doc-json.njk](https://github.com/doka-guide/platform/blob/main/src/views/doc-json.njk)_ — материал в формате JSON: ссылки, картинки, видео и демки, найденные в тексте;
+- _[doc-md.njk](https://github.com/doka-guide/platform/blob/main/src/views/doc-md.njk)_ — материал в формате markdown: шапка с метаданными, текст материала и советы из рубрики «На практике»;
 - _[feed.njk](https://github.com/doka-guide/platform/blob/main/src/views/feed.njk)_ — XML-документ для организации фида для RSS;
 - _[featured-json.njk](https://github.com/doka-guide/platform/blob/main/src/views/featured-json.njk)_ — список избранных материалов в формате JSON;
 - _[index.njk](https://github.com/doka-guide/platform/blob/main/src/views/index.njk)_ — главная страница сайта;
+- _[llms.njk](https://github.com/doka-guide/platform/blob/main/src/views/llms.njk)_ — краткая справка о Доке для ИИ-агентов в формате текста;
+- _[llms-full.njk](https://github.com/doka-guide/platform/blob/main/src/views/llms-full.njk)_ — полный список материалов со ссылками на markdown-версии в формате текста;
 - _[page.njk](https://github.com/doka-guide/platform/blob/main/src/views/page.njk)_ — страницы с текстами, которые не являются материалами;
 - _[offline.njk](https://github.com/doka-guide/platform/blob/main/src/views/offline.njk)_ — страница с сообщением об отсутствии сети; сейчас не используется, потому что сервис-воркер отключён;
 - _[people.njk](https://github.com/doka-guide/platform/blob/main/src/views/people.njk)_ — страница со списком участников (контрибьюторов);
@@ -248,3 +251,16 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 - _[questions.njk](https://github.com/doka-guide/platform/blob/main/src/includes/questions.njk)_ — блок рубрики «На собеседовании» в материалах;
 - _[related-articles-gallery.njk](https://github.com/doka-guide/platform/blob/main/src/includes/related-articles-gallery.njk)_ — блок для представления связанных док и статей с текущим материалом;
 - _[subscribe-popup.njk](https://github.com/doka-guide/platform/blob/main/src/includes/subscribe-popup.njk)_ — попап для отправки электронной почты, чтобы подписаться на рассылку.
+
+#### Машиночитаемые адреса
+
+Кроме страниц для человека сборка отдаёт адреса для программ: markdown-версию каждого материала, `/llms.txt` и `/llms-full.txt`. За них отвечают шаблоны `doc-md`, `llms` и `llms-full` в папке _src/views_, тесты на них — в _src/views/__tests__/_. Что это и зачем, описано для внешнего читателя в [документации контента](https://github.com/doka-guide/content/blob/main/docs/api.md).
+
+Где легко споткнуться:
+
+- Markdown собирается на каждый элемент коллекции `docs`, по одному файлу на материал, пермалинк `/{{doc.filePathStem}}.md`. Это больше тысячи файлов: если сборка стала дольше, причина может быть здесь.
+- В шапку markdown-файла попадает фронтматтер материала плюс вычисленные поля: `url`, `section`, `source` и `license`. Значения пишутся через `JSON.stringify`, потому что JSON — подмножество YAML: так кавычки и бэктики в заголовках не ломают шапку. Пустые поля отбрасываются.
+- Текст берётся из `rawInput`, то есть до трансформаций. Относительные ссылки на картинки и демки в нём некому достроить, поэтому функция `absolutize` дописывает к ним адрес материала. Меняете разметку ссылок в материалах — проверьте её.
+- Советы из рубрики «На практике» дописываются в конец файла заголовком `## На практике: Имя`. Имя берётся из коллекции `peopleById`.
+- Заготовки (тег `placeholder`) получают в шапке `isPlaceholder: true` и markdown-версию, но в `llms-full.txt` не попадают.
+- Демки открыты краулерам осознанно: `Disallow: *demos/` убран из [_src/robots.txt_](https://github.com/doka-guide/platform/blob/main/src/robots.txt). Демку нельзя пересказать текстом, поэтому пусть поисковики и ИИ-агенты на неё ссылаются.
