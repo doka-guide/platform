@@ -29,13 +29,20 @@ describe('article-index-json: сборка индекса раздела', () =>
     expect(Object.keys(json)).toEqual(['`accent-color`', '`align-items`', '`backdrop-filter`'])
   })
 
-  it('отсеивает материалы без тега doka', () => {
-    const json = computeJson([
-      article({ slug: 'display', title: '`display`' }),
-      article({ slug: 'practice', title: 'Практика', tags: ['article'] }),
-    ])
+  it('включает статьи с тегом article, а не только доки', () => {
+    // Регрессия: индекс брал только материалы с тегом doka. В рецептах их нет
+    // совсем, поэтому recipes/index.json был пустым, а в tools/index.json
+    // оставалось 4 материала из 92.
+    const json = computeJson(
+      [
+        article({ slug: 'ajax-form', title: 'Отправка формы', tags: ['article'] }),
+        article({ slug: 'dark-theme', title: 'Тёмная тема', tags: ['article'] }),
+      ],
+      'recipes',
+    )
 
-    expect(Object.keys(json)).toEqual(['`display`'])
+    expect(Object.keys(json)).toEqual(['Отправка формы', 'Тёмная тема'])
+    expect(json['Отправка формы'].path).toBe('/recipes/ajax-form/')
   })
 
   it('складывает путь из раздела и слага', () => {
