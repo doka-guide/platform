@@ -141,6 +141,8 @@ npm run build && npm run lint:html    # валидация разметки, н�
 
 Данные страницы статьи собираются в `src/views/doc.11tydata.js`, общие для всех страниц — в `src/views/views.11tydata.js`.
 
+Кроме страниц для человека сборка отдаёт адреса для программ: markdown-версию каждого материала коллекции `docs` (`index.md` рядом с адресом страницы), `/llms.txt` и `/llms-full.txt`. За них отвечают `doc-md`, `llms` и `llms-full` в `src/views/`, тесты — в `src/views/__tests__/`. Устройство и подводные камни — в [`docs/how-its-work.md`](docs/how-its-work.md), описание для внешнего читателя — в [документации контента](https://github.com/doka-guide/content/blob/main/docs/api.md).
+
 ---
 
 ## 6. Соглашения
