@@ -70,6 +70,12 @@ module.exports = {
       return doc.data.title
     },
 
+    // Повторяет пермалинк doc-md, чтобы агент нашёл markdown-версию по тегу в <head>
+    markdownUrl: function (data) {
+      const { doc } = data
+      return `${baseUrl}${doc.filePathStem}.md`
+    },
+
     cover: function (data) {
       const { doc } = data
       return doc.data.cover
