@@ -267,7 +267,7 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 
 #### Машиночитаемые адреса
 
-Кроме страниц для человека сборка отдаёт адреса для программ: markdown-версию каждого материала, `/llms.txt` и `/llms-full.txt`. За них отвечают шаблоны `doc-md`, `llms` и `llms-full` в папке _src/views_, тесты на них — в _src/views/__tests__/_. Что это и зачем, описано для внешнего читателя в [документации контента](https://github.com/doka-guide/content/blob/main/docs/api.md).
+Кроме страниц для человека сборка отдаёт адреса для программ: markdown-версию каждого материала и главной, `/llms.txt` и `/llms-full.txt`. За них отвечают шаблоны `doc-md`, `home-md`, `llms` и `llms-full` в папке _src/views_, тесты на них — в _src/views/__tests__/_. Что это и зачем, описано для внешнего читателя в [документации контента](https://github.com/doka-guide/content/blob/main/docs/api.md).
 
 Где легко споткнуться:
 
@@ -276,7 +276,26 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 - Текст берётся из `rawInput`, то есть до трансформаций. Относительные ссылки на картинки и демки в нём некому достроить, поэтому функция `absolutize` дописывает к ним адрес материала. Меняете разметку ссылок в материалах — проверьте её.
 - Советы из рубрики «На практике» дописываются в конец файла заголовком `## На практике: Имя`. Имя берётся из коллекции `peopleById`.
 - Заготовки (тег `placeholder`) получают в шапке `isPlaceholder: true` и markdown-версию, но в `llms-full.txt` не попадают.
-- Агент узнаёт о markdown-версии из `<link rel="alternate" type="text/markdown">` в _src/includes/meta.njk_. Адрес берётся из поля `markdownUrl`: в _doc.11tydata.js_ он повторяет пермалинк `doc-md`, у главной в _index.11tydata.js_ ведёт на `/llms.txt`. Меняете пермалинк `doc-md` — поменяйте и `markdownUrl`, тест в _doc-md-test.js_ это поймает.
+- Агент узнаёт о markdown-версии из `<link rel="alternate" type="text/markdown">` в _src/includes/meta.njk_. Адрес берётся из поля `markdownUrl`: в _doc.11tydata.js_ он повторяет пермалинк `doc-md`, у главной в _index.11tydata.js_ ведёт на `/index.md`. Меняете пермалинк `doc-md` — поменяйте и `markdownUrl`, тест в _doc-md-test.js_ это поймает.
 - На главной есть JSON-LD типа `Organization`: название, логотип, почта и ссылки на профили в `sameAs`. Данные лежат в поле `organization` в _index.11tydata.js_, шаблон выводит их фильтром `dump`.
 - Сервер отдаёт `.md` с типом `application/octet-stream`, потому что nginx не знает это расширение. Тип `text/markdown` настраивается на сервере, а не в этом репозитории.
+- Markdown-версия главной (`/index.md`) — это текст `llms.txt` с фронтматтером `title`, `description` и `url`. В сам `llms.txt` фронтматтер не ставим: по формату файл начинается с заголовка.
+- Отдать markdown по заголовку `Accept: text/markdown` может только сервер. Сборка кладёт `index.md` рядом с каждым `index.html`, остальное — настройка nginx. Примерно так (на сервере не проверено):
+
+  ```nginx
+  types { text/markdown md; }
+
+  map $http_accept $wants_markdown {
+    default 0;
+    "~*text/markdown" 1;
+  }
+
+  location ~ /$ {
+    add_header Vary Accept always;
+    if ($wants_markdown) {
+      rewrite ^(.*)/$ $1/index.md last;
+    }
+  }
+  ```
 - Демки открыты краулерам осознанно: `Disallow: *demos/` убран из [_src/robots.txt_](https://github.com/doka-guide/platform/blob/main/src/robots.txt). Демку нельзя пересказать текстом, поэтому пусть поисковики и ИИ-агенты на неё ссылаются.
+- ИИ-боты названы в _robots.txt_ поимённо, а строка `Content-Signal` говорит, что тексты можно брать для поиска и ответов, но не для обучения моделей: так сигнал совпадает с лицензией CC BY-NC-SA. Бот с именной группой не читает группу `*`, поэтому `Disallow: /search` повторяется в каждой группе. Тест в _src/__tests__/robots-test.js_ это проверяет.

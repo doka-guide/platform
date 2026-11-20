@@ -2,8 +2,8 @@ const index = require('../index.11tydata')
 const { baseUrl } = require('../../../config/constants')
 
 describe('index: данные главной для агентов', () => {
-  it('отдаёт llms.txt как markdown-версию главной', () => {
-    expect(index.markdownUrl).toBe(`${baseUrl}/llms.txt`)
+  it('ссылается на markdown-версию главной', () => {
+    expect(index.markdownUrl).toBe(`${baseUrl}/index.md`)
   })
 
   it('описывает Доку разметкой Organization с полями, которые читают поисковики', () => {
