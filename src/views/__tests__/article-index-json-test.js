@@ -68,3 +68,18 @@ describe('article-index-json: сборка индекса раздела', () =>
     expect(computeJson([])).toEqual({})
   })
 })
+
+describe('article-index-json: текст файла', () => {
+  const json = { '`<script>`': { summary: ['Скрипты кладут в [`<head>`](/html/head/).'] } }
+  const text = articleIndexJson.eleventyComputed.jsonText({ json })
+
+  it('не содержит угловых скобок', () => {
+    // nginx на doka.guide вставляет аналитику после первого `<head>` даже в
+    // application/json — и индекс раздела html переставал разбираться.
+    expect(text).not.toMatch(/</)
+  })
+
+  it('разбирается обратно в тот же объект', () => {
+    expect(JSON.parse(text)).toEqual(json)
+  })
+})

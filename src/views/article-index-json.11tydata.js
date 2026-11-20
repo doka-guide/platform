@@ -62,5 +62,14 @@ module.exports = {
           return map
         }, {})
     },
+
+    // nginx на doka.guide через sub_filter вставляет аналитику после первого
+    // `<head>` в любом ответе, включая application/json. В «Кратко» статей
+    // HTML этот тег встречается текстом, и индекс раздела переставал быть
+    // валидным JSON. Экранированная `<` для JSON та же `<`, но nginx
+    // её не узнаёт.
+    jsonText: function (data) {
+      return JSON.stringify(data.json).replace(/</g, '\\u003c')
+    },
   },
 }
