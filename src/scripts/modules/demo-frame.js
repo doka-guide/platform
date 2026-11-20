@@ -59,23 +59,38 @@ const STYLES = `
     text-overflow: ellipsis;
   }
 
+  /* Авторы не сжимаются раньше заголовка, предел — 40% ширины. */
   .authors {
-    flex: 0 1 auto;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: baseline;
     max-width: 40%;
     /* Место под обводку фокуса: иначе её обрежет overflow. */
     margin: -4px -4px -4px auto;
     padding: 4px;
   }
 
-  /* Каждый автор — свой блок со своим многоточием: так обводка фокуса
-     у обрезанного имени остаётся целой. */
+  /* Каждый автор — отдельный flex-элемент со своим многоточием.
+     Ни одно имя не уходит за край целиком, и обводка фокуса видна. */
   .authors a {
+    flex: 0 1 auto;
+    min-width: 0;
     overflow: hidden;
     max-width: 100%;
-    padding: 0;
-    vertical-align: top;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+
+  .sep,
+  .more {
+    flex: none;
+    white-space: pre;
+  }
+
+  /* Отступ, чтобы обводка фокуса у имени не налезала на «+N». */
+  .more {
+    display: none;
+    margin-left: 4px;
   }
 
   a {
@@ -105,17 +120,27 @@ const STYLES = `
   }
 
   .logo {
-    font-family: ${MONO_FONT};
-    letter-spacing: -0.05em;
     flex-shrink: 0;
+    font-family: ${MONO_FONT};
+    font-weight: 600;
+    letter-spacing: -0.02em;
     white-space: nowrap;
     text-decoration-line: none;
-    opacity: 0.8;
   }
 
-  .logo:hover,
-  .logo:focus-visible {
-    opacity: 1;
+  .logo:hover {
+    text-decoration-line: underline;
+  }
+
+  .logo-face {
+    color: var(--accent);
+  }
+
+  .divider {
+    flex: none;
+    width: 1px;
+    height: 16px;
+    background-color: rgb(255 255 255 / 0.25);
   }
 
   .spacer {
@@ -130,6 +155,20 @@ const STYLES = `
   code {
     font-family: ${MONO_FONT};
     font-size: 0.95em;
+    line-height: 1;
+  }
+
+  /* На узком экране — только мордочка и первый автор с «+N». */
+  @media (max-width: 599px) {
+    .logo-word,
+    .authors .sep,
+    .authors a:not(:first-of-type) {
+      display: none;
+    }
+
+    .authors .more {
+      display: block;
+    }
   }
 
   @media print {
@@ -193,6 +232,20 @@ export function renderTitle(doc, title) {
   })
 }
 
+function createSpan(doc, className, text) {
+  const span = doc.createElement('span')
+  span.className = className
+  span.textContent = text
+  return span
+}
+
+// Оформление без смысла для скринридера: разделитель, счётчик «+N».
+function createDecoration(doc, className, text = '') {
+  const span = createSpan(doc, className, text)
+  span.setAttribute('aria-hidden', 'true')
+  return span
+}
+
 function createLink(doc, { href, text, className, label, hint }) {
   const link = doc.createElement('a')
   link.href = href
@@ -222,8 +275,9 @@ function createLink(doc, { href, text, className, label, hint }) {
  */
 export function mountFrame(doc, data) {
   const host = doc.createElement(HOST_TAG)
-  // Инлайн-стиль сильнее правил демки вроде `body > * { … }`.
-  host.setAttribute('style', 'all: initial !important')
+  // Инлайн-стиль сильнее правил демки. display: contents убирает хост
+  // из flex- и grid-раскладки html, если она там задана.
+  host.setAttribute('style', 'all: initial !important; display: contents !important')
 
   const root = host.attachShadow({ mode: 'open' })
 
@@ -242,7 +296,13 @@ export function mountFrame(doc, data) {
   const main = doc.createElement('div')
   main.className = 'main'
   main.append(
-    createLink(doc, { href: data.baseUrl, text: 'U•ᴥ•U Дока', className: 'logo', label: 'Дока — на главную' }),
+    createLink(doc, {
+      href: data.baseUrl,
+      text: [createSpan(doc, 'logo-face', 'U•ᴥ•U'), createSpan(doc, 'logo-word', ' Дока')],
+      className: 'logo',
+      label: 'Дока — на главную',
+    }),
+    createDecoration(doc, 'divider'),
     createLink(doc, {
       href: data.articleUrl,
       text: renderTitle(doc, data.title),
@@ -258,10 +318,14 @@ export function mountFrame(doc, data) {
     authors.title = data.authors.map((author) => author.name).join(', ')
     data.authors.forEach((author, index) => {
       if (index > 0) {
-        authors.append(doc.createTextNode(', '))
+        // Не текстовый узел: во flex-контейнере он теряет пробел.
+        authors.append(createSpan(doc, 'sep', ', '))
       }
       authors.append(createLink(doc, { href: author.url, text: author.name }))
     })
+    if (data.authors.length > 1) {
+      authors.append(createDecoration(doc, 'more', ` +${data.authors.length - 1}`))
+    }
     bar.append(authors)
   }
 
@@ -421,16 +485,19 @@ export function reserveSpace(doc, host) {
   root.append(spacer)
 
   const update = () => {
-    spacer.style.top = '0px'
     if (!canScrollPage(doc)) {
+      spacer.style.top = '0px'
       return
     }
 
+    // Меряем при стоящей распорке: она могла добавить полосу прокрутки,
+    // и от этого текст переносится иначе.
     const barHeight = bar.getBoundingClientRect().height
     const bottom = getSpacerBottom({ contentBottom: measureContentBottom(doc), barHeight })
 
     // Начало координат распорки зависит от того, спозиционирован ли html
-    // в демке. Поэтому распорка стоит в 0, и мы меряем, где этот 0.
+    // в демке. Поэтому ставим её в 0 и меряем, где этот 0.
+    spacer.style.top = '0px'
     const origin = spacer.getBoundingClientRect().top + win.scrollY
     spacer.style.top = `${bottom - origin - 1}px`
   }

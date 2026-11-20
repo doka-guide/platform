@@ -79,6 +79,8 @@ describe('mountFrame', () => {
 
     expect(getHost().parentElement).toBe(document.documentElement)
     expect(document.body.contains(getHost())).toBe(false)
+    expect(getHost().style.getPropertyValue('display')).toBe('contents')
+    expect(getHost().style.getPropertyPriority('display')).toBe('important')
     expect(bar.tagName).toBe('ASIDE')
     expect(bar.getAttribute('aria-label')).toBe('Демка из Доки')
     expect(bar.getAttribute('lang')).toBe('ru')
@@ -92,8 +94,25 @@ describe('mountFrame', () => {
     ])
     expect(links[0].getAttribute('aria-label')).toBe('Дока — на главную')
     expect(links[1].innerHTML).toBe('<code>animation-name</code>')
-    expect(bar.querySelector('.authors').textContent).toBe('Алёна Батицкая, Игорь Коровченко')
+    expect(bar.querySelector('.authors').textContent).toBe('Алёна Батицкая, Игорь Коровченко +1')
     expect(bar.style.getPropertyValue('--accent')).toBe('hsl(209 100% 59%)')
+  })
+
+  it('делит лого на мордочку и слово и прячет оформление от скринридера', () => {
+    mountFrame(document, data)
+    const bar = getBar()
+
+    expect(bar.querySelector('.logo-face').textContent).toBe('U•ᴥ•U')
+    expect(bar.querySelector('.logo-word').textContent).toBe(' Дока')
+    expect(bar.querySelector('.divider').getAttribute('aria-hidden')).toBe('true')
+    expect(bar.querySelector('.more').getAttribute('aria-hidden')).toBe('true')
+    expect(bar.querySelector('.sep').textContent).toBe(', ')
+  })
+
+  it('не показывает «+N» у единственного автора', () => {
+    mountFrame(document, { ...data, authors: data.authors.slice(0, 1) })
+
+    expect(getBar().querySelector('.more, .sep')).toBeNull()
   })
 
   it('не добавляет в DOM демки ни footer, ни ссылки', () => {
