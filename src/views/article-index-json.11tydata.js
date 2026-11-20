@@ -38,29 +38,30 @@ module.exports = {
         return {}
       }
 
-      return categoryArticles
-        .filter((article) => article.data.tags?.includes('doka'))
-        .reduce((map, article) => {
-          const lines = (article.rawInput ?? '').split('\n')
-          const headingIndices = []
+      // Отбора по тегу doka здесь нет намеренно. В коллекции раздела лежат только
+      // index.md материалов, и у каждого тег doka или article. Отбор по doka
+      // оставлял рецепты пустыми, а из tools — 4 материала из 92.
+      return categoryArticles.reduce((map, article) => {
+        const lines = (article.rawInput ?? '').split('\n')
+        const headingIndices = []
 
-          lines.forEach((line, index) => {
-            if (line.startsWith('## ')) {
-              headingIndices.push(index)
-            }
-          })
-
-          map[article.data.title] = {
-            path: `/${category}/${article.fileSlug}/`,
-            related: article.data.related,
-            summary: lines
-              .slice(0, headingIndices[1])
-              .filter((line) => line !== '')
-              .filter((line) => line !== '## Кратко'),
+        lines.forEach((line, index) => {
+          if (line.startsWith('## ')) {
+            headingIndices.push(index)
           }
+        })
 
-          return map
-        }, {})
+        map[article.data.title] = {
+          path: `/${category}/${article.fileSlug}/`,
+          related: article.data.related,
+          summary: lines
+            .slice(0, headingIndices[1])
+            .filter((line) => line !== '')
+            .filter((line) => line !== '## Кратко'),
+        }
+
+        return map
+      }, {})
     },
 
     // nginx на doka.guide через sub_filter вставляет аналитику после первого
