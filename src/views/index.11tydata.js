@@ -38,7 +38,7 @@ module.exports = {
   documentDescription: 'Документация для разработчиков на понятном языке',
 
   // У главной нет своего текста, поэтому её markdown-версия — справка о Доке целиком
-  markdownUrl: `${constants.baseUrl}/llms.txt`,
+  markdownUrl: `${constants.baseUrl}/index.md`,
 
   // Разметка для поисковиков и ИИ-ассистентов: кто делает сайт и где ещё его найти
   organization: {
