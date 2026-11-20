@@ -49,8 +49,16 @@ const STYLES = `
     min-width: 0;
   }
 
-  /* Полоса всегда в одну строку: длинный заголовок и авторы
-    обрезаются многоточием, полный текст — в подсказке. */
+  /* Заголовок и авторы. На широком экране — в строку, авторы справа. */
+  .stack {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    column-gap: 16px;
+    min-width: 0;
+  }
+
+  /* На широком экране длинный заголовок и авторы обрезаются многоточием. */
   .title,
   .authors {
     overflow: hidden;
@@ -70,9 +78,16 @@ const STYLES = `
     padding: 4px;
   }
 
-  /* Каждый автор — отдельный flex-элемент со своим многоточием.
-    Ни одно имя не уходит за край целиком, и обводка фокуса видна. */
-  .authors a {
+  /* Имя и запятая после него не разрываются при переносе. */
+  .author {
+    display: flex;
+    flex: 0 1 auto;
+    align-items: baseline;
+    min-width: 0;
+  }
+
+  /* Каждое имя — со своим многоточием, обводка фокуса остаётся целой. */
+  .author a {
     flex: 0 1 auto;
     min-width: 0;
     overflow: hidden;
@@ -81,16 +96,9 @@ const STYLES = `
     text-overflow: ellipsis;
   }
 
-  .sep,
-  .more {
+  .sep {
     flex: none;
     white-space: pre;
-  }
-
-  /* Отступ, чтобы обводка фокуса у имени не налезала на «+N». */
-  .more {
-    display: none;
-    margin-left: 4px;
   }
 
   a {
@@ -158,16 +166,48 @@ const STYLES = `
     line-height: 1;
   }
 
-  /* На узком экране — только мордочка и первый автор с «+N». */
+  /* На телефоне ничего не обрезается: лого слева, справа в два ряда
+    заголовок целиком и все авторы. */
   @media (max-width: 599px) {
-    .logo-word,
-    .authors .sep,
-    .authors a:not(:first-of-type) {
+    .logo-word {
       display: none;
     }
 
-    .authors .more {
-      display: block;
+    .divider {
+      align-self: stretch;
+      height: auto;
+    }
+
+    .stack {
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: 2px;
+      padding-bottom: 2px;
+    }
+
+    .title {
+      padding-top: 2px;
+      padding-bottom: 1px;
+      overflow: visible;
+      white-space: normal;
+    }
+
+    /* Имена переносятся, а не уходят за край. Обрезать нечего,
+      поэтому overflow открыт и обводка фокуса видна целиком. */
+    .authors {
+      flex-wrap: wrap;
+      overflow: visible;
+      /* Без предела блок растянется по самому длинному имени. */
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      color: rgb(255 255 255 / 0.72);
+      font-size: 12px;
+    }
+
+    .author a {
+      padding-top: 1px;
+      padding-bottom: 1px;
     }
   }
 
@@ -239,9 +279,9 @@ function createSpan(doc, className, text) {
   return span
 }
 
-// Оформление без смысла для скринридера: разделитель, счётчик «+N».
-function createDecoration(doc, className, text = '') {
-  const span = createSpan(doc, className, text)
+// Оформление без смысла для скринридера, например разделитель.
+function createDecoration(doc, className) {
+  const span = createSpan(doc, className, '')
   span.setAttribute('aria-hidden', 'true')
   return span
 }
@@ -303,6 +343,10 @@ export function mountFrame(doc, data) {
       label: 'Дока — на главную',
     }),
     createDecoration(doc, 'divider'),
+  )
+  const stack = doc.createElement('div')
+  stack.className = 'stack'
+  stack.append(
     createLink(doc, {
       href: data.articleUrl,
       text: renderTitle(doc, data.title),
@@ -310,24 +354,25 @@ export function mountFrame(doc, data) {
       hint: data.title.replace(/`/g, ''),
     }),
   )
-  bar.append(main)
 
   if (data.authors.length > 0) {
     const authors = doc.createElement('div')
     authors.className = 'authors'
     authors.title = data.authors.map((author) => author.name).join(', ')
     data.authors.forEach((author, index) => {
-      if (index > 0) {
-        // Не текстовый узел: во flex-контейнере он теряет пробел.
-        authors.append(createSpan(doc, 'sep', ', '))
+      const item = createSpan(doc, 'author', '')
+      item.append(createLink(doc, { href: author.url, text: author.name }))
+      if (index < data.authors.length - 1) {
+        // Отдельный span, а не текстовый узел: во flex-контейнере тот теряет пробел.
+        item.append(createSpan(doc, 'sep', ', '))
       }
-      authors.append(createLink(doc, { href: author.url, text: author.name }))
+      authors.append(item)
     })
-    if (data.authors.length > 1) {
-      authors.append(createDecoration(doc, 'more', ` +${data.authors.length - 1}`))
-    }
-    bar.append(authors)
+    stack.append(authors)
   }
+
+  main.append(stack)
+  bar.append(main)
 
   root.append(style, bar)
   // Не в body: если body в демке — flex или grid, даже пустой хост

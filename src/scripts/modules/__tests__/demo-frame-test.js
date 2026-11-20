@@ -94,7 +94,7 @@ describe('mountFrame', () => {
     ])
     expect(links[0].getAttribute('aria-label')).toBe('Дока — на главную')
     expect(links[1].innerHTML).toBe('<code>animation-name</code>')
-    expect(bar.querySelector('.authors').textContent).toBe('Алёна Батицкая, Игорь Коровченко +1')
+    expect(bar.querySelector('.authors').textContent).toBe('Алёна Батицкая, Игорь Коровченко')
     expect(bar.style.getPropertyValue('--accent')).toBe('hsl(209 100% 59%)')
   })
 
@@ -105,14 +105,22 @@ describe('mountFrame', () => {
     expect(bar.querySelector('.logo-face').textContent).toBe('U•ᴥ•U')
     expect(bar.querySelector('.logo-word').textContent).toBe(' Дока')
     expect(bar.querySelector('.divider').getAttribute('aria-hidden')).toBe('true')
-    expect(bar.querySelector('.more').getAttribute('aria-hidden')).toBe('true')
-    expect(bar.querySelector('.sep').textContent).toBe(', ')
   })
 
-  it('не показывает «+N» у единственного автора', () => {
+  it('кладёт заголовок и авторов в общий блок, запятую — внутрь автора', () => {
+    mountFrame(document, data)
+    const stack = getBar().querySelector('.stack')
+    const items = [...stack.querySelectorAll('.author')]
+
+    expect([...stack.children].map((child) => child.className)).toEqual(['title', 'authors'])
+    expect(items.map((item) => item.textContent)).toEqual(['Алёна Батицкая, ', 'Игорь Коровченко'])
+    expect(items[0].lastElementChild.className).toBe('sep')
+  })
+
+  it('не ставит запятую у единственного автора', () => {
     mountFrame(document, { ...data, authors: data.authors.slice(0, 1) })
 
-    expect(getBar().querySelector('.more, .sep')).toBeNull()
+    expect(getBar().querySelector('.sep')).toBeNull()
   })
 
   it('не добавляет в DOM демки ни footer, ни ссылки', () => {
