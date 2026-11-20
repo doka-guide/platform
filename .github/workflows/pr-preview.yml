@@ -164,14 +164,26 @@ jobs:
           mkdir -p "$HOME/.ssh"
           printf '%s\n' "$DEPLOY_KEY" > "$HOME/.ssh/doka_deploy"
           chmod 600 "$HOME/.ssh/doka_deploy"
+      # Соединение с сервером иногда замирает посреди передачи: ssh жив, данные
+      # не идут, и rsync без таймаута ждёт до timeout-minutes джобы. --timeout
+      # обрывает такую передачу через минуту тишины, ServerAlive — мёртвое
+      # соединение. Повтор безопасен: rsync дошлёт только то, что не успел.
       - name: Публикация превью
         run: |
           set -eu
-          SSH_COMMAND="ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no"
+          SSH_COMMAND="ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no -o BatchMode=yes \
+            -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4"
           $SSH_COMMAND deploy@dev.doka.guide mkdir -p "$PREVIEW_PATH"
-          rsync -e "$SSH_COMMAND" --archive --compress --delete-after --safe-links \
-            "$PREVIEW_DIR/" "deploy@dev.doka.guide:$PREVIEW_PATH"
-          echo "Ссылка на превью — $DEPLOY_DOMAIN"
+          for attempt in 1 2 3; do
+            if rsync -e "$SSH_COMMAND" --timeout=60 --archive --compress --delete-after --safe-links \
+              "$PREVIEW_DIR/" "deploy@dev.doka.guide:$PREVIEW_PATH"; then
+              echo "Ссылка на превью — $DEPLOY_DOMAIN"
+              exit 0
+            fi
+            echo "::warning::rsync прервался, попытка $attempt из 3"
+            sleep 15
+          done
+          exit 1
 
   # Итоговая заметка. always(), иначе при падении сборки пулреквест навсегда
   # останется с сообщением «Идёт сборка...».
