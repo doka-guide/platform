@@ -168,6 +168,11 @@ jobs:
       # не идут, и rsync без таймаута ждёт до timeout-minutes джобы. --timeout
       # обрывает такую передачу через минуту тишины, ServerAlive — мёртвое
       # соединение. Повтор безопасен: rsync дошлёт только то, что не успел.
+      #
+      # --checksum, потому что у свежей сборки новые даты у всех файлов, и по
+      # размеру с датой rsync считал изменёнными почти все 11 тысяч файлов и
+      # переписывал их на сервере. Сборка детерминирована, так что по
+      # содержимому меняются только задетые пулреквестом страницы.
       - name: Публикация превью
         run: |
           set -eu
@@ -175,7 +180,7 @@ jobs:
             -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4"
           $SSH_COMMAND deploy@dev.doka.guide mkdir -p "$PREVIEW_PATH"
           for attempt in 1 2 3; do
-            if rsync -e "$SSH_COMMAND" --timeout=60 --archive --compress --delete-after --safe-links \
+            if rsync -e "$SSH_COMMAND" --timeout=60 --archive --checksum --compress --delete-after --safe-links \
               "$PREVIEW_DIR/" "deploy@dev.doka.guide:$PREVIEW_PATH"; then
               echo "Ссылка на превью — $DEPLOY_DOMAIN"
               exit 0

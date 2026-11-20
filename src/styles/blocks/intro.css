@@ -40,13 +40,14 @@
   display: grid;
   grid-template-rows: calc(1.5 * var(--font-size-l)) auto min-content;
   gap: calc(2 * var(--gutter));
+  min-width: 0;
   padding: var(--gutter);
   background-color: hsl(var(--color-fade));
   border-radius: 6px;
 }
 
-.intro__pitch--partner {
-  border: 1px solid hsl(var(--color-fade));
+.intro__pitch--dashed {
+  border: 2px dashed var(--color-base-html);
   border-radius: 6px;
   background-color: transparent;
 }
@@ -60,17 +61,27 @@
   margin: 0;
 }
 
-.intro__accent {
-  border-radius: 1em;
-  padding: 0 0.3em;
-  background-color: hsl(var(--color-fade));
-  white-space: nowrap;
-}
-
 .intro__footer {
+  min-width: 0;
   display: flex;
   flex-wrap: wrap;
   gap: var(--font-size-m);
+}
+
+/*
+  Команду не переносим: разорванную строку легко скопировать с лишним пробелом.
+  На узком экране она прокручивается внутри своей плашки.
+*/
+.intro__command {
+  flex-basis: 100%;
+  min-width: 0;
+  padding: 0.5em 0.75em;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-family: var(--font-family);
+  font-size: var(--font-size-s);
+  border-radius: 6px;
+  background-color: hsl(var(--color-fade));
 }
 
 .intro__logo {
