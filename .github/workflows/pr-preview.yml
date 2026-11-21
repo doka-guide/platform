@@ -114,7 +114,11 @@ jobs:
     name: Публикация превью
     needs: build
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # Первая публикация нового пулреквеста льёт весь сайт, около 500 МБ, и при
+    # медленном канале до сервера не укладывалась в 20 минут: джоба обрывалась
+    # посреди живой передачи, до повторов дело не доходило. Зависание ловит
+    # --timeout у rsync, а лимит джобы — только страховка.
+    timeout-minutes: 60
     permissions: {}
     env:
       PREVIEW_PATH: /web/sites/dev.doka.guide/platform/${{ github.event.pull_request.number }}
@@ -173,6 +177,9 @@ jobs:
       # размеру с датой rsync считал изменёнными почти все 11 тысяч файлов и
       # переписывал их на сервере. Сборка детерминирована, так что по
       # содержимому меняются только задетые пулреквестом страницы.
+      #
+      # --stats печатает в конце объём и скорость передачи: по ним видно,
+      # медленный ли канал, без доступа к серверу.
       - name: Публикация превью
         run: |
           set -eu
@@ -180,7 +187,7 @@ jobs:
             -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4"
           $SSH_COMMAND deploy@dev.doka.guide mkdir -p "$PREVIEW_PATH"
           for attempt in 1 2 3; do
-            if rsync -e "$SSH_COMMAND" --timeout=60 --archive --checksum --compress --delete-after --safe-links \
+            if rsync -e "$SSH_COMMAND" --timeout=60 --archive --checksum --compress --delete-after --safe-links --stats \
               "$PREVIEW_DIR/" "deploy@dev.doka.guide:$PREVIEW_PATH"; then
               echo "Ссылка на превью — $DEPLOY_DOMAIN"
               exit 0
