@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/github-script@v9
         env:
-          MESSAGE: "Идёт сборка и публикация превью... [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          MESSAGE: "${{ github.event.pull_request.head.repo.full_name != github.repository && 'Превью из форка ждёт одобрения мейнтейнера, после него соберётся и опубликуется.' || 'Идёт сборка и публикация превью...' }} [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
         with:
           script: |
             const { owner, repo } = context.repo
@@ -49,13 +49,38 @@ jobs:
                   : block
             await github.rest.pulls.update({ owner, repo, pull_number, body })
 
+  # Одобрение превью из форка. pull_request_target запускает воркфлоу сразу,
+  # без кнопки «Approve and run», которая есть у pull_request. Без этой джобы
+  # любой человек мог открыть пулреквест и через несколько минут получить свою
+  # страницу на platform-N.dev.doka.guide — под доменом Доки. Окружение
+  # `fork-preview` с обязательным ревьюером держит сборку, пока мейнтейнер не
+  # посмотрит код. Пулреквесты из веток самого репозитория джобу пропускают.
+  #
+  # Новый коммит в форк запускает воркфлоу заново, и одобрение снова нужно.
+  #
+  # Условие на `full_name`, а не на `head.repo.fork`: у пулреквеста из удалённого
+  # форка `head.repo` пуст, и такой пулреквест тоже считается чужим.
+  approve:
+    name: Одобрение превью из форка
+    if: ${{ !github.event.pull_request.draft && github.event.pull_request.head.repo.full_name != github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: fork-preview
+    permissions: {}
+    steps:
+      - run: echo "Превью из форка одобрено"
+
   # Сборка кода из форка. В переиспользуемом воркфлоу нет ни одного секрета, а
   # GITHUB_TOKEN урезан до чтения, поэтому выполнение чужого кода (npm ci,
   # *.11tydata.js) ничего не может утащить. Отдельный префикс кеша не даёт форку
   # перезаписать кеш продакшн-деплоя.
+  #
+  # Функция статуса в `if` нужна, чтобы сборка шла и при пропущенном
+  # одобрении: без неё джоба с пропущенной зависимостью пропускается сама.
   build:
     name: Сборка превью
-    if: ${{ !github.event.pull_request.draft }}
+    needs: approve
+    if: ${{ !cancelled() && !failure() && !github.event.pull_request.draft }}
     uses: ./.github/workflows/build-site.yml
     # Переиспользуемый воркфлоу не может запросить больше прав, чем дал вызывающий,
     # а на уровне воркфлоу стоит permissions: {} — поэтому выдаём чтение здесь.
@@ -71,6 +96,9 @@ jobs:
   validate:
     name: Валидация разметки
     needs: build
+    # Пропуск джобы `approve` у своих пулреквестов иначе тянется по всей
+    # цепочке `needs`, и джоба пропускается, хотя сборка прошла.
+    if: ${{ !cancelled() && needs.build.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -113,6 +141,9 @@ jobs:
   deploy:
     name: Публикация превью
     needs: build
+    # Пропуск джобы `approve` у своих пулреквестов иначе тянется по всей
+    # цепочке `needs`, и джоба пропускается, хотя сборка прошла.
+    if: ${{ !cancelled() && needs.build.result == 'success' }}
     runs-on: ubuntu-latest
     # Без основы (--copy-dest ниже) первая публикация нового пулреквеста льёт
     # весь сайт, около 500 МБ, и при медленном канале до сервера не укладывалась
@@ -218,6 +249,10 @@ jobs:
             -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4"
           $SSH_COMMAND deploy@dev.doka.guide mkdir -p "$PREVIEW_PATH"
 
+          # Превью лежат на одном диске с продом, а доступа к серверу у
+          # мейнтейнеров нет. Свободное место видно хотя бы здесь, в логе.
+          $SSH_COMMAND deploy@dev.doka.guide df -h "$PREVIEW_PATH" || true
+
           PRODUCTION=/web/sites/doka.guide/www
           PREVIEWS="$(dirname "$PREVIEW_PATH")"
           PULL_NUMBER="$(basename "$PREVIEW_PATH")"
@@ -249,7 +284,7 @@ jobs:
   # останется с сообщением «Идёт сборка...».
   report:
     name: Отчёт в пулреквесте
-    needs: [start, build, validate, deploy]
+    needs: [start, approve, build, validate, deploy]
     if: ${{ always() && !cancelled() && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -259,6 +294,8 @@ jobs:
       - uses: actions/github-script@v9
         env:
           IS_PUBLISHED: ${{ needs.deploy.result == 'success' }}
+          IS_REJECTED: ${{ needs.approve.result == 'failure' }}
+          REJECTED_MESSAGE: "Превью из форка не одобрено, сборка не запускалась. [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
           SUCCESS_MESSAGE: '<a href="${{ env.DEPLOY_DOMAIN }}">Превью контента</a> из ${{ github.event.pull_request.head.sha }} опубликовано.'
           FAILURE_MESSAGE: "Превью контента из ${{ github.event.pull_request.head.sha }} не опубликовано. Ошибка сборки или публикации. [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
         with:
@@ -268,7 +305,12 @@ jobs:
             const marker = `<!-- doka-preview-${pull_number} -->`
             const endMarker = `<!-- /doka-preview-${pull_number} -->`
             const isPublished = process.env.IS_PUBLISHED === 'true'
-            const message = isPublished ? process.env.SUCCESS_MESSAGE : process.env.FAILURE_MESSAGE
+            const isRejected = process.env.IS_REJECTED === 'true'
+            const message = isPublished
+              ? process.env.SUCCESS_MESSAGE
+              : isRejected
+                ? process.env.REJECTED_MESSAGE
+                : process.env.FAILURE_MESSAGE
             const block = `${marker}\n${message}\n${endMarker}`
             // Описание перечитываем прямо перед записью: автор мог поправить
             // его, пока шла сборка.
@@ -283,7 +325,7 @@ jobs:
                   ? `${current.trimEnd()}\n\n${block}`
                   : block
             await github.rest.pulls.update({ owner, repo, pull_number, body })
-            if (!isPublished) {
+            if (!isPublished && !isRejected) {
               core.setFailed('Превью не опубликовано')
             }
       # Комментарии прошлой схемы. Убираем оставшиеся, чтобы в ленте не висело
