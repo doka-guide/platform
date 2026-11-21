@@ -21,12 +21,6 @@ on:
         type: boolean
         required: false
         default: false
-      cache-prefix:
-        description: >-
-          Префикс ключа npm-кеша. Недоверенные сборки обязаны использовать
-          собственный префикс, иначе форк сможет отравить кеш продакшн-деплоя.
-        type: string
-        required: true
 
 jobs:
   build:
@@ -56,16 +50,14 @@ jobs:
           repository: doka-guide/cache
           path: cache
           persist-credentials: false
+      # Без кеша npm. Эту сборку вызывает и превью с кодом из форка, а кеш
+      # в `pull_request_target` пишется в область main, откуда его читает
+      # выкатка. `npm ci` без кеша идёт около 10 секунд. Флаг нужен явно:
+      # из-за `devEngines` в package.json setup-node включил бы кеш сам.
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
-      # Без restore-keys: недоверенная сборка не должна ни читать, ни
-      # перезаписывать кеш доверенной. Разделение обеспечивает cache-prefix.
-      - name: Кэширование модулей
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ inputs.cache-prefix }}-${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          package-manager-cache: false
       - name: Установка модулей
         run: npm ci
       - name: Копирование кеша
@@ -107,7 +99,7 @@ jobs:
           find . -name '*.html' -print0 \
             | tar --create --file ../site-html.tar --null --files-from -
       - name: Выгрузка сайта
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: site-dist
           path: |
@@ -120,7 +112,7 @@ jobs:
           # процессор на остальное.
           compression-level: 1
       - name: Выгрузка страниц
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: site-html
           path: site-html.tar

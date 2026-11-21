@@ -46,7 +46,6 @@
 - `PLATFORM_REP_GITHUB_URL` — путь до репозитория с платформой на GitHub;
 - `CONTENT_REP_GITHUB_URL` — путь до репозитория с контентом на GitHub;
 - `CONTENT_REP_GITHUB` — ссылка до репозитория с контентом на GitHub для работы с Git;
-- `SERVER_PATH` — абсолютный путь до папки на сервере с текущей сборкой;
 - `GITHUB_TOKEN` — токен для работы с GraphQL API GitHub. [Инструкция по генерации персонального токена](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 Папка _settings_ из списка `CONTENT_REP_FOLDERS` является обязательной для сборки. Если оставить поле `GITHUB_TOKEN` пустым, на страницах участников не будет отображаться информация об их активности на GitHub в репозитории с контентом.

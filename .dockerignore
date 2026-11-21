@@ -8,3 +8,6 @@ docs
 *.code-workspace
 *.sublime-workspace
 *.sublime-project
+
+# Боевой GITHUB_TOKEN не должен попасть в образ при локальной сборке.
+.env
