@@ -84,8 +84,8 @@ jobs:
 
   # Сборка кода из форка. В переиспользуемом воркфлоу нет ни одного секрета, а
   # GITHUB_TOKEN урезан до чтения, поэтому выполнение чужого кода (npm ci,
-  # *.11tydata.js) ничего не может утащить. Отдельный префикс кеша не даёт форку
-  # перезаписать кеш продакшн-деплоя.
+  # *.11tydata.js) ничего не может утащить. Кеша npm у сборки
+  # нет, поэтому форк не может подменить пакеты для выкатки.
   #
   # Функция статуса в `if` нужна, чтобы сборка шла и при пропущенном
   # одобрении: без неё джоба с пропущенной зависимостью пропускается сама.
@@ -101,7 +101,6 @@ jobs:
     with:
       ref: ${{ github.event.pull_request.head.sha }}
       allow-unsafe-checkout: true
-      cache-prefix: pr-preview
 
   # Валидация собранных страниц. Секретов не требует и работает с тем же
   # артефактом, что и публикация, — сайт больше не собирается второй раз.
@@ -126,7 +125,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: 'npm'
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
         with:
           java-version: 17
           distribution: 'temurin'
@@ -134,7 +133,7 @@ jobs:
       - name: Установка модулей
         run: npm ci
       - name: Загрузка страниц
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: site-html
       # Архив собран кодом из форка. Вычищаем симлинки: иначе член архива может
@@ -168,7 +167,7 @@ jobs:
       PREVIEW_PATH: /web/sites/dev.doka.guide/platform/${{ github.event.pull_request.number }}
     steps:
       - name: Загрузка артефакта
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: site-dist
       # Опись защищает от обрезанного при передаче архива: дальше идёт rsync с

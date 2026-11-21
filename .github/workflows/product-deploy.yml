@@ -39,8 +39,6 @@ jobs:
     # а на уровне воркфлоу стоит permissions: {} — поэтому выдаём чтение здесь.
     permissions:
       contents: read
-    with:
-      cache-prefix: product
 
   # Валидация разметки. Собранные страницы приезжают артефактом, поэтому джоба
   # не пересобирает сайт и не нуждается ни в контенте, ни в секретах.
@@ -60,7 +58,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: 'npm'
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
         with:
           java-version: 17
           distribution: 'temurin'
@@ -68,7 +66,7 @@ jobs:
       - name: Установка модулей
         run: npm ci
       - name: Загрузка страниц
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: site-html
       - name: Распаковка страниц
@@ -93,7 +91,7 @@ jobs:
     permissions: {}
     steps:
       - name: Загрузка артефакта
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: site-dist
       # Дальше идёт rsync с --delete, поэтому неполный артефакт опаснее
@@ -125,7 +123,7 @@ jobs:
             exit 1
           fi
           # Нижняя граница на случай сборки, которая формально удалась, но выдала
-          # почти пустой dist. Сейчас страниц около 3500, запас многократный.
+          # почти пустой dist. Сейчас страниц около 4500, запас многократный.
           if [ "$EXPECTED_HTML" -lt 1000 ]; then
             echo "Подозрительно мало страниц: $EXPECTED_HTML"
             exit 1
