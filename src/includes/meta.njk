@@ -10,6 +10,9 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{# Пробная версия WebMCP в Chrome: без токена у страницы нет document.modelContext.
+  Действует до 30 марта 2027 года, срок проверяет src/__tests__/origin-trial-test.js #}
+<meta http-equiv="origin-trial" content="AuX3Ol0GAXvtVKOnHNxqhanhmdQgEt0HWPSZpLCEba8o8LLrIxs4l1I4c3fYit54DKLRjxqdvhGJCgAADUD6NQAAAABdeyJvcmlnaW4iOiJodHRwczovL2Rva2EuZ3VpZGU6NDQzIiwiZmVhdHVyZSI6IldlYk1DUCIsImV4cGlyeSI6MTgwNjM2NDgwMCwiaXNTdWJkb21haW4iOnRydWV9">
 <title>{{ documentTitle }}</title>
 
 {% if themeColor %}
