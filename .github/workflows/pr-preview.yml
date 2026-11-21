@@ -25,35 +25,37 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      # Скрипт заметки — только из ветки по умолчанию. `ref` задан явно: джоба
+      # ходит с правом записи в пулреквест, и код из форка здесь выполняться не
+      # должен. Тот же скрипт пишет заметку в репозитории контента.
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          sparse-checkout: .github/scripts
+          persist-credentials: false
       - uses: actions/github-script@v9
         env:
           # То же условие, что у джобы `approve` ниже.
           NEEDS_APPROVAL: ${{ github.event.pull_request.head.repo.full_name != github.repository && !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR", "CONTRIBUTOR"]'), github.event.pull_request.author_association) }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:
           script: |
+            const note = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/preview-note.js`)
             const { owner, repo } = context.repo
-            const pull_number = context.payload.pull_request.number
-            const marker = `<!-- doka-preview-${pull_number} -->`
-            const endMarker = `<!-- /doka-preview-${pull_number} -->`
-            const status =
+            const { HEAD_SHA: headSha, RUN_URL: runUrl } = process.env
+            const message =
               process.env.NEEDS_APPROVAL === 'true'
-                ? 'Автор ещё не вносил изменений в репозиторий, превью ждёт одобрения мейнтейнера.'
-                : 'Идёт сборка и публикация превью...'
-            const block = `${marker}\n${status} [Подробнее](${process.env.RUN_URL})\n${endMarker}`
-            // Описание перечитываем прямо перед записью: автор мог поправить
-            // его, пока шла сборка.
-            const { data: pull } = await github.rest.pulls.get({ owner, repo, pull_number })
-            const current = pull.body || ''
-            const start = current.indexOf(marker)
-            const end = current.indexOf(endMarker)
-            const body =
-              start !== -1 && end !== -1 && end > start
-                ? current.slice(0, start) + block + current.slice(end + endMarker.length)
-                : current.trimEnd()
-                  ? `${current.trimEnd()}\n\n${block}`
-                  : block
-            await github.rest.pulls.update({ owner, repo, pull_number, body })
+                ? `Автор ещё не вносил изменений в репозиторий, превью платформы из ${headSha} ждёт одобрения мейнтейнера. [Подробнее](${runUrl})`
+                : `Идёт сборка превью платформы из ${headSha}. [Подробнее](${runUrl})`
+            await note.writeNote({
+              github,
+              owner,
+              repo,
+              pullNumber: context.payload.pull_request.number,
+              message,
+              headSha,
+            })
 
   # Одобрение превью для новичков. pull_request_target запускает воркфлоу
   # сразу, без кнопки «Approve and run», которая есть у pull_request. Без этой
@@ -301,41 +303,54 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      # Скрипт заметки — только из ветки по умолчанию. `ref` задан явно: джоба
+      # ходит с правом записи в пулреквест, и код из форка здесь выполняться не
+      # должен. Тот же скрипт пишет заметку в репозитории контента.
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          sparse-checkout: .github/scripts
+          persist-credentials: false
+      # Цвет плашки — как в репозитории контента: зелёная — превью готово,
+      # жёлтая — сборку не одобрили, красная — сломалась сборка или публикация.
       - uses: actions/github-script@v9
         env:
           IS_PUBLISHED: ${{ needs.deploy.result == 'success' }}
           IS_REJECTED: ${{ needs.approve.result == 'failure' }}
-          REJECTED_MESSAGE: "Превью не одобрено, сборка не запускалась. [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
-          SUCCESS_MESSAGE: '<a href="${{ env.DEPLOY_DOMAIN }}">Превью контента</a> из ${{ github.event.pull_request.head.sha }} опубликовано.'
-          FAILURE_MESSAGE: "Превью контента из ${{ github.event.pull_request.head.sha }} не опубликовано. Ошибка сборки или публикации. [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:
           script: |
+            const note = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/preview-note.js`)
             const { owner, repo } = context.repo
-            const pull_number = context.payload.pull_request.number
-            const marker = `<!-- doka-preview-${pull_number} -->`
-            const endMarker = `<!-- /doka-preview-${pull_number} -->`
+            const { HEAD_SHA: headSha, RUN_URL: runUrl, DEPLOY_DOMAIN: domain } = process.env
             const isPublished = process.env.IS_PUBLISHED === 'true'
             const isRejected = process.env.IS_REJECTED === 'true'
-            const message = isPublished
-              ? process.env.SUCCESS_MESSAGE
-              : isRejected
-                ? process.env.REJECTED_MESSAGE
-                : process.env.FAILURE_MESSAGE
-            const block = `${marker}\n${message}\n${endMarker}`
-            // Описание перечитываем прямо перед записью: автор мог поправить
-            // его, пока шла сборка.
-            const { data: pull } = await github.rest.pulls.get({ owner, repo, pull_number })
-            const current = pull.body || ''
-            const start = current.indexOf(marker)
-            const end = current.indexOf(endMarker)
-            const body =
-              start !== -1 && end !== -1 && end > start
-                ? current.slice(0, start) + block + current.slice(end + endMarker.length)
-                : current.trimEnd()
-                  ? `${current.trimEnd()}\n\n${block}`
-                  : block
-            await github.rest.pulls.update({ owner, repo, pull_number, body })
-            if (!isPublished && !isRejected) {
+
+            let message
+            let tone
+            if (isPublished) {
+              message = `<a href="${domain}">Превью платформы</a> из ${headSha} опубликовано.`
+              tone = 'tip'
+            } else if (isRejected) {
+              message = `Превью платформы из ${headSha} не опубликовано: сборку не одобрили. [Подробнее](${runUrl})`
+              tone = 'warning'
+            } else {
+              message = `Превью платформы из ${headSha} не опубликовано. Ошибка сборки или публикации. [Подробнее](${runUrl})`
+              tone = 'caution'
+            }
+
+            const written = await note.writeNote({
+              github,
+              owner,
+              repo,
+              pullNumber: context.payload.pull_request.number,
+              message,
+              headSha,
+              tone,
+            })
+            // `null` — в пулреквесте уже есть коммит новее, отчитывается его прогон.
+            if (written !== null && tone === 'caution') {
               core.setFailed('Превью не опубликовано')
             }
       # Комментарии прошлой схемы. Убираем оставшиеся, чтобы в ленте не висело
