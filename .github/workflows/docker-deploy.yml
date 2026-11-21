@@ -7,6 +7,13 @@ on:
 
 permissions: {}
 
+# Без очереди два мёржа подряд собирались параллельно, и тег `latest` мог
+# достаться образу старого коммита, если тот собрался позже. Текущую сборку не
+# отменяем: отмена между джобами оставила бы образы без тега.
+concurrency:
+  group: docker-deploy
+  cancel-in-progress: false
+
 env:
   IMAGE: dokaguide/platform
 

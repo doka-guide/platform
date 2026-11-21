@@ -142,7 +142,7 @@ jobs:
           chmod 600 "$HOME/.ssh/doka_deploy"
           printf '%s\n' "$DEPLOY_CONFIG" > "$HOME/.ssh/config"
           chmod 600 "$HOME/.ssh/config"
-          ssh -o StrictHostKeyChecking=no deploy@dev.doka.guide
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=20 deploy@dev.doka.guide
       # --delete-after: сначала переливаются все файлы и только потом удаляются
       # лишние. Если передача оборвётся на середине, не удалится ничего — на
       # сервере останется прежняя версия плюс частично долитая новая. При
@@ -163,12 +163,22 @@ jobs:
       # --checksum, потому что у свежей сборки новые даты у всех файлов, и по
       # размеру с датой rsync переписывал на боевом сайте почти каждый файл.
       # По содержимому меняются только действительно изменённые.
+      #
+      # Исключения с якорем: `/mail` и `/api.json` лежат только в корне прода и
+      # приезжают не из этой сборки. Без `/` rsync исключал любой путь с таким
+      # именем, и демка html/a/demos/mail/ не обновлялась с января 2025 года.
+      #
+      # Таймауты — как у превью. Соединение иногда замирает посреди передачи:
+      # ssh жив, данные не идут, и без --timeout rsync ждал до timeout-minutes.
+      # Теперь выкатка падает через минуту тишины, и её можно перезапустить:
+      # --delete-after не даст оборванной передаче вычистить сайт.
       - name: Публикация сайта
         run: |
           set -eu
           MAX_DELETE=$((EXPECTED_FILES / 5))
           echo "Файлов в артефакте: $EXPECTED_FILES, предел удаления: $MAX_DELETE"
           cd "$SITE_DIR"
-          rsync --exclude 'api.json' --exclude 'mail' \
+          rsync -e "ssh -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4" --timeout=60 \
+            --exclude '/api.json' --exclude '/mail' \
             --archive --checksum --progress --compress --delete-after --max-delete="$MAX_DELETE" \
             . dev.doka.guide:/web/sites/doka.guide/www/
