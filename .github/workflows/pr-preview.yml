@@ -136,7 +136,15 @@ jobs:
             echo "Архив побился при передаче: ждали $EXPECTED_SHA, получили $ACTUAL_SHA"
             exit 1
           fi
-          echo "EXPECTED_FILES=$(grep '^files=' site-manifest.txt | cut -d= -f2)" >> "$GITHUB_ENV"
+          # В $GITHUB_ENV пишем только проверенное число. Несколько строк files=
+          # дописали бы в файл чужие строки, например BASH_ENV с путём к самой
+          # описи, и следующий шаг выполнил бы её как скрипт рядом с DEPLOY_KEY.
+          EXPECTED_FILES="$(grep '^files=' site-manifest.txt | cut -d= -f2)"
+          if ! [[ "$EXPECTED_FILES" =~ ^[0-9]+$ ]]; then
+            echo "В описи нет числа файлов"
+            exit 1
+          fi
+          echo "EXPECTED_FILES=$EXPECTED_FILES" >> "$GITHUB_ENV"
       # Содержимое архива собрано кодом из форка. Распаковываем до записи ключа и
       # вычищаем симлинки: иначе член архива может указать на
       # $HOME/.ssh/doka_deploy и ключ утечёт в публичное превью.
