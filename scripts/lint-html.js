@@ -40,6 +40,19 @@ const PAGES = [
   ['all/index.sc.html', 'социальная карточка списка статей'],
 ]
 
+// Ошибки, о которых валидатор не знает, что это не ошибки. Каждая — с причиной.
+const KNOWN_ERRORS = [
+  // Токен пробной версии Chrome. Валидатор знает только значения http-equiv
+  // из стандарта, а `origin-trial` — официальный способ Chrome включить
+  // экспериментальную функцию, здесь WebMCP. Отдавать токен заголовком
+  // мог бы nginx, но его настройки живут не в этом репозитории.
+  /Bad value “origin-trial” for attribute “http-equiv” on element “meta”/,
+]
+
+function isKnownError(line) {
+  return KNOWN_ERRORS.some((pattern) => pattern.test(line))
+}
+
 function main() {
   const missing = PAGES.filter(([file]) => !existsSync(path.join(DIST, file)))
 
@@ -66,7 +79,7 @@ function main() {
       // заголовка». Показываем их, но проверку из-за них не роняем: страницы
       // социальных карточек существуют только под скриншот, и заголовки там
       // не нужны.
-      const errors = lines.filter((line) => /: error/.test(line))
+      const errors = lines.filter((line) => /: error/.test(line) && !isKnownError(line))
       const warnings = lines.filter((line) => !/: error/.test(line))
 
       for (const line of warnings) {
@@ -102,4 +115,8 @@ function main() {
     })
 }
 
-main()
+module.exports = { isKnownError }
+
+if (require.main === module) {
+  main()
+}
