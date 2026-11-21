@@ -3,6 +3,7 @@ import searchClient from '../core/search-api-client.js'
 import BaseComponent from '../core/base-component.js'
 import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
 import logo from '../modules/logo.js'
+import { reachGoal } from '../core/metrika.js'
 
 function setLiveRegion(isLiveRegion, element) {
   if (isLiveRegion) {
@@ -228,6 +229,11 @@ function init() {
     return searchString
   }
 
+  // Поиск идёт на каждый ввод: ждём паузу, чтобы не слать недопечатанные запросы
+  const reportEmptySearch = debounce((queryText) => {
+    reachGoal('search_empty', { query: queryText.slice(0, 100) })
+  }, 2000)
+
   function makeSearchEffect(queryText, filters) {
     if (queryText.length >= MIN_SEARCH_SYMBOLS || SEARCHABLE_SHORT_WORDS.has(queryText)) {
       logo.startAnimation()
@@ -236,6 +242,9 @@ function init() {
         .then(function (searchObject) {
           const processedHits = processHits(searchObject)
           searchResultOutput.renderHits(processedHits, queryText, searchHits, SYMBOL_LIMIT)
+          if (processedHits.length === 0) {
+            reportEmptySearch(queryText)
+          }
         })
         .catch((error) => {
           console.error(error)

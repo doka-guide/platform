@@ -1,4 +1,5 @@
 import BaseComponent from '../core/base-component.js'
+import { reachGoal } from '../core/metrika.js'
 import { setupDb, saveToDb, sendFromDb, closeAndDeleteDb } from './form-cache.js'
 
 class Popup extends BaseComponent {
@@ -222,12 +223,14 @@ function init() {
   })
 
   popup.on(Popup.EVENTS.OPEN, () => {
+    reachGoal('subscribe_popup_open')
     setTimeout(() => {
       subscription.focus()
     })
   })
 
   popup.on(Popup.EVENTS.CLOSE, () => {
+    reachGoal('subscribe_popup_close')
     setTimeout(() => {})
   })
 
@@ -263,6 +266,7 @@ function init() {
       active: false,
     })
       .then(() => {
+        reachGoal('subscribe_success')
         popup.success(email)
       })
       .catch((error) => {

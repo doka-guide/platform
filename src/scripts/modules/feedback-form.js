@@ -1,4 +1,5 @@
 import BaseComponent from '../core/base-component.js'
+import { reachGoal } from '../core/metrika.js'
 import { setupDb, saveToDb, sendFromDb, closeAndDeleteDb } from './form-cache.js'
 
 class ButtonGroup extends BaseComponent {
@@ -215,6 +216,8 @@ function init() {
       article_id: window.location.pathname,
     })
       .then(() => {
+        // Свой текст читателя в Метрику не уходит, только готовый вариант ответа
+        reachGoal('article_feedback', { answer: event.submitter?.value === answer ? answer : 'text' })
         form.dataset.state = 'success'
         form.setAttribute('aria-describedby', 'success')
       })
