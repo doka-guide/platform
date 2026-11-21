@@ -188,14 +188,46 @@ jobs:
       #
       # --stats печатает в конце объём и скорость передачи: по ним видно,
       # медленный ли канал, без доступа к серверу.
+      #
+      # У нового пулреквеста папка на сервере пустая, и rsync слал весь сайт
+      # по сети: при ~300 кБ/с это полчаса и больше. --copy-dest берёт файлы
+      # из папок на том же сервере, и по сети едет только разница. Так же
+      # устроена выгрузка превью в doka-guide/content: там первая публикация
+      # ушла с 25 минут до минуты.
+      #
+      # rsync берёт из основы только файлы с тем же путём и тем же содержимым
+      # (по --checksum), лишнего не приносит, и копирует их локально на
+      # сервере. --link-dest вместо копии ставил бы жёсткую ссылку при
+      # совпавшем mtime, и у превью с продом появились бы общие файлы.
+      #
+      # Основы: прод и самое свежее соседнее превью платформы. Прод всегда
+      # полный, а свежая папка превью часто ещё выгружается и полупустая.
+      # Нет папки или её нельзя прочитать — rsync предупредит и отправит
+      # файлы по сети, код выхода не изменится.
       - name: Публикация превью
         run: |
           set -eu
           SSH_COMMAND="ssh -i $HOME/.ssh/doka_deploy -o StrictHostKeyChecking=no -o BatchMode=yes \
             -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4"
           $SSH_COMMAND deploy@dev.doka.guide mkdir -p "$PREVIEW_PATH"
+
+          PRODUCTION=/web/sites/doka.guide/www
+          PREVIEWS="$(dirname "$PREVIEW_PATH")"
+          PULL_NUMBER="$(basename "$PREVIEW_PATH")"
+          REFERENCE=$($SSH_COMMAND deploy@dev.doka.guide \
+            "ls -1t '$PREVIEWS'" 2>/dev/null \
+            | grep -E '^[0-9]+$' | grep -vx "$PULL_NUMBER" | head -n 1 || true)
+          COPY_DEST=""
+          if [ -n "$REFERENCE" ]; then
+            COPY_DEST="--copy-dest=$PREVIEWS/$REFERENCE"
+            echo "Основа для выгрузки: прод и превью #$REFERENCE."
+          else
+            echo "Соседнего превью нет, основа — только прод."
+          fi
+
           for attempt in 1 2 3; do
             if rsync -e "$SSH_COMMAND" --timeout=60 --archive --checksum --compress --delete-after --safe-links --stats \
+              "--copy-dest=$PRODUCTION" ${COPY_DEST:+"$COPY_DEST"} \
               "$PREVIEW_DIR/" "deploy@dev.doka.guide:$PREVIEW_PATH"; then
               echo "Ссылка на превью — $DEPLOY_DOMAIN"
               exit 0
