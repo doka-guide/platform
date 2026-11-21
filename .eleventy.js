@@ -421,6 +421,10 @@ module.exports = function (config) {
 
       viteOptions: {
         clearScreen: false,
+        // Без этого vite печатает «page reload» на каждую пересобранную
+        // страницу: около 2300 строк на правку одной статьи, и ошибка сборки
+        // теряется среди них. Предупреждения и ошибки остаются.
+        logLevel: 'warn',
         appType: 'mpa',
 
         server: {

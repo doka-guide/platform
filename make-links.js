@@ -55,7 +55,11 @@ const createLinks = (contentPath, link) => {
     if (!fs.existsSync(categoryPath)) {
       fs.mkdirSync(categoryPath)
     }
-    fs.symlinkSync(path.join(`../${contentPath}`, link), path.join('src', link), 'junction')
+    // Ссылка лежит в src/раздел/, на уровень глубже src, поэтому относительному
+    // пути нужен лишний `../`. Абсолютному он не нужен: с ним выходило
+    // `../` + `/Users/...`, и ссылка вела внутрь платформы, в никуда.
+    const target = path.isAbsolute(contentPath) ? contentPath : `../${contentPath}`
+    fs.symlinkSync(path.join(target, link), path.join('src', link), 'junction')
     console.log(`${contentPath}/${link} → src/${link}`)
     console.log(`При настройках по умолчанию материал доступен по ссылке: http://localhost:8080/${link}`)
   } else {
