@@ -27,14 +27,20 @@ jobs:
     steps:
       - uses: actions/github-script@v9
         env:
-          MESSAGE: "${{ github.event.pull_request.head.repo.full_name != github.repository && 'Превью из форка ждёт одобрения мейнтейнера, после него соберётся и опубликуется.' || 'Идёт сборка и публикация превью...' }} [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          # То же условие, что у джобы `approve` ниже.
+          NEEDS_APPROVAL: ${{ github.event.pull_request.head.repo.full_name != github.repository && !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR", "CONTRIBUTOR"]'), github.event.pull_request.author_association) }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:
           script: |
             const { owner, repo } = context.repo
             const pull_number = context.payload.pull_request.number
             const marker = `<!-- doka-preview-${pull_number} -->`
             const endMarker = `<!-- /doka-preview-${pull_number} -->`
-            const block = `${marker}\n${process.env.MESSAGE}\n${endMarker}`
+            const status =
+              process.env.NEEDS_APPROVAL === 'true'
+                ? 'Автор ещё не вносил изменений в репозиторий, превью ждёт одобрения мейнтейнера.'
+                : 'Идёт сборка и публикация превью...'
+            const block = `${marker}\n${status} [Подробнее](${process.env.RUN_URL})\n${endMarker}`
             // Описание перечитываем прямо перед записью: автор мог поправить
             // его, пока шла сборка.
             const { data: pull } = await github.rest.pulls.get({ owner, repo, pull_number })
@@ -49,26 +55,30 @@ jobs:
                   : block
             await github.rest.pulls.update({ owner, repo, pull_number, body })
 
-  # Одобрение превью из форка. pull_request_target запускает воркфлоу сразу,
-  # без кнопки «Approve and run», которая есть у pull_request. Без этой джобы
-  # любой человек мог открыть пулреквест и через несколько минут получить свою
-  # страницу на platform-N.dev.doka.guide — под доменом Доки. Окружение
+  # Одобрение превью для новичков. pull_request_target запускает воркфлоу
+  # сразу, без кнопки «Approve and run», которая есть у pull_request. Без этой
+  # джобы любой человек мог открыть пулреквест и через несколько минут получить
+  # свою страницу на platform-N.dev.doka.guide — под доменом Доки. Окружение
   # `fork-preview` с обязательным ревьюером держит сборку, пока мейнтейнер не
-  # посмотрит код. Пулреквесты из веток самого репозитория джобу пропускают.
+  # посмотрит код.
   #
-  # Новый коммит в форк запускает воркфлоу заново, и одобрение снова нужно.
+  # Ждут только пулреквесты из форков от тех, у кого в репозитории ещё нет
+  # влитых коммитов, — как одобрение запусков в репозитории контента. Ветки
+  # самого репозитория и прежние контрибьюторы (`CONTRIBUTOR`) джобу
+  # пропускают. Пока первый пулреквест новичка не вольют, одобрение нужно на
+  # каждый его новый коммит.
   #
   # Условие на `full_name`, а не на `head.repo.fork`: у пулреквеста из удалённого
   # форка `head.repo` пуст, и такой пулреквест тоже считается чужим.
   approve:
-    name: Одобрение превью из форка
-    if: ${{ !github.event.pull_request.draft && github.event.pull_request.head.repo.full_name != github.repository }}
+    name: Одобрение превью новичка
+    if: ${{ !github.event.pull_request.draft && github.event.pull_request.head.repo.full_name != github.repository && !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR", "CONTRIBUTOR"]'), github.event.pull_request.author_association) }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     environment: fork-preview
     permissions: {}
     steps:
-      - run: echo "Превью из форка одобрено"
+      - run: echo "Превью одобрено"
 
   # Сборка кода из форка. В переиспользуемом воркфлоу нет ни одного секрета, а
   # GITHUB_TOKEN урезан до чтения, поэтому выполнение чужого кода (npm ci,
@@ -295,7 +305,7 @@ jobs:
         env:
           IS_PUBLISHED: ${{ needs.deploy.result == 'success' }}
           IS_REJECTED: ${{ needs.approve.result == 'failure' }}
-          REJECTED_MESSAGE: "Превью из форка не одобрено, сборка не запускалась. [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          REJECTED_MESSAGE: "Превью не одобрено, сборка не запускалась. [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
           SUCCESS_MESSAGE: '<a href="${{ env.DEPLOY_DOMAIN }}">Превью контента</a> из ${{ github.event.pull_request.head.sha }} опубликовано.'
           FAILURE_MESSAGE: "Превью контента из ${{ github.event.pull_request.head.sha }} не опубликовано. Ошибка сборки или публикации. [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
         with:
