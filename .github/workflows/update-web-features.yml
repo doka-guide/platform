@@ -1,0 +1,31 @@
+name: Update web-features
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'
+
+permissions: {}
+
+concurrency:
+  group: update-web-features
+
+jobs:
+  update:
+    name: Обновление web-features
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Нужен отдельный токен: Actions в репозитории не разрешено создавать пулреквесты,
+      # а пуш от GITHUB_TOKEN не запускает тесты и линтеры на пулреквесте
+      - name: Загрузка платформы
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.WEB_FEATURES_TOKEN }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      - name: Пулреквест с новой версией
+        env:
+          GH_TOKEN: ${{ secrets.WEB_FEATURES_TOKEN }}
+        run: sh .github/scripts/update-web-features.sh
