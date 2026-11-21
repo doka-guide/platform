@@ -143,6 +143,8 @@ npm run build && npm run lint:html    # валидация разметки, н�
 
 Кроме страниц для человека сборка отдаёт адреса для программ: markdown-версию каждого материала коллекции `docs` и главной (`index.md` рядом с адресом страницы), `/llms.txt` и `/llms-full.txt`. За них отвечают `doc-md`, `home-md`, `llms` и `llms-full` в `src/views/`, тесты — в `src/views/__tests__/`. Устройство и подводные камни — в [`docs/how-its-work.md`](docs/how-its-work.md), описание для внешнего читателя — в [документации контента](https://github.com/doka-guide/content/blob/main/docs/api.md).
 
+Браузерным агентам страница сама отдаёт инструменты WebMCP: поиск, чтение материала, оглавление раздела, связанные материалы, оценку статьи и подписку. Код — в `src/scripts/core/webmcp-tools.js` и `src/scripts/modules/webmcp.js`, устройство — в разделе «WebMCP» в [`docs/how-its-work.md`](docs/how-its-work.md).
+
 ---
 
 ## 6. Соглашения
