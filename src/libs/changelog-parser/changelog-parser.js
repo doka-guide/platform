@@ -86,7 +86,7 @@ function descriptionToHtml(description) {
   return escapeHtml(description).replace(/`([^`]+)`/g, '<code>$1</code>')
 }
 
-// Материала может не быть в сборке: CHANGELOG приходит из main репозитория
+// Материала может не быть в сборке: CHANGELOG описывает весь репозиторий
 // контента, а локально подключены не все разделы (CONTENT_REP_FOLDERS).
 // Адрес обложки собирается из ссылки, поэтому есть всегда, описание — нет.
 function enrichPost(post, articleData) {

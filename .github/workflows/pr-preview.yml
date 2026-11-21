@@ -25,37 +25,74 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      # Скрипт заметки — только из ветки по умолчанию. `ref` задан явно: джоба
+      # ходит с правом записи в пулреквест, и код из форка здесь выполняться не
+      # должен. Тот же скрипт пишет заметку в репозитории контента.
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          sparse-checkout: .github/scripts
+          persist-credentials: false
       - uses: actions/github-script@v9
         env:
-          MESSAGE: "Идёт сборка и публикация превью... [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          # То же условие, что у джобы `approve` ниже.
+          NEEDS_APPROVAL: ${{ github.event.pull_request.head.repo.full_name != github.repository && !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR", "CONTRIBUTOR"]'), github.event.pull_request.author_association) }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:
           script: |
+            const note = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/preview-note.js`)
             const { owner, repo } = context.repo
-            const pull_number = context.payload.pull_request.number
-            const marker = `<!-- doka-preview-${pull_number} -->`
-            const endMarker = `<!-- /doka-preview-${pull_number} -->`
-            const block = `${marker}\n${process.env.MESSAGE}\n${endMarker}`
-            // Описание перечитываем прямо перед записью: автор мог поправить
-            // его, пока шла сборка.
-            const { data: pull } = await github.rest.pulls.get({ owner, repo, pull_number })
-            const current = pull.body || ''
-            const start = current.indexOf(marker)
-            const end = current.indexOf(endMarker)
-            const body =
-              start !== -1 && end !== -1 && end > start
-                ? current.slice(0, start) + block + current.slice(end + endMarker.length)
-                : current.trimEnd()
-                  ? `${current.trimEnd()}\n\n${block}`
-                  : block
-            await github.rest.pulls.update({ owner, repo, pull_number, body })
+            const { HEAD_SHA: headSha, RUN_URL: runUrl } = process.env
+            const message =
+              process.env.NEEDS_APPROVAL === 'true'
+                ? `Автор ещё не вносил изменений в репозиторий, превью платформы из ${headSha} ждёт одобрения мейнтейнера. [Подробнее](${runUrl})`
+                : `Идёт сборка превью платформы из ${headSha}. [Подробнее](${runUrl})`
+            await note.writeNote({
+              github,
+              owner,
+              repo,
+              pullNumber: context.payload.pull_request.number,
+              message,
+              headSha,
+            })
+
+  # Одобрение превью для новичков. pull_request_target запускает воркфлоу
+  # сразу, без кнопки «Approve and run», которая есть у pull_request. Без этой
+  # джобы любой человек мог открыть пулреквест и через несколько минут получить
+  # свою страницу на platform-N.dev.doka.guide — под доменом Доки. Окружение
+  # `fork-preview` с обязательным ревьюером держит сборку, пока мейнтейнер не
+  # посмотрит код.
+  #
+  # Ждут только пулреквесты из форков от тех, у кого в репозитории ещё нет
+  # влитых коммитов, — как одобрение запусков в репозитории контента. Ветки
+  # самого репозитория и прежние контрибьюторы (`CONTRIBUTOR`) джобу
+  # пропускают. Пока первый пулреквест новичка не вольют, одобрение нужно на
+  # каждый его новый коммит.
+  #
+  # Условие на `full_name`, а не на `head.repo.fork`: у пулреквеста из удалённого
+  # форка `head.repo` пуст, и такой пулреквест тоже считается чужим.
+  approve:
+    name: Одобрение превью новичка
+    if: ${{ !github.event.pull_request.draft && github.event.pull_request.head.repo.full_name != github.repository && !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR", "CONTRIBUTOR"]'), github.event.pull_request.author_association) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: fork-preview
+    permissions: {}
+    steps:
+      - run: echo "Превью одобрено"
 
   # Сборка кода из форка. В переиспользуемом воркфлоу нет ни одного секрета, а
   # GITHUB_TOKEN урезан до чтения, поэтому выполнение чужого кода (npm ci,
   # *.11tydata.js) ничего не может утащить. Отдельный префикс кеша не даёт форку
   # перезаписать кеш продакшн-деплоя.
+  #
+  # Функция статуса в `if` нужна, чтобы сборка шла и при пропущенном
+  # одобрении: без неё джоба с пропущенной зависимостью пропускается сама.
   build:
     name: Сборка превью
-    if: ${{ !github.event.pull_request.draft }}
+    needs: approve
+    if: ${{ !cancelled() && !failure() && !github.event.pull_request.draft }}
     uses: ./.github/workflows/build-site.yml
     # Переиспользуемый воркфлоу не может запросить больше прав, чем дал вызывающий,
     # а на уровне воркфлоу стоит permissions: {} — поэтому выдаём чтение здесь.
@@ -71,6 +108,9 @@ jobs:
   validate:
     name: Валидация разметки
     needs: build
+    # Пропуск джобы `approve` у своих пулреквестов иначе тянется по всей
+    # цепочке `needs`, и джоба пропускается, хотя сборка прошла.
+    if: ${{ !cancelled() && needs.build.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -113,6 +153,9 @@ jobs:
   deploy:
     name: Публикация превью
     needs: build
+    # Пропуск джобы `approve` у своих пулреквестов иначе тянется по всей
+    # цепочке `needs`, и джоба пропускается, хотя сборка прошла.
+    if: ${{ !cancelled() && needs.build.result == 'success' }}
     runs-on: ubuntu-latest
     # Без основы (--copy-dest ниже) первая публикация нового пулреквеста льёт
     # весь сайт, около 500 МБ, и при медленном канале до сервера не укладывалась
@@ -218,6 +261,10 @@ jobs:
             -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4"
           $SSH_COMMAND deploy@dev.doka.guide mkdir -p "$PREVIEW_PATH"
 
+          # Превью лежат на одном диске с продом, а доступа к серверу у
+          # мейнтейнеров нет. Свободное место видно хотя бы здесь, в логе.
+          $SSH_COMMAND deploy@dev.doka.guide df -h "$PREVIEW_PATH" || true
+
           PRODUCTION=/web/sites/doka.guide/www
           PREVIEWS="$(dirname "$PREVIEW_PATH")"
           PULL_NUMBER="$(basename "$PREVIEW_PATH")"
@@ -249,41 +296,61 @@ jobs:
   # останется с сообщением «Идёт сборка...».
   report:
     name: Отчёт в пулреквесте
-    needs: [start, build, validate, deploy]
+    needs: [start, approve, build, validate, deploy]
     if: ${{ always() && !cancelled() && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
       pull-requests: write
     steps:
+      # Скрипт заметки — только из ветки по умолчанию. `ref` задан явно: джоба
+      # ходит с правом записи в пулреквест, и код из форка здесь выполняться не
+      # должен. Тот же скрипт пишет заметку в репозитории контента.
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          sparse-checkout: .github/scripts
+          persist-credentials: false
+      # Цвет плашки — как в репозитории контента: зелёная — превью готово,
+      # жёлтая — сборку не одобрили, красная — сломалась сборка или публикация.
       - uses: actions/github-script@v9
         env:
           IS_PUBLISHED: ${{ needs.deploy.result == 'success' }}
-          SUCCESS_MESSAGE: '<a href="${{ env.DEPLOY_DOMAIN }}">Превью контента</a> из ${{ github.event.pull_request.head.sha }} опубликовано.'
-          FAILURE_MESSAGE: "Превью контента из ${{ github.event.pull_request.head.sha }} не опубликовано. Ошибка сборки или публикации. [Подробнее](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          IS_REJECTED: ${{ needs.approve.result == 'failure' }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:
           script: |
+            const note = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/preview-note.js`)
             const { owner, repo } = context.repo
-            const pull_number = context.payload.pull_request.number
-            const marker = `<!-- doka-preview-${pull_number} -->`
-            const endMarker = `<!-- /doka-preview-${pull_number} -->`
+            const { HEAD_SHA: headSha, RUN_URL: runUrl, DEPLOY_DOMAIN: domain } = process.env
             const isPublished = process.env.IS_PUBLISHED === 'true'
-            const message = isPublished ? process.env.SUCCESS_MESSAGE : process.env.FAILURE_MESSAGE
-            const block = `${marker}\n${message}\n${endMarker}`
-            // Описание перечитываем прямо перед записью: автор мог поправить
-            // его, пока шла сборка.
-            const { data: pull } = await github.rest.pulls.get({ owner, repo, pull_number })
-            const current = pull.body || ''
-            const start = current.indexOf(marker)
-            const end = current.indexOf(endMarker)
-            const body =
-              start !== -1 && end !== -1 && end > start
-                ? current.slice(0, start) + block + current.slice(end + endMarker.length)
-                : current.trimEnd()
-                  ? `${current.trimEnd()}\n\n${block}`
-                  : block
-            await github.rest.pulls.update({ owner, repo, pull_number, body })
-            if (!isPublished) {
+            const isRejected = process.env.IS_REJECTED === 'true'
+
+            let message
+            let tone
+            if (isPublished) {
+              message = `<a href="${domain}">Превью платформы</a> из ${headSha} опубликовано.`
+              tone = 'tip'
+            } else if (isRejected) {
+              message = `Превью платформы из ${headSha} не опубликовано: сборку не одобрили. [Подробнее](${runUrl})`
+              tone = 'warning'
+            } else {
+              message = `Превью платформы из ${headSha} не опубликовано. Ошибка сборки или публикации. [Подробнее](${runUrl})`
+              tone = 'caution'
+            }
+
+            const written = await note.writeNote({
+              github,
+              owner,
+              repo,
+              pullNumber: context.payload.pull_request.number,
+              message,
+              headSha,
+              tone,
+            })
+            // `null` — в пулреквесте уже есть коммит новее, отчитывается его прогон.
+            if (written !== null && tone === 'caution') {
               core.setFailed('Превью не опубликовано')
             }
       # Комментарии прошлой схемы. Убираем оставшиеся, чтобы в ленте не висело

@@ -1,3 +1,4 @@
+const fs = require('fs')
 const path = require('path')
 const { slugify } = require('transliteration')
 const htmlnano = require('htmlnano')
@@ -93,9 +94,20 @@ module.exports = function (config) {
   })
 
   config.addCollection('posts', async (collectionApi) => {
-    const changeLog = await (
-      await fetch('https://raw.githubusercontent.com/doka-guide/content/main/CHANGELOG.md')
-    ).text()
+    // Ченджлог берём из той же копии контента, что и сайт, а не скачиваем с
+    // GitHub: так сборка не зависит от сети. Путь — через симлинк
+    // `src/settings`: make-links ставит его всегда, даже когда путь к контенту
+    // введён в ответ на вопрос и в PATH_TO_CONTENT не попал.
+    let changeLog
+    try {
+      changeLog = fs.readFileSync(path.join(fs.realpathSync('src/settings'), '..', 'CHANGELOG.md'), 'utf8')
+    } catch (error) {
+      // Боевая сборка без ленты новостей уезжать не должна, а локально
+      // ченджлога может не быть: контент подключён частично или не подключён.
+      if (isProdEnv) throw error
+      console.warn(`Ченджлог не прочитан, лента новостей будет пустой: ${error.message}`)
+      return []
+    }
 
     return parseChangelog(changeLog).map((post) => {
       const article = collectionApi.getFilteredByGlob(`src${new URL(post.url).pathname}*.md`)[0]
