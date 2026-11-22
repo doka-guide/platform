@@ -61,12 +61,16 @@
   font-weight: normal;
   text-overflow: ellipsis;
   overflow: hidden;
+  container-type: inline-size;
 }
 
 .featured-article__code {
+  overflow-wrap: anywhere;
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
-  font-size: var(--font-size-xl);
+
+  /* Код не уменьшаем, чтобы в соседних карточках он был одного размера. Исключение — кусок между разрывами шире строки: иначе он обрежется. Длину куска считает code-breakify-transform, 0.6em — ширина знака Spot Mono */
+  font-size: min(var(--font-size-xl), 100cqi / var(--code-segment, 1) / 0.6);
   line-height: var(--font-line-height-xl);
 }
 

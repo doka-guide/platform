@@ -62,9 +62,9 @@ describe('callout-transform', () => {
 
 describe('code-breakify-transform', () => {
   it('расставляет переносы по спецсимволам', async () => {
-    const window = await runTransform(codeBreakifyTransform, '<code class="code-fix">border-radius</code>')
+    const window = await runTransform(codeBreakifyTransform, '<code class="code-fix">element.style</code>')
 
-    expect(window.document.querySelector('.code-fix').innerHTML).toContain('<wbr>')
+    expect(window.document.querySelector('.code-fix').innerHTML).toBe('element<wbr>.style')
   })
 
   it('не ставит перенос перед первым спецсимволом слова', async () => {
@@ -74,9 +74,9 @@ describe('code-breakify-transform', () => {
   })
 
   it('не трогает код без класса code-fix', async () => {
-    const window = await runTransform(codeBreakifyTransform, '<code>border-radius</code>')
+    const window = await runTransform(codeBreakifyTransform, '<code>element.style</code>')
 
-    expect(window.document.querySelector('code').innerHTML).toBe('border-radius')
+    expect(window.document.querySelector('code').innerHTML).toBe('element.style')
   })
 })
 

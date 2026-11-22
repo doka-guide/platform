@@ -26,6 +26,7 @@ const demoExternalLinkTransform = require('./src/transforms/demo-external-link-t
 const imagePlaceTransform = require('./src/transforms/image-place-transform.js')
 const detailsTransform = require('./src/transforms/details-transform.js')
 const calloutTransform = require('./src/transforms/callout-transform.js')
+const typographyTransform = require('./src/transforms/typography-transform.js')
 const { parseChangelog, enrichPost } = require('./src/libs/changelog-parser/changelog-parser.js')
 
 // Плагины 11ty 3 собраны как ESM: при require() приезжает пространство
@@ -351,6 +352,8 @@ module.exports = function (config) {
       articleInlineCodeTransform,
       colorPickerTransform,
       codeClassesTransform,
+      // до codeBreakifyTransform: длина неразрывных кусков в заголовках считается с неразрывными пробелами
+      typographyTransform,
       codeBreakifyTransform,
       iframeAttrTransform,
       tableTransform,

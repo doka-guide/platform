@@ -14,12 +14,16 @@
   margin: 0;
   font-size: var(--font-size-xl);
   line-height: var(--font-line-height-xl);
+  container-type: inline-size;
   font-weight: normal;
 }
 
+/* Кусок длинного кода шире строки уменьшается до её ширины, как в карточках (см. featured-article.css) */
 .article__title-code {
-  overflow-wrap: break-word;
-  font-size: var(--font-size-xl);
+  /* anywhere, а не break-word: длинный код не распирает заголовок шире экрана */
+  overflow-wrap: anywhere;
+
+  font-size: min(var(--font-size-xl), 100cqi / var(--code-segment, 1) / 0.6);
   line-height: var(--font-line-height-xl);
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);

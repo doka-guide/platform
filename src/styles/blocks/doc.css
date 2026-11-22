@@ -65,6 +65,10 @@
   gap: var(--offset, 20px);
 }
 
+.doc__more {
+  padding-inline: var(--offset);
+}
+
 .doc__related-articles {
   overflow: hidden;
   padding-inline: 0;
@@ -78,13 +82,6 @@
     gap: 13px;
     margin-block-start: 30px;
     margin-block-end: 0;
-  }
-}
-
-@media not all and (width >= 1024px) {
-  .doc__linked-articles,
-  .doc__related-articles {
-    padding-inline: inherit;
   }
 }
 
@@ -108,6 +105,11 @@
 
   .doc__article {
     grid-column: 1 / -1;
+  }
+
+  /* «Читайте также» и листалка — на всю правую колонку, а не по ширине текста: в заголовке карточки больше места для длинного кода */
+  .doc__more {
+    grid-column: 2 / -1;
   }
 }
 

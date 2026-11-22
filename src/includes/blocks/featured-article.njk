@@ -15,7 +15,8 @@
         {{ article.title | descriptionMarkdown | safe }}
       </a>
     </h3>
-    {% if ((not hasImage) and article.description) %}
+    {# у карточки с картинкой описания нет: иначе она вытягивается из квадрата #}
+    {% if ((not article.imageLink) and article.description) %}
       <p class="featured-article__description">
         {{ article.description | descriptionMarkdown | safe }}
       </p>

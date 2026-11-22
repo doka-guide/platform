@@ -8,6 +8,26 @@
   background-color: var(--color-background);
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+
+  /* Переносы по словарю браузера для языка из lang. Safari понимает только свойство с префиксом */
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+  /* Без переносов в коротких словах и без хвостов из двух букв. Значения подобраны по Chrome: при меньших он переносил «цве-тов», «оттен-ка» и «би-рюзового» */
+  hyphenate-limit-chars: 12 5 5;
+  text-wrap: pretty;
+}
+
+/* Дефис внутри кода читается как часть кода. Длинный код разрывается по <wbr> из code-breakify-transform */
+.base :is(code, pre, kbd, samp) {
+  -webkit-hyphens: none;
+  hyphens: none;
+}
+
+/* В коротком крупном заголовке перенос заметнее, чем слово целиком на новой строке. В таблице переносы сужают колонки и рвут шапку. Карточкам перенос нужен: без него длинное слово обрезается многоточием */
+.base :is(h2, h3, h4, h5, h6, th, td):not(.featured-article__title) {
+  -webkit-hyphens: manual;
+  hyphens: manual;
 }
 
 /* TODO: рассчитать правильный отступ при наличии класса aria__controls--expanded */
