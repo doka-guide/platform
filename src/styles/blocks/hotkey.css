@@ -12,6 +12,13 @@
   user-select: none;
 }
 
+/* В шрифтах Доки нет ⌘, а в запасном он мельче заглавных и сидит выше. Подгоняем
+  под высоту и середину K трансформацией: так строка подсказки не меняет высоту */
+.hotkey__modifier--symbol {
+  display: inline-block;
+  transform: translateY(0.025em) scale(1.3);
+}
+
 @media (width <= 1366px) {
   .hotkey {
     font-size: 18px;

@@ -89,10 +89,12 @@ class Header extends BaseComponent {
       this.checkSticky()
     }
 
-    // navigator.platform устарел, но userAgentData есть пока только в Chromium
-    const modifierLabel = getModifierLabel(navigator.userAgentData?.platform ?? navigator.platform)
+    // navigator.platform устарел, но userAgentData есть пока только в Chromium,
+    // а при подмене User-Agent его platform — пустая строка
+    const modifierLabel = getModifierLabel(navigator.userAgentData?.platform || navigator.platform)
     rootElement.querySelectorAll('.hotkey__modifier').forEach((element) => {
       element.textContent = modifierLabel
+      element.classList.toggle('hotkey__modifier--symbol', modifierLabel === '⌘')
     })
 
     // Браузеры по Ctrl K ставят фокус в свою строку поиска.
