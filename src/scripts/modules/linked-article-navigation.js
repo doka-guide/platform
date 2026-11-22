@@ -1,4 +1,29 @@
+// На клавиатурах Apple те же клавиши подписаны иначе, а обработчику всё равно:
+// ctrlKey и altKey срабатывают от control и option.
+const appleModifiers = {
+  ctrl: 'control',
+  alt: 'option',
+}
+
+export function isApplePlatform(platform) {
+  return /mac|iphone|ipad/i.test(platform)
+}
+
+// Шаблон отдаёт подписи для Windows и Linux, а на Mac скрипт их подменяет:
+// при сборке система читателя неизвестна.
+export function localizeHotkeys(root, platform) {
+  if (!isApplePlatform(platform)) {
+    return
+  }
+
+  root.querySelectorAll('.linked-article__hotkeys [data-modifier]').forEach((key) => {
+    key.textContent = appleModifiers[key.dataset.modifier]
+  })
+}
+
 function init() {
+  localizeHotkeys(document, navigator.userAgentData?.platform || navigator.platform)
+
   const [previous, next] = [
     document.querySelector('.linked-article--previous .linked-article__link'),
     document.querySelector('.linked-article--next .linked-article__link'),
