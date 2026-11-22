@@ -1,4 +1,5 @@
 {% from "blocks/logo.njk" import logo %}
+{% from "blocks/hotkey-modifier.njk" import modifierKey %}
 
 {% macro devider() %}
   <span
@@ -67,8 +68,9 @@
       {% if (not isMainPage) and (not isSearchPage) %}
         <div class="header__buttons">
           <span class="hotkey hotkey--search font-theme font-theme--code">
-            Клавиша <kbd class="hotkey__key">/</kbd>
+            <kbd class="hotkey__key"><kbd>{{ modifierKey() }}</kbd> <kbd>K</kbd></kbd>
           </span>
+          {% include "blocks/hotkey-notice.njk" %}
           <span class="hotkey hotkey--close font-theme font-theme--code">
             <kbd class="hotkey__key">esc</kbd>
           </span>

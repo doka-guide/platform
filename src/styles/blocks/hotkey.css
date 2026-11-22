@@ -12,6 +12,30 @@
   user-select: none;
 }
 
+/* ⌘ — иконка, а не символ: в шрифтах Доки его нет, а в запасных он разного размера и высоты.
+  Иконка ростом с заглавную и стоит на базовой линии, как буква */
+.hotkey__cmd {
+  display: none;
+}
+
+.apple-platform .hotkey__ctrl {
+  display: none;
+}
+
+.apple-platform .hotkey__cmd {
+  display: inline;
+}
+
+.hotkey__cmd-icon {
+  width: 0.73em;
+  height: 0.73em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (width <= 1366px) {
   .hotkey {
     font-size: 18px;

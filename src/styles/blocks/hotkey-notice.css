@@ -1,0 +1,182 @@
+/* Временная подсказка о смене клавиши поиска (#1407), удалить вместе с hotkey-notice.njk и hotkey-notice.js */
+
+.hotkey--search {
+  anchor-name: --search-hotkey;
+}
+
+.hotkey--highlighted {
+  position: relative;
+  opacity: 1;
+  border-color: currentColor;
+}
+
+/* Ореол пульсирует только прозрачностью: её анимирует композитор, без перерисовки страницы */
+.hotkey--highlighted::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 6px currentColor;
+  opacity: 0;
+  pointer-events: none;
+  animation: hotkey-notice-pulse 1.4s ease-in-out 0.3s 3;
+}
+
+@keyframes hotkey-notice-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.hotkey-notice {
+  --notice-offset: 14px;
+
+  position-anchor: --search-hotkey;
+  position-area: block-end span-inline-start;
+  position-try-fallbacks: flip-inline;
+  inset: auto;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(380px, calc(100vw - 40px));
+  margin: var(--notice-offset) 0 0;
+  padding: 16px 52px 18px 20px;
+  overflow: visible;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-family);
+  font-size: 18px;
+  letter-spacing: var(--letter-spacing);
+  line-height: 1.4;
+  color: var(--color-background);
+  background-color: var(--color-text);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.25);
+  transform-origin: calc(100% - 28px) 0;
+
+  /* Закрытое состояние: из него подсказка появляется и в него же уходит */
+  opacity: 0;
+  transform: translateY(-6px) scale(0.96);
+  transition:
+    opacity 0.15s ease-in,
+    transform 0.15s ease-in,
+    overlay 0.15s allow-discrete,
+    display 0.15s allow-discrete;
+}
+
+.hotkey-notice:popover-open {
+  opacity: 1;
+  transform: none;
+  transition-duration: 0.35s;
+  transition-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+@starting-style {
+  .hotkey-notice:popover-open {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.96);
+  }
+}
+
+/* Уголок, который показывает на подсказку клавиш в шапке */
+.hotkey-notice::before {
+  content: "";
+  position: absolute;
+  inset-block-start: -6px;
+  inset-inline-end: 22px;
+  width: 12px;
+  height: 12px;
+  background-color: inherit;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.hotkey-notice__text {
+  margin: 0;
+}
+
+.hotkey-notice__title {
+  display: block;
+  margin-block-end: 6px;
+  font-family: var(--font-family);
+  font-weight: inherit;
+  font-size: 20px;
+  letter-spacing: var(--letter-spacing);
+}
+
+/* Чтобы «по» не отрывалось от клавиш: неразрывный пробел перед inline-flex браузеры игнорируют */
+.hotkey-notice__nowrap {
+  white-space: nowrap;
+}
+
+.hotkey-notice__keys {
+  display: inline-flex;
+  margin-inline-start: 0.15em;
+  gap: 3px;
+  font: inherit;
+}
+
+/* Каждая клавиша — отдельная клавиша-колпачок: так сочетание читается сразу */
+.hotkey-notice__key {
+  box-sizing: border-box;
+  min-width: 1.6em;
+  padding: 0 0.35em;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  font: inherit;
+  font-size: 0.85em;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.hotkey-notice__close {
+  position: absolute;
+  inset-block-start: 12px;
+  inset-inline-end: 8px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  line-height: 1;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.hotkey-notice__close:hover {
+  background-color: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.hotkey-notice__close:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Без якорного позиционирования ставим подсказку под шапкой у правого края */
+@supports not (anchor-name: --search-hotkey) {
+  .hotkey-notice {
+    inset: 80px 20px auto auto;
+    margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hotkey-notice,
+  .hotkey-notice:popover-open {
+    transform: none;
+  }
+
+  @starting-style {
+    .hotkey-notice:popover-open {
+      transform: none;
+    }
+  }
+
+  .hotkey--highlighted::after {
+    animation: none;
+  }
+}

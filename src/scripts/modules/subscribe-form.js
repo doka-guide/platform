@@ -136,11 +136,6 @@ class Unsubscribe extends BaseComponent {
       const text = this.input.value.trim()
       this.emit(Unsubscribe.EVENTS.UNSUBSCRIBE, text)
     })
-    ;['keydown', 'keyup'].forEach((eventType) => {
-      this.input.addEventListener(eventType, (event) => {
-        event.stopPropagation()
-      })
-    })
   }
 
   clearStatus() {

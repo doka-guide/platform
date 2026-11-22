@@ -14,6 +14,7 @@
 @import url("blocks/base.css");
 @import url("blocks/logo.css");
 @import url("blocks/hotkey.css");
+@import url("blocks/hotkey-notice.css");
 @import url("blocks/breadcrumbs.css");
 @import url("blocks/header-button.css");
 @import url("blocks/header.css");

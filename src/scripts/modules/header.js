@@ -1,6 +1,7 @@
 import throttle from '../libs/throttle.js'
 import debounce from '../libs/debounce.js'
 import BaseComponent from '../core/base-component.js'
+import { isSearchHotkey } from '../libs/search-hotkey.js'
 
 const headerActiveClass = 'header--open'
 
@@ -53,7 +54,7 @@ class Header extends BaseComponent {
 
     ;[
       'enter',
-      'openOnKeyUp',
+      'openOnKeyDown',
       'closeOnKeyUp',
       'closeOnClickOutside',
       'closeOnFocusout',
@@ -82,22 +83,23 @@ class Header extends BaseComponent {
         this.isMenuOpen ? this.closeMenu() : this.openMenu()
       })
 
-      document.addEventListener('keyup', this.openOnKeyUp)
+      document.addEventListener('keydown', this.openOnKeyDown)
       window.addEventListener('scroll', throttle(this.checkSticky))
 
       this.checkSticky()
     }
 
+    // Браузеры по Ctrl K ставят фокус в свою строку поиска.
+    // Поиск открываем по keydown: в macOS, пока зажата ⌘, keyup не приходит
     document.addEventListener('keydown', (event) => {
-      // Firefox при нажатии Slash открывает свой поиск по странице
-      if (document.activeElement !== this.refs.input && (event.code === 'Slash' || event.code === 'NumpadDivide')) {
+      if (isSearchHotkey(event)) {
         event.preventDefault()
       }
     })
 
     if (this.isMainPage) {
-      document.addEventListener('keyup', (event) => {
-        if (event.code === 'Slash' || event.code === 'NumpadDivide') {
+      document.addEventListener('keydown', (event) => {
+        if (isSearchHotkey(event)) {
           queueMicrotask(() => {
             this.enter()
           })
@@ -127,8 +129,8 @@ class Header extends BaseComponent {
     this.refs.input?.focus()
   }
 
-  openOnKeyUp(event) {
-    if (event.code === 'Slash' || event.code === 'NumpadDivide') {
+  openOnKeyDown(event) {
+    if (isSearchHotkey(event)) {
       this.openMenu()
       this.refs.input.focus()
     }
@@ -171,7 +173,7 @@ class Header extends BaseComponent {
     rootElement.classList.add(headerActiveClass)
     toggleButton.setAttribute('aria-expanded', 'true')
 
-    document.removeEventListener('keyup', this.openOnKeyUp)
+    document.removeEventListener('keydown', this.openOnKeyDown)
     document.addEventListener('keyup', this.closeOnKeyUp)
     rootElement.addEventListener('focusout', this.closeOnFocusout)
     document.addEventListener('click', this.closeOnClickOutside)
@@ -186,7 +188,7 @@ class Header extends BaseComponent {
     document.removeEventListener('keyup', this.closeOnKeyUp)
     document.removeEventListener('focusout', this.closeOnFocusout)
     document.removeEventListener('click', this.closeOnClickOutside)
-    document.addEventListener('keyup', this.openOnKeyUp)
+    document.addEventListener('keydown', this.openOnKeyDown)
 
     this.emit('menu.close')
   }
