@@ -1,0 +1,63 @@
+/* глаза-снежинки в логотипе: класс new-year ставит new-year.js с 20 декабря по 11 января */
+
+/* display: none, а не прозрачность: снежинки шире точек, и вне праздников логотип растянулся бы */
+.logo__symbols--new-year {
+  display: none;
+}
+
+.new-year .logo__image:has(.logo__symbols--new-year) .logo__symbols--main {
+  opacity: 0;
+}
+
+/* у точек-глаз отрицательный межбуквенный интервал, а снежинки шире и с ним налезают на нос и уши.
+  Поэтому интервал обнулён, а символы стоят во флексе с одинаковыми зазорами */
+.new-year .logo__symbols--new-year {
+  display: flex;
+  align-items: baseline;
+  gap: 0.03em;
+  margin-right: 0;
+  letter-spacing: 0;
+
+  /* при поиске логотип всё так же щурится */
+  opacity: calc(1 - var(--is-animation));
+}
+
+.logo__symbols--new-year .logo__nose {
+  letter-spacing: 0;
+}
+
+/* снежинка поднята до уровня глаз; через top, а не transform, чтобы не мешать вращению */
+.logo__snowflake {
+  position: relative;
+  top: -0.08em;
+  display: inline-block;
+  font-size: 0.75em;
+  color: hsl(var(--color-blue));
+}
+
+@keyframes newYearSnowflake {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* крутит свойство rotate, а не transform, чтобы складываться с анимацией при загрузке */
+@keyframes newYearSnowflakeHover {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* три оборота при загрузке укладываются в 5 секунд: дольше без кнопки паузы двигаться нельзя по WCAG 2.2.2 */
+@media (prefers-reduced-motion: no-preference) {
+  .new-year .logo__snowflake {
+    animation: newYearSnowflake 1.5s ease-in-out 3;
+  }
+
+  /* первая анимация остаётся в списке, поэтому после наведения она не запускается заново */
+  .new-year .logo:hover .logo__snowflake {
+    animation:
+      newYearSnowflake 1.5s ease-in-out 3,
+      newYearSnowflakeHover 1s ease-in-out;
+  }
+}
