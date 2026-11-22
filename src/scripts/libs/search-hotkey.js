@@ -6,10 +6,6 @@ export function isSearchHotkey(event) {
   return (event.metaKey || event.ctrlKey) && !event.shiftKey && !event.altKey && event.code === 'KeyK'
 }
 
-export function getModifierLabel(platform) {
-  return /mac|iphone|ipad/i.test(platform) ? '⌘' : 'Ctrl'
-}
-
 // Подсказка о смене клавиши временная: после этой даты её не видит никто, и код можно удалять
 export const HOTKEY_NOTICE_END = new Date('2027-03-01')
 

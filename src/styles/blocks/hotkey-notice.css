@@ -128,11 +128,6 @@
   text-align: center;
 }
 
-/* В Graphik запасной ⌘ и так ростом с заглавную, подгонка из hotkey.css здесь не нужна */
-.hotkey-notice__key .hotkey__modifier--symbol {
-  transform: none;
-}
-
 .hotkey-notice__close {
   position: absolute;
   inset-block-start: 12px;

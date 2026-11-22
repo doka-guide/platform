@@ -1,7 +1,7 @@
 import throttle from '../libs/throttle.js'
 import debounce from '../libs/debounce.js'
 import BaseComponent from '../core/base-component.js'
-import { isSearchHotkey, getModifierLabel } from '../libs/search-hotkey.js'
+import { isSearchHotkey } from '../libs/search-hotkey.js'
 
 const headerActiveClass = 'header--open'
 
@@ -88,14 +88,6 @@ class Header extends BaseComponent {
 
       this.checkSticky()
     }
-
-    // navigator.platform устарел, но userAgentData есть пока только в Chromium,
-    // а при подмене User-Agent его platform — пустая строка
-    const modifierLabel = getModifierLabel(navigator.userAgentData?.platform || navigator.platform)
-    rootElement.querySelectorAll('.hotkey__modifier').forEach((element) => {
-      element.textContent = modifierLabel
-      element.classList.toggle('hotkey__modifier--symbol', modifierLabel === '⌘')
-    })
 
     // Браузеры по Ctrl K ставят фокус в свою строку поиска.
     // Поиск открываем по keydown: в macOS, пока зажата ⌘, keyup не приходит

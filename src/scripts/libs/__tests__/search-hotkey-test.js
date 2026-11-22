@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-const { isSearchHotkey, getModifierLabel, shouldShowHotkeyNotice, HOTKEY_NOTICE_END } = require('../search-hotkey.js')
+const { isSearchHotkey, shouldShowHotkeyNotice, HOTKEY_NOTICE_END } = require('../search-hotkey.js')
 
 document.body.innerHTML = `
   <input class="input">
@@ -44,16 +44,6 @@ describe('isSearchHotkey', () => {
 
   test('«/» в поле ввода не открывает поиск', () => {
     expect(isSearchHotkey(keyEvent({ code: 'Slash' }, '.textarea'))).toBe(false)
-  })
-})
-
-describe('getModifierLabel', () => {
-  test.each(['MacIntel', 'macOS', 'iPhone', 'iPad'])('на %s показывает ⌘', (platform) => {
-    expect(getModifierLabel(platform)).toBe('⌘')
-  })
-
-  test.each(['Win32', 'Windows', 'Linux x86_64', ''])('на «%s» показывает Ctrl', (platform) => {
-    expect(getModifierLabel(platform)).toBe('Ctrl')
   })
 })
 
