@@ -5,13 +5,17 @@
   overflow: hidden;
 }
 
-.related-articles-list__item::before {
-  content: '';
-  display: table;
-  float: left;
-  padding-top: 100%;
+/* Карточка квадратная, картинка занимает место, которое осталось после заголовка. Длинный текст растягивает карточку, а не обрезается */
+.related-articles-list__article {
+  aspect-ratio: 1;
+  min-height: auto;
 }
 
-.related-articles-list__article {
-  min-height: 100%;
+.related-articles-list__article .featured-article__image-wrapper {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.related-articles-list__article .featured-article__image-wrapper::before {
+  display: none;
 }
