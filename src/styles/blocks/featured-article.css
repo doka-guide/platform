@@ -61,12 +61,19 @@
   font-weight: normal;
   text-overflow: ellipsis;
   overflow: hidden;
+  container-type: inline-size;
 }
 
 .featured-article__code {
+  overflow-wrap: anywhere;
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);
-  font-size: var(--font-size-xl);
+
+  /* Короткий код уменьшаем до 70%, чтобы встал в строку целиком, длинный — до куска между разрывами. Длины считает code-breakify-transform, 0.6em — ширина знака Spot Mono */
+  font-size: min(
+    var(--font-size-xl),
+    max(100cqi / var(--code-word, 1) / 0.6, min(100cqi / var(--code-segment, 1) / 0.6, var(--font-size-xl) * 0.7))
+  );
   line-height: var(--font-line-height-xl);
 }
 

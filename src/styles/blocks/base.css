@@ -8,6 +8,20 @@
   background-color: var(--color-background);
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+
+  /* Переносы по словарю браузера для языка из lang. Safari понимает только свойство с префиксом */
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+  /* Переносим только слова от 8 знаков и оставляем на строке не меньше 3: без «а-втор» и висящих букв */
+  hyphenate-limit-chars: 8 3 3;
+  text-wrap: pretty;
+}
+
+/* Дефис внутри кода читается как часть кода. Длинный код разрывается по <wbr> из code-breakify-transform */
+.base :is(code, pre, kbd, samp) {
+  -webkit-hyphens: none;
+  hyphens: none;
 }
 
 /* TODO: рассчитать правильный отступ при наличии класса aria__controls--expanded */
