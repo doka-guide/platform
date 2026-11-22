@@ -101,18 +101,29 @@
   font-size: 20px;
 }
 
-.hotkey-notice__keys {
-  padding: 0 5px;
-  font-family: var(--font-family);
-  letter-spacing: var(--letter-spacing);
-  border: 1px solid currentColor;
-  border-radius: 4px;
-  font-size: 0.9em;
+/* Чтобы «по» не отрывалось от клавиш: неразрывный пробел перед inline-flex браузеры игнорируют */
+.hotkey-notice__nowrap {
   white-space: nowrap;
 }
 
-.hotkey-notice__keys kbd {
+.hotkey-notice__keys {
+  display: inline-flex;
+  gap: 3px;
   font: inherit;
+}
+
+/* Каждая клавиша — отдельная клавиша-колпачок: так сочетание читается сразу */
+.hotkey-notice__key {
+  box-sizing: border-box;
+  min-width: 1.6em;
+  padding: 0 0.35em;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  font: inherit;
+  font-size: 0.85em;
+  line-height: 1.5;
+  text-align: center;
 }
 
 .hotkey-notice__close {
