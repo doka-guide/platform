@@ -1,3 +1,5 @@
+import { markNoticeShown } from '../libs/page-notice.js'
+
 function init() {
   const banner = document.querySelector('.cookie-notification')
   const button = banner?.querySelector('button')
@@ -19,6 +21,7 @@ function init() {
   }
 
   banner.hidden = false
+  markNoticeShown()
 
   button.addEventListener(
     'click',

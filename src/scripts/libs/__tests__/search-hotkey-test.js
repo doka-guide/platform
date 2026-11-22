@@ -48,17 +48,22 @@ describe('isSearchHotkey', () => {
 })
 
 describe('shouldShowHotkeyNotice', () => {
-  const beforeEnd = new Date(HOTKEY_NOTICE_END.getTime() - 1)
+  const now = new Date(HOTKEY_NOTICE_END.getTime() - 1)
+  const returning = { storedValue: null, isCookieAccepted: true, now }
 
-  test('показывает, пока подсказку не закрыли', () => {
-    expect(shouldShowHotkeyNotice(null, beforeEnd)).toBe(true)
+  test('показывает тому, кто бывал на Доке, пока подсказку не закрыли', () => {
+    expect(shouldShowHotkeyNotice(returning)).toBe(true)
+  })
+
+  test('не показывает новичку, который ещё не принял куки', () => {
+    expect(shouldShowHotkeyNotice({ ...returning, isCookieAccepted: false })).toBe(false)
   })
 
   test('не показывает закрытую подсказку', () => {
-    expect(shouldShowHotkeyNotice('CLOSED', beforeEnd)).toBe(false)
+    expect(shouldShowHotkeyNotice({ ...returning, storedValue: 'CLOSED' })).toBe(false)
   })
 
   test('не показывает после окончания срока', () => {
-    expect(shouldShowHotkeyNotice(null, HOTKEY_NOTICE_END)).toBe(false)
+    expect(shouldShowHotkeyNotice({ ...returning, now: HOTKEY_NOTICE_END })).toBe(false)
   })
 })
