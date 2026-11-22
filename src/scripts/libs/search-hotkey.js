@@ -9,6 +9,8 @@ export function isSearchHotkey(event) {
 // Подсказка о смене клавиши временная: после этой даты её не видит никто, и код можно удалять
 export const HOTKEY_NOTICE_END = new Date('2027-03-01')
 
-export function shouldShowHotkeyNotice(storedValue, now) {
-  return storedValue !== 'CLOSED' && now < HOTKEY_NOTICE_END
+// Новичку о замене рассказывать незачем: про «/» он не знал. Новичка выдаёт непринятый баннер о куках —
+// кто бывал на Доке раньше, его уже принял
+export function shouldShowHotkeyNotice({ storedValue, isCookieAccepted, now }) {
+  return isCookieAccepted && storedValue !== 'CLOSED' && now < HOTKEY_NOTICE_END
 }

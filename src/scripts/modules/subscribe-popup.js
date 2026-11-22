@@ -1,6 +1,7 @@
 import BaseComponent from '../core/base-component.js'
 import { reachGoal } from '../core/metrika.js'
 import { setupDb, saveToDb, sendFromDb, closeAndDeleteDb } from './form-cache.js'
+import { isNoticeShown } from '../libs/page-notice.js'
 
 class Popup extends BaseComponent {
   static get EVENTS() {
@@ -94,7 +95,8 @@ class Popup extends BaseComponent {
   }
 
   triggerCallback() {
-    if (this.status === Popup.STATUS_STATE['pending']) {
+    // Читатель уже закрыл на этой странице другое окно — приглашение подождёт следующей
+    if (this.status === Popup.STATUS_STATE['pending'] && !isNoticeShown()) {
       this.show()
     }
   }

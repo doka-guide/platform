@@ -1,4 +1,5 @@
 import { isSearchHotkey, shouldShowHotkeyNotice } from '../libs/search-hotkey.js'
+import { markNoticeShown } from '../libs/page-notice.js'
 
 // Временная подсказка о смене клавиши поиска (#1407)
 const storageKey = 'hotkey-notice'
@@ -7,17 +8,28 @@ function init() {
   const notice = document.querySelector('.hotkey-notice')
   const hint = document.querySelector('.hotkey--search')
 
-  // Подсказки клавиш нет на узких экранах и на странице поиска — там и рассказывать не о чем
-  if (!notice?.showPopover || !hint?.checkVisibility()) {
+  if (!notice?.showPopover) {
     return
   }
 
   try {
-    if (!shouldShowHotkeyNotice(localStorage.getItem(storageKey), new Date())) {
+    const isCookieAccepted = JSON.parse(localStorage.getItem('cookie-notification')) === true
+
+    // Новичок примет куки и на следующей странице уже не отличается от старожила — запоминаем его сейчас
+    if (!isCookieAccepted) {
+      localStorage.setItem(storageKey, 'CLOSED')
+    }
+
+    if (!shouldShowHotkeyNotice({ storedValue: localStorage.getItem(storageKey), isCookieAccepted, now: new Date() })) {
       return
     }
   } catch (error) {
     console.error(error)
+    return
+  }
+
+  // Подсказки клавиш нет на узких экранах и на странице поиска — там и рассказывать не о чем
+  if (!hint?.checkVisibility()) {
     return
   }
 
@@ -38,6 +50,7 @@ function init() {
 
   hint.classList.add('hotkey--highlighted')
   notice.showPopover()
+  markNoticeShown()
 }
 
 // После load, а не сразу: подсказка появляется, когда страница уже отрисована и не прыгает
