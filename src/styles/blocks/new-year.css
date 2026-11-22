@@ -57,13 +57,6 @@
   }
 }
 
-/* крутит свойство rotate, а не transform, чтобы складываться с анимацией при загрузке */
-@keyframes newYearSnowflakeHover {
-  to {
-    rotate: 1 var(--axis-y) var(--axis-z) 1turn;
-  }
-}
-
 /* медленно, как снежинка в воздухе. Укладывается в 5 секунд:
   дольше без кнопки паузы двигаться нельзя по WCAG 2.2.2 */
 @media (prefers-reduced-motion: no-preference) {
@@ -72,12 +65,15 @@
   }
 }
 
-/* на тач-экранах наведение срабатывает от касания, поэтому только для мыши */
+/* на тач-экранах наведение срабатывает от касания, поэтому только для мыши.
+  Переход, а не анимация: если убрать курсор посреди кувырка, снежинка плавно вернётся, а не прыгнет.
+  Свойство rotate, а не transform, чтобы складываться с анимацией при загрузке */
 @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
-  /* первая анимация остаётся в списке, поэтому после наведения она не запускается заново */
+  .new-year .logo__snowflake {
+    transition: rotate 2s cubic-bezier(0.37, 0, 0.63, 1);
+  }
+
   .new-year .logo:hover .logo__snowflake {
-    animation:
-      newYearSnowflake 4.5s cubic-bezier(0.37, 0, 0.63, 1),
-      newYearSnowflakeHover 2s cubic-bezier(0.37, 0, 0.63, 1);
+    rotate: 1 var(--axis-y) var(--axis-z) 1turn;
   }
 }
