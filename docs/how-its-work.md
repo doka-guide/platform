@@ -45,10 +45,9 @@
 - `DOKA_ORG` — путь до организации на GitHub;
 - `PLATFORM_REP_GITHUB_URL` — путь до репозитория с платформой на GitHub;
 - `CONTENT_REP_GITHUB_URL` — путь до репозитория с контентом на GitHub;
-- `CONTENT_REP_GITHUB` — ссылка до репозитория с контентом на GitHub для работы с Git;
-- `GITHUB_TOKEN` — токен для работы с GraphQL API GitHub. [Инструкция по генерации персонального токена](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+- `CONTENT_REP_GITHUB` — ссылка до репозитория с контентом на GitHub для работы с Git.
 
-Папка _settings_ из списка `CONTENT_REP_FOLDERS` является обязательной для сборки. Если оставить поле `GITHUB_TOKEN` пустым, на страницах участников не будет отображаться информация об их активности на GitHub в репозитории с контентом.
+Папка _settings_ из списка `CONTENT_REP_FOLDERS` является обязательной для сборки. Статистику активности участников в репозитории с контентом сборка берёт из файла `.issues.json`, а не из API GitHub. Без него страницы участников собираются с пустой статистикой, как его получить — [в документации](https://github.com/doka-guide/platform/blob/main/docs/how-to-run.md#файл-issuesjson).
 
 Список разделов Доки, которые попадают в сборку сайта, задаётся переменной `SECTIONS` в файлах [_.env.example_](https://github.com/doka-guide/platform/blob/main/.env.example), где задаются переменные окружения (подробнее об обязательной настройке перед запуском [в документации](https://github.com/doka-guide/platform/blob/main/docs/how-to-run.md)), и [_constants.js_](https://github.com/doka-guide/platform/blob/main/config/constants.js), в котором указываются значения по умолчанию, если они не заданы в файле с переменными окружения. Папки с материалами разделов могут быть пустыми или вообще отсутствовать. Сборка будет учитывать только те материалы, которые есть в указанных папках. Структура папок с материалами должна быть следующей:
 
