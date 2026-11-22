@@ -79,7 +79,7 @@ describe('code-breakify-transform', () => {
     expect(window.document.querySelector('code').innerHTML).toBe('fetch()')
   })
 
-  it('передаёт карточке длину самого длинного неразрывного куска вместе с запятой после кода', async () => {
+  it('передаёт карточке длину неразрывного куска вместе с запятой после кода', async () => {
     const window = await runTransform(
       codeBreakifyTransform,
       card(
@@ -88,8 +88,8 @@ describe('code-breakify-transform', () => {
     )
     const [first, second] = window.document.querySelectorAll('code')
 
-    expect(first.getAttribute('style')).toBe('--code-word: 10; --code-segment: 10')
-    expect(second.getAttribute('style')).toBe('--code-word: 8; --code-segment: 8')
+    expect(first.getAttribute('style')).toBe('--code-segment: 10')
+    expect(second.getAttribute('style')).toBe('--code-segment: 8')
   })
 
   it('считает соседний код без пробела одним куском', async () => {
@@ -101,7 +101,7 @@ describe('code-breakify-transform', () => {
     )
 
     for (const code of window.document.querySelectorAll('code')) {
-      expect(code.getAttribute('style')).toBe('--code-word: 13; --code-segment: 13')
+      expect(code.getAttribute('style')).toBe('--code-segment: 13')
     }
   })
 
@@ -111,7 +111,7 @@ describe('code-breakify-transform', () => {
       card('Работа с\u00A0<code class="code-fix">fetch()</code>'),
     )
 
-    expect(window.document.querySelector('code').getAttribute('style')).toBe('--code-word: 9; --code-segment: 9')
+    expect(window.document.querySelector('code').getAttribute('style')).toBe('--code-segment: 9')
   })
 
   it('считает куски между <wbr>, а не весь код', async () => {
@@ -120,8 +120,8 @@ describe('code-breakify-transform', () => {
       card('<code class="featured-article__code code-fix">background-image</code>'),
     )
 
-    // целиком background-image, а после дефиса строку разрывает браузер: background- и image
-    expect(window.document.querySelector('code').getAttribute('style')).toBe('--code-word: 16; --code-segment: 11')
+    // после дефиса строку разрывает браузер: самый длинный кусок background-
+    expect(window.document.querySelector('code').getAttribute('style')).toBe('--code-segment: 11')
   })
 
   it('задаёт длину коду в заголовке статьи', async () => {
@@ -131,7 +131,7 @@ describe('code-breakify-transform', () => {
     )
 
     // разрыв только перед «=», дальше неразрывный кусок ="associationlistitemvalue"
-    expect(window.document.querySelector('code').getAttribute('style')).toBe('--code-word: 27; --code-segment: 27')
+    expect(window.document.querySelector('code').getAttribute('style')).toBe('--code-segment: 27')
   })
 
   it('не задаёт длину коду за пределами карточек', async () => {

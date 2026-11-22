@@ -18,19 +18,12 @@
   font-weight: normal;
 }
 
-/* Длинный код в заголовке на телефоне уменьшается до ширины строки, как в карточках (см. featured-article.css) */
+/* Кусок длинного кода шире строки уменьшается до её ширины, как в карточках (см. featured-article.css) */
 .article__title-code {
   /* anywhere, а не break-word: длинный код не распирает заголовок шире экрана */
   overflow-wrap: anywhere;
 
-  --fit-word: calc(100cqi / var(--code-word, 1) / 0.6);
-  --fit-segment: min(var(--font-size-xl), 100cqi / var(--code-segment, 1) / 0.6);
-  --step: clamp(var(--font-size-xl) * 0.7, var(--font-size-xl) + (var(--fit-word) - var(--font-size-xl)) * 10000, var(--font-size-xl));
-  font-size: clamp(
-    min(var(--step), var(--fit-segment)),
-    var(--fit-segment) - max(0px, (var(--fit-word) - var(--font-size-xl) * 0.7) * 10000),
-    var(--fit-segment)
-  );
+  font-size: min(var(--font-size-xl), 100cqi / var(--code-segment, 1) / 0.6);
   line-height: var(--font-line-height-xl);
   font-family: var(--font-family);
   letter-spacing: var(--letter-spacing);

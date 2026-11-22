@@ -47,12 +47,12 @@ function findBreaks(text) {
 const TITLES = '.featured-article__title, .article__title'
 
 /**
- * Неразрывные куски заголовка: строку можно разорвать только на обычном пробеле и на <wbr>,
- * а с splitHyphens — ещё и после дефиса в коде, там её разрывает сам браузер.
+ * Неразрывные куски заголовка: строку можно разорвать на обычном пробеле, на <wbr>
+ * и после дефиса в коде, там её разрывает сам браузер.
  * Неразрывный пробел, знаки препинания и соседний код без пробела остаются в одном куске.
  * @returns {Array<{length: number, codes: Set<Element>}>}
  */
-function titleRuns(title, splitHyphens) {
+function titleRuns(title) {
   const runs = []
   let run = { length: 0, codes: new Set() }
   const cut = () => {
@@ -75,7 +75,7 @@ function titleRuns(title, splitHyphens) {
           }
           run.length++
           if (code) run.codes.add(code)
-          if (splitHyphens && code && ch === '-') cut()
+          if (code && ch === '-') cut()
         }
       }
     }
@@ -121,17 +121,11 @@ module.exports = function (window) {
     }
   }
 
-  // В узкой карточке и в заголовке на телефоне крупный код уменьшается:
-  // короткий код с дефисом вроде text-align — чтобы встал в строку целиком,
-  // длинный — чтобы целиком встал хотя бы кусок между разрывами
+  // Кусок длинного кода шире строки в узкой карточке и в заголовке на телефоне уменьшается до её ширины
   for (const title of document.querySelectorAll(TITLES)) {
-    const words = titleRuns(title, false)
-    const segments = titleRuns(title, true)
+    const segments = titleRuns(title)
     for (const code of title.querySelectorAll('code')) {
-      code.setAttribute(
-        'style',
-        `--code-word: ${longestRun(words, code)}; --code-segment: ${longestRun(segments, code)}`,
-      )
+      code.setAttribute('style', `--code-segment: ${longestRun(segments, code)}`)
     }
   }
 }
