@@ -7,16 +7,15 @@
 .hotkey--highlighted {
   position: relative;
   opacity: 1;
-  outline: 2px solid currentColor;
-  outline-offset: 3px;
+  border-color: currentColor;
 }
 
 /* Ореол пульсирует только прозрачностью: её анимирует композитор, без перерисовки страницы */
 .hotkey--highlighted::after {
   content: "";
   position: absolute;
-  inset: -5px;
-  border-radius: 8px;
+  inset: -1px;
+  border-radius: 6px;
   box-shadow: 0 0 0 6px currentColor;
   opacity: 0;
   pointer-events: none;
@@ -96,9 +95,11 @@
 
 .hotkey-notice__title {
   display: block;
-  margin-block-end: 4px;
+  margin-block-end: 6px;
+  font-family: var(--font-family);
   font-weight: inherit;
   font-size: 20px;
+  letter-spacing: var(--letter-spacing);
 }
 
 /* Чтобы «по» не отрывалось от клавиш: неразрывный пробел перед inline-flex браузеры игнорируют */
@@ -108,6 +109,7 @@
 
 .hotkey-notice__keys {
   display: inline-flex;
+  margin-inline-start: 0.15em;
   gap: 3px;
   font: inherit;
 }
@@ -126,9 +128,14 @@
   text-align: center;
 }
 
+/* В Graphik запасной ⌘ и так ростом с заглавную, подгонка из hotkey.css здесь не нужна */
+.hotkey-notice__key .hotkey__modifier--symbol {
+  transform: none;
+}
+
 .hotkey-notice__close {
   position: absolute;
-  inset-block-start: 8px;
+  inset-block-start: 12px;
   inset-inline-end: 8px;
   display: grid;
   place-items: center;
@@ -137,7 +144,7 @@
   padding: 0;
   border: none;
   border-radius: 50%;
-  font-size: 28px;
+  font-size: 24px;
   line-height: 1;
   color: inherit;
   background-color: transparent;
