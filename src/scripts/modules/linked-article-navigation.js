@@ -1,8 +1,14 @@
-// На Mac модификаторы принято обозначать значками, как в меню приложений.
+// На Mac модификаторы принято обозначать значками ⌃ и ⌥, как в меню приложений.
+// Рисуем их в SVG, а не символами: в шрифте кода они выходят мелкими и неровными.
 // Обработчику всё равно: ctrlKey и altKey срабатывают от control и option.
 const appleModifiers = {
-  ctrl: { symbol: '⌃', name: 'control' },
-  alt: { symbol: '⌥', name: 'option' },
+  ctrl: { name: 'control', path: 'M3 10.5 8 5.5l5 5' },
+  alt: { name: 'option', path: 'M2 4.5h3.5l5 7H14M9.5 4.5H14' },
+}
+
+function createModifierIcon({ name, path }) {
+  // <title> даёт и подсказку при наведении, и имя клавиши для скринридера
+  return `<svg class="linked-article__modifier-icon" viewBox="0 0 16 16" role="img"><title>${name}</title><path d="${path}"/></svg>`
 }
 
 export function isApplePlatform(platform) {
@@ -17,10 +23,7 @@ export function localizeHotkeys(root, platform) {
   }
 
   root.querySelectorAll('.linked-article__hotkeys [data-modifier]').forEach((key) => {
-    const { symbol, name } = appleModifiers[key.dataset.modifier]
-    key.textContent = symbol
-    // Значки знакомы не всем, поэтому название клавиши всплывает при наведении
-    key.title = name
+    key.innerHTML = createModifierIcon(appleModifiers[key.dataset.modifier])
   })
 }
 

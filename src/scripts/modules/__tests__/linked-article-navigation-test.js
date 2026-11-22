@@ -29,12 +29,15 @@ test('распознаёт macOS и iOS по платформе', () => {
   expect(isApplePlatform('')).toBe(false)
 })
 
-test('на Mac показывает значки модификаторов и их названия при наведении', () => {
+test('на Mac рисует модификаторы иконками с названием клавиши', () => {
   renderHotkeys()
   localizeHotkeys(document, 'macOS')
 
-  expect(keys()).toEqual(['⌃', '⌥', '←'])
-  expect([...document.querySelectorAll('kbd')].map((kbd) => kbd.title)).toEqual(['control', 'option', ''])
+  const [ctrl, alt, arrow] = document.querySelectorAll('kbd')
+  expect(ctrl.querySelector('svg[role="img"] title').textContent).toBe('control')
+  expect(alt.querySelector('svg[role="img"] title').textContent).toBe('option')
+  expect(arrow.querySelector('svg')).toBeNull()
+  expect(keys()).toEqual(['control', 'option', '←'])
 })
 
 test('на остальных системах оставляет ctrl и alt', () => {

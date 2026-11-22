@@ -62,6 +62,17 @@
   display: inline-block;
 }
 
+.linked-article__modifier-icon {
+  width: 0.85em;
+  height: 0.85em;
+  vertical-align: -0.1em;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .linked-article__plus {
   border: 0;
   padding: 0;
