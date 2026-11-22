@@ -13,8 +13,8 @@
   -webkit-hyphens: auto;
   hyphens: auto;
 
-  /* Переносим только слова от 8 знаков и оставляем на строке не меньше 3: без «а-втор» и висящих букв */
-  hyphenate-limit-chars: 8 3 3;
+  /* Без переносов в коротких словах и без хвостов из двух букв. Значения подобраны по Chrome: при 8 3 3 он переносил «цве-тов» и «оттен-ка» */
+  hyphenate-limit-chars: 10 4 4;
   text-wrap: pretty;
 }
 
@@ -22,6 +22,12 @@
 .base :is(code, pre, kbd, samp) {
   -webkit-hyphens: none;
   hyphens: none;
+}
+
+/* В коротком крупном заголовке перенос заметнее, чем слово целиком на новой строке. В таблице переносы сужают колонки и рвут шапку. Карточкам перенос нужен: без него длинное слово обрезается многоточием */
+.base :is(h2, h3, h4, h5, h6, th, td):not(.featured-article__title) {
+  -webkit-hyphens: manual;
+  hyphens: manual;
 }
 
 /* TODO: рассчитать правильный отступ при наличии класса aria__controls--expanded */
