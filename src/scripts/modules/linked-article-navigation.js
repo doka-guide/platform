@@ -1,8 +1,8 @@
-// На клавиатурах Apple те же клавиши подписаны иначе, а обработчику всё равно:
-// ctrlKey и altKey срабатывают от control и option.
+// На Mac модификаторы принято обозначать значками, как в меню приложений.
+// Обработчику всё равно: ctrlKey и altKey срабатывают от control и option.
 const appleModifiers = {
-  ctrl: 'control',
-  alt: 'option',
+  ctrl: { symbol: '⌃', name: 'control' },
+  alt: { symbol: '⌥', name: 'option' },
 }
 
 export function isApplePlatform(platform) {
@@ -17,7 +17,10 @@ export function localizeHotkeys(root, platform) {
   }
 
   root.querySelectorAll('.linked-article__hotkeys [data-modifier]').forEach((key) => {
-    key.textContent = appleModifiers[key.dataset.modifier]
+    const { symbol, name } = appleModifiers[key.dataset.modifier]
+    key.textContent = symbol
+    // Значки знакомы не всем, поэтому название клавиши всплывает при наведении
+    key.title = name
   })
 }
 

@@ -29,11 +29,12 @@ test('распознаёт macOS и iOS по платформе', () => {
   expect(isApplePlatform('')).toBe(false)
 })
 
-test('на Mac подписывает модификаторы как на клавиатуре Apple', () => {
+test('на Mac показывает значки модификаторов и их названия при наведении', () => {
   renderHotkeys()
   localizeHotkeys(document, 'macOS')
 
-  expect(keys()).toEqual(['control', 'option', '←'])
+  expect(keys()).toEqual(['⌃', '⌥', '←'])
+  expect([...document.querySelectorAll('kbd')].map((kbd) => kbd.title)).toEqual(['control', 'option', ''])
 })
 
 test('на остальных системах оставляет ctrl и alt', () => {
