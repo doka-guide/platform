@@ -129,11 +129,6 @@ class Subscription extends BaseComponent {
         this.emit(Subscription.EVENTS.EMAIL, text)
       }
     })
-    ;['keydown', 'keyup'].forEach((eventType) => {
-      this.input.addEventListener(eventType, (event) => {
-        event.stopPropagation()
-      })
-    })
   }
 
   focus() {

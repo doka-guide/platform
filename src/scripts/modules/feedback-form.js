@@ -59,11 +59,6 @@ class DetailedAnswer extends BaseComponent {
         this.emit(DetailedAnswer.EVENTS.ANSWER, text)
       }
     })
-    ;['keydown', 'keyup'].forEach((eventType) => {
-      this.textarea.addEventListener(eventType, (event) => {
-        event.stopPropagation()
-      })
-    })
   }
 }
 

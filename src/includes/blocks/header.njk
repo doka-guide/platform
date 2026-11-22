@@ -67,8 +67,9 @@
       {% if (not isMainPage) and (not isSearchPage) %}
         <div class="header__buttons">
           <span class="hotkey hotkey--search font-theme font-theme--code">
-            Клавиша <kbd class="hotkey__key">/</kbd>
+            Клавиши <kbd class="hotkey__key"><kbd class="hotkey__modifier">Ctrl</kbd> <kbd>K</kbd></kbd>
           </span>
+          {% include "blocks/hotkey-notice.njk" %}
           <span class="hotkey hotkey--close font-theme font-theme--code">
             <kbd class="hotkey__key">esc</kbd>
           </span>

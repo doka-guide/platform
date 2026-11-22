@@ -1,4 +1,5 @@
 import debounce from '../libs/debounce.js'
+import { isSearchHotkey } from '../libs/search-hotkey.js'
 import searchClient from '../core/search-api-client.js'
 import BaseComponent from '../core/base-component.js'
 import { MIN_SEARCH_SYMBOLS, SYMBOL_LIMIT, SEARCHABLE_SHORT_WORDS, processHits } from '../core/search-commons.js'
@@ -285,13 +286,15 @@ function init() {
       event.preventDefault()
     })
 
-    document.addEventListener('keyup', (event) => {
-      if (event.code === 'Slash' && document.activeElement !== searchField) {
+    document.addEventListener('keydown', (event) => {
+      if (isSearchHotkey(event)) {
         queueMicrotask(() => {
           searchField.focus()
         })
       }
+    })
 
+    document.addEventListener('keyup', (event) => {
       if (event.code === 'Enter' && document.activeElement === searchField) {
         queueMicrotask(() => {
           document.querySelector(SEARCH_HIT_LINK_SELECTOR)?.focus()

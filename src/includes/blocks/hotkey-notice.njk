@@ -1,0 +1,19 @@
+{# Временная подсказка о смене клавиши поиска (#1407). Показывается до HOTKEY_NOTICE_END из search-hotkey.js, #}
+{# потом её нужно удалить вместе с hotkey-notice.js и hotkey-notice.css #}
+<div class="hotkey-notice font-theme font-theme--text" id="hotkey-notice" popover>
+  <p class="hotkey-notice__text">
+    <strong class="hotkey-notice__title">Новая клавиша поиска</strong>
+    Теперь поиск открывается по
+    <kbd class="hotkey-notice__keys font-theme font-theme--code"><kbd class="hotkey__modifier">Ctrl</kbd> <kbd>K</kbd></kbd>.
+    Клавиша «/» больше не работает: она мешала печатать в формах.
+  </p>
+  <button
+    class="hotkey-notice__close"
+    type="button"
+    popovertarget="hotkey-notice"
+    popovertargetaction="hide"
+  >
+    <span aria-hidden="true">×</span>
+    <span class="visually-hidden">Закрыть подсказку</span>
+  </button>
+</div>

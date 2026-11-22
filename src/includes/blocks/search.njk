@@ -18,7 +18,7 @@
       type="text"
       name="query"
       placeholder="Поиск"
-      aria-keyshortcuts="&#47;"
+      aria-keyshortcuts="Control+K Meta+K"
       autocomplete="off"
       enterkeyhint="search"
       {% if permalink == isSearchPage %}aria-describedby="search-hint"{% endif %}
@@ -26,8 +26,9 @@
 
     {% if isMainPage %}
       <span class="search__key hotkey hotkey--search">
-        Клавиша <kbd class="hotkey__key">/</kbd>
+        Клавиши <kbd class="hotkey__key"><kbd class="hotkey__modifier">Ctrl</kbd> <kbd>K</kbd></kbd>
       </span>
+      {% include "blocks/hotkey-notice.njk" %}
     {% endif %}
 
     <span class="search__key hotkey search__key--enter">
