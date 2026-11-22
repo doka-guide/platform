@@ -101,6 +101,15 @@ describe('article-inline-code-transform', () => {
 
     expect(window.document.querySelector('pre code').classList.contains('inline-code')).toBe(false)
   })
+
+  it('не трогает код в блоках pre внутри пункта списка', async () => {
+    const html = article('<ul><li><code>hanging</code><pre><code>.a {\n  b: c;\n}</code></pre></li></ul>')
+    const window = await runTransform(articleInlineCodeTransform, html)
+
+    expect(window.document.querySelector('li > code').classList.contains('inline-code')).toBe(true)
+    expect(window.document.querySelector('pre code').classList.contains('inline-code')).toBe(false)
+    expect(window.document.querySelector('pre code').classList.contains('code-fix')).toBe(false)
+  })
 })
 
 describe('code-classes-transform', () => {
