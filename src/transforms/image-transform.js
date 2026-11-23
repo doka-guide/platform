@@ -16,7 +16,9 @@ const baseConfig = {
   filenameFormat: (id, src, width, format) => {
     const extension = path.extname(src)
     const name = path.basename(src, extension)
-    return `${name}-${width}w.${format}`
+    // Не `-300w`: nginx превью перехватывает такие адреса регуляркой `-(\d+)w\.`
+    // и ужимает оригинал на лету вместо готового файла, а на webp отвечает 415
+    return `${name}-w${width}.${format}`
   },
   sharpWebpOptions: {
     lossless: true,
@@ -63,6 +65,8 @@ module.exports = function (window, content, outputPath) {
 
   return Promise.all(images.map((image) => buildImage(image, imagesSourcePath, imagesOutputPath, window)))
 }
+
+module.exports.filenameFormat = baseConfig.filenameFormat
 
 async function buildImage(image, imagesSourcePath, imagesOutputPath, window) {
   // Исключение interviews для картинок из рубрики «На собеседовании»
