@@ -39,6 +39,15 @@ module.exports = () => {
       }
     }
 
+    // markdown-it не разбирает разметку внутри html-блока,
+    // поэтому `код` и _курсив_ в заголовке <summary> рендерим вручную
+    if (blockContent.includes('<summary')) {
+      token.content = token.content.replace(
+        /(<summary[^>]*>)([\s\S]*?)(<\/summary>)/gi,
+        (match, open, text, close) => `${open}${md.renderInline(text.trim())}${close}`,
+      )
+    }
+
     return defaultRenderer(tokens, idx, options, env, self)
   }
 
