@@ -1,7 +1,8 @@
 // Сервис-воркер: даёт читать без сети то, что читатель уже открывал.
 //
 // Страницы берутся из сети, а копия кладётся в кеш. Из кеша страница
-// отдаётся только без сети: иначе читатель видел бы старую версию статьи.
+// отдаётся только без сети или если сеть не ответила за 4 секунды: иначе
+// читатель видел бы старую версию статьи.
 // Стили, скрипты, шрифты и картинки отдаются из кеша сразу и обновляются в
 // фоне. У стилей и скриптов в продакшне хеш в имени, так что устаревший файл
 // из кеша не попадёт на страницу с новой разметкой.
@@ -29,6 +30,10 @@ const OFFLINE_PAGE = '/offline/'
 // самые старые записи, порядок ключей в кеше — порядок добавления.
 const MAX_PAGES = 200
 const MAX_ASSETS = 400
+
+// Сколько ждать страницу из сети, прежде чем отдать сохранённую копию. На слабой
+// сети (метро, поезд) запрос висит минуту, а читатель видит белый экран.
+const NETWORK_TIMEOUT = 4000
 
 const ASSET_DESTINATIONS = ['style', 'script', 'font', 'image']
 
@@ -80,19 +85,28 @@ async function precacheOfflinePage() {
 
 async function handleNavigation(event) {
   const { request } = event
-  try {
+  // Без строки запроса: по ссылке из соцсетей с utm-метками открывается та же статья
+  const findSaved = () => caches.match(request, { cacheName: PAGES_CACHE, ignoreSearch: true })
+
+  const fromNetwork = (async () => {
     const response = (await event.preloadResponse) || (await fetch(request))
     event.waitUntil(putInCache(PAGES_CACHE, MAX_PAGES, request, response.clone()))
     return response
+  })()
+  // Если читателю уже отдана копия, свежая страница всё равно должна дойти до кеша
+  event.waitUntil(fromNetwork.catch(() => {}))
+
+  try {
+    const timeout = new Promise((resolve) => setTimeout(resolve, NETWORK_TIMEOUT))
+    const response = await Promise.race([fromNetwork, timeout])
+    if (response) {
+      return response
+    }
+    return (await findSaved()) || (await fromNetwork)
   } catch {
     // fetch падает только без сети. Ответ сервера с ошибкой сюда не попадает
     // и отдаётся читателю как есть.
-    // Без строки запроса: по ссылке из соцсетей с utm-метками открывается та же статья
-    return (
-      (await caches.match(request, { cacheName: PAGES_CACHE, ignoreSearch: true })) ||
-      (await caches.match(OFFLINE_PAGE, { cacheName: PAGES_CACHE })) ||
-      Response.error()
-    )
+    return (await findSaved()) || (await caches.match(OFFLINE_PAGE, { cacheName: PAGES_CACHE })) || Response.error()
   }
 }
 

@@ -282,6 +282,51 @@ describe('страницы', () => {
     expect(await response.text()).toBe('из кеша: /css/grid/')
   })
 
+  describe('медленная сеть', () => {
+    beforeEach(() => jest.useFakeTimers())
+    afterEach(() => jest.useRealTimers())
+
+    // Ответ сети приходит, только когда тест его отпустит
+    function slowNetwork(path) {
+      let finish
+      const network = createNetwork({
+        '/offline/': OFFLINE_HTML,
+        [path]: () => new Promise((resolve) => (finish = () => resolve(new Response(`из сети: ${path}`)))),
+      })
+      return { network, finish: () => finish() }
+    }
+
+    it('через 4 секунды отдаёт сохранённую копию, а свежую кладёт в кеш, когда дойдёт', async () => {
+      // В метро сеть формально есть, но страница грузится минуту
+      const caches = createCaches({ 'doka-pages-v1': ['/html/header/'] })
+      const { network, finish } = slowNetwork('/html/header/')
+      const { listeners } = loadWorker({ caches, network })
+      const event = navigation('/html/header/')
+
+      listeners.fetch(event)
+      await jest.advanceTimersByTimeAsync(4000)
+
+      expect(await (await event.response).text()).toBe('из кеша: /html/header/')
+      finish()
+      await event.settled()
+      expect(await (await caches.match('/html/header/', { cacheName: 'doka-pages-v1' })).text()).toBe(
+        'из сети: /html/header/',
+      )
+    })
+
+    it('без сохранённой копии ждёт сеть дольше 4 секунд', async () => {
+      const { network, finish } = slowNetwork('/js/promise/')
+      const { listeners } = loadWorker({ network })
+      const event = navigation('/js/promise/')
+
+      listeners.fetch(event)
+      await jest.advanceTimersByTimeAsync(10000)
+      finish()
+
+      expect(await (await event.settled()).text()).toBe('из сети: /js/promise/')
+    })
+  })
+
   it('не кладёт в кеш страницу с ошибкой', async () => {
     // Иначе без сети вместо офлайн-страницы показалась бы сохранённая 404
     const { listeners, caches } = loadWorker()
