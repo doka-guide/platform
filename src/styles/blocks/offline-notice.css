@@ -1,0 +1,104 @@
+/* Без поддержки popover блок встал бы в конец каждой страницы: невидимый, но с кнопкой
+в порядке фокуса и текстом «Нет сети» для скринридера */
+@supports not selector(:popover-open) {
+  .offline-notice {
+    display: none;
+  }
+}
+
+/* Вид как у подсказки о клавише поиска: тёмная плашка на светлой теме и наоборот */
+.offline-notice {
+  inset: auto auto 20px 20px;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(380px, calc(100vw - 40px));
+  margin: 0;
+  padding: 16px 52px 18px 20px;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-family);
+  font-size: 18px;
+  letter-spacing: var(--letter-spacing);
+  line-height: 1.4;
+
+  /* Переносы по слогам в короткой плашке рвут слова там, где хватило бы места на строке */
+  hyphens: manual;
+  color: var(--color-background);
+  background-color: var(--color-text);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.25);
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.15s ease-in,
+    transform 0.15s ease-in,
+    overlay 0.15s allow-discrete,
+    display 0.15s allow-discrete;
+}
+
+.offline-notice:popover-open {
+  opacity: 1;
+  transform: none;
+  transition-duration: 0.35s;
+  transition-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+@starting-style {
+  .offline-notice:popover-open {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.offline-notice__text {
+  margin: 0;
+}
+
+.offline-notice__title {
+  display: block;
+  margin-block-end: 6px;
+  font-family: var(--font-family);
+  font-weight: inherit;
+  font-size: 20px;
+  letter-spacing: var(--letter-spacing);
+}
+
+.offline-notice__close {
+  position: absolute;
+  inset-block-start: 12px;
+  inset-inline-end: 8px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  line-height: 1;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.offline-notice__close:hover {
+  background-color: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.offline-notice__close:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offline-notice,
+  .offline-notice:popover-open {
+    transform: none;
+  }
+
+  @starting-style {
+    .offline-notice:popover-open {
+      transform: none;
+    }
+  }
+}

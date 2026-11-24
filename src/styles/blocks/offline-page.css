@@ -1,0 +1,93 @@
+/* Одна колонка: логотип, заголовок, подсказка и список читаются сверху вниз по одному краю */
+.offline-page {
+  box-sizing: border-box;
+  min-height: calc(100svh - 1px * var(--header-height));
+  padding: 40px var(--offset, 20px) 80px;
+  display: grid;
+  place-items: center;
+}
+
+.offline-page__inner {
+  width: 100%;
+  max-width: 720px;
+}
+
+.offline-logo {
+  display: block;
+  width: clamp(120px, 36vw, 180px);
+  height: auto;
+  margin-block-end: clamp(20px, 6vw, 32px);
+  color: hsl(var(--color-base-text));
+}
+
+.offline-logo__plate {
+  fill: hsl(var(--color-fade));
+}
+
+.offline-page__title {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: normal;
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing);
+  text-wrap: balance;
+}
+
+.offline-page__retry {
+  margin-block-start: 20px;
+}
+
+/* Подсказка вводит список, поэтому стоит ближе к нему, чем к кнопке */
+.offline-page__hint {
+  margin-block: 32px 0;
+  font-size: var(--font-size-m);
+  line-height: 1.5;
+  opacity: 0.75;
+}
+
+/* На телефоне плашка стоит над заголовком: колонка под самую широкую плашку
+отняла бы у заголовков почти половину ширины */
+.offline-page__articles {
+  margin-block-start: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 16px;
+  font-size: var(--font-size-m);
+}
+
+/* display: grid перебивает атрибут hidden, и пустой список читался бы скринридером */
+.offline-page__articles[hidden] {
+  display: none;
+}
+
+/* Плашки разделов разной ширины. Подсетка ставит все заголовки статей на один край */
+@media (width >= 768px) {
+  .offline-page__articles {
+    grid-template-columns: max-content 1fr;
+  }
+}
+
+.offline-page__article {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+  row-gap: 4px;
+  padding-block: 8px;
+}
+
+.offline-page__section {
+  justify-self: start;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: var(--font-size-s);
+  line-height: 1.4;
+  background-color: var(--accent-color);
+}
+
+.offline-page__others {
+  margin-block: 32px 0;
+  font-size: var(--font-size-m);
+  line-height: 1.6;
+  opacity: 0.75;
+}

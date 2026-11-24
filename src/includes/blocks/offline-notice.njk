@@ -1,0 +1,16 @@
+{# Показывается без сети: объясняет, почему часть ссылок бледнее. Включает и прячет её pwa.js #}
+<div class="offline-notice font-theme font-theme--text" id="offline-notice" popover="manual" role="status">
+  <p class="offline-notice__text">
+    <strong class="offline-notice__title font-theme font-theme--code">Нет сети</strong>
+    Бледные ссылки без сети не откроются, остальные работают.
+  </p>
+  <button
+    class="offline-notice__close"
+    type="button"
+    popovertarget="offline-notice"
+    popovertargetaction="hide"
+  >
+    <span aria-hidden="true">×</span>
+    <span class="visually-hidden">Закрыть подсказку</span>
+  </button>
+</div>

@@ -70,10 +70,12 @@
 @import url("blocks/content.css");
 @import url("blocks/all-articles.css");
 @import url("blocks/not-found.css");
+@import url("blocks/offline-page.css");
 @import url("blocks/social-card.css");
 @import url("blocks/suggestion-list.css");
 @import url("blocks/notification.css");
 @import url("blocks/cookie-notification.css");
+@import url("blocks/offline-notice.css");
 @import url("blocks/table-wrapper.css");
 @import url("blocks/article-image.css");
 @import url("blocks/copy-button.css");

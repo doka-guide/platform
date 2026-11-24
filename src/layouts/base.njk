@@ -28,6 +28,9 @@
     {{ content | safe }}
 
     {% include "blocks/cookie-notification.njk" %}
+    {% if not isOfflineNoticeHidden %}
+      {% include "blocks/offline-notice.njk" %}
+    {% endif %}
 
     <script src="/scripts/index.js" {% if env.isDevEnv %}type="module"{% endif %}></script>
   </body>

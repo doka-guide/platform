@@ -8,7 +8,6 @@
   --stroke-opacity: 0.3;
   --text-color: hsl(var(--color-base-text));
   --stroke-color: hsl(var(--color-base-text) / var(--stroke-opacity));
-  --cached-opacity: 0.6;
 
   color: var(--text-color);
   text-decoration-line: underline;
@@ -23,43 +22,22 @@
   --stroke-opacity: 0.1;
 }
 
-.offline .link::after {
-  content: ' ';
-  display: inline-block;
-  height: 0.9em;
-  width: 0.9em;
-  margin-left: 0.3em;
-  vertical-align: middle;
-  background-size: 0.9em;
-  background-repeat: no-repeat;
-  background-position: center;
-  filter: invert(calc(var(--is-dark-theme-on) * 1));
-}
-
-.offline .link--cached::after {
-  background-image: url('/images/assets/cached-link.svg');
-  background-repeat: no-repeat;
-}
-
+/* Без сети ссылка, которая не откроется, бледнее остальных и подчёркнута пунктиром.
+Доступные ссылки не меняются: отмечаем исключение, а не правило.
+Цвет — смесь цвета текста и фона, а не прозрачность: при opacity 0.5 в светлой теме
+контраст падает до 3:1. Доли подобраны под WCAG AA с запасом на ссылки в инлайн-коде,
+где фон плашки темнее: на странице 7,5:1 и 7,8:1, на плашке 4,9:1 и 5,2:1 в светлой и тёмной теме */
 .offline .link--non-cached {
-  color: hsl(var(--color-base-text) / var(--cached-opacity));
-}
+  --text-color: color-mix(
+    in srgb,
+    hsl(var(--color-base-text)) calc(80% - var(--is-dark-theme-on) * 10%),
+    hsl(var(--color-base-background))
+  );
+  --stroke-color: currentColor;
 
-.offline .link--non-cached::after {
-  background-image: url('/images/assets/non-cached-link.svg');
-  opacity: var(--cached-opacity);
-}
-
-.online .link:not(.nav-list__link, .article-indexes-list__link, .featured-article__link)::after {
-  display: none;
-}
-
-.online .link--cached:not(.nav-list__link, .article-indexes-list__link, .featured-article__link)::after {
-  display: none;
-}
-
-.online .link--non-cached:not(.nav-list__link, .article-indexes-list__link, .featured-article__link)::after {
-  display: none;
+  /* Подчёркивание и у ссылок, где его обычно нет: отличать недоступную ссылку только цветом нельзя */
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
 }
 
 .skip-link {

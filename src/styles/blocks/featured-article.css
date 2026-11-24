@@ -93,8 +93,11 @@
   outline: 0;
 }
 
-.offline .featured-article__title .link::after {
-  display: none;
+/* Без сети бледный цвет из link.css рассчитан на фон страницы, а на цветной карточке
+даёт серый текст с контрастом около 2:1. Здесь цвет остаётся прежним, недоступную
+ссылку отмечает только пунктир */
+.offline .featured-article__link.link--non-cached {
+  --text-color: hsl(var(--color-base-text));
 }
 
 .featured-article__description {
