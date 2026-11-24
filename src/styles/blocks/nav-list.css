@@ -118,6 +118,9 @@
 /* Без сети раздел, который не откроется, бледнее, а полоска под ним — пунктир, как у ссылок в link.css */
 .offline .nav-list__link.link--non-cached {
   color: var(--non-cached-text-color);
+
+  /* Пунктир уже у цветной полоски, а link.css подчеркнул бы ещё и текст */
+  text-decoration-line: none;
 }
 
 .offline .nav-list__link.link--non-cached .nav-list__link-text::after {
