@@ -40,3 +40,12 @@
 .article-indexes-list__link:hover {
   color: var(--accent-color);
 }
+
+/* Без сети раздел, который не откроется, бледнее, а полоска под ним — пунктир, как у ссылок в link.css */
+.offline .article-indexes-list__link.link--non-cached {
+  color: var(--non-cached-text-color);
+}
+
+.offline .article-indexes-list__link.link--non-cached::after {
+  background: repeating-linear-gradient(90deg, var(--accent-color) 0 8px, transparent 8px 14px);
+}

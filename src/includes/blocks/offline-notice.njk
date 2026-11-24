@@ -1,5 +1,5 @@
 {# Показывается без сети: объясняет, почему часть ссылок бледнее. Включает и прячет её pwa.js #}
-<div class="offline-notice font-theme font-theme--text" id="offline-notice" popover="manual" role="status">
+<div class="offline-notice font-theme font-theme--text" id="offline-notice" popover="manual">
   <p class="offline-notice__text">
     <strong class="offline-notice__title font-theme font-theme--code">Нет сети</strong>
     Бледные ссылки без сети не откроются, остальные работают.
@@ -14,3 +14,7 @@
     <span class="visually-hidden">Закрыть подсказку</span>
   </button>
 </div>
+{# Живая область для скринридера вне popover: текст в неё вставляет pwa.js #}
+<p class="offline-status visually-hidden" role="status"></p>
+{# Пояснение, на которое ссылаются бледные ссылки через aria-describedby. hidden не мешает его прочитать #}
+<span id="offline-link-hint" hidden>без сети не откроется</span>

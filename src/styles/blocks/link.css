@@ -27,12 +27,17 @@
 Цвет — смесь цвета текста и фона, а не прозрачность: при opacity 0.5 в светлой теме
 контраст падает до 3:1. Доли подобраны под WCAG AA с запасом на ссылки в инлайн-коде,
 где фон плашки темнее: на странице 7,5:1 и 7,8:1, на плашке 4,9:1 и 5,2:1 в светлой и тёмной теме */
-.offline .link--non-cached {
-  --text-color: color-mix(
+.offline {
+  /* Этот же цвет берут плитки разделов в nav-list.css и article-indexes-list.css */
+  --non-cached-text-color: color-mix(
     in srgb,
     hsl(var(--color-base-text)) calc(80% - var(--is-dark-theme-on) * 10%),
     hsl(var(--color-base-background))
   );
+}
+
+.offline .link--non-cached {
+  --text-color: var(--non-cached-text-color);
   --stroke-color: currentColor;
 
   /* Подчёркивание и у ссылок, где его обычно нет: отличать недоступную ссылку только цветом нельзя */

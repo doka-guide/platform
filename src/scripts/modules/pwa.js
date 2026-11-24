@@ -3,16 +3,28 @@ import { isAnyNoticeVisible, markNoticeShown } from '../libs/page-notice.js'
 
 const OFFLINE_STATE_CLASS = 'offline'
 const NON_CACHED_LINK_CLASS = 'link--non-cached'
+// Скрытое пояснение к бледной ссылке: цвет скринридер не передаёт. Лежит в offline-notice.njk
+const NON_CACHED_HINT_ID = 'offline-link-hint'
+// Закрытая крестиком подсказка не появляется до конца сессии: ни когда сеть мигает,
+// ни на следующей сохранённой странице. Читатель её уже прочитал
+const NOTICE_DISMISSED_KEY = 'offline-notice-dismissed'
+const STATUS_MESSAGE = 'Нет сети. Сохранённые страницы откроются, остальные ссылки помечены: без сети не откроется.'
 
 // Отмечаем только ссылки, которые без сети не откроются: доступные выглядят
 // как обычно. Кеш проверяем в момент потери сети, а не при загрузке: к этому
 // времени воркер мог сохранить новые страницы.
+// Плитки разделов в меню и на главной не ссылки .link, но ведут туда же.
 async function markNonCachedLinks() {
-  const links = document.querySelectorAll('a.link')
+  const links = document.querySelectorAll('a.link, a.nav-list__link, a.article-indexes-list__link')
   await Promise.all(
     [...links].map(async (link) => {
       const isCached = 'caches' in window && (await caches.match(link.href))
       link.classList.toggle(NON_CACHED_LINK_CLASS, !isCached)
+      if (isCached) {
+        link.removeAttribute('aria-describedby')
+      } else {
+        link.setAttribute('aria-describedby', NON_CACHED_HINT_ID)
+      }
     }),
   )
 }
@@ -24,6 +36,16 @@ async function setOffline() {
     return
   }
   document.body.classList.add(OFFLINE_STATE_CLASS)
+
+  if (sessionStorage.getItem(NOTICE_DISMISSED_KEY)) {
+    return
+  }
+  // Живая область стоит вне подсказки: внутри popover, который был скрыт, скринридер
+  // может её не заметить. Объявляем и тогда, когда подсказку закрывает другое окно
+  const status = document.querySelector('.offline-status')
+  if (status) {
+    status.textContent = STATUS_MESSAGE
+  }
 
   // Одно окно за раз. Если читатель уже видит баннер о куках, подсказку о клавише
   // поиска или приглашение подписаться, подсказку о сети не показываем: бледные
@@ -38,6 +60,13 @@ async function setOffline() {
 
 function setOnline() {
   document.body.classList.remove(OFFLINE_STATE_CLASS)
+  document.querySelectorAll(`[aria-describedby="${NON_CACHED_HINT_ID}"]`).forEach((link) => {
+    link.removeAttribute('aria-describedby')
+  })
+  const status = document.querySelector('.offline-status')
+  if (status) {
+    status.textContent = ''
+  }
   // Без проверки showPopover селектор :popover-open бросил бы ошибку в Safari до 17
   const notice = document.querySelector('.offline-notice')
   if (notice?.showPopover && notice.matches(':popover-open')) {
@@ -81,6 +110,10 @@ async function registerWorker() {
 }
 
 window.addEventListener('load', () => {
+  // Крестик отличаем от hidePopover в setOnline: прятать подсказку при возврате сети можно и дальше
+  document.querySelector('.offline-notice__close')?.addEventListener('click', () => {
+    sessionStorage.setItem(NOTICE_DISMISSED_KEY, '1')
+  })
   updateNetworkStatus()
   window.addEventListener('online', setOnline)
   window.addEventListener('offline', updateNetworkStatus)
