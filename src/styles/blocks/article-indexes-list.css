@@ -44,6 +44,9 @@
 /* Без сети раздел, который не откроется, бледнее, а полоска под ним — пунктир, как у ссылок в link.css */
 .offline .article-indexes-list__link.link--non-cached {
   color: var(--non-cached-text-color);
+
+  /* Пунктир уже у цветной полоски, а link.css подчеркнул бы ещё и текст */
+  text-decoration-line: none;
 }
 
 .offline .article-indexes-list__link.link--non-cached::after {
