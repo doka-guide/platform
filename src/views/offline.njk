@@ -7,8 +7,9 @@
   <div class="offline-page__inner">
     {% include "blocks/offline-logo.njk" %}
     <h1 class="offline-page__title">Без сети эта&nbsp;страница не&nbsp;откроется</h1>
-    {# Ссылка на тот же адрес работает и без скриптов: адреса на сайте заканчиваются слешем, «.» ведёт на эту же страницу #}
-    <a class="offline-page__retry button" href=".">Попробовать снова</a>
+    {# Ссылка на тот же адрес работает и без скриптов: заглушка отдаётся по адресу недоступной страницы,
+    а пустой href ведёт на этот же адрес. «.» увёл бы с /css/flex на /css/ #}
+    <a class="offline-page__retry button" href="">Попробовать снова</a>
     {# Скрипт offline-page.js меняет подсказку и показывает списки, если в кеше есть сохранённые страницы #}
     <p class="offline-page__hint">Страницы, которые вы откроете с сетью, сохранятся и будут открываться без неё.</p>
     <ul class="offline-page__articles base-list" aria-label="Сохранённые статьи" hidden></ul>

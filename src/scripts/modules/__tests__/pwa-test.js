@@ -126,6 +126,8 @@ describe('сеть', () => {
 
     expect(document.body.classList.contains('offline')).toBe(false)
     expect(document.querySelector('.offline-notice').showPopover).not.toHaveBeenCalled()
+    // Иначе скринридер при работающей сети читал бы «без сети не откроется»
+    expect(document.querySelector('.link').hasAttribute('aria-describedby')).toBe(false)
   })
 })
 

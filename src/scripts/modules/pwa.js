@@ -31,8 +31,10 @@ async function markNonCachedLinks() {
 
 async function setOffline() {
   await markNonCachedLinks()
-  // Пока проверялся кеш, сеть могла вернуться, и setOnline уже отработал
+  // Пока проверялся кеш, сеть могла вернуться, и setOnline уже отработал. Он не застал
+  // пометки, которые markNonCachedLinks поставила после него, поэтому снимаем их ещё раз
   if (navigator.onLine) {
+    setOnline()
     return
   }
   document.body.classList.add(OFFLINE_STATE_CLASS)

@@ -135,12 +135,15 @@ function createEvent(props = {}) {
   return event
 }
 
-const navigation = (path) => {
+// mode и destination у Request в Node задать нельзя, а воркер различает запросы именно по ним
+const navigation = (path, destination = 'document') => {
   const event = createEvent({ request: new Request(`${ORIGIN}${path}`) })
-  // mode у Request в Node задать нельзя, а воркер различает переходы именно по нему
   Object.defineProperty(event.request, 'mode', { value: 'navigate' })
+  Object.defineProperty(event.request, 'destination', { value: destination })
   return event
 }
+// Демка в iframe статьи: переход тоже navigate, но не на страницу
+const frame = (path) => navigation(path, 'iframe')
 const asset = (path, destination = 'style') => {
   const event = createEvent({ request: new Request(`${ORIGIN}${path}`) })
   Object.defineProperty(event.request, 'destination', { value: destination })
@@ -166,8 +169,8 @@ describe('установка', () => {
       '/styles/index-abc.css',
       '/fonts/graphik/graphik-regular.woff2',
       '/scripts/index-def.js',
-      '/images/logo/logo-offline.svg',
     ])
+    expect(caches.urls('doka-images-v1')).toEqual(['/images/logo/logo-offline.svg'])
     expect(calls.skipWaiting).toBe(1)
   })
 
@@ -201,6 +204,8 @@ describe('активация', () => {
     const caches = createCaches({
       'doka-pages-v1': [],
       'doka-assets-v1': [],
+      'doka-images-v1': [],
+      'doka-demos-v1': [],
       'doka-pages-v0': [],
       'doka-dynamic-even': [],
       'workbox-precache': [],
@@ -211,7 +216,13 @@ describe('активация', () => {
     listeners.activate(event)
     await event.settled()
 
-    expect([...caches.store.keys()].sort()).toEqual(['doka-assets-v1', 'doka-pages-v1', 'workbox-precache'])
+    expect([...caches.store.keys()].sort()).toEqual([
+      'doka-assets-v1',
+      'doka-demos-v1',
+      'doka-images-v1',
+      'doka-pages-v1',
+      'workbox-precache',
+    ])
     expect(calls.claim).toBe(1)
     expect(calls.preload).toBe(1)
   })
@@ -327,6 +338,29 @@ describe('страницы', () => {
     })
   })
 
+  it('кладёт страницу с utm-метками под адресом без строки запроса', async () => {
+    // Иначе pwa.js не найдёт копию по обычной ссылке, а каждая метка займёт место в кеше
+    const { listeners, caches } = loadWorker()
+    const event = navigation('/css/grid/?utm_source=tg')
+
+    listeners.fetch(event)
+    await event.settled()
+
+    expect(caches.urls('doka-pages-v1')).toEqual(['/css/grid/'])
+  })
+
+  it('без сети находит копию по адресу без слеша на конце', async () => {
+    const caches = createCaches({ 'doka-pages-v1': ['/offline/', '/css/grid/'] })
+    const { listeners, network } = loadWorker({ caches })
+    network.online = false
+    const event = navigation('/css/grid')
+
+    listeners.fetch(event)
+    const response = await event.settled()
+
+    expect(await response.text()).toBe('из кеша: /css/grid/')
+  })
+
   it('не кладёт в кеш страницу с ошибкой', async () => {
     // Иначе без сети вместо офлайн-страницы показалась бы сохранённая 404
     const { listeners, caches } = loadWorker()
@@ -370,6 +404,46 @@ describe('страницы', () => {
   })
 })
 
+describe('демки в iframe', () => {
+  it('кладёт демку в свой кеш, а не к страницам', async () => {
+    // Иначе демки занимали бы место статей: на статью приходится полторы демки
+    const { listeners, caches } = loadWorker()
+    const event = frame('/css/grid/demos/areas/')
+
+    listeners.fetch(event)
+    await event.settled()
+
+    expect(caches.urls('doka-demos-v1')).toEqual(['/css/grid/demos/areas/'])
+    expect(caches.urls('doka-pages-v1')).toEqual([])
+  })
+
+  it('без сети отдаёт сохранённую демку', async () => {
+    const caches = createCaches({ 'doka-demos-v1': ['/css/grid/demos/areas/'] })
+    const { listeners, network } = loadWorker({ caches })
+    network.online = false
+    const event = frame('/css/grid/demos/areas/')
+
+    listeners.fetch(event)
+    const response = await event.settled()
+
+    expect(await response.text()).toBe('из кеша: /css/grid/demos/areas/')
+  })
+
+  it('без сети и без копии не показывает в iframe офлайн-страницу', async () => {
+    // Целая страница с шапкой и логотипом внутри статьи выглядит поломкой
+    const caches = createCaches({ 'doka-pages-v1': ['/offline/'] })
+    const { listeners, network } = loadWorker({ caches })
+    network.online = false
+    const event = frame('/css/grid/demos/areas/')
+
+    listeners.fetch(event)
+    const text = await (await event.settled()).text()
+
+    expect(text).not.toBe('из кеша: /offline/')
+    expect(text).toContain('Без сети демо не откроется')
+  })
+})
+
 describe('стили, скрипты, шрифты и картинки', () => {
   it('отдаёт файл из кеша и обновляет его в фоне', async () => {
     const caches = createCaches({ 'doka-assets-v1': ['/styles/index.css'] })
@@ -393,7 +467,7 @@ describe('стили, скрипты, шрифты и картинки', () => {
     const response = await event.settled()
 
     expect(await response.text()).toBe('из сети: /html/header/images/cover.png')
-    expect(caches.urls('doka-assets-v1')).toEqual(['/html/header/images/cover.png'])
+    expect(caches.urls('doka-images-v1')).toEqual(['/html/header/images/cover.png'])
   })
 
   it('отдаёт файл из сети, не дожидаясь записи в кеш', async () => {
@@ -407,6 +481,21 @@ describe('стили, скрипты, шрифты и картинки', () => {
 
     // Ожидание записи в кеш повесило бы тест: put здесь не завершается никогда
     expect(await (await event.response).text()).toBe('из сети: /styles/index.css')
+  })
+
+  it('картинки не вытесняют стили, на которые ссылаются сохранённые страницы', async () => {
+    // После деплоя старые стили никто не запрашивает, и картинки новых статей
+    // вытеснили бы их: сохранённая до деплоя статья открылась бы без стилей
+    const images = Array.from({ length: 400 }, (_, i) => `/images/${i}.png`)
+    const caches = createCaches({ 'doka-assets-v1': ['/styles/index-old.css'], 'doka-images-v1': images })
+    const { listeners } = loadWorker({ caches })
+    const event = asset('/css/grid/images/new.png', 'image')
+
+    listeners.fetch(event)
+    await event.settled()
+
+    expect(caches.urls('doka-assets-v1')).toEqual(['/styles/index-old.css'])
+    expect(caches.urls('doka-images-v1')).toHaveLength(400)
   })
 
   it('без сети отдаёт файл из кеша без ошибок', async () => {

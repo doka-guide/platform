@@ -22,6 +22,11 @@ const CACHE_PREFIX = 'doka-'
 // Префикс doka-pages- читает и offline-page.js, чтобы вывести список сохранённых страниц
 const PAGES_CACHE = `${CACHE_PREFIX}pages-${VERSION}`
 const ASSETS_CACHE = `${CACHE_PREFIX}assets-${VERSION}`
+// Картинки отдельно от стилей и скриптов: после деплоя старые стили никто не запрашивает,
+// и картинки новых статей вытеснили бы их. Сохранённая раньше статья открылась бы без стилей
+const IMAGES_CACHE = `${CACHE_PREFIX}images-${VERSION}`
+// Демки из iframe отдельно от страниц: иначе они занимали бы место статей
+const DEMOS_CACHE = `${CACHE_PREFIX}demos-${VERSION}`
 
 const OFFLINE_PAGE = '/offline/'
 
@@ -30,12 +35,29 @@ const OFFLINE_PAGE = '/offline/'
 // самые старые записи, порядок ключей в кеше — порядок добавления.
 const MAX_PAGES = 200
 const MAX_ASSETS = 400
+const MAX_IMAGES = 400
+const MAX_DEMOS = 200
 
 // Сколько ждать страницу из сети, прежде чем отдать сохранённую копию. На слабой
 // сети (метро, поезд) запрос висит минуту, а читатель видит белый экран.
 const NETWORK_TIMEOUT = 4000
 
-const ASSET_DESTINATIONS = ['style', 'script', 'font', 'image']
+const ASSET_DESTINATIONS = ['style', 'script', 'font']
+
+// Без сети вместо несохранённой демки. Офлайн-страница с шапкой и логотипом внутри
+// статьи выглядела бы поломкой
+const DEMO_FALLBACK =
+  // Без color-scheme: демки стоят на белом фоне в обеих темах, светлый текст на нём пропал бы
+  '<!DOCTYPE html><meta charset="utf-8">' +
+  '<style>body{margin:0;padding:24px;text-align:center;font:16px/1.5 system-ui,sans-serif;opacity:.7}</style>' +
+  '<p>Без сети демо не откроется</p>'
+
+// Страница хранится под адресом без строки запроса: по ссылке с utm-метками открывается
+// та же статья, и pwa.js находит копию по обычной ссылке
+function pageKey(request) {
+  const url = new URL(request.url)
+  return url.origin + url.pathname
+}
 
 async function trimCache(cacheName, maxEntries) {
   const cache = await caches.open(cacheName)
@@ -79,18 +101,26 @@ async function precacheOfflinePage() {
   const pages = await caches.open(PAGES_CACHE)
   await pages.put(OFFLINE_PAGE, response)
 
+  const urls = getShellUrls(html)
+  const isImage = (url) => url.startsWith('/images/')
   const assets = await caches.open(ASSETS_CACHE)
-  await assets.addAll(getShellUrls(html))
+  const images = await caches.open(IMAGES_CACHE)
+  await assets.addAll(urls.filter((url) => !isImage(url)))
+  await images.addAll(urls.filter(isImage))
 }
 
-async function handleNavigation(event) {
+// Страницы и демки: сначала сеть, сохранённая копия — без сети или если сеть не ответила вовремя
+async function handleNavigation(event, { cacheName, maxEntries, getFallback }) {
   const { request } = event
-  // Без строки запроса: по ссылке из соцсетей с utm-метками открывается та же статья
-  const findSaved = () => caches.match(request, { cacheName: PAGES_CACHE, ignoreSearch: true })
+  const key = pageKey(request)
+  const findSaved = async () =>
+    (await caches.match(key, { cacheName })) ||
+    // Адрес набрали без слеша на конце, а страница сохранена со слешем
+    (!key.endsWith('/') && (await caches.match(`${key}/`, { cacheName })))
 
   const fromNetwork = (async () => {
     const response = (await event.preloadResponse) || (await fetch(request))
-    event.waitUntil(putInCache(PAGES_CACHE, MAX_PAGES, request, response.clone()))
+    event.waitUntil(putInCache(cacheName, maxEntries, key, response.clone()))
     return response
   })()
   // Если читателю уже отдана копия, свежая страница всё равно должна дойти до кеша
@@ -106,17 +136,17 @@ async function handleNavigation(event) {
   } catch {
     // fetch падает только без сети. Ответ сервера с ошибкой сюда не попадает
     // и отдаётся читателю как есть.
-    return (await findSaved()) || (await caches.match(OFFLINE_PAGE, { cacheName: PAGES_CACHE })) || Response.error()
+    return (await findSaved()) || (await getFallback()) || Response.error()
   }
 }
 
-async function handleAsset(event) {
+async function handleAsset(event, cacheName, maxEntries) {
   const { request } = event
-  const cached = await caches.match(request, { cacheName: ASSETS_CACHE })
+  const cached = await caches.match(request, { cacheName })
   // Ответ отдаётся сразу, не дожидаясь записи в кеш: иначе картинки не грузились бы
   // постепенно, а стили на первом заходе приходили бы позже
   const fromNetwork = fetch(request).then((response) => {
-    event.waitUntil(putInCache(ASSETS_CACHE, MAX_ASSETS, request, response.clone()))
+    event.waitUntil(putInCache(cacheName, maxEntries, request, response.clone()))
     return response
   })
 
@@ -137,7 +167,7 @@ self.addEventListener('activate', (event) => {
     (async () => {
       // Убираем кеши прежних версий, в том числе сломанного воркера до 2026 года.
       // Чужие кеши на том же домене не трогаем.
-      const current = [PAGES_CACHE, ASSETS_CACHE]
+      const current = [PAGES_CACHE, ASSETS_CACHE, IMAGES_CACHE, DEMOS_CACHE]
       const cacheNames = await caches.keys()
       await Promise.all(
         cacheNames
@@ -162,10 +192,26 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
-  if (request.mode === 'navigate') {
-    event.respondWith(handleNavigation(event))
+  if (request.mode === 'navigate' && request.destination === 'iframe') {
+    event.respondWith(
+      handleNavigation(event, {
+        cacheName: DEMOS_CACHE,
+        maxEntries: MAX_DEMOS,
+        getFallback: () => new Response(DEMO_FALLBACK, { headers: { 'Content-Type': 'text/html; charset=utf-8' } }),
+      }),
+    )
+  } else if (request.mode === 'navigate') {
+    event.respondWith(
+      handleNavigation(event, {
+        cacheName: PAGES_CACHE,
+        maxEntries: MAX_PAGES,
+        getFallback: () => caches.match(OFFLINE_PAGE, { cacheName: PAGES_CACHE }),
+      }),
+    )
+  } else if (request.destination === 'image') {
+    event.respondWith(handleAsset(event, IMAGES_CACHE, MAX_IMAGES))
   } else if (ASSET_DESTINATIONS.includes(request.destination)) {
-    event.respondWith(handleAsset(event))
+    event.respondWith(handleAsset(event, ASSETS_CACHE, MAX_ASSETS))
   }
 })
 
