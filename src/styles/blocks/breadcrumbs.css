@@ -30,7 +30,8 @@
   overflow: hidden;
 }
 
-.breadcrumbs .link::after,
-.breadcrumbs__item .link::after {
-  display: none;
+/* Шапка статьи цветная, и бледная крошка на ней читалась бы с контрастом около 2,5:1.
+Недоступный раздел здесь отличает только пунктир */
+.offline .breadcrumbs__text.link--non-cached {
+  --text-color: hsl(var(--color-base-text));
 }

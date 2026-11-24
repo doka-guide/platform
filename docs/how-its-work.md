@@ -216,7 +216,7 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 - _[llms.njk](https://github.com/doka-guide/platform/blob/main/src/views/llms.njk)_ — краткая справка о Доке для ИИ-агентов в формате текста;
 - _[llms-full.njk](https://github.com/doka-guide/platform/blob/main/src/views/llms-full.njk)_ — полный список материалов со ссылками на markdown-версии в формате текста;
 - _[page.njk](https://github.com/doka-guide/platform/blob/main/src/views/page.njk)_ — страницы с текстами, которые не являются материалами;
-- _[offline.njk](https://github.com/doka-guide/platform/blob/main/src/views/offline.njk)_ — страница с сообщением об отсутствии сети; сейчас не используется, потому что сервис-воркер отключён;
+- _[offline.njk](https://github.com/doka-guide/platform/blob/main/src/views/offline.njk)_ — страница с сообщением об отсутствии сети: её показывает сервис-воркер, когда открытой страницы нет в кеше. Кнопка «Попробовать снова» перезапрашивает адрес, а скрипт `offline-page.js` выводит список страниц, сохранённых в кеше, и сам перезагружает страницу, когда сеть вернулась;
 - _[people.njk](https://github.com/doka-guide/platform/blob/main/src/views/people.njk)_ — страница со списком участников (контрибьюторов);
 - _[people-csv.njk](https://github.com/doka-guide/platform/blob/main/src/views/people-csv.njk)_ — список участников в формате CSV;
 - _[people-index.njk](https://github.com/doka-guide/platform/blob/main/src/views/people-index.njk)_ — фотографии и ссылки на страницы участников в формате JSON;
@@ -244,6 +244,8 @@ _.eleventy.js_ — основной файл для сборки. В нём пр
 - _[blocks/linked-article.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/linked-article.njk)_ — кнопки для перехода на предыдущий или следующий материал раздела;
 - _[blocks/logo.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/logo.njk)_ — вёрстка для логотипа;
 - _[blocks/nav-list.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/nav-list.njk)_ — меню со списком разделов сайта;
+- _[blocks/offline-logo.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/offline-logo.njk)_ — логотип страницы без сети;
+- _[blocks/offline-notice.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/offline-notice.njk)_ — подсказка «Нет сети», её показывает `pwa.js`;
 - _[blocks/person-avatar.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/person-avatar.njk)_ — аватар участника;
 - _[blocks/person-badges.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/person-badges.njk)_ — набор значков участника;
 - _[blocks/person.njk](https://github.com/doka-guide/platform/blob/main/src/includes/blocks/person.njk)_ — представление краткой информации об участнике на странице со списком участников;
