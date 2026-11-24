@@ -6,15 +6,18 @@ const PAGES_CACHE_PREFIX = 'doka-pages-'
 
 async function readCachedPages() {
   const names = (await caches.keys()).filter((name) => name.startsWith(PAGES_CACHE_PREFIX))
-  const entries = []
-  for (const name of names) {
-    const cache = await caches.open(name)
-    for (const request of await cache.keys()) {
-      const response = await cache.match(request)
-      entries.push({ url: request.url, html: await response.text() })
-    }
-  }
-  return entries
+  // Параллельно: по очереди 200 страниц читались бы заметно дольше. Promise.all сохраняет
+  // порядок добавления в кеш, по нему getSavedPages ставит свежие страницы сверху
+  const perCache = await Promise.all(
+    names.map(async (name) => {
+      const cache = await caches.open(name)
+      const requests = await cache.keys()
+      return Promise.all(
+        requests.map(async (request) => ({ url: request.url, html: await (await cache.match(request)).text() })),
+      )
+    }),
+  )
+  return perCache.flat()
 }
 
 function createLink(href, text) {

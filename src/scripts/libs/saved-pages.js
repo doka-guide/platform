@@ -5,6 +5,18 @@ const SITE_SUFFIX = / — Дока$/
 const SECTIONS = '(a11y|css|html|js|tools|recipes)'
 const ARTICLE_PATH = new RegExp(`^/${SECTIONS}/[^/]+/$`)
 const SECTION_PATH = new RegExp(`^/${SECTIONS}/$`)
+const TITLE_END = '</title>'
+
+// Нужен только заголовок. Разбор целых статей по 100–300 КБ занимает основное время:
+// 200 страниц — полсекунды на ноутбуке и секунды на телефоне. Начало до </title>
+// разбирается тем же DOMParser, чтобы &lt; и другие сущности остались правильными
+function getTitle(parser, html) {
+  const end = html.indexOf(TITLE_END)
+  if (end === -1) {
+    return ''
+  }
+  return parser.parseFromString(html.slice(0, end + TITLE_END.length), 'text/html').title
+}
 
 export function getSavedPages(entries, { currentPath = '' } = {}) {
   const parser = new DOMParser()
@@ -20,7 +32,7 @@ export function getSavedPages(entries, { currentPath = '' } = {}) {
       continue
     }
     seen.add(pathname)
-    const title = parser.parseFromString(html, 'text/html').title.trim().replace(SITE_SUFFIX, '')
+    const title = getTitle(parser, html).trim().replace(SITE_SUFFIX, '')
 
     // Демки воркер сохраняет, чтобы статьи без сети открывались с ними, но сами по себе
     // это не страницы для чтения. Сама заглушка и недоступная страница вели бы сюда же.

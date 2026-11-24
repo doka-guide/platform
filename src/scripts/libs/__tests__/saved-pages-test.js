@@ -71,6 +71,21 @@ test('одна страница с разными строками запрос�
   expect(articles.map(({ href }) => href)).toEqual(['/css/grid/'])
 })
 
+test('разбирает только начало страницы до заголовка', () => {
+  // Целиком 200 статей по 100–300 КБ разбираются полсекунды на ноутбуке и секунды на телефоне
+  const parse = jest.spyOn(DOMParser.prototype, 'parseFromString')
+  const long = {
+    url: 'https://doka.guide/css/grid/',
+    html: `<title>Grid — CSS — Дока</title>${'<p>текст</p>'.repeat(10000)}`,
+  }
+
+  const { articles } = getSavedPages([long])
+
+  expect(articles.map(({ title }) => title)).toEqual(['Grid'])
+  expect(parse.mock.calls[0][0]).toBe('<title>Grid — CSS — Дока</title>')
+  parse.mockRestore()
+})
+
 test('пропускает страницы без заголовка', () => {
   expect(getSavedPages([page('/feed/', '')])).toEqual({ articles: [], others: [] })
 })
