@@ -28,7 +28,6 @@
       "Bash(sed -n:*)"
     ],
     "deny": [
-      "Bash(npm run deploy:*)",
       "Bash(rsync:*)",
       "Bash(ssh:*)",
       "Read(./.env)"
